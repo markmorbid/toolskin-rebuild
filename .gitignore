@@ -1,0 +1,14 @@
+# Build-time tooling
+tools/color-engine/node_modules/
+tools/color-engine/package-lock.json
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Editor
+# .vscode/ is partially tracked — settings.json travels with the repo per gate-2 (B.6 format-on-save disabled)
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/

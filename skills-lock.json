@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "skills": {
+    "accessibility": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/accessibility/SKILL.md",
+      "computedHash": "e5639db209a6a93db908bf52dc6f6044738ab33088aa4b75e4befcd9410c1d15"
+    },
+    "architecture-decision-records": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/architecture-decision-records/SKILL.md",
+      "computedHash": "8d9e40da770364616b711bc2958429fc56bf08878cd98e1931be5501f3d6bc66"
+    },
+    "brief-to-tasks": {
+      "source": "julianoczkowski/designer-skills",
+      "sourceType": "github",
+      "skillPath": "brief-to-tasks/SKILL.md",
+      "computedHash": "cbd77e26117e83bd41094bf09023b8a86b569eff4272c723cbd73830729117f2"
+    },
+    "browser-qa": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/browser-qa/SKILL.md",
+      "computedHash": "7d224e090831649cb2c9fec1c95cdaa4d12eac9de51943dda3c97e768ea08c28"
+    },
+    "code-tour": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/code-tour/SKILL.md",
+      "computedHash": "bbb1722d3e0d8c65c57b82e05ddc73b135261d033485900f38d2ae72970efe9a"
+    },
+    "codebase-onboarding": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/codebase-onboarding/SKILL.md",
+      "computedHash": "36f2599ce3332c1758f22d877c763a79d412ddd861a22305598212ba2d63fa07"
+    },
+    "configure-ecc": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/configure-ecc/SKILL.md",
+      "computedHash": "d8f8af3acc1f75eb0494a55fa1d79ad3e5e0dc58391649f7735154663439dc62"
+    },
+    "context-budget": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/context-budget/SKILL.md",
+      "computedHash": "8fbc914ceddef6f8741b78aa585866aa3543a3bfa51bd8364a9addda98b3be6a"
+    },
+    "council": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/council/SKILL.md",
+      "computedHash": "50326a0134c3db2a9d58022b9962b9d3610042178b6f585c25199a2b290a5fb8"
+    },
+    "design-brief": {
+      "source": "julianoczkowski/designer-skills",
+      "sourceType": "github",
+      "skillPath": "design-brief/SKILL.md",
+      "computedHash": "756a4c8be21bb8a6c237958d61060f31bdfcc0360fa42bf86f719c0263da942d"
+    },
+    "design-flow": {
+      "source": "julianoczkowski/designer-skills",
+      "sourceType": "github",
+      "skillPath": "design-flow/SKILL.md",
+      "computedHash": "4bd0b9ed67cd28e1af9301465815911041e0cd918f1c9b35e5abd41f69d163bf"
+    },
+    "design-review": {
+      "source": "julianoczkowski/designer-skills",
+      "sourceType": "github",
+      "skillPath": "design-review/SKILL.md",
+      "computedHash": "a90668e07da71e4fe011148e2f989f628521d384cf4f1aaa0f3fddc836254cfb"
+    },
+    "design-system": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/design-system/SKILL.md",
+      "computedHash": "efa25e1d86526877ffaa7e7b7797ac430b4af66d87994dc4e046e52b909fbc4e"
+    },
+    "design-tokens": {
+      "source": "julianoczkowski/designer-skills",
+      "sourceType": "github",
+      "skillPath": "design-tokens/SKILL.md",
+      "computedHash": "62060ba605b6339760f50670171041568c470ae2489ebfc076d1fbb26ba564b3"
+    },
+    "frontend-design": {
+      "source": "julianoczkowski/designer-skills",
+      "sourceType": "github",
+      "skillPath": "frontend-design/SKILL.md",
+      "computedHash": "f29733021097cd63e0a6ce8d890cdbcb1fdacb7ee7e79fafe645b6db54aa82ad"
+    },
+    "grill-me": {
+      "source": "julianoczkowski/designer-skills",
+      "sourceType": "github",
+      "skillPath": "grill-me/SKILL.md",
+      "computedHash": "cc7460fe4bba47e11588ef77ff4a1c689fbe081bc3d69d8fcc57bf370abb61ea"
+    },
+    "information-architecture": {
+      "source": "julianoczkowski/designer-skills",
+      "sourceType": "github",
+      "skillPath": "information-architecture/SKILL.md",
+      "computedHash": "35b6a262d1fd0492804d00fada1400f3f54eadd008fad28ac506991cdedc6061"
+    }
+  }
+}
