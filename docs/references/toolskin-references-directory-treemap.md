@@ -16,7 +16,7 @@
 | 4 | `pitchdeck/` | Pitch-deck versions, archived CSS, briefings |
 | 5 | `treemap-module/` | Tree-explorer UI + data + Python/JS build tools + screenshots |
 | 6 | `wireframe-blueprint-module/` | Wireframe blueprint HTML previews |
-| 7 | `_components-docs/` | Component reference docs + Template-system adaptation plan |
+| 7 | `_components-docs/` | Component reference docs, Template-system adaptation plan, agent-teams workflow docs, token-validation skill copy |
 | 8 | `_Toolskin-Docs (old)/` | Legacy Toolskin docs (audit, usage, workspace report) |
 
 ---
@@ -211,11 +211,20 @@ docs/references/
 │   ├── toolskin-masonry-docs.md
 │   ├── ts-cube-portfolio-audit.md
 │   ├── ts-feat-list-refactored.css
-│   └── Template system - Toolskin Adaptation Plan/
-│       ├── AUDIT.md
-│       ├── SKILLS_INDEX.csv
-│       ├── TOOLSKIN_ADAPTATION_PLAN.md
-│       └── typeui-haul.zip
+│   ├── Template system - Toolskin Adaptation Plan/
+│   │   ├── AUDIT.md
+│   │   ├── SKILLS_INDEX.csv
+│   │   ├── TOOLSKIN_ADAPTATION_PLAN.md
+│   │   └── typeui-haul.zip
+│   ├── agent-teams/
+│   │   ├── AGENT_CONTEXT.md
+│   │   ├── AGENT_TEAMS_BATCH_EXECUTION.md
+│   │   ├── AGENT_TEAMS_QUICK_START.md
+│   │   ├── AGENT_TEAMS_TOKEN_OPTIMIZATION.md
+│   │   └── TOOLSKIN_AGENT_TEAMS_ROADMAP.md
+│   └── token-validation/
+│       ├── AGENT_CONTEXT.md
+│       └── SKILL.md
 │
 └── _Toolskin-Docs (old)/
     ├── QUICK_REFERENCE.md
@@ -248,7 +257,7 @@ Self-contained tree explorer — `tree-explorer.html` UI + dedup'd JSON data + a
 Three preview HTMLs of the pitchdeck wireframe-blueprint generator (raw + two Toolskin-design adaptations) plus a standalone sketch component.
 
 ### 7. `_components-docs/`
-Component-level reference — consolidation directives, Ionicons 7.1.0 cheatsheet, pending modular integration notes, masonry docs, cube-portfolio audit, refactored feat-list CSS. `Template system - Toolskin Adaptation Plan/` contains the AUDIT, skills index CSV, adaptation plan, and the `typeui-haul.zip` package.
+Component-level reference — consolidation directives, Ionicons 7.1.0 cheatsheet, pending modular integration notes, masonry docs, cube-portfolio audit, refactored feat-list CSS. `Template system - Toolskin Adaptation Plan/` contains the AUDIT, skills index CSV, adaptation plan, and the `typeui-haul.zip` package. `agent-teams/` holds the multi-agent token-refactoring workflow docs (QUICK_START, ROADMAP, BATCH_EXECUTION, TOKEN_OPTIMIZATION) plus the shared `AGENT_CONTEXT.md` knowledge base — Session 4+ reference material; the workflow strategies are sound but the CSS file paths and token values are stale (old repo, HSL model, 16px base, `customized_v3.css`). `token-validation/` is the reference copy of the token-validation skill (the live skill is installed at `.claude/skills/token-validation/`).
 
 ### 8. `_Toolskin-Docs (old)/`
 Legacy Toolskin documentation snapshot — quick reference, README, full project audit handoff, usage guide, workspace report. Read-only history.
