@@ -34,7 +34,7 @@ The Wave 1.6 Reconciliation block at the TOP of `_rebuild-design-dna.md` is auth
 - Full checklist: `docs/handoffs/_in-house-skills-update-todo.md`.
 
 ## Next — Session 2 (primitives, ~3-4 hr)
-Implement `tools/color-engine/generate-colors.js` running apcach → `assets/css/next/primitives/colors.css`: apcach-derived OKLCH primitives with paired sRGB fallbacks (Resolution #2), a 48-pair APCA contrast table, the 15px-base harmonic ladder, the 6-step weight ladder, the explicit radius ladder. Per S1 spec (`docs/handoffs/_rebuild-primitives-spec.md`) + the Wave 1.6 reconciliation.
+**Write** `tools/color-engine/generate-colors.js` — it does NOT exist yet; authoring that script is Session 2's job. The script imports apcach and, when run, emits `assets/css/next/primitives/colors.css`: apcach-derived OKLCH primitives with paired sRGB fallbacks (Resolution #2), a 48-pair APCA contrast table, the 15px-base harmonic ladder, the 6-step weight ladder, the explicit radius ladder. Per S1 spec (`docs/handoffs/_rebuild-primitives-spec.md`) + the Wave 1.6 reconciliation.
 
 ## Context
 - Repo isolation: `../toolskin-showcase/` is read-only reference forever — never write, cd, or commit there.
