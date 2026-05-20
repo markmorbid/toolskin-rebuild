@@ -38,6 +38,27 @@ Read `.claude/skills/toolskin-architecture/references/conversation-rules-verbati
 
 See `.claude/skills/toolskin-architecture/SKILL.md` for the locked block sandbox workflow.
 
+## Module reference library
+
+`docs/references/` is the canonical location for historical Toolskin module reference material — design, code, and documentation imported from the showcase repo and prior workstreams.
+
+**Binding:** before rebuilding any component family, the responsible agent (or sub-agent) MUST read the relevant `docs/references/` subfolder for prior art, design intent, and known issues. The full index with per-file detail is `docs/references/toolskin-references-directory-treemap.md`.
+
+Top-level index:
+
+| Folder | Contents |
+|---|---|
+| `branding/` | Logos, variable fonts, demo pages, component previews, uploads |
+| `generator/` | Banner-generator reference app — HTML, JS modules, presets |
+| `mockup/` | Toolpanel/modal HTML mockups (hf, suno, yss) + layout blueprint |
+| `pitchdeck/` | Pitch-deck versions, archived CSS, briefings |
+| `treemap-module/` | Tree-explorer UI + data + Python/JS build tools + screenshots |
+| `wireframe-blueprint-module/` | Wireframe blueprint HTML previews |
+| `_components-docs/` | Component reference docs, Template-system adaptation plan, agent-teams workflow docs, token-validation skill copy |
+| `_Toolskin-Docs (old)/` | Legacy Toolskin documentation snapshot |
+
+The imported reference material is historical context — read it to understand prior art. The canonical rebuild output lives in `assets/css/next/`, `sandbox/`, and `tools/`, never inside `docs/references/`.
+
 ## Owner
 
 Satoshi / SatSea
