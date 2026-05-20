@@ -25,6 +25,13 @@ Source: combines file 05 (`05-tier-priority-absorption.md` §B.9.3) + file 06 (`
 - [ ] Add APCA contrast targets per token pair
 - [ ] Add reference to `tools/color-engine/` build script (S1 deliverable)
 
+**Gate 5 council resolution items (Day 2 — binding, see `_session-1-orchestrator-synthesis.md` Appendix Gate-5-Council Resolutions):**
+- [ ] Update Rule 15 reference from short form to **Extended Rule 15** — apcach authority over the ENTIRE derivation chain (primitives, mixing constants, surface contrast adjustments, OKLCH inversions, nested alternative surface awareness, accent/on-accent/on-surface auto-derivation, theme inversion)
+- [ ] Document Surface Labs presets as the BASE TINTS the engine derives from
+- [ ] Add the principle as a top-level rule: tokens decide WHICH color; the engine decides HOW MUCH (amount/percentage)
+- [ ] Remove/annotate any guidance that hardcodes mixing percentages — per S1/S2/Wave 1.5 amendments, mixing constants are engine-derived outputs, NOT hand-tuned per-theme values
+- [ ] Note theme inversion (dark ↔ light) re-runs the same engine math with inverted lightness primitives — no per-theme hand-tuned tables
+
 ---
 
 ## expert-designer (in-house, migrated from `../toolskin-showcase/.claude/skills/expert-designer`, slimmed)
@@ -120,3 +127,61 @@ To retrieve in a future Claude.ai session:
 4. Copy to `.claude/skills/project-builder/` in `toolskin-rebuild/`
 
 **LOW PRIORITY** for the rebuild — project-builder is for scaffolding new project structures, and the rebuild repo is already scaffolded (Phase A.4). Defer to Session 1.5 or later.
+
+---
+
+## Day 2 design-DNA skill deltas (Gate 5 + Wave 1.6 — RECONCILED, binding)
+
+Gate 5 picks OQ-A6 / OQ-B3 / OQ-D1 were REVISED by the Wave 1.6 visual audit. Canonical values below reflect the revisions (see `_rebuild-visual-audit.md` + the Wave 1.6 Reconciliation block in `_rebuild-design-dna.md`):
+
+- [ ] **typography-master:** change base font-size 16px → **15px** (Wave 1.6 — running `toolskin.css` confirmed; NOT 13px, NOT 16px). Recompute harmonic-ladder examples from a 15px base.
+- [ ] **typography-master:** document the **6-step** weight ladder `300/400/500/600/700/900` — **NO 800 weight** (Space Grotesk ships 300–700; Gate 5 OQ-B3 ABANDONED). H1=700, H2=600. Standard Google Fonts `wght@300..700` URL — no variable-axis.
+- [ ] **expert-designer:** change radius base 10px → **8px** (confirmed). Document the **explicit** radius ladder `4/6/8/10/16` (+ `9999` pill, `0` sharp) — NOT calc-derived. Update the stale `references/toolskin.md:196` 10px value.
+- [ ] **All 3 in-house skills:** cross-reference the Wave 1.6 visual audit (`_rebuild-visual-audit.md`) — the text-derived design DNA was wrong on base font size, heading weights, and the radius ladder.
+- [ ] **Logo system finalization:** 3 candidates exist in `../toolskin-showcase/branding/` previews — **Bracket, Blade, Cascade** (design explorations, unfinalized). Owner to pick or commission a final direction. (DNA §H previously claimed "no mark system" — wrong.)
+
+---
+
+## Session 1.5 — Install rebuild-orchestration skill (owner-authored)
+
+Owner-authored orchestration skill, provided externally to chat (at `docs/session-1-bootstrap/rebuild-orchestration-SKILL.md` + `rebuild-orchestration/`). Encodes Patterns 1–18.
+
+**Install path:** `.claude/skills/rebuild-orchestration/SKILL.md`
+
+- [ ] Install the skill at project scope.
+- [ ] Verify it carries Pattern 16 (Council HALT on fundamental implications), Pattern 17 (Visual audit before specs), Pattern 18 (Quota Safety Protocol).
+- [ ] **Pattern 18 is binding from now on:** on quota-approach detection (owner notification / system warning / >2h continuous dispatch self-assessment), execute the 6-step SAVE PROTOCOL — stop dispatch → write `_session-N-state-quota-halt.md` → `git add` surviving progress (no commit) → report to owner → halt → no last-second subagent dispatches.
+
+---
+
+## Session 1.5 — Install toolskin-visual-audit skill (owner-authored)
+
+Owner-authored visual audit skill (provided externally to chat May 19). Encodes probe-based methodology that improves on Wave 1.6 inline brief. Install BEFORE first block sandbox in Session 4+.
+
+**Install path:** `.claude/skills/toolskin-visual-audit/SKILL.md`
+
+**Reconciliation tasks DURING install (mandatory):**
+
+1. Token namespace reconciliation — skill references deck-specific tokens (`--ts-deck-gallery-w`, `--ts-deck-scale`) and showcase-canonical tokens (`--ts-fs-*`, `--ts-sp-*`, `--ts-radius-*`). Verify against rebuild's S1 primitive spec and S2 system spec. Update skill text where rebuild's token names differ. Methodology stays; specific token names need rebuild-canonical naming.
+
+2. Repo isolation amendment — skill says "read the canonical CSS before touching anything." Reference repo = old canonical at `../toolskin-showcase/assets/css/toolskin.css` (read-only per file 07). Rebuild repo = new canonical at `assets/css/next/**/*.css` (under construction). Amend skill text for dual-source reading.
+
+3. Script paths reconciliation — skill references `scripts/_audit_snapshot.mjs` and `scripts/_audit_deck.mjs`. Wave 1.6 creates `tools/visual-audit/capture.mjs`. Update skill to match `tools/visual-audit/*.mjs` per Rule 13 build-time conventions.
+
+4. Deck loop genericization — skill's `_audit_deck.mjs` iterates `.ts-slide` elements. Wave 1.6 needs to capture index.html + toolskin-lab.html (NOT decks). Add `_audit_page.mjs` for non-deck surfaces alongside deck-specific loop.
+
+5. Pre-first-use audit — verify no commands target reference repo paths, no inline `style=` proposals.
+
+Session 4+ binding: every block sandbox parity check uses this skill's probe-based methodology. S5 G1 parity criterion amended (Session 1.5 housekeeping) to reference the skill.
+
+---
+
+## Pitchdeck handoff docs (parallel workstream, conditional Wave 1.6 input)
+
+Owner has provided two reference docs from a parallel pitchdeck workstream:
+- `Toolskin_Pitchdeck_v3_2_HANDOFF.md` — variant-safe token system precedent
+- `SKILL_harmonic-pitchdeck.md` — harmonic deck recipe (`clamp(--ts-sp-*, dvw, --ts-sp-*)` pattern)
+
+Owner-place at `docs/handoffs/_visual-audit/reference-context/` after Step 2 completes.
+
+These are CONDITIONAL Layer A.5 input for Wave 1.6 — only activated if audit scope includes pitchdeck surfaces. Default Wave 1.6 scope (index.html + toolskin-lab.html) skips them. Available for Sessions N+ layout-tier block work for variant-safe pattern precedents.

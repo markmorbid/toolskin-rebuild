@@ -10,6 +10,40 @@
 **Output discipline:** EXTRACTION ONLY — what exists is canonical. No alternative design choices proposed. Contradictions between in-house skills and CSS evidence are surfaced as Open Questions, not auto-resolved (Rule 11).
 
 ═══════════════════════════════════════════════════════════════════════
+## ⚠ WAVE 1.6 VISUAL AUDIT RECONCILIATION (2026-05-19 — BINDING)
+
+This Wave 1.5 spec was authored entirely from CSS / HTML / skill TEXT. Wave 1.6 (Pattern 17) audited 124 rendered screenshots — 90 Playwright headless + 34 owner real-Chrome GoFullPage — and the owner annotated the findings. **Where this block and any section below disagree, THIS BLOCK WINS** (Pattern 17 source-of-truth hierarchy: owner's eye > rendered pixels > CSS text).
+
+Full audit + owner annotations: `_rebuild-visual-audit.md`. Owner annotations also at `docs/session-1-bootstrap/owner-annotations-visual-audit.md`.
+
+### Three Gate 5 picks revised by visual reality
+
+| DNA entry | Wave 1.5 text-derived claim (SUPERSEDED) | Wave 1.6 canonical (BINDING) |
+|---|---|---|
+| §B5 / §A6 — base font size | `--ts-fs-base: 13px` | **`--ts-fs-base: 15px`** — confirmed in running `toolskin.css`. Gate 5 OQ-A6 (13px) and the typography-master skill (16px) were BOTH wrong. The S1 harmonic ladder derives from **15px**. |
+| §B3 — weight pairings | 7 weights incl. `800 extra-bold` on H2 / `.ts-section-title`; H1 = 900 | **6-step ladder: 300 / 400 / 500 / 600 / 700 / 900 — NO 800.** Space Grotesk ships 300–700 (SIL OFL); 800 never rendered in production. **H1 = 700** (`--ts-font-weight-bold`), **H2 = 600** (`--ts-font-weight-semibold`). The gap at 800 is intentional. Gate 5 OQ-B3 ABANDONED; the `--ts-font-weight-extra-bold: 800` primitive is DROPPED from S1. |
+| §D1 — radius ladder | 8px base + calc-derived ladder (2xs 0.3× … xl 2×) | **8px base CONFIRMED.** Ladder is **explicit fixed steps, NOT calc-derived**: `--ts-radius-sm: 4px`, `--ts-radius-md: 6px`, `--ts-radius-base: 8px`, `--ts-radius-lg: 10px`, `--ts-radius-xl: 16px`; plus `--ts-radius-full: 9999px` and sharp `0`. §D4 nest-reduction (8→6→4→2, −2px per depth) still holds against the real steps. |
+
+### Consequent spec amendments (binding for Session 2 / S1 implementation)
+
+- **S1 harmonic ladder** recomputes from a **15px** base, not 13px.
+- **S1 font-weight primitives** = 6-step `300/400/500/600/700/900`. No `--ts-font-weight-extra-bold`.
+- **S1 radius primitives** = explicit `4/6/8/10/16` + `9999` + `0`. No calc-derived radius scale.
+- **Font loading** = standard Space Grotesk `wght@300..700` (Google Fonts). The variable-axis `wght@300..900` requirement (Gate 5 Resolution #3) is WITHDRAWN — no 800 axis needed.
+- A minor amendment to the S1 spec doc covers this; no S1 sub-agent re-dispatch required (per owner annotation).
+
+### Other Wave 1.6 corrections
+
+- **§F7 marquee** — the live `--ts-marquee-bg: var(--ts-bg-1)` (direct primitive reference) is a **regression / Rule 15 violation**, NOT canonical. The rebuild marquee uses `--ts-this-bg` surface inheritance (S4 A8 fix covers this). DNA §F7 / §E3 marquee-token claims that cite the live CSS are superseded on this point.
+- **§H "no mark system exists"** — SUPERSEDED. A **3-candidate logo system exists** in `../toolskin-showcase/branding/` previews: **Bracket**, **Blade**, **Cascade** — design explorations, NOT finalized. The rebuild acknowledges they exist without committing to one; finalization is tracked in `_in-house-skills-update-todo.md`.
+- **§H OQ-A6 / OQ-B3 / OQ-D1** — all three Open Questions are now RESOLVED by this reconciliation (see table above).
+- **FontAwesome** — the missing icons on `toolskin-lab` toast buttons are the known FA version-detection bug, NOT canonical; the rebuild's pinned-version `toolskin-assets.js` fixes it. `index.html` FA6 renders correctly.
+
+### Headless capture caveat (for Session 4+ parity rigs)
+
+Playwright headless **full-page** captures of long lazy-loaded pages (`index.html`) have blank unrendered regions — do not use as parity ground truth. Per-section headless captures and the owner's real-Chrome captures ARE reliable. The S5 G1 parity criterion references `_rebuild-visual-audit.md` + this block.
+
+═══════════════════════════════════════════════════════════════════════
 ## §0 — PURPOSE OF THIS SPEC
 ═══════════════════════════════════════════════════════════════════════
 
@@ -137,6 +171,8 @@ Beyond the Space Grotesk anchor — what intentional typographic decisions disti
 
 ### B3. Weight pairings encode semantic role
 
+> ⚠ **REVISED — Wave 1.6 Visual Audit.** Canonical ladder is 6-step `300/400/500/600/700/900` — NO 800. H1=700, H2=600. The `--ts-font-weight-extra-bold: 800` primitive is dropped (Gate 5 OQ-B3 abandoned). See the Wave 1.6 Reconciliation block at the top of this doc. The §B3 text below is the superseded Wave 1.5 text-derived claim (it incorrectly listed an `800 extra-bold` tier and H1=900).
+
 **Rule:** The 6-step weight scale (300/400/500/600/700/900) maps to roles:
 - 300 thin: not used in default UI (reserved for editorial body)
 - 400 normal: button label default, body text
@@ -179,6 +215,8 @@ Beyond the Space Grotesk anchor — what intentional typographic decisions disti
 **Owner:** `expert-designer` references/design-theory.md §0B.3 "Uppercase + wide tracking for labels/categories (0.08em–0.12em)" — Toolskin codifies this beyond labels into buttons + chips + tabs + display titles.
 
 ### B5. Font-size base is 13px (NOT 16px) — denser UI by intent
+
+> ⚠ **SUPERSEDED — Wave 1.6 Visual Audit.** The canonical base is **15px**, confirmed in the running `toolskin.css` — not 13px (and not the typography-master skill's 16px). See the Wave 1.6 Reconciliation block at the top of this doc. The §B5 text below is the superseded Wave 1.5 text-derived claim.
 
 **Rule:** `--ts-fs-base: 13px` (declared with intentional `0.8rem` shadow declaration on the line above showing the author's preference signal). Body reads denser than a typical Material/Tailwind site (16px base) — Toolskin is a tool-system UI, not a marketing site.
 
@@ -316,6 +354,8 @@ S2 spec proposed migrating these to OKLCH and adjusting some values (e.g., dim l
 ═══════════════════════════════════════════════════════════════════════
 
 ### D1. Per-component radius ladder
+
+> ⚠ **REVISED — Wave 1.6 Visual Audit.** 8px base CONFIRMED. The ladder is explicit fixed steps `4/6/8/10/16` (+ `9999` pill, `0` sharp) — NOT the calc-derived scale below. See the Wave 1.6 Reconciliation block at the top of this doc. The §D1 calc formula below is the superseded Wave 1.5 text-derived claim.
 
 **Rule:** Radius is component-scoped via a single base × scale × ratio formula:
 - Base: `--ts-radius-base: 8px` (NOT 10px — old skill ref says 10, code says 8; the 8 wins; see §H OQ-D1)

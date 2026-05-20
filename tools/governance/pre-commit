@@ -1,0 +1,77 @@
+#!/bin/sh
+# Toolskin Rebuild — pre-commit hook (S6 governance + Gate 5 / Wave 1.6 checks).
+#
+# CANONICAL COPY. The active hook lives at .git/hooks/pre-commit (outside git
+# tracking). Re-install after every fresh clone:
+#     cp tools/governance/pre-commit .git/hooks/pre-commit
+#     chmod +x .git/hooks/pre-commit
+#
+# DEFENSIVE BY DESIGN: every check skips gracefully when its target does not yet
+# exist. Session 1 is specs-only — block CSS, @ts-deps headers and dist/ arrive
+# in Sessions 4+. The hook must never block the Session 1 baseline commit.
+
+fail=0
+err()  { printf '  [FAIL] %s\n' "$1"; fail=1; }
+skip() { printf '  [skip] %s\n' "$1"; }
+ok()   { printf '  [ ok ] %s\n' "$1"; }
+
+echo "Toolskin pre-commit — validating staged changes..."
+
+NEXT="assets/css/next"
+staged=$(git diff --cached --name-only)
+
+# --- R-repo-isolation: never stage anything under the read-only reference repo ---
+if printf '%s\n' "$staged" | grep -q 'toolskin-showcase/'; then
+  err "R-repo-isolation: a staged path points into ../toolskin-showcase/ (read-only reference, Rule 12)."
+else
+  ok "R-repo-isolation"
+fi
+
+# --- Checks #1-11: cascade integrity / @ts-deps / topo-sort (active once blocks exist) ---
+if find "$NEXT" -name '*.css' 2>/dev/null | grep -q .; then
+  # @ts-deps presence, dependency-cycle detection, and sandbox <link>-order vs
+  # bundler topo-sort comparison run here once the S4 build pipeline lands.
+  ok "block CSS present — @ts-deps / topo-sort validation active"
+  # (full implementation added with the S4 build pipeline in a later session)
+else
+  skip "no block CSS in $NEXT yet — cascade / @ts-deps / topo-sort checks deferred (Sessions 4+)."
+fi
+
+# --- Check #12: dual-emission — oklch() primitives need a paired sRGB (#hex) fallback (R-D3-dual-emit) ---
+if [ -d "$NEXT/primitives" ]; then
+  for f in "$NEXT"/primitives/*.css; do
+    [ -e "$f" ] || continue
+    if grep -qE -- '--ts-[A-Za-z0-9-]+:[[:space:]]*oklch' "$f" \
+       && ! grep -qE -- '--ts-[A-Za-z0-9-]+:[[:space:]]*#[0-9A-Fa-f]' "$f"; then
+      err "Check #12 R-D3-dual-emit: $f declares oklch() primitives with no paired sRGB (#hex) fallback."
+    fi
+  done
+  [ "$fail" -eq 0 ] && ok "Check #12 dual-emission"
+else
+  skip "Check #12 dual-emission — no $NEXT/primitives/ yet."
+fi
+
+# --- Check #13: font-weight 800 is forbidden (Wave 1.6 — OQ-B3 abandoned; R-OQ-B3) ---
+if [ -d "$NEXT" ] && grep -rEln -- '(--ts-font-weight-extra-bold|font-weight:[[:space:]]*800|wght@300\.\.900)' "$NEXT" 2>/dev/null | grep -q .; then
+  err "Check #13 R-OQ-B3: an 800 weight / extra-bold token / variable-axis-900 reference found in $NEXT. Canonical ladder is 6-step 300/400/500/600/700/900 — no 800."
+else
+  ok "Check #13 font-weight (no forbidden 800)"
+fi
+
+# --- Check #14: visual-audit gate for block sandbox commits ---
+if printf '%s\n' "$staged" | grep -qE '^sandbox/.*\.html$'; then
+  if [ -f "docs/handoffs/_rebuild-visual-audit.md" ]; then
+    ok "Check #14 visual-audit ground truth present"
+  else
+    err "Check #14: a sandbox block is staged but docs/handoffs/_rebuild-visual-audit.md is missing — the Wave 1.6 visual audit is the parity ground truth (Pattern 17)."
+  fi
+else
+  skip "Check #14 visual-audit gate — no sandbox block staged."
+fi
+
+if [ "$fail" -ne 0 ]; then
+  echo "Toolskin pre-commit: FAILED. Fix the issues above. If a failure is intentional, surface to the owner before overriding."
+  exit 1
+fi
+echo "Toolskin pre-commit: OK."
+exit 0

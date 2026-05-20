@@ -1,6 +1,14 @@
 # Build-time tooling
 tools/color-engine/node_modules/
 tools/color-engine/package-lock.json
+tools/visual-audit/node_modules/
+tools/visual-audit/package-lock.json
+tools/visual-audit/playwright-report/
+tools/visual-audit/test-results/
+
+# Visual audit — Playwright headless captures (regenerable via tools/visual-audit/capture.mjs)
+# Owner real-Chrome ground-truth (owner-ground-truth/) IS committed — it is not regenerable.
+docs/handoffs/_visual-audit/screenshots/
 
 # OS
 Thumbs.db
