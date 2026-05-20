@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Toolskin — Colors</title>
+<!-- <link rel="stylesheet" href="../toolskin.css"> -->
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css">
+<style>
+  
+  body {
+  padding: 56px 48px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.label {
+  font-family: var(--ts-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ts-accent);
+  margin-bottom: 12px;
+}
+
+h1.page {
+  font-family: var(--ts-font-display);
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  margin: 0 0 8px;
+  color: var(--ts-text-primary);
+}
+
+p.lede {
+  font-family: var(--ts-font-body);
+  font-size: 14px;
+  color: var(--ts-text-secondary);
+  margin: 0 0 48px;
+  max-width: 720px;
+  line-height: 1.65;
+}
+
+p.lede code {
+  font-family: var(--ts-font-mono);
+  color: var(--ts-accent);
+}
+
+h2.section {
+  font-family: var(--ts-font-display);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 40px 0 16px;
+  color: var(--ts-text-primary);
+  letter-spacing: -.01em;
+}
+
+.ramp {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.swatch {
+  border-radius: 8px;
+  height: 110px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: var(--ts-font-mono);
+  font-size: 10px;
+  letter-spacing: .04em;
+  border: 1px solid var(--ts-border-0);
+}
+
+.swatch .top {
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.swatch .hex {
+  font-size: 11px;
+  opacity: .8;
+}
+
+.swatch .token {
+  font-size: 9px;
+  opacity: .55;
+}
+
+.surface-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.surface-grid .swatch {
+  color: rgba(232, 233, 234, .55);
+}
+
+.text-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.text-grid .swatch {
+  background: var(--ts-bg-0);
+  height: 130px;
+}
+
+.text-grid .demo {
+  font-family: var(--ts-font-display);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+.status {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.status .swatch {
+  color: rgba(0, 0, 0, .7);
+}
+
+pre.tokens {
+  margin-top: 32px;
+  background: var(--ts-bg-0);
+  border: 1px solid var(--ts-border-0);
+  border-radius: 10px;
+  padding: 24px 28px;
+  font-family: var(--ts-font-mono);
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--ts-text-secondary);
+  overflow-x: auto;
+}
+
+pre.tokens .c {
+  color: var(--ts-text-muted);
+}
+
+pre.tokens .k {
+  color: var(--ts-accent);
+}
+
+pre.tokens .v {
+  color: var(--ts-text-secondary);
+}
+</style>
+</head>
+<body>
+
+<div class="label">Toolskin · Color System</div>
+<h1 class="page">One accent. Onyx surfaces. HSL engine.</h1>
+<p class="lede">Every color in the system is driven by three custom properties: <code>--ts-accent-h</code>, <code>--ts-accent-s</code>, <code>--ts-accent-l</code>. Change the hue, the entire ramp follows. Surfaces are blue-shifted neutrals — cool, never grey. Dark-first.</p>
+
+<h2 class="section">Primary — Orange Fire</h2>
+<div class="ramp">
+  <div class="swatch" style="background:#FF8C00;color:rgba(0,0,0,.6)"><div class="top">800</div><div><div class="hex">#FF8C00</div><div class="token">--ts-orange-800</div></div></div>
+  <div class="swatch" style="background:#FF6B00;color:rgba(0,0,0,.6)"><div class="top">600</div><div><div class="hex">#FF6B00</div><div class="token">--ts-orange-600</div></div></div>
+  <div class="swatch" style="background:#FF5500;color:rgba(0,0,0,.7);outline:2px solid #FF5500;outline-offset:2px"><div class="top">500 ★</div><div><div class="hex">#FF5500</div><div class="token">--ts-accent</div></div></div>
+  <div class="swatch" style="background:#E03C00;color:rgba(255,255,255,.85)"><div class="top">400</div><div><div class="hex">#E03C00</div><div class="token">--ts-orange-400</div></div></div>
+  <div class="swatch" style="background:#B32C00;color:rgba(255,255,255,.85)"><div class="top">300</div><div><div class="hex">#B32C00</div><div class="token">--ts-orange-300</div></div></div>
+  <div class="swatch" style="background:rgba(255,85,0,0.20);color:#FF5500"><div class="top">DIM</div><div><div class="hex">20% α</div><div class="token">--ts-orange-dim</div></div></div>
+  <div class="swatch" style="background:rgba(255,85,0,0.07);color:#FF5500"><div class="top">GHOST</div><div><div class="hex">7% α</div><div class="token">--ts-orange-ghost</div></div></div>
+</div>
+
+<h2 class="section">Surface — Onyx Scale</h2>
+<div class="surface-grid">
+  <div class="swatch" style="background:#0c0d0f"><div class="top">BODY</div><div><div class="hex">#0c0d0f</div><div class="token">--ts-bg-body</div></div></div>
+  <div class="swatch" style="background:#14161a"><div class="top">BG-0</div><div><div class="hex">#14161a</div><div class="token">--ts-bg-0</div></div></div>
+  <div class="swatch" style="background:#1c1e24"><div class="top">BG-1</div><div><div class="hex">#1c1e24</div><div class="token">--ts-bg-1</div></div></div>
+  <div class="swatch" style="background:#23262e"><div class="top">BG-2</div><div><div class="hex">#23262e</div><div class="token">--ts-bg-2</div></div></div>
+  <div class="swatch" style="background:#2d3038"><div class="top">BG-3</div><div><div class="hex">#2d3038</div><div class="token">--ts-bg-3</div></div></div>
+  <div class="swatch" style="background:#363942"><div class="top">BG-4</div><div><div class="hex">#363942</div><div class="token">--ts-bg-4</div></div></div>
+  <div class="swatch" style="background:#42454f"><div class="top">BG-5</div><div><div class="hex">#42454f</div><div class="token">--ts-bg-5</div></div></div>
+</div>
+
+<h2 class="section">Text Scale</h2>
+<div class="text-grid">
+  <div class="swatch"><div class="top" style="color:var(--ts-text-muted)">PRIMARY</div><div class="demo" style="color:#e8e9ea">Aa Token</div><div style="color:var(--ts-text-muted);font-size:10px">#e8e9ea · --ts-text-primary</div></div>
+  <div class="swatch"><div class="top" style="color:var(--ts-text-muted)">SECONDARY</div><div class="demo" style="color:rgba(232,233,234,.65)">Aa Body</div><div style="color:var(--ts-text-muted);font-size:10px">65% α · --ts-text-secondary</div></div>
+  <div class="swatch"><div class="top" style="color:var(--ts-text-muted)">MUTED</div><div class="demo" style="color:rgba(232,233,234,.45)">Aa Caption</div><div style="color:var(--ts-text-muted);font-size:10px">45% α · --ts-text-muted</div></div>
+  <div class="swatch"><div class="top" style="color:var(--ts-text-muted)">ACCENT</div><div class="demo" style="color:#FF5500">Aa Hilite</div><div style="color:var(--ts-text-muted);font-size:10px">#FF5500 · --ts-text-accent</div></div>
+</div>
+
+<h2 class="section">Status</h2>
+<div class="status">
+  <div class="swatch" style="background:#22c55e"><div class="top">SUCCESS</div><div><div class="hex">#22c55e</div><div class="token">--ts-success</div></div></div>
+  <div class="swatch" style="background:#f59e0b"><div class="top">WARNING</div><div><div class="hex">#f59e0b</div><div class="token">--ts-warning</div></div></div>
+  <div class="swatch" style="background:#ef4444"><div class="top">DANGER</div><div><div class="hex">#ef4444</div><div class="token">--ts-danger</div></div></div>
+  <div class="swatch" style="background:#3b82f6"><div class="top">INFO</div><div><div class="hex">#3b82f6</div><div class="token">--ts-info</div></div></div>
+</div>
+
+<pre class="tokens"><span class="c">/* The accent engine. Change three numbers, the whole system reskins. */</span>
+<span class="k">--ts-accent-h</span>: <span class="v">18</span>;        <span class="c">/* orange hue */</span>
+<span class="k">--ts-accent-s</span>: <span class="v">100%</span>;      <span class="c">/* full saturation */</span>
+<span class="k">--ts-accent-l</span>: <span class="v">52%</span>;       <span class="c">/* mid-bright energy */</span>
+<span class="k">--ts-accent</span>:   <span class="v">hsl(var(--ts-accent-h), var(--ts-accent-s), var(--ts-accent-l))</span>;</pre>
+
+</body>
+</html>

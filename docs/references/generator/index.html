@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en" class="ts-banner-generator-app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolskin Banner Generator v2.3</title>
+   
+ <script>
+      (function () {
+        try {
+          var key = 'ts-theme-mode';
+          var m = localStorage.getItem(key);
+          if (!m) return;
+          if (m === 'auto') {
+            m = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          if (m === 'dark' || m === 'light') {
+            document.documentElement.setAttribute('data-theme', m);
+            document.documentElement.setAttribute('data-ts-theme', m);
+          }
+        } catch (e) { /* ignore */ }
+      })();
+    </script>
+    <!-- Google Fonts — render-blocking (critical for preloader + body text) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <!-- Other CDN assets loaded dynamically by toolskin-assets.js -->
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    </noscript>
+
+    <link rel="icon" href="https://satsea.io/toolskin-showcase/assets/img/favicon.ico" sizes="any">
+    <link rel="icon" href="https://satsea.io/toolskin-showcase/assets/img/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="https://satsea.io/toolskin-showcase/assets/img/apple-touch-icon.png">
+ <!-- Preloader critical CSS — inline so the lock is available at first paint,
+       before the external stylesheet finishes loading. Mirrors generator/index.html
+       <style id="ts-preloader-boot"> pattern. -->
+    <style id="ts-preloader-boot">
+      html.ts-preloader-lock,
+      html.ts-preloader-lock body {
+        overflow: hidden !important;
+      }
+
+      html.ts-preloader-lock #ts-app,
+      html.ts-preloader-lock #ts-main {
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
+
+      html.ts-preloader-lock .ts-preloader {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+      }
+
+      /* Hide sidebar during preloader (it's outside #ts-main) */
+      html.ts-preloader-lock .ts-oce-panel.ts-oce--open,
+      html.ts-preloader-lock .ts-oce-panel.ts-oce--open .ts-oce-fab {
+        opacity: 0 !important;
+        z-index: -20 !important;
+
+        pointer-events: none !important;
+      }
+    </style>
+ <script>
+      document.documentElement.classList.add('ts-preloader-lock');
+      // Font-gate: reveal preloader text only after the two fonts it uses are loaded.
+      // Uses document.fonts.load() for specific families (resolves fast, doesn't wait for FA).
+      Promise.all([
+        document.fonts.load('600 1em "Space Grotesk"'),
+        document.fonts.load('400 1em "JetBrains Mono"')
+      ]).then(function () {
+        document.documentElement.classList.add('ts-fonts-ready');
+      });
+    </script>
+       <link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css" />
+    <script src="https://satsea.io/toolskin-showcase/assets/js/toolskin-assets.js" defer></script>
+
+    <script src="https://satsea.io/toolskin-showcase/assets/js/toolskin.js" defer></script>
+
+    <script src="https://satsea.io/toolskin-showcase/assets/js/toolskin-uikit.js" defer></script>
+    <script src="https://satsea.io/toolskin-showcase/assets/js/toolskin.bannerGenerator.js" defer></script>
+    <style>
+        /* ═══════════════════════════════════════════════════════    DESIGN SYSTEM TOKENS — edit these to restyle everything ═══════════════════════════════════════════════════════ */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+
+            /* Layout & Panel */
+            --ts-panel-w: 320px;
+            --ts-topbar-h: 65px;
+
+            /* Card component (Merged) */
+            --ts-card-pad: var(--ts-sp-5);
+            --ts-card-gap: var(--ts-sp-2);
+            --ts-card-sp: var(--ts-sp-3);
+            --ts-card-radius: var(--ts-radius-md);
+            --ts-card-header-h: 45px;
+
+            --ts-card-bg: var(--ts-bg-1-t);
+            --ts-card-bg-2: var(--ts-bg-2);
+            --ts-card-border: var(--ts-border-1);
+
+            /* Input component (Merged) */
+            --ts-input-h: 50px;
+            --ts-input-fs: var(--ts-fs-md);
+            --ts-input-pad-y: calc(var(--ts-input-h)*.3);
+            --ts-input-pad-left: calc(var(--ts-input-h) - var(--ts-input-pad-y));
+            --ts-input-padding: var(--ts-input-pad-y) var(--ts-input-pad-x) var(--ts-input-pad-y) var(--ts-input-pad-left);
+            --ts-input-radius: var(--ts-radius-md);
+
+
+
+            /* Button (Merged) */
+            --ts-btn-h: 50px;
+            --ts-btn-pad-x: var(--ts-sp-3);
+            --ts-btn-radius: var(--ts-radius-md);
+            --ts-btn-fs: var(--ts-fs-sm);
+
+            /* Range component (Added) */
+            --ts-range-h: 10px;
+            --ts-range-thumb: calc(var(--ts-range-h) * 2);
+            --ts-range-bg: var(--ts-bg-3);
+            --ts-range-bg-2: var(--ts-bg-0);
+            --ts-range-border: var(--ts-border-1);
+            --ts-range-accent: var(--ts-accent);
+            --ts-range-label: var(--ts-bg-4);
+            --ts-range-text: var(--ts-text-primary);
+            --ts-range-rad: var(--ts-radius-base);
+            --ts-range-arrow: 5px;
+            --ts-toggle-knob-bg: var(--ts-text-muted);
+            --ts-toggle-knob-bg-active: #ffffffe9;
+
+            /* Toggle (Added) */
+            --ts-toggle-size: 30px;
+
+            /* Banner & Canvas */
+            --ts-title-color: #ffffff;
+            --ts-badge-radius: 7px;
+            --ts-badge-opacity: 1;
+            --ts-icon-size: 60px;
+            --ts-icon-top: 0px;
+            --ts-icon-right: 0px;
+            --ts-canvas-grid-size: 35px;
+            --ts-canvas-grid-opacity: 93%;
+            --ts-canvas-grid-color: color-mix(in srgb, var(--ts-text-primary), var(--ts-bg-body) var(--ts-canvas-grid-opacity));
+            --ts-bg-grid-pattern: repeating-linear-gradient(0deg, transparent, transparent calc(var(--ts-canvas-grid-size) - 1px), var(--ts-canvas-grid-color) var(--ts-canvas-grid-size)), repeating-linear-gradient(90deg, transparent, transparent calc(var(--ts-canvas-grid-size) - 1px), var(--ts-canvas-grid-color) var(--ts-canvas-grid-size));
+
+        }
+
+
+        /* end of quick style adjustments */
+    </style>
+     <!-- Toolskin Configuration -->
+    <script>
+      window.addEventListener('ts:ready', () => {
+        console.log('✅ Toolskin Framework Initialized');
+        console.log('Config:', Toolskin.config);
+      });
+
+
+
+
+    </script>
+</head>
+
+<body>
+    
+    <div id="ts-preloader" class="ts-preloader" aria-hidden="true">
+        <div class="ts-preloader__brand">
+          <div class="ts-preloader__logo">
+            <svg class="ts-preloader__bolt" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M0 256L28.5 28c2-16 15.6-28 31.8-28H228.9c15 0 27.1 12.1 27.1 27.1c0 3.2-.6 6.4-1.6 9.5L192 192h174.8c21.8 0 36.3 22.6 27.2 42.6L179.2 481.2c-7.5 16.4-30.4 12.6-32.5-5.4L128 256z"/></svg>
+            TOOL<em>SKIN</em>
+          </div>
+          <div class="ts-preloader__bar-wrap"><span class="ts-preloader__bar"></span></div>
+          <div class="ts-preloader__hint">Banner Generator</div>
+        </div>
+  </div>
+    <div id="ts-app">
+        <div id="ts-topbar" class="ts-nav-static">
+            <div class="ts-logo ts-topbar__logo">
+                <div class="ts-logo-brand">Tool<em>skin</em></div>
+                <span class="ts-logo-sub">Banner Generator</span>
+            </div> 
+            <div class="ts-topbar-sep"></div> <span class="ts-accent-text">v2.3</span>
+            <div class="ts-topbar-right">
+                <a href="patterns.html" class="ts-btn ts--btn-secondary" style="text-decoration: none;"
+                    data-ts-icon="ion:grid" data-icon-position="left">
+                    <span>Pattern Generator</span>
+                </a>
+                <a href="../index.html" class="ts-btn ts-btn--icon ts-btn-secondary" style="text-decoration: none;"
+                    data-ts-icon="ion:home-outline" data-icon-position="left">
+                    <span>Home</span>
+                </a>
+                <button class="ts-btn ts-btn--icon ts--btn-secondary" id="ts-btn-load-json" title="Load preset"
+                    data-ts-icon="ion:folder-open" data-icon-position="left">
+                    <span>Load Preset</span>
+                </button>
+                <button class="ts-btn ts-btn--icon ts--btn-secondary" id="ts-btn-save-json" title="Save preset"
+                    data-ts-icon="ion:save" data-icon-position="left">
+                    <span>Save Preset</span></button>
+                <button class="ts-btn ts-btn--primary" id="ts-btn-preview"
+                    style="text-decoration: none;" data-ts-icon="ion:eye" data-icon-position="left">
+                    <span>Preview &amp; Export</span> <span class="ts-spinner" id="ts-export-spinner"></span>
+                </button>
+                <button class="ts-btn ts-btn--icon" id="ts-btn-reset" title="Reset"
+                    data-ts-icon="ion:refresh" data-icon-position="left">
+                    <span>Reset</span>
+                </button>
+                 <button class="ts-btn ts-theme-toggle" data-theme-toggle aria-label="Toggle theme">
+                  <span class="ts-icon ts-theme-icon-light" data-ts-icon="fa-solid fa-sun" aria-hidden="true"></span>
+                  <span class="ts-icon ts-theme-icon-dark" data-ts-icon="fa-solid fa-moon" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+        <div id="ts-canvas-area">
+            <div class="ts-canvas-info-bar"> 
+                <span class="ts-canvas-badge" id="ts-banner-size-label">1200 × 630px</span> <span class="ts-canvas-badge" id="ts-zoom-label">50%</span> 
+            </div>
+            <div id="ts-banner-scale-wrap">
+                <div id="ts-banner-wrap">
+                    <div class="ts-banner-content">
+                        <div class="ts-main-title">
+                            <span id="ts-preview-title">TOOLSKIN</span>
+                            <div class="ts-icon-accent" id="ts-preview-icon-wrap" style="display:none">
+                                <ion-icon name="" id="ts-preview-icon"></ion-icon>
+                            </div>
+                        </div>
+                        <div class="ts-tagline-row" id="ts-preview-tagline-row">
+                            <div class="ts-tagline" id="ts-preview-tagline">FRAMEWORK FOR CREATORS</div>
+                            <div class="ts-badge" id="ts-preview-version">v1.2.0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="ts-panel">
+            <div id="ts-panel-tabs">
+                <div class="ts-ptab active" data-tab="text">Text</div>
+                <div class="ts-ptab" data-tab="bg">BG</div>
+                <div class="ts-ptab" data-tab="elements">Elements</div>
+                <div class="ts-ptab" data-tab="icon">Icon</div>
+                <div class="ts-ptab" data-tab="canvas">Canvas</div>
+            </div>
+            <div id="ts-panel-body">
+                <div class="ts-tab-pane active" data-pane="text">
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title"
+                                data-ts-icon="ion:text-outline">
+                                Title</span></div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field">
+                                        <input type="text" class="ts-input-text" id="ts-input-title" value="TOOLSKIN"
+                                            placeholder="Title…">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-half">
+                                    <div class="ts-field">
+                                        <label>Font</label>
+                                        <div class="ts-ui-select" data-ts-ui-select-placeholder="Filter fonts…">
+                                            <select class="ts-ui-select__native" id="ts-input-title-font">
+                                                <option>Bebas Neue</option>
+                                                <option>Anton</option>
+                                                <option>Barlow Condensed</option>
+                                                <option>Oswald</option>
+                                                <option>Black Han Sans</option>
+                                                <option>Michroma</option>
+                                                <option>Syne</option>
+                                                <option>Archivo Black</option>
+                                                <option>Russo One</option>
+                                                <option>Teko</option>
+                                                <option>Big Shoulders Display</option>
+                                                <option>Turret Road</option>
+                                                <option>Chakra Petch</option>
+                                                <option>Space Grotesk</option>
+                                                <option>Rajdhani</option>
+                                                <option>Play</option>
+                                                <option>Pirata One</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-quarter">
+                                    <div class="ts-field">
+                                        <label>Weight</label>
+                                        <div class="ts-ui-select" data-ts-ui-select-search="false">
+                                            <select class="ts-ui-select__native" id="ts-input-title-weight">
+                                                <option value="300">Light</option>
+                                                <option value="400" selected>Regular</option>
+                                                <option value="700">Bold</option>
+                                                <option value="900">Black</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field ts-range-stack">
+                                        <label>Size</label>
+                                        <div class="ts-range-row">
+                                            <input type="range" class="ts-range" id="ts-input-title-size" min="40"
+                                                max="280" value="180">
+                                            <span class="ts-range-val" id="ts-val-title-size">180px</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field">
+                                        <label>Color</label>
+                                        <div class="ts-color-row">
+                                            <div class="ts-color-swatch">
+                                                <div class="ts-sw" id="ts-sw-title" style="background:#fff"></div>
+                                                <input type="color" id="ts-input-title-color" value="#ffffff">
+                                            </div>
+                                            <input type="text" class="ts-input-text mono" id="ts-input-title-color-text"
+                                                value="#ffffff" maxlength="9">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-toggle-row"> <span class="ts-toggle-label">Word Wrap</span>
+                                        <label class="ts-toggle">
+                                            <input type="checkbox" id="ts-input-title-wrap"><span class="ts-toggle__knob"></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title"
+                                data-ts-icon="ion:color-wand-outline">
+                                Text Gradient</span></div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-toggle-row"> <span class="ts-toggle-label">Enable gradient
+                                            fill</span>
+                                        <label class="ts-toggle">
+                                            <input type="checkbox" id="ts-input-title-gradient"><span class="ts-toggle__knob"></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row" id="ts-title-gradient-controls" style="display:none">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-card-rows">
+                                        <div class="ts-card-row">
+                                            <div class="ts-card-col-full">
+                                                <div class="ts-field">
+                                                    <label>Presets</label>
+                                                    <div class="ts-grad-swatches" id="ts-title-grad-presets"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ts-card-row">
+                                            <div class="ts-card-col-half">
+                                                <div class="ts-field">
+                                                    <label>Color A</label>
+                                                    <div class="ts-color-row">
+                                                        <div class="ts-color-swatch">
+                                                            <div class="ts-sw" id="ts-sw-grad-a"
+                                                                style="background:#ff5500">
+                                                            </div>
+                                                            <input type="color" id="ts-input-grad-a" value="#ff5500">
+                                                        </div>
+                                                        <input type="text" class="ts-input-text mono"
+                                                            id="ts-input-grad-a-text" value="#ff5500" maxlength="9">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="ts-card-col-half">
+                                                <div class="ts-field">
+                                                    <label>Color B</label>
+                                                    <div class="ts-color-row">
+                                                        <div class="ts-color-swatch">
+                                                            <div class="ts-sw" id="ts-sw-grad-b"
+                                                                style="background:#ffffff">
+                                                            </div>
+                                                            <input type="color" id="ts-input-grad-b" value="#ffffff">
+                                                        </div>
+                                                        <input type="text" class="ts-input-text mono"
+                                                            id="ts-input-grad-b-text" value="#ffffff" maxlength="9">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ts-card-row">
+                                            <div class="ts-card-col-full">
+                                                <div class="ts-field">
+                                                    <label>Angle</label>
+                                                    <div class="ts-range-row">
+                                                        <input type="range" class="ts-range" id="ts-input-grad-angle"
+                                                            min="0" max="360" value="135">
+                                                        <span class="ts-range-val" id="ts-val-grad-angle">135°</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title"
+                                data-ts-icon="ion:text-outline">
+                                Tagline &amp; Badge</span></div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-half">
+                                    <div class="ts-field">
+                                        <label>Tagline</label>
+                                        <input type="text" class="ts-input-text" id="ts-input-tagline"
+                                            value="FRAMEWORK FOR CREATORS">
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-quarter">
+                                    <div class="ts-field">
+                                        <label>Badge</label>
+                                        <input type="text" class="ts-input-text" id="ts-input-version" value="v1.2.0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field ts-range-stack">
+                                        <label>Tagline Size</label>
+                                        <div class="ts-range-row">
+                                            <input type="range" class="ts-range" id="ts-input-tagline-size" min="8"
+                                                max="60" value="17">
+                                            <span class="ts-range-val" id="ts-val-tagline-size">17px</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field ts-range-stack">
+                                        <label>Badge Size</label>
+                                        <div class="ts-range-row">
+                                            <input type="range" class="ts-range" id="ts-input-badge-size" min="8"
+                                                max="40" value="15">
+                                            <span class="ts-range-val" id="ts-val-badge-size">15px</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ts-tab-pane" data-pane="bg">
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title"
+                                data-ts-icon="ion:color-palette-outline"> Global Accent</span></div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field">
+                                        <div class="ts-color-row">
+                                            <div class="ts-color-swatch">
+                                                <div class="ts-sw" id="ts-sw-accent" style="background:#ff5500"></div>
+                                                <input type="color" id="ts-input-accent" value="#ff5500">
+                                            </div>
+                                            <input type="text" class="ts-input-text mono" id="ts-input-accent-text"
+                                                value="#ff5500" maxlength="9">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <p class="ts-hint">Drives tagline, badge, icon &amp; glow by default.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title"
+                                data-ts-icon="ion:image-outline">Background Mode</span></div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-chips" id="ts-bg-mode-presets">
+                                        <div class="ts-chip active" data-mode="radial">Radial</div>
+                                        <div class="ts-chip" data-mode="linear">Linear</div>
+                                        <div class="ts-chip" data-mode="solid">Solid</div>
+                                        <div class="ts-chip" data-mode="mesh">Mesh</div>
+                                        <div class="ts-chip" data-mode="image">Image</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ts-card-row" id="ts-bg-color-controls">
+                                <div class="ts-card-col-third">
+                                    <div class="ts-field" id="ts-bg-gradpos-wrap">
+                                        <label>Origin</label>
+                                        <div class="ts-chips ts-align-anchor-grid"
+                                            id="ts-bg-gradpos-presets">
+                                            <button
+                                                class="ts-chip ts-align-anchor-btn ts-arrow-rotate top-left"
+                                                type="button" data-bgpos="10% 10%"
+                                                data-icon="ion:arrow-back"><span class="sr-only">Origin top
+                                                    left</span></button>
+                                            <button class="ts-chip ts-align-anchor-btn" type="button"
+                                                data-bgpos="50% 0%" data-icon="ion:arrow-up"><span
+                                                    class="sr-only">Origin top center</span></button>
+                                            <button
+                                                class="ts-chip ts-align-anchor-btn ts-arrow-rotate top-right"
+                                                type="button" data-bgpos="90% 10%"
+                                                data-icon="ion:arrow-forward"><span class="sr-only">Origin
+                                                    top right</span></button>
+                                            <button class="ts-chip ts-align-anchor-btn active" type="button"
+                                                data-bgpos="30% 50%" data-icon="ion:arrow-back"><span
+                                                    class="sr-only">Origin center left</span></button>
+                                            <button class="ts-chip ts-align-anchor-btn" type="button"
+                                                data-bgpos="50% 50%" data-icon="ion:add-circle"><span
+                                                    class="sr-only">Origin center</span></button>
+                                            <button class="ts-chip ts-align-anchor-btn" type="button"
+                                                data-bgpos="90% 50%" data-icon="ion:arrow-forward"><span
+                                                    class="sr-only">Origin center right</span></button>
+                                            <button
+                                                class="ts-chip ts-align-anchor-btn ts-arrow-rotate bottom-left"
+                                                type="button" data-bgpos="20% 90%"
+                                                data-icon="ion:arrow-back"><span class="sr-only">Origin
+                                                    bottom left</span></button>
+                                            <button class="ts-chip ts-align-anchor-btn" type="button"
+                                                data-bgpos="50% 100%" data-icon="ion:arrow-down"><span
+                                                    class="sr-only">Origin bottom center</span></button>
+                                            <button
+                                                class="ts-chip ts-align-anchor-btn ts-arrow-rotate bottom-right"
+                                                type="button" data-bgpos="90% 90%"
+                                                data-icon="ion:arrow-forward"><span class="sr-only">Origin
+                                                    bottom right</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-half">
+                                    <div class="ts-card-row">
+                                        <div class="ts-card-col-full">
+                                            <div class="ts-field" id="ts-bg-strength-wrap">
+                                                <label>Gradient Strength</label>
+                                                <div class="ts-range-row">
+                                                    <input type="range" class="ts-range" id="ts-input-bg-strength"
+                                                        min="0" max="100" value="60">
+                                                    <span class="ts-range-val" id="ts-val-bg-strength">60%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ts-card-col-full">
+                                            <div class="ts-field" id="ts-mesh-smooth-wrap" style="display:none">
+                                                <label>Mesh Smoothness</label>
+                                                <div class="ts-range-row">
+                                                    <input type="range" class="ts-range" id="ts-input-bg-smoothness"
+                                                        min="20" max="95" value="60">
+                                                    <span class="ts-range-val" id="ts-val-bg-smoothness">60%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                         <div class="ts-card-col-full">
+                                            <div class="ts-field" id="ts-bg-angle-wrap" style="display:none">
+                                                <label>Angle</label>
+                                                <div class="ts-range-row">
+                                                    <input type="range" class="ts-range" id="ts-input-bg-angle" min="0"
+                                                        max="360" value="135"> <span class="ts-range-val"
+                                                        id="ts-val-bg-angle">135°</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                        
+                                    
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-auto">
+                                    <div class="ts-field" id="ts-field-bg-light">
+                                        <label>BG Light</label>
+                                        <div class="ts-color-row">
+                                            <div class="ts-color-swatch">
+                                                <div class="ts-sw" id="ts-sw-bg1"
+                                                    style="background:#141414">
+                                                </div>
+                                                <input type="color" id="ts-input-bg1"
+                                                    value="#141414">
+                                            </div>
+                                            <input type="text" class="ts-input-text mono"
+                                                id="ts-input-bg1-text" value="#141414"
+                                                maxlength="9">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-auto">
+                                    <div class="ts-field" id="ts-field-bg-dark">
+                                        <label>BG Dark</label>
+                                        <div class="ts-color-row">
+                                            <div class="ts-color-swatch">
+                                                <div class="ts-sw" id="ts-sw-bg2"
+                                                    style="background:#080808">
+                                                </div>
+                                                <input type="color" id="ts-input-bg2"
+                                                    value="#080808">
+                                            </div>
+                                            <input type="text" class="ts-input-text mono"
+                                                id="ts-input-bg2-text" value="#080808"
+                                                maxlength="9">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-auto">
+                                    <div class="ts-field" id="ts-mesh-c3-wrap"
+                                        style="display:none">
+                                        <label>Mesh Color 3</label>
+                                        <div class="ts-color-row">
+                                            <div class="ts-color-swatch">
+                                                <div class="ts-sw" id="ts-sw-bg3"
+                                                    style="background:#333333">
+                                                </div>
+                                                <input type="color" id="ts-input-bg3"
+                                                    value="#333333">
+                                            </div>
+                                            <input type="text" class="ts-input-text mono"
+                                                id="ts-input-bg3-text" value="#333333"
+                                                maxlength="9">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ts-card-row">
+                            <div class="ts-card-col-full" id="ts-bg-image-controls" style="display:none">
+                                <div class="ts-card-rows">
+                                    <div class="ts-card-row">
+                                        <div class="ts-card-col-full">
+                                            <div class="ts-dropzone" id="ts-bg-dropzone">
+                                                <span class="ts-icon" data-ts-icon="ion:cloud-upload-outline"></span>
+                                                <span id="ts-drop-label">Drop
+                                                    image or
+                                                    click to upload</span>
+                                                <input type="file" id="ts-bg-image-file" accept="image/*"> <img
+                                                    id="ts-dz-preview" class="ts-dz-preview">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ts-card-row">
+                                        <div class="ts-card-col-full">
+                                            <div class="ts-field">
+                                                <label>Overlay Color (rgba)</label>
+                                                <div class="ts-color-row">
+                                                    <div class="ts-color-swatch">
+                                                        <div class="ts-sw" id="ts-sw-overlay"
+                                                            style="background:#000000">
+                                                        </div>
+                                                        <input type="color" id="ts-input-overlay-color" value="#000000">
+                                                    </div>
+                                                    <input type="text" class="ts-input-text mono"
+                                                        id="ts-input-overlay-color-text" value="#000000" maxlength="9">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ts-card-row">
+                                        <div class="ts-card-col-half">
+                                            <div class="ts-field">
+                                                <label>Overlay Opacity</label>
+                                                <div class="ts-range-row">
+                                                    <input type="range" class="ts-range" id="ts-input-overlay-opacity"
+                                                        min="0" max="100" value="50">
+                                                    <span class="ts-range-val" id="ts-val-overlay-opacity">50%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ts-card-col-half">
+                                            <div class="ts-field">
+                                                <label>Backdrop Blur</label>
+                                                <div class="ts-range-row">
+                                                    <input type="range" class="ts-range" id="ts-input-backdrop-blur"
+                                                        min="0" max="30" value="0">
+                                                    <span class="ts-range-val" id="ts-val-backdrop-blur">0px</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title"
+                                data-ts-icon="ion:cellular-outline">Grainy Noise</span> <span class="ts-accent-text"
+                                style="margin-left:auto">SVG
+                                feTurbulence</span>
+                        </div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-toggle-row"> <span class="ts-toggle-label">Enable noise</span>
+                                        <label class="ts-toggle">
+                                            <input type="checkbox" id="ts-input-noise" checked><span class="ts-toggle__knob"></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="ts-noise-controls" class="ts-card-rows">
+                                <div class="ts-card-row">
+                                    <div class="ts-card-col-full">
+                                        <div class="ts-field">
+                                            <label>Blend Mode</label>
+                                            <div class="ts-chips" id="ts-noise-blend-presets">
+                                                <div class="ts-chip active" data-blend="soft-light">Soft</div>
+                                                <div class="ts-chip" data-blend="overlay">Overlay</div>
+                                                <div class="ts-chip" data-blend="screen">Screen</div>
+                                                <div class="ts-chip" data-blend="multiply">Multiply</div>
+                                                <div class="ts-chip" data-blend="normal">Normal</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-row">
+                                    <div class="ts-card-col-full">
+                                        <div class="ts-field">
+                                            <label>Intensity</label>
+                                            <div class="ts-range-row">
+                                                <input type="range" class="ts-range" id="ts-input-noise-opacity" min="0"
+                                                    max="100" value="25">
+                                                <span class="ts-range-val" id="ts-val-noise-opacity">25%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-row">
+                                    <div class="ts-card-col-full">
+                                        <div class="ts-field">
+                                            <label>Grain Scale (tile px)</label>
+                                            <div class="ts-range-row">
+                                                <input type="range" class="ts-range" id="ts-input-noise-scale" min="100"
+                                                    max="600" value="300" step="50"> <span class="ts-range-val"
+                                                    id="ts-val-noise-scale">300</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-row">
+                                    <div class="ts-card-col-full">
+                                        <div class="ts-field">
+                                            <label>Frequency</label>
+                                            <div class="ts-range-row">
+                                                <input type="range" class="ts-range" id="ts-input-noise-freq" min="20"
+                                                    max="150" value="65">
+                                                <span class="ts-range-val" id="ts-val-noise-freq">0.65</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title"
+                                data-ts-icon="ion:radio-button-on-outline"> Accent Glow</span></div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-toggle-row"> <span class="ts-toggle-label">Enable glow</span>
+                                        <label class="ts-toggle">
+                                            <input type="checkbox" id="ts-input-glow"><span class="ts-toggle__knob"></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="ts-glow-controls" class="ts-card-rows">
+
+                                <div class="ts-card-row">
+                                    <div class="ts-card-col-full">
+                                        <div class="ts-field">
+                                            <label>Size</label>
+                                            <div class="ts-range-row">
+                                                <input type="range" class="ts-range" id="ts-input-glow-diameter"
+                                                    min="400" max="2400" value="1200" step="50">
+                                                <span class="ts-range-val" id="ts-val-glow-diameter">1200px</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-row">
+                                    <div class="ts-card-col-third">
+                                        <div class="ts-field">
+                                            <label>Position</label>
+                                            <div class="ts-chips ts-align-anchor-grid" id="ts-glow-pos-presets">
+                                                <button class="ts-chip ts-align-anchor-btn ts-arrow-rotate top-left"
+                                                    type="button" data-glowpos="top-left"
+                                                    data-icon="ion:arrow-back"><span class="sr-only">Top
+                                                        Left</span></button>
+                                                <button class="ts-chip ts-align-anchor-btn" type="button"
+                                                    data-glowpos="top-center" data-icon="ion:arrow-up"><span
+                                                        class="sr-only">Top Center</span></button>
+                                                <button
+                                                    class="ts-chip ts-align-anchor-btn active ts-arrow-rotate top-right"
+                                                    type="button" data-glowpos="top-right"
+                                                    data-icon="ion:arrow-forward"><span class="sr-only">Top
+                                                        Right</span></button>
+                                                <button class="ts-chip ts-align-anchor-btn" type="button"
+                                                    data-glowpos="center-left" data-icon="ion:arrow-back"><span
+                                                        class="sr-only">Center Left</span></button>
+                                                <button class="ts-chip ts-align-anchor-btn" type="button"
+                                                    data-glowpos="center" data-icon="ion:add-circle"><span
+                                                        class="sr-only">Center</span></button>
+                                                <button class="ts-chip ts-align-anchor-btn" type="button"
+                                                    data-glowpos="center-right" data-icon="ion:arrow-forward"><span
+                                                        class="sr-only">Center Right</span></button>
+                                                <button class="ts-chip ts-align-anchor-btn ts-arrow-rotate bottom-left"
+                                                    type="button" data-glowpos="bottom-left"
+                                                    data-icon="ion:arrow-back"><span class="sr-only">Bottom
+                                                        Left</span></button>
+                                                <button class="ts-chip ts-align-anchor-btn" type="button"
+                                                    data-glowpos="bottom-center" data-icon="ion:arrow-down"><span
+                                                        class="sr-only">Bottom Center</span></button>
+                                                <button class="ts-chip ts-align-anchor-btn ts-arrow-rotate bottom-right"
+                                                    type="button" data-glowpos="bottom-right"
+                                                    data-icon="ion:arrow-forward"><span class="sr-only">Bottom
+                                                        Right</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ts-card-col-half">
+                                        <div class="ts-card-rows">
+                                            <div class="ts-card-row">
+                                                <div class="ts-card-col-full">
+                                                    <div class="ts-field ts-range-stack">
+                                                        <label>Strength (gradient falloff)</label>
+                                                        <div class="ts-range-row">
+                                                            <input type="range" class="ts-range"
+                                                                id="ts-input-glow-strength" min="0" max="100"
+                                                                value="19">
+                                                            <span class="ts-range-val"
+                                                                id="ts-val-glow-strength">19%</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="ts-card-row">
+                                                <div class="ts-card-col-full">
+                                                    <div class="ts-field ts-range-stack">
+                                                        <label>Opacity</label>
+                                                        <div class="ts-range-row">
+                                                            <input type="range" class="ts-range"
+                                                                id="ts-input-glow-opacity" min="0" max="100"
+                                                                value="100">
+                                                            <span class="ts-range-val"
+                                                                id="ts-val-glow-opacity">100%</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ts-tab-pane" data-pane="elements">
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title"
+                                data-ts-icon="ion:reorder-two-outline"> Tagline Bar</span></div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-half">
+                                    <div class="ts-toggle-row"> <span class="ts-toggle-label">Show tagline</span>
+                                        <label class="ts-toggle">
+                                            <input type="checkbox" id="ts-input-show-tagline" checked><span class="ts-toggle__knob"></span></label>
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-half">
+                                    <div class="ts-toggle-row"> <span class="ts-toggle-label">Left border line</span>
+                                        <label class="ts-toggle">
+                                            <input type="checkbox" id="ts-input-tagline-border" checked><span class="ts-toggle__knob"></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field">
+                                        <label>Color (blank = accent)</label>
+                                        <div class="ts-color-row">
+                                            <div class="ts-color-swatch">
+                                                <div class="ts-sw" id="ts-sw-tagline-color" style="background:#ff5500">
+                                                </div>
+                                                <input type="color" id="ts-input-tagline-color" value="#ff5500">
+                                            </div>
+                                            <input type="text" class="ts-input-text mono"
+                                                id="ts-input-tagline-color-text" value="accent" maxlength="9">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field">
+                                        <label>Order</label>
+                                        <div class="ts-chips" id="ts-tagline-order-presets">
+                                            <div class="ts-chip active" data-order="0">Tagline · Badge</div>
+                                            <div class="ts-chip" data-order="2">Badge · Tagline</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title"
+                                data-ts-icon="ion:pricetag-outline">
+                                Badge / Version</span></div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-toggle-row"> <span class="ts-toggle-label">Show badge</span>
+                                        <label class="ts-toggle">
+                                            <input type="checkbox" id="ts-input-show-badge" checked><span class="ts-toggle__knob"></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field">
+                                        <label>Style</label>
+                                        <div class="ts-chips ts-chips--badge-style" id="ts-badge-style-presets">
+                                            <div class="ts-chip active" data-badgestyle="gradient">Gradient</div>
+                                            <div class="ts-chip" data-badgestyle="flat">Flat</div>
+                                            <div class="ts-chip" data-badgestyle="outline">Outline</div>
+                                            <div class="ts-chip" data-badgestyle="ghost">Ghost</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-half">
+                                    <div class="ts-field ts-range-stack">
+                                        <label>Radius</label>
+                                        <div class="ts-range-row">
+                                            <input type="range" class="ts-range" id="ts-input-badge-radius" min="0" max="30" value="7">
+                                            <span class="ts-range-val" id="ts-val-badge-radius">7px</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-half">
+                                    <div class="ts-field ts-range-stack">
+                                        <label>Opacity</label>
+                                        <div class="ts-range-row">
+                                            <input type="range" class="ts-range" id="ts-input-badge-opacity" min="10"
+                                                max="100" value="100">
+                                            <span class="ts-range-val" id="ts-val-badge-opacity">100%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field">
+                                        <label>Text Color</label>
+                                        <div class="ts-color-row">
+                                            <div class="ts-color-swatch">
+                                                <div class="ts-sw" id="ts-sw-badge-color" style="background:#ffffff">
+                                                </div>
+                                                <input type="color" id="ts-input-badge-color" value="#ffffff">
+                                            </div>
+                                            <input type="text" class="ts-input-text mono" id="ts-input-badge-color-text"
+                                                value="#ffffff" maxlength="9">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ts-tab-pane" data-pane="icon">
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title"
+                                data-icon="ion:star-outline">Icon</span></div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-icon-selected-row ts-fullselector-wrapper" id="ts-icon-selected-row">
+                                        <ion-icon class="ts-icon ts-selected-icon" name="code-slash"
+                                            id="ts-icon-selected-preview"></ion-icon>
+                                        <span id="ts-icon-selected-name">code-slash</span>
+                                        <div class="ts-icon-dd-wrap">
+                                            <span class="ts-icon ts-search-icon"
+                                                data-icon="fa:fa-solid fa-search"></span>
+                                            <input type="text" class="ts-icon-search-input" id="ts-input-icon-search"
+                                                placeholder="Search icons…" autocomplete="off">
+                                            <div class="ts-icon-dd-list" id="ts-icon-dd-list"
+                                                data-ts-selected-icon="code-slash"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ts-card-row" data-ts-icon-sharp-row="1">
+                                <div class="ts-card-col-auto">
+                                    <div class="ts-toggle-row"> <span class="ts-toggle-label">Outline style</span>
+                                        <label class="ts-toggle">
+                                            <input type="checkbox" id="ts-input-icon-outline"><span class="ts-toggle__knob"></span></label>
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-auto">
+                                    <div class="ts-toggle-row"> <span class="ts-toggle-label">Sharp style</span>
+                                        <label class="ts-toggle">
+                                            <input type="checkbox" id="ts-input-icon-sharp"><span class="ts-toggle__knob"></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title">Size &amp;
+                                Color</span></div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field ts-range-stack">
+                                        <label>Size</label>
+                                        <div class="ts-range-row">
+                                            <input type="range" class="ts-range" id="ts-input-icon-size" min="20"
+                                                max="200" value="60" step="10">
+                                            <span class="ts-range-val" id="ts-val-icon-size">60px</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field">
+                                        <label>Color (blank = accent)</label>
+                                        <div class="ts-color-row">
+                                            <div class="ts-color-swatch">
+                                                <div class="ts-sw" id="ts-sw-icon-color" style="background:#ff5500">
+                                                </div>
+                                                <input type="color" id="ts-input-icon-color" value="#ff5500">
+                                            </div>
+                                            <input type="text" class="ts-input-text mono" id="ts-input-icon-color-text"
+                                                value="accent" maxlength="9">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title">Position (grid
+                                10px)</span>
+                        </div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field ts-range-stack">
+                                        <label>Right offset</label>
+                                        <div class="ts-range-row">
+                                            <input type="range" class="ts-range" id="ts-input-icon-x" min="0" max="400"
+                                                value="0" step="10">
+                                            <span class="ts-range-val" id="ts-val-icon-x">0px</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field ts-range-stack">
+                                        <label>Top offset</label>
+                                        <div class="ts-range-row">
+                                            <input type="range" class="ts-range" id="ts-input-icon-y" min="0" max="300"
+                                                value="0" step="10">
+                                            <span class="ts-range-val" id="ts-val-icon-y">0px</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <p class="ts-hint">Anchors to top-right corner of title block.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ts-tab-pane" data-pane="canvas">
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title"
+                                data-icon="ion:resize-outline">
+                                Output Size</span></div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-chips" id="ts-size-presets">
+                                        <div class="ts-chip active" data-w="1200" data-h="630">1200×630</div>
+                                        <div class="ts-chip" data-w="1200" data-h="900">1200×900</div>
+                                        <div class="ts-chip" data-w="800" data-h="450">800×450</div>
+                                        <div class="ts-chip" data-w="1920" data-h="1080">1920×1080</div>
+                                        <div class="ts-chip" data-w="1200" data-h="628">OG 1200×628</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-half">
+                                    <div class="ts-field">
+                                        <label>Width px</label>
+                                        <input type="number" class="ts-input-text" id="ts-input-custom-w" value="1200"
+                                            min="100" max="4000">
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-half">
+                                    <div class="ts-field">
+                                        <label>Height px</label>
+                                        <input type="number" class="ts-input-text" id="ts-input-custom-h" value="630"
+                                            min="100" max="4000">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title"
+                                data-icon="ion:grid-outline">
+                                Alignment &amp; Padding</span></div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-third">
+                                    <div class="ts-field">
+                                        <label>Position</label>
+                                        <div class="ts-chips ts-align-anchor-grid" id="ts-align-anchor-grid"
+                                            role="group" aria-label="Content alignment">
+                                            <button type="button" class="ts-align-anchor-btn ts-arrow-rotate top-left"
+                                                data-halign="flex-start" data-valign="flex-start" title="Top · Left"
+                                                data-icon="ion:arrow-back"><span class="sr-only">Top
+                                                    Left</span></button>
+                                            <button type="button" class="ts-align-anchor-btn ts-arrow-rotate top-center"
+                                                data-halign="center" data-valign="flex-start" title="Top · Center"
+                                                data-icon="ion:arrow-up"><span class="sr-only">Top
+                                                    Center</span></button>
+                                            <button type="button" class="ts-align-anchor-btn ts-arrow-rotate top-right"
+                                                data-halign="flex-end" data-valign="flex-start" title="Top · Right"
+                                                data-icon="ion:arrow-forward"><span class="sr-only">Top
+                                                    Right</span></button>
+                                            <button type="button" class="ts-align-anchor-btn" data-halign="flex-start"
+                                                data-valign="center" title="Middle · Left"
+                                                data-icon="ion:arrow-back"><span class="sr-only">Middle
+                                                    Left</span></button>
+                                            <button type="button" class="ts-align-anchor-btn active"
+                                                data-halign="center" data-valign="center" title="Center"
+                                                data-icon="ion:add-circle"><span class="sr-only">Center</span></button>
+                                            <button type="button" class="ts-align-anchor-btn" data-halign="flex-end"
+                                                data-valign="center" title="Middle · Right"
+                                                data-icon="ion:arrow-forward"><span class="sr-only">Middle
+                                                    Right</span></button>
+                                            <button type="button"
+                                                class="ts-align-anchor-btn ts-arrow-rotate bottom-left"
+                                                data-halign="flex-start" data-valign="flex-end" title="Bottom · Left"
+                                                data-icon="ion:arrow-back"><span class="sr-only">Bottom
+                                                    Left</span></button>
+                                            <button type="button" class="ts-align-anchor-btn" data-halign="center"
+                                                data-valign="flex-end" title="Bottom · Center"
+                                                data-icon="ion:arrow-down"><span class="sr-only">Bottom
+                                                    Center</span></button>
+                                            <button type="button"
+                                                class="ts-align-anchor-btn ts-arrow-rotate bottom-right"
+                                                data-halign="flex-end" data-valign="flex-end" title="Bottom · Right"
+                                                data-icon="ion:arrow-forward"><span class="sr-only">Bottom
+                                                    Right</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-half">
+                                    <div class="ts-field ts-range-stack">
+                                        <label>Pad H</label>
+                                        <div class="ts-range-row">
+                                            <input type="range" class="ts-range" id="ts-input-pad-h" min="0" max="300" value="100" step="10">
+                                            <span class="ts-range-val" id="ts-val-pad-h">100px</span>
+                                        </div>
+                                    </div>
+                                    <div class="ts-field ts-range-stack">
+                                        <label>Pad V</label>
+                                        <div class="ts-range-row">
+                                            <input type="range" class="ts-range" id="ts-input-pad-v" min="0" max="200" value="80" step="10">
+                                            <span class="ts-range-val" id="ts-val-pad-v">80px</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-toggle-row">
+                                        <span class="ts-toggle-label">Padding guides</span>
+                                        <label class="ts-toggle">
+                                            <input type="checkbox" id="ts-input-pad-wire"><span class="ts-toggle__knob"></span></label>
+                                    </div>
+                                    <p class="ts-hint">Dashed inset matches export safe
+                                        area (Pad H / Pad V).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ts-card">
+                        <div class="ts-card-header ts-accordion absolute"><span class="ts-card-title"
+                                data-icon="ion:download-outline">
+                                Export</span></div>
+                        <div class="ts-card-rows">
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-hint">Click "Preview &amp; Export" above to render a pixel-perfect canvas preview before downloading.</div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-hint" style="color:var(--ts-text-secondary)"> ✓ Pure Canvas 2D render — no html2canvas.
+                                        <br> ✓ Gradient text, noise &amp; glow all correct.
+                                        <br> ✓ Choose PNG or JPEG quality.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-half">
+                                    <div class="ts-field">
+                                        <label>Format</label>
+                                        <div class="ts-chips" id="ts-format-presets">
+                                            <div class="ts-chip active" data-fmt="png">PNG</div>
+                                            <div class="ts-chip" data-fmt="jpeg">JPEG</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ts-card-col-half">
+                                    <div class="ts-field" id="ts-jpeg-quality-wrap" style="display:none">
+                                        <label>JPEG Quality</label>
+                                        <div class="ts-range-row">
+                                            <input type="range" class="ts-range" id="ts-input-jpeg-quality" min="60"
+                                                max="100" value="92">
+                                            <span class="ts-range-val" id="ts-val-jpeg-quality">92%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ts-card-row">
+                                <div class="ts-card-col-full">
+                                    <div class="ts-field">
+                                        <label>Scale</label>
+                                        <div class="ts-chips" id="ts-scale-presets">
+                                            <div class="ts-chip" data-scale="1">1×</div>
+                                            <div class="ts-chip active" data-scale="2">2×</div>
+                                            <div class="ts-chip" data-scale="3">3×</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="ts-panel-footer">
+                <button class="ts-btn ts-btn--primary" id="ts-btn-preview2" data-icon="ion:eye">
+                    <span>Preview &amp; Export </span>
+                </button>
+                <button class="ts-btn ts--btn-secondary" id="ts-btn-save-json2" data-icon="ion:save-outline">
+                    <span>Save</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="ts-export-modal">
+        <div class="ts-modal-title" id="ts-modal-title">Preview — 1200 × 630 @ 2×</div>
+        <div class="ts-modal-sub" id="ts-modal-sub">Canvas render — what you see is what you get</div> <img
+            id="ts-modal-preview-img" class="ts-modal-preview" src="" alt="preview">
+        <div class="ts-modal-actions">
+            <button class="ts-btn ts-btn--primary" id="ts-btn-download" data-icon="ion:download-outline">
+                Download</button>
+            <button class="ts-btn" id="ts-btn-modal-close" data-icon="ion:close-outline">
+                Close</button>
+        </div>
+    </div>
+    <input type="file" id="ts-json-file-input" accept=".ts-tools-json" style="display:none">
+    <div class="ts-toast-container"></div>
+
+    <script>
+        // === CONFIGURATION ===
+        const ACCORDION_MODE = true;   // Set to false to allow multiple open cards per pane
+
+        // Helper: get all cards inside a pane (or the whole document if no pane)
+        function getCardsInSamePane(element) {
+            const pane = element.closest('.ts-tab-pane');
+            if (pane) {
+                return Array.from(pane.querySelectorAll('.ts-card'));
+            } else {
+                // If no pane, consider all cards on page
+                return Array.from(document.querySelectorAll('.ts-card'));
+            }
+        }
+
+        // Function to open a specific card (adds open class to its header)
+        function openCard(card) {
+            const header = card.querySelector('.ts-card-header.ts-accordion');
+            if (header && !header.classList.contains('open')) {
+                header.classList.add('open');
+            }
+        }
+
+        // Function to close a specific card (removes open class from its header)
+        function closeCard(card) {
+            const header = card.querySelector('.ts-card-header.ts-accordion');
+            if (header && header.classList.contains('open')) {
+                header.classList.remove('open');
+            }
+        }
+
+        // Close all cards inside a given container (pane or whole document)
+        function closeAllCards(container) {
+            const cards = container.querySelectorAll('.ts-card');
+            cards.forEach(card => closeCard(card));
+        }
+
+        // Initialize: attach click handlers to all accordion headers
+        document.querySelectorAll('.ts-card-header.ts-accordion').forEach(header => {
+            header.addEventListener('click', (e) => {
+                const card = header.closest('.ts-card');
+                if (!card) return;
+
+                if (ACCORDION_MODE) {
+                    const pane = card.closest('.ts-tab-pane');
+                    if (pane) {
+                        // Close all other cards in the same pane
+                        const otherCards = Array.from(pane.querySelectorAll('.ts-card')).filter(c => c !== card);
+                        otherCards.forEach(c => closeCard(c));
+                    } else {
+                        // No pane – close all other cards on the page
+                        const allCards = document.querySelectorAll('.ts-card');
+                        allCards.forEach(c => {
+                            if (c !== card) closeCard(c);
+                        });
+                    }
+                    // Open the clicked card (toggle its own state)
+                    header.classList.toggle('open');
+                } else {
+                    // Simple toggle: just this card
+                    header.classList.toggle('open');
+                }
+            });
+        });
+
+        // Make the first card in each tab pane open by default
+        document.querySelectorAll('.ts-tab-pane').forEach(pane => {
+            const firstCard = pane.querySelector('.ts-card');
+            if (firstCard) {
+                openCard(firstCard);
+            }
+        });
+      
+    </script>
+
+
+</body>
+
+</html>

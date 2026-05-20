@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Toolskin — Cards &amp; Panels</title>
+ <!-- <link rel="stylesheet" href="../toolskin.css"> -->
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css">
+<style>
+  body {
+    padding: 56px 48px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .label {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ts-accent);
+    margin-bottom: 12px;
+  }
+
+  h1.page {
+    font-family: var(--ts-font-display);
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    margin: 0 0 8px;
+    color: var(--ts-text-primary);
+  }
+
+  p.lede {
+    font-family: var(--ts-font-body);
+    font-size: 14px;
+    color: var(--ts-text-secondary);
+    margin: 0 0 48px;
+    max-width: 720px;
+    line-height: 1.65;
+  }
+
+  h2 {
+    font-family: var(--ts-font-display);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 40px 0 16px;
+    color: var(--ts-text-primary);
+    letter-spacing: -.01em;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* ── Card extensions ── */
+  .ts-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--ts-border-0);
+  }
+
+  .ts-card__title {
+    font-family: var(--ts-font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ts-text-primary);
+    letter-spacing: -.01em;
+  }
+
+  .ts-card__body {
+    font-family: var(--ts-font-body);
+    font-size: 13px;
+    color: var(--ts-text-secondary);
+    line-height: 1.6;
+  }
+
+  .ts-card--glass {
+    background: rgba(28, 30, 36, 0.6);
+    backdrop-filter: blur(12px);
+    border-color: rgba(255, 255, 255, .08);
+  }
+
+  /* ── Stat card ── */
+  .stat-card {
+    background: var(--ts-bg-0);
+    border: 1px solid var(--ts-border-0);
+    border-radius: 10px;
+    padding: 22px 24px;
+  }
+
+  .stat-card .stat-label {
+    font-family: var(--ts-font-mono);
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ts-text-muted);
+    margin-bottom: 8px;
+  }
+
+  .stat-card .stat-value {
+    font-family: var(--ts-font-display);
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -.025em;
+    color: var(--ts-text-primary);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-card .stat-meta {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    color: var(--ts-success);
+  }
+
+  .stat-card .stat-meta.down {
+    color: var(--ts-danger);
+  }
+
+  /* ── Progress ── */
+  .ts-progress-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+
+  .ts-progress-label {
+    font-family: var(--ts-font-body);
+    font-size: 12px;
+    color: var(--ts-text-secondary);
+  }
+
+  .ts-progress-value {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    color: var(--ts-accent);
+  }
+
+  .ts-progress {
+    width: 100%;
+    height: 6px;
+    background: var(--ts-bg-2);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .ts-progress--lg {
+    height: 10px;
+  }
+
+  .ts-progress__bar {
+    height: 100%;
+    background: var(--ts-accent);
+    border-radius: 999px;
+  }
+
+  .ts-progress--striped .ts-progress__bar {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, .18) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .18) 50%, rgba(255, 255, 255, .18) 75%, transparent 75%);
+    background-size: 12px 12px;
+  }
+
+  /* ── Tabs ── */
+  .ts-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--ts-border-0);
+    margin-bottom: 16px;
+  }
+
+  .ts-tab {
+    background: transparent;
+    border: 0;
+    padding: 10px 16px;
+    font-family: var(--ts-font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: var(--ts-text-muted);
+    cursor: pointer;
+    position: relative;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+
+  .ts-tab:hover {
+    color: var(--ts-text-secondary);
+  }
+
+  .ts-tab--active {
+    color: var(--ts-accent);
+    border-bottom-color: var(--ts-accent);
+  }
+
+  .ts-tabs--pill {
+    border: 0;
+    gap: 4px;
+    padding: 4px;
+    background: var(--ts-bg-1);
+    border-radius: var(--ts-radius-md);
+  }
+
+  .ts-tabs--pill .ts-tab {
+    border: 0;
+    border-radius: 4px;
+    margin: 0;
+    padding: 8px 14px;
+  }
+
+  .ts-tabs--pill .ts-tab--active {
+    background: var(--ts-accent);
+    color: #0c0d0f;
+  }
+
+  /* ── Toast ts-ui-toast ── */
+  .toast {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 16px;
+    background: var(--ts-bg-1);
+    border: 1px solid var(--ts-border-1);
+    border-left: 3px solid var(--ts-accent);
+    border-radius: var(--ts-radius-md);
+  }
+
+  .toast--success {
+    border-left-color: var(--ts-success);
+  }
+
+  .toast--warning {
+    border-left-color: var(--ts-warning);
+  }
+
+  .toast--error {
+    border-left-color: var(--ts-danger);
+  }
+
+  .toast--info {
+    border-left-color: var(--ts-info);
+  }
+
+  .toast__icon {
+    font-size: 16px;
+  }
+
+  .toast__title {
+    font-family: var(--ts-font-display);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ts-text-primary);
+    margin: 0 0 2px;
+  }
+
+  .toast__body {
+    font-family: var(--ts-font-body);
+    font-size: 12px;
+    color: var(--ts-text-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* ── Modal mock ── */
+  .modal-shell {
+    position: relative;
+    padding: 24px;
+    background: var(--ts-bg-0);
+    border: 1px solid var(--ts-border-1);
+    border-radius: var(--ts-radius-lg);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+  }
+
+  .modal-shell::before {
+    content: '';
+    position: absolute;
+    inset: -16px;
+    background: rgba(12, 13, 15, .8);
+    backdrop-filter: blur(4px);
+    border-radius: 14px;
+    z-index: -1;
+  }
+
+  .modal-shell__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ts-border-0);
+  }
+
+  .modal-shell__title {
+    font-family: var(--ts-font-display);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .modal-shell__close {
+    background: transparent;
+    border: 0;
+    color: var(--ts-text-muted);
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .modal-shell__body {
+    font-family: var(--ts-font-body);
+    font-size: 13px;
+    color: var(--ts-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .modal-shell__actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  /* Tab content panel */
+  .pane {
+    font-family: var(--ts-font-body);
+    font-size: 13px;
+    color: var(--ts-text-secondary);
+    padding: 6px 0;
+  }
+
+  /* Featured card */
+  .ts-card--featured .ts-card__title {
+    color: var(--ts-accent);
+  }
+</style>
+</head>
+<body>
+
+<div class="label">Toolskin · Components — Cards &amp; Panels</div>
+<h1 class="page">Containers, surfaces, signals.</h1>
+<p class="lede">Everything sits on bg-0 with a single hairline border. Featured surfaces use a 4% accent tint plus an accent border. Toasts, modals, tabs all share the same surface vocabulary — only their accent treatments differ.</p>
+
+<h2>Card variants</h2>
+<div class="grid-3">
+  <div class="ts-card">
+    <div class="ts-card__header"><span class="ts-card__title">Default card</span><span class="ts-badge ts-badge--neutral">v1</span></div>
+    <p class="ts-card__body">Base surface — bg-0 with a 1px hairline. Used for grouped content, dense panels, lists.</p>
+  </div>
+  <div class="ts-card ts-card--featured">
+    <div class="ts-card__header"><span class="ts-card__title">Featured card</span><span class="ts-badge ts-badge--orange">★ Pro</span></div>
+    <p class="ts-card__body">Accent border + 4% orange tint. Pulls focus without raising elevation. For paid features, primary CTAs.</p>
+  </div>
+  <div class="ts-card ts-card--glass">
+    <div class="ts-card__header"><span class="ts-card__title">Glass card</span><span class="ts-badge ts-badge--neutral">α</span></div>
+    <p class="ts-card__body">Translucent over canvas — backdrop-blur 12px. Used over patterns, gradients, hero panels.</p>
+  </div>
+</div>
+
+<h2>Stat cards</h2>
+<div class="grid-3">
+  <div class="stat-card">
+    <div class="stat-label">Tokens shipped</div>
+    <div class="stat-value">128</div>
+    <div class="stat-meta">↑ 12 this week</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Bundle size</div>
+    <div class="stat-value">23<span style="font-size:18px;color:var(--ts-text-muted)">kb</span></div>
+    <div class="stat-meta">↓ 3.4kb · gzipped</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">CSS coverage</div>
+    <div class="stat-value">94<span style="font-size:18px;color:var(--ts-text-muted)">%</span></div>
+    <div class="stat-meta down">↓ 1.2% vs last build</div>
+  </div>
+</div>
+
+<h2>Progress &amp; tabs</h2>
+<div class="grid-2">
+  <div class="ts-card">
+    <div style="margin-bottom:14px">
+      <div class="ts-progress-row"><span class="ts-progress-label">Uploading files</span><span class="ts-progress-value">68%</span></div>
+      <div class="ts-progress"><div class="ts-progress__bar" style="width:68%"></div></div>
+    </div>
+    <div style="margin-bottom:14px">
+      <div class="ts-progress-row"><span class="ts-progress-label">Processing queue</span><span class="ts-progress-value">32%</span></div>
+      <div class="ts-progress ts-progress--lg"><div class="ts-progress__bar" style="width:32%"></div></div>
+    </div>
+    <div>
+      <div class="ts-progress-row"><span class="ts-progress-label">Striped style</span><span class="ts-progress-value">55%</span></div>
+      <div class="ts-progress ts-progress--lg ts-progress--striped"><div class="ts-progress__bar" style="width:55%"></div></div>
+    </div>
+  </div>
+  <div class="ts-card">
+    <div class="ts-tabs">
+      <button class="ts-tab ts-tab--active">Overview</button>
+      <button class="ts-tab">Analytics</button>
+      <button class="ts-tab">Settings</button>
+    </div>
+    <p class="pane">Overview tab content. Default state — primary tab active with accent underline.</p>
+
+    <div class="ts-tabs ts-tabs--pill" style="margin-top:18px;border:0">
+      <button class="ts-tab ts-tab--active">All</button>
+      <button class="ts-tab">Published</button>
+      <button class="ts-tab">Drafts</button>
+      <button class="ts-tab">Archived</button>
+    </div>
+    <p class="pane" style="margin-top:14px">Pill tabs — segmented control variant. Used for filtering, view modes.</p>
+  </div>
+</div>
+
+<h2>Toasts</h2>
+<div class="grid-2 ts-ui-toast-display">
+  <div class="toast ts-ui-toast toast--success ts-ui-toast">
+    <span class="toast__icon">✓</span>
+    <div><p class="toast__title">Success</p><p class="toast__body">Operation completed successfully.</p></div>
+  </div>
+  <div class="toast ts-ui-toast toast--warning">
+    <span class="toast__icon">⚠</span>
+    <div><p class="toast__title">Warning</p><p class="toast__body">Rate limit detected — retrying in 3s.</p></div>
+  </div>
+  <div class="toast ts-ui-toast toast--error">
+    <span class="toast__icon">✕</span>
+    <div><p class="toast__title">Error</p><p class="toast__body">Upload failed: connection timeout.</p></div>
+  </div>
+  <div class="toast ts-ui-toast toast--info">
+    <span class="toast__icon">ⓘ</span>
+    <div><p class="toast__title">Info</p><p class="toast__body">New batch ready for processing.</p></div>
+  </div>
+</div>
+
+<h2>Modal</h2>
+<div style="background:var(--ts-bg-body);padding:48px;border-radius:12px;border:1px solid var(--ts-border-0)">
+  <div class="modal-shell" style="max-width:480px;margin:0 auto">
+    <div class="modal-shell__header">
+      <span class="modal-shell__title">Confirm action</span>
+      <button class="modal-shell__close">✕</button>
+    </div>
+    <p class="modal-shell__body">This will reset all custom tokens to their defaults. Your current overrides will be lost. This action cannot be undone.</p>
+    <div class="modal-shell__actions">
+      <button class="ts-btn ts-btn--ghost">Cancel</button>
+      <button class="ts-btn ts-btn--primary">Reset tokens</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

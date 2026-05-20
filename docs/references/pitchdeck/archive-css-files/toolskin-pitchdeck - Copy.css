@@ -1,0 +1,999 @@
+@charset "UTF-8";
+/*!
+ * ╔══════════════════════════════════════════════════════════════════╗
+ * ║  TOOLSKIN PITCH DECK  ·  Component Styles  ·  v2.0.0           ║
+ * ║  Systematic tokenization following Toolskin methodology         ║
+ * ╚══════════════════════════════════════════════════════════════════╝
+ *
+ * ARCHITECTURE
+ * ─────────────────────────────────────────────────────────────────
+ *  §1  ROOT TOKEN SYSTEM  ·  Complete component token hierarchy
+ *  §2  GRID BACKGROUND    ·  Tokenized grid pattern system
+ *  §3  DECK CONTAINER     ·  Main presentation surface
+ *  §4  SLIDE SYSTEM       ·  Layout and navigation tokens
+ *  §5  TYPOGRAPHY         ·  Harmonic text scale system
+ *  §6  CARD VARIANTS      ·  Deck-specific card extensions
+ *  §7  BADGE SYSTEM       ·  Status indicators and pills
+ *  §8  TIMELINE           ·  Execution tracking component
+ *  §9  SCENARIO GRID      ·  Revenue forecasting layout
+ * §10  TABLE SYSTEM       ·  Service catalog presentation
+ * §11  PROGRESS & NAV     ·  Slide controls and indicators
+ * §12  RESPONSIVE         ·  Adaptive token adjustments
+ * ─────────────────────────────────────────────────────────────────
+ */
+
+/* ═══════════════════════════════════════════════════════════════════
+   §1  ROOT TOKEN SYSTEM — Complete component hierarchy
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+	/* ─── DECK CONTAINER TOKENS ─────────────────────────────────── */
+	/* Base sizing primitive */
+	--ts-deck-base: 16px;
+	--ts-deck-scale: 1;
+	--ts-deck-size: calc(var(--ts-deck-base) * var(--ts-deck-scale));
+
+	/* Slide layout ratios */
+	--ts-deck-pad-ratio: 3;
+	/* Base padding multiplier */
+	--ts-deck-gap-ratio: 0.25;
+	/* Inter-element gap ratio */
+	--ts-deck-min-height-ratio: 0.85;
+	/* Viewport usage ratio */
+
+	/* Derived slide dimensions */
+	--ts-deck-slide-pad-y: clamp(var(--ts-sp-12), 3dvh + 1.2dvw, 8dvh);
+	--ts-deck-slide-pad-x: calc(var(--ts-deck-slide-pad-y) * 1.5);
+	--ts-deck-slide-gap: calc(var(--ts-deck-slide-pad-y) * var(--ts-deck-gap-ratio));
+	--ts-deck-slide-min-height: calc(100dvh - (var(--ts-deck-slide-pad-x) * 2));
+	--ts-deck-slide-max-width: calc(clamp(calc(var(--ts-deck-slide-min-height) * 0.5), 80dvw, var(--ts-deck-slide-min-height)) - var(--ts-deck-slide-pad-y) * 2);
+
+	/* ─── PROGRESS & NAVIGATION TOKENS ─────────────────────────── */
+	--ts-deck-progress-base: 8px;
+	--ts-deck-progress-h: calc(var(--ts-deck-progress-base) * var(--ts-deck-scale));
+	--ts-deck-nav-size: calc(var(--ts-btn-h) *1.1);
+	--ts-deck-nav-gap: calc(var(--ts-deck-nav-size) * 0.4);
+
+	/* ─── TYPOGRAPHY SCALE TOKENS ─────────────────────────────── */
+	--ts-deck-title-scale: 1.3;
+	--ts-deck-lead-scale: 1.1;
+	--ts-deck-body-scale: 0.9;
+
+	--ts-deck-title-fs: calc(var(--ts-fs-display-md) * var(--ts-deck-title-scale));
+	--ts-deck-lead-fs: calc(var(--ts-fs-lead) * var(--ts-deck-lead-scale));
+	--ts-deck-lead-max-width: var(--ts-deck-slide-max-width);
+
+	/* ─── ACCENT BAR TOKENS ─────────────────────────────────── */
+	--ts-accent-bar-base: 4px;
+	--ts-accent-bar-width-ratio: 10;
+	/* Width = base × ratio */
+	--ts-accent-bar-height-ratio: 0.25;
+	/* Height = base × ratio */
+
+	--ts-accent-bar-width: calc(var(--ts-accent-bar-base) * var(--ts-accent-bar-width-ratio));
+	--ts-accent-bar-height: calc(var(--ts-accent-bar-base) * var(--ts-accent-bar-height-ratio));
+
+	/* ─── DECK CARD TOKENS ─────────────────────────────────── */
+	--ts-deck-card-base: 24px;
+	/* Base unit for deck cards */
+	--ts-deck-card-scale: 1;
+	--ts-deck-card-size: calc(var(--ts-deck-card-base) * var(--ts-deck-card-scale));
+
+	/* Card padding ratios */
+	--ts-deck-card-pad-ratio: 1;
+	/* Main padding ratio */
+	--ts-deck-card-gap-ratio: 0.5;
+	/* Internal gap ratio */
+	--ts-deck-card-margin-ratio: 0.33;
+	/* Margin ratio */
+
+	/* Derived card dimensions */
+	--ts-deck-card-pad: calc(var(--ts-deck-card-size) * var(--ts-deck-card-pad-ratio));
+	--ts-deck-card-gap: calc(var(--ts-deck-card-size) * var(--ts-deck-card-gap-ratio));
+	--ts-deck-card-margin: calc(var(--ts-deck-card-size) * var(--ts-deck-card-margin-ratio));
+
+	/* ─── BADGE SYSTEM TOKENS ─────────────────────────────────── */
+	--ts-deck-badge-base: 10px;
+	--ts-deck-badge-scale: 1;
+	--ts-deck-badge-size: calc(var(--ts-deck-badge-base) * var(--ts-deck-badge-scale));
+
+	/* Badge ratio system */
+	--ts-deck-badge-pad-x-ratio: 1.2;
+	/* Horizontal padding ratio */
+	--ts-deck-badge-pad-y-ratio: 0.4;
+	/* Vertical padding ratio */
+	--ts-deck-badge-fs-ratio: 0.8;
+	/* Font size ratio */
+
+	/* Derived badge properties */
+	--ts-deck-badge-pad-x: calc(var(--ts-deck-badge-size) * var(--ts-deck-badge-pad-x-ratio));
+	--ts-deck-badge-pad-y: calc(var(--ts-deck-badge-size) * var(--ts-deck-badge-pad-y-ratio));
+	--ts-deck-badge-fs: calc(var(--ts-deck-badge-size) * var(--ts-deck-badge-fs-ratio));
+
+	/* ─── TIMELINE COMPONENT TOKENS ─────────────────────────── */
+	--ts-timeline-base: 16px;
+	--ts-timeline-scale: 1;
+	--ts-timeline-size: calc(var(--ts-timeline-base) * var(--ts-timeline-scale));
+
+	/* Timeline ratio system */
+	--ts-timeline-pad-y-ratio: 0.75;
+	/* Vertical padding ratio */
+	--ts-timeline-pad-x-ratio: 1.4;
+	/* Horizontal padding ratio */
+	--ts-timeline-gap-ratio: 0.75;
+	/* Gap between elements */
+	--ts-timeline-marker-ratio: 3;
+	/* Marker size ratio */
+	--ts-timeline-content-fs-ratio: 0.85;
+	/* Content font size ratio */
+
+	/* Derived timeline properties */
+	--ts-timeline-pad-y: calc(var(--ts-timeline-size) * var(--ts-timeline-pad-y-ratio));
+	--ts-timeline-pad-x: calc(var(--ts-timeline-pad-y) * var(--ts-timeline-pad-x-ratio));
+	--ts-timeline-gap: calc(var(--ts-timeline-pad-x) * var(--ts-timeline-gap-ratio));
+	--ts-timeline-marker-size: calc(var(--ts-timeline-size) * var(--ts-timeline-marker-ratio));
+	--ts-timeline-content-fs: calc(var(--ts-fs-sm) * var(--ts-timeline-content-fs-ratio));
+
+	/* ─── SCENARIO GRID TOKENS ─────────────────────────────── */
+	--ts-scenario-base: 16px;
+	--ts-scenario-scale: 1;
+	--ts-scenario-size: calc(var(--ts-scenario-base) * var(--ts-scenario-scale));
+
+	/* Scenario spacing ratios */
+	--ts-scenario-gap-ratio: 0.5;
+	/* Grid gap ratio */
+	--ts-scenario-pad-ratio: 0.75;
+	/* Internal padding ratio */
+	--ts-scenario-breakdown-gap-ratio: 1.5;
+	/* Breakdown spacing ratio */
+
+	/* Derived scenario properties */
+	--ts-scenario-gap: calc(var(--ts-scenario-size) * var(--ts-scenario-gap-ratio));
+	--ts-scenario-pad: calc(var(--ts-scenario-size) * var(--ts-scenario-pad-ratio));
+	--ts-scenario-breakdown-gap: calc(var(--ts-scenario-size) * var(--ts-scenario-breakdown-gap-ratio));
+
+	/* ─── TABLE SYSTEM TOKENS ─────────────────────────────── */
+	--ts-table-base: 12px;
+	--ts-table-scale: 1;
+	--ts-table-size: calc(var(--ts-table-base) * var(--ts-table-scale));
+
+	/* Table ratio system */
+	--ts-table-cell-pad-ratio: 2;
+	/* Cell padding ratio */
+	--ts-table-header-fs-ratio: 0.75;
+	/* Header font size ratio */
+	--ts-table-body-fs-ratio: 1;
+	/* Body font size ratio */
+
+	/* Derived table properties */
+	--ts-table-cell-pad: calc(var(--ts-table-size) * var(--ts-table-cell-pad-ratio));
+	--ts-table-header-fs: calc(var(--ts-table-size) * var(--ts-table-header-fs-ratio));
+	--ts-table-body-fs: calc(var(--ts-table-size) * var(--ts-table-body-fs-ratio));
+
+	/* ─── ICON SYSTEM TOKENS ─────────────────────────────── */
+	--ts-deck-icon-base: 16px;
+	--ts-deck-icon-scale: 1.3;
+	--ts-deck-icon-size: calc(var(--ts-deck-icon-base) * var(--ts-deck-icon-scale));
+
+	/* Icon ratio system */
+	--ts-deck-icon-pad-ratio: 0.4;
+	/* Icon padding ratio */
+	--ts-deck-icon-border-ratio: 0.06;
+	/* Border width ratio */
+
+	/* Derived icon properties */
+	--ts-deck-icon-pad: calc(var(--ts-deck-icon-size) * var(--ts-deck-icon-pad-ratio));
+	--ts-deck-icon-border: calc(var(--ts-deck-icon-size) * var(--ts-deck-icon-border-ratio));
+
+	/* ─── SURFACE SYSTEM ENHANCEMENT ─────────────────────── */
+	/* Mix percentages for --ts-this-bg derivatives */
+	--ts-mix-perc: 12%;
+	--ts-mix-perc-hover: 20%;
+	--ts-mix-perc-active: 25%;
+	--ts-mix-perc-disabled: 8%;
+	--ts-mix-perc-focus: 15%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   §1B  SURFACE INHERITANCE SYSTEM — Complete --ts-this-bg derivatives
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* This system automatically provides all --ts-this-bg derivatives
+   for any component that sets --ts-this-bg */
+:root,
+.ts-deck,
+.ts-deck *,
+.ts-deck-card,
+.ts-badge,
+.ts-timeline-marker {
+	/* Transparency derivatives */
+	--ts-this-bg-dim: color-mix(in srgb, var(--ts-this-bg), transparent 12%);
+	--ts-this-bg-dim-2: color-mix(in srgb, var(--ts-this-bg), transparent 25%);
+	--ts-this-bg-dim-3: color-mix(in srgb, var(--ts-this-bg), transparent 50%);
+	--ts-this-bg-dim-4: color-mix(in srgb, var(--ts-this-bg), transparent 60%);
+	--ts-this-bg-dim-5: color-mix(in srgb, var(--ts-this-bg), transparent 70%);
+	--ts-this-bg-dim-6: color-mix(in srgb, var(--ts-this-bg), transparent 80%);
+	--ts-this-bg-dim-7: color-mix(in srgb, var(--ts-this-bg), transparent 90%);
+
+	/* Brightness derivatives */
+	--ts-this-bg-bright: color-mix(in srgb, var(--ts-this-bg), #ffffff 6%);
+	--ts-this-bg-bright-1: color-mix(in srgb, var(--ts-this-bg), #ffffff 4%);
+	--ts-this-bg-bright-2: color-mix(in srgb, var(--ts-this-bg), #ffffff 8%);
+	--ts-this-bg-bright-3: color-mix(in srgb, var(--ts-this-bg), #ffffff 14%);
+	--ts-this-bg-dark: color-mix(in srgb, var(--ts-this-bg), #000000 14%);
+	--ts-this-bg-dark-1: color-mix(in srgb, var(--ts-this-bg), #000000 2%);
+	--ts-this-bg-dark-2: color-mix(in srgb, var(--ts-this-bg), #000000 12%);
+
+	/* Border system */
+	--ts-this-bg-border: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc));
+	--ts-this-bg-border-0: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) calc(var(--ts-mix-perc) * 0.5));
+	--ts-this-bg-border-hover: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc-hover));
+	--ts-this-bg-border-active: color-mix(in srgb, var(--ts-this-bg), var(--ts-accent) var(--ts-mix-perc-active));
+	--ts-this-bg-border-focus: color-mix(in srgb, var(--ts-this-bg), var(--ts-accent) var(--ts-mix-perc-focus));
+	--ts-this-bg-border-disabled: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-muted) var(--ts-mix-perc-disabled));
+
+	/* Interactive states */
+	--ts-this-bg-hover: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) 20%);
+	--ts-this-bg-active: color-mix(in srgb, var(--ts-this-bg), var(--ts-accent) 30%);
+	--ts-this-bg-disabled: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-muted) 60%);
+
+	/* Contextual aliases */
+	--ts-this-bg-muted: var(--ts-this-bg-dim-3);
+	--ts-this-bg-subtle: var(--ts-this-bg-dim-6);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   §2  GRID BACKGROUND SYSTEM — Tokenized pattern engine
+   ═══════════════════════════════════════════════════════════════════ */
+
+body {
+	color: var(--ts-text-primary);
+	font-family: var(--ts-font-display);
+	font-weight: var(--ts-font-weight-thin);
+	font-size: calc(var(--ts-fs-body-sm) * var(--ts-deck-body-scale));
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	letter-spacing: var(--ts-letter-spacing-normal);
+	line-height: var(--ts-line-height-loose);
+	overflow-x: hidden;
+	scroll-behavior: smooth;
+	display: grid;
+	padding: var(--ts-container-pad);
+	height: 100dvh;
+	width: 100dvw;
+
+	/* Grid background system - fully tokenized */
+	--ts-bg-grid-base: 28px;
+	--ts-bg-grid-size: calc(var(--ts-bg-grid-base) * var(--ts-deck-scale));
+	--ts-bg-grid-mix: 91%;
+	--ts-bg-grid-col1: var(--ts-text-primary);
+	--ts-bg-grid-col2: transparent;
+	--ts-bg-grid-line: color-mix(in srgb, var(--ts-bg-grid-col1), var(--ts-bg-grid-col2) var(--ts-bg-grid-mix));
+	--ts-bg-grid-pattern:
+		repeating-linear-gradient(0deg,
+			transparent,
+			transparent calc(var(--ts-bg-grid-size) - 1px),
+			var(--ts-bg-grid-line) var(--ts-bg-grid-size)),
+		repeating-linear-gradient(90deg,
+			transparent,
+			transparent calc(var(--ts-bg-grid-size) - 1px),
+			var(--ts-bg-grid-line) var(--ts-bg-grid-size));
+
+	background-image: var(--ts-bg-grid-pattern);
+	background-color: var(--ts-bg-body);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   §3  DECK CONTAINER — Main presentation surface
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ts-deck {
+	--ts-this-bg: var(--ts-bg-body);
+	font-family: var(--ts-font-display);
+	color: var(--ts-text-primary);
+	background: var(--ts-this-bg);
+	border-radius: var(--ts-radius-base);
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: relative;
+	border: 1px solid var(--ts-this-bg-border);
+	scrollbar-width: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   §4  SLIDE SYSTEM — Layout and navigation
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ts-slide {
+	display: none;
+	gap: var(--ts-deck-slide-gap);
+	padding: var(--ts-deck-slide-pad-y) var(--ts-deck-slide-pad-x);
+	min-height: var(--ts-deck-slide-min-height);
+	flex-direction: column;
+	height: 100%;
+}
+
+.ts-slide.ts-active {
+	display: flex;
+}
+
+.ts-slide--container {
+	display: contents;
+	flex-direction: column;
+	gap: calc(var(--ts-deck-slide-gap) * 0.5);
+	margin: auto 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   §5  TYPOGRAPHY SYSTEM — Harmonic text scale
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Eyebrow component */
+.ts-deck .ts-eyebrow {
+	font-family: var(--ts-font-mono);
+	font-size: var(--ts-fs-eyebrow);
+	letter-spacing: var(--ts-letter-spacing-eyebrow);
+	text-transform: uppercase;
+	color: var(--ts-accent);
+	margin-bottom: var(--ts-deck-slide-gap);
+}
+
+/* Heading hierarchy */
+.ts-deck h1,
+.ts-deck .ts-deck-title {
+	font-size: var(--ts-deck-title-fs);
+	font-weight: var(--ts-font-weight-bold);
+	margin: 0 0 var(--ts-deck-slide-gap);
+	letter-spacing: var(--ts-letter-spacing-tight);
+	line-height: var(--ts-line-height-display);
+	color: var(--ts-text-primary);
+	max-width: var(--ts-deck-slide-max-width);
+}
+
+.ts-deck h2 {
+	font-size: var(--ts-fs-h2);
+	font-weight: var(--ts-font-weight-semibold);
+	letter-spacing: var(--ts-letter-spacing-tight);
+	line-height: var(--ts-line-height-snug);
+	margin: 0;
+	color: var(--ts-text-primary);
+}
+
+.ts-deck h3 {
+	font-size: var(--ts-fs-xl);
+	font-weight: var(--ts-font-weight-semibold);
+	margin: 0;
+	color: var(--ts-text-primary);
+	letter-spacing: var(--ts-letter-spacing-normal);
+}
+
+.ts-deck p {
+	font-size: calc(var(--ts-fs-sm) * var(--ts-deck-body-scale));
+	line-height: var(--ts-line-height-relaxed);
+	color: var(--ts-text-secondary);
+	margin: 0;
+}
+
+.ts-deck .ts-lead,
+.ts-deck .ts-deck-lead {
+	font-size: var(--ts-deck-lead-fs);
+	line-height: var(--ts-line-height-loose);
+	color: var(--ts-text-secondary);
+	margin: 0;
+	max-width: var(--ts-deck-lead-max-width);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   §6  CARD VARIANTS — Deck-specific extensions
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Base deck card with complete surface system */
+.ts-deck-card {
+	--ts-this-bg: var(--ts-bg-1-t);
+	--ts-card-pad: var(--ts-deck-card-pad);
+	--ts-card-gap: var(--ts-deck-card-gap);
+	background: var(--ts-this-bg-dim-2);
+	border: 1px solid var(--ts-this-bg-border);
+	transition: border-color var(--ts-dur-base) ease, background-color var(--ts-dur-base) ease;
+}
+
+.ts-deck-card:hover {
+	border-color: var(--ts-this-bg-border-hover);
+	background: var(--ts-this-bg-bright-1);
+}
+
+.ts-deck-card.ts-card--featured {
+	--ts-this-bg: var(--ts-bg-2);
+	background: var(--ts-this-bg-dim-2);
+	border-color: var(--ts-this-bg-border-active);
+}
+
+.ts-deck-card.ts-card--featured:hover {
+	background: var(--ts-this-bg-bright-1);
+	border-color: var(--ts-accent);
+}
+
+.ts-deck-card.ts-card--accent {
+	--ts-this-bg: var(--ts-accent);
+	background: var(--ts-this-bg-dim-6);
+	border-color: var(--ts-this-bg-border-focus);
+	color: var(--ts-accent);
+}
+
+.ts-deck-card.ts-card--accent:hover {
+	background: var(--ts-this-bg-dim-5);
+	border-color: var(--ts-this-bg-border-active);
+}
+
+.ts-deck-card.ts-card--danger {
+	--ts-this-bg: var(--ts-danger);
+	background: var(--ts-this-bg-dim-6);
+	border-color: var(--ts-this-bg-border-focus);
+	color: var(--ts-danger);
+}
+
+.ts-deck-card.ts-card--danger:hover {
+	background: var(--ts-this-bg-dim-5);
+	border-color: var(--ts-this-bg-border-active);
+}
+
+/* Card content typography with token scaling */
+.ts-deck-card p {
+	color: var(--ts-text-secondary);
+	font-size: calc(var(--ts-fs-xs) * var(--ts-deck-body-scale));
+	margin: var(--ts-deck-card-margin) 0 var(--ts-deck-card-margin);
+	font-weight: var(--ts-font-weight-thin);
+}
+
+/* Masonry layout with token spacing */
+.ts-deck-masonry {
+	margin-top: var(--ts-deck-card-margin);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   §7  BADGE SYSTEM — Token-driven status indicators
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ts-badge {
+	--ts-this-bg: var(--ts-accent);
+	display: inline-block;
+	padding: var(--ts-deck-badge-pad-y) var(--ts-deck-badge-pad-x);
+	border-radius: var(--ts-radius-full);
+	font-family: var(--ts-font-mono);
+	font-size: var(--ts-deck-badge-fs);
+	letter-spacing: var(--ts-letter-spacing-wide);
+	text-transform: uppercase;
+	background: var(--ts-this-bg-dim-6);
+	color: var(--ts-this-bg);
+	border: 1px solid var(--ts-this-bg-border-focus);
+	transition: all var(--ts-dur-base) ease;
+}
+
+.ts-badge:hover {
+	background: var(--ts-this-bg-dim-5);
+	border-color: var(--ts-this-bg-border-active);
+}
+
+.ts-badge--danger {
+	--ts-this-bg: var(--ts-danger);
+	background: var(--ts-this-bg-dim-6);
+	color: var(--ts-this-bg);
+	border-color: var(--ts-this-bg-border-focus);
+}
+
+.ts-badge--danger:hover {
+	background: var(--ts-this-bg-dim-5);
+	border-color: var(--ts-this-bg-border-active);
+}
+
+.ts-badge--success {
+	--ts-this-bg: var(--ts-success);
+	background: var(--ts-this-bg-dim-6);
+	color: var(--ts-this-bg);
+	border-color: var(--ts-this-bg-border-focus);
+}
+
+.ts-badge--success:hover {
+	background: var(--ts-this-bg-dim-5);
+	border-color: var(--ts-this-bg-border-active);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   §8  TIMELINE COMPONENT — Token-driven execution tracking
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ts-timeline {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.ts-timeline-item {
+	display: flex;
+	gap: var(--ts-timeline-gap);
+	padding: var(--ts-timeline-pad-y) 0;
+	border-bottom: 1px solid var(--ts-border-1);
+	align-items: center;
+	flex-direction: row;
+}
+
+.ts-timeline-item:last-child {
+	border-bottom: none;
+}
+
+.ts-timeline-marker {
+	--ts-this-bg: var(--ts-accent);
+	aspect-ratio: 1;
+	width: var(--ts-timeline-marker-size);
+	height: var(--ts-timeline-marker-size);
+	padding: var(--ts-timeline-pad-x);
+	font-size: var(--ts-fs-md);
+	line-height: var(--ts-line-height-snug);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--ts-radius-sm);
+	text-align: center;
+	color: var(--ts-this-bg);
+	background: var(--ts-this-bg-dim-6);
+	border: 1px solid var(--ts-this-bg-border-focus);
+	flex-shrink: 0;
+	transition: all var(--ts-dur-base) ease;
+}
+
+.ts-timeline-marker:hover {
+	background: var(--ts-this-bg-dim-5);
+	border-color: var(--ts-this-bg-border-active);
+	transform: scale(1.05);
+}
+
+.ts-timeline-content {
+	color: var(--ts-text-secondary);
+	line-height: var(--ts-line-height-normal);
+	font-size: var(--ts-timeline-content-fs);
+	text-wrap: pretty;
+	flex: 1;
+	padding-right: var(--ts-timeline-pad-x);
+	border-right: 1px solid var(--ts-border-1);
+	display: flex;
+	align-items: center;
+	min-height: calc(var(--ts-timeline-marker-size) + var(--ts-timeline-pad-y) * 2);
+}
+
+.ts-timeline-revenue {
+	font-family: var(--ts-font-mono);
+	font-weight: var(--ts-font-weight-semibold);
+	color: var(--ts-text-primary);
+	font-size: var(--ts-fs-lg);
+	flex-shrink: 0;
+	width: calc(var(--ts-timeline-marker-size) * 4);
+	padding-right: var(--ts-timeline-pad-x);
+	border-right: 1px solid var(--ts-border-1);
+	display: flex;
+	align-items: center;
+	min-height: calc(var(--ts-timeline-marker-size) + var(--ts-timeline-pad-y) * 2);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   §9  SCENARIO GRID — Token-driven revenue forecasting
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ts-scenario-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: var(--ts-scenario-gap);
+	margin-top: 0;
+}
+
+.ts-scenario-base {
+	border-color: var(--ts-accent);
+}
+
+.ts-scenario-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 0;
+}
+
+.ts-scenario-prob {
+	font-family: var(--ts-font-mono);
+	font-size: var(--ts-fs-sm);
+	color: var(--ts-text-accent);
+}
+
+.ts-scenario-breakdown {
+	border-top: 1px solid var(--ts-border-1);
+	margin-top: var(--ts-scenario-breakdown-gap);
+	padding-top: var(--ts-scenario-breakdown-gap);
+	font-size: calc(var(--ts-fs-xs) * var(--ts-deck-body-scale));
+	color: var(--ts-text-secondary);
+	line-height: var(--ts-line-height-relaxed);
+}
+
+.ts-scenario-breakdown--base {
+	border-top-color: var(--ts-accent);
+}
+
+.ts-scenario-interpretation {
+	font-size: calc(var(--ts-fs-2xs) * var(--ts-deck-body-scale));
+	color: var(--ts-text-secondary);
+	margin-top: var(--ts-scenario-pad);
+	line-height: var(--ts-line-height-relaxed);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   §10  TABLE SYSTEM — Token-driven service catalog
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ts-deck-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--ts-table-body-fs);
+}
+
+.ts-deck-table th {
+	text-align: left;
+	padding: var(--ts-table-cell-pad);
+	font-family: var(--ts-font-mono);
+	font-size: var(--ts-table-header-fs);
+	letter-spacing: var(--ts-letter-spacing-eyebrow);
+	text-transform: uppercase;
+	color: var(--ts-text-muted);
+	border-bottom: 1px solid var(--ts-border-1);
+	font-weight: var(--ts-font-weight-medium);
+}
+
+.ts-deck-table td {
+	padding: var(--ts-table-cell-pad);
+	border-bottom: 1px solid var(--ts-border-1);
+	color: var(--ts-text-secondary);
+	vertical-align: middle;
+}
+
+.ts-deck-table .ts-table-number {
+	font-family: var(--ts-font-mono);
+	font-weight: var(--ts-font-weight-semibold);
+	color: var(--ts-text-primary);
+	text-align: right;
+}
+
+.ts-deck-table .ts-table-subtitle {
+	font-size: calc(var(--ts-table-header-fs) * 0.9);
+	color: var(--ts-text-muted);
+	font-family: var(--ts-font-mono);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   §11  PROGRESS & NAVIGATION — Token-driven controls
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Progress bar system */
+.ts-progress {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: var(--ts-deck-progress-h);
+	background: var(--ts-border-0);
+	z-index: var(--ts-z-raised);
+}
+
+.ts-progress--bar {
+	height: 100%;
+	background: linear-gradient(90deg,
+			color-mix(in srgb, var(--ts-accent), transparent 58%) 0%,
+			var(--ts-accent) 50%,
+			color-mix(in srgb, var(--ts-accent), transparent 58%) 100%);
+	transition: width var(--ts-dur-base);
+}
+
+/* Navigation controls */
+.ts-slide-nav {
+	position: fixed;
+	bottom: var(--ts-container-pad);
+	right: var(--ts-container-pad);
+	display: flex;
+	gap: var(--ts-deck-nav-gap);
+	align-items: center;
+	font-family: var(--ts-font-mono);
+	font-size: var(--ts-fs-xs);
+	color: var(--ts-text-muted);
+	z-index: var(--ts-z-raised);
+}
+
+.ts-slide-nav .ts-btn {
+	--ts-this-bg: var(--ts-bg-0);
+	width: var(--ts-deck-nav-size);
+	height: var(--ts-deck-nav-size);
+	padding: 0;
+	aspect-ratio: 1;
+}
+
+.ts-slide-nav .ts-btn:hover {
+	--ts-this-bg: var(--ts-accent);
+	--ts-text-secondary: var(--ts-on-accent);
+}
+
+.ts-slide-nav .ts-btn:disabled {
+	--ts-this-bg: var(--ts-this-bg-disabled);
+	--ts-text-secondary: var(--ts-text-muted);
+	opacity: 1;
+	pointer-events: none;
+}
+
+/* Slide indicators */
+.ts-slide-num {
+	position: fixed;
+	top: var(--ts-container-pad);
+	right: var(--ts-container-pad);
+	font-family: var(--ts-font-mono);
+	font-size: var(--ts-fs-md);
+	color: var(--ts-text-accent);
+	letter-spacing: var(--ts-letter-spacing-wide);
+	padding: calc(var(--ts-deck-nav-size) * 0.8);
+	border-radius: var(--ts-radius-full);
+	pointer-events: none;
+}
+
+.ts-slide-footer {
+	margin-top: auto;
+	padding-top: calc(var(--ts-deck-slide-gap) * 2);
+	font-family: var(--ts-font-mono);
+	font-size: var(--ts-fs-2xs);
+	color: var(--ts-text-muted);
+	letter-spacing: var(--ts-letter-spacing-wide);
+	text-transform: uppercase;
+	display: flex;
+	align-items: center;
+	border-top: 1px solid var(--ts-border-1);
+	gap: var(--ts-deck-nav-gap);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   §12  UTILITY COMPONENTS — Token-driven elements
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Accent bar */
+.ts-accent-bar {
+	width: var(--ts-accent-bar-width);
+	height: var(--ts-accent-bar-height);
+	background: var(--ts-accent);
+	margin-block: 0;
+}
+
+/* Number displays */
+.ts-num {
+	font-size: var(--ts-fs-4xl);
+	font-weight: var(--ts-font-weight-bold);
+	color: var(--ts-text-primary);
+	line-height: var(--ts-line-height-none);
+	margin: var(--ts-deck-card-margin) 0 calc(var(--ts-deck-card-margin) * 2);
+	letter-spacing: var(--ts-letter-spacing-tight);
+}
+
+.ts-num--small {
+	font-size: var(--ts-fs-2xl);
+	font-weight: var(--ts-font-weight-semibold);
+	color: var(--ts-text-primary);
+	line-height: var(--ts-line-height-none);
+	margin: var(--ts-deck-card-margin) 0 var(--ts-deck-card-margin);
+}
+
+/* Success indicators */
+.ts-val-success {
+	color: var(--ts-success);
+	font-family: var(--ts-font-mono);
+	font-weight: var(--ts-font-weight-semibold);
+}
+
+/* Quote styling */
+.ts-quote {
+	border-left: var(--ts-sp-px) solid var(--ts-accent);
+	padding: calc(var(--ts-deck-card-margin) * 2) 0 calc(var(--ts-deck-card-margin) * 2) var(--ts-deck-card-gap);
+	margin: 0;
+	font-size: var(--ts-fs-md);
+	line-height: var(--ts-line-height-loose);
+	color: var(--ts-text-secondary);
+	font-style: normal;
+}
+
+.ts-quote-attribution {
+	font-size: calc(var(--ts-fs-xs) * var(--ts-deck-body-scale));
+	color: var(--ts-text-muted);
+	margin-top: calc(var(--ts-deck-card-margin) * 2);
+}
+
+/* Metrics layout */
+.ts-deck-metrics {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-deck-card-gap);
+}
+
+.ts-deck-metric-value {
+	color: var(--ts-text-primary);
+	font-size: var(--ts-fs-md);
+}
+
+/* Meta information */
+.ts-deck-meta-value {
+	color: var(--ts-text-primary);
+	font-size: var(--ts-fs-md);
+}
+
+/* Brand elements */
+.ts-logo {
+	font-family: var(--ts-font-display);
+	font-weight: var(--ts-font-weight-bold);
+	font-size: var(--ts-fs-lead);
+	letter-spacing: var(--ts-letter-spacing-tight);
+	line-height: var(--ts-line-height-normal);
+}
+
+.ts-logo .ts-accent {
+	color: var(--ts-accent);
+}
+
+/* Tagline */
+.ts-deck-tagline {
+	font-family: var(--ts-font-mono);
+	font-size: calc(var(--ts-fs-xs) * var(--ts-deck-body-scale));
+	color: var(--ts-text-secondary);
+	letter-spacing: var(--ts-letter-spacing-wider);
+	text-transform: uppercase;
+}
+
+/* Special indicators */
+.ts-kill-trigger {
+	font-family: var(--ts-font-mono);
+	font-size: var(--ts-fs-sm);
+	color: var(--ts-danger);
+	letter-spacing: var(--ts-letter-spacing-normal);
+	margin-bottom: var(--ts-deck-card-margin);
+	font-weight: var(--ts-font-weight-semibold);
+}
+
+.ts-kill-action {
+	font-size: var(--ts-fs-md);
+	color: var(--ts-text-secondary);
+	line-height: var(--ts-line-height-normal);
+}
+
+/* Roadmap items */
+.ts-roadmap {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.ts-roadmap-item {
+	display: flex;
+	gap: var(--ts-deck-card-gap);
+	align-items: flex-start;
+	padding: var(--ts-deck-card-gap) 0;
+	border-bottom: 1px solid var(--ts-border-1);
+}
+
+.ts-roadmap-item:last-child {
+	border-bottom: none;
+}
+
+.ts-roadmap-content {
+	flex: 1;
+	font-size: calc(var(--ts-fs-xs) * var(--ts-deck-body-scale));
+	color: var(--ts-text-secondary);
+	line-height: var(--ts-line-height-relaxed);
+}
+
+/* Custom icon system */
+.ts-icon.enter-icon {
+	--ts-icon-color: var(--ts-accent);
+	--ts-icon-size: var(--ts-deck-icon-size);
+
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--ts-icon-size);
+	height: var(--ts-icon-size);
+	color: var(--ts-icon-color);
+}
+
+.ts-icon.enter-icon.grad {
+	padding: var(--ts-deck-icon-pad);
+	max-height: calc(var(--ts-icon-size) * 1.2);
+	max-width: calc(var(--ts-icon-size) * 1.2);
+	border-radius: var(--ts-deck-icon-border);
+	background: linear-gradient(30deg,
+			color-mix(in srgb, var(--ts-icon-color), var(--ts-text-primary) 80%) 0%,
+			color-mix(in srgb, var(--ts-icon-color), transparent 95%));
+	border: var(--ts-deck-icon-border) solid color-mix(in srgb, var(--ts-icon-color), var(--ts-text-primary-dim) 30%);
+	color: color-mix(in srgb, var(--ts-icon-color), #ffffff 30%);
+}
+
+.ts-icon.enter-icon::before {
+	content: "";
+	background-color: currentColor;
+	width: var(--ts-icon-size);
+	height: var(--ts-icon-size);
+	mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHhtbG5zOnhsaW5rPSdodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rJyB2ZXJzaW9uPScxLjEnIHg9JzBweCcgeT0nMHB4JyB2aWV3Qm94PScwIDAgMTIyLjg5IDEwOC45NScgeG1sOnNwYWNlPSdwcmVzZXJ2ZSc+PHBhdGggZD0nTTIzLjAxLDBoNzYuODdjNi4zMywwLDEyLjA4LDIuNTksMTYuMjUsNi43NmM0LjE3LDQuMTcsNi43Niw5LjkyLDYuNzYsMTYuMjV2NjIuOTMgYzAsNi4zMy0yLjU5LDEyLjA4LTYuNzYsMTYuMjVjLTQuMTcsNC4xNy05LjkyLDYuNzYtMTYuMjUsNi43NkgyMy4wMWMtNi4zMywwLTEyLjA4LTIuNTktMTYuMjUtNi43NkMyLjU5LDk4LjAyLDAsOTIuMjcsMCw4NS45NCBWMjMuMDFjMC02LjMzLDIuNTktMTIuMDgsNi43Ni0xNi4yNUMxMC45MiwyLjU5LDE2LjY4LDAsMjMuMDEsMEwyMy4wMSwweiBNMjUuMTcsMzMuOGgyMi42NXY2LjE5SDMzLjY3djQuNjFoMTMuMTJ2NS45MUgzMy42N3Y1LjcgaDE0LjU4djYuNTVIMjUuMTdWMzMuOEwyNS4xNywzMy44eiBNNTAuOTYsNTYuOTRsNy41NC0wLjczYzAuMzEsMC45NCwwLjc1LDEuNjIsMS4zMSwyLjAyYzAuNTYsMC40LDEuMzEsMC42MSwyLjI0LDAuNjEgYzEuMDIsMCwxLjgxLTAuMjMsMi4zNy0wLjY5YzAuNDQtMC4zNCwwLjY2LTAuNzcsMC42Ni0xLjI4YzAtMC41OC0wLjI5LTEuMDMtMC44Ni0xLjM1Yy0wLjQxLTAuMjItMS41LTAuNS0zLjI2LTAuODMgYy0yLjY0LTAuNDktNC40Ny0wLjk0LTUuNS0xLjM2Yy0xLjAzLTAuNDEtMS44OS0xLjEyLTIuNTktMi4xYy0wLjctMC45OS0xLjA1LTIuMTItMS4wNS0zLjM5YzAtMS4zOCwwLjM4LTIuNTgsMS4xMy0zLjU3IGMwLjc2LTEsMS44LTEuNzUsMy4xNC0yLjI1YzEuMzMtMC40OSwzLjEyLTAuNzQsNS4zNi0wLjc0YzIuMzYsMCw0LjExLDAuMTksNS4yMywwLjU3YzEuMTMsMC4zOCwyLjA3LDAuOTgsMi44MiwxLjc4IGMwLjc1LDAuODEsMS4zOCwxLjg5LDEuODcsMy4yN2wtNy4xOSwwLjczYy0wLjE5LTAuNjctMC41LTEuMTYtMC45My0xLjQ4Yy0wLjU5LTAuNDItMS4zMS0wLjYzLTIuMTYtMC42MyBjLTAuODUsMC0xLjQ4LDAuMTYtMS44NywwLjQ5Yy0wLjM5LDAuMzItMC41OSwwLjcxLTAuNTksMS4xN2MwLDAuNTIsMC4yNSwwLjksMC43NCwxLjE3YzAuNDksMC4yNywxLjU4LDAuNTEsMy4yNCwwLjcxIGMyLjUzLDAuMyw0LjQxLDAuNzMsNS42NCwxLjI3YzEuMjMsMC41NCwyLjE3LDEuMzEsMi44MiwyLjMxYzAuNjYsMSwwLjk4LDIuMSwwLjk4LDMuM2MwLDEuMjEtMC4zNCwyLjM5LTEuMDQsMy41NCBjLTAuNjksMS4xNS0xLjc4LDIuMDYtMy4yNiwyLjc0Yy0xLjQ5LDAuNjgtMy41MSwxLjAyLTYuMDgsMS4wMmMtMy42MiwwLTYuMi0wLjU1LTcuNzQtMS42NUM1Mi4zOSw2MC41Miw1MS40LDU4Ljk2LDUwLjk2LDU2Ljk0IEw1MC45Niw1Ni45NHogTTkwLjQ4LDU0LjU2bDcuMjMsMC44NWMtMC40LDEuNi0xLjA1LDIuOTgtMS45Niw0LjE1Yy0wLjkxLDEuMTctMi4wNywyLjA4LTMuNDksMi43MiBjLTEuNDEsMC42NS0zLjIxLDAuOTctNS4zOSwwLjk3Yy0yLjExLDAtMy44Ni0wLjIxLTUuMjctMC42MmMtMS40LTAuNDItMi42LTEuMDktMy42Mi0yLjAyYy0xLjAxLTAuOTItMS44LTIuMDItMi4zNy0zLjI3IGMtMC41Ny0xLjI1LTAuODYtMi45MS0wLjg2LTQuOThjMC0yLjE2LDAuMzUtMy45NiwxLjA1LTUuMzljMC41MS0xLjA2LDEuMjEtMiwyLjEtMi44NGMwLjg5LTAuODQsMS43OS0xLjQ2LDIuNzMtMS44NyBjMS40OS0wLjY1LDMuMzktMC45Nyw1LjctMC45N2MzLjI1LDAsNS43MSwwLjYxLDcuNDIsMS44M2MxLjcsMS4yMywyLjg5LDMuMDEsMy41OCw1LjM3bC03LjE1LDEuMDFjLTAuMjItMC45LTAuNjMtMS41Ny0xLjIyLTIuMDMgYy0wLjU5LTAuNDUtMS4zOS0wLjY4LTIuMzktMC42OGMtMS4yNiwwLTIuMjgsMC40OC0zLjA2LDEuNDNjLTAuNzgsMC45Ni0xLjE3LDIuNC0xLjE3LDQuMzRjMCwxLjczLDAuMzksMy4wMywxLjE2LDMuOTMgYzAuNzcsMC45LDEuNzUsMS4zNCwyLjk1LDEuMzRjMC45OSwwLDEuODQtMC4yNywyLjUxLTAuOEM4OS42Myw1Ni40OSw5MC4xNCw1NS42Nyw5MC40OCw1NC41Nkw5MC40OCw1NC41NnogTTQuOTUsNzcuNDEgYzAuODYsMy4yMiwyLjU3LDYuMTEsNC44Niw4LjQxYzMuMzgsMy4zOSw4LjA1LDUuNDksMTMuMTksNS40OWg3Ni44N2MwLjIxLDAsMC40MSwwLDAuNjItMC4wMWwxLjI5LTAuMDkgYzQuMzMtMC40NCw4LjI0LTIuMzgsMTEuMTktNS4yOWwwLjA5LTAuMWMyLjMtMi4zLDQtNS4xOSw0Ljg2LTguNDF2LTU0LjRjMC00Ljk2LTIuMDMtOS40Ny01LjMxLTEyLjc1IGMtMy4yNy0zLjI3LTcuNzktNS4zMS0xMi43NS01LjMxSDIzLjAxYy00Ljk2LDAtOS40OCwyLjAzLTEyLjc1LDUuM2MtMy4yNywzLjI3LTUuMyw3Ljc5LTUuMywxMi43NVY3Ny40MUw0Ljk1LDc3LjQxeicvPjwvc3ZnPg==") no-repeat center center / contain;
+	-webkit-mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHhtbG5zOnhsaW5rPSdodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rJyB2ZXJzaW9uPScxLjEnIHg9JzBweCcgeT0nMHB4JyB2aWV3Qm94PScwIDAgMTIyLjg5IDEwOC45NScgeG1sOnNwYWNlPSdwcmVzZXJ2ZSc+PHBhdGggZD0nTTIzLjAxLDBoNzYuODdjNi4zMywwLDEyLjA4LDIuNTksMTYuMjUsNi43NmM0LjE3LDQuMTcsNi43Niw5LjkyLDYuNzYsMTYuMjV2NjIuOTMgYzAsNi4zMy0yLjU5LDEyLjA4LTYuNzYsMTYuMjVjLTQuMTcsNC4xNy05LjkyLDYuNzYtMTYuMjUsNi43NkgyMy4wMWMtNi4zMywwLTEyLjA4LTIuNTktMTYuMjUtNi43NkMyLjU5LDk4LjAyLDAsOTIuMjcsMCw4NS45NCBWMjMuMDFjMC02LjMzLDIuNTktMTIuMDgsNi43Ni0xNi4yNUMxMC45MiwyLjU5LDE2LjY4LDAsMjMuMDEsMEwyMy4wMSwweiBNMjUuMTcsMzMuOGgyMi42NXY2LjE5SDMzLjY3djQuNjFoMTMuMTJ2NS45MUgzMy42N3Y1LjcgaDE0LjU4djYuNTVIMjUuMTdWMzMuOEwyNS4xNywzMy44eiBNNTAuOTYsNTYuOTRsNy41NC0wLjczYzAuMzEsMC45NCwwLjc1LDEuNjIsMS4zMSwyLjAyYzAuNTYsMC40LDEuMzEsMC42MSwyLjI0LDAuNjEgYzEuMDIsMCwxLjgxLTAuMjMsMi4zNy0wLjY5YzAuNDQtMC4zNCwwLjY2LTAuNzcsMC42Ni0xLjI4YzAtMC41OC0wLjI5LTEuMDMtMC44Ni0xLjM1Yy0wLjQxLTAuMjItMS41LTAuNS0zLjI2LTAuODMgYy0yLjY0LTAuNDktNC40Ny0wLjk0LTUuNS0xLjM2Yy0xLjAzLTAuNDEtMS44OS0xLjEyLTIuNTktMi4xYy0wLjctMC45OS0xLjA1LTIuMTItMS4wNS0zLjM5YzAtMS4zOCwwLjM4LTIuNTgsMS4xMy0zLjU3IGMwLjc2LTEsMS44LTEuNzUsMy4xNC0yLjI1YzEuMzMtMC40OSwzLjEyLTAuNzQsNS4zNi0wLjc0YzIuMzYsMCw0LjExLDAuMTksNS4yMywwLjU3YzEuMTMsMC4zOCwyLjA3LDAuOTgsMi44MiwxLjc4IGMwLjc1LDAuODEsMS4zOCwxLjg5LDEuODcsMy4yN2wtNy4xOSwwLjczYy0wLjE5LTAuNjctMC41LTEuMTYtMC45My0xLjQ4Yy0wLjU5LTAuNDItMS4zMS0wLjYzLTIuMTYtMC42MyBjLTAuODUsMC0xLjQ4LDAuMTYtMS44NywwLjQ5Yy0wLjM5LDAuMzItMC41OSwwLjcxLTAuNTksMS4xN2MwLDAuNTIsMC4yNSwwLjksMC43NCwxLjE3YzAuNDksMC4yNywxLjU4LDAuNTEsMy4yNCwwLjcxIGMyLjUzLDAuMyw0LjQxLDAuNzMsNS42NCwxLjI3YzEuMjMsMC41NCwyLjE3LDEuMzEsMi44MiwyLjMxYzAuNjYsMSwwLjk4LDIuMSwwLjk4LDMuM2MwLDEuMjEtMC4zNCwyLjM5LTEuMDQsMy41NCBjLTAuNjksMS4xNS0xLjc4LDIuMDYtMy4yNiwyLjc0Yy0xLjQ5LDAuNjgtMy41MSwxLjAyLTYuMDgsMS4wMmMtMy42MiwwLTYuMi0wLjU1LTcuNzQtMS42NUM1Mi4zOSw2MC41Miw1MS40LDU4Ljk2LDUwLjk2LDU2Ljk0IEw1MC45Niw1Ni45NHogTTkwLjQ4LDU0LjU2bDcuMjMsMC44NWMtMC40LDEuNi0xLjA1LDIuOTgtMS45Niw0LjE1Yy0wLjkxLDEuMTctMi4wNywyLjA4LTMuNDksMi43MiBjLTEuNDEsMC42NS0zLjIxLDAuOTctNS4zOSwwLjk3Yy0yLjExLDAtMy44Ni0wLjIxLTUuMjctMC42MmMtMS40LTAuNDItMi42LTEuMDktMy42Mi0yLjAyYy0xLjAxLTAuOTItMS44LTIuMDItMi4zNy0zLjI3IGMtMC41Ny0xLjI1LTAuODYtMi45MS0wLjg2LTQuOThjMC0yLjE2LDAuMzUtMy45NiwxLjA1LTUuMzljMC41MS0xLjA2LDEuMjEtMiwyLjEtMi44NGMwLjg5LTAuODQsMS43OS0xLjQ2LDIuNzMtMS44NyBjMS40OS0wLjY1LDMuMzktMC45Nyw1LjctMC45N2MzLjI1LDAsNS43MSwwLjYxLDcuNDIsMS44M2MxLjcsMS4yMywyLjg5LDMuMDEsMy41OCw1LjM3bC03LjE1LDEuMDFjLTAuMjItMC45LTAuNjMtMS41Ny0xLjIyLTIuMDMgYy0wLjU5LTAuNDUtMS4zOS0wLjY4LTIuMzktMC42OGMtMS4yNiwwLTIuMjgsMC40OC0zLjA2LDEuNDNjLTAuNzgsMC45Ni0xLjE3LDIuNC0xLjE3LDQuMzRjMCwxLjczLDAuMzksMy4wMywxLjE2LDMuOTMgYzAuNzcsMC45LDEuNzUsMS4zNCwyLjk1LDEuMzRjMC45OSwwLDEuODQtMC4yNywyLjUxLTAuOEM4OS42Myw1Ni40OSw5MC4xNCw1NS42Nyw5MC40OCw1NC41Nkw5MC40OCw1NC41NnogTTQuOTUsNzcuNDEgYzAuODYsMy4yMiwyLjU3LDYuMTEsNC44Niw4LjQxYzMuMzgsMy4zOSw4LjA1LDUuNDksMTMuMTksNS40OWg3Ni44N2MwLjIxLDAsMC40MSwwLDAuNjItMC4wMWwxLjI5LTAuMDkgYzQuMzMtMC40NCw4LjI0LTIuMzgsMTEuMTktNS4yOWwwLjA5LTAuMWMyLjMtMi4zLDQtNS4xOSw0Ljg2LTguNDF2LTU0LjRjMC00Ljk2LTIuMDMtOS40Ny01LjMxLTEyLjc1IGMtMy4yNy0zLjI3LTcuNzktNS4zMS0xMi43NS01LjMxSDIzLjAxYy00Ljk2LDAtOS40OCwyLjAzLTEyLjc1LDUuM2MtMy4yNywzLjI3LTUuMyw3Ljc5LTUuMywxMi43NVY3Ny40MUw0Ljk1LDc3LjQxeicvPjwvc3ZnPg==") no-repeat center center / contain;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   §13  RESPONSIVE ADAPTATIONS — Token-driven breakpoints
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Grid layout adjustments */
+.ts-col-full {
+	grid-column: 1 / -1;
+}
+
+/* Responsive scenario grid */
+@media (max-width: 768px) {
+	:root {
+		--ts-deck-scale: 0.9;
+		/* Scale down for mobile */
+		--ts-scenario-gap-ratio: 1;
+		/* Increase mobile gaps */
+		--ts-timeline-pad-x-ratio: 1.2;
+		/* Reduce mobile timeline padding */
+	}
+
+	.ts-scenario-grid {
+		grid-template-columns: 1fr;
+		gap: calc(var(--ts-scenario-gap) * 2);
+	}
+
+	.ts-timeline-content {
+		width: auto;
+		border-right: none;
+		padding-right: 0;
+	}
+
+	.ts-timeline-revenue {
+		width: auto;
+		border-right: none;
+		padding-right: 0;
+	}
+}
+
+/* Typography scale responsive adjustments */
+@media (max-width: 480px) {
+	:root {
+		--ts-deck-title-scale: 1;
+		/* Smaller title scale on mobile */
+		--ts-deck-lead-scale: 1;
+		/* Reset lead scale for mobile */
+		--ts-deck-body-scale: 0.85;
+		/* Smaller body text on mobile */
+	}
+}
+
+/* Reset deck-specific margins for clean token control */
+.ts-deck .ts-slide * {
+	margin-block: 0;
+}
+
+.ts-deck .ts-slide-footer,
+.ts-deck .ts-logo,
+.ts-deck .ts-slide--container,
+.ts-deck .ts-slide--container *,
+.ts-deck .ts-eyebrow,
+.ts-deck .ts-masonry {
+	margin-block: revert;
+}
+
+.ts-deck .ts-eyebrow:first-child {
+	margin-bottom: auto;
+}
+
+.ts-deck .ts-masonry {
+	margin-block: auto;
+}
+
+/* Card gap overrides for deck context */
+.ts-deck .ts-card:not(.ts-scenario),
+.ts-deck .ts-card:not(.ts-scenario) * {
+	gap: var(--ts-deck-card-gap);
+}

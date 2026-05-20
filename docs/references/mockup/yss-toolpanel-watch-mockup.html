@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-ts-theme="dark" style="--ts-container-max: 1400px; --ts-content-max: 1400px; --ts-bg-body: #0c0d0f; --ts-bg-0: #111214; --ts-bg-1: #17181b; --ts-bg-2: #1f2024; --ts-bg-3: #28292e; --ts-bg-4: #323439; --ts-bg-5: #3e4045; --ts-text-primary: #e8e9ea; --ts-text-secondary: #9ea0a5; --ts-text-muted: #6d6f74;">
+<head >
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>YSS Toolpanel Mockup</title>
+
+	<link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico" sizes="any">
+    <link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+
+
+
+	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+	<link rel="stylesheet" href="../assets/css/toolskin-merged-3.2.6._4.2.css" />
+	<link rel="stylesheet" href="../assets/css/extra-styles.css">
+	<link rel="stylesheet" href="../assets/css/Youtube_Toolpanel_4.2.7.user.css">
+
+
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
+
+    <script src="../assets/js/toolskin-assets.js" defer></script>
+    <script src="../assets/js/toolskin.js" defer></script>
+    <script src="../assets/js/toolskin-uikit.js" defer></script>	
+    <script type="text/javascript" src="../assets/js/mockup-scripts.js"></script>
+
+	<style>
+		body {
+			background-image: url(../assets/img/bg_yt.jpg);
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: left center;
+			--ts-accent: var(--yss-accent-color);
+		}
+		:root, :root *{
+			--ts-accent: var(--yss-accent-color);
+		}
+
+
+	</style>
+	<script>
+
+		window.addEventListener('DOMContentLoaded', () => {
+			Toolskin.config.cursor = {
+			enabled: false
+			};
+		});
+	</script>
+</head>
+<body>
+	<div class="container ts-container ts-sandbox-isolate" id="main">
+
+
+
+		<header class="ts-nav-static ts-header" id="ts-header">
+			<h1 class="ts-title ts-header-title">YSS Toolpanel Mockup <strong>// Youtube Watch Mode</strong>
+				<button id="switch-mode" class="ts-btn ts-btn-clear ts-btn--danger ts-btn-header ts-btn--md"><i class="fa-solid fa-chevron-right"></i><span>Change to Studio Mode</span></button>
+				<a href="index.html" class="ts-btn ts-btn-secondary ts-btn--secondary ts-btn-header ts-btn-index ts-btn--md">
+					<i class="fa-solid fa-arrow-left"></i><span>Index</span>
+				</a>
+			</h1>
+			<button class="ts-theme-toggle" data-theme-toggle aria-label="Toggle theme">
+	          <span class="ts-icon ts-theme-icon-light" data-ts-icon="fa-solid fa-sun" aria-hidden="true"></span>
+	          <span class="ts-icon ts-theme-icon-dark" data-ts-icon="fa-solid fa-moon" aria-hidden="true"></span>
+	        </button>
+		</header>
+		<!-- <header class="yss-header-wrapper yss-page-header" id="header">
+			<h1 class="yss-header">YSS Toolpanel Mockup <strong>// Youtube Watch Mode</strong>
+				<button id="switch-mode" class="yss-btn yss-btn-clear yss-btn-header"><i class="fa-solid fa-chevron-right"></i><span>Change
+						to Studio Mode</span></button>
+				<a href="index.html" class="yss-btn yss-btn-secondary yss-btn-header yss-btn-index">
+					<i class="fa-solid fa-arrow-left"></i><span>Index</span>
+				</a>
+			</h1>
+		</header> -->
+		<div id="yss-panel" class="yss-panel yss-watch-mode yss-gradient-btn"
+			style="will-change: auto;height: 100vh;inset: 50% auto auto 50%;transform: translate(-50%, -50%);max-height: round(calc(90vh - 10%)/2, 680px);">
+			<div class="yss-header">
+				<div class="yss-header-wrapper">
+					<h1 class="yss-header-title">YSS Toolpanel<strong><i class="fa-brands fa-youtube" style="font-size: inherit; color: currentcolor;"></i>4.2.2</strong></h1>
+					<nav class="yss-header-nav" id="yss-header-nav">
+						<button class="yss-btn yss-btn-icon yss-help-button" data-hamburger-handler-attached="true" data-tooltip="Show Help and Instructions"><i class="fa-solid fa-circle-question" style="font-size: inherit; color: currentcolor;"></i><span>Help and Resources</span></button>
+						<button class="yss-btn yss-btn-icon yss-help-button" data-hamburger-handler-attached="true" data-tooltip="Show Readme"><i class="fa-regular fa-file-code" style="font-size: inherit; color: currentcolor;"></i><span>Show Readme Docs</span></button>
+						<button id="yss-sort-rows-btn" class="yss-btn yss-btn-icon yss-sort-rows-toggle"
+							data-hamburger-handler-attached="true"
+							title="Sorts the currently visible videos alphabetically (A-Z)."
+							data-tooltip="Sort video Rows by title alphabetically, A-Z or Z-A. Only works on visible videos."><i class="fa-solid fa-sort-alpha-down"></i><span>Sort A-Z</span><a class="yss-undo-icon" data-hamburger-handler-attached="true" title="Undo Sorting"><i class="fa-solid fa-circle-xmark" style="font-size: inherit; color: currentcolor;"></i></a></button>
+						<button id="yss-tooltip-toggle-btn"
+							class="yss-btn yss-btn-icon yss-tooltip-toggle yss-btn-clear"
+							data-hamburger-handler-attached="true" title="Tooltips are ON. Click to disable."
+							data-tooltip="Tooltips are OFF. Click to enable."><i class="fa-solid fa-comment-slash" style="font-size: inherit; color: currentcolor;"></i><span>Toggle Tooltips</span></button>
+						<button id="yss-theme-select-btn" class="yss-btn yss-btn-icon yss-theme-button"
+							data-hamburger-handler-attached="true" title="Select Theme &amp; Appearance"><i class="fa-solid fa-paint-roller" style="font-size: inherit; color: currentcolor;"></i><span>Select Theme &amp; Appearance</span></button>
+						<button id="yss-transitions-toggle-btn"
+							class="yss-btn yss-btn-icon yss-transitions-toggle yss-btn-clear"
+							data-hamburger-handler-attached="true"
+							title="UI Transitions are OFF (Performance Mode). Click to enable."><i class="fa-solid fa-bolt-lightning" style="font-size: inherit; color: currentcolor;"></i><span>Toggle Transitions</span></button>
+						<button id="yss-snapshot-btn" class="yss-btn yss-btn-icon yss-snapshot-button hide"
+							data-hamburger-handler-attached="true" title="CSS Snapshot Tool"><i class="fa-solid fa-camera-retro" style="font-size: inherit; color: currentcolor;"></i><span>CSS Snapshot Tool</span></button>
+						<button id="yss-icons-only-toggle-btn" class="yss-btn yss-btn-icon yss-icons-only-toggle"
+							data-hamburger-handler-attached="true"
+							title="Icon-Only mode is OFF. Click to hide text on buttons and collapse UI."><i class="fa-solid fa-expand" style="font-size: inherit; color: currentcolor;"></i><span>Icon-only Mode</span></button>
+					</nav>
+					<button id="yss-icons-only-toggle-btn-clone"
+						class="yss-btn yss-btn-icon yss-icons-only-toggle yss-hamburger"
+						data-hamburger-handler-attached="true"
+						title="Icon-Only mode is OFF. Click to hide text on buttons and collapse UI."><i
+							class="fa-solid fa-expand"
+							style="font-size: inherit; color: currentcolor;"></i><span>Icon-only Mode</span></button>
+					<span class="yss-hamburger yss-hamburger--spin yss-js-hamburger" id="yss-hamburger"><span
+							class="yss-hamburger-box"><span class="yss-hamburger-inner"></span><strong>Menu</strong></span>
+					</span>
+				</div><span id="yss-toggle-collapse" data-icon-expanded="fa-solid fa-chevron-down"
+					data-icon-collapsed="fa-solid fa-chevron-up" style="cursor: pointer;"
+					title="Collapse/Expand the main panel" data-tooltip="Collapse/Expand the main panel"><i
+						class="fa-solid fa-chevron-down" style="font-size: inherit; color: currentcolor;"></i></span>
+			</div>
+			<div class="yss-controls">
+				<div class="button_row switchable transcript-row" id="yss-transcript-row">
+					<div class="button_group flex_grow_1">
+						<button id="yss-fetch-transcript-btn" class="yss-btn yss-btn-secondary"
+							title="Automatically open and retrieve the transcript for the current video."
+							data-tooltip="Automatically open and retrieve the transcript for the current video."><i class="fa-solid fa-arrow-down-short-wide"></i><span>Fetch Transcript</span></button>
+						<button id="yss-download-transcript-btn" class="yss-btn yss-btn-icon yss-btn-secondary"
+							disabled="" title="Download the fetched transcript as a .txt file."
+							data-tooltip="Download the fetched transcript as a .txt file."><i class="fa-solid fa-download"></i><span>Download</span></button>
+						<button id="yss-copy-transcript-btn" class="yss-btn yss-btn-icon yss-btn-secondary" disabled=""
+							title="Copy the fetched transcript text to your clipboard."
+							data-tooltip="Copy the fetched transcript text to your clipboard."><i class="fa-solid fa-clone"></i><span>Copy</span></button>
+						<div class="yss-checkbox-list flex_grow_0">
+							<label class="yss-checkbox-label" title="Include timestamps in the downloaded/copied transcript."> <input type="checkbox" id="yss-transcript-timestamps-cb"> Timestamps</label>
+							<label class="yss-checkbox-label" title="Automatically fetch transcript on every video page load."> <input type="checkbox" id="yss-transcript-auto-fetch-cb"> Auto-Fetch</label>
+						</div>
+					</div>
+					<div class="button_group">
+						<button id="yss-batch-transcript-btn" class="yss-btn yss-btn-primary"
+							data-tooltip="Open the batch processing modal to download transcripts for multiple videos."><i class="fa-solid fa-layer-group"></i><span>Batch Process</span></button>
+						<button id="yss-clear-transcript-queue-btn" class="yss-btn yss-btn-clear yss-btn-icon"
+							disabled="" title="Clear the list of URLs in the batch processing queue."
+							data-tooltip="Clear the list of URLs in the batch processing queue."><i class="fa-solid fa-trash"></i><span>Clear Queue</span></button>
+						<!-- <button id="help_transcript" class="helpIcon_label"><i class="fa-solid fa-circle-info"></i><span></span></button> -->
+					</div>
+					<!-- <div class="yss-group-label help">Automatically open and retrieve the transcript for the current
+						video. Open the batch processing modal to download transcripts for multiple videos.</div> -->
+				</div>
+				<div id="yss-transcript-dock" class="yss-controls-dock-row">
+					<div id="yt-batch-controls-wrapper"
+						class="yt-batch-controls-wrapper yss-modal-content yss-sticky-modal yss-batch docked"
+						style="display: none;">
+						<div class="yss-modal-title" style="cursor: move;">
+							<h3>Transcript Downloader <strong id="yss-transcript-dock-toggle-count">[Batch 	Process]</strong></h3>
+							<button id="yss-transcript-dock-toggle-btn" class="yss-btn-icon yss-btn-fullscreen yss-btn-undock" title="Undock Panel"><i class="fa-regular fa-window-maximize"></i><span></span></button>
+						</div>
+						<div class="yss-modal-view">
+							<div class="yss-form-group"> <textarea id="yt-batch-input-textarea" placeholder="Enter YouTube playlist URL or video URLs (one per line)"></textarea> <!-- <div class="yss-form-block" id="yt-batch-download-delay-slider-container" style="pointer-events: auto; opacity: 1;"> 	<label for="yt-batch-download-delay-slider">Nav Delay (s):</label> 	<input type="range" id="yt-batch-download-delay-slider" min="1" max="30" step="1" class="yss-range-progress-initialized"><span 		id="yt-batch-download-delay-value">5</span> </div> --> <div class="yss-form-block" id="yt-batch-download-delay-slider-container"> 	<label for="yt-batch-download-delay-slider" id="yt-batch-download-delay-slider-label">Nav Delay (s):</label> 	 		 	<input type="range" class="ts-range ts-range--lg yss-range-progress-initialized" min="1" max="30" value="5" data-unit="s" data-min="1" data-max="30" data-value="5"> 	 	<span 		id="yt-batch-download-delay-value" class="ts-range-val">5</span> </div>
+							</div>
+							<div class="yss-log-wrapper" id="yt-batch-progress-display"></div>
+						</div>
+						<div class="yt-batch-buttons-container yss-modal-actions" id="yt-batch-buttons-container">
+							<div class="yss-modal-actions-left"> <button id="yt-batch-start-resume-btn" class="yss-btn yss-btn-primary" disabled=""><i class="fa-solid fa-play"></i><span>Start Batch</span></button> <button id="yt-batch-pause-btn" class="yss-btn yss-btn-warning" disabled=""><i class="fa-solid fa-pause"></i><span>Pause Batch</span></button>
+							</div>
+							<div class="yss-modal-actions-right"> <button id="yt-batch-clear-btn" class="yss-btn yss-btn-clear" disabled=""><i class="fa-solid fa-trash"></i><span>Clear Queue</span></button> <button id="yt-batch-download-log-btn" class="yss-btn yss-btn-secondary" disabled=""><i class="fa-solid fa-table-list"></i><span>View Summary</span></button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="button_row switchable summarizer-row" id="yss-summarizer-row">
+					<div class="button_group flex_grow_0 flex_grow_1">
+						<button id="yss-summarize-video-btn" class="yss-btn yss-btn-secondary"
+							title="Generate a concise summary of the current video using Gemini AI and the Video Transcript."><i class="fa-solid fa-wand-magic-sparkles"></i><span>Summarize Video</span></button>
+						<button id="yss-summarize-video-copy-btn" class="yss-btn yss-btn-icon yss-btn-secondary"
+							disabled=""><i class="fa-solid fa-copy"></i><span>Copy</span></button>
+					</div>
+					<div class="button_group">
+						<button id="yss-summarizer-toggle-btn" class="yss-btn yss-btn-texasgreen"><i class="fa-solid fa-window-restore"></i><span>Show Panel</span></button>
+						<button id="yss-summarizer-settings-btn" class="yss-btn yss-btn-secondary"><i class="fa-solid fa-gear"></i><span>Settings</span></button>
+						<button id="yss-summarizer-history-btn" class="yss-btn yss-btn-secondary"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></button>
+						<button id="yss-summarizer-history-clear-btn" class="yss-btn yss-btn-icon yss-btn-clear"
+							disabled=""><i class="fa-solid fa-trash"></i><span>Clear History</span></button>
+						<button id="help_summarizer" class="helpIcon_label"><i class="fa-solid fa-circle-info"></i><span></span></button>
+					</div>
+					<div class="yss-group-label help">Summarizes YouTube videos using Gemini API with a GUI for API key,
+						model, language selection (with RTL support), and Markdown rendering. First Set-up the API Key,
+						Language and Model,and click the Summarize Button.</div>
+				</div>
+				<div id="yss-summarizer-dock" class="yss-controls-dock-row">
+					<div id="yt-sum-batch-controls-wrapper"
+						class="yt-batch-controls-wrapper yss-modal-content yss-sticky-modal yss-batch docked"
+						style="display: none;">
+						<div class="yss-modal-title" style="cursor: move;">
+							<h3>GEMINI API SUMMARIZATION <strong 	id="yss-summarizer-dock-toggle-status">Waiting...</strong></h3>
+							<button id="yss-summarizer-dock-toggle-btn" class="yss-btn-icon yss-btn-fullscreen yss-btn-undock" title="Undock Panel"><i class="fa-regular fa-window-maximize"></i><span></span></button>
+						</div>
+						<div class="yss-modal-view">
+							<div class="yss-summary-table"> <h4 class="yss-summary-title"><i class="fa-solid fa-gear" style="font-size: inherit; color: currentcolor;"></i>Summarizer settings <button class="yss-toggle-stats-btn" data-tooltip-position="bottom" title="Toggle settings visibility"><i class="fa-solid fa-chevron-down" style="font-size: inherit; color: currentcolor;"></i></button></h4> <div class="yss-summary-rows yss-summarizer"> 	<div class="yss-form-group"> 		<div class="yss-form-group"> 			<label for="yt-sum-api-key-input">Gemini API Key:</label> 			<div class="yss-password-wrapper"> 				<input type="password" id="yt-sum-api-key-input" placeholder="Enter your Gemini API key" class="yss-input"> 				<button type="button" class="yss-btn yss-btn-icon yss-password-toggle" aria-label="Show password" title="Show/Hide Key"><i class="fa-solid fa-eye" style="font-size: inherit; color: currentcolor;"></i></button> 			</div> 		</div> 		<div class="yss-form-groups-row"> 			<div class="yss-form-group"> 				<label for="yt-sum-language-select">Summary Language:</label> 				<select id="yt-sum-language-select" class="yss-select"> 					<option value="Russian">Russian</option> 					<option value="English">English</option> 					<option value="German">German</option> 					<option value="French">French</option> 					<option value="Italian">Italian</option> 					<option value="Spanish">Spanish</option> 					<option value="Hebrew">Hebrew</option> 					<option value="Yiddish">Yiddish</option> 					<option value="Arabic">Arabic</option> 					<option value="Chinese">Chinese</option> 					<option value="Korean">Korean</option> 					<option value="Japanese">Japanese</option> 					<option value="Czech">Czech</option> 					<option value="Polish">Polish</option> 				</select> 			</div> 			<div class="yss-form-group"> 				<label for="yt-sum-model-select">Model:</label> 				<select id="yt-sum-model-select" class="yss-select"> 					<option value="None">Select a model (fetch models first)</option> 				</select> 			</div> 		</div> 	</div> </div>
+							</div>
+							<div id="yt-sum-summary-display" class="yss-form-group yss-text-summary" style="display: none; max-height: 400px; overflow-y: auto;"></div>
+						</div>
+						<div class="yt-batch-buttons-container yss-modal-actions" id="yt-sum-batch-buttons-container">
+							<div class="yss-modal-actions-left"> <button id="yt-sum-summarize-btn" class="yss-btn yss-btn-texasgreen"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Summarize 		Video</span></button> <button id="yt-sum-fetch-models-btn" class="yss-btn yss-btn-secondary"><i class="fa-solid fa-download"></i><span>Fetch Models</span></button>
+							</div>
+							<div class="yss-modal-actions-right"> <button id="yt-sum-clear-btn" class="yss-btn yss-btn-clear"><i class="fa-solid fa-trash"></i><span>Clear</span></button> <button id="yt-sum-history-btn" class="yss-btn yss-btn-secondary"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="yss-log-wrapper">
+				<div id="yss-log-area-buttons" class="yss-log-area-buttons">
+					<div id="yss-download-log" class="yss-download-log" title="Download the current log"
+						data-tooltip="Download the current log"><i class="fas fa-download"
+							style="font-size: inherit; color: currentcolor;"></i></div>
+					<div id="yss-clear-log" class="yss-download-log" style="top: 90px;" title="Clear the current log"
+						data-tooltip="Clear the current log"><i class="fas fa-trash"
+							style="font-size: inherit; color: currentcolor;"></i></div>
+					<div id="yss-copy-log" class="yss-download-log" style="top: 50px;"><i class="fas fa-copy"
+							style="font-size: inherit; color: currentcolor;"></i></div>
+				</div>
+				<div id="yss-log-area" class="yss-log" style="display: flex;flex-direction: column;">
+					<div class="yss-log-entry yss-log-info">[11:52:10 AM] [Downloader] Last pre-fetch data loaded from
+						GM storage</div>
+					<div class="yss-log-entry yss-log-debug">[11:52:10 AM] [Downloader] First 3 videos loaded from
+						storage:</div>
+					<div class="yss-log-entry yss-log-debug">[11:52:10 AM] [Downloader] Video 1:
+						{"videoId":"yKKeYLDQ8mQ","videoTitle":"Variation
+						Ballad","videoUrl":"https://www.youtube.com/watch?v=yKKeYLDQ8mQ","downloadUrl":"https://www.youtube.com/download_my_video?v=yKKeYLDQ8mQ&amp;t=QUFFLUhqbU5kSnh1ZFVWSzlBSF9xQTNLNWJPMDRxb1RrQXxBQ3Jtc0ttdG01WkltbDFVM3E1OFp5OHBaM1RkbTFzSzB6THQwaUJNb3g0aTlWSWhORktVWlhkUEk4cTU2UF9KY3pjYVFDSWcyUnpKRkpoZy1FcDV0YkxtQlA3amVDQXhxczJncU94eFVXMUlUWEoxNU1CUUV0WQ%3D%3D","pageNumber":1,"rowIndex":0}
+					</div>
+					<div class="yss-log-entry yss-log-debug">[11:52:10 AM] [Downloader] Video 2:
+						{"videoId":"caV64w3jZXo","videoTitle":"Tundra in
+						Mineral","videoUrl":"https://www.youtube.com/watch?v=caV64w3jZXo","downloadUrl":"https://www.youtube.com/download_my_video?v=caV64w3jZXo&amp;t=QUFFLUhqbG1mZjJHVWVGSVFCZ1RpUW9YYzdkTjFpV3hJZ3xBQ3Jtc0trRktiMWtXV1lNUWNrNUhFb2Vkbkw1TDdFOC16amwtXzBFUFBiYmdwb0NKUFh2eEQ5ZnlUREpkaEVtbXZFNDg2NzZyN1FkSURBZmw2M1ZoY1dHdnBtZVBfWnh6Y19WdHd2NXBLS3hyU0g1RUVoNkpzYw%3D%3D","pageNumber":1,"rowIndex":1}
+					</div>
+					<div class="yss-log-entry yss-log-debug">[11:52:10 AM] [Downloader] Video 3:
+						{"videoId":"Xo23lLNwPk0","videoTitle":"TechBuzz","videoUrl":"https://www.youtube.com/watch?v=Xo23lLNwPk0","downloadUrl":"https://www.youtube.com/download_my_video?v=Xo23lLNwPk0&amp;t=QUFFLUhqbng2VURQaXpLVkxZMzFFbWw2R1pXMWZEcXZVUXxBQ3Jtc0trQTZFeVp2TUxsSDF3WENMWWloZ0UxLURaWWhiTzRVdGQyQkNmcnNaZVl1ZGppeklpUDVWSUxmSVd1VEFQN0d3MVg2QWdlLTJQUzgzNzZTNzFfcGd3dXQ4ZWJzNVVfSkNwR1h3N0pQcnc5QVVTMjJzWQ%3D%3D","pageNumber":1,"rowIndex":2}
+					</div>
+					<div class="yss-log-entry yss-log-info">[11:52:11 AM] [TranscriptDL] yt-navigate-finish event
+						detected.</div>
+					<div class="yss-log-entry yss-log-info">[11:52:16 AM] [Downloader] Last pre-fetch data loaded from
+						GM storage</div>
+					<div class="yss-log-entry yss-log-debug">[11:52:16 AM] [Downloader] First 3 videos loaded from
+						storage:</div>
+					<div class="yss-log-entry yss-log-debug">[11:52:16 AM] [Downloader] Video 1:
+						{"videoId":"yKKeYLDQ8mQ","videoTitle":"Variation
+						Ballad","videoUrl":"https://www.youtube.com/watch?v=yKKeYLDQ8mQ","downloadUrl":"https://www.youtube.com/download_my_video?v=yKKeYLDQ8mQ&amp;t=QUFFLUhqbU5kSnh1ZFVWSzlBSF9xQTNLNWJPMDRxb1RrQXxBQ3Jtc0ttdG01WkltbDFVM3E1OFp5OHBaM1RkbTFzSzB6THQwaUJNb3g0aTlWSWhORktVWlhkUEk4cTU2UF9KY3pjYVFDSWcyUnpKRkpoZy1FcDV0YkxtQlA3amVDQXhxczJncU94eFVXMUlUWEoxNU1CUUV0WQ%3D%3D","pageNumber":1,"rowIndex":0}
+					</div>
+					<div class="yss-log-entry yss-log-debug">[11:52:16 AM] [Downloader] Video 2:
+						{"videoId":"caV64w3jZXo","videoTitle":"Tundra in
+						Mineral","videoUrl":"https://www.youtube.com/watch?v=caV64w3jZXo","downloadUrl":"https://www.youtube.com/download_my_video?v=caV64w3jZXo&amp;t=QUFFLUhqbG1mZjJHVWVGSVFCZ1RpUW9YYzdkTjFpV3hJZ3xBQ3Jtc0trRktiMWtXV1lNUWNrNUhFb2Vkbkw1TDdFOC16amwtXzBFUFBiYmdwb0NKUFh2eEQ5ZnlUREpkaEVtbXZFNDg2NzZyN1FkSURBZmw2M1ZoY1dHdnBtZVBfWnh6Y19WdHd2NXBLS3hyU0g1RUVoNkpzYw%3D%3D","pageNumber":1,"rowIndex":1}
+					</div>
+					<div class="yss-log-entry yss-log-debug">[11:52:16 AM] [Downloader] Video 3:
+						{"videoId":"Xo23lLNwPk0","videoTitle":"TechBuzz","videoUrl":"https://www.youtube.com/watch?v=Xo23lLNwPk0","downloadUrl":"https://www.youtube.com/download_my_video?v=Xo23lLNwPk0&amp;t=QUFFLUhqbng2VURQaXpLVkxZMzFFbWw2R1pXMWZEcXZVUXxBQ3Jtc0trQTZFeVp2TUxsSDF3WENMWWloZ0UxLURaWWhiTzRVdGQyQkNmcnNaZVl1ZGppeklpUDVWSUxmSVd1VEFQN0d3MVg2QWdlLTJQUzgzNzZTNzFfcGd3dXQ4ZWJzNVVfSkNwR1h3N0pQcnc5QVVTMjJzWQ%3D%3D","pageNumber":1,"rowIndex":2}
+					</div>
+					<div class="yss-log-entry yss-log-info">[11:52:16 AM] [TranscriptDL] Page ready or navigated.</div>
+				</div>
+			</div>
+		</div>
+		<div id="modal-container" style="display: none;">
+		</div>
+	</div>
+</body>
+</head>

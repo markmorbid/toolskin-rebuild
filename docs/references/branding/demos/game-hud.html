@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-density="compact">
+<head>
+<meta charset="UTF-8">
+<title>Toolskin · Game HUD</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet" href="../toolskin.css"> -->
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css">
+<!-- THESE STYLES WERE ALREADY ADDED AND SCOPED ON THE  ORE SS SHEET <link rel="stylesheet" href="../toolskin-extras.css">-->
+<style>
+  /* Magenta-pink rave accent */
+ :root {
+   --ts-accent-h: 322;
+   --ts-accent-s: 92%;
+   --ts-accent-l: 58%;
+ }
+
+ * {
+   box-sizing: border-box;
+ }
+
+ body {
+   margin: 0;
+   min-height: 100vh;
+   background: #07060c;
+   color: var(--ts-text-primary);
+   font-family: var(--ts-font-body);
+   overflow: hidden;
+   position: relative;
+ }
+
+ /* Atmospheric backdrop */
+ .backdrop {
+   position: fixed;
+   inset: 0;
+   z-index: 0;
+   overflow: hidden;
+   background:
+     radial-gradient(60% 50% at 50% 100%, color-mix(in srgb, var(--ts-accent) 35%, transparent), transparent 60%),
+     radial-gradient(40% 40% at 20% 30%, color-mix(in srgb, var(--ts-info) 20%, transparent), transparent 60%),
+     radial-gradient(40% 40% at 90% 20%, color-mix(in srgb, hsl(180, 90%, 60%) 20%, transparent), transparent 60%),
+     #07060c;
+ }
+
+ .backdrop::before {
+   content: '';
+   position: absolute;
+   inset: 0;
+   background-image:
+     linear-gradient(transparent 95%, color-mix(in srgb, var(--ts-accent) 22%, transparent) 100%),
+     linear-gradient(90deg, transparent 95%, color-mix(in srgb, var(--ts-accent) 22%, transparent) 100%);
+   background-size: 60px 60px;
+   transform: perspective(800px) rotateX(70deg) translateY(20%);
+   transform-origin: center bottom;
+   opacity: 0.5;
+   animation: scroll 10s linear infinite;
+ }
+
+ @keyframes scroll {
+   0% {
+     background-position: 0 0;
+   }
+
+   100% {
+     background-position: 0 60px;
+   }
+ }
+
+ .backdrop::after {
+   content: '';
+   position: absolute;
+   inset: 0;
+   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+   opacity: 0.06;
+   mix-blend-mode: overlay;
+   pointer-events: none;
+ }
+
+ .hud {
+   position: fixed;
+   inset: 0;
+   z-index: 1;
+   display: grid;
+   grid-template-rows: auto 1fr auto;
+   padding: 24px;
+   gap: 16px;
+   pointer-events: none;
+ }
+
+ .hud>* {
+   pointer-events: auto;
+ }
+
+ /* TOP BAR */
+ .top {
+   display: grid;
+   grid-template-columns: 1fr auto 1fr;
+   gap: 16px;
+   align-items: start;
+ }
+
+ .top-left, .top-right {
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+ }
+
+ .top-right {
+   align-items: flex-end;
+ }
+
+ .player-card {
+   display: flex;
+   align-items: center;
+   gap: 14px;
+   padding: 10px 14px 10px 10px;
+   background: linear-gradient(90deg, color-mix(in srgb, var(--ts-accent) 22%, var(--ts-bg-0)), var(--ts-bg-0));
+   border: 1px solid var(--ts-border-accent);
+   border-radius: 8px;
+   clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+   box-shadow: var(--ts-shadow-glow);
+ }
+
+ .player-card .av {
+   width: 44px;
+   height: 44px;
+   background: var(--ts-accent);
+   color: var(--ts-on-accent);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-family: var(--ts-font-display);
+   font-weight: 800;
+   font-size: 16px;
+   clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+ }
+
+ .player-card .meta {
+   display: flex;
+   flex-direction: column;
+   gap: 2px;
+   padding-right: 16px;
+ }
+
+ .player-card .name {
+   font-family: var(--ts-font-display);
+   font-weight: 700;
+   font-size: 16px;
+   letter-spacing: -0.01em;
+   line-height: 1;
+ }
+
+ .player-card .name em {
+   color: var(--ts-accent);
+   font-style: italic;
+ }
+
+ .player-card .rank {
+   font-family: var(--ts-font-mono);
+   font-size: 9px;
+   letter-spacing: 0.16em;
+   text-transform: uppercase;
+   color: var(--ts-text-muted);
+ }
+
+ /* Vital bars */
+ .vitals {
+   display: flex;
+   flex-direction: column;
+   gap: 4px;
+ }
+
+ .bar {
+   display: grid;
+   grid-template-columns: 30px 220px auto;
+   gap: 10px;
+   align-items: center;
+ }
+
+ .bar .lab {
+   font-family: var(--ts-font-mono);
+   font-size: 9px;
+   letter-spacing: 0.12em;
+   color: var(--ts-text-muted);
+ }
+
+ .bar .track {
+   height: 10px;
+   background: rgba(255, 255, 255, 0.08);
+   border: 1px solid rgba(255, 255, 255, 0.12);
+   clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+   position: relative;
+   overflow: hidden;
+ }
+
+ .bar .fill {
+   height: 100%;
+   position: relative;
+   box-shadow: 0 0 16px currentColor;
+ }
+
+ .bar .fill::after {
+   content: '';
+   position: absolute;
+   inset: 0;
+   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+   animation: shine 2s linear infinite;
+ }
+
+ @keyframes shine {
+   0% {
+     transform: translateX(-100%);
+   }
+
+   100% {
+     transform: translateX(100%);
+   }
+ }
+
+ .bar .v {
+   font-family: var(--ts-font-mono);
+   font-size: 11px;
+   font-weight: 700;
+   min-width: 60px;
+ }
+
+ .bar.hp .fill {
+   background: var(--ts-danger);
+   color: var(--ts-danger);
+   width: 78%;
+ }
+
+ .bar.hp .v {
+   color: var(--ts-danger);
+ }
+
+ .bar.mp .fill {
+   background: var(--ts-info);
+   color: var(--ts-info);
+   width: 64%;
+ }
+
+ .bar.mp .v {
+   color: var(--ts-info);
+ }
+
+ .bar.xp .fill {
+   background: var(--ts-accent);
+   color: var(--ts-accent);
+   width: 42%;
+ }
+
+ .bar.xp .v {
+   color: var(--ts-accent);
+ }
+
+ /* Center mission */
+ .mission {
+   background: color-mix(in srgb, var(--ts-bg-0) 80%, transparent);
+   backdrop-filter: blur(14px);
+   border: 1px solid var(--ts-border-accent);
+   border-radius: 6px;
+   padding: 12px 24px;
+   text-align: center;
+   min-width: 320px;
+   clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 100%, 0 100%);
+   box-shadow: 0 0 60px color-mix(in srgb, var(--ts-accent) 25%, transparent);
+ }
+
+ .mission .obj {
+   font-family: var(--ts-font-mono);
+   font-size: 9px;
+   letter-spacing: 0.2em;
+   color: var(--ts-accent);
+   margin-bottom: 6px;
+ }
+
+ .mission h2 {
+   font-family: var(--ts-font-display);
+   font-size: 22px;
+   font-weight: 700;
+   letter-spacing: -0.015em;
+   margin: 0 0 4px;
+   line-height: 1;
+ }
+
+ .mission h2 em {
+   color: var(--ts-accent);
+   font-style: italic;
+ }
+
+ .mission .step {
+   font-family: var(--ts-font-mono);
+   font-size: 10px;
+   color: var(--ts-text-secondary);
+   letter-spacing: 0.06em;
+ }
+
+ .mission .timer {
+   display: inline-flex;
+   gap: 6px;
+   align-items: baseline;
+   margin-top: 8px;
+   padding: 4px 10px;
+   border: 1px dashed var(--ts-border-accent);
+   border-radius: 4px;
+ }
+
+ .mission .timer .t {
+   font-family: var(--ts-font-display);
+   font-weight: 800;
+   font-size: 18px;
+   color: var(--ts-warning);
+   letter-spacing: -0.02em;
+ }
+
+ .mission .timer .l {
+   font-family: var(--ts-font-mono);
+   font-size: 9px;
+   letter-spacing: 0.16em;
+   color: var(--ts-text-muted);
+ }
+
+ /* Top right currency / minimap */
+ .currency-strip {
+   display: flex;
+   gap: 8px;
+ }
+
+ .coin {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   padding: 6px 12px;
+   background: var(--ts-bg-0);
+   border: 1px solid var(--ts-border-0);
+   border-radius: 4px;
+   font-family: var(--ts-font-mono);
+   font-size: 12px;
+   font-weight: 700;
+   clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%);
+   padding-left: 16px;
+ }
+
+ .coin .ic {
+   width: 14px;
+   height: 14px;
+   border-radius: 50%;
+ }
+
+ .coin.gold .ic {
+   background: hsl(45, 90%, 60%);
+   box-shadow: 0 0 8px hsl(45, 90%, 60%);
+ }
+
+ .coin.gem .ic {
+   background: hsl(180, 80%, 60%);
+   box-shadow: 0 0 8px hsl(180, 80%, 60%);
+ }
+
+ .coin.token .ic {
+   background: var(--ts-accent);
+   box-shadow: 0 0 8px var(--ts-accent);
+ }
+
+ .minimap {
+   width: 220px;
+   height: 160px;
+   background: rgba(0, 0, 0, 0.5);
+   border: 1px solid var(--ts-border-accent);
+   border-radius: 4px;
+   position: relative;
+   overflow: hidden;
+   backdrop-filter: blur(8px);
+ }
+
+ .minimap::before {
+   content: 'MAP // SECTOR_07';
+   position: absolute;
+   top: 6px;
+   left: 8px;
+   font-family: var(--ts-font-mono);
+   font-size: 9px;
+   letter-spacing: 0.16em;
+   color: var(--ts-accent);
+   z-index: 2;
+ }
+
+ .minimap svg {
+   width: 100%;
+   height: 100%;
+   display: block;
+ }
+
+ /* CENTER CROSSHAIR */
+ .center-stage {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   position: relative;
+ }
+
+ .crosshair {
+   width: 64px;
+   height: 64px;
+   position: relative;
+ }
+
+ .crosshair::before, .crosshair::after {
+   content: '';
+   position: absolute;
+   background: var(--ts-accent);
+   box-shadow: 0 0 8px var(--ts-accent);
+ }
+
+ .crosshair::before {
+   top: 50%;
+   left: 0;
+   right: 0;
+   height: 1px;
+   transform: translateY(-50%);
+ }
+
+ .crosshair::after {
+   left: 50%;
+   top: 0;
+   bottom: 0;
+   width: 1px;
+   transform: translateX(-50%);
+ }
+
+ .crosshair .ring {
+   position: absolute;
+   inset: 50%;
+   width: 6px;
+   height: 6px;
+   transform: translate(-50%, -50%);
+   border: 1px solid var(--ts-accent);
+   border-radius: 50%;
+ }
+
+ /* DAMAGE NUMBERS */
+ .dmg {
+   position: absolute;
+   font-family: var(--ts-font-display);
+   font-weight: 800;
+   pointer-events: none;
+   text-shadow: 0 0 10px currentColor;
+   animation: dmgFloat 1.6s ease-out infinite;
+ }
+
+ .dmg.crit {
+   color: var(--ts-warning);
+   font-size: 36px;
+   left: 38%;
+   top: 42%;
+   animation-delay: 0s;
+ }
+
+ .dmg.hit {
+   color: var(--ts-danger);
+   font-size: 24px;
+   left: 58%;
+   top: 52%;
+   animation-delay: 0.4s;
+ }
+
+ .dmg.exp {
+   color: var(--ts-accent);
+   font-size: 20px;
+   left: 48%;
+   top: 38%;
+   animation-delay: 0.8s;
+ }
+
+ @keyframes dmgFloat {
+   0% {
+     transform: translateY(0) scale(0.8);
+     opacity: 0;
+   }
+
+   20% {
+     transform: translateY(-10px) scale(1.1);
+     opacity: 1;
+   }
+
+   100% {
+     transform: translateY(-60px) scale(1);
+     opacity: 0;
+   }
+ }
+
+ /* BOTTOM */
+ .bottom {
+   display: grid;
+   grid-template-columns: 1fr auto 1fr;
+   align-items: end;
+   gap: 16px;
+ }
+
+ /* Action bar */
+ .action-bar {
+   display: flex;
+   gap: 8px;
+   background: color-mix(in srgb, var(--ts-bg-0) 80%, transparent);
+   backdrop-filter: blur(12px);
+   border: 1px solid var(--ts-border-accent);
+   padding: 10px;
+   border-radius: 8px;
+   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 100%, 14px 100%);
+ }
+
+ .slot {
+   width: 56px;
+   height: 56px;
+   background: var(--ts-bg-1);
+   border: 1px solid var(--ts-border-0);
+   border-radius: 4px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-family: var(--ts-font-display);
+   font-weight: 800;
+   font-size: 22px;
+   color: var(--ts-text-primary);
+   position: relative;
+   cursor: pointer;
+   transition: border-color .15s, transform .15s;
+ }
+
+ .slot:hover {
+   border-color: var(--ts-border-accent);
+   transform: translateY(-2px);
+ }
+
+ .slot.active {
+   background: color-mix(in srgb, var(--ts-accent) 22%, var(--ts-bg-1));
+   border-color: var(--ts-accent);
+   box-shadow: 0 0 16px color-mix(in srgb, var(--ts-accent) 60%, transparent);
+   color: var(--ts-accent);
+ }
+
+ .slot .key {
+   position: absolute;
+   bottom: 2px;
+   right: 4px;
+   font-family: var(--ts-font-mono);
+   font-size: 8px;
+   color: var(--ts-text-muted);
+   letter-spacing: 0.06em;
+ }
+
+ .slot .cd {
+   position: absolute;
+   inset: 0;
+   background: rgba(0, 0, 0, 0.55);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-family: var(--ts-font-mono);
+   font-size: 16px;
+   color: var(--ts-warning);
+   border-radius: 4px;
+ }
+
+ .slot .stack {
+   position: absolute;
+   top: 2px;
+   right: 4px;
+   font-family: var(--ts-font-mono);
+   font-size: 9px;
+   color: var(--ts-text-secondary);
+ }
+
+ /* Combo meter */
+ .combo {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 4px;
+   padding: 14px 24px;
+   background: color-mix(in srgb, var(--ts-bg-0) 70%, transparent);
+   backdrop-filter: blur(12px);
+   border: 1px solid var(--ts-border-accent);
+   border-radius: 6px;
+   clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
+ }
+
+ .combo .label {
+   font-family: var(--ts-font-mono);
+   font-size: 9px;
+   letter-spacing: 0.2em;
+   color: var(--ts-text-muted);
+ }
+
+ .combo .num {
+   font-family: var(--ts-font-display);
+   font-weight: 800;
+   font-size: 36px;
+   line-height: 1;
+   letter-spacing: -0.04em;
+   color: var(--ts-accent);
+   text-shadow: 0 0 16px color-mix(in srgb, var(--ts-accent) 70%, transparent);
+ }
+
+ .combo .num em {
+   font-style: italic;
+ }
+
+ .combo .mult {
+   font-family: var(--ts-font-mono);
+   font-size: 11px;
+   color: var(--ts-warning);
+ }
+
+ /* Chat / log */
+ .log {
+   background: color-mix(in srgb, var(--ts-bg-0) 70%, transparent);
+   backdrop-filter: blur(12px);
+   border: 1px solid var(--ts-border-0);
+   padding: 12px 16px;
+   border-radius: 6px;
+   width: 320px;
+   max-height: 140px;
+   overflow: hidden;
+   clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+ }
+
+ .log .ttl {
+   font-family: var(--ts-font-mono);
+   font-size: 9px;
+   letter-spacing: 0.16em;
+   color: var(--ts-accent);
+   margin-bottom: 8px;
+ }
+
+ .log .line {
+   font-family: var(--ts-font-mono);
+   font-size: 11px;
+   line-height: 1.5;
+   color: var(--ts-text-secondary);
+ }
+
+ .log .line .who {
+   color: var(--ts-accent);
+ }
+
+ .log .line .ally {
+   color: hsl(180, 80%, 60%);
+ }
+
+ .log .line .sys {
+   color: var(--ts-warning);
+ }
+
+ /* Notice */
+ .notice {
+   position: absolute;
+   top: 110px;
+   left: 50%;
+   transform: translateX(-50%);
+   background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--ts-warning) 18%, transparent), transparent);
+   padding: 6px 24px;
+   font-family: var(--ts-font-display);
+   font-weight: 700;
+   font-size: 18px;
+   letter-spacing: 0.05em;
+   text-transform: uppercase;
+   color: var(--ts-warning);
+   text-shadow: 0 0 12px var(--ts-warning);
+ }
+</style>
+</head>
+<body class="ts-main ts-showcase ts-landing" data-screen-label="04 Game HUD">
+  <div class="backdrop"></div>
+
+  <div class="hud">
+    <!-- TOP -->
+    <div class="top">
+      <div class="top-left">
+        <div class="player-card">
+          <div class="av">MV</div>
+          <div class="meta">
+            <div class="name">Marcus<em> Vance</em></div>
+            <div class="rank">Lv 47 · Vanguard III</div>
+          </div>
+        </div>
+        <div class="vitals">
+          <div class="bar hp"><div class="lab">HP</div><div class="track"><div class="fill"></div></div><div class="v">784/1000</div></div>
+          <div class="bar mp"><div class="lab">MP</div><div class="track"><div class="fill"></div></div><div class="v">256/400</div></div>
+          <div class="bar xp"><div class="lab">XP</div><div class="track"><div class="fill"></div></div><div class="v">42%</div></div>
+        </div>
+      </div>
+
+      <div class="mission">
+        <div class="obj">⌖ PRIMARY OBJECTIVE</div>
+        <h2>Breach the <em>Spire</em></h2>
+        <div class="step">Step 2 of 3 · Disable shield generators</div>
+        <div class="timer"><span class="t">04:21</span><span class="l">REMAINING</span></div>
+      </div>
+
+      <div class="top-right">
+        <div class="currency-strip">
+          <div class="coin gold"><div class="ic"></div>14,820</div>
+          <div class="coin gem"><div class="ic"></div>148</div>
+          <div class="coin token"><div class="ic"></div>72</div>
+        </div>
+        <div class="minimap">
+          <svg viewBox="0 0 220 160">
+            <defs>
+              <pattern id="hex" width="20" height="17.32" patternUnits="userSpaceOnUse">
+                <polygon points="10,0 20,5 20,12 10,17 0,12 0,5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+              </pattern>
+            </defs>
+            <rect width="220" height="160" fill="url(#hex)"/>
+            <path d="M30,140 Q60,90 100,80 T180,30" fill="none" stroke="var(--ts-accent)" stroke-width="1" stroke-dasharray="2 2"/>
+            <circle cx="30" cy="140" r="4" fill="var(--ts-accent)"/>
+            <circle cx="180" cy="30" r="6" fill="none" stroke="var(--ts-warning)" stroke-width="1.5"/>
+            <circle cx="180" cy="30" r="3" fill="var(--ts-warning)"/>
+            <circle cx="80" cy="60" r="3" fill="var(--ts-danger)"/>
+            <circle cx="120" cy="100" r="3" fill="var(--ts-danger)"/>
+            <circle cx="60" cy="110" r="3" fill="hsl(180,80%,60%)"/>
+            <polygon points="110,80 116,76 116,84" fill="var(--ts-accent)"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER -->
+    <div class="center-stage">
+      <div class="notice">⚠ INCOMING WAVE</div>
+      <div class="crosshair">
+        <div class="ring"></div>
+      </div>
+      <div class="dmg crit">−842!</div>
+      <div class="dmg hit">−312</div>
+      <div class="dmg exp">+1,400 XP</div>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="bottom">
+      <div style="display:flex; justify-content:flex-start;">
+        <div class="action-bar">
+          <div class="slot active">⚔<span class="key">1</span></div>
+          <div class="slot">✦<span class="key">2</span></div>
+          <div class="slot">⊛<span class="key">3</span><div class="cd">8</div></div>
+          <div class="slot">⚲<span class="key">4</span></div>
+          <div class="slot">⊕<span class="key">Q</span><span class="stack">×3</span></div>
+          <div class="slot">▲<span class="key">E</span><span class="stack">×5</span></div>
+          <div class="slot">⊗<span class="key">R</span></div>
+        </div>
+      </div>
+
+      <div class="combo">
+        <div class="label">COMBO</div>
+        <div class="num"><em>x18</em></div>
+        <div class="mult">+2.4× multiplier</div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end;">
+        <div class="log">
+          <div class="ttl">▤ COMBAT LOG</div>
+          <div class="line"><span class="who">Marcus</span> dealt <span style="color:var(--ts-warning);">842 crit</span> to Wraith</div>
+          <div class="line"><span class="ally">Lina_K</span> activated <span style="color:var(--ts-info);">Aegis Field</span></div>
+          <div class="line"><span class="sys">[SYS]</span> Wave 7/12 incoming</div>
+          <div class="line"><span class="who">Marcus</span> used <span style="color:var(--ts-accent);">Voidstrike</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

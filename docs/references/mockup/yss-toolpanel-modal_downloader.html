@@ -1,0 +1,112 @@
+<div id="yss-modal-overlay" class="yss-modal-overlay closable">
+    <div class="yss-modal-content yss-sticky-modal" style="max-width: 600px;">
+        <div class="yss-modal-title">
+            <h3>Downloader Processing Options</h3>
+            <button class="yss-btn yss-btn-icon yss-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="yss-modal-view">
+            <div class="yss-form-group">
+                <label>Processing Mode:</label>
+                <select id="processingMode">
+                    <option value="live">Live Processing</option>
+                    <option value="prefetch">Pre-fetch &amp; Compare</option>
+                    <option value="manual">Manual Selection</option>
+                    <option value="prefetch-only">Pre-fetch Only</option>
+                </select>
+                <legend id="processingModeHelp">Live Processing (Default) - Process videos as you navigate pages. Is the normal bulk-download processing, It may Be slower on big channels or slow bandwidth connections.</legend>
+                <div id="fileStatusIndicator" style="margin-top: 8px; font-size: 12px; color: rgb(255, 193, 7); display: none;"><span style="display: inline;"><i class="fa-solid fa-triangle-exclamation yss-icon-added"></i><span> No files imported - Import files to use Pre-fetch mode</span></span>
+                </div>
+                <div class="yss-modal-buttons">
+                    <div class="yss-modal-actions-left">
+                        <button id="yss-modal-view-last-prefetch" class="yss-btn yss-btn-secondary" data-tooltip="View last pre-fetch data"><i class="fa-solid fa-eye"></i><span>View Last Pre-fetch</span></button>
+                    </div>
+                    <div class="yss-modal-actions-left">
+                        <button id="yss-modal-summary" class="yss-btn yss-btn-secondary" data-tooltip="View download summary"><i class="fa-solid fa-chart-bar"></i><span>View Summary</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="yss-form-group yss-input-container-clickable" id="manualSelectionGroup" style="display: none; cursor: pointer;">
+                <label>
+                    <input type="checkbox" id="manualSelection"><span>Manual Selection: Start from specific video or select what videos to process.</span></label>
+                <legend>If checked, you can manually select specific videos to download</legend>
+            </div>
+            <div class="yss-form-group">
+                <div class="yss-textarea-wrapper with-button">
+                    <label class="yss-textarea-label">Import Existing Downloaded .mp4 Filenames list.</label>
+                    <textarea id="downloader-import-filenames-area" placeholder="Paste your downloaded filenames here, separated by &quot;---&quot;
+
+Example:
+Video Title 1.mp4 --- Video Title 2.mp4 --- Video Title 3.mp4"></textarea>
+                    <button id="downloader-import-filenames-btn" class="yss-btn yss-btn-primary" data-tooltip="Import the downloaded local Video files to store the filenames and do the comparisons to avoid duplicates."><i class="fa-solid fa-file-import"></i><span>Import Files</span></button>
+                </div>
+                <div class="yss-modal-buttons">
+                    <div class="yss-modal-actions-left">
+                        <button id="uploadFileNamesBtn" class="yss-btn yss-btn-secondary" data-tooltip="Select your last downloaded local Video files to store the filenames and do the comparisons to avoid duplicates."><i class="fa-solid fa-upload"></i><span>Upload Files</span></button>
+                        <input type="file" accept=".mp4" multiple="" id="fileNameInput" style="display: none;">
+                    </div>
+                    <button id="viewImportedFilesBtn" class="yss-btn yss-btn-secondary" data-tooltip="View and manage the imported files Name List to avoid duplicates."><i class="fa-solid fa-folder-open"></i><span>View Imported Files</span></button>
+                </div>
+            </div>
+            <div class="yss-form-group">
+                <div class="yss-textarea-wrapper with-button">
+                    <label class="yss-textarea-label">Import YouTube Download URLs</label>
+                    <textarea id="downloader-import-urls-area" placeholder="Paste YouTube URLs here, one per line...
+
+Example:
+https://youtube.com/download_my_video?v=VIDEO_ID_1&amp;t=.[...]
+https://youtube.com/download_my_video?v=VIDEO_ID_2&amp;t=.[...]
+https://youtube.com/download_my_video?v=VIDEO_ID_3&amp;t=.[...]
+https://youtube.com/download_my_video?v=VIDEO_ID_4&amp;t=.[...]"></textarea>
+                    <button id="downloader-save-urls-btn" class="yss-btn yss-btn-primary"><i class="fa-solid fa-floppy-disk" style="font-size: inherit; color: currentcolor;"></i>Save URLs</button>
+                </div>
+                <div class="yss-modal-buttons">
+                    <div class="yss-modal-actions-left">
+                        <button id="yss-clear-imported-btn" class="yss-btn yss-btn-stop" data-tooltip="Clear all imported URLs and fetched data" disabled="" style="opacity: 0.5;"><i class="fa-solid fa-broom" style="font-size: inherit; color: currentcolor;"></i>Clear All</button>
+                        <button id="uploadExportsBtn" class="yss-btn yss-btn-secondary data-tooltip" data-tooltip="Upload your last Summary export JSON or CSV File to get the Download URLs"><i class="fa-solid fa-upload" style="font-size: inherit; color: currentcolor;"></i>Upload Exports</button>
+                        <input type="file" accept=".json,.csv" style="display: none;">
+                    </div>
+                    <button id="downloader-view-urls-btn" class="yss-btn yss-btn-secondary"><i class="fa-solid fa-link" style="font-size: inherit; color: currentcolor;"></i>View Imported URLs</button>
+                </div>
+            </div>
+            <div class="yss-form-groups-row">
+                <div class="yss-form-group">
+                    <label>Number of videos to process:</label>
+                    <div class="yss-number-input-wrapper">
+                        <input type="number" id="maxVideos" min="0">
+                        <div class="yss-number-input-controls">
+                            <button type="button" class="yss-number-btn" aria-label="Increment"><i class="fa-solid fa-chevron-up" style="font-size: inherit; color: currentcolor;"></i></button>
+                            <button type="button" class="yss-number-btn" aria-label="Decrement"><i class="fa-solid fa-chevron-down" style="font-size: inherit; color: currentcolor;"></i></button>
+                        </div>
+                    </div>
+                    <legend>0 = Process all videos, or enter a specific number</legend>
+                </div>
+                <div class="yss-form-group">
+                    <label>Starting position on current page:</label>
+                    <div class="yss-number-input-wrapper">
+                        <input type="number" id="startPosition" min="1">
+                        <div class="yss-number-input-controls">
+                            <button type="button" class="yss-number-btn" aria-label="Increment"><i class="fa-solid fa-chevron-up" style="font-size: inherit; color: currentcolor;"></i></button>
+                            <button type="button" class="yss-number-btn" aria-label="Decrement"><i class="fa-solid fa-chevron-down" style="font-size: inherit; color: currentcolor;"></i></button>
+                        </div>
+                    </div>
+                    <legend>Position 1 = first video on the page</legend>
+                </div>
+            </div>
+            <div class="yss-form-group">
+                <label>Search for specific titles (optional):</label>
+                <textarea id="searchTitles" placeholder="Enter video titles to search for, one per line..." style="height: 80px; resize: vertical;"></textarea>
+                <legend>Only download videos whose titles contain these keywords</legend>
+            </div>
+        </div>
+        <div class="yss-modal-actions">
+            <div class="yss-modal-actions-left">
+                <button id="yss-modal-cancel" class="yss-btn yss-btn-clear" data-tooltip="Cancel and close modal"><i class="fa-solid fa-times"></i><span>Cancel</span></button>
+                <button id="yss-modal-clear-all-data" class="yss-btn yss-btn-clear" data-tooltip="Clear all stored data"><i class="fa-solid fa-trash"></i><span>Clear All Data</span></button>
+            </div>
+            <div class="yss-modal-actions-right">
+                <button id="yss-modal-run-pages" class="yss-btn yss-btn-secondary" data-tooltip="Start quick page navigation"><i class="fa-solid fa-play"></i><span>Run Pages</span></button>
+                <button id="yss-modal-start-downloading" class="yss-btn yss-btn-primary" data-tooltip="Start the download process"><i class="fa-solid fa-download"></i><span>Start Downloading</span></button>
+            </div>
+        </div>
+    </div>
+</div>

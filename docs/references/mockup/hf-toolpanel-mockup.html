@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Higgsfield Toolpanel Mockup</title>
+    <link rel="stylesheet" href="../assets/css/Higgsfield_Automation_v4.9.6.user.css?v=4.9.6.4">
+    <link rel="stylesheet" href="../assets/css/extra-styles.css">
+    <link rel="icon" type="image/x-icon"
+        href="https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://higgsfield.ai&size=64"
+        sizes="any">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script type="text/javascript" src="../assets/js/mockup-scripts.js"></script>
+    <style>
+        body {
+            background-image: url(../assets/img/bg_yt_s.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        /* ── HF Panel mockup positioning ── */
+        #hf-panel {
+            position: fixed !important;
+            inset: 50% auto auto 50% !important;
+            transform: translate(-50%, -50%) !important;
+            will-change: auto !important;
+            max-height: calc(90vh - 60px) !important;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: none !important;
+            min-height: 200px;
+            width: 520px;
+            max-width: 95vw;
+        }
+
+        .container>header {
+            display: flex !important;
+            flex: 1 1 auto !important;
+            flex-direction: row !important;
+            justify-content: space-between;
+            width: 100%;
+            pointer-events: all !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            border: none;
+            z-index: 9999;
+            padding: 0 20px;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .container>header h1 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+            font-weight: 400;
+            margin: 0;
+            padding: 12px 0;
+        }
+
+        .container>header h1 strong {
+            font-weight: 700;
+            color: #67e8f9;
+            margin-left: auto;
+        }
+
+        .back-link {
+            color: #71717a;
+            text-decoration: none;
+            font-size: .82rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color .2s;
+        }
+
+        .back-link:hover {
+            color: #e4e4e7;
+        }
+
+        body:has(#hf-panel),
+        #hf-ui-root,
+        body:has(#hf-panel) table#hf-prefetch-table,
+        #hf-ui-root #hf-prefetch-table-scroll {
+            td.cell-id-cell {
+                max-width: 30px;
+            }
+
+            td.url-cell.download-url-cell {
+                width: 40%;
+                padding: 15px !important;
+                position: relative;
+                border-right: 1px solid var(--hf-table-border) !important;
+            }
+
+            td.url-cell.download-url-cell a {
+                max-width: -webkit-fill-available;
+                box-sizing: border-box;
+                width: 100%;
+            }
+
+            .hf-table td.select-cell,
+            .hf-table th.select-head {
+                width: 50px !important;
+                max-width: 50px !important;
+                text-align: center;
+                padding: 0 !important;
+                border-right: 1px solid var(--hf-table-border) !important;
+
+            }
+
+            .hf-table td.hf-image-cell {
+                text-align: center !important;
+                position: relative;
+                min-height: 50px !important;
+                height: 50px !important;
+                width: 50px !important;
+                overflow: hidden;
+                object-fit: cover;
+                object-position: center;
+                background: var(--hf-header-bg);
+                color: #78787812 !important;
+                border-right: 1px solid var(--hf-table-border) !important;
+
+            }
+
+            .hf-table td.status-cell {
+                max-width: 95px !important;
+                width: fit-content !important;
+            }
+
+            div#hf-prefetch-table-scroll {
+                border-radius: 8px;
+                outline: 1px solid var(--hf-table-border) !important;
+                background: var(--hf-panel-bg);
+
+
+            }
+
+            #hf-ui-root #hf-panel #hf-table-log-section {
+                max-height: 100% !important;
+
+                max-height: -webkit-fill-available !important;
+                height: -webkit-fill-available !important;
+                resize: none !important;
+                overflow: hidden !important;
+            }
+
+            #hf-ui-root #hf-panel #hf-table-log-section .hf-log-area:has(table) {
+                padding: 0 !important;
+                height: auto !important;
+                overflow-y: auto !important;
+
+            }
+
+            #hf-ui-root #hf-panel #hf-table-log-section .hf-log-area table#hf-log-table td {
+                font-size: 10px !important;
+                border-right: 1px solid #222 !important;
+                padding: var(--hf-spacing-sm) var(--hf-spacing-sm) !important;
+            }
+
+            #hf-ui-root #hf-panel #hf-table-log-section .hf-log-area table#hf-log-table td.prompt-cell,
+            #hf-ui-root #hf-panel #hf-table-log-section .hf-log-area table#hf-log-table th.hf-col-prompt {
+                white-space: nowrap;
+                max-width: 180px !important;
+                min-width: 20% !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+
+            }
+        }
+
+
+
+        .hf-checkbox-label {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 8px;
+            white-space: nowrap;
+            font-size: 14px;
+            padding: 5px !important;
+            /* flex: 1; */
+        }
+
+        div#hf-prefetch-filter-bar {
+            margin-top: 10px !important;
+            padding: 5px !important;
+            position: relative;
+        }
+
+        #hf-ui-root #hf-panel .hf-panel-log-wrapper .hf-log-entry:not(:has(.hf-log-content)) {
+            padding: 14px !important;
+            --accent-color: #7f7f7f !important;
+        }
+
+        #hf-ui-root #hf-panel .hf-panel-log-wrapper:not(:has(.hf-log-content)) .hf-log-buttons {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="hf-ui-root">
+        <header id="header" class="" style="max-height: 60px!important; padding: 7px!important; border-radius: calc(var(--mockup-border-radius)*1)!important;">
+            <h1 style=" font-size: 1.2rem!important; padding-inline-start: 1rem; height: unset; line-height: 1;">Higgsfield Toolpanel Mockup <strong style=" color: var(--hf-primary); ">// Main Panel</strong></h1>
+            
+        <a href="index.html" class="back-link hf-btn hf-btn-primary" style=" font-size: 14px!important; border-radius: calc(var(--mockup-border-radius)*1)!important; "><ion-icon name="arrow-back-outline"></ion-icon>Back to Index</a></header>
+
+       <div id="hf-panel" style="inset: 56px auto auto 579px;" class="">
+    <div class="hf-header" id="hf-header"> <span class="hf-version">v4.9.6</span>
+        <div class="hf-header-left"> <img src="https://t3.gstatic.com/faviconV2?client=SOCIAL&amp;type=FAVICON&amp;fallback_opts=TYPE,SIZE,URL&amp;url=http://higgsfield.ai&amp;size=64" class="hf-icon hf-band hf-logo" alt="Higgsfield Automation">
+            <h3 class="header-title">Higgsfield Automation</h3> </div>
+        <div class="hf-header-right">
+            <button class="hf-header-btn hide" data-tooltip="Toggle Tooltips">
+                <ion-icon name="checkmark" class="hf-icon" aria-hidden="true" style="font-size: 12px;" role="img"></ion-icon>
+            </button>
+            <button class="hf-header-btn" data-tooltip="Help &amp; Instructions">
+                <ion-icon name="help-circle" class="hf-icon" aria-hidden="true" style="font-size: 12px;" role="img"></ion-icon>
+            </button>
+            <button class="hf-header-btn" data-tooltip="Settings">
+                <ion-icon name="settings" class="hf-icon" aria-hidden="true" style="font-size: 12px;" role="img"></ion-icon>
+            </button>
+            <button class="hf-header-btn" data-tooltip="Minimize Panel">
+                <ion-icon name="remove" class="hf-icon"></ion-icon>
+            </button>
+        </div>
+    </div>
+    <div class="hf-controls">
+        <div class="button-row">
+            <div class="button-group">
+                <button id="hf-btn-dashboard" class="hf-btn btn-info" data-tooltip="View Dashboard and manage queue items">
+                    <ion-icon name="grid" class="hf-icon" style="font-size: 14px;"></ion-icon> <span class="btn-label">Dashboard</span></button>
+                <button id="hf-btn-prefetch" class="hf-btn btn-secondary" data-tooltip="Pre-fetch and bulk download generated videos from DOM">
+                    <ion-icon name="cloud-download-outline" class="hf-icon"></ion-icon><span class="btn-label">Pre-Fetch</span></button>
+                <button id="hf-btn-start" class="hf-btn hf-btn-primary" data-tooltip="Start processing the queue" disabled="">
+                    <ion-icon name="sparkles" class="hf-icon" style="font-size: 14px;"></ion-icon> <span class="btn-label">Start Queue</span></button>
+                <button id="hf-btn-pause" class="hf-btn hf-btn-pause hf-btn-icon loading" data-tooltip="Pause queue" disabled="">
+                    <ion-icon name="pause" class="hf-icon" style="font-size: 14px;"></ion-icon> <span class="sr-only btn-label">Pause</span></button>
+                <button id="hf-btn-stop" class="hf-btn hf-btn-stop btn-stop hf-btn-icon loading" data-tooltip="Stop queue processing" disabled="">
+                    <ion-icon name="stop" class="hf-icon" style="font-size: 14px;"></ion-icon> <span class="btn-label sr-only">Stop</span></button>
+            </div>
+        </div>
+    </div>
+    <div class="hf-body">
+        <div class="button-row hf-import-export-row">
+            <input type="file" id="hf-csv-input" accept=".csv" class="hf-file-input">
+            <input type="file" id="hf-video-input" multiple="" class="hf-file-input">
+            <button id="hf-btn-import-csv" class="hf-btn btn-primary hf-btn-flex" data-tooltip="Import CSV file with queue data">
+                <ion-icon name="cloud-upload" class="hf-icon" style="font-size: 14px;"></ion-icon> <span class="btn-label">Import CSV</span></button>
+            <button id="hf-btn-match-videos" class="hf-btn btn-secondary hf-btn-flex" data-tooltip="Match local videos with queue items">
+                <ion-icon name="git-compare" class="hf-icon" style="font-size: 14px;"></ion-icon> <span class="btn-label">Match Videos</span></button>
+            <button id="hf-btn-export" class="hf-btn btn-success hf-btn-flex" data-tooltip="Export queue data to CSV">
+                <ion-icon name="download" class="hf-icon" style="font-size: 14px;"></ion-icon> <span class="btn-label">Export</span></button>
+            <button id="hf-btn-clear" class="hf-btn btn-stop  hf-btn-flex" data-tooltip="Clear all queue data">
+                <ion-icon name="trash" class="hf-icon" style="font-size: 14px;"></ion-icon> <span class="btn-label">Clear</span></button>
+        </div>
+        <textarea id="hf-input" placeholder="Paste spreadsheet data here (ID, img_URL, Prompt)..."></textarea>
+        <div class="hf-stats"> <span id="hf-status-text"></span> <span id="hf-counter"></span> </div>
+        <label class="hf-row-label">
+            <input class="hf-checkbox" type="checkbox" id="hf-auto-download" style="cursor: pointer;" checked="" data-listener-attached="true"> <span>Auto-download videos when ready</span> </label>
+    </div>
+    <!-- LOG CONTAINER WITH ACCORDION TOGGLE -->
+    <div class="hf-logs-accordion">
+        <!-- Accordion Header -->
+        <div class="hf-logs-accordion-header">
+            <button class="hf-logs-toggle-btn" id="hf-logs-toggle" data-tooltip="Toggle between Table Log and Workflow Log">
+                <ion-icon name="list" class="hf-icon" role="img"></ion-icon> <span class="hf-logs-toggle-label">Workflow Log</span>
+                <ion-icon name="chevron-down" class="hf-icon extra-icon right" role="img"></ion-icon>
+            </button>
+            <div class="hf-log-buttons">
+                <button class="hf-log-btn" id="hf-table-log-clear" data-tooltip="Clear Generation Table Log">
+                    <ion-icon name="trash" class="hf-icon" aria-hidden="true" style="font-size: 12px;" role="img"></ion-icon>
+                </button>
+            </div>
+        </div>
+        <!-- Table Log (Generation Progress) -->
+        <div class="hf-logs-container hf-log-section-hidden" id="hf-table-log-section">
+            <div class="hf-log-area">
+                <table id="hf-log-table">
+                    <thead>
+                        <tr>
+                            <th class="hf-col-th hf-col-id sortable" data-sort-key="id" style="cursor: pointer;">ID</th>
+                            <th class="hf-col-th hf-col-prompt sortable" data-sort-key="prompt" style="cursor: pointer;">Prompt</th>
+                            <th class="hf-col-th hf-col-status sortable" data-sort-key="status" style="cursor: pointer;">Status</th>
+                            <th class="hf-col-th hf-col-timestamp sortable" data-sort-key="timestamp" style="cursor: pointer;">Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Workflow Log (Process Tracking) -->
+        <div class="hf-panel-log-wrapper hf-log-section-active" id="hf-workflow-log-section">
+            <div class="hf-log-buttons">
+                <button class="hf-log-btn" id="hf-log-copy" data-tooltip="Copy Log">
+                    <ion-icon name="copy" class="hf-icon" aria-hidden="true" style="font-size: 12px;" role="img"></ion-icon>
+                </button>
+                <button class="hf-log-btn" id="hf-log-download" data-tooltip="Download Log">
+                    <ion-icon name="download" class="hf-icon" aria-hidden="true" style="font-size: 12px;" role="img"></ion-icon>
+                </button>
+                <button class="hf-log-btn" id="hf-log-clear" data-tooltip="Clear Log">
+                    <ion-icon name="trash-outline" class="hf-icon" aria-hidden="true" style="font-size: 12px;" role="img"></ion-icon>
+                </button>
+            </div>
+            <div class="hf-log-area" id="hf-log-area">
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:20:55 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:20:55 PM] </span><span class="hf-log-content clamped">Starting pre-fetch of all generated videos from DOM...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:20:55 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switching to list layout for collection...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:20:55 PM] </span><span class="hf-log-content clamped">Pre-fetch: Already in List layout mode</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:20:56 PM] </span><span class="hf-log-content clamped">Pre-fetch: Using window scrolling</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:20:57 PM] </span><span class="hf-log-content clamped">Pre-fetch: Initial scrape found 0 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:20:58 PM] </span><span class="hf-log-content clamped">Pre-fetch: Reached bottom of page</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:20:58 PM] </span><span class="hf-log-content clamped">Pre-fetch: Collection complete. Found 0 items after scrolling</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[8:20:58 PM] </span><span class="hf-log-content clamped">Pre-fetch complete: Discovered 0 items | {"totalItems":0,"videosFound":0,"withPrompt":0}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:21:46 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:21:46 PM] </span><span class="hf-log-content clamped">Starting pre-fetch of all generated videos from DOM...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:21:46 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switching to list layout for collection...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:21:46 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switched to List layout mode</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:21:48 PM] </span><span class="hf-log-content clamped">Pre-fetch: Using container scrolling</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:21:48 PM] </span><span class="hf-log-content clamped">Pre-fetch: Initial scrape found 0 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:21:51 PM] </span><span class="hf-log-content clamped">Pre-fetch: Reached bottom of page</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:21:51 PM] </span><span class="hf-log-content clamped">Pre-fetch: Collection complete. Found 0 items after scrolling</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[8:21:51 PM] </span><span class="hf-log-content clamped">Pre-fetch complete: Discovered 0 items | {"totalItems":0,"videosFound":0,"withPrompt":0}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:01 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:01 PM] </span><span class="hf-log-content clamped">Starting pre-fetch of all generated videos from DOM...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:01 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switching to list layout for collection...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:01 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switched to List layout mode</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:03 PM] </span><span class="hf-log-content clamped">Pre-fetch: Using container scrolling</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:04 PM] </span><span class="hf-log-content clamped">Pre-fetch: Initial scrape found 0 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:06 PM] </span><span class="hf-log-content clamped">Pre-fetch: Reached bottom of page</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:06 PM] </span><span class="hf-log-content clamped">Pre-fetch: Collection complete. Found 0 items after scrolling</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[8:22:06 PM] </span><span class="hf-log-content clamped">Pre-fetch complete: Discovered 0 items | {"totalItems":0,"videosFound":0,"withPrompt":0}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:31 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:32 PM] </span><span class="hf-log-content clamped">Starting pre-fetch of all generated videos from DOM...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:32 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switching to list layout for collection...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:32 PM] </span><span class="hf-log-content clamped">Pre-fetch: Already in List layout mode</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:33 PM] </span><span class="hf-log-content clamped">Pre-fetch: Using window scrolling</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:34 PM] </span><span class="hf-log-content clamped">Pre-fetch: Initial scrape found 0 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:35 PM] </span><span class="hf-log-content clamped">Pre-fetch: Reached bottom of page</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[8:22:35 PM] </span><span class="hf-log-content clamped">Pre-fetch: Collection complete. Found 0 items after scrolling</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[8:22:35 PM] </span><span class="hf-log-content clamped">Pre-fetch complete: Discovered 0 items | {"totalItems":0,"videosFound":0,"withPrompt":0}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:27 PM] </span><span class="hf-log-content clamped">Higgsfield Automation v4.9.6 Loaded</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:37 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:38 PM] </span><span class="hf-log-content clamped">Starting pre-fetch of all generated videos from DOM...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:38 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switching to list layout for collection...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:38 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switched to List layout mode</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:00:40 PM] </span><span class="hf-log-content clamped">Pre-fetch: No [data-index] elements found in list layout</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:00:40 PM] </span><span class="hf-log-content clamped">Pre-fetch: Could not find list container</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:49 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:49 PM] </span><span class="hf-log-content clamped">Starting pre-fetch of all generated videos from DOM...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:49 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switching to list layout for collection...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:49 PM] </span><span class="hf-log-content clamped">Pre-fetch: Already in List layout mode</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:51 PM] </span><span class="hf-log-content clamped">Pre-fetch: Found list container with 13 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:51 PM] </span><span class="hf-log-content clamped">Pre-fetch: Using container for list layout collection</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:51 PM] </span><span class="hf-log-content clamped">Pre-fetch: Using window scrolling</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:51 PM] </span><span class="hf-log-content clamped">Pre-fetch: Scrape #1 - Found 13 [data-index] elements in document</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:51 PM] </span><span class="hf-log-content clamped">Pre-fetch: Added 13 new items in scrape #1. Total: 13</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:51 PM] </span><span class="hf-log-content clamped">Pre-fetch: Initial scrape found 13 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:54 PM] </span><span class="hf-log-content clamped">Pre-fetch: Reached bottom of page</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:00:54 PM] </span><span class="hf-log-content clamped">Pre-fetch: Collection complete. Found 13 items after scrolling</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:00:54 PM] </span><span class="hf-log-content clamped">Pre-fetch complete: Discovered 13 items | {"totalItems":13,"videosFound":13,"withPrompt":13}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:01:11 PM] </span><span class="hf-log-content clamped">Extracting video URLs on-demand for 13 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:01:11 PM] </span><span class="hf-log-content clamped">Switching to grid layout for video extraction...</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:11 PM] </span><span class="hf-log-content clamped">No cellId for video 0</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:11 PM] </span><span class="hf-log-content clamped">No cellId for video 1</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:12 PM] </span><span class="hf-log-content clamped">No cellId for video 2</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:12 PM] </span><span class="hf-log-content clamped">No cellId for video 3</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:12 PM] </span><span class="hf-log-content clamped">No cellId for video 4</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:12 PM] </span><span class="hf-log-content clamped">No cellId for video 5</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:13 PM] </span><span class="hf-log-content clamped">No cellId for video 6</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:13 PM] </span><span class="hf-log-content clamped">No cellId for video 7</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:13 PM] </span><span class="hf-log-content clamped">No cellId for video 8</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:13 PM] </span><span class="hf-log-content clamped">No cellId for video 9</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:14 PM] </span><span class="hf-log-content clamped">No cellId for video 10</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:14 PM] </span><span class="hf-log-content clamped">No cellId for video 11</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:15 PM] </span><span class="hf-log-content clamped">No cellId for video 12</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:01:15 PM] </span><span class="hf-log-content clamped">Video URL extraction complete: 0 success, 13 failed</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:01:35 PM] </span><span class="hf-log-content clamped">Extracting video URLs on-demand for 13 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:01:35 PM] </span><span class="hf-log-content clamped">Switching to grid layout for video extraction...</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:35 PM] </span><span class="hf-log-content clamped">No cellId for video 0</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:36 PM] </span><span class="hf-log-content clamped">No cellId for video 1</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:36 PM] </span><span class="hf-log-content clamped">No cellId for video 2</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:36 PM] </span><span class="hf-log-content clamped">No cellId for video 3</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:37 PM] </span><span class="hf-log-content clamped">No cellId for video 4</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:37 PM] </span><span class="hf-log-content clamped">No cellId for video 5</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:37 PM] </span><span class="hf-log-content clamped">No cellId for video 6</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:37 PM] </span><span class="hf-log-content clamped">No cellId for video 7</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:38 PM] </span><span class="hf-log-content clamped">No cellId for video 8</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:38 PM] </span><span class="hf-log-content clamped">No cellId for video 9</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:38 PM] </span><span class="hf-log-content clamped">No cellId for video 10</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:38 PM] </span><span class="hf-log-content clamped">No cellId for video 11</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:01:39 PM] </span><span class="hf-log-content clamped">No cellId for video 12</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:01:39 PM] </span><span class="hf-log-content clamped">Video URL extraction complete: 0 success, 13 failed</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:07 PM] </span><span class="hf-log-content clamped">Higgsfield Automation v4.9.6 Loaded</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:20 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:20 PM] </span><span class="hf-log-content clamped">Starting pre-fetch of all generated videos from DOM...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:21 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switching to list layout for collection...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:21 PM] </span><span class="hf-log-content clamped">Pre-fetch: Already in List layout mode</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:22 PM] </span><span class="hf-log-content clamped">Pre-fetch: Found list container with 13 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:22 PM] </span><span class="hf-log-content clamped">Pre-fetch: Using container for list layout collection</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:22 PM] </span><span class="hf-log-content clamped">Pre-fetch: Using window scrolling</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:23 PM] </span><span class="hf-log-content clamped">Pre-fetch: Scrape #1 - Found 13 [data-index] elements in document</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:23 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 0 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:23 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 1 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:23 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 2 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:23 PM] </span><span class="hf-log-content clamped">Pre-fetch: Added 13 new items in scrape #1. Total: 13</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:23 PM] </span><span class="hf-log-content clamped">Pre-fetch: Initial scrape found 13 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:25 PM] </span><span class="hf-log-content clamped">Pre-fetch: Reached bottom of page</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:26 PM] </span><span class="hf-log-content clamped">Pre-fetch: Collection complete. Found 13 items after scrolling</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:23:26 PM] </span><span class="hf-log-content clamped">Pre-fetch complete: Discovered 13 items | {"totalItems":13,"videosFound":13,"withPrompt":13}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:32 PM] </span><span class="hf-log-content clamped">Extracting video URLs on-demand for 13 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:32 PM] </span><span class="hf-log-content clamped">Switching to grid layout for video extraction...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:32 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switched to Grid layout mode</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:34 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 0. cellId: none, dataIndex: 0</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:34 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 1. cellId: none, dataIndex: 1</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:34 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 2. cellId: none, dataIndex: 2</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:34 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 3. cellId: none, dataIndex: 3</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:35 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 4. cellId: none, dataIndex: 4</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:35 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 5. cellId: none, dataIndex: 5</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:35 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 6. cellId: none, dataIndex: 6</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:35 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 7. cellId: none, dataIndex: 7</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:36 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 8. cellId: none, dataIndex: 8</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:36 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 9. cellId: none, dataIndex: 9</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:37 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 10. cellId: none, dataIndex: 10</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:37 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 11. cellId: none, dataIndex: 11</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:37 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 12. cellId: none, dataIndex: 12</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:23:38 PM] </span><span class="hf-log-content clamped">Video URL extraction complete: 0 success, 13 failed</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:46 PM] </span><span class="hf-log-content clamped">Extracting video URLs on-demand for 13 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:46 PM] </span><span class="hf-log-content clamped">Switching to grid layout for video extraction...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:23:46 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switched to Grid layout mode</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:48 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 0. cellId: none, dataIndex: 0</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:48 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 1. cellId: none, dataIndex: 1</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:49 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 2. cellId: none, dataIndex: 2</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:49 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 3. cellId: none, dataIndex: 3</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:49 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 4. cellId: none, dataIndex: 4</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:49 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 5. cellId: none, dataIndex: 5</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:50 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 6. cellId: none, dataIndex: 6</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:50 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 7. cellId: none, dataIndex: 7</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:50 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 8. cellId: none, dataIndex: 8</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:51 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 9. cellId: none, dataIndex: 9</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:51 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 10. cellId: none, dataIndex: 10</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:51 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 11. cellId: none, dataIndex: 11</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:23:52 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 12. cellId: none, dataIndex: 12</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:23:52 PM] </span><span class="hf-log-content clamped">Video URL extraction complete: 0 success, 13 failed</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:03 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:04 PM] </span><span class="hf-log-content clamped">Using existing prefetched data: 13 videos</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:07 PM] </span><span class="hf-log-content clamped">Extracting video URLs on-demand for 13 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:07 PM] </span><span class="hf-log-content clamped">Switching to grid layout for video extraction...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:07 PM] </span><span class="hf-log-content clamped">Pre-fetch: Already in Grid layout mode</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:08 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell d8103d54-2305-4afb-8ec3-93774461341d</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:09 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell d8103d54-2305-4afb-8ec3-93774461341d to trigger injection... | {"cellId":"d8103d54-2305-4afb-8ec3-93774461341d"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:09 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell ec0e51ba-0429-43e2-bc9b-8f235ec8a2d6</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:09 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell ec0e51ba-0429-43e2-bc9b-8f235ec8a2d6 to trigger injection... | {"cellId":"ec0e51ba-0429-43e2-bc9b-8f235ec8a2d6"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:09 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell d8103d54-2305-4afb-8ec3-93774461341d after hover | {"cellId":"d8103d54-2305-4afb-8ec3-93774461341d","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:09 PM] </span><span class="hf-log-content clamped">Extracted video URL for d8103d54-2305-4afb-8ec3-93774461341d</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:09 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell ec0e51ba-0429-43e2-bc9b-8f235ec8a2d6 after hover | {"cellId":"ec0e51ba-0429-43e2-bc9b-8f235ec8a2d6","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:09 PM] </span><span class="hf-log-content clamped">Extracted video URL for ec0e51ba-0429-43e2-bc9b-8f235ec8a2d6</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:10 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 456cf37f-e688-47c9-af08-fe6c9349c48d</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:10 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell 456cf37f-e688-47c9-af08-fe6c9349c48d to trigger injection... | {"cellId":"456cf37f-e688-47c9-af08-fe6c9349c48d"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:10 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell b77253ba-92ae-411f-9bd5-d80d80594638</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:10 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell b77253ba-92ae-411f-9bd5-d80d80594638 to trigger injection... | {"cellId":"b77253ba-92ae-411f-9bd5-d80d80594638"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:10 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell 456cf37f-e688-47c9-af08-fe6c9349c48d after hover | {"cellId":"456cf37f-e688-47c9-af08-fe6c9349c48d","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:11 PM] </span><span class="hf-log-content clamped">Extracted video URL for 456cf37f-e688-47c9-af08-fe6c9349c48d</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:11 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell b77253ba-92ae-411f-9bd5-d80d80594638 after hover | {"cellId":"b77253ba-92ae-411f-9bd5-d80d80594638","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:11 PM] </span><span class="hf-log-content clamped">Extracted video URL for b77253ba-92ae-411f-9bd5-d80d80594638</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:12 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell c5ca360c-f76a-4630-92aa-3c847e923874</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:13 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell c5ca360c-f76a-4630-92aa-3c847e923874 to trigger injection... | {"cellId":"c5ca360c-f76a-4630-92aa-3c847e923874"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:13 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 09d59fe5-a6c4-42ea-adf5-67c4b7ff29da</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:13 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell 09d59fe5-a6c4-42ea-adf5-67c4b7ff29da to trigger injection... | {"cellId":"09d59fe5-a6c4-42ea-adf5-67c4b7ff29da"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:14 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell c5ca360c-f76a-4630-92aa-3c847e923874 after hover | {"cellId":"c5ca360c-f76a-4630-92aa-3c847e923874","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:15 PM] </span><span class="hf-log-content clamped">Extracted video URL for c5ca360c-f76a-4630-92aa-3c847e923874</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:15 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell 09d59fe5-a6c4-42ea-adf5-67c4b7ff29da after hover | {"cellId":"09d59fe5-a6c4-42ea-adf5-67c4b7ff29da","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:15 PM] </span><span class="hf-log-content clamped">Extracted video URL for 09d59fe5-a6c4-42ea-adf5-67c4b7ff29da</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:16 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell c5e8db56-2708-44ad-9949-33427770eaad</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:16 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell c5e8db56-2708-44ad-9949-33427770eaad | {"cellId":"c5e8db56-2708-44ad-9949-33427770eaad","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:16 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 4de3e43a-86b2-42bf-b2e7-f7165633cd79</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:17 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 4de3e43a-86b2-42bf-b2e7-f7165633cd79 | {"cellId":"4de3e43a-86b2-42bf-b2e7-f7165633cd79","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:17 PM] </span><span class="hf-log-content clamped">Extracted video URL for c5e8db56-2708-44ad-9949-33427770eaad</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:17 PM] </span><span class="hf-log-content clamped">Extracted video URL for 4de3e43a-86b2-42bf-b2e7-f7165633cd79</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:18 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 97ff6643-a1db-4f98-9e8b-287bcba04c11</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:18 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 97ff6643-a1db-4f98-9e8b-287bcba04c11 | {"cellId":"97ff6643-a1db-4f98-9e8b-287bcba04c11","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:18 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell f6ad0d47-a7e0-4549-9b51-73a1178fd571</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:18 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell f6ad0d47-a7e0-4549-9b51-73a1178fd571 to trigger injection... | {"cellId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:18 PM] </span><span class="hf-log-content clamped">Extracted video URL for 97ff6643-a1db-4f98-9e8b-287bcba04c11</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:22 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell f6ad0d47-a7e0-4549-9b51-73a1178fd571 after hover | {"cellId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:22 PM] </span><span class="hf-log-content clamped">Extracted video URL for f6ad0d47-a7e0-4549-9b51-73a1178fd571</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:23 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell bc4a792b-9f6a-413c-9a37-7a037a6e8ba5</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:23 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell bc4a792b-9f6a-413c-9a37-7a037a6e8ba5 | {"cellId":"bc4a792b-9f6a-413c-9a37-7a037a6e8ba5","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:23 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell c4b773f2-4d11-4ba5-8dcd-e58c4c45daf0</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:23 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell c4b773f2-4d11-4ba5-8dcd-e58c4c45daf0 | {"cellId":"c4b773f2-4d11-4ba5-8dcd-e58c4c45daf0","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:23 PM] </span><span class="hf-log-content clamped">Extracted video URL for bc4a792b-9f6a-413c-9a37-7a037a6e8ba5</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:23 PM] </span><span class="hf-log-content clamped">Extracted video URL for c4b773f2-4d11-4ba5-8dcd-e58c4c45daf0</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:24 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 7b3c7128-d055-46de-9a17-a04d60fb31af</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:24 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 7b3c7128-d055-46de-9a17-a04d60fb31af | {"cellId":"7b3c7128-d055-46de-9a17-a04d60fb31af","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:24 PM] </span><span class="hf-log-content clamped">Extracted video URL for 7b3c7128-d055-46de-9a17-a04d60fb31af</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:24:24 PM] </span><span class="hf-log-content clamped">Video URL extraction complete: 13 success, 0 failed</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:51 PM] </span><span class="hf-log-content clamped">downloadVideo: Starting download for item 0 | {"itemId":"0","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","cellId":"none","autoDownload":true,"itemStatus":"Ready"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:51 PM] </span><span class="hf-log-content clamped">downloadVideo: Extracted video ID d8103d54-2305-4afb-8ec3-93774461341d from URL | {"itemId":"0","videoId":"d8103d54-2305-4afb-8ec3-93774461341d"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:52 PM] </span><span class="hf-log-content clamped">downloadVideo: Starting download for item 1 | {"itemId":"1","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","cellId":"none","autoDownload":true,"itemStatus":"Ready"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:52 PM] </span><span class="hf-log-content clamped">downloadVideo: Extracted video ID ec0e51ba-0429-43e2-bc9b-8f235ec8a2d6 from URL | {"itemId":"1","videoId":"ec0e51ba-0429-43e2-bc9b-8f235ec8a2d6"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:53 PM] </span><span class="hf-log-content clamped">downloadVideo: Starting download for item 2 | {"itemId":"2","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","cellId":"none","autoDownload":true,"itemStatus":"Ready"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:53 PM] </span><span class="hf-log-content clamped">downloadVideo: Extracted video ID 456cf37f-e688-47c9-af08-fe6c9349c48d from URL | {"itemId":"2","videoId":"456cf37f-e688-47c9-af08-fe6c9349c48d"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:53 PM] </span><span class="hf-log-content clamped">downloadVideo: Starting download for item 3 | {"itemId":"3","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","cellId":"none","autoDownload":true,"itemStatus":"Ready"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:53 PM] </span><span class="hf-log-content clamped">downloadVideo: Extracted video ID b77253ba-92ae-411f-9bd5-d80d80594638 from URL | {"itemId":"3","videoId":"b77253ba-92ae-411f-9bd5-d80d80594638"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:54 PM] </span><span class="hf-log-content clamped">downloadVideo: Starting download for item 4 | {"itemId":"4","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","cellId":"none","autoDownload":true,"itemStatus":"Ready"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:54 PM] </span><span class="hf-log-content clamped">downloadVideo: Extracted video ID c5ca360c-f76a-4630-92aa-3c847e923874 from URL | {"itemId":"4","videoId":"c5ca360c-f76a-4630-92aa-3c847e923874"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:54 PM] </span><span class="hf-log-content clamped">downloadVideo: Starting download for item 5 | {"itemId":"5","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","cellId":"none","autoDownload":true,"itemStatus":"Ready"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:55 PM] </span><span class="hf-log-content clamped">downloadVideo: Extracted video ID 09d59fe5-a6c4-42ea-adf5-67c4b7ff29da from URL | {"itemId":"5","videoId":"09d59fe5-a6c4-42ea-adf5-67c4b7ff29da"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:55 PM] </span><span class="hf-log-content clamped">downloadVideo: Starting download for item 6 | {"itemId":"6","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","cellId":"none","autoDownload":true,"itemStatus":"Ready"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:55 PM] </span><span class="hf-log-content clamped">downloadVideo: Extracted video ID c5ca360c-f76a-4630-92aa-3c847e923874 from URL | {"itemId":"6","videoId":"c5ca360c-f76a-4630-92aa-3c847e923874"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:56 PM] </span><span class="hf-log-content clamped">downloadVideo: Starting download for item 7 | {"itemId":"7","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","cellId":"none","autoDownload":true,"itemStatus":"Ready"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:56 PM] </span><span class="hf-log-content clamped">downloadVideo: Extracted video ID c5ca360c-f76a-4630-92aa-3c847e923874 from URL | {"itemId":"7","videoId":"c5ca360c-f76a-4630-92aa-3c847e923874"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:56 PM] </span><span class="hf-log-content clamped">downloadVideo: Starting download for item 8 | {"itemId":"8","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","cellId":"none","autoDownload":true,"itemStatus":"Ready"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:57 PM] </span><span class="hf-log-content clamped">downloadVideo: Extracted video ID c5ca360c-f76a-4630-92aa-3c847e923874 from URL | {"itemId":"8","videoId":"c5ca360c-f76a-4630-92aa-3c847e923874"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:57 PM] </span><span class="hf-log-content clamped">downloadVideo: Starting download for item 9 | {"itemId":"9","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","cellId":"none","autoDownload":true,"itemStatus":"Ready"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:57 PM] </span><span class="hf-log-content clamped">downloadVideo: Extracted video ID f6ad0d47-a7e0-4549-9b51-73a1178fd571 from URL | {"itemId":"9","videoId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:58 PM] </span><span class="hf-log-content clamped">downloadVideo: Starting download for item 10 | {"itemId":"10","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","cellId":"none","autoDownload":true,"itemStatus":"Ready"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:58 PM] </span><span class="hf-log-content clamped">downloadVideo: Extracted video ID f6ad0d47-a7e0-4549-9b51-73a1178fd571 from URL | {"itemId":"10","videoId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:58 PM] </span><span class="hf-log-content clamped">downloadVideo: Starting download for item 11 | {"itemId":"11","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","cellId":"none","autoDownload":true,"itemStatus":"Ready"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:58 PM] </span><span class="hf-log-content clamped">downloadVideo: Extracted video ID f6ad0d47-a7e0-4549-9b51-73a1178fd571 from URL | {"itemId":"11","videoId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:59 PM] </span><span class="hf-log-content clamped">downloadVideo: Starting download for item 12 | {"itemId":"12","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","cellId":"none","autoDownload":true,"itemStatus":"Ready"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:24:59 PM] </span><span class="hf-log-content clamped">downloadVideo: Extracted video ID f6ad0d47-a7e0-4549-9b51-73a1178fd571 from URL | {"itemId":"12","videoId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:00 PM] </span><span class="hf-log-content clamped">downloadVideo: Download completed successfully for item 2 | {"itemId":"2","filename":"2_2_Character_taps_calen.mp4","videoId":"456cf37f-e688-47c9-af08-fe6c9349c48d","cellId":"none","timestamp":1770769500276,"downloadDuration":94102}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:00 PM] </span><span class="hf-log-content clamped">Downloaded: 2_2_Character_taps_calen.mp4 | {"itemId":"2","videoId":"456cf37f-e688-47c9-af08-fe6c9349c48d","filename":"2_2_Character_taps_calen.mp4"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:01 PM] </span><span class="hf-log-content clamped">downloadVideo: Download completed successfully for item 1 | {"itemId":"1","filename":"1_1_Character_makes_hear.mp4","videoId":"ec0e51ba-0429-43e2-bc9b-8f235ec8a2d6","cellId":"none","timestamp":1770769501049,"downloadDuration":94875}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:01 PM] </span><span class="hf-log-content clamped">Downloaded: 1_1_Character_makes_hear.mp4 | {"itemId":"1","videoId":"ec0e51ba-0429-43e2-bc9b-8f235ec8a2d6","filename":"1_1_Character_makes_hear.mp4"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:01 PM] </span><span class="hf-log-content clamped">downloadVideo: Download completed successfully for item 0 | {"itemId":"0","filename":"0_0_Character_leads_mass.mp4","videoId":"d8103d54-2305-4afb-8ec3-93774461341d","cellId":"none","timestamp":1770769501804,"downloadDuration":95631}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:02 PM] </span><span class="hf-log-content clamped">Downloaded: 0_0_Character_leads_mass.mp4 | {"itemId":"0","videoId":"d8103d54-2305-4afb-8ec3-93774461341d","filename":"0_0_Character_leads_mass.mp4"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:02 PM] </span><span class="hf-log-content clamped">downloadVideo: Download completed successfully for item 5 | {"itemId":"5","filename":"5_5_Character_celebrates.mp4","videoId":"09d59fe5-a6c4-42ea-adf5-67c4b7ff29da","cellId":"none","timestamp":1770769502652,"downloadDuration":96478}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:03 PM] </span><span class="hf-log-content clamped">Downloaded: 5_5_Character_celebrates.mp4 | {"itemId":"5","videoId":"09d59fe5-a6c4-42ea-adf5-67c4b7ff29da","filename":"5_5_Character_celebrates.mp4"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:03 PM] </span><span class="hf-log-content clamped">downloadVideo: Download completed successfully for item 4 | {"itemId":"4","filename":"4_4_Character_reads_imag.mp4","videoId":"c5ca360c-f76a-4630-92aa-3c847e923874","cellId":"none","timestamp":1770769503490,"downloadDuration":97316}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:03 PM] </span><span class="hf-log-content clamped">Downloaded: 4_4_Character_reads_imag.mp4 | {"itemId":"4","videoId":"c5ca360c-f76a-4630-92aa-3c847e923874","filename":"4_4_Character_reads_imag.mp4"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:04 PM] </span><span class="hf-log-content clamped">downloadVideo: Download completed successfully for item 7 | {"itemId":"7","filename":"7_7_Character_demonstrat.mp4","videoId":"c5ca360c-f76a-4630-92aa-3c847e923874","cellId":"none","timestamp":1770769504084,"downloadDuration":97910}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:04 PM] </span><span class="hf-log-content clamped">Downloaded: 7_7_Character_demonstrat.mp4 | {"itemId":"7","videoId":"c5ca360c-f76a-4630-92aa-3c847e923874","filename":"7_7_Character_demonstrat.mp4"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:04 PM] </span><span class="hf-log-content clamped">downloadVideo: Download completed successfully for item 8 | {"itemId":"8","filename":"8_8_Character_stands_tal.mp4","videoId":"c5ca360c-f76a-4630-92aa-3c847e923874","cellId":"none","timestamp":1770769504599,"downloadDuration":98425}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:04 PM] </span><span class="hf-log-content clamped">Downloaded: 8_8_Character_stands_tal.mp4 | {"itemId":"8","videoId":"c5ca360c-f76a-4630-92aa-3c847e923874","filename":"8_8_Character_stands_tal.mp4"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:05 PM] </span><span class="hf-log-content clamped">downloadVideo: Download completed successfully for item 6 | {"itemId":"6","filename":"6_6_Character_points_at_.mp4","videoId":"c5ca360c-f76a-4630-92aa-3c847e923874","cellId":"none","timestamp":1770769505123,"downloadDuration":98949}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:05 PM] </span><span class="hf-log-content clamped">Downloaded: 6_6_Character_points_at_.mp4 | {"itemId":"6","videoId":"c5ca360c-f76a-4630-92aa-3c847e923874","filename":"6_6_Character_points_at_.mp4"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:05 PM] </span><span class="hf-log-content clamped">downloadVideo: Download completed successfully for item 3 | {"itemId":"3","filename":"3_3_Character_sprints_dr.mp4","videoId":"b77253ba-92ae-411f-9bd5-d80d80594638","cellId":"none","timestamp":1770769505670,"downloadDuration":99496}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:05 PM] </span><span class="hf-log-content clamped">Downloaded: 3_3_Character_sprints_dr.mp4 | {"itemId":"3","videoId":"b77253ba-92ae-411f-9bd5-d80d80594638","filename":"3_3_Character_sprints_dr.mp4"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:06 PM] </span><span class="hf-log-content clamped">downloadVideo: Download completed successfully for item 9 | {"itemId":"9","filename":"9_9_Character_teaches_wi.mp4","videoId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571","cellId":"none","timestamp":1770769506433,"downloadDuration":100259}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:06 PM] </span><span class="hf-log-content clamped">Downloaded: 9_9_Character_teaches_wi.mp4 | {"itemId":"9","videoId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571","filename":"9_9_Character_teaches_wi.mp4"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:06 PM] </span><span class="hf-log-content clamped">downloadVideo: Download completed successfully for item 11 | {"itemId":"11","filename":"11_11_Character_points_at_.mp4","videoId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571","cellId":"none","timestamp":1770769506934,"downloadDuration":100760}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:07 PM] </span><span class="hf-log-content clamped">Downloaded: 11_11_Character_points_at_.mp4 | {"itemId":"11","videoId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571","filename":"11_11_Character_points_at_.mp4"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:07 PM] </span><span class="hf-log-content clamped">downloadVideo: Download completed successfully for item 10 | {"itemId":"10","filename":"10_10_Character_stands_tal.mp4","videoId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571","cellId":"none","timestamp":1770769507503,"downloadDuration":101329}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:07 PM] </span><span class="hf-log-content clamped">Downloaded: 10_10_Character_stands_tal.mp4 | {"itemId":"10","videoId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571","filename":"10_10_Character_stands_tal.mp4"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:08 PM] </span><span class="hf-log-content clamped">downloadVideo: Download completed successfully for item 12 | {"itemId":"12","filename":"12_12_Character_demonstrat.mp4","videoId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571","cellId":"none","timestamp":1770769508031,"downloadDuration":101857}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:25:08 PM] </span><span class="hf-log-content clamped">Downloaded: 12_12_Character_demonstrat.mp4 | {"itemId":"12","videoId":"f6ad0d47-a7e0-4549-9b51-73a1178fd571","filename":"12_12_Character_demonstrat.mp4"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:29:34 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:29:35 PM] </span><span class="hf-log-content clamped">Using existing prefetched data: 13 videos</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:29:54 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:29:54 PM] </span><span class="hf-log-content clamped">Starting pre-fetch of all generated videos from DOM...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:29:54 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switching to list layout for collection...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:29:55 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switched to List layout mode</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:29:57 PM] </span><span class="hf-log-content clamped">Pre-fetch: No [data-index] elements found in list layout</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:29:57 PM] </span><span class="hf-log-content clamped">Pre-fetch: Could not find list container</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:06 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:07 PM] </span><span class="hf-log-content clamped">Starting pre-fetch of all generated videos from DOM...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:07 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switching to list layout for collection...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:07 PM] </span><span class="hf-log-content clamped">Pre-fetch: Already in List layout mode</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:09 PM] </span><span class="hf-log-content clamped">Pre-fetch: Found list container with 14 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:09 PM] </span><span class="hf-log-content clamped">Pre-fetch: Using container for list layout collection</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:09 PM] </span><span class="hf-log-content clamped">Pre-fetch: Using window scrolling</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:09 PM] </span><span class="hf-log-content clamped">Pre-fetch: Scrape #1 - Found 14 [data-index] elements in document</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:10 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 0 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:10 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 1 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:10 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 2 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:10 PM] </span><span class="hf-log-content clamped">Pre-fetch: Added 14 new items in scrape #1. Total: 14</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:10 PM] </span><span class="hf-log-content clamped">Pre-fetch: Initial scrape found 14 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:14 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 14 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:15 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 15 - cellId not found. Has prompt: true, Has thumbnail: false, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:15 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 16 - cellId not found. Has prompt: true, Has thumbnail: false, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:18 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 24 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:18 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 25 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:18 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 26 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:20 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 29 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:20 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 30 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:20 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 31 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:23 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 34 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:23 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 35 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:23 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 36 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:26 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 39 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:26 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 40 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:26 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 41 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:28 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 44 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:29 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 45 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:29 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 46 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:32 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 49 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:32 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 50 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:32 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 51 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:35 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 55 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:35 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 56 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:35 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 57 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:37 PM] </span><span class="hf-log-content clamped">Pre-fetch: Scrape #10 - Found 23 [data-index] elements in document</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:37 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 60 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:37 PM] </span><span class="hf-log-content clamped">Pre-fetch: Added 1 new items in scrape #10. Total: 61</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:39 PM] </span><span class="hf-log-content clamped">Pre-fetch: Reached bottom of page</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:40 PM] </span><span class="hf-log-content clamped">Pre-fetch: Collection complete. Found 61 items after scrolling</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:30:40 PM] </span><span class="hf-log-content clamped">Pre-fetch complete: Discovered 61 items | {"totalItems":61,"videosFound":61,"withPrompt":61}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:53 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:54 PM] </span><span class="hf-log-content clamped">Using existing prefetched data: 61 videos</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:56 PM] </span><span class="hf-log-content clamped">Extracting video URLs on-demand for 61 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:57 PM] </span><span class="hf-log-content clamped">Switching to grid layout for video extraction...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:57 PM] </span><span class="hf-log-content clamped">Pre-fetch: Already in Grid layout mode</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:58 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell d8103d54-2305-4afb-8ec3-93774461341d</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:58 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Using cached video URL for cell d8103d54-2305-4afb-8ec3-93774461341d | {"cachedUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:59 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell ec0e51ba-0429-43e2-bc9b-8f235ec8a2d6</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:59 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Using cached video URL for cell ec0e51ba-0429-43e2-bc9b-8f235ec8a2d6 | {"cachedUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:59 PM] </span><span class="hf-log-content clamped">Extracted video URL for d8103d54-2305-4afb-8ec3-93774461341d</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:30:59 PM] </span><span class="hf-log-content clamped">Extracted video URL for ec0e51ba-0429-43e2-bc9b-8f235ec8a2d6</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:00 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 456cf37f-e688-47c9-af08-fe6c9349c48d</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:00 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Using cached video URL for cell 456cf37f-e688-47c9-af08-fe6c9349c48d | {"cachedUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:00 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell b77253ba-92ae-411f-9bd5-d80d80594638</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:01 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Using cached video URL for cell b77253ba-92ae-411f-9bd5-d80d80594638 | {"cachedUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:01 PM] </span><span class="hf-log-content clamped">Extracted video URL for 456cf37f-e688-47c9-af08-fe6c9349c48d</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:01 PM] </span><span class="hf-log-content clamped">Extracted video URL for b77253ba-92ae-411f-9bd5-d80d80594638</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:02 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell c5ca360c-f76a-4630-92aa-3c847e923874</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:02 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Using cached video URL for cell c5ca360c-f76a-4630-92aa-3c847e923874 | {"cachedUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:03 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 09d59fe5-a6c4-42ea-adf5-67c4b7ff29da</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:03 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Using cached video URL for cell 09d59fe5-a6c4-42ea-adf5-67c4b7ff29da | {"cachedUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:03 PM] </span><span class="hf-log-content clamped">Extracted video URL for c5ca360c-f76a-4630-92aa-3c847e923874</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:03 PM] </span><span class="hf-log-content clamped">Extracted video URL for 09d59fe5-a6c4-42ea-adf5-67c4b7ff29da</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:04 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell c5e8db56-2708-44ad-9949-33427770eaad</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:04 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Using cached video URL for cell c5e8db56-2708-44ad-9949-33427770eaad | {"cachedUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:05 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 4de3e43a-86b2-42bf-b2e7-f7165633cd79</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:05 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Using cached video URL for cell 4de3e43a-86b2-42bf-b2e7-f7165633cd79 | {"cachedUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:05 PM] </span><span class="hf-log-content clamped">Extracted video URL for c5e8db56-2708-44ad-9949-33427770eaad</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:05 PM] </span><span class="hf-log-content clamped">Extracted video URL for 4de3e43a-86b2-42bf-b2e7-f7165633cd79</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:06 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 97ff6643-a1db-4f98-9e8b-287bcba04c11</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:06 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Using cached video URL for cell 97ff6643-a1db-4f98-9e8b-287bcba04c11 | {"cachedUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:07 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell f6ad0d47-a7e0-4549-9b51-73a1178fd571</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:07 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Using cached video URL for cell f6ad0d47-a7e0-4549-9b51-73a1178fd571 | {"cachedUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:07 PM] </span><span class="hf-log-content clamped">Extracted video URL for 97ff6643-a1db-4f98-9e8b-287bcba04c11</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:07 PM] </span><span class="hf-log-content clamped">Extracted video URL for f6ad0d47-a7e0-4549-9b51-73a1178fd571</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:08 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell bc4a792b-9f6a-413c-9a37-7a037a6e8ba5</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:08 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Using cached video URL for cell bc4a792b-9f6a-413c-9a37-7a037a6e8ba5 | {"cachedUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:08 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell c4b773f2-4d11-4ba5-8dcd-e58c4c45daf0</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:08 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Using cached video URL for cell c4b773f2-4d11-4ba5-8dcd-e58c4c45daf0 | {"cachedUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:09 PM] </span><span class="hf-log-content clamped">Extracted video URL for bc4a792b-9f6a-413c-9a37-7a037a6e8ba5</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:09 PM] </span><span class="hf-log-content clamped">Extracted video URL for c4b773f2-4d11-4ba5-8dcd-e58c4c45daf0</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:09 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 7b3c7128-d055-46de-9a17-a04d60fb31af</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:10 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Using cached video URL for cell 7b3c7128-d055-46de-9a17-a04d60fb31af | {"cachedUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:10 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell b676d829-e7a1-4b04-924e-651a2be36fc9</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:10 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell b676d829-e7a1-4b04-924e-651a2be36fc9 to trigger injection... | {"cellId":"b676d829-e7a1-4b04-924e-651a2be36fc9"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:10 PM] </span><span class="hf-log-content clamped">Extracted video URL for 7b3c7128-d055-46de-9a17-a04d60fb31af</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:11 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell b676d829-e7a1-4b04-924e-651a2be36fc9 after hover | {"cellId":"b676d829-e7a1-4b04-924e-651a2be36fc9","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:11 PM] </span><span class="hf-log-content clamped">Extracted video URL for b676d829-e7a1-4b04-924e-651a2be36fc9</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:11 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 3e2f0049-eabc-4344-bac3-b4ff385ea793</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:12 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 3e2f0049-eabc-4344-bac3-b4ff385ea793 | {"cellId":"3e2f0049-eabc-4344-bac3-b4ff385ea793","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:31:12 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 15. cellId: none, dataIndex: 15</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:12 PM] </span><span class="hf-log-content clamped">Extracted video URL for 3e2f0049-eabc-4344-bac3-b4ff385ea793</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:31:13 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 16. cellId: none, dataIndex: 16</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[9:31:13 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 17. cellId: none, dataIndex: 17</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:14 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell d7afd4a9-d0fe-4a70-b7fa-dcab3982fbea</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:14 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell d7afd4a9-d0fe-4a70-b7fa-dcab3982fbea to trigger injection... | {"cellId":"d7afd4a9-d0fe-4a70-b7fa-dcab3982fbea"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:15 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell cee902cf-8b3e-49a3-98ec-a96f89c23204</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:15 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell cee902cf-8b3e-49a3-98ec-a96f89c23204 to trigger injection... | {"cellId":"cee902cf-8b3e-49a3-98ec-a96f89c23204"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:15 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell d7afd4a9-d0fe-4a70-b7fa-dcab3982fbea after hover | {"cellId":"d7afd4a9-d0fe-4a70-b7fa-dcab3982fbea","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:16 PM] </span><span class="hf-log-content clamped">Extracted video URL for d7afd4a9-d0fe-4a70-b7fa-dcab3982fbea</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:16 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell cee902cf-8b3e-49a3-98ec-a96f89c23204 after hover | {"cellId":"cee902cf-8b3e-49a3-98ec-a96f89c23204","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:16 PM] </span><span class="hf-log-content clamped">Extracted video URL for cee902cf-8b3e-49a3-98ec-a96f89c23204</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:17 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 3da668b3-5ff6-40a0-a80e-035bd843bc52</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:17 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 3da668b3-5ff6-40a0-a80e-035bd843bc52 | {"cellId":"3da668b3-5ff6-40a0-a80e-035bd843bc52","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:18 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 76c72731-b6fd-4716-ad67-b15cd74c0763</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:18 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 76c72731-b6fd-4716-ad67-b15cd74c0763 | {"cellId":"76c72731-b6fd-4716-ad67-b15cd74c0763","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:18 PM] </span><span class="hf-log-content clamped">Extracted video URL for 3da668b3-5ff6-40a0-a80e-035bd843bc52</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:18 PM] </span><span class="hf-log-content clamped">Extracted video URL for 76c72731-b6fd-4716-ad67-b15cd74c0763</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:19 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell e9f969e4-4d56-4ee8-a39f-21fce3997039</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:19 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell e9f969e4-4d56-4ee8-a39f-21fce3997039 | {"cellId":"e9f969e4-4d56-4ee8-a39f-21fce3997039","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:19 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 1709210f-e8e0-46f8-a6d9-f453fdab8517</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:20 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell 1709210f-e8e0-46f8-a6d9-f453fdab8517 to trigger injection... | {"cellId":"1709210f-e8e0-46f8-a6d9-f453fdab8517"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:20 PM] </span><span class="hf-log-content clamped">Extracted video URL for e9f969e4-4d56-4ee8-a39f-21fce3997039</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:20 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell 1709210f-e8e0-46f8-a6d9-f453fdab8517 after hover | {"cellId":"1709210f-e8e0-46f8-a6d9-f453fdab8517","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:21 PM] </span><span class="hf-log-content clamped">Extracted video URL for 1709210f-e8e0-46f8-a6d9-f453fdab8517</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:21 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 455e06dd-f53d-4f96-94b7-352b6e7df58d</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:22 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 455e06dd-f53d-4f96-94b7-352b6e7df58d | {"cellId":"455e06dd-f53d-4f96-94b7-352b6e7df58d","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:22 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 97df9996-154a-4692-9df4-fa9ebd754c19</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:22 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 97df9996-154a-4692-9df4-fa9ebd754c19 | {"cellId":"97df9996-154a-4692-9df4-fa9ebd754c19","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:22 PM] </span><span class="hf-log-content clamped">Extracted video URL for 455e06dd-f53d-4f96-94b7-352b6e7df58d</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:23 PM] </span><span class="hf-log-content clamped">Extracted video URL for 97df9996-154a-4692-9df4-fa9ebd754c19</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:23 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell ea37f88f-25c1-424c-a4eb-c42b31d0250c</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:24 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell ea37f88f-25c1-424c-a4eb-c42b31d0250c | {"cellId":"ea37f88f-25c1-424c-a4eb-c42b31d0250c","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:24 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell daa00780-b8c9-47b2-ada1-170265d82e72</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:24 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell daa00780-b8c9-47b2-ada1-170265d82e72 | {"cellId":"daa00780-b8c9-47b2-ada1-170265d82e72","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:24 PM] </span><span class="hf-log-content clamped">Extracted video URL for ea37f88f-25c1-424c-a4eb-c42b31d0250c</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:24 PM] </span><span class="hf-log-content clamped">Extracted video URL for daa00780-b8c9-47b2-ada1-170265d82e72</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:25 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 9beea274-eae6-4aee-afcf-06af76c271dd</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:25 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 9beea274-eae6-4aee-afcf-06af76c271dd | {"cellId":"9beea274-eae6-4aee-afcf-06af76c271dd","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:26 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 06e7d161-99fe-45ac-9dc9-31bc1ed93fff</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:26 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 06e7d161-99fe-45ac-9dc9-31bc1ed93fff | {"cellId":"06e7d161-99fe-45ac-9dc9-31bc1ed93fff","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:26 PM] </span><span class="hf-log-content clamped">Extracted video URL for 9beea274-eae6-4aee-afcf-06af76c271dd</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:26 PM] </span><span class="hf-log-content clamped">Extracted video URL for 06e7d161-99fe-45ac-9dc9-31bc1ed93fff</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:27 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell ce66c7aa-c232-4d97-a0e9-e11b007e5e53</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:27 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell ce66c7aa-c232-4d97-a0e9-e11b007e5e53 | {"cellId":"ce66c7aa-c232-4d97-a0e9-e11b007e5e53","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:28 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 1ba0d685-c13c-44cc-a3b0-4099f2e5f46e</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:28 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell 1ba0d685-c13c-44cc-a3b0-4099f2e5f46e to trigger injection... | {"cellId":"1ba0d685-c13c-44cc-a3b0-4099f2e5f46e"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:28 PM] </span><span class="hf-log-content clamped">Extracted video URL for ce66c7aa-c232-4d97-a0e9-e11b007e5e53</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:29 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell 1ba0d685-c13c-44cc-a3b0-4099f2e5f46e after hover | {"cellId":"1ba0d685-c13c-44cc-a3b0-4099f2e5f46e","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:29 PM] </span><span class="hf-log-content clamped">Extracted video URL for 1ba0d685-c13c-44cc-a3b0-4099f2e5f46e</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:30 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell bdfa6a63-23bc-4e41-a57a-56f228d8a9fa</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:30 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell bdfa6a63-23bc-4e41-a57a-56f228d8a9fa | {"cellId":"bdfa6a63-23bc-4e41-a57a-56f228d8a9fa","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:30 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell bede847c-2076-4061-bb8b-a63d1929889e</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:31 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell bede847c-2076-4061-bb8b-a63d1929889e | {"cellId":"bede847c-2076-4061-bb8b-a63d1929889e","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:31 PM] </span><span class="hf-log-content clamped">Extracted video URL for bdfa6a63-23bc-4e41-a57a-56f228d8a9fa</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:31 PM] </span><span class="hf-log-content clamped">Extracted video URL for bede847c-2076-4061-bb8b-a63d1929889e</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:32 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell dcb0aa8b-d9d7-4853-bb71-c84d2ddb2817</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:33 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell dcb0aa8b-d9d7-4853-bb71-c84d2ddb2817 | {"cellId":"dcb0aa8b-d9d7-4853-bb71-c84d2ddb2817","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:33 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 4ac4787d-e91c-4964-bcf0-5ade277cc8c6</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:33 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 4ac4787d-e91c-4964-bcf0-5ade277cc8c6 | {"cellId":"4ac4787d-e91c-4964-bcf0-5ade277cc8c6","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:33 PM] </span><span class="hf-log-content clamped">Extracted video URL for dcb0aa8b-d9d7-4853-bb71-c84d2ddb2817</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:34 PM] </span><span class="hf-log-content clamped">Extracted video URL for 4ac4787d-e91c-4964-bcf0-5ade277cc8c6</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:34 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell fd8b9a9f-ca7b-4fe4-bb09-294285d58d8a</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:35 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell fd8b9a9f-ca7b-4fe4-bb09-294285d58d8a | {"cellId":"fd8b9a9f-ca7b-4fe4-bb09-294285d58d8a","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:35 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 13b8e749-cfbd-4581-9a5a-8a3cdf1e5809</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:35 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 13b8e749-cfbd-4581-9a5a-8a3cdf1e5809 | {"cellId":"13b8e749-cfbd-4581-9a5a-8a3cdf1e5809","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:35 PM] </span><span class="hf-log-content clamped">Extracted video URL for fd8b9a9f-ca7b-4fe4-bb09-294285d58d8a</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:35 PM] </span><span class="hf-log-content clamped">Extracted video URL for 13b8e749-cfbd-4581-9a5a-8a3cdf1e5809</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:36 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 63eacb29-fce7-4bb5-a186-3c354aa81c94</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:37 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 63eacb29-fce7-4bb5-a186-3c354aa81c94 | {"cellId":"63eacb29-fce7-4bb5-a186-3c354aa81c94","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:37 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell ecb57e8e-aa9b-419b-8b37-948e8717e8be</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:37 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell ecb57e8e-aa9b-419b-8b37-948e8717e8be to trigger injection... | {"cellId":"ecb57e8e-aa9b-419b-8b37-948e8717e8be"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:38 PM] </span><span class="hf-log-content clamped">Extracted video URL for 63eacb29-fce7-4bb5-a186-3c354aa81c94</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:38 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell ecb57e8e-aa9b-419b-8b37-948e8717e8be after hover | {"cellId":"ecb57e8e-aa9b-419b-8b37-948e8717e8be","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:38 PM] </span><span class="hf-log-content clamped">Extracted video URL for ecb57e8e-aa9b-419b-8b37-948e8717e8be</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:39 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell ed64a781-b1ec-41c1-8d2d-926ee72f2963</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:39 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell ed64a781-b1ec-41c1-8d2d-926ee72f2963 | {"cellId":"ed64a781-b1ec-41c1-8d2d-926ee72f2963","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:40 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell a2e378ed-f76c-4b47-ab43-aa64b7b12d07</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:40 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell a2e378ed-f76c-4b47-ab43-aa64b7b12d07 | {"cellId":"a2e378ed-f76c-4b47-ab43-aa64b7b12d07","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:40 PM] </span><span class="hf-log-content clamped">Extracted video URL for ed64a781-b1ec-41c1-8d2d-926ee72f2963</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:41 PM] </span><span class="hf-log-content clamped">Extracted video URL for a2e378ed-f76c-4b47-ab43-aa64b7b12d07</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:42 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell e67ae883-eaf6-440b-93b8-65a5bdcdd77c</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:42 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell e67ae883-eaf6-440b-93b8-65a5bdcdd77c | {"cellId":"e67ae883-eaf6-440b-93b8-65a5bdcdd77c","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:42 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 0bec3b7e-23c1-4858-904c-2fd113ce44e9</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:42 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 0bec3b7e-23c1-4858-904c-2fd113ce44e9 | {"cellId":"0bec3b7e-23c1-4858-904c-2fd113ce44e9","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:43 PM] </span><span class="hf-log-content clamped">Extracted video URL for e67ae883-eaf6-440b-93b8-65a5bdcdd77c</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:43 PM] </span><span class="hf-log-content clamped">Extracted video URL for 0bec3b7e-23c1-4858-904c-2fd113ce44e9</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:44 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 96dca7b2-b2de-446d-8ccd-47702a811d67</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:44 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 96dca7b2-b2de-446d-8ccd-47702a811d67 | {"cellId":"96dca7b2-b2de-446d-8ccd-47702a811d67","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:44 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 0683ba31-991b-415e-9eac-55d77fd4d568</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:45 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 0683ba31-991b-415e-9eac-55d77fd4d568 | {"cellId":"0683ba31-991b-415e-9eac-55d77fd4d568","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:45 PM] </span><span class="hf-log-content clamped">Extracted video URL for 96dca7b2-b2de-446d-8ccd-47702a811d67</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:45 PM] </span><span class="hf-log-content clamped">Extracted video URL for 0683ba31-991b-415e-9eac-55d77fd4d568</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:46 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 799a786a-e75b-4dbc-8438-abaa9e7b37e7</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:46 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 799a786a-e75b-4dbc-8438-abaa9e7b37e7 | {"cellId":"799a786a-e75b-4dbc-8438-abaa9e7b37e7","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:47 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 100b51c6-a2f8-4fcb-8d80-1e61a323f701</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:47 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell 100b51c6-a2f8-4fcb-8d80-1e61a323f701 to trigger injection... | {"cellId":"100b51c6-a2f8-4fcb-8d80-1e61a323f701"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:47 PM] </span><span class="hf-log-content clamped">Extracted video URL for 799a786a-e75b-4dbc-8438-abaa9e7b37e7</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:48 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell 100b51c6-a2f8-4fcb-8d80-1e61a323f701 after hover | {"cellId":"100b51c6-a2f8-4fcb-8d80-1e61a323f701","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:48 PM] </span><span class="hf-log-content clamped">Extracted video URL for 100b51c6-a2f8-4fcb-8d80-1e61a323f701</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:49 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 0bb960ef-4668-46a7-b394-727d408d8703</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:49 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 0bb960ef-4668-46a7-b394-727d408d8703 | {"cellId":"0bb960ef-4668-46a7-b394-727d408d8703","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:50 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 10885e97-0a06-45d5-8a2d-133b0782e290</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:50 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 10885e97-0a06-45d5-8a2d-133b0782e290 | {"cellId":"10885e97-0a06-45d5-8a2d-133b0782e290","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:50 PM] </span><span class="hf-log-content clamped">Extracted video URL for 0bb960ef-4668-46a7-b394-727d408d8703</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:51 PM] </span><span class="hf-log-content clamped">Extracted video URL for 10885e97-0a06-45d5-8a2d-133b0782e290</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:52 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell f1720fd0-9951-44e5-9d5e-2c4dd13973e6</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:52 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell f1720fd0-9951-44e5-9d5e-2c4dd13973e6 | {"cellId":"f1720fd0-9951-44e5-9d5e-2c4dd13973e6","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:52 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell affe409d-fb7b-4924-b857-06deb90026bd</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:53 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell affe409d-fb7b-4924-b857-06deb90026bd | {"cellId":"affe409d-fb7b-4924-b857-06deb90026bd","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:53 PM] </span><span class="hf-log-content clamped">Extracted video URL for f1720fd0-9951-44e5-9d5e-2c4dd13973e6</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:53 PM] </span><span class="hf-log-content clamped">Extracted video URL for affe409d-fb7b-4924-b857-06deb90026bd</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:54 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell d9f9fcc1-d48b-42ce-99ac-5b3de447d464</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:54 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell d9f9fcc1-d48b-42ce-99ac-5b3de447d464 | {"cellId":"d9f9fcc1-d48b-42ce-99ac-5b3de447d464","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:55 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell da905181-6504-44bf-9aa7-48e4250307d1</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:55 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell da905181-6504-44bf-9aa7-48e4250307d1 | {"cellId":"da905181-6504-44bf-9aa7-48e4250307d1","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:55 PM] </span><span class="hf-log-content clamped">Extracted video URL for d9f9fcc1-d48b-42ce-99ac-5b3de447d464</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:56 PM] </span><span class="hf-log-content clamped">Extracted video URL for da905181-6504-44bf-9aa7-48e4250307d1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:57 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 949aa384-9dad-4155-babf-dcb45f30f322</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:57 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 949aa384-9dad-4155-babf-dcb45f30f322 | {"cellId":"949aa384-9dad-4155-babf-dcb45f30f322","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:58 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 4ea999d9-ed00-47e2-bad5-372dbb0ea559</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:58 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell 4ea999d9-ed00-47e2-bad5-372dbb0ea559 to trigger injection... | {"cellId":"4ea999d9-ed00-47e2-bad5-372dbb0ea559"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:31:58 PM] </span><span class="hf-log-content clamped">Extracted video URL for 949aa384-9dad-4155-babf-dcb45f30f322</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:31:59 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell 4ea999d9-ed00-47e2-bad5-372dbb0ea559 after hover | {"cellId":"4ea999d9-ed00-47e2-bad5-372dbb0ea559","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:32:00 PM] </span><span class="hf-log-content clamped">Extracted video URL for 4ea999d9-ed00-47e2-bad5-372dbb0ea559</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:32:00 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 0e562c9c-8fda-4403-800f-b83b449c3a11</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:32:01 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 0e562c9c-8fda-4403-800f-b83b449c3a11 | {"cellId":"0e562c9c-8fda-4403-800f-b83b449c3a11","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:32:01 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 408fb4ef-d1b3-4fc5-953a-7cebf2796e3c</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:32:01 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 408fb4ef-d1b3-4fc5-953a-7cebf2796e3c | {"cellId":"408fb4ef-d1b3-4fc5-953a-7cebf2796e3c","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:32:01 PM] </span><span class="hf-log-content clamped">Extracted video URL for 0e562c9c-8fda-4403-800f-b83b449c3a11</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:32:02 PM] </span><span class="hf-log-content clamped">Extracted video URL for 408fb4ef-d1b3-4fc5-953a-7cebf2796e3c</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:32:02 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 58fef8c7-fdae-464c-a611-a3609b608877</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:32:03 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 58fef8c7-fdae-464c-a611-a3609b608877 | {"cellId":"58fef8c7-fdae-464c-a611-a3609b608877","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:32:03 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell a60057cb-cebd-48c9-8d61-3ed20380ca73</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:32:03 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell a60057cb-cebd-48c9-8d61-3ed20380ca73 | {"cellId":"a60057cb-cebd-48c9-8d61-3ed20380ca73","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:32:04 PM] </span><span class="hf-log-content clamped">Extracted video URL for 58fef8c7-fdae-464c-a611-a3609b608877</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:32:04 PM] </span><span class="hf-log-content clamped">Extracted video URL for a60057cb-cebd-48c9-8d61-3ed20380ca73</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:32:05 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 61b4b2de-76ef-48ca-a74e-ce05ed87af88</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:32:05 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 61b4b2de-76ef-48ca-a74e-ce05ed87af88 | {"cellId":"61b4b2de-76ef-48ca-a74e-ce05ed87af88","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026020","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:32:05 PM] </span><span class="hf-log-content clamped">Extracted video URL for 61b4b2de-76ef-48ca-a74e-ce05ed87af88</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[9:32:06 PM] </span><span class="hf-log-content clamped">Video URL extraction complete: 58 success, 3 failed</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:37:07 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[9:37:07 PM] </span><span class="hf-log-content clamped">Using existing prefetched data: 61 videos</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:13 PM] </span><span class="hf-log-content clamped">Higgsfield Automation v4.9.6 Loaded</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:51 PM] </span><span class="hf-log-content clamped">Submitting textarea content with proper event dispatching...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:51 PM] </span><span class="hf-log-content clamped">Textarea content detected, triggering preview...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:52 PM] </span><span class="hf-log-content clamped">Parsing CSV data...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:52 PM] </span><span class="hf-log-content clamped">CSV column detection | {"ID":0,"Image":2,"Prompt":4,"Status":3,"VideoURL":8,"headers":["ID","thumb","img_URL","Status","Higgsfield Prompt (Image2Video + Voiceover)","Model","Twitter Caption","Hashtags","video_url","Scheduled","asset_id","file_name"]}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:52 PM] </span><span class="hf-log-content clamped">CSV parsing: 100 raw data lines (excluding header)</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:52 PM] </span><span class="hf-log-content clamped">CSV parsing complete: 7 lines processed, 0 header(s) skipped, 7 items parsed</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[3:05:55 PM] </span><span class="hf-log-content clamped">CSV import completed: 7 items imported (7 pending, 0 with video URLs)</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:55 PM] </span><span class="hf-log-content clamped">Preview updated: 7 items in queue (+7 new)</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:56 PM] </span><span class="hf-log-content clamped">Textarea submission complete. Preview rendered: 7 rows visible</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:56 PM] </span><span class="hf-log-content clamped">Textarea content submitted and events dispatched</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:56 PM] </span><span class="hf-log-content clamped">Parsing CSV data...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:57 PM] </span><span class="hf-log-content clamped">CSV column detection | {"ID":0,"Image":2,"Prompt":4,"Status":3,"VideoURL":8,"headers":["ID","thumb","img_URL","Status","Higgsfield Prompt (Image2Video + Voiceover)","Model","Twitter Caption","Hashtags","video_url","Scheduled","asset_id","file_name"]}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:57 PM] </span><span class="hf-log-content clamped">CSV parsing: 100 raw data lines (excluding header)</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:05:57 PM] </span><span class="hf-log-content clamped">CSV parsing complete: 0 lines processed, 0 header(s) skipped, 0 items parsed</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:18 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:19 PM] </span><span class="hf-log-content clamped">Starting pre-fetch of all generated videos from DOM...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:19 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switching to list layout for collection...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:19 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switched to List layout mode</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:21 PM] </span><span class="hf-log-content clamped">Pre-fetch: No [data-index] elements found in list layout</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:21 PM] </span><span class="hf-log-content clamped">Pre-fetch: Could not find list container</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:30 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:31 PM] </span><span class="hf-log-content clamped">Starting pre-fetch of all generated videos from DOM...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:31 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switching to list layout for collection...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:31 PM] </span><span class="hf-log-content clamped">Pre-fetch: Already in List layout mode</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:33 PM] </span><span class="hf-log-content clamped">Pre-fetch: Found list container with 12 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:33 PM] </span><span class="hf-log-content clamped">Pre-fetch: Using container for list layout collection</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:33 PM] </span><span class="hf-log-content clamped">Pre-fetch: Using window scrolling</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:34 PM] </span><span class="hf-log-content clamped">Pre-fetch: Scrape #1 - Found 12 [data-index] elements in document</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:34 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 0 - cellId not found. Has prompt: false, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:34 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 1 - cellId not found. Has prompt: false, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:34 PM] </span><span class="hf-log-content clamped">Pre-fetch: Item 2 - cellId not found. Has prompt: false, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:34 PM] </span><span class="hf-log-content clamped">Pre-fetch: Added 12 new items in scrape #1. Total: 12</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:35 PM] </span><span class="hf-log-content clamped">Pre-fetch: Initial scrape found 12 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:37 PM] </span><span class="hf-log-content clamped">Pre-fetch: Reached bottom of page</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:37 PM] </span><span class="hf-log-content clamped">Pre-fetch: Collection complete. Found 12 items after scrolling</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[3:07:38 PM] </span><span class="hf-log-content clamped">Pre-fetch complete: Discovered 12 items | {"totalItems":12,"videosFound":12,"withPrompt":6}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:46 PM] </span><span class="hf-log-content clamped">Extracting video URLs on-demand for 12 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:46 PM] </span><span class="hf-log-content clamped">Switching to grid layout for video extraction...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:46 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switched to Grid layout mode</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:48 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 0. cellId: none, dataIndex: 0</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:48 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 1. cellId: none, dataIndex: 1</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:49 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 2. cellId: none, dataIndex: 2</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:49 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 3. cellId: none, dataIndex: 3</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:50 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 4. cellId: none, dataIndex: 4</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:50 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 5. cellId: none, dataIndex: 5</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:51 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 6. cellId: none, dataIndex: 6</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:51 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 7. cellId: none, dataIndex: 7</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:51 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 8. cellId: none, dataIndex: 8</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:52 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 9. cellId: none, dataIndex: 9</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:52 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 10. cellId: none, dataIndex: 10</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:07:52 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 11. cellId: none, dataIndex: 11</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[3:07:53 PM] </span><span class="hf-log-content clamped">Video URL extraction complete: 0 success, 12 failed</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:59 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:07:59 PM] </span><span class="hf-log-content clamped">Using existing prefetched data: 12 videos</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:01 PM] </span><span class="hf-log-content clamped">Extracting video URLs on-demand for 12 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:02 PM] </span><span class="hf-log-content clamped">Switching to grid layout for video extraction...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:02 PM] </span><span class="hf-log-content clamped">Pre-fetch: Already in Grid layout mode</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:03 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell e1c99283-4c9c-4fd3-a511-66d941efa68e</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:03 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell e1c99283-4c9c-4fd3-a511-66d941efa68e to trigger injection... | {"cellId":"e1c99283-4c9c-4fd3-a511-66d941efa68e"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:04 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell afbe2a11-4aa5-446a-8727-5424a82c6937</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:04 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video not found in DOM, simulating hover on cell afbe2a11-4aa5-446a-8727-5424a82c6937 to trigger injection... | {"cellId":"afbe2a11-4aa5-446a-8727-5424a82c6937"}</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[3:08:04 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell e1c99283-4c9c-4fd3-a511-66d941efa68e after hover | {"cellId":"e1c99283-4c9c-4fd3-a511-66d941efa68e","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026021","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:04 PM] </span><span class="hf-log-content clamped">Extracted video URL for e1c99283-4c9c-4fd3-a511-66d941efa68e</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[3:08:05 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Video URL extracted from cell afbe2a11-4aa5-446a-8727-5424a82c6937 after hover | {"cellId":"afbe2a11-4aa5-446a-8727-5424a82c6937","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026021","method":"hover_simulation","attempts":1,"timeElapsed":200}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:05 PM] </span><span class="hf-log-content clamped">Extracted video URL for afbe2a11-4aa5-446a-8727-5424a82c6937</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:06 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 9c10bbf0-3765-465e-83ec-b68fbe34ca39</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[3:08:06 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 9c10bbf0-3765-465e-83ec-b68fbe34ca39 | {"cellId":"9c10bbf0-3765-465e-83ec-b68fbe34ca39","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026021","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:06 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 58393fe8-25ec-4941-b70d-c7f8d8f171c3</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[3:08:06 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 58393fe8-25ec-4941-b70d-c7f8d8f171c3 | {"cellId":"58393fe8-25ec-4941-b70d-c7f8d8f171c3","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026021","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:06 PM] </span><span class="hf-log-content clamped">Extracted video URL for 9c10bbf0-3765-465e-83ec-b68fbe34ca39</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:07 PM] </span><span class="hf-log-content clamped">Extracted video URL for 58393fe8-25ec-4941-b70d-c7f8d8f171c3</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:07 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell d4ef4962-6e09-4711-bc4a-2b8d09c972c0</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[3:08:08 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell d4ef4962-6e09-4711-bc4a-2b8d09c972c0 | {"cellId":"d4ef4962-6e09-4711-bc4a-2b8d09c972c0","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026021","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:08 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell a59de59e-b364-420d-985d-e782940ca5be</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[3:08:08 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell a59de59e-b364-420d-985d-e782940ca5be | {"cellId":"a59de59e-b364-420d-985d-e782940ca5be","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026021","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:08 PM] </span><span class="hf-log-content clamped">Extracted video URL for d4ef4962-6e09-4711-bc4a-2b8d09c972c0</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:09 PM] </span><span class="hf-log-content clamped">Extracted video URL for a59de59e-b364-420d-985d-e782940ca5be</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:08:09 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 6. cellId: none, dataIndex: 6</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:10 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Starting extraction for cell 5ea88265-319c-415d-a312-35887f20dd49</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[3:08:10 PM] </span><span class="hf-log-content clamped">extractVideoFromCell: Found video URL in DOM for cell 5ea88265-319c-415d-a312-35887f20dd49 | {"cellId":"5ea88265-319c-415d-a312-35887f20dd49","videoUrl":"https://d8j0ntlcm91z4.cloudfront.net/user_37mJeWPHilNMMKF1APwQo30HHyp/hf_2026021","method":"direct_dom_lookup"}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:08:10 PM] </span><span class="hf-log-content clamped">Extracted video URL for 5ea88265-319c-415d-a312-35887f20dd49</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:08:11 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 8. cellId: none, dataIndex: 8</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:08:11 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 9. cellId: none, dataIndex: 9</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:08:11 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 10. cellId: none, dataIndex: 10</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:08:12 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 11. cellId: none, dataIndex: 11</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[3:08:12 PM] </span><span class="hf-log-content clamped">Video URL extraction complete: 7 success, 5 failed</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:12:01 PM] </span><span class="hf-log-content clamped">clearQueue() called</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:12:04 PM] </span><span class="hf-log-content clamped">Clearing queue and all related data...</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[3:12:04 PM] </span><span class="hf-log-content clamped">Queue and all related data cleared</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:12:08 PM] </span><span class="hf-log-content clamped">Auto-download enabled</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:12:25 PM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:12:25 PM] </span><span class="hf-log-content clamped">Using existing prefetched data: 12 videos</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:12:37 PM] </span><span class="hf-log-content clamped">Extracting video URLs on-demand for 5 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:12:37 PM] </span><span class="hf-log-content clamped">Switching to grid layout for video extraction...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[3:12:38 PM] </span><span class="hf-log-content clamped">Pre-fetch: Switched to Grid layout mode</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:12:39 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 6. cellId: none, dataIndex: 6</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:12:40 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 8. cellId: none, dataIndex: 8</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:12:40 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 9. cellId: none, dataIndex: 9</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:12:40 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 10. cellId: none, dataIndex: 10</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[3:12:41 PM] </span><span class="hf-log-content clamped">Could not find figure element for video 11. cellId: none, dataIndex: 11</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[3:12:42 PM] </span><span class="hf-log-content clamped">Video URL extraction complete: 0 success, 5 failed</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[11:57:56 PM] </span><span class="hf-log-content clamped">Higgsfield Automation v4.9.6 Loaded</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:50 AM] </span><span class="hf-log-content clamped">Opening Pre-Fetch Bulk Download modal...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:50 AM] </span><span class="hf-log-content clamped">Starting pre-fetch of all generated videos from DOM...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:51 AM] </span><span class="hf-log-content clamped">Pre-fetch: Switching to list layout for collection...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:51 AM] </span><span class="hf-log-content clamped">Pre-fetch: Already in List layout mode</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:53 AM] </span><span class="hf-log-content clamped">Pre-fetch: Found list container with 12 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:53 AM] </span><span class="hf-log-content clamped">Pre-fetch: Using container for list layout collection</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:53 AM] </span><span class="hf-log-content clamped">Pre-fetch: Using window scrolling</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:54 AM] </span><span class="hf-log-content clamped">Pre-fetch: Scrape #1 - Found 12 [data-index] elements in document</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:54 AM] </span><span class="hf-log-content clamped">Pre-fetch: Item 0 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:54 AM] </span><span class="hf-log-content clamped">Pre-fetch: Item 1 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:55 AM] </span><span class="hf-log-content clamped">Pre-fetch: Item 2 - cellId not found. Has prompt: true, Has thumbnail: true, Row tag: DIV, Row classes: w-full pl-1 pt-1</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:55 AM] </span><span class="hf-log-content clamped">Pre-fetch: Added 12 new items in scrape #1. Total: 12</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:55 AM] </span><span class="hf-log-content clamped">Pre-fetch: Initial scrape found 12 items</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:58 AM] </span><span class="hf-log-content clamped">Pre-fetch: Reached bottom of page</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:06:59 AM] </span><span class="hf-log-content clamped">Pre-fetch: Collection complete. Found 12 items after scrolling</span></div>
+                <div class="hf-log-entry log-success"><span class="hf-log-time">[12:06:59 AM] </span><span class="hf-log-content clamped">Pre-fetch complete: Discovered 12 items | {"totalItems":12,"videosFound":12,"withPrompt":8}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:07:36 AM] </span><span class="hf-log-content clamped">Submitting textarea content with proper event dispatching...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:07:37 AM] </span><span class="hf-log-content clamped">Textarea content detected, triggering preview...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:07:38 AM] </span><span class="hf-log-content clamped">Parsing CSV data...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:07:38 AM] </span><span class="hf-log-content clamped">CSV column detection | {"ID":0,"Image":2,"Prompt":4,"Status":3,"VideoURL":9,"headers":["id","link","name","mimeType","drive","kind","webViewLink","shared","createdAt","updatedAt"]}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:07:38 AM] </span><span class="hf-log-content clamped">CSV parsing: 18 raw data lines (excluding header)</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:07:38 AM] </span><span class="hf-log-content clamped">CSV parsing complete: 0 lines processed, 0 header(s) skipped, 0 items parsed</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[12:07:39 AM] </span><span class="hf-log-content clamped">CSV import: No new items to import</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:07:39 AM] </span><span class="hf-log-content clamped">Preview updated: 0 items in queue (updated)</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:07:41 AM] </span><span class="hf-log-content clamped">Textarea content submitted and events dispatched</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:07:41 AM] </span><span class="hf-log-content clamped">Parsing CSV data...</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:07:41 AM] </span><span class="hf-log-content clamped">CSV column detection | {"ID":0,"Image":2,"Prompt":4,"Status":3,"VideoURL":9,"headers":["id","link","name","mimeType","drive","kind","webViewLink","shared","createdAt","updatedAt"]}</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:07:42 AM] </span><span class="hf-log-content clamped">CSV parsing: 18 raw data lines (excluding header)</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[12:07:42 AM] </span><span class="hf-log-content clamped">CSV parsing complete: 0 lines processed, 0 header(s) skipped, 0 items parsed</span></div>
+                <div class="hf-log-entry log-warning"><span class="hf-log-time">[12:07:42 AM] </span><span class="hf-log-content clamped">CSV import: No new items to import</span></div>
+                <div class="hf-log-entry log-info"><span class="hf-log-time">[10:04:17 PM] </span><span class="hf-log-content clamped">Higgsfield Automation v4.9.6 Loaded</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div id="modal-container" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Toggle between Table Log and Workflow Log
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.getElementById('hf-logs-toggle');
+            const tableSection = document.getElementById('hf-table-log-section');
+            const workflowSection = document.getElementById('hf-workflow-log-section');
+            let showTable = false;
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    showTable = !showTable;
+                    if (showTable) {
+                        tableSection.classList.remove('hf-log-section-hidden');
+                        tableSection.classList.add('hf-log-section-active');
+                        workflowSection.classList.remove('hf-log-section-active');
+                        workflowSection.classList.add('hf-log-section-hidden');
+                        toggleBtn.querySelector('.hf-logs-toggle-label').textContent = 'Table Log';
+                    } else {
+                        workflowSection.classList.remove('hf-log-section-hidden');
+                        workflowSection.classList.add('hf-log-section-active');
+                        tableSection.classList.remove('hf-log-section-active');
+                        tableSection.classList.add('hf-log-section-hidden');
+                        toggleBtn.querySelector('.hf-logs-toggle-label').textContent = 'Workflow Log';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

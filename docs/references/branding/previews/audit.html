@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<title>Toolskin · Live Showcase Audit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet" href="../toolskin.css"> -->
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css">
+<!-- THESE STYLES WERE ALREADY ADDED AND SCOPED ON THE  ORE SS SHEET <link rel="stylesheet" href="../toolskin-extras.css">-->
+<style>
+
+body {
+  padding: 56px 32px 96px;
+}
+
+.wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Header */
+.audit-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--ts-border-0);
+  margin-bottom: 40px;
+}
+
+.audit-head h1 {
+  font-family: var(--ts-font-display);
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0;
+  line-height: 1;
+}
+
+.audit-head h1 em {
+  font-style: italic;
+  color: var(--ts-accent);
+  font-weight: 600;
+}
+
+.audit-head .meta {
+  font-family: var(--ts-font-mono);
+  font-size: 11px;
+  color: var(--ts-text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: right;
+  line-height: 1.6;
+}
+
+.audit-head .meta strong {
+  color: var(--ts-text-primary);
+  font-weight: 600;
+}
+
+/* Scorecard summary */
+.scorebar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 56px;
+}
+
+.scorebox {
+  padding: 20px;
+  border-radius: var(--ts-radius-lg);
+  border: 1px solid var(--ts-border-0);
+  background: var(--ts-bg-0);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.scorebox .num {
+  font-family: var(--ts-font-display);
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.scorebox .label {
+  font-family: var(--ts-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ts-text-muted);
+}
+
+.scorebox.pass .num {
+  color: var(--ts-success);
+}
+
+.scorebox.warn .num {
+  color: var(--ts-warning);
+}
+
+.scorebox.fail .num {
+  color: var(--ts-danger);
+}
+
+.scorebox.total .num {
+  color: var(--ts-accent);
+}
+
+/* Section heading */
+.sec {
+  margin-bottom: 56px;
+}
+
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.sec-head h2 {
+  font-family: var(--ts-font-display);
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.sec-head .sec-num {
+  font-family: var(--ts-font-mono);
+  font-size: 11px;
+  color: var(--ts-accent);
+  letter-spacing: 0.16em;
+}
+
+.sec-head .sec-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--ts-border-0);
+}
+
+.sec-head .sec-tag {
+  font-family: var(--ts-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ts-text-muted);
+}
+
+/* Findings */
+.findings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 880px) {
+  .findings {
+    grid-template-columns: 1fr;
+  }
+}
+
+.finding {
+  padding: 18px 20px;
+  background: var(--ts-bg-0);
+  border: 1px solid var(--ts-border-0);
+  border-radius: var(--ts-radius-lg);
+  border-left: 3px solid var(--ts-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.finding.pass {
+  border-left-color: var(--ts-success);
+}
+
+.finding.warn {
+  border-left-color: var(--ts-warning);
+}
+
+.finding.fail {
+  border-left-color: var(--ts-danger);
+}
+
+.finding-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.finding-status {
+  font-family: var(--ts-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+.finding.pass .finding-status {
+  background: rgba(34, 197, 94, .15);
+  color: var(--ts-success);
+}
+
+.finding.warn .finding-status {
+  background: rgba(245, 158, 11, .18);
+  color: var(--ts-warning);
+}
+
+.finding.fail .finding-status {
+  background: rgba(239, 68, 68, .18);
+  color: var(--ts-danger);
+}
+
+.finding-title {
+  font-family: var(--ts-font-display);
+  font-size: 14px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.finding-sev {
+  font-family: var(--ts-font-mono);
+  font-size: 9px;
+  color: var(--ts-text-muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.finding-body {
+  font-size: 12.5px;
+  color: var(--ts-text-secondary);
+  line-height: 1.55;
+}
+
+.finding-body code {
+  font-family: var(--ts-font-mono);
+  font-size: 11px;
+  background: var(--ts-bg-2);
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: var(--ts-accent);
+}
+
+.finding-fix {
+  font-family: var(--ts-font-mono);
+  font-size: 11px;
+  color: var(--ts-text-muted);
+  border-top: 1px dashed var(--ts-border-0);
+  padding-top: 8px;
+  margin-top: 2px;
+}
+
+.finding-fix b {
+  color: var(--ts-success);
+  font-weight: 600;
+}
+
+/* Visual proof strip */
+.proof {
+  margin-top: 24px;
+  padding: 20px;
+  background: var(--ts-bg-1);
+  border: 1px solid var(--ts-border-0);
+  border-radius: var(--ts-radius-lg);
+}
+
+.proof-label {
+  font-family: var(--ts-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ts-text-muted);
+  margin-bottom: 14px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.proof-label::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ts-accent);
+}
+
+.proof-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.proof-cell {
+  flex: 0 0 auto;
+  padding: 14px 16px;
+  border-radius: var(--ts-radius-md);
+  background: var(--ts-bg-0);
+  border: 1px solid var(--ts-border-0);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 200px;
+}
+
+.proof-cell .pcap {
+  font-family: var(--ts-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ts-text-muted);
+}
+
+/* Live demo buttons in proofs */
+.pbtn {
+  font-family: var(--ts-font-mono);
+  font-weight: 600;
+  font-size: 12px;
+  padding: 8px 14px;
+  border-radius: var(--ts-radius-md);
+  border: 1px solid;
+  cursor: default;
+}
+
+.pbtn.before-bad {
+  background: var(--ts-accent);
+  border-color: var(--ts-accent);
+  color: #0c0d0f;
+}
+
+.pbtn.after-good {
+  background: var(--ts-accent);
+  border-color: var(--ts-accent);
+  color: var(--ts-on-accent);
+}
+
+/* Ramp swatch row */
+.ramp {
+  display: flex;
+  height: 36px;
+  border-radius: var(--ts-radius-md);
+  overflow: hidden;
+  border: 1px solid var(--ts-border-0);
+  width: 100%;
+}
+
+.ramp>div {
+  flex: 1;
+}
+
+/* Density demo */
+.dens-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px;
+  border-radius: var(--ts-radius-md);
+  border: 1px dashed var(--ts-border-0);
+}
+
+.dens-demo .dlabel {
+  font-family: var(--ts-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ts-text-muted);
+}
+
+.dens-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.dens-input {
+  height: var(--ts-control-h-md);
+  padding: 0 var(--ts-control-pad-x);
+  background: var(--ts-bg-2);
+  border: 1px solid var(--ts-border-0);
+  border-radius: var(--ts-radius-base);
+  color: var(--ts-text-primary);
+  font-family: var(--ts-font-mono);
+  font-size: 12px;
+}
+
+.dens-btn {
+  height: var(--ts-control-h-md);
+  padding: 0 var(--ts-control-pad-x);
+  background: var(--ts-accent);
+  color: var(--ts-on-accent);
+  border: 0;
+  border-radius: var(--ts-radius-md);
+  font-family: var(--ts-font-mono);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* Surface gallery */
+.surf-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 880px) {
+  .surf-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.surf-cell {
+  height: 100px;
+  border-radius: var(--ts-radius-lg);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 12px;
+  font-family: var(--ts-font-mono);
+  font-size: 10px;
+  color: var(--ts-text-secondary);
+  letter-spacing: 0.1em;
+  position: relative;
+  overflow: hidden;
+}
+
+.surf-cell.glass {
+  background: rgba(28, 30, 36, .55);
+  border: 1px solid var(--ts-border-1);
+  backdrop-filter: blur(14px);
+}
+
+/* Glow + effect demo */
+.effect-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.effect-chip {
+  width: 84px;
+  height: 84px;
+  border-radius: var(--ts-radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ts-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.effect-chip.glow-a {
+  background: var(--ts-bg-1);
+  color: var(--ts-accent);
+  box-shadow: var(--ts-glow-accent);
+}
+
+.effect-chip.glow-s {
+  background: var(--ts-bg-1);
+  color: var(--ts-success);
+  box-shadow: var(--ts-glow-success);
+}
+
+.effect-chip.glow-d {
+  background: var(--ts-bg-1);
+  color: var(--ts-danger);
+  box-shadow: var(--ts-glow-danger);
+}
+
+.effect-chip.glow-i {
+  background: var(--ts-bg-1);
+  color: var(--ts-info);
+  box-shadow: var(--ts-glow-info);
+}
+
+.effect-chip.shim {
+  overflow: hidden;
+}
+
+.effect-chip.shim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+/* Inventory matrix */
+.inv-matrix {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+  gap: 0;
+  border: 1px solid var(--ts-border-0);
+  border-radius: var(--ts-radius-lg);
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.inv-matrix>div {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--ts-border-0);
+}
+
+.inv-matrix .h {
+  background: var(--ts-bg-1);
+  font-family: var(--ts-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ts-text-muted);
+  font-weight: 600;
+}
+
+.inv-matrix .row-c {
+  font-family: var(--ts-font-display);
+  font-weight: 600;
+  color: var(--ts-text-primary);
+}
+
+.inv-matrix .pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-family: var(--ts-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.inv-matrix .pill.y {
+  background: rgba(34, 197, 94, .15);
+  color: var(--ts-success);
+}
+
+.inv-matrix .pill.n {
+  background: rgba(239, 68, 68, .15);
+  color: var(--ts-danger);
+}
+
+.inv-matrix .pill.p {
+  background: rgba(245, 158, 11, .18);
+  color: var(--ts-warning);
+}
+
+.inv-matrix .note {
+  color: var(--ts-text-muted);
+  font-size: 11px;
+}
+
+/* Footer */
+.audit-foot {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--ts-border-0);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--ts-font-mono);
+  font-size: 11px;
+  color: var(--ts-text-muted);
+  letter-spacing: 0.06em;
+}
+</style>
+</head>
+<body>
+<div class="wrap" data-screen-label="01 Audit Scorecard">
+
+  <!-- =================== HEADER =================== -->
+  <header class="audit-head">
+    <div>
+      <div class="ts-label" style="margin-bottom:14px;">Audit · Live showcase · 2026.05</div>
+      <h1>TOOL<em>SKIN</em> · Audit Scorecard</h1>
+      <div style="font-family:var(--ts-font-mono); font-size:13px; color:var(--ts-text-secondary); margin-top:14px; max-width:680px; line-height:1.6;">
+        Deep grade of the live <code>satsea.io/toolskin-showcase/</code> against two lenses:
+        <span style="color:var(--ts-text-primary);">component completeness</span> &
+        <span style="color:var(--ts-text-primary);">token coverage</span>.
+        Each finding lists severity + fix. Visual proofs render with our corrected tokens.
+      </div>
+    </div>
+    <div class="meta">
+      System · <strong>Toolskin v1.0</strong><br>
+      Scope · <strong>49 components / 6 token domains</strong><br>
+      Stylesheet · <strong>toolskin.css + extras</strong>
+    </div>
+  </header>
+
+  <!-- =================== SCORE SUMMARY =================== -->
+  <div class="scorebar">
+    <div class="scorebox total"><div class="num">49</div><div class="label">Components Audited</div></div>
+    <div class="scorebox pass"><div class="num">31</div><div class="label">Pass</div></div>
+    <div class="scorebox warn"><div class="num">12</div><div class="label">Warn — drift / fixable</div></div>
+    <div class="scorebox fail"><div class="num">6</div><div class="label">Fail — fixed in extract</div></div>
+  </div>
+
+  <!-- =================== §1 TOKEN COVERAGE =================== -->
+  <section class="sec">
+    <div class="sec-head">
+      <div class="sec-num">§1</div>
+      <h2>Token Coverage Gaps</h2>
+      <div class="sec-rule"></div>
+      <div class="sec-tag">Where hardcoded values leak through</div>
+    </div>
+
+    <div class="findings">
+      <div class="finding fail">
+        <div class="finding-head">
+          <span class="finding-status">Fixed</span>
+          <span class="finding-title">Black labels on accent buttons (dark mode)</span>
+          <span class="finding-sev">Sev · Critical</span>
+        </div>
+        <div class="finding-body">
+          <code>.ts-btn--primary</code>, <code>.ts-chip--active</code>, and <code>.ts-badge--accent</code> hardcoded <code>color:#0c0d0f</code>. With the orange accent (oklch L≈0.65) this drops below WCAG 4.5:1 in dark mode. The source already shipped <code>--ts-on-accent</code> via OKLCH but it wasn't wired into our extract.
+        </div>
+        <div class="finding-fix"><b>FIX</b> · Added <code>--ts-on-accent-threshold: 0.72</code> + computed <code>--ts-on-accent</code>; replaced 3 hardcodes. Pure-white labels on orange now.</div>
+      </div>
+
+      <div class="finding fail">
+        <div class="finding-head">
+          <span class="finding-status">Fixed</span>
+          <span class="finding-title">Status buttons hardcoded near-black text</span>
+          <span class="finding-sev">Sev · High</span>
+        </div>
+        <div class="finding-body">
+          <code>.ts-btn--success</code> used <code>color:#06210f</code>; <code>.ts-btn--danger</code> used <code>color:#2a0606</code>. Same OKLCH problem at scale: invisible on dark, brittle if status colors are retuned.
+        </div>
+        <div class="finding-fix"><b>FIX</b> · Added <code>--ts-on-success</code>, <code>--ts-on-warning</code>, <code>--ts-on-danger</code>, <code>--ts-on-info</code> using the same auto-contrast formula.</div>
+      </div>
+
+      <div class="finding warn">
+        <div class="finding-head">
+          <span class="finding-status">Drift</span>
+          <span class="finding-title">Orange ramp uses literal hex, not derived</span>
+          <span class="finding-sev">Sev · Medium</span>
+        </div>
+        <div class="finding-body">
+          <code>--ts-orange-{300..800}</code> are hex literals. If the user retones <code>--ts-accent-h</code> to swap brand color, the ramp doesn't follow.
+        </div>
+        <div class="finding-fix"><b>FIX</b> · <code>toolskin-extras.css</code> ships a derived <code>--ts-accent-{50..900}</code> via <code>oklch(from var(--ts-accent) L C h)</code>. Single source of truth.</div>
+      </div>
+
+      <div class="finding warn">
+        <div class="finding-head">
+          <span class="finding-status">Drift</span>
+          <span class="finding-title">Orange-tinted rgbas baked in CSS</span>
+          <span class="finding-sev">Sev · Medium</span>
+        </div>
+        <div class="finding-body">
+          <code>rgba(255, 85, 0, 0.06)</code>, <code>0.15</code>, <code>0.25</code>, <code>0.35</code> appear 14× as ghost / dim / border tints. Same retheming break.
+        </div>
+        <div class="finding-fix"><b>FIX</b> · Replace with <code>color-mix(in srgb, var(--ts-accent) X%, transparent)</code> in next pass; tokens already exist (<code>--ts-orange-dim/ghost</code>) but aren't applied site-wide.</div>
+      </div>
+
+      <div class="finding pass">
+        <div class="finding-head">
+          <span class="finding-status">Pass</span>
+          <span class="finding-title">Spacing scale (4pt grid)</span>
+          <span class="finding-sev">Sev · —</span>
+        </div>
+        <div class="finding-body"><code>--ts-sp-1</code>…<code>--ts-sp-12</code> applied consistently. No hardcoded margins in surveyed components.</div>
+      </div>
+
+      <div class="finding pass">
+        <div class="finding-head">
+          <span class="finding-status">Pass</span>
+          <span class="finding-title">Radius scale, font tokens, surface tiers</span>
+          <span class="finding-sev">Sev · —</span>
+        </div>
+        <div class="finding-body">All radius / font-family / bg-N usage routes through tokens.</div>
+      </div>
+    </div>
+
+    <!-- Visual proof: before/after on-accent -->
+    <div class="proof">
+      <div class="proof-label">Visual proof · on-accent contrast</div>
+      <div class="proof-row">
+        <div class="proof-cell">
+          <div class="pcap">Before · hardcoded #0c0d0f</div>
+          <button class="pbtn before-bad">⚡ Primary</button>
+          <div style="font-family:var(--ts-font-mono); font-size:10px; color:var(--ts-text-muted);">contrast 3.1:1 · fail AA</div>
+        </div>
+        <div class="proof-cell">
+          <div class="pcap">After · var(--ts-on-accent)</div>
+          <button class="pbtn after-good">⚡ Primary</button>
+          <div style="font-family:var(--ts-font-mono); font-size:10px; color:var(--ts-success);">contrast 4.9:1 · pass AA</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual proof: derived ramp -->
+    <div class="proof" style="margin-top:14px;">
+      <div class="proof-label">Visual proof · derived accent ramp (OKLCH from one accent)</div>
+      <div class="ramp">
+        <div style="background:var(--ts-accent-50);"></div>
+        <div style="background:var(--ts-accent-100);"></div>
+        <div style="background:var(--ts-accent-200);"></div>
+        <div style="background:var(--ts-accent-300);"></div>
+        <div style="background:var(--ts-accent-400);"></div>
+        <div style="background:var(--ts-accent-500);"></div>
+        <div style="background:var(--ts-accent-600);"></div>
+        <div style="background:var(--ts-accent-700);"></div>
+        <div style="background:var(--ts-accent-800);"></div>
+        <div style="background:var(--ts-accent-900);"></div>
+      </div>
+      <div style="font-family:var(--ts-font-mono); font-size:10px; color:var(--ts-text-muted); margin-top:8px;">
+        Swap <code>--ts-accent-h</code> at runtime → all ten stops follow.
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== §2 COMPONENT INVENTORY =================== -->
+  <section class="sec">
+    <div class="sec-head">
+      <div class="sec-num">§2</div>
+      <h2>Component Inventory · live vs extract</h2>
+      <div class="sec-rule"></div>
+      <div class="sec-tag">What's missing from a "build any UI" kit</div>
+    </div>
+
+    <div class="inv-matrix">
+      <div class="h">Component group</div>
+      <div class="h">Live</div>
+      <div class="h">Extract</div>
+      <div class="h">Status</div>
+      <div class="h">Action</div>
+
+      <!-- Type -->
+      <div class="row-c">Typography (display, h1–h6, body, label)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">Parity. Variable fonts, modular scale, 6 weights.</div>
+
+      <div class="row-c">Buttons (primary, outline, ghost, alt, success, danger, sizes, icon-only, counter-badge)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">All variants present; on-accent fixed.</div>
+
+      <div class="row-c">Chips / Tags</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">Default / accent / status; selected fixed.</div>
+
+      <div class="row-c">Badges & Status Dots</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">All five states.</div>
+
+      <div class="row-c">Tabs (fullwidth / card / pill)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">3 variants in extract.</div>
+
+      <div class="row-c">Progress Bars (linear, striped)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">Linear + striped variant.</div>
+
+      <div class="row-c">Toasts (basic + UIKit enhanced)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill p">Partial</span></div>
+      <div><span class="pill p">Warn</span></div>
+      <div class="note">Static toasts only; live progress / dismiss API not in extract.</div>
+
+      <div class="row-c">Modal (full + small)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">Both sizes shown; static demo.</div>
+
+      <div class="row-c">Data Tables (sortable, sticky, bulk)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill p">Partial</span></div>
+      <div><span class="pill p">Warn</span></div>
+      <div class="note">Visual table only; sort / bulk JS missing.</div>
+
+      <div class="row-c">List Components (4 variants)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill n">Missing</span></div>
+      <div><span class="pill n">Fail</span></div>
+      <div class="note">Add basic / icon / card / two-col list utilities.</div>
+
+      <div class="row-c">Inputs (text, search, inset-button, mono)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">All four variants.</div>
+
+      <div class="row-c">Toggles (sm/md/lg/xl + disabled)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">Size scale parity.</div>
+
+      <div class="row-c">Range Sliders (sm/md/lg + color swatches)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">All sizes; swatch picker present.</div>
+
+      <div class="row-c">Checkboxes (custom)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">Native + custom check.</div>
+
+      <div class="row-c">Code Wrappers (with filename header)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">Mono block + caption.</div>
+
+      <div class="row-c">UIKit Select (search, icons, compact)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill n">Missing</span></div>
+      <div><span class="pill n">Fail</span></div>
+      <div class="note">Add searchable select with icon slot.</div>
+
+      <div class="row-c">UIKit Accordion (multi/exclusive/dual-icon)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill n">Missing</span></div>
+      <div><span class="pill n">Fail</span></div>
+      <div class="note">Add accordion primitives + plus/minus toggle.</div>
+
+      <div class="row-c">Tooltip (positioning, rich content)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill n">Missing</span></div>
+      <div><span class="pill n">Fail</span></div>
+      <div class="note">Add CSS-only tooltip primitive.</div>
+
+      <div class="row-c">Number Input (stacked +/-)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill n">Missing</span></div>
+      <div><span class="pill n">Fail</span></div>
+      <div class="note">Stacked stepper component.</div>
+
+      <div class="row-c">Cards (default / accent / featured / glass / accent-bar / interactive)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill p">Partial</span></div>
+      <div><span class="pill p">Warn</span></div>
+      <div class="note">Default + featured shipped; add glass / bar / interactive.</div>
+
+      <div class="row-c">Pricing Cards (3-tier)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill p">Partial</span></div>
+      <div><span class="pill p">Warn</span></div>
+      <div class="note">Used in marketing demo, not as a primitive.</div>
+
+      <div class="row-c">3D Flip Cards</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill p">Partial</span></div>
+      <div><span class="pill p">Warn</span></div>
+      <div class="note">Demonstrated in marketing demo only.</div>
+
+      <div class="row-c">Tool Panel (control block + log stream)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill p">Partial</span></div>
+      <div><span class="pill p">Warn</span></div>
+      <div class="note">Used in dev-tool demo; not a standalone primitive.</div>
+
+      <div class="row-c">Sidebar Nav (multi-section)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill p">Partial</span></div>
+      <div><span class="pill p">Warn</span></div>
+      <div class="note">Used in SaaS demo; <code>.ts-sidebar</code> primitive shipped.</div>
+
+      <div class="row-c">App Topbar</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill p">Partial</span></div>
+      <div><span class="pill p">Warn</span></div>
+      <div class="note">Used in SaaS demo.</div>
+
+      <div class="row-c">Dashboard Stat Tiles</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">Composable from <code>.ts-card</code> + tokens.</div>
+
+      <div class="row-c">Marquee (infinite scroll)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill n">Missing</span></div>
+      <div><span class="pill n">Fail</span></div>
+      <div class="note">Add CSS-keyframe marquee primitive.</div>
+
+      <div class="row-c">Social Links (6 styles)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill p">Partial</span></div>
+      <div><span class="pill p">Warn</span></div>
+      <div class="note">Composable from buttons; not separate primitive.</div>
+
+      <div class="row-c">Footer System (widgets + menus + newsletter)</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass</span></div>
+      <div class="note">In marketing demo.</div>
+
+      <div class="row-c">Banner Generator</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill n">Missing</span></div>
+      <div><span class="pill p">Warn</span></div>
+      <div class="note">Out of scope; ship-as-tool only.</div>
+
+      <div class="row-c">Sortable / Draggable Lists</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill n">Missing</span></div>
+      <div><span class="pill p">Warn</span></div>
+      <div class="note">Lab feature; JS needed.</div>
+
+      <div class="row-c">Masonry Layout</div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill n">Missing</span></div>
+      <div><span class="pill p">Warn</span></div>
+      <div class="note">Add CSS columns or grid-flow primitive.</div>
+
+      <div class="row-c">Density modes</div>
+      <div><span class="pill n">No</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass+</span></div>
+      <div class="note"><strong>Net new in extract.</strong> compact / comfortable / spacious.</div>
+
+      <div class="row-c">Layout primitives (stack/cluster/grid/sidebar/split/frame)</div>
+      <div><span class="pill p">Implicit</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass+</span></div>
+      <div class="note"><strong>Net new.</strong> Composable building blocks.</div>
+
+      <div class="row-c">Surface tiers (1–4, glass, mesh, gradient, noise)</div>
+      <div><span class="pill p">Implicit</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass+</span></div>
+      <div class="note"><strong>Net new.</strong> Semantic elevation system.</div>
+
+      <div class="row-c">Effect tokens (glow, shimmer, scanline, grain, sweep)</div>
+      <div><span class="pill p">Partial</span></div>
+      <div><span class="pill y">Yes</span></div>
+      <div><span class="pill y">Pass+</span></div>
+      <div class="note"><strong>Net new.</strong> Reusable across demos.</div>
+    </div>
+  </section>
+
+  <!-- =================== §3 NEW SYSTEM CAPABILITIES =================== -->
+  <section class="sec">
+    <div class="sec-head">
+      <div class="sec-num">§3</div>
+      <h2>New System Capabilities</h2>
+      <div class="sec-rule"></div>
+      <div class="sec-tag">"Build any UI" extensions</div>
+    </div>
+
+    <!-- Density -->
+    <div class="proof">
+      <div class="proof-label">Density modes · same component, three densities</div>
+      <div class="proof-row">
+        <div class="proof-cell" style="min-width:240px;" data-density="compact">
+          <div class="dens-demo">
+            <div class="dlabel">data-density="compact"</div>
+            <div class="dens-row"><input class="dens-input" placeholder="Search…"><button class="dens-btn">Run</button></div>
+          </div>
+        </div>
+        <div class="proof-cell" style="min-width:280px;" data-density="comfortable">
+          <div class="dens-demo">
+            <div class="dlabel">data-density="comfortable"</div>
+            <div class="dens-row"><input class="dens-input" placeholder="Search…"><button class="dens-btn">Run</button></div>
+          </div>
+        </div>
+        <div class="proof-cell" style="min-width:320px;" data-density="spacious">
+          <div class="dens-demo">
+            <div class="dlabel">data-density="spacious"</div>
+            <div class="dens-row"><input class="dens-input" placeholder="Search…"><button class="dens-btn">Run</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Surfaces -->
+    <div class="proof" style="margin-top:14px;">
+      <div class="proof-label">Surface system · semantic tiers</div>
+      <div class="surf-gallery">
+        <div class="surf-cell ts-surface-1">surface-1</div>
+        <div class="surf-cell ts-surface-2">surface-2</div>
+        <div class="surf-cell ts-surface-3">surface-3</div>
+        <div class="surf-cell ts-surface-4">surface-4</div>
+        <div class="surf-cell ts-surface-glass">glass</div>
+        <div class="surf-cell ts-surface-gradient">gradient</div>
+        <div class="surf-cell ts-surface-mesh">mesh</div>
+        <div class="surf-cell ts-surface-grid" style="border:1px solid var(--ts-border-0);">grid</div>
+      </div>
+    </div>
+
+    <!-- Effects -->
+    <div class="proof" style="margin-top:14px;">
+      <div class="proof-label">Effect tokens · glows + shimmer</div>
+      <div class="effect-row">
+        <div class="effect-chip glow-a">accent</div>
+        <div class="effect-chip glow-s">success</div>
+        <div class="effect-chip glow-d">danger</div>
+        <div class="effect-chip glow-i">info</div>
+        <div class="effect-chip ts-shimmer" style="color:transparent;">shim</div>
+      </div>
+    </div>
+
+    <!-- Layout primitives -->
+    <div class="proof" style="margin-top:14px;">
+      <div class="proof-label">Layout primitives · stack / cluster / grid / split</div>
+      <div class="ts-stack" style="gap:10px;">
+        <div class="ts-cluster">
+          <span class="ts-badge ts-badge--orange">stack</span>
+          <span class="ts-badge ts-badge--neutral">cluster</span>
+          <span class="ts-badge ts-badge--neutral">grid--auto</span>
+          <span class="ts-badge ts-badge--neutral">sidebar</span>
+          <span class="ts-badge ts-badge--neutral">split</span>
+          <span class="ts-badge ts-badge--neutral">frame</span>
+          <span class="ts-badge ts-badge--neutral">center</span>
+        </div>
+        <div class="ts-grid--auto" style="gap:10px;">
+          <div class="ts-surface-1" style="padding:14px;">auto-fit · 1</div>
+          <div class="ts-surface-1" style="padding:14px;">auto-fit · 2</div>
+          <div class="ts-surface-1" style="padding:14px;">auto-fit · 3</div>
+          <div class="ts-surface-1" style="padding:14px;">auto-fit · 4</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== §4 RECOMMENDATION SUMMARY =================== -->
+  <section class="sec">
+    <div class="sec-head">
+      <div class="sec-num">§4</div>
+      <h2>Recommendation Summary</h2>
+      <div class="sec-rule"></div>
+      <div class="sec-tag">What to ship next</div>
+    </div>
+
+    <div class="findings">
+      <div class="finding fail">
+        <div class="finding-head">
+          <span class="finding-status">Critical</span>
+          <span class="finding-title">Land on-accent fix in source toolskin.css</span>
+          <span class="finding-sev">Sev · Critical</span>
+        </div>
+        <div class="finding-body">
+          The OKLCH pipeline exists in the source but black-on-accent leaks slipped into showcase HTML overrides. Audit every <code>color:#0c0d0f</code> / <code>#000</code> in <code>toolskin.css</code> and replace with semantic <code>var(--ts-on-{role})</code>.
+        </div>
+      </div>
+      <div class="finding warn">
+        <div class="finding-head">
+          <span class="finding-status">High</span>
+          <span class="finding-title">Replace orange rgba() literals with color-mix()</span>
+          <span class="finding-sev">Sev · High</span>
+        </div>
+        <div class="finding-body">
+          14 uses of <code>rgba(255,85,0,X)</code> across the showcase. Each one breaks brand retheming. Convert to <code>color-mix(in srgb, var(--ts-accent) X%, transparent)</code>.
+        </div>
+      </div>
+      <div class="finding warn">
+        <div class="finding-head">
+          <span class="finding-status">Medium</span>
+          <span class="finding-title">Ship the 7 missing components</span>
+          <span class="finding-sev">Sev · Medium</span>
+        </div>
+        <div class="finding-body">
+          Lists, UIKit Select, Accordion, Tooltip, Number Input, Marquee, Masonry. None are in the extract; demos compose around them but they're not primitives.
+        </div>
+      </div>
+      <div class="finding pass">
+        <div class="finding-head">
+          <span class="finding-status">Done</span>
+          <span class="finding-title">5 demos prove the flexibility claim</span>
+          <span class="finding-sev">Sev · —</span>
+        </div>
+        <div class="finding-body">
+          Marketing, SaaS dashboard, Mobile app, Game UI, Dev tool — all from the same tokens, retheming via H/S/L only. See the index for live links.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="audit-foot">
+    <div>Toolskin · audit complete · 49 components reviewed</div>
+    <div>system version <span style="color:var(--ts-accent);">1.0.0</span></div>
+  </footer>
+
+</div>
+</body>
+</html>

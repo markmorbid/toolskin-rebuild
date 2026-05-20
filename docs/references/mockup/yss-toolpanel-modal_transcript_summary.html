@@ -1,0 +1,137 @@
+<!-- YSS Transcript Batch Summary Modal — extracted from Youtube_Toolpanel_4.2.7.user.js showTranscriptSummaryModal() -->
+<div class="yss-modal-overlay yss-modal-overlay-closable" id="yss-modal-overlay">
+    <div class="yss-modal-content yss-sticky-modal" id="yss-transcript-summary-overlay" style="max-width:900px;">
+        <div class="yss-modal-title" style="cursor: move;">
+            <h3>Transcript Batch Summary <strong>5</strong></h3>
+            <button class="yss-btn yss-btn-icon yss-close-btn" title="Close">
+                <i class="fa-solid fa-xmark" style="font-size: inherit; color: currentcolor;"></i>
+            </button>
+        </div>
+
+        <div class="yss-modal-view">
+            <!-- ── Gemini API Configuration Section ── -->
+            <div class="yss-summary-table">
+                <h4 class="yss-summary-title">Gemini API Summarization
+                    <button class="yss-toggle-stats-btn" title="Toggle visibility">
+                        <i class="fa-solid fa-chevron-down" style="font-size: inherit; color: currentcolor;"></i>
+                    </button>
+                </h4>
+                <div class="yss-summary-rows yss-summarizer">
+                    <div class="yss-form-groups-row">
+                        <div class="yss-form-group">
+                            <label for="yss-gemini-api-key">Gemini API Key:</label>
+                            <input type="password" id="yss-gemini-api-key" placeholder="Enter your Gemini API key">
+                        </div>
+                        <div class="yss-form-group">
+                            <label for="yss-gemini-language-select">Summary Language:</label>
+                            <select id="yss-gemini-language-select">
+                                <option value="en">English</option>
+                                <option value="es">Spanish</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                                <option value="pt">Portuguese</option>
+                                <option value="ja">Japanese</option>
+                                <option value="ko">Korean</option>
+                                <option value="zh">Chinese</option>
+                            </select>
+                        </div>
+                        <div class="yss-form-group">
+                            <label for="yss-gemini-model-select">Model:</label>
+                            <select id="yss-gemini-model-select">
+                                <option value="">Select a model (fetch models first)</option>
+                                <option value="gemini-1.5-flash">gemini-1.5-flash</option>
+                                <option value="gemini-1.5-pro">gemini-1.5-pro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="yss-modal-buttons" style="display:flex;gap:6px;">
+                        <button class="yss-btn yss-btn-secondary"><i class="fa-solid fa-download"></i><span>Fetch
+                                Models</span></button>
+                        <button class="yss-btn yss-btn-primary"><i
+                                class="fa-solid fa-wand-magic-sparkles"></i><span>Summarize All</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Transcript Video List ── -->
+            <div class="yss-current-downloads yss-videolist-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Status</th>
+                            <th>Video Title</th>
+                            <th>Transcript</th>
+                            <th>Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="yss-index-cell">1</td>
+                            <td class="yss-status-cell" style="--yss-accent-color: var(--yss-success)">✅ Ready</td>
+                            <td>Introduction to AI — Part 1</td>
+                            <td><span style="color:var(--yss-text-secondary);font-size:.78rem;">3,421 chars</span></td>
+                            <td>
+                                <button class="yss-btn yss-btn-icon yss-btn-link" title="View Summary"><i
+                                        class="fa-solid fa-file-lines"></i></button>
+                                <button class="yss-btn yss-btn-icon yss-btn-link" title="Copy"><i
+                                        class="fa-solid fa-copy"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="yss-index-cell">2</td>
+                            <td class="yss-status-cell" style="--yss-accent-color: var(--yss-success)">✅ Ready</td>
+                            <td>Deep Learning Fundamentals</td>
+                            <td><span style="color:var(--yss-text-secondary);font-size:.78rem;">5,102 chars</span></td>
+                            <td>
+                                <button class="yss-btn yss-btn-icon yss-btn-link" title="View Summary"><i
+                                        class="fa-solid fa-file-lines"></i></button>
+                                <button class="yss-btn yss-btn-icon yss-btn-link" title="Copy"><i
+                                        class="fa-solid fa-copy"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="yss-index-cell">3</td>
+                            <td class="yss-status-cell" style="--yss-accent-color: var(--yss-warning)">⏳ Pending</td>
+                            <td>Neural Networks Explained</td>
+                            <td><span style="color:var(--yss-text-secondary);font-size:.78rem;">2,890 chars</span></td>
+                            <td><span style="color:var(--yss-text-secondary);font-size:.78rem;">—</span></td>
+                        </tr>
+                        <tr>
+                            <td class="yss-index-cell">4</td>
+                            <td class="yss-status-cell" style="--yss-accent-color: var(--yss-error)">❌ No Transcript
+                            </td>
+                            <td>Music Video — Ambient Loop</td>
+                            <td><span style="color:var(--yss-text-secondary);font-size:.78rem;">—</span></td>
+                            <td><span style="color:var(--yss-text-secondary);font-size:.78rem;">—</span></td>
+                        </tr>
+                        <tr>
+                            <td class="yss-index-cell">5</td>
+                            <td class="yss-status-cell" style="--yss-accent-color: var(--yss-success)">✅ Ready</td>
+                            <td>Transformer Architecture Overview</td>
+                            <td><span style="color:var(--yss-text-secondary);font-size:.78rem;">4,670 chars</span></td>
+                            <td>
+                                <button class="yss-btn yss-btn-icon yss-btn-link" title="View Summary"><i
+                                        class="fa-solid fa-file-lines"></i></button>
+                                <button class="yss-btn yss-btn-icon yss-btn-link" title="Copy"><i
+                                        class="fa-solid fa-copy"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="yss-modal-actions">
+            <div class="yss-modal-actions-left">
+                <button class="yss-btn yss-btn-primary"><i class="fa-solid fa-download"></i><span>Export All
+                        Summaries</span></button>
+                <button class="yss-btn yss-btn-secondary"><i class="fa-solid fa-copy"></i><span>Copy All</span></button>
+            </div>
+            <div class="yss-modal-actions-right">
+                <button class="yss-btn yss-btn-secondary yss-close-btn"><i
+                        class="fa-solid fa-xmark"></i><span>Close</span></button>
+            </div>
+        </div>
+    </div>
+</div>

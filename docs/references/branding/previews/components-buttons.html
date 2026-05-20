@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Toolskin — Buttons &amp; Badges</title>
+<!-- <link rel="stylesheet" href="../toolskin.css"> -->
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css">
+<style>
+  
+body {
+  padding: 56px 48px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.label {
+  font-family: var(--ts-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ts-accent);
+  margin-bottom: 12px;
+}
+
+h1.page {
+  font-family: var(--ts-font-display);
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  margin: 0 0 8px;
+  color: var(--ts-text-primary);
+}
+
+p.lede {
+  font-family: var(--ts-font-body);
+  font-size: 14px;
+  color: var(--ts-text-secondary);
+  margin: 0 0 48px;
+  max-width: 720px;
+  line-height: 1.65;
+}
+
+h2 {
+  font-family: var(--ts-font-display);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 40px 0 16px;
+  color: var(--ts-text-primary);
+  letter-spacing: -.01em;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.panel {
+  background: var(--ts-bg-0);
+  border: 1px solid var(--ts-border-0);
+  border-radius: 10px;
+  padding: 24px;
+}
+
+.meta {
+  font-family: var(--ts-font-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ts-text-muted);
+  margin-bottom: 12px;
+}
+
+/* ── Button extensions on top of toolskin.css base ── */
+.ts-btn--outline {
+  background: transparent;
+  border-color: var(--ts-accent);
+  color: var(--ts-accent);
+}
+
+.ts-btn--outline:hover {
+  background: rgba(255, 85, 0, .08);
+}
+
+.ts-btn--alt {
+  background: var(--ts-bg-3);
+  border-color: var(--ts-border-1);
+  color: var(--ts-text-primary);
+}
+
+.ts-btn--success {
+  background: var(--ts-success);
+  border-color: var(--ts-success);
+  color: var(--ts-on-success);
+}
+
+.ts-btn--danger {
+  background: var(--ts-danger);
+  border-color: var(--ts-danger);
+  color: var(--ts-on-danger);
+}
+
+.ts-btn[disabled] {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.ts-btn--sm {
+  padding: 6px 10px;
+  font-size: var(--ts-fs-xs);
+}
+
+.ts-btn--lg {
+  padding: 12px 18px;
+  font-size: var(--ts-fs-md);
+}
+
+.ts-btn--xl {
+  padding: 16px 24px;
+  font-size: var(--ts-fs-lg);
+}
+
+.ts-btn--icon {
+  padding: 9px;
+  aspect-ratio: 1/1;
+}
+
+.ts-btn__counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  margin-left: 4px;
+  background: rgba(255, 255, 255, .18);
+  color: inherit;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.ts-btn--primary .ts-btn__counter {
+  background: rgba(0, 0, 0, .18);
+}
+
+/* ── Chip ── */
+.ts-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: var(--ts-radius-md);
+  background: var(--ts-bg-2);
+  border: 1px solid var(--ts-border-0);
+  color: var(--ts-text-secondary);
+  font-family: var(--ts-font-mono);
+  font-size: var(--ts-fs-xs);
+  font-weight: 500;
+  letter-spacing: .02em;
+  cursor: pointer;
+}
+
+.ts-chip:hover {
+  border-color: var(--ts-accent);
+  color: var(--ts-accent);
+}
+
+.ts-chip--active {
+  background: var(--ts-accent);
+  color: var(--ts-on-accent);
+  border-color: var(--ts-accent);
+}
+
+.ts-chip--accent {
+  background: rgba(255, 85, 0, .12);
+  color: var(--ts-accent);
+  border-color: rgba(255, 85, 0, .3);
+}
+
+.ts-chip--success {
+  background: rgba(34, 197, 94, .12);
+  color: var(--ts-success);
+  border-color: rgba(34, 197, 94, .3);
+}
+
+.ts-chip--warning {
+  background: rgba(245, 158, 11, .12);
+  color: var(--ts-warning);
+  border-color: rgba(245, 158, 11, .3);
+}
+
+.ts-chip--danger {
+  background: rgba(239, 68, 68, .12);
+  color: var(--ts-danger);
+  border-color: rgba(239, 68, 68, .3);
+}
+
+.ts-chip--pill {
+  border-radius: 999px;
+}
+
+/* ── Badge variants beyond toolskin.css base ── */
+.ts-badge {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.ts-badge--accent {
+  background: var(--ts-accent);
+  color: var(--ts-on-accent);
+}
+
+.ts-badge--success {
+  background: rgba(34, 197, 94, .18);
+  color: var(--ts-success);
+  border: 1px solid rgba(34, 197, 94, .35);
+}
+
+.ts-badge--warning {
+  background: rgba(245, 158, 11, .18);
+  color: var(--ts-warning);
+  border: 1px solid rgba(245, 158, 11, .35);
+}
+
+.ts-badge--danger {
+  background: rgba(239, 68, 68, .18);
+  color: var(--ts-danger);
+  border: 1px solid rgba(239, 68, 68, .35);
+}
+
+.ts-badge--alt {
+  background: var(--ts-bg-3);
+  color: var(--ts-text-primary);
+  border: 1px solid var(--ts-border-1);
+}
+
+.ts-badge--default {
+  background: var(--ts-bg-2);
+  color: var(--ts-text-secondary);
+  border: 1px solid var(--ts-border-0);
+}
+
+.ts-badge--pill {
+  border-radius: 999px;
+}
+
+/* ── Status dot ── */
+.ts-dot-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ts-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.ts-dot--accent {
+  background: var(--ts-accent);
+  box-shadow: 0 0 0 4px rgba(255, 85, 0, .18);
+}
+
+.ts-dot--success {
+  background: var(--ts-success);
+}
+
+.ts-dot--warning {
+  background: var(--ts-warning);
+}
+
+.ts-dot--danger {
+  background: var(--ts-danger);
+}
+
+.ts-dot--pulse {
+  animation: pulse 1.6s ease-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 85, 0, .5);
+  }
+
+  100% {
+    box-shadow: 0 0 0 10px rgba(255, 85, 0, 0);
+  }
+}
+
+.ts-caption {
+  font-family: var(--ts-font-mono);
+  font-size: 11px;
+  color: var(--ts-text-muted);
+}
+</style>
+</head>
+<body>
+
+<div class="label">Toolskin · Components — Buttons &amp; Badges</div>
+<h1 class="page">Buttons, chips, badges, dots.</h1>
+<p class="lede">Mono-typed, square-cornered, accent-driven. The button system uses 1px borders and tight padding — controls feel like utilities, not consumer CTAs. Status colors lean on alpha-tinted backgrounds for soft contrast on dark.</p>
+
+<h2>Button variants</h2>
+<div class="panel">
+  <div class="meta">8 variants</div>
+  <div class="row">
+    <button class="ts-btn ts-btn--primary">★ Primary</button>
+    <button class="ts-btn ts-btn--outline">→ Outline</button>
+    <button class="ts-btn">▤ Default</button>
+    <button class="ts-btn ts-btn--ghost">⋯ Ghost</button>
+    <button class="ts-btn ts-btn--alt">⚡ Alt</button>
+    <button class="ts-btn ts-btn--success">✓ Success</button>
+    <button class="ts-btn ts-btn--danger">✕ Danger</button>
+    <button class="ts-btn" disabled>Disabled</button>
+  </div>
+</div>
+
+<h2>Sizes</h2>
+<div class="panel">
+  <div class="meta">sm · default · lg · xl</div>
+  <div class="row">
+    <button class="ts-btn ts-btn--primary ts-btn--sm">★ Small</button>
+    <button class="ts-btn ts-btn--primary">★ Default</button>
+    <button class="ts-btn ts-btn--primary ts-btn--lg">★ Large</button>
+    <button class="ts-btn ts-btn--primary ts-btn--xl">🚀 X-Large</button>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div>
+    <h2>Icon-only</h2>
+    <div class="panel">
+      <div class="row">
+        <button class="ts-btn ts-btn--primary ts-btn--icon">🚀</button>
+        <button class="ts-btn ts-btn--outline ts-btn--icon">⚙</button>
+        <button class="ts-btn ts-btn--icon">↓</button>
+        <button class="ts-btn ts-btn--ghost ts-btn--icon">⋮</button>
+        <button class="ts-btn ts-btn--danger ts-btn--icon ts-btn--sm">✕</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h2>With counter</h2>
+    <div class="panel">
+      <div class="row">
+        <button class="ts-btn ts-btn--primary">🔔 Notifications <span class="ts-btn__counter">12</span></button>
+        <button class="ts-btn">↓ Downloads <span class="ts-btn__counter">3</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>Chips &amp; tags</h2>
+<div class="panel stack">
+  <div class="row">
+    <span class="ts-chip ts-chip--active">Selected</span>
+    <span class="ts-chip">Default</span>
+    <span class="ts-chip ts-chip--accent">Accent</span>
+    <span class="ts-chip ts-chip--success">✓ Success</span>
+    <span class="ts-chip ts-chip--warning">⚠ Warning</span>
+    <span class="ts-chip ts-chip--danger">✕ Danger</span>
+  </div>
+  <div class="row">
+    <span class="ts-chip ts-chip--pill ts-chip--active">Selected</span>
+    <span class="ts-chip ts-chip--pill">Default</span>
+    <span class="ts-chip ts-chip--pill ts-chip--accent">Accent</span>
+    <span class="ts-chip ts-chip--pill ts-chip--success">✓ Success</span>
+    <span class="ts-chip ts-chip--pill ts-chip--warning">⚠ Warning</span>
+    <span class="ts-chip ts-chip--pill ts-chip--danger">✕ Danger</span>
+  </div>
+</div>
+
+<h2>Badges &amp; status dots</h2>
+<div class="panel stack">
+  <div class="row">
+    <span class="ts-badge ts-badge--default">Default</span>
+    <span class="ts-badge ts-badge--accent">Accent</span>
+    <span class="ts-badge ts-badge--success">✓ Live</span>
+    <span class="ts-badge ts-badge--warning">Beta</span>
+    <span class="ts-badge ts-badge--danger">Error</span>
+    <span class="ts-badge ts-badge--alt">Alt</span>
+  </div>
+  <div class="row">
+    <span class="ts-badge ts-badge--pill ts-badge--default">Default</span>
+    <span class="ts-badge ts-badge--pill ts-badge--accent">Accent</span>
+    <span class="ts-badge ts-badge--pill ts-badge--success">✓ Live</span>
+    <span class="ts-badge ts-badge--pill ts-badge--warning">Beta</span>
+    <span class="ts-badge ts-badge--pill ts-badge--danger">Error</span>
+    <span class="ts-badge ts-badge--pill ts-badge--alt">Alt</span>
+  </div>
+  <div class="row" style="gap:24px">
+    <div class="ts-dot-row"><span class="ts-dot ts-dot--accent ts-dot--pulse"></span><span class="ts-caption">Live</span></div>
+    <div class="ts-dot-row"><span class="ts-dot ts-dot--success"></span><span class="ts-caption">Online</span></div>
+    <div class="ts-dot-row"><span class="ts-dot ts-dot--warning"></span><span class="ts-caption">Idle</span></div>
+    <div class="ts-dot-row"><span class="ts-dot ts-dot--danger"></span><span class="ts-caption">Offline</span></div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Toolskin — Logo Proposals v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+
+<!-- <link rel="stylesheet" href="../toolskin.css"> -->
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css">
+<style>
+  body {
+    background: var(--ts-bg-body);
+    padding: 56px 48px 80px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .header {
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--ts-border-0);
+  }
+
+  .header .label {
+    color: var(--ts-accent);
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .header h1 {
+    font-family: var(--ts-font-display);
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    color: var(--ts-text-primary);
+    margin: 0 0 8px;
+  }
+
+  .header p {
+    font-family: var(--ts-font-body);
+    font-size: 14px;
+    color: var(--ts-text-secondary);
+    margin: 0;
+    max-width: 720px;
+    line-height: 1.65;
+  }
+
+  .proposal {
+    margin-bottom: 64px;
+  }
+
+  .proposal-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .proposal-title {
+    font-family: var(--ts-font-display);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: var(--ts-text-primary);
+  }
+
+  .proposal-title .num {
+    font-family: var(--ts-font-mono);
+    color: var(--ts-accent);
+    font-weight: 600;
+    margin-right: 14px;
+  }
+
+  .proposal-desc {
+    font-family: var(--ts-font-body);
+    font-size: 13px;
+    color: var(--ts-text-muted);
+    max-width: 460px;
+    line-height: 1.6;
+  }
+
+  .proposal-desc code {
+    font-family: var(--ts-font-mono);
+    color: var(--ts-accent);
+    font-size: 12px;
+  }
+
+  .lockups {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 14px;
+  }
+
+  .stage {
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 32px;
+    min-height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stage--dark {
+    background: #0c0d0f;
+    border: 1px solid var(--ts-border-0);
+  }
+
+  .stage--light {
+    background: #f1efed;
+  }
+
+  .stage--brand {
+    background: #FF5500;
+  }
+
+  .stage--mono {
+    background: #14161a;
+    border: 1px solid var(--ts-border-0);
+  }
+
+  .stage--icon {
+    background: #14161a;
+    border: 1px solid var(--ts-border-0);
+    min-height: 200px;
+  }
+
+  .stage svg {
+    display: block;
+  }
+
+  .stage-tag {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    font-family: var(--ts-font-mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .35);
+  }
+
+  .stage--light .stage-tag {
+    color: rgba(0, 0, 0, .4);
+  }
+
+  .stage--brand .stage-tag {
+    color: rgba(0, 0, 0, .5);
+  }
+
+  .icons-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .icon-cell {
+    background: #14161a;
+    border: 1px solid var(--ts-border-0);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 96px;
+  }
+
+  .icon-cell .px {
+    font-family: var(--ts-font-mono);
+    font-size: 9px;
+    color: var(--ts-text-muted);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .rationale {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .rat {
+    background: var(--ts-bg-0);
+    border: 1px solid var(--ts-border-0);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .rat .k {
+    font-family: var(--ts-font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ts-accent);
+    margin-bottom: 6px;
+  }
+
+  .rat .v {
+    font-family: var(--ts-font-body);
+    font-size: 12px;
+    color: var(--ts-text-secondary);
+    line-height: 1.55;
+  }
+
+  @media (max-width: 900px) {
+    .lockups, .rationale, .icons-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">Toolskin · Logo · Proposals v2</div>
+  <h1>Three harmonic directions</h1>
+  <p>All concepts ship with the uploaded variable fonts (Space Grotesk + JetBrains Mono), use only the canonical orange <code style="font-family:var(--ts-font-mono);color:var(--ts-accent)">#FF5500</code>, and resolve cleanly from 380 px hero down to 16 px favicon. Pick one — it becomes the master mark.</p>
+</div>
+
+<!-- ============================================================
+     PROPOSAL 1 — THE BRACKET (CSS selector lockup)
+     A wordmark wrapped by [ ] like a CSS attribute selector.
+     The orange caret between TOOL and SKIN is the active cursor —
+     a typed metaphor for "the skin layer applied to the tool."
+     ============================================================ -->
+<section class="proposal">
+  <div class="proposal-head">
+    <div class="proposal-title"><span class="num">01</span>The Bracket</div>
+    <p class="proposal-desc">A wordmark wrapped in <code>[ ]</code> like a CSS attribute selector. The orange caret between <code>TOOL</code> and <code>SKIN</code> is the cursor — the active layer being typed into existence. Pure type, surgical geometry, zero decorative shapes.</p>
+  </div>
+
+  <div class="lockups">
+    <div class="stage stage--dark">
+      <span class="stage-tag">PRIMARY · DARK</span>
+      <svg viewBox="0 0 480 120" width="100%" style="max-width:440px">
+        <!-- left bracket -->
+        <path d="M 28 22 H 14 V 98 H 28" fill="none" stroke="#e8e9ea" stroke-width="6" stroke-linecap="square"/>
+        <!-- TOOL -->
+        <text x="44" y="78" font-family="'Space Grotesk',system-ui,sans-serif" font-size="64" font-weight="700" letter-spacing="-2" fill="#e8e9ea">TOOL</text>
+        <!-- orange caret (the active layer) -->
+        <rect x="206" y="32" width="6" height="58" fill="#FF5500"/>
+        <!-- SKIN -->
+        <text x="220" y="78" font-family="'Space Grotesk',system-ui,sans-serif" font-size="64" font-weight="700" letter-spacing="-2" fill="#e8e9ea">SKIN</text>
+        <!-- right bracket -->
+        <path d="M 438 22 H 452 V 98 H 438" fill="none" stroke="#e8e9ea" stroke-width="6" stroke-linecap="square"/>
+      </svg>
+    </div>
+
+    <div class="stage stage--light">
+      <span class="stage-tag">LIGHT</span>
+      <svg viewBox="0 0 320 120" width="100%" style="max-width:240px">
+        <path d="M 14 22 H 6 V 98 H 14" fill="none" stroke="#0c0d0f" stroke-width="4" stroke-linecap="square"/>
+        <text x="22" y="76" font-family="'Space Grotesk',system-ui,sans-serif" font-size="42" font-weight="700" letter-spacing="-1.4" fill="#0c0d0f">TOOL</text>
+        <rect x="130" y="38" width="4" height="38" fill="#FF5500"/>
+        <text x="138" y="76" font-family="'Space Grotesk',system-ui,sans-serif" font-size="42" font-weight="700" letter-spacing="-1.4" fill="#0c0d0f">SKIN</text>
+        <path d="M 290 22 H 298 V 98 H 290" fill="none" stroke="#0c0d0f" stroke-width="4" stroke-linecap="square"/>
+      </svg>
+    </div>
+
+    <div class="stage stage--brand">
+      <span class="stage-tag">BRAND</span>
+      <svg viewBox="0 0 320 120" width="100%" style="max-width:240px">
+        <path d="M 14 22 H 6 V 98 H 14" fill="none" stroke="#0c0d0f" stroke-width="4" stroke-linecap="square"/>
+        <text x="22" y="76" font-family="'Space Grotesk',system-ui,sans-serif" font-size="42" font-weight="700" letter-spacing="-1.4" fill="#0c0d0f">TOOL</text>
+        <rect x="130" y="38" width="4" height="38" fill="#ffffff"/>
+        <text x="138" y="76" font-family="'Space Grotesk',system-ui,sans-serif" font-size="42" font-weight="700" letter-spacing="-1.4" fill="#0c0d0f">SKIN</text>
+        <path d="M 290 22 H 298 V 98 H 290" fill="none" stroke="#0c0d0f" stroke-width="4" stroke-linecap="square"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="icons-row">
+    <div class="icon-cell">
+      <svg viewBox="0 0 32 32" width="56" height="56" aria-label="Toolskin icon 32">
+        <path d="M 7 4 H 4 V 28 H 7"   fill="none" stroke="#e8e9ea" stroke-width="2.4" stroke-linecap="square"/>
+        <path d="M 25 4 H 28 V 28 H 25" fill="none" stroke="#e8e9ea" stroke-width="2.4" stroke-linecap="square"/>
+        <rect x="14.6" y="9" width="2.8" height="14" fill="#FF5500"/>
+      </svg>
+      <span class="px">56 px</span>
+    </div>
+    <div class="icon-cell">
+      <svg viewBox="0 0 32 32" width="32" height="32" aria-label="Toolskin icon 32">
+        <path d="M 7 4 H 4 V 28 H 7"   fill="none" stroke="#e8e9ea" stroke-width="2.4" stroke-linecap="square"/>
+        <path d="M 25 4 H 28 V 28 H 25" fill="none" stroke="#e8e9ea" stroke-width="2.4" stroke-linecap="square"/>
+        <rect x="14.6" y="9" width="2.8" height="14" fill="#FF5500"/>
+      </svg>
+      <span class="px">32 px</span>
+    </div>
+    <div class="icon-cell">
+      <svg viewBox="0 0 32 32" width="20" height="20" aria-label="Toolskin icon 20">
+        <path d="M 7 4 H 4 V 28 H 7"   fill="none" stroke="#e8e9ea" stroke-width="3" stroke-linecap="square"/>
+        <path d="M 25 4 H 28 V 28 H 25" fill="none" stroke="#e8e9ea" stroke-width="3" stroke-linecap="square"/>
+        <rect x="14" y="9" width="4" height="14" fill="#FF5500"/>
+      </svg>
+      <span class="px">20 px</span>
+    </div>
+    <div class="icon-cell">
+      <svg viewBox="0 0 32 32" width="16" height="16" aria-label="Toolskin icon 16">
+        <path d="M 7 4 H 4 V 28 H 7"   fill="none" stroke="#e8e9ea" stroke-width="3.5" stroke-linecap="square"/>
+        <path d="M 25 4 H 28 V 28 H 25" fill="none" stroke="#e8e9ea" stroke-width="3.5" stroke-linecap="square"/>
+        <rect x="14" y="9" width="4" height="14" fill="#FF5500"/>
+      </svg>
+      <span class="px">16 px</span>
+    </div>
+  </div>
+
+  <div class="rationale">
+    <div class="rat"><div class="k">Concept</div><div class="v">A CSS attribute selector wrapped around the brand. <code style="font-family:var(--ts-font-mono);color:var(--ts-accent)">[TOOL|SKIN]</code> reads as a query: "the skin layer applied to the tool."</div></div>
+    <div class="rat"><div class="k">Why it harmonizes</div><div class="v">The bracket weight matches the wordmark stroke. The caret matches the SKIN x-height. Everything sits on the same baseline grid.</div></div>
+    <div class="rat"><div class="k">Scaling</div><div class="v">Reads at 16 px favicon as <code style="font-family:var(--ts-font-mono);color:var(--ts-accent)">[ | ]</code> — three vertical strokes with one orange. Survives down to a single browser tab.</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROPOSAL 2 — THE BLADE (Stanley-blade slash)
+     A single 18° orange diagonal cut slicing through the wordmark.
+     Sharp, mechanical, exactly the "Stanley blade not Swiss watch"
+     directive from the brief. The cut falls on the K — the point
+     where the skin meets the tool.
+     ============================================================ -->
+<section class="proposal">
+  <div class="proposal-head">
+    <div class="proposal-title"><span class="num">02</span>The Blade</div>
+    <p class="proposal-desc">A single 18° orange cut sliced clean through the wordmark — the brief's <em>"Stanley blade, not Swiss watch"</em> made literal. The blade angle (18°) equals the brand hue. One incision; everything else is type.</p>
+  </div>
+
+  <div class="lockups">
+    <div class="stage stage--dark">
+      <span class="stage-tag">PRIMARY · DARK</span>
+      <svg viewBox="0 0 480 120" width="100%" style="max-width:440px">
+        <defs>
+          <clipPath id="bladeClipDark">
+            <!-- everything except the 8px-wide diagonal slice -->
+            <path d="M 0 0 H 480 V 120 H 0 Z M 245 -10 L 295 -10 L 235 130 L 185 130 Z" fill-rule="evenodd"/>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#bladeClipDark)">
+          <text x="0" y="80" font-family="'Space Grotesk',system-ui,sans-serif" font-size="72" font-weight="700" letter-spacing="-2.5" fill="#e8e9ea">TOOLSKIN</text>
+        </g>
+        <!-- orange blade -->
+        <path d="M 250 6 L 290 6 L 230 116 L 190 116 Z" fill="#FF5500"/>
+      </svg>
+    </div>
+
+    <div class="stage stage--light">
+      <span class="stage-tag">LIGHT</span>
+      <svg viewBox="0 0 320 120" width="100%" style="max-width:240px">
+        <defs>
+          <clipPath id="bladeClipLight">
+            <path d="M 0 0 H 320 V 120 H 0 Z M 165 -10 L 195 -10 L 155 130 L 125 130 Z" fill-rule="evenodd"/>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#bladeClipLight)">
+          <text x="6" y="78" font-family="'Space Grotesk',system-ui,sans-serif" font-size="48" font-weight="700" letter-spacing="-1.6" fill="#0c0d0f">TOOLSKIN</text>
+        </g>
+        <path d="M 168 12 L 192 12 L 152 108 L 128 108 Z" fill="#FF5500"/>
+      </svg>
+    </div>
+
+    <div class="stage stage--brand">
+      <span class="stage-tag">BRAND</span>
+      <svg viewBox="0 0 320 120" width="100%" style="max-width:240px">
+        <defs>
+          <clipPath id="bladeClipBrand">
+            <path d="M 0 0 H 320 V 120 H 0 Z M 165 -10 L 195 -10 L 155 130 L 125 130 Z" fill-rule="evenodd"/>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#bladeClipBrand)">
+          <text x="6" y="78" font-family="'Space Grotesk',system-ui,sans-serif" font-size="48" font-weight="700" letter-spacing="-1.6" fill="#0c0d0f">TOOLSKIN</text>
+        </g>
+        <path d="M 168 12 L 192 12 L 152 108 L 128 108 Z" fill="#0c0d0f"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="icons-row">
+    <div class="icon-cell">
+      <svg viewBox="0 0 32 32" width="56" height="56" aria-label="Toolskin blade icon 56">
+        <rect x="3" y="3" width="26" height="26" rx="3" fill="#1c1e24"/>
+        <path d="M 19 3 L 25 3 L 13 29 L 7 29 Z" fill="#FF5500"/>
+      </svg>
+      <span class="px">56 px</span>
+    </div>
+    <div class="icon-cell">
+      <svg viewBox="0 0 32 32" width="32" height="32" aria-label="Toolskin blade icon 32">
+        <rect x="3" y="3" width="26" height="26" rx="3" fill="#1c1e24"/>
+        <path d="M 19 3 L 25 3 L 13 29 L 7 29 Z" fill="#FF5500"/>
+      </svg>
+      <span class="px">32 px</span>
+    </div>
+    <div class="icon-cell">
+      <svg viewBox="0 0 32 32" width="20" height="20" aria-label="Toolskin blade icon 20">
+        <rect x="3" y="3" width="26" height="26" rx="3" fill="#1c1e24"/>
+        <path d="M 19 3 L 25 3 L 13 29 L 7 29 Z" fill="#FF5500"/>
+      </svg>
+      <span class="px">20 px</span>
+    </div>
+    <div class="icon-cell">
+      <svg viewBox="0 0 32 32" width="16" height="16" aria-label="Toolskin blade icon 16">
+        <rect x="3" y="3" width="26" height="26" rx="3" fill="#1c1e24"/>
+        <path d="M 19 3 L 25 3 L 13 29 L 7 29 Z" fill="#FF5500"/>
+      </svg>
+      <span class="px">16 px</span>
+    </div>
+  </div>
+
+  <div class="rationale">
+    <div class="rat"><div class="k">Concept</div><div class="v">A precision tool cut through the wordmark. The blade is the <em>edge</em> of the system — what separates skin from substrate.</div></div>
+    <div class="rat"><div class="k">Why it harmonizes</div><div class="v">Blade angle = 18°, the brand hue. Slice falls between L and S — the typographic seam between TOOL and SKIN. One angular gesture, no extra geometry.</div></div>
+    <div class="rat"><div class="k">Scaling</div><div class="v">At icon size the wordmark drops; the orange blade on dark square remains. Aggressive, unmistakable, instantly distinct in a tab strip.</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROPOSAL 3 — THE CASCADE (refined layer-stack)
+     The Layer Stack idea, harmonised: 3 nested rectangles where
+     each layer is fully connected (no floating bars). The outer
+     ring is the primitive layer; middle is computed (orange);
+     inner is the component slot. This addresses the "shapes
+     not great" feedback by making one continuous structural form.
+     ============================================================ -->
+<section class="proposal">
+  <div class="proposal-head">
+    <div class="proposal-title"><span class="num">03</span>The Cascade</div>
+    <p class="proposal-desc">The layer-stack idea, harmonised. Three nested concentric rectangles — primitive, computed, component — locked together as one continuous structural form. The orange middle layer is the engine. Mark + wordmark share a single grid.</p>
+  </div>
+
+  <div class="lockups">
+    <div class="stage stage--dark">
+      <span class="stage-tag">PRIMARY · DARK</span>
+      <svg viewBox="0 0 480 140" width="100%" style="max-width:440px">
+        <!-- nested cascade mark -->
+        <g>
+          <rect x="14" y="14" width="112" height="112" rx="6" fill="none" stroke="#e8e9ea" stroke-width="3"/>
+          <rect x="32" y="32" width="76"  height="76"  rx="4" fill="#FF5500"/>
+          <rect x="50" y="50" width="40"  height="40"  rx="2" fill="#0c0d0f"/>
+        </g>
+        <!-- wordmark -->
+        <text x="150" y="62" font-family="'Space Grotesk',system-ui,sans-serif" font-size="48" font-weight="700" letter-spacing="-1.6" fill="#e8e9ea">TOOL<tspan fill="#FF5500">SKIN</tspan></text>
+        <text x="151" y="100" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="500" letter-spacing="2.2" fill="rgba(232,233,234,0.4)">DESIGN&#160;SYSTEM&#160;·&#160;v1</text>
+      </svg>
+    </div>
+
+    <div class="stage stage--light">
+      <span class="stage-tag">LIGHT</span>
+      <svg viewBox="0 0 320 140" width="100%" style="max-width:260px">
+        <g>
+          <rect x="10" y="22" width="96" height="96" rx="5" fill="none" stroke="#0c0d0f" stroke-width="2.4"/>
+          <rect x="26" y="38" width="64" height="64" rx="3" fill="#FF5500"/>
+          <rect x="42" y="54" width="32" height="32" rx="2" fill="#f1efed"/>
+        </g>
+        <text x="120" y="76" font-family="'Space Grotesk',system-ui,sans-serif" font-size="34" font-weight="700" letter-spacing="-1.2" fill="#0c0d0f">TOOL<tspan fill="#FF5500">SKIN</tspan></text>
+      </svg>
+    </div>
+
+    <div class="stage stage--brand">
+      <span class="stage-tag">BRAND</span>
+      <svg viewBox="0 0 320 140" width="100%" style="max-width:260px">
+        <g>
+          <rect x="10" y="22" width="96" height="96" rx="5" fill="none" stroke="#0c0d0f" stroke-width="2.4"/>
+          <rect x="26" y="38" width="64" height="64" rx="3" fill="#0c0d0f"/>
+          <rect x="42" y="54" width="32" height="32" rx="2" fill="#FF5500"/>
+        </g>
+        <text x="120" y="76" font-family="'Space Grotesk',system-ui,sans-serif" font-size="34" font-weight="700" letter-spacing="-1.2" fill="#0c0d0f">TOOL<tspan fill="#ffffff">SKIN</tspan></text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="icons-row">
+    <div class="icon-cell">
+      <svg viewBox="0 0 32 32" width="56" height="56" aria-label="Toolskin cascade icon 56">
+        <rect x="2"  y="2"  width="28" height="28" rx="3"  fill="none" stroke="#e8e9ea" stroke-width="2"/>
+        <rect x="7"  y="7"  width="18" height="18" rx="2"  fill="#FF5500"/>
+        <rect x="12" y="12" width="8"  height="8"  rx="1"  fill="#0c0d0f"/>
+      </svg>
+      <span class="px">56 px</span>
+    </div>
+    <div class="icon-cell">
+      <svg viewBox="0 0 32 32" width="32" height="32" aria-label="Toolskin cascade icon 32">
+        <rect x="2"  y="2"  width="28" height="28" rx="3"  fill="none" stroke="#e8e9ea" stroke-width="2"/>
+        <rect x="7"  y="7"  width="18" height="18" rx="2"  fill="#FF5500"/>
+        <rect x="12" y="12" width="8"  height="8"  rx="1"  fill="#0c0d0f"/>
+      </svg>
+      <span class="px">32 px</span>
+    </div>
+    <div class="icon-cell">
+      <svg viewBox="0 0 32 32" width="20" height="20" aria-label="Toolskin cascade icon 20">
+        <rect x="2"  y="2"  width="28" height="28" rx="3"  fill="none" stroke="#e8e9ea" stroke-width="2.5"/>
+        <rect x="7"  y="7"  width="18" height="18" rx="2"  fill="#FF5500"/>
+        <rect x="12" y="12" width="8"  height="8"  rx="1"  fill="#0c0d0f"/>
+      </svg>
+      <span class="px">20 px</span>
+    </div>
+    <div class="icon-cell">
+      <svg viewBox="0 0 32 32" width="16" height="16" aria-label="Toolskin cascade icon 16">
+        <rect x="2"  y="2"  width="28" height="28" rx="3"  fill="none" stroke="#e8e9ea" stroke-width="3"/>
+        <rect x="7"  y="7"  width="18" height="18" rx="2"  fill="#FF5500"/>
+      </svg>
+      <span class="px">16 px</span>
+    </div>
+  </div>
+
+  <div class="rationale">
+    <div class="rat"><div class="k">Concept</div><div class="v">Three nested layers — primitive (frame), computed (orange engine), component (slot). One self-contained mark; the wordmark sits beside, never inside.</div></div>
+    <div class="rat"><div class="k">Why it harmonizes</div><div class="v">Each layer is offset by exactly 18 px (= 16 px grid + 2 px stroke). All radii follow the radius scale. Bullet-proof on a 4-pt grid.</div></div>
+    <div class="rat"><div class="k">Scaling</div><div class="v">At 16 px the inner slot drops; the ring + filled square remain — still legible as a layered stack. Highest density of meaning per pixel.</div></div>
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!-- Suno Settings Modal — extracted from Suno_Automation_v3.8.1.user.js showSettingsModal() + SunoModalBuilder -->
+<div class="suno-modal-overlay closable">
+    <div class="suno-modal-content" style="max-width:600px;">
+        <div class="suno-modal-title">
+            <h3>
+                <ion-icon name="settings" class="suno-icon"
+                    style="color:var(--suno-accent, #a855f7);font-size:16px;"></ion-icon>
+                Settings
+            </h3>
+            <button class="suno-btn suno-btn-icon" title="Close">
+                <ion-icon name="close" class="suno-icon"></ion-icon>
+            </button>
+        </div>
+        <div class="suno-modal-view">
+             <div class="suno-settings-content">
+
+            <!-- Download Statistics — createSummaryTable() -->
+            <div class="suno-summary-table">
+                <div class="suno-summary-title">
+                    <h3>
+                        <ion-icon name="bar-chart" class="suno-icon" style="font-size:14px;"></ion-icon>
+                        <span>Download Statistics</span>
+                        <button class="suno-btn suno-btn-icon" data-tooltip="Toggle visibility">
+                            <ion-icon name="eye" class="suno-icon" style="font-size:14px;"></ion-icon>
+                        </button>
+                    </h3>
+                </div>
+                <div class="suno-summary-rows">
+                    <div class="suno-row">
+                        <ion-icon name="flash" class="suno-icon" style="font-size:14px;"></ion-icon>
+                        <span class="suno-row-label">Automation downloads:</span>
+                        <span class="suno-row-result"><strong>18 tracks</strong></span>
+                    </div>
+                    <div class="suno-row">
+                        <ion-icon name="cloud-download" class="suno-icon" style="font-size:14px;"></ion-icon>
+                        <span class="suno-row-label">Bulk downloads:</span>
+                        <span class="suno-row-result"><strong>31 tracks</strong></span>
+                    </div>
+                    <div class="suno-row">
+                        <ion-icon name="close-circle" class="suno-icon" style="font-size:14px;"></ion-icon>
+                        <span class="suno-row-label">Failed downloads:</span>
+                        <span class="suno-row-result"><strong>0</strong></span>
+                    </div>
+                    <div class="suno-row">
+                        <ion-icon name="calendar" class="suno-icon" style="font-size:14px;"></ion-icon>
+                        <span class="suno-row-label">Date:</span>
+                        <span class="suno-row-result"><strong>3/14/2026</strong></span>
+                    </div>
+                    <div class="suno-row">
+                        <ion-icon name="time" class="suno-icon" style="font-size:14px;"></ion-icon>
+                        <span class="suno-row-label">Time:</span>
+                        <span class="suno-row-result"><strong>4:52:33 PM</strong></span>
+                    </div>
+                </div>
+            </div>
+              <div class="suno-form-group">
+                    <div class="suno-toggle-container">
+                        <div>
+                            <h3>Gradient Buttons</h3>
+                            <p>Apply gradient styling to buttons</p>
+                        </div>
+                        <label class="suno-toggle">
+                            <input type="checkbox">
+                            <span class="suno-toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Optimize UI Toggle -->
+                <div class="suno-form-group">
+                    <div class="suno-toggle-container">
+                        <div>
+                            <h3>Optimize UI (disable transitions)</h3>
+                            <p>Reduce animations/overlays to improve performance</p>
+                        </div>
+                        <label class="suno-toggle">
+                            <input type="checkbox">
+                            <span class="suno-toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Disable Backdrop Blur Toggle -->
+                <div class="suno-form-group">
+                    <div class="suno-toggle-container">
+                        <div>
+                            <h3>Disable Backdrop Blur</h3>
+                            <p>Turn off modal/tooltips blur to reduce GPU load</p>
+                        </div>
+                        <label class="suno-toggle">
+                            <input type="checkbox">
+                            <span class="suno-toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Show Tooltips Toggle -->
+                <div class="suno-form-group">
+                    <div class="suno-toggle-container">
+                        <div>
+                            <h3>Show Tooltips</h3>
+                            <p>Display tooltips on hover</p>
+                        </div>
+                        <label class="suno-toggle">
+                            <input type="checkbox" checked>
+                            <span class="suno-toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Layout Version 2 Toggle -->
+                <div class="suno-form-group">
+                    <div class="suno-toggle-container">
+                        <div>
+                            <h3>Layout Version 2</h3>
+                            <p>Enable new layout with dockable progress card</p>
+                        </div>
+                        <label class="suno-toggle">
+                            <input type="checkbox" checked>
+                            <span class="suno-toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+            <!-- Gradient Buttons Toggle — createFormGroupToggle() -->
+           
+              
+            </div>
+           
+
+            <!-- Clear Download History — createActionSection() -->
+            <div class="suno-form-group suno-action-section">
+                <div class="suno-action-title">
+                    <ion-icon name="trash" class="suno-icon" style="font-size:14px;"></ion-icon>
+                    Clear Download History
+                </div>
+                <div class="suno-action-buttons">
+                    <button class="suno-btn"
+                        data-tooltip="Clear Track Generation and Download Automation Records History">
+                        <ion-icon name="flash" class="suno-icon" style="font-size:14px;"></ion-icon>
+                        <span class="suno-btn-text">Clear Automation</span>
+                    </button>
+                    <button class="suno-btn" data-tooltip="Clear Bulk Downloads Records History">
+                        <ion-icon name="cloud-download" class="suno-icon" style="font-size:14px;"></ion-icon>
+                        <span class="suno-btn-text">Clear Downloads</span>
+                    </button>
+                    <button class="suno-btn btn-danger"
+                        data-tooltip="Clear All Automation and Bulk Downloads Records History.">
+                        <ion-icon name="time" class="suno-icon" style="font-size:14px;"></ion-icon>
+                        <span class="suno-btn-text">Clear All</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div class="suno-modal-actions">
+            <div class="suno-modal-actions-left">
+            </div>
+            <div class="suno-modal-actions-right">
+                <button class="suno-btn suno-close-btn">
+                    <ion-icon name="close" class="suno-icon"></ion-icon><span>Close</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

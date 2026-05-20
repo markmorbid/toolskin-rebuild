@@ -1,0 +1,86 @@
+<!-- YSS Processing Summary Modal — extracted from Youtube_Toolpanel_4.2.7.user.js showProcessingSummaryModal() -->
+<div class="yss-modal-overlay yss-modal-overlay-closable" id="yss-modal-overlay">
+    <div class="yss-modal-content yss-sticky-modal" style="max-width:800px;">
+        <div class="yss-modal-title" style="cursor: move;">
+            <button class="yss-btn yss-btn-icon yss-back-btn" title="Back">
+                <i class="fa-solid fa-arrow-left" style="font-size: inherit; color: currentcolor;"></i>
+            </button>
+            <h3>Processing Summary</h3>
+            <button class="yss-btn yss-btn-icon yss-close-btn" title="Close">
+                <i class="fa-solid fa-xmark" style="font-size: inherit; color: currentcolor;"></i>
+            </button>
+        </div>
+
+        <div class="yss-modal-view">
+            <!-- ── Processing Statistics ── -->
+            <div class="yss-summary-table">
+                <div class="yss-summary-title">📊 Processing Statistics
+                    <button class="yss-toggle-stats-btn" title="Toggle stats visibility">
+                        <i class="fa-solid fa-chevron-down" style="font-size: inherit; color: currentcolor;"></i>
+                    </button>
+                </div>
+                <div class="yss-summary-rows">
+                    <div><span>✅ Total videos processed:</span> <strong>24</strong></div>
+                    <div><span>📅 Date:</span> <strong>3/13/2026</strong></div>
+                    <div><span>⏰ Time:</span> <strong>2:45:30 PM</strong></div>
+                </div>
+            </div>
+
+            <!-- ── Video List Table ── -->
+            <div class="yss-current-downloads yss-videolist-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Status</th>
+                            <th>Video Title</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="yss-index-cell">1</td>
+                            <td class="yss-status-cell" style="--yss-accent-color: var(--yss-success)">✅ Edited (Unchecked)</td>
+                            <td>Variation Ballad</td>
+                            <td><a href="#" class="yss-btn yss-btn-icon yss-btn-link"><i class="fa-solid fa-external-link-alt"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td class="yss-index-cell">2</td>
+                            <td class="yss-status-cell">☑️ No Action Needed</td>
+                            <td>Tundra in Mineral</td>
+                            <td><a href="#" class="yss-btn yss-btn-icon yss-btn-link"><i class="fa-solid fa-external-link-alt"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td class="yss-index-cell">3</td>
+                            <td class="yss-status-cell" style="--yss-accent-color: var(--yss-success)">✅ Edited (Unchecked)</td>
+                            <td>TechBuzz</td>
+                            <td><a href="#" class="yss-btn yss-btn-icon yss-btn-link"><i class="fa-solid fa-external-link-alt"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td class="yss-index-cell">4</td>
+                            <td class="yss-status-cell" style="--yss-accent-color: var(--yss-warning)">⚠️ Checkbox Not Found</td>
+                            <td>Ambient Forest Loop</td>
+                            <td><a href="#" class="yss-btn yss-btn-icon yss-btn-link"><i class="fa-solid fa-external-link-alt"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td class="yss-index-cell">5</td>
+                            <td class="yss-status-cell" style="--yss-accent-color: var(--yss-success)">✅ Edited (Unchecked)</td>
+                            <td>Deep Blue Horizon</td>
+                            <td><a href="#" class="yss-btn yss-btn-icon yss-btn-link"><i class="fa-solid fa-external-link-alt"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="yss-modal-actions">
+            <div class="yss-modal-actions-left">
+                <button class="yss-btn yss-btn-primary"><i class="fa-solid fa-download"></i><span>Export CSV</span></button>
+                <button class="yss-btn yss-btn-secondary"><i class="fa-solid fa-copy"></i><span>Copy to Clipboard</span></button>
+            </div>
+            <div class="yss-modal-actions-right">
+                <button class="yss-btn yss-btn-secondary yss-close-btn"><i class="fa-solid fa-xmark"></i><span>Close</span></button>
+            </div>
+        </div>
+    </div>
+</div>

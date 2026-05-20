@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 130" width="560" height="130" role="img" aria-label="Toolskin">
+<defs>
+	<style>
+ 		 @font-face{font-family:'Space Grotesk';src:url('../fonts/SpaceGrotesk-VariableFont_wght.ttf') format('truetype-variations');font-weight:300 700;font-display:swap;}
+ 		  @font-face{font-family:'JetBrains Mono';src:url('../fonts/JetBrainsMono-VariableFont_wght.ttf') format('truetype-variations');font-weight:300 700;font-display:swap;}
+
+      </style>
+      <style type="text/css">
+      .ts-display{
+        font-family:'Space Grotesk',system-ui,sans-serif;
+        font-weight:700;
+      }
+      .ts-mono{
+        font-family:'JetBrains Mono',monospace;
+        font-weight:500;
+
+      }
+    </style>
+
+</defs>
+<path d="M 30 22 H 14 V 108 H 30" fill="none" stroke="#0c0d0f" stroke-width="8" stroke-linecap="square"></path>
+<text class="w ts-display" x="44" y="86" style="direction:rtl ;font-family:Space Grotesk" fill="#0c0d0f">TOOL</text>
+<rect x="246" y="32" width="8" style="direction:rtl ;font-family:Space Grotesk" height="66" fill="#FF5500"></rect>
+<text class="w ts-display" x="262" y="86" fill="#0c0d0f">SKIN</text>
+<path d="M 530 22 H 546 V 108 H 530" fill="none" stroke="#0c0d0f" stroke-width="8" stroke-linecap="square"></path>
+</svg>

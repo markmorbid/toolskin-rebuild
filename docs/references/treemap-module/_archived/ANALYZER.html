@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dependency Analyzer</title>
+
+<style>
+body { background:#0f1115; color:#e6edf3; font-family:Arial; margin:0; }
+.container { display:flex; height:100vh; }
+.sidebar { width:30%; overflow:auto; border-right:1px solid #333; }
+.main { width:70%; padding:10px; overflow:auto; }
+
+.node { padding:4px; cursor:pointer; }
+.node:hover { background:#1f2630; }
+
+pre { background:#161a22; padding:10px; overflow:auto; }
+
+.section { margin-bottom:20px; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="sidebar" id="list"></div>
+<div class="main" id="detail"></div>
+</div>
+
+<script>
+
+function show(file) {
+  const d = document.getElementById("detail");
+
+  const deps = file.imports.join("<br>");
+  const exps = file.exports.join(", ");
+  const uses = (DEPENDENTS[file.path] || []).join("<br>");
+
+  d.innerHTML = `
+    <h2>${file.name}</h2>
+
+    <div class="section">
+      <b>Imports</b><br>${deps || "None"}
+    </div>
+
+    <div class="section">
+      <b>Exports</b><br>${exps || "None"}
+    </div>
+
+    <div class="section">
+      <b>Used By</b><br>${uses || "None"}
+    </div>
+
+    <div class="section">
+      <b>Tags (HTML)</b><br>${file.tags.join(", ")}
+    </div>
+
+    <div class="section">
+      <b>CSS Classes</b><br>${file.classes.join(", ")}
+    </div>
+
+    <div class="section">
+      <b>Preview</b>
+      <pre>${file.content}</pre>
+    </div>
+  `;
+}
+
+function renderList() {
+  const list = document.getElementById("list");
+
+  FILES.forEach(f => {
+    const div = document.createElement("div");
+    div.className = "node";
+    div.textContent = f.name;
+    div.onclick = () => show(f);
+    list.appendChild(div);
+  });
+}
+
+renderList();
+
+</script>
+
+</body>
+</html>

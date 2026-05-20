@@ -1,0 +1,55 @@
+<div id="yss-modal-overlay" class="yss-modal-overlay closable">
+    <div class="yss-modal-content yss-sticky-modal" style="max-width: 700px;">
+        <div class="yss-modal-title">
+            <h3>Bulk Video Uploader</h3>
+            <button class="yss-btn yss-btn-icon yss-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="yss-modal-view">
+
+            <!-- Hidden file input (real implementation uses JS to trigger) -->
+            <input id="yss-uploader-file-input" type="file" multiple
+                accept="video/mp4,video/quicktime,video/x-msvideo,video/x-matroska,.mov,.mpeg4,.mp4,.avi,.wmv,.mpegps,.flv,.3gpp,.webm"
+                style="display: none;">
+
+            <!-- Summary Table -->
+            <div class="yss-summary-table">
+                <div class="yss-summary-title">
+                    Upload Queue Summary
+                    <button id="yss-modal-toggle-stats" class="yss-btn yss-btn-secondary"
+                        data-tooltip="Hide Statistics"><i class="fa-solid fa-eye-slash"></i></button>
+                </div>
+                <div class="yss-summary-rows">
+                    <div>Files Selected: <strong>0</strong></div>
+                    <div class="duplicated-uploads" style="display: none;">Duplicated Uploads: <strong>0</strong></div>
+                </div>
+            </div>
+
+            <!-- File List Container (empty state) -->
+            <div class="yss-videolist-container">
+                <div class="yss-noFiles">Click "Add Files" or "Add Folder" to choose videos for upload.</div>
+            </div>
+
+        </div>
+        <div class="yss-modal-actions">
+            <div class="yss-modal-actions-left">
+                <button id="yss-uploader-clear" class="yss-btn yss-btn-stop"
+                    data-tooltip="Remove all files from the current queue."><i class="fa-solid fa-trash"></i><span>Clear
+                        List</span></button>
+                <button id="yss-uploader-history" class="yss-btn yss-btn-secondary"
+                    data-tooltip="View the history of past uploads."><i class="fa-solid fa-history"></i><span>View
+                        History</span></button>
+            </div>
+            <div class="yss-modal-actions-right">
+                <button id="yss-uploader-folder-select" class="yss-btn yss-btn-secondary"
+                    data-tooltip="Select a folder to add all video files within it to the queue."><i
+                        class="fa-solid fa-folder-plus"></i><span>Add Folder</span></button>
+                <button id="yss-uploader-select" class="yss-btn yss-btn-green"
+                    data-tooltip="Select one or more individual video files to add to the queue."><i
+                        class="fa-solid fa-plus"></i><span>Add Files</span></button>
+                <button id="yss-uploader-start" class="yss-btn yss-btn-primary" disabled
+                    data-tooltip="Begin the bulk upload process."><i class="fa-solid fa-upload"></i><span>Start
+                        Upload</span></button>
+            </div>
+        </div>
+    </div>
+</div>

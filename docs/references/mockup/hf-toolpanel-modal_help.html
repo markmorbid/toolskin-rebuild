@@ -1,0 +1,58 @@
+<div class="hf-modal-overlay closable"  style="opacity: 1;">
+    <div class="hf-modal-content" style="max-width: 600px;"  style="opacity: 1;">
+        <div class="hf-modal-title">
+            <h3><ion-icon name="help-circle" class="hf-icon" style="font-size:16px;"></ion-icon> Help &amp; Instructions
+            </h3>
+            <button class="hf-btn hf-btn-icon hf-close-btn" title="Close">
+                <ion-icon name="close" class="hf-icon"></ion-icon>
+            </button>
+        </div>
+        <div class="hf-modal-view" style="padding:16px;">
+            <div style="display:flex;flex-direction:column;gap:16px;font-size:.85rem;line-height:1.7;color:#d4d4d8;">
+                <div>
+                    <h4 style="color:#67e8f9;margin-bottom:6px;">Getting Started</h4>
+                    <p>The Higgsfield Automation panel allows you to queue and automate video generation on
+                        Higgsfield.ai. Import a CSV file or paste spreadsheet data to populate the queue.</p>
+                </div>
+                <div>
+                    <h4 style="color:#67e8f9;margin-bottom:6px;">CSV Format</h4>
+                    <p>Your CSV should contain columns: <code
+                            style="background:#27272a;padding:2px 6px;border-radius:4px;">ID, image_URL, Prompt</code>.
+                        The script will process each row sequentially.</p>
+                </div>
+                <div>
+                    <h4 style="color:#67e8f9;margin-bottom:6px;">Dashboard</h4>
+                    <p>Use the Dashboard to view queue progress, filter by status (Pending, Generating, Success,
+                        Failed), download completed videos, and manage individual items.</p>
+                </div>
+                <div>
+                    <h4 style="color:#67e8f9;margin-bottom:6px;">Pre-Fetch</h4>
+                    <p>The Pre-Fetch button scans the current page DOM for generated videos and queues them for bulk
+                        download, even if they weren't part of your original queue.</p>
+                </div>
+                <div>
+                    <h4 style="color:#67e8f9;margin-bottom:6px;">Controls</h4>
+                    <ul style="padding-left:18px;">
+                        <li><strong>Start Queue</strong> — Begin processing all pending items</li>
+                        <li><strong>Pause</strong> — Pause processing (resume anytime)</li>
+                        <li><strong>Stop</strong> — Stop and reset processing state</li>
+                        <li><strong>Auto-download</strong> — Automatically download videos when generation completes
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color:#67e8f9;margin-bottom:6px;">Logs</h4>
+                    <p>Toggle between <strong>Workflow Log</strong> (process messages) and <strong>Table Log</strong>
+                        (generation progress per item). Both can be copied, downloaded, or cleared.</p>
+                </div>
+            </div>
+        </div>
+        <div class="hf-modal-actions">
+            <div class="hf-modal-actions-right">
+                <button class="hf-btn btn-secondary hf-close-btn">
+                    <span class="btn-label">Close</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

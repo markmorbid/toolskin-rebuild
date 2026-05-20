@@ -1,0 +1,397 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   §6c  FEATURE LIST + LIST COMPONENT  —  v2 (token-driven, ts-this-bg)
+   ═══════════════════════════════════════════════════════════════════════
+   Replaces the entire previous §6c block.
+
+   Architecture:
+     LAYER 1  Tokens declared ONCE in a component-scoped root block.
+              Scope = subtrees of .ts-list and .ts-feat-list only.
+              No leakage to global :root *.
+
+     LAYER 2  Element rules consume tokens. Variants override TOKENS only,
+              never redeclare properties.
+
+   Surface model:
+     - Background only on variants that need it (ts-feat-cards, big-icon box).
+     - Default items are transparent.
+     - All surfaces routed through --ts-this-bg derivatives:
+         bg gradient    → --ts-this-bg-grad-2     (variant only)
+         border         → --ts-this-bg-border     (unified everywhere)
+         hover bg       → --ts-this-bg-hover      (only where surface exists)
+         hover border   → --ts-this-bg-border-hover
+         accent hover   → --ts-accent-dim + --ts-accent-border (.hover-accent)
+
+   Typography model:
+     - All text inherits ONE color  (--ts-feat-text)
+     - All icons inherit ONE color  (--ts-feat-icon-color → accent)
+     - Title elements are an EXCEPTION: h2-h6, .ts-feat-item__title, strong
+       receive --ts-feat-title-color and --ts-feat-title-fs.
+
+   Sizing model:
+     - One base × one multiplier × clamp() = icon size for every variant.
+     - Variants override ONLY --ts-feat-icon-mult.
+     - Spacing is a derivative chain — change --ts-feat-pad-base, all rescales.
+
+   Layout model:
+     - Auto-fit grid with no media queries.
+     - Single column when item width exceeds container (intrinsic responsive).
+     - .list class forces single column explicitly.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   LAYER 1  —  COMPONENT-SCOPED TOKEN DECLARATIONS
+   These variables exist ONLY inside .ts-list and .ts-feat-list subtrees.
+   Move out to wider scope if you find other components consuming them.
+   ───────────────────────────────────────────────────────────────────── */
+:root .ts-list,
+:root .ts-list *,
+:root .ts-feat-list,
+:root .ts-feat-list * {
+
+	/* === ICON SIZE — clamp(min, base × multiplier, max) ============== */
+	/* Single base value, one active multiplier, hard min/max bounds. */
+	--ts-feat-icon-base: var(--ts-btn-icon, var(--ts-icon, 45px));
+
+	/* Hard bounds — global floor/ceiling for any variant */
+	--ts-feat-icon-min: 16px;
+	--ts-feat-icon-max: 64px;
+
+	/* Multipliers — variants pick which one becomes active */
+	--ts-feat-mult-xs: 0.40;   /* ≈ 18px → inline glyph (basic variant)   */
+	--ts-feat-mult-sm: 0.70;   /* ≈ 32px → small box                       */
+	--ts-feat-mult-md: 0.95;   /* ≈ 43px → default boxed icon              */
+	--ts-feat-mult-lg: 1.10;   /* ≈ 50px → big icon variant                */
+	--ts-feat-mult-xl: 1.40;   /* ≈ 63px → hero / oversized                */
+
+	/* Active multiplier — DEFAULT is xs (basic inline). Variants override. */
+	--ts-feat-icon-mult: var(--ts-feat-mult-xs);
+
+	/* The computed, clamped icon size — every icon reads this */
+	--ts-feat-icon-size: clamp(
+		var(--ts-feat-icon-min),
+		calc(var(--ts-feat-icon-base) * var(--ts-feat-icon-mult)),
+		var(--ts-feat-icon-max)
+	);
+
+	/* === SPACING — derivative chain from one base ==================== */
+	/* Override --ts-feat-pad-base on a container to rescale everything. */
+	--ts-feat-pad-base: var(--ts-sp-4);
+	--ts-feat-icon-pad: var(--ts-feat-pad-base);
+	--ts-feat-icon-gap: calc(var(--ts-feat-pad-base) * 0.75);
+	--ts-feat-item-pad: calc(var(--ts-feat-pad-base) * 0.5);
+	--ts-feat-item-gap: calc(var(--ts-feat-icon-gap) * 0.5);
+
+	/* === GRID auto-fit (no media queries) ============================ */
+	--ts-feat-col-min: 200px;     /* per-column floor before stack */
+
+	/* === TYPOGRAPHY ================================================== */
+	--ts-feat-fs:           var(--ts-fs-body-sm, var(--ts-fs-md));
+	--ts-feat-title-fs:     var(--ts-fs-body, var(--ts-fs-lg));
+	--ts-feat-title-weight: 600;
+	--ts-feat-line-height:  1.3;
+
+	/* === RADIUS ====================================================== */
+	--ts-feat-radius: var(--ts-radius-sm);
+
+	/* === SURFACE — single source via ts-this-bg derivatives ========== */
+	/* Items are transparent by default. Variants opt in to a surface.    */
+	--ts-feat-bg:        transparent;
+	--ts-feat-bg-grad:   var(--ts-this-bg-grad-2);
+	--ts-feat-border:    var(--ts-this-bg-border);
+
+	/* === COLOR — unified across all variants ========================= */
+	--ts-feat-icon-color:   var(--ts-accent);
+	--ts-feat-text:         var(--ts-text-primary-dim-2);
+	--ts-feat-title-color:  var(--ts-text-primary);
+
+	/* === HOVER (only meaningful where a surface exists) ============== */
+	--ts-feat-bg-hover:     var(--ts-this-bg-hover);
+	--ts-feat-border-hover: var(--ts-this-bg-border-hover);
+
+	/* === HOVER variant — accent tint (.hover-accent) ================= */
+	--ts-feat-bg-hover-accent:     var(--ts-accent-dim);
+	--ts-feat-border-hover-accent: var(--ts-accent-border);
+	--ts-feat-icon-hover-accent:   var(--ts-accent-bright);
+	--ts-feat-text-hover-accent:   var(--ts-text-primary);
+
+	/* === TRANSITION ================================================== */
+	--ts-feat-transition:
+		background-color 0.2s ease,
+		background-image 0.2s ease,
+		border-color 0.2s ease,
+		color 0.2s ease;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   LAYER 2  —  ELEMENT RULES  (consume tokens only)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+
+/* ─── ul.ts-list — primary chevron / checklist bullet list ─────────── */
+ul.ts-list {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	line-height: 2;
+	font-size: var(--ts-feat-fs);
+	color: var(--ts-feat-text);
+	font-family: var(--ts-font-mono);
+}
+
+ul.ts-list li::before {
+	font-family: var(--ts-fontawesome-family);
+	font-weight: 900;
+	content: "\f054";                      /* chevron-right */
+	color: var(--ts-feat-icon-color);
+	margin-right: var(--ts-sp-2);
+	font-size: 130%;
+}
+
+ul.ts-list.ts-checklist li::before {
+	content: "\f058";                      /* circle-check */
+}
+
+
+/* ─── .ts-feat-list — base auto-fit grid (no media queries) ────────── */
+.ts-feat-list {
+	display: grid;
+	grid-template-columns: repeat(
+		auto-fit,
+		minmax(min(100%, var(--ts-feat-col-min)), 1fr)
+	);
+	gap: var(--ts-feat-item-gap);
+	margin: 0 0 var(--ts-feat-item-gap) 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* No bottom margin when last */
+.ts-feat-list:last-child,
+.ts-feat-list:only-of-type:last-child {
+	margin-bottom: 0;
+}
+
+/* Forced single-column variant */
+.ts-feat-list.list {
+	grid-template-columns: 1fr;
+	gap: var(--ts-feat-item-gap);
+}
+
+/* Wider auto-fit (250px floor) */
+.ts-feat-list.ts-feat-list--auto {
+	--ts-feat-col-min: 250px;
+}
+
+
+/* ─── .ts-feat-item — base item (transparent, inline icon) ─────────── */
+.ts-feat-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	flex-wrap: nowrap;
+	gap: var(--ts-feat-icon-gap);
+	padding: var(--ts-feat-item-pad);
+	border-radius: var(--ts-feat-radius);
+	background: var(--ts-feat-bg);
+	border: 1px solid transparent;
+	font-size: var(--ts-feat-fs);
+	color: var(--ts-feat-text);
+	line-height: var(--ts-feat-line-height);
+	transition: var(--ts-feat-transition);
+	min-width: 0;
+}
+
+/* Icon — unified color + clamped size, applies to every glyph type */
+.ts-feat-item > i,
+.ts-feat-item > .ts-icon,
+.ts-feat-item > ion-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	color: var(--ts-feat-icon-color);
+	font-size: var(--ts-feat-icon-size);
+	transition: var(--ts-feat-transition);
+}
+
+/* Text content — every non-icon span inherits unified text color */
+.ts-feat-item > span:not(.ts-icon) {
+	flex: 1 1 auto;
+	min-width: 0;
+	font-size: var(--ts-feat-fs);
+	color: var(--ts-feat-text);
+	font-weight: 500;
+	line-height: var(--ts-feat-line-height);
+}
+
+/* Title-element exception — h2-h6, .ts-feat-item__title, strong inside item
+   get distinct typography. Other text inside same item keeps --ts-feat-text. */
+.ts-feat-item :is(h2, h3, h4, h5, h6, .ts-feat-item__title, strong) {
+	font-size: var(--ts-feat-title-fs);
+	font-weight: var(--ts-feat-title-weight);
+	color: var(--ts-feat-title-color);
+	line-height: 1.25;
+	margin: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   VARIANT  —  .ts-feat-icon-big
+   Icon rendered as a square box with surface + border.
+   Item itself stays transparent — only the icon "tile" has bg.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.ts-feat-list.ts-feat-icon-big {
+	--ts-feat-icon-mult: var(--ts-feat-mult-lg);
+}
+
+/* Stacked single-column big-icon list */
+.ts-feat-list.ts-feat-icon-big.list,
+.ts-feat-icon-big.list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-feat-icon-gap);
+}
+
+/* The icon-tile rendering — surface only here */
+.ts-feat-icon-big .ts-feat-item > i,
+.ts-feat-icon-big .ts-feat-item > .ts-icon,
+.ts-feat-icon-big .ts-feat-item > ion-icon {
+	--ts-this-bg: var(--ts-bg-2);
+
+	flex: 0 0 var(--ts-feat-icon-size);
+	width:  var(--ts-feat-icon-size);
+	height: var(--ts-feat-icon-size);
+	aspect-ratio: 1;
+	padding: var(--ts-feat-icon-pad);
+	border-radius: var(--ts-feat-radius);
+	background: var(--ts-feat-bg-grad);
+	border: 1px solid var(--ts-feat-border);
+	font-size: 50%;                     /* glyph fills 50% of tile box */
+	box-sizing: border-box;
+}
+
+/* Big-icon body text — slightly larger than basic */
+.ts-feat-icon-big .ts-feat-item > span:not(.ts-icon) {
+	font-size: var(--ts-feat-fs);
+	font-weight: 400;
+}
+
+/* Big-icon items stay transparent — kill any inherited padding */
+.ts-feat-icon-big .ts-feat-item {
+	background: transparent;
+	border-color: transparent;
+}
+
+.ts-feat-list.ts-feat-icon-big.list .ts-feat-item,
+.ts-feat-icon-big.ts-feat-list:not(.list) .ts-feat-item {
+	padding: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   VARIANT  —  .ts-feat-cards
+   Each item is a surface card: icon column (with right divider) + body.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.ts-feat-list.ts-feat-cards {
+	--ts-feat-icon-mult: var(--ts-feat-mult-sm);
+	gap: var(--ts-feat-item-gap);
+}
+
+.ts-feat-cards .ts-feat-item {
+	--ts-this-bg: var(--ts-bg-2);
+
+	background: var(--ts-feat-bg-grad);
+	border: 1px solid var(--ts-feat-border);
+	padding: 0 var(--ts-feat-icon-pad) 0 0;
+	min-height: calc(var(--ts-feat-pad-base) * 3);
+}
+
+/* Cards icon — left column with right divider, no own bg */
+.ts-feat-cards .ts-feat-item > i,
+.ts-feat-cards .ts-feat-item > .ts-icon,
+.ts-feat-cards .ts-feat-item > ion-icon {
+	flex: 0 0 calc(var(--ts-feat-icon-size) * 2.4);
+	align-self: stretch;
+	padding-inline: calc(var(--ts-feat-icon-pad) * 0.75);
+	border-right: 1px solid var(--ts-feat-border);
+}
+
+/* Cards body padding lives on the text span (vertical breathing room) */
+.ts-feat-cards .ts-feat-item > span:not(.ts-icon) {
+	padding-block: var(--ts-feat-icon-pad);
+	line-height: 1.2;
+}
+
+/* Cards in list mode — single column */
+.ts-feat-list.ts-feat-cards.list {
+	grid-template-columns: 1fr;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HOVER STATES
+   Only items with a surface (cards / big-icon tile) get hover affordance.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Cards — full item hover */
+.ts-feat-cards .ts-feat-item:hover {
+	background: var(--ts-feat-bg-hover);
+	border-color: var(--ts-feat-border-hover);
+}
+
+.ts-feat-cards .ts-feat-item:hover > i,
+.ts-feat-cards .ts-feat-item:hover > .ts-icon,
+.ts-feat-cards .ts-feat-item:hover > ion-icon {
+	border-right-color: var(--ts-feat-border-hover);
+}
+
+/* Big icon — only the tile hovers */
+.ts-feat-icon-big .ts-feat-item:hover > i,
+.ts-feat-icon-big .ts-feat-item:hover > .ts-icon,
+.ts-feat-icon-big .ts-feat-item:hover > ion-icon {
+	background: var(--ts-feat-bg-hover);
+	border-color: var(--ts-feat-border-hover);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   VARIANT  —  .hover-accent
+   Accent-tinted hover background. Applies to cards items and big-icon tiles.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Cards — accent hover */
+.ts-feat-cards .ts-feat-item.hover-accent:hover {
+	background: var(--ts-feat-bg-hover-accent);
+	border-color: var(--ts-feat-border-hover-accent);
+	color: var(--ts-feat-text-hover-accent);
+}
+
+.ts-feat-cards .ts-feat-item.hover-accent:hover > i,
+.ts-feat-cards .ts-feat-item.hover-accent:hover > .ts-icon,
+.ts-feat-cards .ts-feat-item.hover-accent:hover > ion-icon {
+	color: var(--ts-feat-icon-hover-accent);
+	border-right-color: var(--ts-feat-border-hover-accent);
+}
+
+.ts-feat-cards .ts-feat-item.hover-accent:hover > span:not(.ts-icon) {
+	color: var(--ts-feat-text-hover-accent);
+}
+
+/* Big icon — accent hover on the tile */
+.ts-feat-icon-big .ts-feat-item.hover-accent:hover > i,
+.ts-feat-icon-big .ts-feat-item.hover-accent:hover > .ts-icon,
+.ts-feat-icon-big .ts-feat-item.hover-accent:hover > ion-icon {
+	background: var(--ts-feat-bg-hover-accent);
+	border-color: var(--ts-feat-border-hover-accent);
+	color: var(--ts-feat-icon-hover-accent);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   END  —  §6c FEATURE LIST + LIST COMPONENT
+   ═══════════════════════════════════════════════════════════════════════ */

@@ -1,0 +1,111 @@
+<div id="yss-modal-overlay" class="yss-modal-overlay closable">
+    <div class="yss-modal-content yss-sticky-modal" style="max-width: 700px;">
+        <div class="yss-modal-title">
+            <h3>Help &amp; Instructions</h3><button class="yss-btn yss-btn-icon yss-close-btn"><i
+                    class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="yss-modal-view">
+            <div class="yss-modal-instructions">
+                <p>The main action buttons on this panel are enabled or disabled based on the content filter you have
+                    selected in YouTube Studio.</p>
+                <p>To use a specific function, first filter your videos on the 'Content' page:</p>
+                <ul class="yss-help-filter-list">
+                    <li><b class="highlight">Schedule / Rename:</b> Requires the 'Visibility' filter to be set to
+                        <strong class="colored">Unlisted</strong>.</li>
+                    <li><b class="highlight">Un-Draft:</b> Requires the 'Visibility' filter to be set to <strong
+                            class="colored">Draft</strong>.</li>
+                    <li><b class="highlight">Unlist:</b> Requires the 'Visibility' filter to be set to <strong
+                            class="colored">Scheduled</strong>.</li>
+                    <li><b class="highlight">Rename Only:</b> Requires the 'Visibility' filter to be set to <strong
+                            class="colored">Draft</strong>.</li>
+                    <li><b class="highlight">Disable All Notifications:</b> Requires the 'Visibility' filter to be set
+                        to <strong class="colored">Unlisted</strong>.</li>
+                </ul>
+                <p>If a button is disabled, hover over it to see which filter is required.</p>
+            </div>
+            <div class="yss-help-accordion-container">
+                <details class="yss-modal-instructions">
+                    <summary><i class="fa-solid fa-file-arrow-up" style="font-size: inherit; color: currentcolor;"></i>
+                        Auto-Publish Drafts</summary>
+                    <p>This tool automates the process of publishing multiple draft videos. It opens each draft, applies
+                        your chosen settings, and publishes it with the specified visibility.</p>
+                    <h4>Key Features</h4>
+                    <ul>
+                        <li>Bulk Publishing: Automatically process and publish all draft videos page by page.</li>
+                        <li>Detailed Configuration: Set advanced options like Shorts remixing, content disclosures,
+                            category, and more for all videos in the batch.</li>
+                        <li>Visibility Control: Choose to publish drafts as Public, Unlisted, Private, or Members-only.
+                        </li>
+                        <li>Notification Control: Globally enable or disable the "Notify subscribers" option for the
+                            entire batch.</li>
+                    </ul>
+                    <hr>
+                    <h4>How to Use</h4>
+                    <ol>
+                        <li>Filter Your Content: On the YouTube Studio "Content" page, filter your videos by "Drafts"
+                            visibility.</li>
+                        <li>Configure Settings: Adjust the options in this modal to your preference. These settings will
+                            be applied to every draft video processed.</li>
+                        <li>Start the Process: Click the "Confirm &amp; Start" button to begin the automation.</li>
+                        <li>Monitor: The script will navigate through your drafts, apply the settings, and publish them.
+                            Keep the browser tab in focus for best results.</li>
+                        <li>Stop (If Needed): You can click the "Stop" button at any time to safely interrupt the
+                            process.</li>
+                    </ol>
+                </details>
+                <details class="yss-modal-instructions">
+                    <summary><i class="fa-solid fa-bell-slash" style="font-size: inherit; color: currentcolor;"></i>
+                        Disable All Notifications</summary>
+                    <p>This tool automates the bulk editing of the "Disable All Notifications" checkbox from
+                        un-published videos. It runs in two steps:</p>
+                    <ul>
+                        <li>Fetch &amp; Queue: It collects the edit page URLs of all videos and builds a processing
+                            queue.</li>
+                        <li>Auto-Process: It navigates through each video’s edit page, unchecks the notification box,
+                            and saves the changes automatically.</li>
+                    </ul>
+                    <hr>
+                    <h4>Instructions:</h4>
+                    <ol>
+                        <li>Filter Your Content: On the "Content" page, filter by "Unlisted" visibility.</li>
+                        <li>Click "Disable Notifs" and choose your processing options (e.g., process all, or use manual
+                            selection).</li>
+                        <li>If using Manual Selection, click "Start Selection Mode", choose your videos, and then
+                            "Confirm".</li>
+                    </ol>
+                </details>
+                <details class="yss-modal-instructions">
+                    <summary><i class="fa-solid fa-closed-captioning"
+                            style="font-size: inherit; color: currentcolor;"></i> Transcript Downloader</summary>
+                    <p>This tool automates the fetching, downloading, and batch processing of YouTube video transcripts
+                        directly from the video page.</p>
+                    <h4>Key Features</h4>
+                    <ul>
+                        <li>One-Click Fetch: Automatically opens and retrieves the transcript for the current video.
+                        </li>
+                        <li>Batch Processing: Enter a list of video or playlist URLs to download all their transcripts
+                            sequentially.</li>
+                        <li>Auto-Fetch Mode: When enabled, the transcript is automatically fetched every time you load a
+                            new video page.</li>
+                        <li>Persistent Settings: Your preferences for auto-fetching and including timestamps are saved
+                            automatically.</li>
+                    </ul>
+                    <hr>
+                    <h4>How to Use</h4>
+                    <ol>
+                        <li>Manual Fetch: Click "Fetch Transcript" to get the transcript for the current video.
+                            "Download" and "Copy" will become enabled.</li>
+                        <li>Batch Mode: Click "Batch Process" to open the detailed control modal. Paste your URLs and
+                            click "Start Batch".</li>
+                        <li>Automatic Mode: Enable the "Auto-Fetch" checkbox. Transcripts will be fetched automatically
+                            on each video page you visit.</li>
+                    </ol>
+                </details>
+            </div>
+        </div>
+        <div class="yss-modal-actions">
+            <div class="yss-modal-actions-left"></div>
+            <div class="yss-modal-actions-right"></div>
+        </div>
+    </div>
+</div>

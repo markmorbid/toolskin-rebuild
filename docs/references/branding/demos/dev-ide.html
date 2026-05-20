@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-density="compact">
+<head>
+<meta charset="UTF-8">
+<title>Toolskin · Developer IDE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet" href="../toolskin.css"> -->
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css">
+<!-- THESE STYLES WERE ALREADY ADDED AND SCOPED ON THE  ORE SS SHEET <link rel="stylesheet" href="../toolskin-extras.css">-->
+
+</head>
+<body class="ts-main ts-showcase ts-landing ts-ide-demo" data-screen-label="05 Developer IDE">
+
+  <!-- TITLE BAR -->
+  <div class="ts-titlebar">
+    <div class="ts-traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="ts-menu">
+      <span class="ts-menu-item">File</span><span class="ts-menu-item">Edit</span><span class="ts-menu-item">View</span><span class="ts-menu-item">Run</span><span class="ts-menu-item">Help</span>
+    </div>
+    <div class="ts-crumb">toolskin-engine ▸ src ▸ tokens ▸ <b>resolver.ts</b></div>
+    <div class="ts-menu">
+      <span class="ts-menu-icon ts-icon">⌕</span><span class="ts-menu-icon ts-icon">⊕</span><span class="ts-menu-icon ts-icon">⌃</span>
+    </div>
+  </div>
+
+  <div class="ts-ide">
+    <!-- ACTIVITY RAIL -->
+    <div class="ts-rail">
+      <div class="ts-btn ts-btn--icon ts-btn--sm ts-rail-btn active ts-active"><span class="ts-btn-icon ts-icon">▤</span></div>
+      <div class="ts-btn ts-btn--icon ts-btn--sm ts-rail-btn"><span class="ts-btn-icon ts-icon">⌕</span></div>
+      <div class="ts-btn ts-btn--icon ts-btn--sm ts-rail-btn"><span class="ts-btn-icon ts-icon">⎇</span><span class="ts-badge ts-spinner">3</span></div>
+      <div class="ts-btn ts-btn--icon ts-btn--sm ts-rail-btn"><span class="ts-btn-icon ts-icon">▶</span></div>
+      <div class="ts-btn ts-btn--icon ts-btn--sm ts-rail-btn"><span class="ts-btn-icon ts-icon">⊞</span></div>
+      <div style="flex:1;"></div>
+      <div class="ts-btn ts-btn--icon ts-btn--sm ts-rail-btn"><span class="ts-btn-icon ts-icon">✦</span></div>
+      <div class="ts-btn ts-btn--icon ts-btn--sm ts-rail-btn"><span class="ts-btn-icon ts-icon">⚙</span></div>
+    </div>
+
+    <!-- ts-SIDEBAR -->
+    <div class="ts-sidebar">
+      <div class="ts-sb-head"><span>Explorer</span><span class="ts-icon">⋯</span></div>
+      <input class="ts-sb-search" placeholder="Filter files…" value="">
+      <div class="ts-tree">
+        <div class="ts-node dir">toolskin-engine</div>
+        <div class="ts-node dir indent">src</div>
+        <div class="ts-node dir indent2 closed">components</div>
+        <div class="ts-node dir indent2">tokens</div>
+        <div class="ts-node file indent2 active ts-active">resolver.ts<span class="git">M</span></div>
+        <div class="ts-node file indent2 modified"">accent.ts<span class="git">M</span></div>
+        <div class="ts-node file indent2"">contrast.ts</div>
+        <div class="ts-node file indent2"">density.ts</div>
+        <div class="ts-node file indent2 added"">surface.ts<span class="git">+</span></div>
+        <div class="ts-node dir indent2 closed">primitives</div>
+        <div class="ts-node dir indent2 closed">themes</div>
+        <div class="ts-node dir indent">test</div>
+        <div class="ts-node dir indent">docs</div>
+        <div class="ts-node file indent">package.json</div>
+        <div class="ts-node file indent">tsconfig.json</div>
+        <div class="ts-node file indent modified">README.md<span class="git">M</span></div>
+        <div class="ts-node file indent">LICENSE</div>
+      </div>
+
+      <div class="ts-sb-head" style="border-top:1px solid var(--ts-ui-ide-border); border-bottom: 1px solid var(--ts-ui-ide-border);"><span>Outline</span><span class="ts-icon">⋯</span></div>
+      <div class="ts-tree" style="flex: 0; padding-block: 0; border-bottom: none;">
+        <div class="ts-node file" style="padding-left:var(--ts-node-indent);">𝑓 resolveAccent</div>
+        <div class="ts-node file" style="padding-left:var(--ts-node-indent);">𝑓 buildRamp</div>
+        <div class="ts-node file" style="padding-left:var(--ts-node-indent);">𝑓 contrastFlip</div>
+        <div class="ts-node file" style="padding-left:var(--ts-node-indent);">𝑇 TokenSpec</div>
+      </div>
+    </div>
+
+    <!-- EDITOR COLUMN -->
+    <div class="ts-editor-col">
+      <div class="ts-tabs-bar">
+        <div class="ts-tab-bar--tab"><span>accent.ts</span><div class="dot"></div><span class="x">×</span></div>
+        <div class="ts-tab-bar--tab active ts-active"><span>resolver.ts</span><div class="dot"></div><span class="x">×</span></div>
+        <div class="ts-tab-bar--tab"><span>surface.ts</span><span class="x">×</span></div>
+        <div class="ts-tab-bar--tab"><span>README.md</span><div class="dot"></div><span class="x">×</span></div>
+      </div>
+
+      <div class="ts-editor">
+        <div class="gutter">
+          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+          <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+          <span>11</span><span>12</span><span class="cur">13</span><span>14</span><span>15</span>
+          <span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
+          <span>21</span><span>22</span><span>23</span><span>24</span><span>25</span>
+        </div>
+        <div class="code ts-code">
+          <span class="line"><span class="com">// toolskin-engine · token resolver</span></span>
+          <span class="line"><span class="com">// Derives 240+ tokens from a single accent HSL.</span></span>
+          <span class="line"></span>
+
+          <span class="line"><span class="kw">import</span> { <span class="typ">Hsl</span>, <span class="typ">TokenSpec</span> } <span class="kw">from</span> <span class="str">'./types'</span>;</span>
+          <span class="line"><span class="kw">import</span> { contrastFlip } <span class="kw">from</span> <span class="str">'./contrast'</span>;</span>
+
+          <span class="line"></span>
+
+          <span class="line"><span class="kw">export interface</span> <span class="typ">AccentSeed</span> {</span>
+          <span class="line"> h: <span class="typ">number</span>; <span class="com">// 0–360</span></span>
+          <span class="line"> s: <span class="typ">number</span>; <span class="com">// 0–100</span></span>
+          <span class="line"> l: <span class="typ">number</span>; <span class="com">// 0–100</span></span>
+          <span class="line">}</span>
+
+          <span class="line"></span>
+
+          <span class="line cur"><span class="kw">export function</span> <span class="fn">resolveAccent</span>(seed: <span class="typ">AccentSeed</span>): <span class="typ">TokenSpec</span> {</span>
+          <span class="line"> <span class="kw">const</span> { h, s, l } = seed;</span>
+          <span class="line"> <span class="kw">const</span> base = <span class="str">`hsl(${h} ${s}% ${l}%)`</span>;</span>
+          <span class="line"> <span class="kw">const</span> hover = <span class="str">`hsl(${h} ${s}% ${l + <span class="num">5</span>}%)`</span>;</span>
+          <span class="line"> <span class="kw">const</span> active ts-active = <span class="str">`hsl(${h} ${s}% ${l - <span class="num">8</span>}%)`</span>;</span>
+          <span class="line"> <span class="kw">const</span> ramp = <span class="fn">buildRamp</span>(seed);</span>
+          <span class="line"> <span class="kw">const</span> onAcc = <span class="fn">contrastFlip</span>(base); <span class="ts-inline-hint"><b>↳</b> "#0a0a0a" · WCAG AA · 9.2 : 1</span></span>
+
+          <span class="line"></span>
+
+          <span class="line"> <span class="kw">return</span> {</span>
+          <span class="line">   <span class="acc">'--ts-accent'</span>: base,</span>
+          <span class="line">   <span class="acc">'--ts-accent-hover'</span>: hover,</span>
+          <span class="line">   <span class="acc">'--ts-accent-active'</span>: active ts-active,</span>
+          <span class="line">   <span class="acc">'--ts-on-accent'</span>: onAcc,</span>
+          <span class="line">   ...ramp,</span>
+          <span class="line"> };</span>
+          <span class="line">}</span>
+        </div>
+      </div>
+
+      <!-- TERMINAL -->
+      <div class="ts-terminal terminal">
+        <div class="ts-term-tabs">
+          <div class="ts-term-tab active ts-active"><span class="ts-icon">▶</span> TERMINAL</div>
+          <div class="ts-term-tab"><span class="ts-icon">⚠</span> PROBLEMS · 2</div>
+          <div class="ts-term-tab"><span class="ts-icon">⊞</span> OUTPUT</div>
+          <div class="ts-term-tab"><span class="ts-icon">▤</span> DEBUG</div>
+        </div>
+        <div class="ts-term-body">
+          <div class="ln"><span class="pr">marcus@spire</span> <span style="color:var(--ts-info);">~/toolskin-engine</span> <span class="acc">(main ✦)</span> $ <span style="color:var(--ts-text-primary);">pnpm test:tokens</span></div>
+          <div class="ln com">› Running 47 token resolution tests…</div>
+          <div class="ln ok">  ✓ resolveAccent · base hsl correct (3ms)</div>
+          <div class="ln ok">  ✓ resolveAccent · contrast flip · light text (1ms)</div>
+          <div class="ln ok">  ✓ resolveAccent · contrast flip · dark text (1ms)</div>
+          <div class="ln ok">  ✓ buildRamp · 5 stops generated (2ms)</div>
+          <div class="ln wn">  ⚠ buildRamp · oklch fallback for unsupported browser (4ms)</div>
+          <div class="ln ok">  ✓ density.compact · gap tokens halved (1ms)</div>
+          <div class="ln ok">  ✓ surface.glass · backdrop-filter applied (2ms)</div>
+          <div class="ln er">  ✗ surface.mesh · noise opacity drift (timeout)</div>
+          <div class="ln com">    Expected: 0.04, received: 0.041 — within tolerance? no</div>
+          <div class="ln"></div>
+          <div class="ln"><span style="color:var(--ts-text-primary);">Tests:</span> <span class="ok">46 passed</span>, <span class="er">1 failed</span>, <span class="wn">1 warning</span> · 47 total</div>
+          <div class="ln com">Duration: 142ms</div>
+          <div class="ln"></div>
+          <div class="ln"><span class="pr">marcus@spire</span> <span style="color:var(--ts-info);">~/toolskin-engine</span> <span class="acc">(main ✦)</span> $ <span style="background:var(--ts-accent); color:var(--ts-on-accent); padding: 0 var(--ts-bar-stroke-size); animation: ts-glow 1s infinite;">▮</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI PANEL -->
+    <div class="ts-ai">
+      <div class="ts-ai-head">
+        <h3><span class="ts-pulse pulse"></span>Toolskin AI</h3>
+        <div class="ts-model">claude-haiku-4-5</div>
+      </div>
+      <div class="ts-ai-body">
+        <div class="ts-msg ts-user">
+          The mesh surface test is failing — opacity drift of 0.001. Is that a real bug?
+        </div>
+        <div class="ts-msg ts-ai">
+          That's a floating-point rounding artifact, not a real bug. The mesh noise SVG is rasterized at runtime and browsers vary by ±0.002 on alpha blending.
+          <div class="ts-codeblock">
+            <span class="rem">- expect(opacity).toBe(0.04)</span>
+            <span class="add">+ expect(opacity).toBeCloseTo(0.04, 2)</span>
+          </div>
+          <div class="ts-actions">
+            <button class="ts-btn ts-btn--sm ts-btn--primary">Apply diff</button>
+            <button class="ts-btn ts-btn--sm ts-btn--secondary">Show file</button>
+            <button class="ts-btn ts-btn--sm ts-btn--secondary">Explain more</button>
+          </div>
+        </div>
+        <div class="ts-msg ts-user">
+          And the oklch fallback warning — should we ship it?
+        </div>
+        <div class="ts-msg ts-ai">
+          Yes. <span style="color:var(--ts-accent);">96.4%</span> of your audience is on a browser that supports <code style="color:var(--ts-accent); background:var(--ts-bg-1); padding:0 4px; border-radius:2px;">oklch()</code>. The HSL fallback gracefully degrades for the rest. No action needed.
+          <br><br>Want me to gate it behind <code style="color:var(--ts-accent); background:var(--ts-bg-1); padding:0 4px; border-radius:2px;">@supports</code> instead?
+          <div class="ts-actions">
+            <button class="ts-btn ts-btn--sm ts-btn--primary">Yes, gate it</button>
+            <button class="ts-btn ts-btn--sm ts-btn--secondary">No thanks</button>
+          </div>
+        </div>
+      </div>
+      <div class="ts-ai-input">
+        <div class="ts-pills">
+          <span class="ts-pill">@resolver.ts <span class="x">×</span></span>
+          <span class="ts-pill">@accent.ts <span class="x">×</span></span>
+          <span class="ts-pill">+ Add context</span>
+        </div>
+        <textarea placeholder="Ask, edit, or run…">Refactor buildRamp to use OKLCH stops</textarea>
+        <div class="ts-submit-row">
+          <span class="ts-left">⌘ + ↩ to send · ⌘K commands</span>
+          <button class="ts-btn ts-btn--sm ts-btn--secondary">↗ SEND</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="ts-status">
+    <div class="ts-group">
+      <span class="ts-item git">⎇ main ✦ 3↑</span>
+      <span class="ts-item err">● 1</span>
+      <span class="ts-item warn">▲ 1</span>
+      <span class="ts-item ok">✓ 46</span>
+    </div>
+    <div class="ts-group">
+      <span class="ts-item">TypeScript 5.4.3</span>
+      <span class="ts-item">Ln 13, Col 42</span>
+      <span class="ts-item">Spaces: 2</span>
+      <span class="ts-item">UTF-8</span>
+      <span class="ts-item">LF</span>
+      <span class="ts-item" style="color:var(--ts-accent);">✦ Toolskin AI</span>
+    </div>
+  </div>
+</body>
+</html>

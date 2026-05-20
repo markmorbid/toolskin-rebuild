@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolpanel Mockup Preview</title>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        media="print" onload="this.media='all'" />
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<!-- ═══════════════════════════════════════════════════════════════════════════════════
+     CRITICAL — DO NOT UN-PIN THIS WITHOUT OWNER APPROVAL
+     ═══════════════════════════════════════════════════════════════════════════════════
+     This page is INTENTIONALLY pinned to the rollback CSS, not the canonical.
+     The canonical link is commented out below. DO NOT switch it back without:
+       1. Completing Phase 1 absorption per docs/superpowers/specs/2026-05-07-boxed-layout-refactor-blueprint.md
+       2. Owner-approved visual verification at the OWNER's actual desktop viewport
+          (NOT a headless preview screenshot — that's how this got broken before)
+     The rollback CSS file (toolskin_recovered-5-05-2026-mockup-rollback.css) has
+     owner's manual Toolskin Masonry v5 module appended to it. That append is
+     load-bearing — do not remove the file or strip the append.
+     Visual fidelity reference (live): https://satsea.io/toolskin-showcase/mockup/index.html
+     Background: see memory/mockup_isolated_css.md and the audit at
+     docs/superpowers/audits/2026-05-07-padding-sizing-regression-audit.md
+     ═══════════════════════════════════════════════════════════════════════════════════ -->
+<!-- <link rel="stylesheet" href="../assets/css/toolskin.css"> -->
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin_recovered-5-05-2026-mockup-rollback.css">
+
+    <style>
+        /* ── Page-level overrides (index.html only) ──────────────────────── */
+        /* Accent hue, radial background, scrollbar — all built on Toolskin tokens */
+        :root {
+            --ts-accent-h: 18;
+            --ts-accent-s: 100%;
+            --ts-accent-l: 52%;
+        }
+
+        /* Scrollbar — uses Toolskin accent-dim for thumb */
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--ts-accent-dim);
+            cursor: pointer;
+            border-radius: var(--ts-radius-full);
+            background-clip: padding-box;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--ts-bg-1);
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--ts-bg-1);
+            cursor: pointer;
+        }
+
+        /* Landing hero heading layout */
+        .ts-landing-hero {
+            flex: 1 1 100%;
+            margin-top: auto;
+            padding: var(--ts-sp-8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: var(--ts-sp-4);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ts-section ts-section--glow ts-main-wrap-offset-rounded-bg">
+        <div class="ts-section--overlay ts-grain ts-grain--flickered"></div>
+        <div class="ts-container ts-full-v-centered">
+
+            <h1 class="ts-landing-hero">
+                <span class="ts-gradient-text accent complex">Toolpanel Mockup Preview</span>
+                <p class="ts-subtitle ts-text-center">Semi-functional interactive
+                    previews of userscript toolpanels</p>
+                <button class="ts-btn ts-btn--primary ts-btn--md ts-mx-auto" onclick="window.location.href='../'"> <i
+                        class="ts-icon fa-solid fa-arrow-left"></i> Back
+                    to Showcase</button>
+            </h1>
+
+            <div class="ts-masonry" style="width:100%;max-width:var(--ts-container-lg);">
+
+                <div class="ts-flip-card">
+                    <div class="ts-flip-card__inner">
+                        <div class="ts-flip-card__front">
+                            <img class="ts-card__icon" src="https://www.google.com/s2/favicons?sz=64&domain=youtube.com"
+                                alt="YouTube" style="width:48px;height:48px;">
+                            <h3 class="ts-h4" style="color:var(--ts-text-primary);">YouTube Toolpanel</h3>
+                            <span class="ts-card__version">v4.2.7</span>
+                            <span class="ts-badge-color red"><ion-icon name="logo-youtube"></ion-icon> YSS
+                                Toolpanel</span>
+                        </div>
+                        <div class="ts-flip-card__back">
+                            <p class="ts-lead" style="font-size:var(--ts-fs-md);">Transcript fetcher, batch processor,
+                                Gemini AI summarizer, video downloader, studio bulk actions, scheduling, and more.</p>
+                            <div class="ts-card__links" style="width:100%;">
+                                <a class="ts-card-link" href="yss-toolpanel-watch-mockup.html">
+                                    <ion-icon name="play-circle"></ion-icon>
+                                    Watch Mode
+                                    <span class="ts-card-link__meta">Transcript + Summarizer</span>
+                                </a>
+                                <a class="ts-card-link" href="yss-toolpanel-studio-mockup.html">
+                                    <ion-icon name="construct"></ion-icon>
+                                    Studio Mode
+                                    <span class="ts-card-link__meta">Scheduler + Bulk Ops</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ts-flip-card">
+                    <div class="ts-flip-card__inner">
+                        <div class="ts-flip-card__front">
+                            <img class="ts-card__icon" src="https://www.google.com/s2/favicons?sz=64&domain=suno.com"
+                                alt="Suno" style="width:48px;height:48px;">
+                            <h3 class="ts-h4" style="color:var(--ts-text-primary);">Suno Automation</h3>
+                            <span class="ts-card__version">v3.8.1</span>
+                            <span class="ts-badge-color purple"><ion-icon name="musical-notes"></ion-icon> Suno
+                                Automation</span>
+                        </div>
+                        <div class="ts-flip-card__back">
+                            <p class="ts-lead" style="font-size:var(--ts-fs-md);">Automated track generation, bulk
+                                downloader, queue viewer, track status monitoring, and workspace management for Suno AI.
+                            </p>
+                            <div class="ts-card__links" style="width:100%;">
+                                <a class="ts-card-link" href="suno-toolpanel-mockup.html">
+                                    <ion-icon name="musical-notes"></ion-icon>
+                                    Main Mode
+                                    <span class="ts-card-link__meta">Generator + Downloader</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ts-flip-card">
+                    <div class="ts-flip-card__inner">
+                        <div class="ts-flip-card__front">
+                            <img class="ts-card__icon"
+                                src="https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://higgsfield.ai&size=64"
+                                alt="Higgsfield" style="width:48px;height:48px;">
+                            <h3 class="ts-h4" style="color:var(--ts-text-primary);">Higgsfield Automation</h3>
+                            <span class="ts-card__version">v4.9.6</span>
+                            <span class="ts-badge-color cyan"><ion-icon name="videocam"></ion-icon> HF
+                                Automation</span>
+                        </div>
+                        <div class="ts-flip-card__back">
+                            <p class="ts-lead" style="font-size:var(--ts-fs-md);">CSV queue import, automated video
+                                generation, dashboard with filter tabs, pre-fetch bulk download, and workflow/table
+                                logs.
+                            </p>
+                            <div class="ts-card__links" style="width:100%;">
+                                <a class="ts-card-link" href="hf-toolpanel-mockup.html">
+                                    <ion-icon name="videocam"></ion-icon>
+                                    Main Panel
+                                    <span class="ts-card-link__meta">Queue + Dashboard</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="ts-page-footer">&copy; 2026 Toolpanel Mockup Preview</footer>
+
+    </div>
+
+</body>
+
+</html>

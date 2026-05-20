@@ -1,0 +1,154 @@
+<!-- Suno Help & Instructions Modal — extracted from Suno_Automation_v3.8.1.user.js showGeneralHelpModal() + SunoModalBuilder -->
+<div class="suno-modal-overlay closable" data-modal="help">
+    <div class="suno-modal-content" style="max-width:800px;">
+        <div class="suno-modal-title">
+            <h3>
+                <ion-icon name="help-circle" class="suno-icon"
+                    style="color:var(--suno-accent, #a855f7);font-size:16px;"></ion-icon>
+                Help &amp; Instructions
+            </h3>
+            <button class="suno-btn suno-btn-icon" title="Close">
+                <ion-icon name="close" class="suno-icon"></ion-icon>
+            </button>
+        </div>
+        <div class="suno-modal-view">
+            <div class="suno-help-accordion-container">
+
+                <!-- Intro section -->
+                <div class="suno-modal-instructions suno-help-intro">
+                    <h3>Welcome to Suno Automation &amp; Download</h3>
+                    <p>This panel provides powerful automation tools for Suno track generation and bulk downloading. All
+                        tools are accessible at all times and work together to streamline your workflow.</p>
+                    <h4>Getting Started</h4>
+                    <ul>
+                        <li>All tools are visible and accessible simultaneously — no need to switch between modes.</li>
+                        <li>Use the progress card to monitor active processes in real-time.</li>
+                        <li>The queue manager allows you to view, filter, and manage all fetched tracks before
+                            downloading.</li>
+                        <li>Settings can be accessed from the panel header to customize behavior and appearance.</li>
+                    </ul>
+                    <hr>
+                    <h4>Tool Overview</h4>
+                    <p>Below you will find detailed instructions for each tool. Click on any section to expand and view
+                        detailed information.</p>
+                </div>
+
+                <!-- Track Generation section -->
+                <details class="suno-modal-instructions" open>
+                    <summary>
+                        <ion-icon name="flash" class="suno-icon"></ion-icon>
+                        Track Generation
+                    </summary>
+                    <div>
+                        <p>Automate track creation on Suno. Navigate to <strong>suno.com/create</strong> and the panel
+                            will appear automatically.</p>
+                        <ul>
+                            <li><strong>Start Generating</strong> — Begins automated track creation using Suno's
+                                "Create" button. You can set limits for clicks and downloads.</li>
+                            <li><strong>Track Status</strong> — Opens a modal showing all generated tracks and their
+                                current status (completed, in-progress, failed).</li>
+                            <li><strong>Stop Clicks</strong> — Immediately stops the automation process.</li>
+                            <li><strong>Pause</strong> — Temporarily halts automation. Click again to resume.</li>
+                        </ul>
+                        <p><strong>Tip:</strong> Fill in the prompt textarea before starting. The automation will use
+                            whatever text is in the create form.</p>
+                    </div>
+                </details>
+
+                <!-- Bulk Downloader section -->
+                <details class="suno-modal-instructions">
+                    <summary>
+                        <ion-icon name="cloud-download" class="suno-icon"></ion-icon>
+                        Bulk Downloader
+                    </summary>
+                    <div>
+                        <p>Download all your Suno tracks in bulk. The downloader scans your workspace and collects track
+                            URLs for batch downloading.</p>
+                        <ul>
+                            <li><strong>Fetch All Tracks</strong> — Scans your Suno workspace and collects all available
+                                tracks. Progress is shown in the log area.</li>
+                            <li><strong>View Queue</strong> — Opens the download queue manager with search, filter,
+                                select, and batch actions.</li>
+                            <li><strong>Bulk Download All</strong> — Downloads all fetched tracks at once using your
+                                configured settings.</li>
+                            <li><strong>Copy</strong> — Copy the fetched track URLs to clipboard.</li>
+                            <li><strong>Save .txt</strong> — Export track list to a text file.</li>
+                        </ul>
+                        <p><strong>Note:</strong> Downloads use the format and filename pattern configured in Settings.
+                        </p>
+                    </div>
+                </details>
+
+                <!-- Queue Manager section -->
+                <details class="suno-modal-instructions">
+                    <summary>
+                        <ion-icon name="list" class="suno-icon"></ion-icon>
+                        Queue Manager
+                    </summary>
+                    <div>
+                        <p>The queue manager provides a detailed table view of all fetched tracks with powerful
+                            management tools.</p>
+                        <ul>
+                            <li><strong>Search &amp; Filter</strong> — Find specific tracks by title, ID, or status.
+                            </li>
+                            <li><strong>Select / Deselect</strong> — Use checkboxes to select tracks for batch
+                                operations.</li>
+                            <li><strong>Download Selected</strong> — Download only the selected tracks.</li>
+                            <li><strong>Import/Export</strong> — Import existing files for deduplication or export queue
+                                data.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <!-- Settings section -->
+                <details class="suno-modal-instructions">
+                    <summary>
+                        <ion-icon name="settings" class="suno-icon"></ion-icon>
+                        Settings
+                    </summary>
+                    <div>
+                        <p>Access settings via the <ion-icon name="settings"
+                                style="font-size:12px;vertical-align:middle;"></ion-icon> gear icon in the panel header.
+                        </p>
+                        <ul>
+                            <li><strong>Gradient Buttons</strong> — Toggle gradient styling on buttons.</li>
+                            <li><strong>Optimize UI</strong> — Disable transitions and animations for better
+                                performance.</li>
+                            <li><strong>Disable Backdrop Blur</strong> — Reduce GPU usage by removing blur effects.</li>
+                            <li><strong>Show Tooltips</strong> — Toggle hover tooltips on all interactive elements.</li>
+                            <li><strong>Layout Version</strong> — Switch between layout V1 and V2 (with dockable
+                                progress card).</li>
+                            <li><strong>Clear History</strong> — Reset automation, download, or all history data.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <!-- Logs section -->
+                <details class="suno-modal-instructions">
+                    <summary>
+                        <ion-icon name="document-text" class="suno-icon"></ion-icon>
+                        Logs
+                    </summary>
+                    <div>
+                        <p>The log area at the bottom of the panel shows real-time progress and status messages.</p>
+                        <ul>
+                            <li><strong>Copy Log</strong> — Copy the entire log output to clipboard.</li>
+                            <li><strong>Download Log</strong> — Save the log as a text file.</li>
+                            <li><strong>Clear Log</strong> — Clear all log entries.</li>
+                        </ul>
+                    </div>
+                </details>
+
+            </div>
+        </div>
+        <div class="suno-modal-actions">
+            <div class="suno-modal-actions-left">
+            </div>
+            <div class="suno-modal-actions-right">
+                <button class="suno-btn suno-close-btn">
+                    <ion-icon name="close" class="suno-icon"></ion-icon><span>Close</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

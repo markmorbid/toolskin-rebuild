@@ -1,0 +1,97 @@
+{
+  "generated": "2026-05-17T18:50:00.000Z",
+  "generator": "rollback-2026-05-17 hand-edit",
+  "root": "assets/",
+  "note": "Hand-edited during emergency rollback session (2026-05-17). Cleared to current rollback candidates only — live + Copy.css backup + canonical-from-satsea + 3 forensic snapshots. Re-run tools/scripts/build-asset-map.js after the rollback lands to regenerate from the live file tree.",
+  "stats": {
+    "css": 6,
+    "js": 0,
+    "total": 6
+  },
+  "files": [
+    {
+      "id": "toolskin-live",
+      "type": "css",
+      "name": "toolskin.css (LIVE as-found)",
+      "path": "assets/css/toolskin.css",
+      "folder": "assets/css",
+      "size": 1050378,
+      "modified": "2026-05-17T20:56:55.000Z",
+      "isCore": true,
+      "kind": "core",
+      "version": null,
+      "tags": ["live", "as-found"],
+      "priority": 100
+    },
+    {
+      "id": "toolskin-staging-copy",
+      "type": "css",
+      "name": "Copy.css (staging backup baseline)",
+      "path": "_session-staging/toolskin - Copy.css",
+      "folder": "_session-staging",
+      "size": 1051310,
+      "modified": "2026-05-17T20:54:25.000Z",
+      "isCore": true,
+      "kind": "core",
+      "version": null,
+      "tags": ["backup", "baseline"],
+      "priority": 90
+    },
+    {
+      "id": "toolskin-canonical-satsea",
+      "type": "css",
+      "name": "Canonical (satsea.io)",
+      "path": "_bu/rollback-2026-05-17/toolskin.CANONICAL-FROM-URL.css",
+      "folder": "_bu/rollback-2026-05-17",
+      "size": 1020821,
+      "modified": "2026-05-17T21:27:48.000Z",
+      "isCore": true,
+      "kind": "core",
+      "version": null,
+      "tags": ["backup", "canonical", "deployed"],
+      "priority": 80
+    },
+    {
+      "id": "toolskin-ruined-1",
+      "type": "css",
+      "name": "ruined-1 (forensic)",
+      "path": "_session-staging/toolskin_ruined-1.css",
+      "folder": "_session-staging",
+      "size": 1106235,
+      "modified": "2026-05-17T20:52:18.000Z",
+      "isCore": true,
+      "kind": "core",
+      "version": null,
+      "tags": ["forensic", "ruined"],
+      "priority": 50
+    },
+    {
+      "id": "toolskin-ruined-2",
+      "type": "css",
+      "name": "ruined-2 (forensic)",
+      "path": "_session-staging/toolskin-ruined-2.css",
+      "folder": "_session-staging",
+      "size": 1046384,
+      "modified": "2026-05-17T20:51:24.000Z",
+      "isCore": true,
+      "kind": "core",
+      "version": null,
+      "tags": ["forensic", "ruined"],
+      "priority": 50
+    },
+    {
+      "id": "toolskin-temp-diff",
+      "type": "css",
+      "name": "temp-file-to-diff (corrupted)",
+      "path": "_session-staging/temp-file-to-diff.css",
+      "folder": "_session-staging",
+      "size": 1151646,
+      "modified": "2026-05-17T21:03:36.000Z",
+      "isCore": true,
+      "kind": "core",
+      "version": null,
+      "tags": ["forensic", "corrupted", "diagnostic-only"],
+      "priority": 40
+    }
+  ]
+}

@@ -1,0 +1,566 @@
+<div id="ts-deck2" style="font-family: 'Inter', -apple-system, sans-serif; color: #e8e8ea; min-height: 720px; background: #0c0d0f; border-radius: 12px; overflow: hidden; position: relative; border: 1px solid #28292e;">
+  <style>
+    #ts-deck2 * { box-sizing: border-box; }
+    #ts-deck2 .slide { display: none; padding: 44px 52px; min-height: 720px; flex-direction: column; }
+    #ts-deck2 .slide.active { display: flex; }
+    #ts-deck2 .eyebrow { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #FF5500; margin-bottom: 14px; }
+    #ts-deck2 h1 { font-size: 38px; font-weight: 700; margin: 0 0 14px; letter-spacing: -0.02em; line-height: 1.05; color: #fff; }
+    #ts-deck2 h2 { font-size: 26px; font-weight: 600; margin: 0 0 18px; letter-spacing: -0.01em; line-height: 1.15; color: #fff; }
+    #ts-deck2 h3 { font-size: 14px; font-weight: 600; margin: 0 0 6px; color: #fff; }
+    #ts-deck2 p { font-size: 13px; line-height: 1.55; color: #b8b8bc; margin: 0 0 10px; }
+    #ts-deck2 .lead { font-size: 15px; line-height: 1.5; color: #d4d4d6; }
+    #ts-deck2 .accent { color: #FF5500; }
+    #ts-deck2 .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    #ts-deck2 .accent-bar { width: 22px; height: 3px; background: #FF5500; margin-bottom: 14px; }
+    #ts-deck2 .label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: #888; margin-bottom: 4px; }
+    #ts-deck2 .pill { display: inline-block; padding: 3px 9px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255,85,0,0.12); color: #FF5500; border: 1px solid rgba(255,85,0,0.3); }
+    #ts-deck2 .pill-bad { background: rgba(226,75,74,0.12); color: #E24B4A; border-color: rgba(226,75,74,0.3); }
+    #ts-deck2 .pill-ok { background: rgba(29,158,117,0.12); color: #1D9E75; border-color: rgba(29,158,117,0.3); }
+    #ts-deck2 .pill-neutral { background: rgba(255,255,255,0.06); color: #888; border-color: rgba(255,255,255,0.1); }
+    #ts-deck2 .card { background: #17181b; border: 1px solid #28292e; border-radius: 8px; padding: 14px 16px; }
+    #ts-deck2 .card-strong { background: #17181b; border: 1px solid #FF5500; border-radius: 8px; padding: 14px 16px; }
+    #ts-deck2 table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    #ts-deck2 th { text-align: left; padding: 10px 10px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #888; border-bottom: 1px solid #28292e; font-weight: 500; }
+    #ts-deck2 td { padding: 10px; border-bottom: 1px solid #1f2024; color: #d4d4d6; vertical-align: middle; font-size: 12px; }
+    #ts-deck2 td.tight { padding: 8px 10px; }
+    #ts-deck2 .nav { position: absolute; bottom: 14px; right: 22px; display: flex; gap: 10px; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #555; z-index: 10; }
+    #ts-deck2 .nav button { background: #17181b; border: 1px solid #28292e; color: #d4d4d6; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 11px; transition: all 0.15s; }
+    #ts-deck2 .nav button:hover { border-color: #FF5500; color: #FF5500; }
+    #ts-deck2 .nav button:disabled { opacity: 0.3; cursor: not-allowed; }
+    #ts-deck2 .progress { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #1f2024; z-index: 10; }
+    #ts-deck2 .progress-bar { height: 100%; background: #FF5500; transition: width 0.3s; }
+    #ts-deck2 .slide-num { position: absolute; top: 14px; right: 22px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #555; letter-spacing: 0.1em; }
+    #ts-deck2 .footer { margin-top: auto; padding-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #555; letter-spacing: 0.1em; text-transform: uppercase; }
+    #ts-deck2 .ts-logo { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: -0.02em; }
+    #ts-deck2 .ts-logo .skin { color: #FF5500; font-style: italic; font-weight: 500; }
+    #ts-deck2 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    #ts-deck2 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    #ts-deck2 .check { color: #1D9E75; font-family: 'JetBrains Mono', monospace; margin-right: 6px; }
+    #ts-deck2 .x { color: #E24B4A; font-family: 'JetBrains Mono', monospace; margin-right: 6px; }
+    #ts-deck2 .funnel-row { display: grid; grid-template-columns: 200px 1fr 90px; gap: 14px; align-items: center; padding: 10px 0; border-bottom: 1px solid #1f2024; }
+    #ts-deck2 .funnel-bar-bg { background: #17181b; height: 30px; border-radius: 4px; position: relative; overflow: hidden; }
+    #ts-deck2 .funnel-bar { background: #FF5500; height: 100%; border-radius: 4px; transition: width 0.4s; }
+    #ts-deck2 .funnel-num { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fff; text-align: right; font-size: 13px; }
+    #ts-deck2 .funnel-label { font-size: 12px; color: #d4d4d6; }
+    #ts-deck2 .funnel-rate { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #FF5500; letter-spacing: 0.06em; }
+    #ts-deck2 .seg-row { display: grid; grid-template-columns: 30px 1.5fr 1fr 0.8fr 0.8fr 90px; gap: 10px; padding: 9px 8px; align-items: center; border-bottom: 1px solid #1f2024; font-size: 12px; }
+    #ts-deck2 .seg-row.header { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #888; padding: 8px; border-bottom: 1px solid #28292e; }
+    #ts-deck2 .seg-num { font-family: 'JetBrains Mono', monospace; color: #888; font-size: 11px; }
+    #ts-deck2 .seg-name { color: #fff; font-weight: 500; }
+    #ts-deck2 .seg-meta { color: #b8b8bc; font-size: 11px; }
+    #ts-deck2 .work-bar { height: 24px; border-radius: 3px; display: flex; align-items: center; padding: 0 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #fff; margin-bottom: 6px; }
+    #ts-deck2 .week-row { display: grid; grid-template-columns: 50px 1fr 100px 80px; gap: 12px; padding: 9px 0; border-bottom: 1px solid #1f2024; align-items: center; font-size: 12px; }
+    #ts-deck2 .scenario-table-row { display: grid; grid-template-columns: 130px 50px 1fr 1fr 110px; gap: 12px; padding: 12px 12px; align-items: center; border-bottom: 1px solid #1f2024; font-size: 12px; }
+    #ts-deck2 .scenario-table-row.header { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #888; border-bottom: 1px solid #28292e; }
+    #ts-deck2 .scenario-table-row.base { background: rgba(255,85,0,0.05); border-left: 2px solid #FF5500; }
+    #ts-deck2 .quote { border-left: 2px solid #FF5500; padding: 6px 0 6px 14px; margin: 12px 0; font-size: 13px; line-height: 1.5; color: #e8e8ea; }
+  </style>
+  <div class="progress"><div class="progress-bar" id="ts-progress2" style="width: 11%"></div></div>
+
+  <!-- SLIDE 1: COVER -->
+  <div class="slide active" data-slide="1">
+    <div class="slide-num">01 / 09</div>
+    <div style="margin: auto 0;">
+      <div class="ts-logo" style="margin-bottom: 50px;">TOOL<span class="skin">skin</span></div>
+      <div class="eyebrow">Expansion deck · Calibrated to actual reality</div>
+      <h1 style="font-size: 48px; max-width: 700px; margin-bottom: 20px;">The honest version,<br>with the math.</h1>
+      <p class="lead" style="max-width: 580px; font-size: 16px;">v2 of the partner briefing — recalibrated for solo capacity, ~200 followers, mockup-not-client-work portfolio. Adds segment matrix, funnel math, workforce reality, and case study templates.</p>
+      <div style="margin-top: 50px; display: flex; gap: 36px;">
+        <div><div class="label">Calibration</div><div style="font-size: 13px; color: #fff;">Solo · No paid audience · Day 0</div></div>
+        <div><div class="label">Domain</div><div style="font-size: 13px; color: #fff;"><span class="mono">toolskin.org</span></div></div>
+        <div><div class="label">What changes from v1</div><div style="font-size: 13px; color: #fff;">Conservative is now base case</div></div>
+      </div>
+    </div>
+    <div class="footer">v1 deck assumed industry baselines · v2 deck calibrates to your actual starting position · Honesty &gt; ambition</div>
+  </div>
+
+  <!-- SLIDE 2: SEGMENT MATRIX -->
+  <div class="slide" data-slide="2">
+    <div class="slide-num">02 / 09</div>
+    <div class="eyebrow">§01 · Audience segments</div>
+    <h2>7 segments. 2 primary. 1 amplifier. 4 deferred.</h2>
+    <div class="accent-bar"></div>
+    <p class="lead" style="max-width: 720px; margin-bottom: 16px;">Solo founder cannot pursue 7 segments simultaneously and execute well on any. The matrix below names which 2 to lead with — and why the others wait.</p>
+
+    <div style="margin-top: 8px; background: #17181b; border: 1px solid #28292e; border-radius: 8px; padding: 6px 10px;">
+      <div class="seg-row header">
+        <div>#</div>
+        <div>Segment</div>
+        <div>Reachable / 30d</div>
+        <div>Pays for</div>
+        <div>Channel</div>
+        <div>Verdict</div>
+      </div>
+      <div class="seg-row">
+        <div class="seg-num">01</div>
+        <div class="seg-name">Designers, no code</div>
+        <div class="seg-meta">~150-400</div>
+        <div class="seg-meta">Figma kits, templates</div>
+        <div class="seg-meta">Behance, Twitter</div>
+        <div><span class="pill pill-neutral">Defer</span></div>
+      </div>
+      <div class="seg-row" style="background: rgba(255,85,0,0.04);">
+        <div class="seg-num accent">02</div>
+        <div class="seg-name">Vibecoder designers <span style="color: #FF5500; font-size: 10px;">★</span></div>
+        <div class="seg-meta">~80-300</div>
+        <div class="seg-meta">Design system AI outputs to</div>
+        <div class="seg-meta">Twitter/X, Discord</div>
+        <div><span class="pill">Primary</span></div>
+      </div>
+      <div class="seg-row">
+        <div class="seg-num">03</div>
+        <div class="seg-name">Vibecoder devs (non-design)</div>
+        <div class="seg-meta">~100-400</div>
+        <div class="seg-meta">Make AI-UI look custom</div>
+        <div class="seg-meta">Twitter, dev.to, HN</div>
+        <div><span class="pill pill-neutral">Secondary</span></div>
+      </div>
+      <div class="seg-row" style="background: rgba(255,85,0,0.04);">
+        <div class="seg-num accent">04</div>
+        <div class="seg-name">Frontend WP/CMS devs <span style="color: #FF5500; font-size: 10px;">★</span></div>
+        <div class="seg-meta">~80-250</div>
+        <div class="seg-meta">Premium themes, builders</div>
+        <div class="seg-meta">WP Slacks, /r/Wordpress</div>
+        <div><span class="pill">Primary</span></div>
+      </div>
+      <div class="seg-row">
+        <div class="seg-num">05</div>
+        <div class="seg-name">Self-managed media runners</div>
+        <div class="seg-meta">~50-200</div>
+        <div class="seg-meta">Done-for-you tools</div>
+        <div class="seg-meta">Instagram, TikTok</div>
+        <div><span class="pill pill-neutral">Defer</span></div>
+      </div>
+      <div class="seg-row">
+        <div class="seg-num">06</div>
+        <div class="seg-name">Autonomous SMB / web-naive</div>
+        <div class="seg-meta">Hard to reach direct</div>
+        <div class="seg-meta">"Get me a website"</div>
+        <div class="seg-meta">Search ads, referrals</div>
+        <div><span class="pill pill-neutral">Defer</span></div>
+      </div>
+      <div class="seg-row" style="background: rgba(29,158,117,0.04);">
+        <div class="seg-num" style="color: #1D9E75;">07</div>
+        <div class="seg-name">Awwwards-tier picky designers</div>
+        <div class="seg-meta">~30-100</div>
+        <div class="seg-meta">Don't pay · They amplify</div>
+        <div class="seg-meta">Awwwards, Twitter</div>
+        <div><span class="pill pill-ok">Amplifier</span></div>
+      </div>
+    </div>
+
+    <div class="card-strong" style="margin-top: 16px;">
+      <div class="label" style="color: #FF5500;">The combination</div>
+      <p style="font-size: 13px; color: #e8e8ea; margin-top: 4px; line-height: 1.55;">Vibecoder designers fund the brand → Frontend WP devs fund the cash flow → Awwwards crowd amplifies the credibility. Three audiences, one stylesheet, zero overlap in pain points.</p>
+    </div>
+    <div class="footer">★ = primary revenue segments month 1 · Others wait for capacity to expand</div>
+  </div>
+
+  <!-- SLIDE 3: REACH FUNNEL -->
+  <div class="slide" data-slide="3">
+    <div class="slide-num">03 / 09</div>
+    <div class="eyebrow">§02 · Funnel math</div>
+    <h2>The reach funnel, calibrated.</h2>
+    <div class="accent-bar"></div>
+    <p class="lead" style="max-width: 720px; margin-bottom: 18px;">Industry baselines assume SDR infrastructure + audience + case studies. Your numbers are lower because none of those are present yet. This is what the funnel actually looks like for solo / 200-follower / 0-case-study reality.</p>
+
+    <div style="margin-top: 4px;">
+      <div class="funnel-row">
+        <div>
+          <div class="funnel-label">Quality outreach actions</div>
+          <div class="funnel-rate">Solo capacity per month</div>
+        </div>
+        <div class="funnel-bar-bg"><div class="funnel-bar" style="width: 100%;"></div></div>
+        <div class="funnel-num">80-120</div>
+      </div>
+      <div class="funnel-row">
+        <div>
+          <div class="funnel-label">Replies received</div>
+          <div class="funnel-rate">3-5% reply rate · No infra</div>
+        </div>
+        <div class="funnel-bar-bg"><div class="funnel-bar" style="width: 8%; background: #FF5500;"></div></div>
+        <div class="funnel-num">3-6</div>
+      </div>
+      <div class="funnel-row">
+        <div>
+          <div class="funnel-label">Calls booked</div>
+          <div class="funnel-rate">25-35% reply→call · No portfolio</div>
+        </div>
+        <div class="funnel-bar-bg"><div class="funnel-bar" style="width: 3%;"></div></div>
+        <div class="funnel-num">1-2</div>
+      </div>
+      <div class="funnel-row">
+        <div>
+          <div class="funnel-label">Service contracts closed</div>
+          <div class="funnel-rate">15-25% call→close · Founder-rate pricing</div>
+        </div>
+        <div class="funnel-bar-bg"><div class="funnel-bar" style="width: 1%;"></div></div>
+        <div class="funnel-num">0-1</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: 20px;">
+      <div class="card">
+        <div class="label">Industry baseline (with infra)</div>
+        <p style="font-size: 12px; margin-top: 6px; color: #b8b8bc;">100 outreach → ~5 replies → ~2 calls → ~0.5 close</p>
+        <p style="font-size: 11px; color: #888; margin: 0;">Source: SalesHive 2025 · Instantly 2026</p>
+      </div>
+      <div class="card-strong">
+        <div class="label" style="color: #FF5500;">Your starting point</div>
+        <p style="font-size: 12px; margin-top: 6px; color: #e8e8ea;">100 outreach → ~3-5 replies → ~1 call → ~0.1-0.2 close</p>
+        <p style="font-size: 11px; color: #888; margin: 0;">~5-10× harder until first delivered case study</p>
+      </div>
+    </div>
+    <div class="footer">Net result: 0-1 service contract from cold in month 1 · Real conversion comes after first delivered project (month 2+)</div>
+  </div>
+
+  <!-- SLIDE 4: REVENUE RECALIBRATED -->
+  <div class="slide" data-slide="4">
+    <div class="slide-num">04 / 09</div>
+    <div class="eyebrow">§03 · Revenue recalibrated</div>
+    <h2>30-day scenarios, with probability bands.</h2>
+    <div class="accent-bar"></div>
+    <p class="lead" style="max-width: 720px; margin-bottom: 14px;">Plan against the base case ($1.8-4K). Stretch is bonus. Lucky is celebration. Floor exists and partner needs to know it.</p>
+
+    <div style="margin-top: 6px;">
+      <div class="scenario-table-row header">
+        <div>Scenario</div>
+        <div>Prob.</div>
+        <div>Service contracts</div>
+        <div>Bundle sales</div>
+        <div>Cumulative</div>
+      </div>
+      <div class="scenario-table-row">
+        <div><span class="pill pill-bad">Floor</span></div>
+        <div class="mono" style="color: #888;">25%</div>
+        <div>0</div>
+        <div>0-10 @ $29</div>
+        <div class="mono" style="color: #fff; font-weight: 700;">$0 — $300</div>
+      </div>
+      <div class="scenario-table-row base">
+        <div><span class="pill">Base</span></div>
+        <div class="mono accent" style="font-weight: 700;">50%</div>
+        <div>1 @ $1,500-3,000</div>
+        <div>10-30 @ $29-49</div>
+        <div class="mono accent" style="font-weight: 700; font-size: 14px;">$1,800 — $4,000</div>
+      </div>
+      <div class="scenario-table-row">
+        <div><span class="pill pill-ok">Stretch</span></div>
+        <div class="mono" style="color: #888;">20%</div>
+        <div>1-2 @ $2,500-5,000</div>
+        <div>30-60 @ avg $35</div>
+        <div class="mono" style="color: #fff; font-weight: 700;">$4,000 — $9,000</div>
+      </div>
+      <div class="scenario-table-row">
+        <div><span class="pill pill-ok">Lucky*</span></div>
+        <div class="mono" style="color: #888;">5%</div>
+        <div>2-3 referrals close</div>
+        <div>HN/PH front page</div>
+        <div class="mono" style="color: #fff; font-weight: 700;">$8,000 — $25,000</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: 18px;">
+      <div class="card">
+        <div class="label">90-day projection (compounded)</div>
+        <p style="font-size: 13px; color: #fff; margin: 6px 0; font-family: 'JetBrains Mono', monospace; font-weight: 600;">$8,000 — $35,000 cumulative</p>
+        <p style="font-size: 11px; color: #b8b8bc;">Assumes 1st case study ships month 1, conversion rate doubles month 2+</p>
+      </div>
+      <div class="card">
+        <div class="label">12-month MRR target</div>
+        <p style="font-size: 13px; color: #fff; margin: 6px 0; font-family: 'JetBrains Mono', monospace; font-weight: 600;">$5,000 — $15,000 MRR</p>
+        <p style="font-size: 11px; color: #b8b8bc;">Mix: 60% services, 30% bundles, 10% Toolskin Pro WP early subs</p>
+      </div>
+    </div>
+    <div class="footer">* Lucky is not a strategy · Plan against base · Treat upside as gravy</div>
+  </div>
+
+  <!-- SLIDE 5: WORKFORCE REALITY -->
+  <div class="slide" data-slide="5">
+    <div class="slide-num">05 / 09</div>
+    <div class="eyebrow">§04 · Workforce</div>
+    <h2>Solo capacity. The hard math.</h2>
+    <div class="accent-bar"></div>
+    <p class="lead" style="max-width: 720px; margin-bottom: 16px;">Sustainable solo budget: 45-55 hrs/week. After 12-16 weeks at this pace, burnout risk spikes hard. Plan accordingly.</p>
+
+    <div style="margin-top: 4px;">
+      <div class="work-bar" style="background: linear-gradient(90deg, #FF5500 0%, #FF5500 22%, #17181b 22%);">
+        <span style="width: 22%;">Sales outreach + follow-up</span>
+        <span style="margin-left: auto; color: #888;">10-12 hrs · 22%</span>
+      </div>
+      <div class="work-bar" style="background: linear-gradient(90deg, #ff7a3d 0%, #ff7a3d 26%, #17181b 26%);">
+        <span style="width: 26%;">Content production (writing, video, posts)</span>
+        <span style="margin-left: auto; color: #888;">10-14 hrs · 26%</span>
+      </div>
+      <div class="work-bar" style="background: linear-gradient(90deg, #1D9E75 0%, #1D9E75 36%, #17181b 36%);">
+        <span style="width: 36%;">Service delivery (1 active project max)</span>
+        <span style="margin-left: auto; color: #888;">15-25 hrs · 36%</span>
+      </div>
+      <div class="work-bar" style="background: linear-gradient(90deg, #5DCAA5 0%, #5DCAA5 11%, #17181b 11%);">
+        <span style="width: 11%;">Build / product improvements</span>
+        <span style="margin-left: auto; color: #888;">5-8 hrs · 11%</span>
+      </div>
+      <div class="work-bar" style="background: linear-gradient(90deg, #888 0%, #888 5%, #17181b 5%);">
+        <span style="width: 6%; color: #fff;">Admin, support, comms</span>
+        <span style="margin-left: auto; color: #888;">3-5 hrs · 5%</span>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: 20px;">
+      <div class="card">
+        <div class="label" style="color: #E24B4A;">What gets cut</div>
+        <ul style="list-style: none; padding: 0; margin: 8px 0 0; font-size: 12px; line-height: 1.7; color: #d4d4d6;">
+          <li><span class="x">×</span>Multi-channel content (Twitter only)</li>
+          <li><span class="x">×</span>Paid ads (no time to manage well)</li>
+          <li><span class="x">×</span>Active community building (Discord, forums)</li>
+          <li><span class="x">×</span>More than 2 active projects simultaneously</li>
+          <li><span class="x">×</span>Conferences, podcasts, partnerships M1</li>
+        </ul>
+      </div>
+      <div class="card-strong">
+        <div class="label" style="color: #FF5500;">Hire thresholds</div>
+        <table style="margin-top: 6px;">
+          <tr><td style="padding: 4px 0; border: none;"><span class="mono" style="color: #FF5500;">$3K MRR</span></td><td style="padding: 4px 0; border: none; color: #d4d4d6;">VA part-time · $400-800/mo</td></tr>
+          <tr><td style="padding: 4px 0; border: none;"><span class="mono" style="color: #FF5500;">$7K MRR</span></td><td style="padding: 4px 0; border: none; color: #d4d4d6;">Designer/dev contractor · $1.5-3K/mo</td></tr>
+          <tr><td style="padding: 4px 0; border: none;"><span class="mono" style="color: #FF5500;">$15K MRR</span></td><td style="padding: 4px 0; border: none; color: #d4d4d6;">Co-founder or full-time</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="footer">Don't hire before thresholds · Don't skip hires after thresholds · Stable for 2+ months = signal, not a single good week</div>
+  </div>
+
+  <!-- SLIDE 6: CASE STUDY STRATEGY -->
+  <div class="slide" data-slide="6">
+    <div class="slide-num">06 / 09</div>
+    <div class="eyebrow">§05 · Case studies</div>
+    <h2>Mockups become credibility. Honestly.</h2>
+    <div class="accent-bar"></div>
+    <p class="lead" style="max-width: 740px; margin-bottom: 16px;">You have 4 mockups (Higgsfield, YouTube Studio, Suno, userscript toolpanes) + Claude Design experiments. None are paid client work. All can be reframed as <span class="accent">design system explorations</span> — which is honest, defensible, and resonates with the Awwwards-tier audience more than fake client logos would.</p>
+
+    <div class="grid-2" style="margin-top: 4px;">
+      <div class="card">
+        <div class="label">Each case study page contains</div>
+        <ol style="margin: 8px 0 0; padding-left: 18px; font-size: 12px; line-height: 1.7; color: #d4d4d6;">
+          <li>Hero — before/after screenshots</li>
+          <li>The problem (existing UI characterization)</li>
+          <li>The Toolskin solution (token map, how)</li>
+          <li>Technical detail (hours, tokens used)</li>
+          <li>Live demo — interactive token swap</li>
+          <li><strong style="color: #FF5500;">Disclaimer: design exploration, not paid work</strong></li>
+        </ol>
+      </div>
+      <div class="card">
+        <div class="label">The "founding customer" framing</div>
+        <div class="quote" style="margin: 8px 0;">"What I have is design system explorations on real-world UI surfaces. <span class="accent">You'd be the first paid project — which means founding-customer pricing and direct access to me as the system's author.</span>"</div>
+        <p style="font-size: 11px; color: #888; margin: 8px 0 0;">Use for first 3-5 service contracts. Drop once you have real delivered work. Turns no-case-study into a feature.</p>
+      </div>
+    </div>
+
+    <div class="card-strong" style="margin-top: 16px;">
+      <div class="label" style="color: #FF5500;">The Claude Design experiments are bonus</div>
+      <p style="font-size: 12px; color: #e8e8ea; margin-top: 4px; line-height: 1.55;">"Here's what AI generates against Toolskin's token system. Notice how it stays on-brand even though no human styled these — because the tokens drive everything." → exact pitch for Vibecoder Designer segment. Use the dev-ide demo and ops dashboard as Exhibit A in cold outreach.</p>
+    </div>
+    <div class="footer">Disclaimer = strength · Honesty about exploration vs paid work resonates with picky-designer audience more than fake logos would</div>
+  </div>
+
+  <!-- SLIDE 7: MARKETING CADENCE -->
+  <div class="slide" data-slide="7">
+    <div class="slide-num">07 / 09</div>
+    <div class="eyebrow">§06 · Marketing cadence</div>
+    <h2>Weekly moves. Required. Not optional.</h2>
+    <div class="accent-bar"></div>
+
+    <div class="grid-2" style="gap: 16px;">
+      <div>
+        <div class="label" style="margin-bottom: 8px;">Twitter/X (primary channel)</div>
+        <div class="card" style="margin-bottom: 10px;">
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 12px; line-height: 1.7; color: #d4d4d6;">
+            <li><span class="check">+</span>5 posts/week (token-swap demos, hot takes)</li>
+            <li><span class="check">+</span>2 threads/week (technical, philosophy)</li>
+            <li><span class="check">+</span>30 min/day engagement (no spam-pitches)</li>
+            <li><span class="check">+</span>Goal: 200 → 1,000 followers by month 3</li>
+          </ul>
+        </div>
+
+        <div class="label" style="margin-bottom: 8px;">LinkedIn (WP segment)</div>
+        <div class="card">
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 12px; line-height: 1.7; color: #d4d4d6;">
+            <li><span class="check">+</span>2 posts/week (case-study format)</li>
+            <li><span class="check">+</span>10 connection requests/week</li>
+            <li><span class="check">+</span>Engage WP Slack groups daily</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="label" style="margin-bottom: 8px;">Content publishing</div>
+        <div class="card" style="margin-bottom: 10px;">
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 12px; line-height: 1.7; color: #d4d4d6;">
+            <li><span class="check">+</span>1 blog post/week on toolskin.org/blog</li>
+            <li><span class="check">+</span>1 video/week (&lt;90 sec, token-swap focus)</li>
+            <li><span class="check">+</span>Cross-post to dev.to, Hashnode</li>
+          </ul>
+        </div>
+
+        <div class="label" style="margin-bottom: 8px;">Launch moments (one-time)</div>
+        <div class="card-strong">
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 12px; line-height: 1.7; color: #d4d4d6;">
+            <li><span class="accent mono">W1 →</span> Personal Twitter announcement</li>
+            <li><span class="accent mono">W2 →</span> ProductHunt launch (Tue-Thu)</li>
+            <li><span class="accent mono">W3 →</span> "Show HN" submission</li>
+            <li><span class="accent mono">W4 →</span> First case study from delivery</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 14px;">
+      <div class="label" style="color: #FF5500;">Outreach quality, not quantity</div>
+      <p style="font-size: 12px; color: #e8e8ea; margin-top: 4px; line-height: 1.55;">Researched outreach (specific reference to recipient's work + non-pitchy framing) = 3-8% reply rate. Generic outreach = 0.5-1.5%. The difference is 5-10× revenue at the same volume. <span class="accent">50 quality DMs &gt; 200 generic DMs.</span></p>
+    </div>
+    <div class="footer">Skip these and the funnel math doesn't deliver · They're inputs, not aspirations</div>
+  </div>
+
+  <!-- SLIDE 8: 30-DAY CALENDAR -->
+  <div class="slide" data-slide="8">
+    <div class="slide-num">08 / 09</div>
+    <div class="eyebrow">§07 · 30-day operational layer</div>
+    <h2>Week-by-week. With kill-switches.</h2>
+    <div class="accent-bar"></div>
+
+    <div style="margin-top: 4px;">
+      <div class="week-row">
+        <div class="mono" style="color: #FF5500; font-size: 11px; letter-spacing: 0.1em;">W 01</div>
+        <div style="color: #d4d4d6; font-size: 12px; line-height: 1.5;"><strong style="color: #fff;">Foundation.</strong> Buy domain. Open-source repo. Site live with 4 case studies. Email 30 warm contacts. Research 50 prospects.</div>
+        <div class="mono" style="color: #fff; text-align: right; font-size: 12px;">$0 — $200</div>
+        <div class="mono" style="color: #888; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; text-align: right;">Build</div>
+      </div>
+      <div class="week-row">
+        <div class="mono" style="color: #FF5500; font-size: 11px; letter-spacing: 0.1em;">W 02</div>
+        <div style="color: #d4d4d6; font-size: 12px; line-height: 1.5;"><strong style="color: #fff;">First contact.</strong> 50 first-touch DMs. ProductHunt launch. First call booked (target). First bundle live ($29).</div>
+        <div class="mono" style="color: #fff; text-align: right; font-size: 12px;">$200 — $1.5K</div>
+        <div class="mono" style="color: #888; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; text-align: right;">Ship</div>
+      </div>
+      <div class="week-row">
+        <div class="mono" style="color: #FF5500; font-size: 11px; letter-spacing: 0.1em;">W 03</div>
+        <div style="color: #d4d4d6; font-size: 12px; line-height: 1.5;"><strong style="color: #fff;">Deliver + amplify.</strong> Deliver service contract #1. Show HN submission. 50 new outreach. 2nd bundle ($49).</div>
+        <div class="mono" style="color: #fff; text-align: right; font-size: 12px;">$1K — $3K</div>
+        <div class="mono" style="color: #888; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; text-align: right;">Validate</div>
+      </div>
+      <div class="week-row">
+        <div class="mono" style="color: #FF5500; font-size: 11px; letter-spacing: 0.1em;">W 04</div>
+        <div style="color: #d4d4d6; font-size: 12px; line-height: 1.5;"><strong style="color: #fff;">Compound.</strong> Long-form blog post. 50 follow-ups. 3rd bundle ($79). Public month-1 results thread.</div>
+        <div class="mono" style="color: #fff; text-align: right; font-size: 12px;">$1.8K — $4K</div>
+        <div class="mono" style="color: #888; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; text-align: right;">Decide</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: 16px;">
+      <div class="card-strong">
+        <div class="label" style="color: #FF5500;">Day 14 critical metric</div>
+        <p style="font-size: 12px; color: #e8e8ea; margin: 6px 0 0;"><strong style="color: #fff;">At least 1 booked service call</strong> (not necessarily signed). If zero, audit copy/targeting before week 3 — script is wrong, not the market.</p>
+      </div>
+      <div class="card">
+        <div class="label">Day 30 decision</div>
+        <p style="font-size: 12px; color: #d4d4d6; margin: 6px 0 0;">Below $1.5K = kill or restart. $1.5-4K = continue (base). $4K+ = accelerate. <span class="mono accent">Pre-committed.</span></p>
+      </div>
+    </div>
+    <div class="footer">"Closed pipeline > vanity metrics" · "Quality outreach > volume outreach" · "Honesty > confidence theater"</div>
+  </div>
+
+  <!-- SLIDE 9: PARTNER AGREEMENT -->
+  <div class="slide" data-slide="9">
+    <div class="slide-num">09 / 09</div>
+    <div class="eyebrow">§08 · The agreement</div>
+    <h2>What we both sign up for.</h2>
+    <div class="accent-bar"></div>
+    <p class="lead" style="max-width: 720px; margin-bottom: 18px;">Numbers will be wrong. Partnerships fail when commitments aren't aligned, not when projections miss. Sign the kill-switches up front.</p>
+
+    <div class="grid-3" style="margin-bottom: 18px;">
+      <div class="card">
+        <div class="label">Day 14</div>
+        <p style="font-size: 12px; color: #d4d4d6; margin: 6px 0; line-height: 1.5;"><strong style="color: #fff;">1+ booked call</strong> OR audit script/targeting</p>
+        <p style="font-size: 11px; color: #888;">If zero: re-evaluate before W3 outreach</p>
+      </div>
+      <div class="card-strong">
+        <div class="label" style="color: #FF5500;">Day 30 (base)</div>
+        <p style="font-size: 12px; color: #fff; margin: 6px 0; line-height: 1.5;"><strong>$1.5K-4K cumulative</strong> = continue</p>
+        <p style="font-size: 11px; color: #888;">Below = decide together · Above = accelerate</p>
+      </div>
+      <div class="card">
+        <div class="label">Day 90</div>
+        <p style="font-size: 12px; color: #d4d4d6; margin: 6px 0; line-height: 1.5;"><strong style="color: #fff;">$8-15K cumulative</strong> OR clear path to $5K MRR</p>
+        <p style="font-size: 11px; color: #888;">Below = wind down or restructure</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="label" style="color: #FF5500;">From me (founder)</div>
+        <ul style="list-style: none; padding: 0; margin: 8px 0 0; font-size: 12px; line-height: 1.7; color: #d4d4d6;">
+          <li><span class="check">→</span>50-100 quality outreach actions/week, logged</li>
+          <li><span class="check">→</span>1 case study per delivered project</li>
+          <li><span class="check">→</span>Weekly revenue + pipeline transparency</li>
+          <li><span class="check">→</span>No vanity metrics — closed revenue only</li>
+          <li><span class="check">→</span>Honor kill-switches without arguing</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="label" style="color: #FF5500;">From you (partner)</div>
+        <ul style="list-style: none; padding: 0; margin: 8px 0 0; font-size: 12px; line-height: 1.7; color: #d4d4d6;">
+          <li><span class="check">→</span>30 days patience while ramp builds</li>
+          <li><span class="check">→</span>Honest weekly check-ins on metrics</li>
+          <li><span class="check">→</span>Trust the data on day 14, 30, 60, 90</li>
+          <li><span class="check">→</span>Permission to say "kill it" if switch trips</li>
+          <li><span class="check">→</span>No pressure to inflate numbers</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid #28292e;">
+      <div class="ts-logo">TOOL<span class="skin">skin</span> · v2 expansion · <span class="mono">toolskin.org</span></div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #888; letter-spacing: 0.1em;">SLOW IS REAL · REAL IS DEFENSIBLE</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button id="ts-prev2">←</button>
+    <span id="ts-counter2">1 / 9</span>
+    <button id="ts-next2">→</button>
+  </div>
+</div>
+<script>
+(function() {
+  const deck = document.getElementById('ts-deck2');
+  const slides = deck.querySelectorAll('.slide');
+  const total = slides.length;
+  const prev = document.getElementById('ts-prev2');
+  const next = document.getElementById('ts-next2');
+  const counter = document.getElementById('ts-counter2');
+  const progress = document.getElementById('ts-progress2');
+  let current = 0;
+
+  function show(i) {
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+    counter.textContent = (i + 1) + ' / ' + total;
+    progress.style.width = ((i + 1) / total * 100) + '%';
+    prev.disabled = i === 0;
+    next.disabled = i === total - 1;
+    current = i;
+  }
+
+  prev.addEventListener('click', () => show(Math.max(0, current - 1)));
+  next.addEventListener('click', () => show(Math.min(total - 1, current + 1)));
+
+  document.addEventListener('keydown', (e) => {
+    if (!deck.offsetParent) return;
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); show(Math.min(total - 1, current + 1)); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); show(Math.max(0, current - 1)); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(total - 1);
+  });
+
+  show(0);
+})();
+</script>
+</div>

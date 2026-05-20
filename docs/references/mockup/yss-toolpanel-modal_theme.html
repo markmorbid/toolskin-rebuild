@@ -1,0 +1,55 @@
+<!-- YSS Theme & Appearance Modal — extracted from Youtube_Toolpanel_4.2.7.user.js showThemeSelectorModal() -->
+<div id="yss-theme-modal" class="yss-modal-overlay transparent closable">
+    <div class="yss-modal-content yss-sticky-modal draggable" style="max-width: 600px;">
+        <div class="yss-modal-title" style="cursor: move;">
+            <h3>Theme &amp; Appearance</h3>
+            <button class="yss-btn yss-btn-icon yss-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="yss-modal-view">
+            <div>
+                <h4>Select a Theme</h4>
+                <div class="yss-form-group yss-theme-option yss-input-container-clickable" style="cursor: pointer;">
+                    <label>
+                        <input type="radio" name="theme-select" id="theme-default" value="default" checked><span>Default Theme</span></label>
+                </div>
+                <div class="yss-form-group yss-theme-option yss-input-container-clickable" style="cursor: pointer;">
+                    <label>
+                        <input type="radio" name="theme-select" id="theme-flat" value="flat"><span>Flat Theme</span></label>
+                </div>
+                <div class="yss-nested-options" style="display: none;">
+                    <div class="yss-toggle-container" data-tooltip="Enable Gradient Buttons: On" alt="Enable Gradient Buttons: On">Gradient Buttons:
+                        <label class="yss-toggle" style="opacity: 1; pointer-events: auto;">
+                            <input type="checkbox" id="gradient-buttons-toggle" name="gradient-buttons-toggle"><span class="yss-toggle-slider"></span></label>
+                    </div>
+                    <div class="yss-toggle-container" data-tooltip="Enable Button Colors on Hover Only: Off" alt="Enable Button Colors on Hover Only: Off">Color on Hover:
+                        <label class="yss-toggle" style="opacity: 1; pointer-events: auto;">
+                            <input type="checkbox" id="color-hover-toggle" name="color-hover-toggle"><span class="yss-toggle-slider"></span></label>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div>
+                <h4>General Appearance</h4>
+                <div class="yss-toggle-container" data-tooltip="Enable/Disable All Tooltips: Off" alt="Enable/Disable All Tooltips: Off">Show Tooltips:
+                    <label class="yss-toggle">
+                        <input type="checkbox" id="tooltips-modal-toggle" name="tooltips-modal-toggle"><span class="yss-toggle-slider"></span></label>
+                </div>
+                <div class="yss-toggle-container" data-tooltip="Enable/Disable Icon-Only Mode: Off" alt="Enable/Disable Icon-Only Mode: Off">Icon-Only Mode:
+                    <label class="yss-toggle">
+                        <input type="checkbox" id="icons-only-modal-toggle" name="icons-only-modal-toggle"><span class="yss-toggle-slider"></span></label>
+                </div>
+                <div class="yss-toggle-container" data-tooltip="Enable/Disable all UI animations and transitions for performance.: Off (Fast)" alt="Enable/Disable all UI animations and transitions for performance.: Off (Fast)">UI Transitions:
+                    <label class="yss-toggle">
+                        <input type="checkbox" id="transitions-modal-toggle" name="transitions-modal-toggle"><span class="yss-toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="yss-modal-actions">
+            <div class="yss-modal-actions-left"></div>
+            <div class="yss-modal-actions-right">
+                <button id="yss-theme-close" class="yss-btn yss-btn-secondary"><i class="fa-solid fa-times"></i><span>Close</span></button>
+            </div>
+        </div>
+    </div>
+</div>

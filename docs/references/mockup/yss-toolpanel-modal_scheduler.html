@@ -1,0 +1,82 @@
+<div id="yss-modal-overlay" class="yss-modal-overlay closable">
+    <!-- No inline <script> needed — scripts.js auto-initializes .yss-datepicker / .yss-monthpicker -->
+    <div class="yss-modal-content yss-sticky-modal" style="max-width:600px;">
+        <div class="yss-modal-title" style="cursor:move;">
+            <h3><i class="fa-solid fa-calendar-days" style="font-size:inherit;color:currentcolor;"></i> Scheduler
+                Configuration</h3>
+            <button class="yss-btn yss-btn-icon yss-close-btn" title="Close"><i
+                    class="fa-solid fa-xmark"></i><span></span></button>
+        </div>
+        <div class="yss-modal-view">
+            <div class="yss-form-group yss-form-tabs-container">
+                <label>Schedule Type:</label>
+                <div class="yss-form-groups-row yss-group-tabs">
+                    <button class="yss-btn yss-btn-tab yss-btn-secondary yss-btn-active" style="flex:1;"> <i
+                            class="fa-solid fa-clock"></i><span>Single Time</span> </button>
+                    <button class="yss-btn yss-btn-tab yss-btn-secondary" style="flex:1;"> <i
+                            class="fa-solid fa-repeat"></i><span>Recurring</span> </button>
+                    <button class="yss-btn yss-btn-tab yss-btn-secondary" style="flex:1;"> <i
+                            class="fa-solid fa-list-check"></i><span>Batch</span> </button>
+                </div>
+                <div class="yss-form-groups-row yss-form-tabs-content">
+                    <div class="yss-form-group">
+                        <label for="sched-time">Time:</label>
+                        <input type="time" class="yss-input yss-datepicker" id="sched-time" value="14:00">
+                    </div>
+                    <div class="yss-form-group">
+                        <label for="sched-date">Publish Date:</label>
+                        <input type="date" class="yss-input yss-datepicker" id="sched-date" value="2026-03-15"
+                            placeholder="YYYY-MM-DD" autocomplete="off">
+                    </div>
+                    <div class="yss-form-group">
+                        <label for="sched-datetime-local">Date Time (24h format):</label>
+                        <input type="datetime-local" class="yss-input yss-datepicker" id="sched-datetime-local"
+                            value="2026-03-15T14:00">
+                    </div>
+                    <div class="yss-form-group">
+                        <label for="sched-month">Publish Month:</label>
+                        <input type="month" class="yss-input yss-monthpicker" id="sched-month" value="2026-03"
+                            placeholder="YYYY-MM" autocomplete="off">
+                    </div>
+                    <div class="yss-form-group full-width">
+                        <label for="sched-tz">Timezone:</label>
+                        <select class="yss-select" id="sched-tz">
+                            <option>UTC</option>
+                            <option selected="">America/New_York (EST)</option>
+                            <option>Europe/London (GMT)</option>
+                            <option>Asia/Tokyo (JST)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="yss-form-groups-row">
+                <div class="yss-form-group">
+                    <label for="sched-visibility">Visibility:</label>
+                    <select class="yss-select" id="sched-visibility">
+                        <option>Public</option>
+                        <option selected="">Unlisted</option>
+                        <option>Private</option>
+                    </select>
+                </div>
+            </div>
+            <div class="yss-form-group yss-small-msg"> <i class="fa-solid fa-circle-info"
+                    style="color:var(--yss-btn-start-bg, #3b82f6);margin-right:6px;"></i> Selected: <strong
+                    style="color:#e4e4e7;">Mar 15, 2026 at 2:00 PM EST</strong> — Video will be set to <strong
+                    style="color:#e4e4e7;">Unlisted</strong> until scheduled publish time.
+            </div>
+        </div>
+
+
+        <div class="yss-modal-actions">
+            <div class="yss-modal-actions-left">
+                <button class="yss-btn yss-btn-primary"><i class="fa-solid fa-calendar-check"></i><span>Apply
+                        Schedule</span></button>
+            </div>
+            <div class="yss-modal-actions-right">
+                <button class="yss-btn yss-btn-secondary yss-close-btn"><i
+                        class="fa-solid fa-xmark"></i><span>Cancel</span></button>
+            </div>
+        </div>
+    </div>
+</div>

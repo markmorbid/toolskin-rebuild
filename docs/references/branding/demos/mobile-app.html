@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-density="comfortable">
+<head>
+<meta charset="UTF-8">
+<title>Toolskin · Mobile App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet" href="../toolskin.css"> -->
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css">
+<!-- THESE STYLES WERE ALREADY ADDED AND SCOPED ON THE  ORE SS SHEET <link rel="stylesheet" href="../toolskin-extras.css">-->
+<style>
+  /* Lime accent — same tokens, just H/S/L swap */
+  :root {
+    --ts-accent-h: 88;
+    --ts-accent-s: 76%;
+    --ts-accent-l: 54%;
+  }
+
+  body {
+    background:
+      radial-gradient(60% 50% at 30% 30%, color-mix(in srgb, var(--ts-accent) 14%, transparent), transparent 60%),
+      var(--ts-bg-body);
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 56px 24px;
+    font-family: var(--ts-font-body);
+  }
+
+  .stage {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 56px;
+    align-items: center;
+    max-width: 1280px;
+    width: 100%;
+  }
+
+  @media (max-width: 1100px) {
+    .stage {
+      grid-template-columns: 1fr;
+      gap: 64px;
+    }
+  }
+
+  .blurb {
+    color: var(--ts-text-secondary);
+  }
+
+  .blurb .eyebrow {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ts-accent);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .blurb .eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--ts-accent);
+  }
+
+  .blurb h1 {
+    font-family: var(--ts-font-display);
+    font-size: clamp(32px, 4vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0 0 14px;
+    color: var(--ts-text-primary);
+    font-weight: 600;
+  }
+
+  .blurb h1 em {
+    font-style: italic;
+    color: var(--ts-accent);
+    font-weight: 600;
+  }
+
+  .blurb p {
+    font-size: 15px;
+    line-height: 1.55;
+    max-width: 36ch;
+    margin: 0 0 24px;
+  }
+
+  .blurb .keyline {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px 14px;
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+  }
+
+  .blurb .keyline .k {
+    color: var(--ts-text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .blurb .keyline .v {
+    color: var(--ts-text-primary);
+  }
+
+  /* Phone */
+  .phone {
+    width: 360px;
+    height: 740px;
+    margin: 0 auto;
+    background: #0a0c0a;
+    border-radius: 52px;
+    padding: 14px;
+    box-shadow:
+      0 0 0 2px #1a1d1a,
+      0 0 0 3px #2a2d2a,
+      0 60px 90px -30px rgba(0, 0, 0, 0.7),
+      0 0 100px -20px color-mix(in srgb, var(--ts-accent) 50%, transparent);
+    position: relative;
+  }
+
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 32px;
+    background: #000;
+    border-radius: 24px;
+    z-index: 5;
+  }
+
+  .screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 40px;
+    overflow: hidden;
+    background: var(--ts-bg-body);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* Status bar */
+  .status {
+    height: 50px;
+    padding: 18px 28px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--ts-font-display);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    color: var(--ts-text-primary);
+    z-index: 6;
+    position: relative;
+  }
+
+  .status .icons {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .status .icons svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* App content */
+  .app {
+    flex: 1;
+    padding: 18px 22px 100px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .app-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 6px;
+  }
+
+  .app-head .greet small {
+    font-family: var(--ts-font-mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ts-text-muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .app-head .greet h2 {
+    font-family: var(--ts-font-display);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--ts-text-primary);
+  }
+
+  .app-head .greet h2 em {
+    font-style: italic;
+    color: var(--ts-accent);
+    font-weight: 600;
+  }
+
+  .app-head .av {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ts-accent), color-mix(in srgb, var(--ts-accent) 60%, var(--ts-info)));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--ts-font-display);
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--ts-bg-body);
+  }
+
+  /* Hero card */
+  .hero-card {
+    background:
+      radial-gradient(80% 100% at 100% 0%, color-mix(in srgb, var(--ts-accent) 50%, transparent), transparent 60%),
+      linear-gradient(180deg, color-mix(in srgb, var(--ts-accent) 16%, var(--ts-bg-1)), var(--ts-bg-1));
+    border: 1px solid var(--ts-border-accent);
+    border-radius: 22px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-card .lab {
+    font-family: var(--ts-font-mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--ts-bg-body) 80%, var(--ts-accent));
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .hero-card .lab .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ts-bg-body);
+    animation: pulse 1.4s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: .35;
+    }
+  }
+
+  .hero-card .v {
+    font-family: var(--ts-font-display);
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--ts-bg-body);
+    line-height: 1;
+  }
+
+  .hero-card .v small {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.65;
+  }
+
+  .hero-card .delta {
+    font-family: var(--ts-font-mono);
+    font-size: 10px;
+    color: color-mix(in srgb, var(--ts-bg-body) 70%, transparent);
+    margin-top: 4px;
+  }
+
+  .hero-card .actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .hero-card .actions button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 12px;
+    border: 0;
+    background: var(--ts-bg-body);
+    color: var(--ts-accent);
+    font-family: var(--ts-font-mono);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+  }
+
+  .hero-card .actions button.alt {
+    background: rgba(0, 0, 0, 0.18);
+    color: var(--ts-bg-body);
+  }
+
+  /* Quick chips */
+  .chips {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin: 0 -22px;
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: var(--ts-bg-1);
+    border: 1px solid var(--ts-border-0);
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    color: var(--ts-text-secondary);
+  }
+
+  .chip .ic {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--ts-bg-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--ts-text-primary);
+  }
+
+  .chip.active {
+    background: color-mix(in srgb, var(--ts-accent) 15%, var(--ts-bg-1));
+    border-color: var(--ts-border-accent);
+    color: var(--ts-accent);
+  }
+
+  .chip.active .ic {
+    background: var(--ts-accent);
+    color: var(--ts-bg-body);
+  }
+
+  /* Section */
+  .sec-h {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .sec-h h3 {
+    font-family: var(--ts-font-display);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+    color: var(--ts-text-primary);
+  }
+
+  .sec-h a {
+    font-family: var(--ts-font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ts-accent);
+    text-decoration: none;
+  }
+
+  /* List */
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--ts-bg-0);
+    border: 1px solid var(--ts-border-0);
+    border-radius: 16px;
+  }
+
+  .row .badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--ts-font-mono);
+    font-weight: 700;
+    font-size: 14px;
+    flex: 0 0 38px;
+  }
+
+  .row .badge.b1 {
+    background: color-mix(in srgb, var(--ts-accent) 16%, transparent);
+    color: var(--ts-accent);
+  }
+
+  .row .badge.b2 {
+    background: color-mix(in srgb, var(--ts-info) 18%, transparent);
+    color: var(--ts-info);
+  }
+
+  .row .badge.b3 {
+    background: color-mix(in srgb, var(--ts-warning) 18%, transparent);
+    color: var(--ts-warning);
+  }
+
+  .row .badge.b4 {
+    background: color-mix(in srgb, var(--ts-success) 18%, transparent);
+    color: var(--ts-success);
+  }
+
+  .row .body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .row .body .t {
+    font-size: 13.5px;
+    color: var(--ts-text-primary);
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .row .body .s {
+    font-family: var(--ts-font-mono);
+    font-size: 10px;
+    color: var(--ts-text-muted);
+    margin-top: 2px;
+    letter-spacing: 0.06em;
+  }
+
+  .row .num {
+    font-family: var(--ts-font-display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ts-text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  .row .num.up {
+    color: var(--ts-success);
+  }
+
+  .row .num.dn {
+    color: var(--ts-danger);
+  }
+
+  /* Tab bar */
+  .tabbar {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    height: 70px;
+    background: color-mix(in srgb, var(--ts-bg-0) 75%, transparent);
+    backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid var(--ts-border-0);
+    border-radius: 24px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;
+    padding: 0 8px;
+  }
+
+  .tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 8px;
+    cursor: pointer;
+  }
+
+  .tab .gl {
+    font-size: 16px;
+    color: var(--ts-text-muted);
+  }
+
+  .tab .lb {
+    font-family: var(--ts-font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ts-text-muted);
+  }
+
+  .tab.active .gl {
+    color: var(--ts-accent);
+  }
+
+  .tab.active .lb {
+    color: var(--ts-accent);
+  }
+
+  .tab.fab {
+    background: var(--ts-accent);
+    border-radius: 18px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  .tab.fab .gl {
+    color: var(--ts-bg-body);
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .tab.fab .lb {
+    display: none;
+  }
+</style>
+</head>
+<body class="ts-main ts-showcase ts-landing" data-screen-label="03 Mobile App">
+  <div class="stage">
+
+    <!-- LEFT BLURB -->
+    <div class="blurb">
+      <div class="eyebrow">§ Mobile · 360pt frame</div>
+      <h1>Same tokens. <em>Different</em> universe.</h1>
+      <p>This screen pulls every color, type, radius, surface, and motion value from the same Toolskin token engine that powers the dashboard and marketing site. Just a different accent HSL.</p>
+      <div class="keyline">
+        <div class="k">Accent</div><div class="v">hsl(88, 76%, 54%)</div>
+        <div class="k">Surface</div><div class="v">bg-0 / bg-1 / bg-2</div>
+        <div class="k">Radii</div><div class="v">12 / 16 / 22 / 24</div>
+        <div class="k">Type</div><div class="v">PP Editorial · IBM Mono</div>
+        <div class="k">Glow</div><div class="v">var(--ts-shadow-glow)</div>
+      </div>
+    </div>
+
+    <!-- PHONE -->
+    <div class="phone">
+      <div class="screen">
+        <div class="status">
+          <span>9:41</span>
+          <div class="icons">
+            <svg viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="0.5"/><rect x="4" y="6" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="9" rx="0.5"/><rect x="12" y="0" width="3" height="12" rx="0.5"/></svg>
+            <svg viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 7c4-4 10-4 14 0 M5 10c2-2 4-2 8 0 M9 13l0.1 0.1"/></svg>
+            <svg viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="0.5" y="1" width="22" height="12" rx="2.5"/><rect x="2" y="2.5" width="17" height="9" rx="1.2" fill="currentColor"/><rect x="24" y="5" width="2" height="4" rx="0.5" fill="currentColor"/></svg>
+          </div>
+        </div>
+
+        <div class="app">
+
+          <div class="app-head">
+            <div class="greet">
+              <small>Tuesday · April 14</small>
+              <h2>Hi, <em>Marcus</em>.</h2>
+            </div>
+            <div class="av">MV</div>
+          </div>
+
+          <!-- HERO BALANCE CARD -->
+          <div class="hero-card">
+            <div class="lab"><span class="dot"></span> LIVE BALANCE · USD</div>
+            <div class="v">$48,392<small>.18</small></div>
+            <div class="delta">▲ $1,204 (+2.55%) today</div>
+            <div class="actions">
+              <button>↗ Send</button>
+              <button class="alt">⊕ Add</button>
+              <button class="alt">⤓ Swap</button>
+            </div>
+          </div>
+
+          <!-- CHIPS -->
+          <div class="chips">
+            <div class="chip active"><div class="ic">◉</div>All assets</div>
+            <div class="chip"><div class="ic">$</div>Cash</div>
+            <div class="chip"><div class="ic">≡</div>Bonds</div>
+            <div class="chip"><div class="ic">▲</div>Stocks</div>
+            <div class="chip"><div class="ic">◈</div>Crypto</div>
+          </div>
+
+          <!-- HOLDINGS -->
+          <div class="sec-h">
+            <h3>Holdings</h3>
+            <a href="#">View all →</a>
+          </div>
+          <div class="list">
+            <div class="row">
+              <div class="badge b1">A</div>
+              <div class="body"><div class="t">Anthropic Series E</div><div class="s">Private · 142 sh</div></div>
+              <div class="num up">+8.4%</div>
+            </div>
+            <div class="row">
+              <div class="badge b2">N</div>
+              <div class="body"><div class="t">Nvidia · NVDA</div><div class="s">Equity · 38 sh</div></div>
+              <div class="num up">+2.1%</div>
+            </div>
+            <div class="row">
+              <div class="badge b3">T</div>
+              <div class="body"><div class="t">Treasury 10Y</div><div class="s">Bond · $12k face</div></div>
+              <div class="num">+0.3%</div>
+            </div>
+            <div class="row">
+              <div class="badge b4">S</div>
+              <div class="body"><div class="t">USDC stablecoin</div><div class="s">Crypto · 4,200 USDC</div></div>
+              <div class="num dn">−0.0%</div>
+            </div>
+          </div>
+
+          <!-- ACTIVITY -->
+          <div class="sec-h">
+            <h3>Activity</h3>
+            <a href="#">All →</a>
+          </div>
+          <div class="list">
+            <div class="row">
+              <div class="badge b1">↗</div>
+              <div class="body"><div class="t">Sent to Lina Park</div><div class="s">12:42 · April 14</div></div>
+              <div class="num">−$240</div>
+            </div>
+            <div class="row">
+              <div class="badge b4">⊕</div>
+              <div class="body"><div class="t">Deposit · ACH</div><div class="s">09:00 · April 14</div></div>
+              <div class="num up">+$2,000</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB BAR -->
+        <div class="tabbar">
+          <div class="tab active"><div class="gl">▤</div><div class="lb">Home</div></div>
+          <div class="tab"><div class="gl">↗</div><div class="lb">Send</div></div>
+          <div class="tab fab"><div class="gl">+</div></div>
+          <div class="tab"><div class="gl">∎</div><div class="lb">Stats</div></div>
+          <div class="tab"><div class="gl">⚙</div><div class="lb">More</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT TOKENS -->
+    <div class="blurb">
+      <div class="eyebrow">§ What's reused</div>
+      <h1>Zero <em>mobile</em> CSS rewrites.</h1>
+      <p>The phone chrome above is hand-drawn, but every interior element — chip, row, hero card, tab bar — is just composed Toolskin primitives. Touch targets snap to density. Glow uses the same accent token.</p>
+      <div class="keyline">
+        <div class="k">Touch min</div><div class="v">44pt (a11y)</div>
+        <div class="k">Card radius</div><div class="v">--ts-radius-lg</div>
+        <div class="k">Glass blur</div><div class="v">backdrop-filter</div>
+        <div class="k">Status pills</div><div class="v">success/warning</div>
+        <div class="k">Avatar grad</div><div class="v">accent → info</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

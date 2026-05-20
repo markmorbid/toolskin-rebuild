@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Toolskin — Typography</title>
+<!-- <link rel="stylesheet" href="../toolskin.css"> -->
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css">
+<style>
+  body {
+    padding: 56px 48px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .label {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ts-accent);
+    margin-bottom: 12px;
+  }
+
+  h1.page {
+    font-family: var(--ts-font-display);
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    margin: 0 0 8px;
+    color: var(--ts-text-primary);
+  }
+
+  p.lede {
+    font-family: var(--ts-font-body);
+    font-size: 14px;
+    color: var(--ts-text-secondary);
+    margin: 0 0 48px;
+    max-width: 720px;
+    line-height: 1.65;
+  }
+
+  .pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .face {
+    background: var(--ts-bg-0);
+    border: 1px solid var(--ts-border-0);
+    border-radius: 10px;
+    padding: 28px 32px;
+  }
+
+  .face .role {
+    font-family: var(--ts-font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ts-accent);
+    margin-bottom: 18px;
+  }
+
+  .face .name-display {
+    font-family: var(--ts-font-display), system-ui, sans-serif;
+    font-size: 56px;
+    font-weight: 700;
+    letter-spacing: -.025em;
+    line-height: 1;
+    color: var(--ts-text-primary);
+    margin-bottom: 16px;
+  }
+
+  .face .name-mono {
+    font-family: var(--ts-font-mono), monospace;
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+    line-height: 1;
+    color: var(--ts-text-primary);
+    margin-bottom: 16px;
+  }
+
+  .face .meta {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    color: var(--ts-text-muted);
+    line-height: 1.6;
+  }
+
+  .face .meta b {
+    color: var(--ts-text-secondary);
+    font-weight: 600;
+  }
+
+  .face .glyph-row {
+    font-size: 22px;
+    color: var(--ts-text-secondary);
+    letter-spacing: -.01em;
+    margin: 24px 0 16px;
+    line-height: 1.4;
+  }
+
+  .face--display .glyph-row {
+    font-family: var(--ts-font-display), system-ui, sans-serif;
+  }
+
+  .face--mono .glyph-row {
+    font-family: var(--ts-font-mono), monospace;
+  }
+
+  .scale {
+    background: var(--ts-bg-0);
+    border: 1px solid var(--ts-border-0);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24px;
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--ts-border-0);
+    align-items: baseline;
+  }
+
+  .row:last-child {
+    border-bottom: 0;
+  }
+
+  .row .meta {
+    font-family: var(--ts-font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ts-text-muted);
+    padding-top: 6px;
+  }
+
+  .row .meta b {
+    display: block;
+    color: var(--ts-accent);
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: .12em;
+  }
+
+  .s-display {
+    font-family: var(--ts-font-display), system-ui, sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 1.05;
+    color: var(--ts-text-primary);
+  }
+
+  .s-h1 {
+    font-family: var(--ts-font-display), system-ui, sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: var(--ts-text-primary);
+  }
+
+  .s-h2 {
+    font-family: var(--ts-font-display), system-ui, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -.015em;
+    color: var(--ts-text-primary);
+  }
+
+  .s-h3 {
+    font-family: var(--ts-font-display), system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ts-text-primary);
+  }
+
+  .s-body {
+    font-family: var(--ts-font-display), system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ts-text-secondary);
+  }
+
+  .s-label {
+    font-family: var(--ts-font-mono), monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ts-accent);
+  }
+
+  .s-mono {
+    font-family: var(--ts-font-mono), monospace;
+    font-size: 13px;
+    color: var(--ts-text-secondary);
+  }
+
+  .s-mono .c {
+    color: var(--ts-text-muted);
+  }
+
+  .s-mono .o {
+    color: var(--ts-accent);
+  }
+
+  .weights {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--ts-border-0);
+    border: 1px solid var(--ts-border-0);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 32px;
+  }
+
+  .weights>div {
+    background: var(--ts-bg-0);
+    padding: 24px 18px;
+  }
+
+  .weights .num {
+    font-family: var(--ts-font-mono), monospace;
+    font-size: 10px;
+    color: var(--ts-text-muted);
+    letter-spacing: .12em;
+    margin-bottom: 12px;
+  }
+
+  .weights .glyph {
+    font-family: var(--ts-font-display), system-ui, sans-serif;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -.02em;
+    color: var(--ts-text-primary);
+  }
+</style>
+</head>
+<body>
+
+<div class="label">Toolskin · Typography</div>
+<h1 class="page">Two faces. Variable. Self-hosted.</h1>
+<p class="lede">Space Grotesk for everything proportional — display, UI, body. JetBrains Mono for code, captions, and tokens. Both ship as variable fonts under SIL OFL, served from <code style="font-family:var(--ts-font-mono);color:var(--ts-accent)">/fonts</code>.</p>
+
+<div class="pair">
+  <div class="face face--display">
+    <div class="role">Display & Body</div>
+    <div class="name-display">Space Grotesk</div>
+    <div class="meta">
+      <b>Florian Karsten</b> · 2018 · derived from Space Mono<br>
+      Variable axis: <b>wght 300–700</b> · License: SIL OFL<br>
+      <code style="color:var(--ts-accent)">--ts-font-display</code> · <code style="color:var(--ts-accent)">--ts-font-body</code>
+    </div>
+    <div class="glyph-row">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789 — !?@#$%&amp;*</div>
+  </div>
+
+  <div class="face face--mono">
+    <div class="role">Mono / Code / Tokens</div>
+    <div class="name-mono">JetBrains Mono</div>
+    <div class="meta">
+      <b>JetBrains</b> · 2020 · 138 coding ligatures<br>
+      Variable axis: <b>wght 100–800</b> · License: SIL OFL<br>
+      <code style="color:var(--ts-accent)">--ts-font-mono</code>
+    </div>
+    <div class="glyph-row">--ts-accent: #FF5500;<br>=&gt; -&gt; != == &gt;= &lt;= ::<br>0Oo lI1 {} [] () /* */</div>
+  </div>
+</div>
+
+<div class="scale">
+  <div class="row">
+    <div class="meta"><b>Display XL</b>38 / -3% / 700</div>
+    <div class="s-display">TOOLSKIN <span style="color:var(--ts-accent)">v1</span></div>
+  </div>
+  <div class="row">
+    <div class="meta"><b>H1</b>26 / -2% / 700</div>
+    <div class="s-h1">Design system · Token architecture</div>
+  </div>
+  <div class="row">
+    <div class="meta"><b>H2</b>20 / -1.5% / 600</div>
+    <div class="s-h2">Surface and color tokens</div>
+  </div>
+  <div class="row">
+    <div class="meta"><b>H3</b>15 / 0 / 600</div>
+    <div class="s-h3">Component configuration</div>
+  </div>
+  <div class="row">
+    <div class="meta"><b>Body</b>14 / 0 / 400 / 1.65</div>
+    <div class="s-body">Token-driven CSS design system built for WordPress, web applications, and UI toolkits. One stylesheet. Infinite control.</div>
+  </div>
+  <div class="row">
+    <div class="meta"><b>Label</b>11 mono / +8% / 600 caps</div>
+    <div class="s-label">Design system · v1.0.0 · 2026</div>
+  </div>
+  <div class="row">
+    <div class="meta"><b>Code</b>13 mono / 0 / 400</div>
+    <div class="s-mono"><span class="o">--ts-accent-h</span>: 18; <span class="c">/* orange fire — drives the entire ramp */</span></div>
+  </div>
+</div>
+
+<div class="weights">
+  <div><div class="num">300 LIGHT</div><div class="glyph" style="font-weight:300">Aa</div></div>
+  <div><div class="num">400 REGULAR</div><div class="glyph" style="font-weight:400">Aa</div></div>
+  <div><div class="num">500 MEDIUM</div><div class="glyph" style="font-weight:500">Aa</div></div>
+  <div><div class="num">600 SEMIBOLD</div><div class="glyph" style="font-weight:600">Aa</div></div>
+  <div><div class="num">700 BOLD</div><div class="glyph" style="font-weight:700">Aa</div></div>
+</div>
+
+</body>
+</html>

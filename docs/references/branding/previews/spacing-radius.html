@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Toolskin — Spacing &amp; Radius</title>
+<!-- <link rel="stylesheet" href="../toolskin.css"> -->
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css">
+<style>
+  body {
+    padding: 56px 48px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .label {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ts-accent);
+    margin-bottom: 12px;
+  }
+
+  h1.page {
+    font-family: var(--ts-font-display);
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    margin: 0 0 8px;
+    color: var(--ts-text-primary);
+  }
+
+  p.lede {
+    font-family: var(--ts-font-body);
+    font-size: 14px;
+    color: var(--ts-text-secondary);
+    margin: 0 0 48px;
+    max-width: 720px;
+    line-height: 1.65;
+  }
+
+  h2 {
+    font-family: var(--ts-font-display);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 40px 0 16px;
+    color: var(--ts-text-primary);
+    letter-spacing: -.01em;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 110px 80px 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--ts-border-0);
+  }
+
+  .row:last-child {
+    border-bottom: 0;
+  }
+
+  .tok {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    color: var(--ts-accent);
+  }
+
+  .val {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    color: var(--ts-text-muted);
+  }
+
+  .bar {
+    height: 14px;
+    background: var(--ts-accent);
+    border-radius: 2px;
+  }
+
+  .panel {
+    background: var(--ts-bg-0);
+    border: 1px solid var(--ts-border-0);
+    border-radius: 10px;
+    padding: 28px;
+    margin-bottom: 16px;
+  }
+
+  .radii {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+  }
+
+  .radii .tile {
+    background: var(--ts-bg-2);
+    border: 1px solid var(--ts-border-1);
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .radii .tile .name {
+    font-family: var(--ts-font-mono);
+    font-size: 10px;
+    color: var(--ts-accent);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .radii .tile .num {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    color: var(--ts-text-muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="label">Toolskin · Spacing &amp; Radius</div>
+<h1 class="page">4pt grid. Six radii.</h1>
+<p class="lede">Spacing scales on a 4-point grid from 4 to 48px. Radius is a small ladder — sm/md/base/lg/xl/pill — used consistently across inputs (base), cards (lg), badges (sm), and buttons (md). No magic numbers.</p>
+
+<h2>Spacing scale</h2>
+<div class="panel">
+  <div class="row"><span class="tok">--ts-sp-1</span><span class="val">4px</span><span class="bar" style="width:4px"></span></div>
+  <div class="row"><span class="tok">--ts-sp-2</span><span class="val">8px</span><span class="bar" style="width:8px"></span></div>
+  <div class="row"><span class="tok">--ts-sp-3</span><span class="val">12px</span><span class="bar" style="width:12px"></span></div>
+  <div class="row"><span class="tok">--ts-sp-4</span><span class="val">16px</span><span class="bar" style="width:16px"></span></div>
+  <div class="row"><span class="tok">--ts-sp-5</span><span class="val">20px</span><span class="bar" style="width:20px"></span></div>
+  <div class="row"><span class="tok">--ts-sp-6</span><span class="val">24px</span><span class="bar" style="width:24px"></span></div>
+  <div class="row"><span class="tok">--ts-sp-8</span><span class="val">32px</span><span class="bar" style="width:32px"></span></div>
+  <div class="row"><span class="tok">--ts-sp-10</span><span class="val">40px</span><span class="bar" style="width:40px"></span></div>
+  <div class="row"><span class="tok">--ts-sp-12</span><span class="val">48px</span><span class="bar" style="width:48px"></span></div>
+</div>
+
+<h2>Radius scale</h2>
+<div class="panel">
+  <div class="radii">
+    <div class="tile" style="border-radius:4px"><span class="name">SM</span><span class="num">4px · badges</span></div>
+    <div class="tile" style="border-radius:6px"><span class="name">MD</span><span class="num">6px · buttons</span></div>
+    <div class="tile" style="border-radius:8px"><span class="name">BASE</span><span class="num">8px · inputs</span></div>
+    <div class="tile" style="border-radius:10px"><span class="name">LG</span><span class="num">10px · cards</span></div>
+    <div class="tile" style="border-radius:16px"><span class="name">XL</span><span class="num">16px · sheets</span></div>
+    <div class="tile" style="border-radius:999px;width:100px;justify-self:center;aspect-ratio:1"><span class="name">PILL</span><span class="num">999px</span></div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!-- YSS Downloader Summary Modal — extracted from Youtube_Toolpanel_4.2.7.user.js showDownloaderSummaryModal() -->
+<div class="yss-modal-overlay yss-modal-overlay-closable" id="yss-modal-overlay">
+    <div class="yss-modal-content yss-sticky-modal" style="max-width:800px;">
+        <div class="yss-modal-title" style="cursor: move;">
+            <button class="yss-btn yss-btn-icon yss-back-btn" title="Back">
+                <i class="fa-solid fa-arrow-left" style="font-size: inherit; color: currentcolor;"></i>
+            </button>
+            <h3>Download Summary</h3>
+            <button class="yss-btn yss-btn-icon yss-close-btn" title="Close">
+                <i class="fa-solid fa-xmark" style="font-size: inherit; color: currentcolor;"></i>
+            </button>
+        </div>
+
+        <div class="yss-modal-view">
+            <!-- ── Download Statistics ── -->
+            <div class="yss-summary-table">
+                <div class="yss-summary-title">📥 Download Statistics
+                    <button class="yss-toggle-stats-btn" title="Toggle stats visibility">
+                        <i class="fa-solid fa-chevron-down" style="font-size: inherit; color: currentcolor;"></i>
+                    </button>
+                </div>
+                <div class="yss-summary-rows">
+                    <div><span>✅ Total queued:</span> <strong>18</strong></div>
+                    <div><span>📥 Downloaded:</span> <strong>15</strong></div>
+                    <div><span>⚠️ Skipped:</span> <strong>2</strong></div>
+                    <div><span>❌ Failed:</span> <strong>1</strong></div>
+                    <div><span>📅 Date:</span> <strong>3/13/2026</strong></div>
+                </div>
+            </div>
+
+            <!-- ── Downloaded Video List ── -->
+            <div class="yss-current-downloads yss-videolist-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Status</th>
+                            <th>Video Title</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="yss-index-cell">1</td>
+                            <td class="yss-status-cell" style="--yss-accent-color: var(--yss-success)">✅ Downloaded</td>
+                            <td>Variation Ballad</td>
+                            <td>
+                                <button class="yss-btn yss-btn-icon yss-btn-link"><i
+                                        class="fa-solid fa-download"></i></button>
+                                <button class="yss-btn yss-btn-icon yss-btn-link"><i
+                                        class="fa-solid fa-external-link-alt"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="yss-index-cell">2</td>
+                            <td class="yss-status-cell" style="--yss-accent-color: var(--yss-success)">✅ Downloaded</td>
+                            <td>Tundra in Mineral</td>
+                            <td>
+                                <button class="yss-btn yss-btn-icon yss-btn-link"><i
+                                        class="fa-solid fa-download"></i></button>
+                                <button class="yss-btn yss-btn-icon yss-btn-link"><i
+                                        class="fa-solid fa-external-link-alt"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="yss-index-cell">3</td>
+                            <td class="yss-status-cell" style="--yss-accent-color: var(--yss-warning)">⏭️ Skipped
+                                (exists)</td>
+                            <td>TechBuzz</td>
+                            <td>
+                                <button class="yss-btn yss-btn-icon yss-btn-link"><i
+                                        class="fa-solid fa-external-link-alt"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="yss-index-cell">4</td>
+                            <td class="yss-status-cell" style="--yss-accent-color: var(--yss-error)">❌ Failed</td>
+                            <td>Ambient Forest Loop</td>
+                            <td>
+                                <button class="yss-btn yss-btn-icon yss-btn-link"><i
+                                        class="fa-solid fa-rotate-right"></i></button>
+                                <button class="yss-btn yss-btn-icon yss-btn-link"><i
+                                        class="fa-solid fa-external-link-alt"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="yss-modal-actions">
+            <div class="yss-modal-actions-left">
+                <button class="yss-btn yss-btn-primary"><i class="fa-solid fa-download"></i><span>Download
+                        All</span></button>
+                <button class="yss-btn yss-btn-secondary"><i class="fa-solid fa-file-export"></i><span>Export
+                        CSV</span></button>
+            </div>
+            <div class="yss-modal-actions-right">
+                <button class="yss-btn yss-btn-secondary yss-close-btn"><i
+                        class="fa-solid fa-xmark"></i><span>Close</span></button>
+            </div>
+        </div>
+    </div>
+</div>

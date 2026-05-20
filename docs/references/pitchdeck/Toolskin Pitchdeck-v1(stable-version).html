@@ -1,0 +1,2510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Toolskin Pitchdeck</title>
+	<!-- Google Fonts — render-blocking (critical for body text) -->
+	<link rel="ts-preconnect" href="https://fonts.googleapis.com" />
+	<link rel="ts-preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+	<!-- Other CDN assets loaded dynamically by toolskin-assets.js -->
+	<noscript>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+	</noscript>
+	<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css" />
+	<!-- <link rel="stylesheet" href="assets/css/toolskin.css" /> -->
+
+	<!-- <link rel="stylesheet" href="toolskin-pitchdeck.css" /> -->
+	<!-- <link rel="stylesheet" href="toolskin-pitchdeck_recovered-ASSHOLE.css" /> -->
+	<!--  all syles has been moved inline to make this  stand alone.  -->
+	<script src="https://satsea.io/toolskin-showcase/assets/js/toolskin-assets.js" defer></script>
+	<script src="https://satsea.io/toolskin-showcase/assets/js/toolskin.js" defer></script>
+	<script src="https://satsea.io/toolskin-showcase/assets/js/toolskin-uikit.js" defer></script>
+	<style>
+		#ts-hidden,
+		.ts-preloader {
+			display: none !important;
+		}
+	
+		/*!
+																																																																																				* 	╔══════════════════════════════════════════════════════════════════╗
+																																																																																					* ║  TOOLSKIN PITCH DECK  ·  Component Styles  ·  v2.0.0             ║
+																																																																																					* ║  Systematic tokenization following Toolskin methodology          ║
+																																																																																					* ╚══════════════════════════════════════════════════════════════════╝
+																																																																																					*
+																																																																																					* ARCHITECTURE
+																																																																																					* ─────────────────────────────────────────────────────────────────
+																																																																																					*  §1  ROOT TOKEN SYSTEM  ·  Complete component token hierarchy
+																																																																																					*  §2  GRID BACKGROUND    ·  Tokenized grid pattern system
+																																																																																					*  §3  DECK CONTAINER     ·  Main presentation surface
+																																																																																					*  §4  SLIDE SYSTEM       ·  Layout and navigation tokens
+																																																																																					*  §5  TYPOGRAPHY         ·  Harmonic text scale system
+																																																																																					*  §6  CARD VARIANTS      ·  Deck-specific card extensions
+																																																																																					*  §7  BADGE SYSTEM       ·  Status indicators and pills
+																																																																																					*  §8  TIMELINE           ·  Execution tracking component
+																																																																																					*  §9  SCENARIO GRID      ·  Revenue forecasting layout
+																																																																																					* §10  TABLE SYSTEM       ·  Service catalog presentation
+																																																																																					* §11  PROGRESS & NAV     ·  Slide controls and indicators
+																																																																																					* §12  RESPONSIVE         ·  Adaptive token adjustments
+																																																																																					* ─────────────────────────────────────────────────────────────────
+																																																																																					*/
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																					§1  ROOT TOKEN SYSTEM — Complete component hierarchy
+																																																																																					═══════════════════════════════════════════════════════════════════ */
+	
+		:root {
+			/* ─── DECK CONTAINER TOKENS ─────────────────────────────────── */
+			/* Base sizing primitive */
+			--ts-deck-base: 15px;
+			--ts-deck-scale: 1;
+			--ts-deck-size: calc(var(--ts-deck-base) * var(--ts-deck-scale));
+	
+			/* Slide layout ratios */
+			--ts-deck-pad-ratio: 3;
+			/* Base padding multiplier */
+			--ts-deck-gap-ratio: 0.25;
+			/* Inter-element gap ratio */
+			--ts-deck-min-height-ratio: 0.85;
+			/* Viewport usage ratio */
+	
+			/* Derived slide dimensions */
+			--ts-deck-slide-pad-y: clamp(var(--ts-sp-10), 2dvh + 1dvh, 6dvh);
+			--ts-deck-slide-pad-x: calc(var(--ts-deck-slide-pad-y) * 1);
+			--ts-deck-slide-gap: calc(var(--ts-deck-slide-pad-y) * var(--ts-deck-gap-ratio));
+			/* --ts-deck-slide-min-height: calc(100dvh - (var(--ts-deck-slide-pad-y) * 2)); */
+			--ts-deck-slide-min-height: calc(100dvh - var(--ts-deck-nav-size) - (var(--ts-deck-slide-pad-y) * 2));
+			--ts-deck-slide-max-width: calc(clamp(calc(var(--ts-deck-slide-min-height) * .5), 80dvw, var(--ts-deck-slide-min-height)) - var(--ts-deck-slide-pad-y) * 1);
+	
+			/* ─── PROGRESS & NAVIGATION TOKENS ─────────────────────────── */
+			--ts-deck-progress-base: 9px;
+			--ts-deck-progress-h: calc(var(--ts-deck-progress-base) * var(--ts-deck-scale));
+			--ts-deck-nav-size: calc(var(--ts-btn-h) *1.1);
+			--ts-deck-nav-gap: calc(var(--ts-deck-nav-size) * 0.4);
+	
+			/* ─── TYPOGRAPHY SCALE TOKENS ─────────────────────────────── */
+			--ts-deck-title-scale: 1.3;
+			--ts-deck-lead-scale: 1.1;
+			--ts-deck-body-scale: 0.9;
+			--ts-deck-title-fs: calc(var(--ts-fs-display-md) * var(--ts-deck-title-scale));
+			--ts-deck-lead-fs: calc(var(--ts-fs-lead) * var(--ts-deck-lead-scale));
+			--ts-deck-lead-max-width: var(--ts-deck-slide-max-width);
+	
+			/* ─── ACCENT BAR TOKENS ─────────────────────────────────── */
+			--ts-accent-bar-base: 6px;
+			--ts-accent-bar-width-ratio: 10;
+			/* Width = base × ratio */
+			--ts-accent-bar-height-ratio: 0.25;
+			/* Height = base × ratio */
+			--ts-accent-bar-width: calc(var(--ts-accent-bar-base) * var(--ts-accent-bar-width-ratio));
+			--ts-accent-bar-height: calc(var(--ts-accent-bar-base) * var(--ts-accent-bar-height-ratio));
+	
+			/* ─── DECK CARD TOKENS ─────────────────────────────────── */
+			--ts-deck-card-base: 20px;
+			/* Base unit for deck cards */
+			--ts-deck-card-scale: 1;
+			--ts-deck-card-size: calc(var(--ts-deck-card-base) * var(--ts-deck-card-scale));
+	
+			/* Card padding ratios */
+			--ts-deck-card-pad-ratio: 1;
+			/* Main padding ratio */
+			--ts-deck-card-gap-ratio: 0.5;
+			/* Internal gap ratio */
+			--ts-deck-card-margin-ratio: 0.3;
+			/* Margin ratio */
+	
+			/* Derived card dimensions */
+			--ts-deck-card-pad: calc(var(--ts-deck-card-size) * var(--ts-deck-card-pad-ratio));
+			--ts-deck-card-gap: calc(var(--ts-deck-card-size) * var(--ts-deck-card-gap-ratio));
+			--ts-deck-card-margin: calc(var(--ts-deck-card-size) * var(--ts-deck-card-margin-ratio));
+	
+			/* ─── BADGE SYSTEM TOKENS ─────────────────────────────────── */
+			--ts-deck-badge-base: 0.6rem;
+			--ts-deck-badge-scale: 1;
+			--ts-deck-badge-size: calc(var(--ts-deck-badge-base) * var(--ts-deck-badge-scale));
+	
+			/* Badge ratio system */
+			--ts-deck-badge-pad-x-ratio: 1;
+			/* Horizontal padding ratio */
+			--ts-deck-badge-pad-y-ratio: 0.32;
+			/* Vertical padding ratio */
+			--ts-deck-badge-fs-ratio: 1;
+			/* Font size ratio */
+	
+			/* Derived badge properties */
+			--ts-deck-badge-pad-x: calc(var(--ts-deck-badge-size) * var(--ts-deck-badge-pad-x-ratio));
+			--ts-deck-badge-pad-y: calc(var(--ts-deck-badge-size) * var(--ts-deck-badge-pad-y-ratio));
+			--ts-deck-badge-fs: calc(var(--ts-deck-badge-size) * var(--ts-deck-badge-fs-ratio));
+	
+			/* ─── TIMELINE COMPONENT TOKENS ─────────────────────────── */
+			--ts-timeline-base: 13px;
+			--ts-timeline-scale: 1;
+			--ts-timeline-size: calc(var(--ts-timeline-base) * var(--ts-timeline-scale));
+	
+			/* Timeline ratio system */
+			--ts-timeline-pad-y-ratio: 0.5;
+			/* Vertical padding ratio */
+			--ts-timeline-pad-x-ratio: 1.5;
+			/* Horizontal padding ratio */
+			--ts-timeline-gap-ratio: 1;
+			/* Gap between elements */
+			--ts-timeline-marker-ratio: 3.5;
+			/* Marker size ratio */
+			--ts-timeline-content-fs-ratio: 1;
+			/* Content font size ratio */
+	
+			/* Derived timeline properties */
+			--ts-timeline-pad-y: calc(var(--ts-timeline-size) * var(--ts-timeline-pad-y-ratio));
+			--ts-timeline-pad-x: calc(var(--ts-timeline-pad-y) * var(--ts-timeline-pad-x-ratio));
+			--ts-timeline-gap: calc(var(--ts-timeline-pad-x) * var(--ts-timeline-gap-ratio));
+			--ts-timeline-marker-size: calc(var(--ts-timeline-size) * var(--ts-timeline-marker-ratio));
+			--ts-timeline-content-fs: calc(var(--ts-fs-sm) * var(--ts-timeline-content-fs-ratio));
+	
+			/* ─── SCENARIO GRID TOKENS ─────────────────────────────── */
+			--ts-scenario-base: 26px;
+			--ts-scenario-scale: 1;
+			--ts-scenario-size: calc(var(--ts-scenario-base) * var(--ts-scenario-scale));
+	
+			/* Scenario spacing ratios */
+			--ts-scenario-gap-ratio: .5;
+			/* Grid gap ratio */
+			--ts-scenario-pad-ratio: 1;
+			/* Internal padding ratio */
+			--ts-scenario-breakdown-gap-ratio: .5;
+			/* Breakdown spacing ratio */
+	
+			/* Derived scenario properties */
+			--ts-scenario-gap: calc(var(--ts-scenario-size) * var(--ts-scenario-gap-ratio));
+			--ts-scenario-pad: calc(var(--ts-scenario-size) * var(--ts-scenario-pad-ratio));
+			--ts-scenario-breakdown-gap: calc(var(--ts-scenario-size) * var(--ts-scenario-breakdown-gap-ratio));
+	
+			/* ─── TABLE SYSTEM TOKENS ─────────────────────────────── */
+			--ts-table-base: 12px;
+			--ts-table-scale: 1;
+			--ts-table-size: calc(var(--ts-table-base) * var(--ts-table-scale));
+	
+			/* Table ratio system */
+			--ts-table-cell-pad-ratio: 1.2;
+			/* Cell padding ratio */
+			--ts-table-header-fs-ratio: .8;
+			/* Header font size ratio */
+			--ts-table-body-fs-ratio: 1;
+			/* Body font size ratio */
+	
+			/* Derived table properties */
+			--ts-table-cell-pad: calc(var(--ts-table-size) * var(--ts-table-cell-pad-ratio)*.98);
+			--ts-table-header-fs: calc(var(--ts-table-size) * var(--ts-table-header-fs-ratio));
+			--ts-table-body-fs: calc(var(--ts-table-size) * var(--ts-table-body-fs-ratio));
+	
+			/* ─── ICON SYSTEM TOKENS ─────────────────────────────── */
+			--ts-deck-icon-base: 15px;
+			--ts-deck-icon-scale: 1.3;
+			--ts-deck-icon-size: calc(var(--ts-deck-icon-base) * var(--ts-deck-icon-scale));
+	
+			/* Icon ratio system */
+			--ts-deck-icon-pad-ratio: 0.4;
+			/* Icon padding ratio */
+			--ts-deck-icon-border-ratio: 0.06;
+			/* Border width ratio */
+	
+			/* Derived icon properties */
+			--ts-deck-icon-pad: calc(var(--ts-deck-icon-size) * var(--ts-deck-icon-pad-ratio));
+			--ts-deck-icon-border: calc(var(--ts-deck-icon-size) * var(--ts-deck-icon-border-ratio));
+	
+			/* ─── SURFACE SYSTEM ENHANCEMENT ─────────────────────── */
+			/* Mix percentages for --ts-this-bg derivatives */
+			--ts-mix-perc: 12%;
+			--ts-mix-perc-hover: 20%;
+			--ts-mix-perc-active: 25%;
+			--ts-mix-perc-disabled: 8%;
+			--ts-mix-perc-focus: 15%;
+	
+	
+			/* ─── FOOTER NEW TOKES ADDED. COMPLETE AND MAKE  CONSISTENT  COMPONENT TOKENS.  ther are redudnant tpokens and some can be shared across all components and  some otehr can be locally defined.  ─────────────────────── */
+			/* Mix percentages for --ts-this-bg derivatives */
+			--ts-slide-fixed-footer-offset: calc(var(--ts-container-pad) + 1px);
+			--ts-slide-fixed-footer-pad: calc(var(--ts-deck-slide-gap) * .8) calc(var(--ts-deck-slide-gap) * 1.2);
+			--ts-slide-fixed-footer-fs: calc(var(--ts-slide-footer-fs)*.85);
+			--ts-slide-footer-fs: var(--ts-fs-xs);
+			--ts-slide-fixed-footer-h: calc(var(--ts-deck-nav-size) - 1px);
+			--ts-deck-width: clamp(var(--ts-deck-slide-max-width), 75dvw, 1400px);
+			--ts-slide-fixed-footer-offset-x: calc(100dvw - var(--ts-deck-width) - var(--ts-container-pad) + 0px);
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																					§1B  SURFACE INHERITANCE SYSTEM — Complete --ts-this-bg derivatives
+																																																																																					═══════════════════════════════════════════════════════════════════ */
+	
+		/* This system automatically provides all --ts-this-bg derivatives
+																																																																																					for any component that sets --ts-this-bg */
+		:root,
+		.ts-deck,
+		.ts-deck *,
+		.ts-slide,
+		.ts-slide *,
+		.ts-deck-card,
+		.ts-badge,
+		.ts-timeline-marker {
+			/* Transparency derivatives */
+			--ts-this-bg-dim: color-mix(in srgb, var(--ts-this-bg), transparent 12%);
+			--ts-this-bg-dim-2: color-mix(in srgb, var(--ts-this-bg), transparent 25%);
+			--ts-this-bg-dim-3: color-mix(in srgb, var(--ts-this-bg), transparent 50%);
+			--ts-this-bg-dim-4: color-mix(in srgb, var(--ts-this-bg), transparent 60%);
+			--ts-this-bg-dim-5: color-mix(in srgb, var(--ts-this-bg), transparent 70%);
+			--ts-this-bg-dim-6: color-mix(in srgb, var(--ts-this-bg), transparent 80%);
+			--ts-this-bg-dim-7: color-mix(in srgb, var(--ts-this-bg), transparent 90%);
+	
+			/* Brightness derivatives */
+			--ts-this-bg-bright: color-mix(in srgb, var(--ts-this-bg), #ffffff 6%);
+			--ts-this-bg-bright-1: color-mix(in srgb, var(--ts-this-bg), #ffffff 4%);
+			--ts-this-bg-bright-2: color-mix(in srgb, var(--ts-this-bg), #ffffff 8%);
+			--ts-this-bg-bright-3: color-mix(in srgb, var(--ts-this-bg), #ffffff 14%);
+			--ts-this-bg-dark: color-mix(in srgb, var(--ts-this-bg), #000000 14%);
+			--ts-this-bg-dark-1: color-mix(in srgb, var(--ts-this-bg), #000000 2%);
+			--ts-this-bg-dark-2: color-mix(in srgb, var(--ts-this-bg), #000000 12%);
+	
+			/* Border system */
+			--ts-this-bg-border: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc));
+			--ts-this-bg-border-0: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) calc(var(--ts-mix-perc) * 0.5));
+			--ts-this-bg-border-hover: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc-hover));
+			--ts-this-bg-border-active: color-mix(in srgb, var(--ts-this-bg), var(--ts-accent) var(--ts-mix-perc-active));
+			--ts-this-bg-border-focus: color-mix(in srgb, var(--ts-this-bg), var(--ts-accent) var(--ts-mix-perc-focus));
+			--ts-this-bg-border-disabled: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-muted) var(--ts-mix-perc-disabled));
+	
+			/* Interactive states */
+			--ts-this-bg-hover: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) 20%);
+			--ts-this-bg-active: color-mix(in srgb, var(--ts-this-bg), var(--ts-accent) 30%);
+			--ts-this-bg-disabled: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-muted) 60%);
+	
+			/* Contextual aliases */
+			--ts-this-bg-muted: var(--ts-this-bg-dim-3);
+			--ts-this-bg-subtle: var(--ts-this-bg-dim-6);
+	
+			--ts-deck-radius: var(--ts-radius-base);
+			--ts-deck-radius-nest: calc(var(--ts-radius-base) + 1px);
+			--ts-deck-bg-color: var(--ts-bg-body);
+	
+			--ts-deck-main-border: var(--ts-border-1);
+			--ts-deck-main-border: var(--ts-border-1);
+	
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																					§2  GRID BACKGROUND SYSTEM — Tokenized pattern engine
+																																																																																					═══════════════════════════════════════════════════════════════════ */
+	
+		body {
+			color: var(--ts-text-primary);
+			font-family: var(--ts-font-display);
+			font-weight: var(--ts-font-weight-thin);
+			font-size: calc(var(--ts-fs-body-sm) * var(--ts-deck-body-scale));
+			-moz-osx-font-smoothing: grayscale;
+			-webkit-font-smoothing: antialiased;
+			letter-spacing: var(--ts-letter-spacing-normal);
+			line-height: var(--ts-line-height-loose);
+			overflow-x: hidden;
+			scroll-behavior: smooth;
+			display: grid;
+			padding: var(--ts-container-pad);
+			height: 100dvh;
+			width: 100dvw;
+	
+			/* Grid background system - fully tokenized */
+			--ts-bg-grid-base: 28px;
+			--ts-bg-grid-size: calc(var(--ts-bg-grid-base) * var(--ts-deck-scale));
+			--ts-bg-grid-mix: 91%;
+			--ts-bg-grid-col1: var(--ts-text-primary);
+			--ts-bg-grid-col2: transparent;
+			--ts-bg-grid-line: color-mix(in srgb, var(--ts-bg-grid-col1), var(--ts-bg-grid-col2) var(--ts-bg-grid-mix));
+			--ts-bg-grid-pattern:
+				repeating-linear-gradient(0deg,
+					transparent,
+					transparent calc(var(--ts-bg-grid-size) - 1px),
+					var(--ts-bg-grid-line) var(--ts-bg-grid-size)),
+				repeating-linear-gradient(90deg,
+					transparent,
+					transparent calc(var(--ts-bg-grid-size) - 1px),
+					var(--ts-bg-grid-line) var(--ts-bg-grid-size));
+	
+			background-image: var(--ts-bg-grid-pattern);
+			background-color: var(--ts-deck-bg-color);
+		}
+	
+		.ts-slide *:not(ul, li, h1, h2, h3, .ts-card, .ts-card *, .ts-card p, .ts-masonry, .ts-masonry *) {
+			user-select: none;
+			-webkit-tap-highlight-color: var(--ts-accent);
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																					§3  DECK CONTAINER — Main presentation surface
+																																																																																					═══════════════════════════════════════════════════════════════════ */
+	
+		.ts-deck {
+			--ts-this-bg: var(--ts-deck-bg-color);
+			font-family: var(--ts-font-display);
+			color: var(--ts-text-primary);
+			background: var(--ts-this-bg);
+			border-radius: var(--ts-deck-radius);
+			overflow-x: hidden;
+			overflow-y: auto;
+			position: relative;
+			border: 1px solid var(--ts-this-bg-border);
+			scrollbar-width: none;
+			max-width: var(--ts-deck-width);
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																					§4  SLIDE SYSTEM — Layout and navigation
+																																																																																					═══════════════════════════════════════════════════════════════════ */
+	
+		.ts-slide {
+			display: none;
+			gap: var(--ts-deck-slide-gap);
+			padding: var(--ts-deck-slide-pad-y) var(--ts-deck-slide-pad-x);
+			/* max-height: var(--ts-deck-slide-min-height); */
+			flex-direction: column;
+			min-height: var(--ts-deck-slide-min-height);
+			justify-content: center;
+		}
+	
+		.ts-slide.ts-active {
+			display: flex;
+			flex-direction: column;
+			flex-wrap: nowrap;
+		}
+	
+		/*YOU REMOVED THIS CONTAINER from my layout on the   first screen. 
+																																																																																					ELEMENTS SHOULD WE  WRAPPING THE INNER CONTENT.  NOT DOING I IS A BAD PRACTICE. */
+		.ts-slide--container {
+			display: contents;
+			flex-direction: column;
+			gap: calc(var(--ts-deck-slide-gap) * 0.5);
+			margin: auto 0;
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																					§5  TYPOGRAPHY SYSTEM — Harmonic text scale
+																																																																																					═══════════════════════════════════════════════════════════════════ */
+	
+		/* Eyebrow component */
+		.ts-deck .ts-eyebrow {
+			font-family: var(--ts-font-mono);
+			font-size: var(--ts-fs-eyebrow);
+			letter-spacing: var(--ts-letter-spacing-eyebrow);
+			text-transform: uppercase;
+			color: var(--ts-accent);
+			margin-bottom: var(--ts-deck-slide-gap);
+		}
+	
+		/* Heading hierarchy */
+		.ts-deck h1,
+		.ts-deck .ts-deck-title {
+			font-size: var(--ts-deck-title-fs);
+			font-weight: var(--ts-font-weight-bold);
+			margin: 0 0 !important;
+			letter-spacing: var(--ts-letter-spacing-tight);
+			line-height: var(--ts-line-height-display);
+			color: var(--ts-text-primary);
+			max-width: var(--ts-deck-slide-max-width);
+		}
+	
+		.ts-deck h2 {
+			font-size: var(--ts-fs-h2);
+			font-weight: var(--ts-font-weight-semibold);
+			letter-spacing: var(--ts-letter-spacing-tight);
+			line-height: var(--ts-line-height-snug);
+			margin: 0;
+			color: var(--ts-text-primary);
+		}
+	
+		.ts-deck h3 {
+			font-size: var(--ts-fs-xl);
+			font-weight: var(--ts-font-weight-semibold);
+			margin: 0;
+			color: var(--ts-text-primary);
+			letter-spacing: var(--ts-letter-spacing-normal);
+		}
+	
+		.ts-deck p {
+			font-size: calc(var(--ts-fs-sm) * var(--ts-deck-body-scale));
+			/* line-height: var(--ts-line-height-relaxed); */
+			color: var(--ts-text-secondary);
+			margin: 0;
+		}
+	
+		.ts-deck .ts-lead,
+		.ts-deck .ts-deck-lead {
+			font-size: var(--ts-deck-lead-fs);
+			line-height: var(--ts-line-height-loose);
+			color: var(--ts-text-secondary);
+			margin: 0;
+			max-width: var(--ts-deck-lead-max-width);
+		}
+	
+		p.ts-card.ts-lead.ts-deck-lead.ts-masonry--full.ts-fade-up.ts-visible {}
+	
+		.ts-mono {
+			font-family: var(--ts-font-mono);
+			font-size: 100&;
+			background: var(--ts-bg-3);
+	
+			border-radius: var(--ts-radius-xs);
+			padding: 0.5em 0.65em;
+	
+			background: var(--ts-this-bg-dim-6);
+	
+			--ts-this-bg: currentcolor;
+			border: 1px solid var(--ts-this-bg-dim-5);
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																					§6  CARD VARIANTS — Deck-specific extensions
+																																																																																					═══════════════════════════════════════════════════════════════════ */
+	
+		/* Base deck card with complete surface system */
+		.ts-deck-card:not(:has(.ts-deck-metrics)) {
+			--ts-this-bg: var(--ts-bg-1-t);
+			--ts-card-pad: var(--ts-deck-card-pad);
+			--ts-card-gap: var(--ts-deck-card-gap);
+			background: var(--ts-this-bg-dim-2);
+			border: 1px solid var(--ts-this-bg-border);
+			transition: border-color var(--ts-dur-base) ease, background-color var(--ts-dur-base) ease;
+			min-width: revert;
+	
+			.ts-label {
+				color: inherit;
+				border: none;
+				margin: 0;
+				padding: 0;
+			}
+		}
+	
+		.ts-deck-meta .ts-label {
+			font-family: var(--ts-font-mono);
+			font-size: 10px;
+			text-transform: uppercase;
+			color: var(--ts-text-muted);
+			border-bottom-width: 0px;
+		}
+	
+		.ts-deck-meta div {
+			color: var(--ts-text-primary);
+			font-size: 15px;
+		}
+	
+		.ts-deck-card:hover {
+			border-color: var(--ts-this-bg-border-hover);
+			background: var(--ts-this-bg-bright-1);
+		}
+	
+		.ts-deck-card.ts-card--featured {
+			--ts-this-bg: var(--ts-bg-2);
+			background: var(--ts-this-bg-dim-2);
+			border-color: var(--ts-this-bg-border-active);
+			border: none !important;
+	
+	
+		}
+	
+		.ts-deck-card.ts-card--featured:hover {
+			background: var(--ts-this-bg-bright-1);
+			border-color: var(--ts-accent);
+		}
+	
+		.ts-slide:has(.ts-card ul.ts-list.ts-checklist) .ts-masonry+.ts-deck-card.ts-card {
+			min-height: 15dvh;
+			justify-content: center;
+			--ts-this-bg: var(--ts-accent-dim);
+			background-color: var(--ts-this-bg-dim-4);
+			background-image: var(--ts-this-bg-grad-4);
+			border-color: var(--ts-accent);
+	
+			box-shadow: var(--ts-shadow-accent-sm);
+		}
+	
+		.ts-deck-card.ts-card--accent {
+			--ts-this-bg: var(--ts-accent);
+			background: var(--ts-this-bg-dim-6);
+			border-color: var(--ts-this-bg-border-focus);
+			color: var(--ts-accent);
+		}
+	
+		.ts-deck-card.ts-card--accent:hover {
+			background: var(--ts-this-bg-dim-5);
+			border-color: var(--ts-this-bg-border-active);
+		}
+	
+		.ts-deck-card.ts-card--danger {
+			--ts-this-bg: var(--ts-danger);
+			background: var(--ts-this-bg-dim-6);
+			border-color: var(--ts-this-bg-border-focus);
+			color: var(--ts-danger);
+		}
+	
+		.ts-deck-card.ts-card--danger:hover {
+			background: var(--ts-this-bg-dim-5);
+			border-color: var(--ts-this-bg-border-active);
+		}
+	
+		/* Card content typography with token scaling */
+		.ts-deck-card p {
+			color: var(--ts-text-primary-dim-2);
+			/* font-size: calc(1.4em * var(--ts-deck-body-scale)); */
+			margin: var(--ts-deck-card-margin) 0 var(--ts-deck-card-margin);
+			letter-spacing: 0.005rem;
+			--ts-accent: var(--ts-accent-400);
+		}
+	
+		.ts-deck-card p:has(>code, span.ts-mono) {
+	
+			code,
+			span.ts-mono {
+				line-height: 1.1lh !important;
+				padding-block: 3px;
+				white-space: nowrap;
+			}
+		}
+	
+		.ts-deck-card *:has(>.ts-icon):has(>.ts-label) .ts-label {
+			font-size: calc(1.8em * var(--ts-deck-body-scale));
+	
+		}
+	
+		.ts-deck-card .ts-label:has(+p:last-child),
+		.ts-deck-card.ts-card--featured .ts-label:has(+p) {
+			color: var(--ts-accent-400);
+			font-size: calc(1.5em * var(--ts-deck-body-scale));
+			margin: 0 0 0;
+		}
+	
+		/* Masonry layout with token spacing */
+		.ts-deck-masonry {
+			margin-top: var(--ts-deck-card-margin);
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																					§14  LIST COMPONENTS — Token-driven lists and checklists
+																																																																																					═══════════════════════════════════════════════════════════════════ */
+	
+		/* List component with proper flex behavior */
+		.ts-list {
+			display: flex;
+			flex-direction: column;
+			gap: var(--ts-list-item-gap) !important;
+			padding: 0;
+			margin-top: var(--ts-deck-card-gap) !important;
+			list-style: none;
+			font-size: calc(var(--ts-fs-sm) * var(--ts-deck-body-scale)) !important;
+			--ts-list-item-gap: 8px;
+			line-height: var(--ts-line-height-relaxed);
+	
+		}
+	
+		.ts-card ul.ts-list.ts-checklist,
+		.ts-card ul.ts-list.ts-checklist li {
+			flex: 1 1 100%;
+		}
+	
+		.ts-card .ts-list li,
+		.ts-card .ts-checklist li {
+			display: flex;
+			align-items: flex-start;
+			gap: calc(var(--ts-list-item-gap)*1) !important;
+			flex-wrap: nowrap;
+			flex-direction: row;
+			/* Prevent icon collapse */
+			color: var(--ts-text-secondary);
+			line-height: var(--ts-line-height-relaxed);
+			flex-wrap: nowrap;
+			line-height: 1lh;
+		}
+	
+	
+		.ts-card .ts-checklist li .check {
+			flex-shrink: 0;
+			width: var(--ts-checklist-check-size);
+			color: var(--ts-success);
+			font-weight: var(--ts-font-weight-bold);
+		}
+	
+		.ts-card .ts-checklist:has(.check, .x) {
+			gap: calc(var(--ts-list-item-gap)*.78) !important;
+	
+		}
+	
+		.ts-card .ts-checklist li .check *:before,
+		.ts-card .ts-checklist li .x *:before,
+		.ts-card .ts-checklist li .check *,
+		.ts-card .ts-checklist li .x * {
+			margin: 0 !important;
+		}
+	
+		.ts-card .ts-list li:before {
+			margin: 0 !important;
+		}
+	
+		.ts-card .ts-list>li:has(.check):before {
+			content: "\2b";
+			/* Replaces the checkmark with the plus icon.. remove to set the default  circle checkmark.*/
+			color: var(--ts-accent);
+		}
+	
+	
+		.ts-card .ts-list>li:has(.x):before {
+			content: "\f00d";
+			/* Replaces the checkmark with the x mark icon..*/
+			color: var(--ts-accent) !important;
+		}
+	
+		.ts-card .ts-checklist>li:has(i.fa-solid.fa-arrow-right):before {
+			content: "\f061"
+			;
+			/* Replaces the checkmark with the x mark icon..*/
+			color: var(--ts-success) !important;
+		}
+	
+		.ts-card .ts-checklist>li:has(i.fa-solid.fa-arrow-right):before {
+			content: "\f061"
+			;
+			/* Replaces the checkmark with the x mark icon..*/
+			color: var(--ts-success) !important;
+		}
+	
+		.ts-card:has(> ul.ts-list)>label:first-child,
+		.ts-card:has(> ul.ts-list)>.label,
+		.ts-card:has(> ul.ts-list)>.ts-label {
+			color: var(--ts-accent-bright) !important;
+			font-weight: 500;
+			font-size: 120%;
+		}
+	
+		.ts-card:has(> ul.ts-list li .check),
+		.ts-card:has(> ul.ts-list li .check) *,
+		.ts-card:has(> ul.ts-list li .check) *:before,
+		.ts-card ul.ts-list>li:has(.check),
+		.ts-card ul.ts-list:has(li .check),
+		.ts-card:has(> ul.ts-checklist li i.fa-solid.fa-arrow-right),
+		.ts-card:has(> ul.ts-checklist li i.fa-solid.fa-arrow-right) *,
+		.ts-card:has(> ul.ts-checklist li i.fa-solid.fa-arrow-right) *:before,
+		.ts-card ul.ts-checklist>li:has(i.fa-solid.fa-arrow-right),
+		.ts-card ul.ts-checklist:has(li i.fa-solid.fa-arrow-right) {
+			--ts-accent: var(--ts-success) !important;
+		}
+	
+		.ts-card:has(> ul.ts-list li .x),
+		.ts-card:has(> ul.ts-list li .x) *,
+		.ts-card:has(> ul.ts-list li .x) *:before,
+		.ts-card ul.ts-list>li:has(.x),
+		.ts-card ul.ts-list:has(li .x) {
+			--ts-accent: var(--ts-danger) !important;
+	
+		}
+	
+		.ts-card .ts-list li .x,
+		.ts-card .ts-list li .check {
+			display: none;
+		}
+	
+		.ts-card ul.ts-checklist li:has(i.fa-solid.fa-arrow-right)>i.fa-arrow-right {
+			display: none;
+	
+	
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																					§7  BADGE SYSTEM — Token-driven status indicators
+																																																																																					═══════════════════════════════════════════════════════════════════ */
+	
+		.ts-badge {
+			--ts-this-bg: var(--ts-accent);
+			display: inline-block;
+			padding: var(--ts-deck-badge-pad-y) var(--ts-deck-badge-pad-x);
+			border-radius: var(--ts-radius-full);
+			font-family: var(--ts-font-mono);
+			font-size: var(--ts-deck-badge-fs);
+			letter-spacing: var(--ts-letter-spacing-wide);
+			text-transform: uppercase;
+			background: var(--ts-this-bg-dim-6);
+			color: var(--ts-this-bg);
+			border: 1px solid var(--ts-this-bg-border-focus);
+			transition: all var(--ts-dur-base) ease;
+			width: fit-content;
+		}
+	
+		.ts-badge:hover {
+			background: var(--ts-this-bg-dim-5);
+			border-color: var(--ts-this-bg-border-active);
+		}
+	
+		.ts-badge--danger {
+			--ts-this-bg: var(--ts-danger);
+			background: var(--ts-this-bg-dim-6);
+			color: var(--ts-this-bg);
+			border-color: var(--ts-this-bg-border-focus);
+		}
+	
+		.ts-badge--danger:hover {
+			background: var(--ts-this-bg-dim-5);
+			border-color: var(--ts-this-bg-border-active);
+		}
+	
+		.ts-badge--success {
+			--ts-this-bg: var(--ts-success);
+			background: var(--ts-this-bg-dim-6);
+			color: var(--ts-this-bg);
+			border-color: var(--ts-this-bg-border-focus);
+		}
+	
+		.ts-badge--success:hover {
+			background: var(--ts-this-bg-dim-5);
+			border-color: var(--ts-this-bg-border-active);
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																															   §8  TIMELINE COMPONENT — Token-driven execution tracking
+																																																																																															   ═══════════════════════════════════════════════════════════════════ */
+	
+		.ts-timeline {
+			display: flex;
+			flex-direction: column;
+			gap: 0;
+			flex-wrap: nowrap;
+		}
+	
+		.ts-timeline-item {
+			display: flex;
+			gap: var(--ts-timeline-gap);
+			padding: var(--ts-timeline-pad-y) 0;
+			border-bottom: 1px solid var(--ts-deck-main-border);
+			align-items: center;
+			flex-direction: row;
+			flex-wrap: wrap;
+		}
+	
+		.ts-timeline-item:last-child {
+			border-bottom: none;
+		}
+	
+		.ts-timeline-marker {
+			--ts-this-bg: var(--ts-accent);
+			aspect-ratio: 1;
+			width: var(--ts-timeline-marker-size);
+			height: var(--ts-timeline-marker-size);
+			padding: var(--ts-marker-pad);
+			line-height: calc((var(--ts-line-height-snug) * 1px) + var(--ts-marker-lh)*1);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: var(--ts-deck-radius);
+			text-align: center;
+			color: var(--ts-accent);
+			background: var(--ts-this-bg-dim-6);
+			border: 1px solid var(--ts-this-bg-dim-4);
+			flex-shrink: 0;
+			transition: all var(--ts-dur-base) ease;
+			display: flex;
+			align-content: cente;
+			align-items: center;
+			flex-direction: column;
+			font-size: var(--ts-marker-fs);
+			--ts-marker-pad: 0 calc(var(--ts-marker-fs)*.2);
+			--ts-marker-fs: 1em;
+			--ts-marker-lh: calc(1lh - var(--ts-marker-fs)*.1);
+			--ts-marker-num-max: calc(var(--ts-timeline-marker-size));
+		}
+	
+		.ts-timeline-marker .marker--word {
+			--ts-marker-fs: clamp(1em, 1.6em, 180%);
+			font-size: calc(var(--ts-marker-fs)*.5);
+	
+			word-break: break-all;
+			line-height: 1em;
+		}
+	
+		.ts-timeline-marker .marker--num {
+			--ts-marker-fs: clamp(3ch, 2.6rem, 100%);
+			font-size: var(--ts-marker-fs);
+	
+			white-space: nowrap;
+			font-weight: 900;
+			line-height: 1lh;
+			letter-spacing: 0.009rem;
+	
+		}
+	
+		.ts-timeline-marker:hover {
+			background: var(--ts-this-bg-dim-3);
+			border-color: var(--ts-this-bg-border-active);
+			transform: scale(1.05);
+		}
+	
+		.ts-timeline-content {
+			color: var(--ts-text-secondary);
+			line-height: var(--ts-line-height-normal);
+			font-size: var(--ts-timeline-content-fs);
+			text-wrap: pretty;
+			flex: 1 1 50%;
+			padding-right: var(--ts-timeline-pad-x);
+			border-right: 1px solid var(--ts-deck-main-border);
+			display: flex;
+			align-items: center;
+			min-height: calc(var(--ts-timeline-marker-size) + var(--ts-timeline-pad-y) * 2);
+		}
+	
+		.ts-timeline-revenue {
+			font-family: var(--ts-font-mono);
+			font-weight: var(--ts-font-weight-semibold);
+			color: var(--ts-text-primary);
+			font-size: var(--ts-fs-lg);
+			flex-shrink: 0;
+			--ts-timeline-revenue-width: calc(var(--ts-timeline-marker-size) * 3);
+			max-width: var(--ts-timeline-revenue-width);
+			padding-right: var(--ts-timeline-pad-x);
+			border-right: 1px solid var(--ts-deck-main-border);
+			display: flex;
+			align-items: center;
+			flex: 1 1 var(--ts-timeline-revenue-width);
+			min-height: calc(var(--ts-timeline-marker-size) + var(--ts-timeline-pad-y) * 2);
+		}
+	
+		.ts-timeline-item .ts-badge {
+	
+			--ts-timeline-revenue-width: calc(var(--ts-timeline-marker-size) * 2);
+			width: var(--ts-timeline-revenue-width);
+	
+			display: flex;
+			align-items: center;
+			flex: 1 1 var(--ts-timeline-revenue-width);
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																															   §9  SCENARIO GRID — Token-driven revenue forecasting
+																																																																																															   ═══════════════════════════════════════════════════════════════════ */
+	
+		.ts-scenario-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+			gap: var(--ts-scenario-gap);
+			margin-top: 0;
+		}
+	
+		.ts-scenario-base {
+			border-color: var(--ts-accent);
+		}
+	
+		.ts-scenario-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 0;
+		}
+	
+		.ts-scenario-prob {
+			font-family: var(--ts-font-mono);
+			font-size: var(--ts-fs-sm);
+			color: var(--ts-accent);
+		}
+	
+		.ts-scenario-breakdown {
+			border-top: 1px solid var(--ts-deck-main-border);
+			margin-top: var(--ts-scenario-breakdown-gap);
+			padding-top: var(--ts-scenario-breakdown-gap);
+			font-size: calc(var(--ts-fs-xs) * var(--ts-deck-body-scale));
+			color: var(--ts-text-secondary);
+			line-height: var(--ts-line-height-relaxed);
+		}
+	
+		.ts-scenario-breakdown--base {
+			/* border-top-color: var(--ts-accent); */
+		}
+	
+		.ts-scenario-interpretation {
+			font-size: calc(var(--ts-fs-2xs) * var(--ts-deck-body-scale));
+			color: var(--ts-text-secondary);
+			margin-top: var(--ts-scenario-pad);
+			line-height: var(--ts-line-height-relaxed);
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																															   §10  TABLE SYSTEM — Token-driven service catalog
+																																																																																															   ═══════════════════════════════════════════════════════════════════ */
+	
+		.ts-deck-table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: var(--ts-table-body-fs);
+		}
+	
+		.ts-deck-table th {
+			text-align: left;
+			padding: calc(var(--ts-table-cell-pad)*.85);
+			font-family: var(--ts-font-mono);
+			font-size: var(--ts-table-header-fs);
+			letter-spacing: var(--ts-letter-spacing-eyebrow);
+			text-transform: uppercase;
+			color: var(--ts-accent);
+			border-bottom: 1px solid var(--ts-deck-main-border);
+			font-weight: var(--ts-font-weight-medium);
+		}
+	
+		.ts-deck-table td {
+			padding: var(--ts-table-cell-pad) calc(var(--ts-table-cell-pad)*.85);
+			color: var(--ts-text-primary-dim-2);
+			vertical-align: middle;
+			font-size: calc(var(--ts-table-header-fs) * 1.3);
+	
+	
+			strong {
+				color: var(--ts-accent-400);
+				font-size: 120%;
+			}
+		}
+	
+		.ts-deck-table tr:not(:last-child) td {
+			border-bottom: 1px solid var(--ts-deck-main-border);
+	
+		}
+	
+		.ts-deck-table .ts-table-number {
+			font-family: var(--ts-font-mono);
+			font-weight: var(--ts-font-weight-semibold);
+			color: var(--ts-text-primary);
+			font-size: 120%;
+	
+		}
+	
+		.ts-deck-table .ts-table-subtitle {
+			letter-spacing: 0.005rem;
+			color: var(--ts-text-secondary-dim-2);
+			font-family: var(--ts-font-mono);
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																															   §11  PROGRESS & NAVIGATION — Token-driven controls
+																																																																																															   ═══════════════════════════════════════════════════════════════════ */
+	
+		/* Progress bar system */
+		.ts-progress {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			border-radius: 0;
+	
+			height: var(--ts-deck-progress-h);
+			background: var(--ts-this-bg-dim-2);
+			z-index: var(--ts-z-raised);
+		}
+	
+	
+		.ts-progress--bar {
+			height: 100%;
+			background: var(--ts-deck-progressbar-grad);
+			--ts-deck-progressbar-col1: var(--ts-accent);
+			--ts-deck-progressbar-col2: var(--ts-accent-dark);
+			--ts-deck-progressbar-alpha: 6%;
+			--ts-deck-progressbar-grad: linear-gradient(90deg,
+					color-mix(in srgb, var(--ts-deck-progressbar-col1), transparent var(--ts-deck-progressbar-alpha)) 0%,
+					var(--ts-deck-progressbar-col1) 50%,
+					color-mix(in srgb, var(--ts-deck-progressbar-col1), transparent var(--ts-deck-progressbar-alpha)) 100%);
+			transition: width var(--ts-dur-base);
+			border-bottom-right-radius: var(--ts-deck-progress-h);
+			border-top-right-radius: var(--ts-deck-progress-h);
+		}
+	
+		/*temporary replacement   swap from .fixed to not fixed to  test the fixed version as  the default one, if it's  better as  base design rule*/
+		.ts-deck:has(.ts-slide.ts-active .ts-slide-footer:not(.fixed)) .ts-slide-nav {
+			border-bottom-right-radius: var(--ts-deck-radius-nest);
+			border-top-right-radius: 0;
+			overflow: hidden !important;
+			bottom: var(--ts-container-pad);
+			right: var(--ts-slide-fixed-footer-offset-x);
+			max-width: calc((var(--ts-deck-nav-size)*2));
+			--ts-deck-nav-gap: 0;
+			border: 0px solid var(--ts-deck-main-border);
+			border-right-width: 1px;
+	
+	
+			.ts-btn {
+				border-radius: 0;
+				border-block: 0px none transparent !important;
+				background: transparent;
+	
+			}
+	
+			.ts-btn:not(:first-child) {
+				border-left-width: 0px;
+			}
+	
+			.ts-btn {
+				border-radius: 0;
+			}
+		}
+	
+		/* Navigation controls */
+		.ts-slide-nav {
+			position: fixed;
+			bottom: var(--ts-container-pad);
+			right: var(--ts-container-pad);
+			display: flex;
+			gap: var(--ts-deck-nav-gap);
+			align-items: center;
+			font-family: var(--ts-font-mono);
+			font-size: var(--ts-fs-md);
+			color: var(--ts-text-muted);
+			z-index: var(--ts-z-raised);
+			max-height: calc(var(--ts-deck-nav-size) + 1px);
+			max-width: calc((var(--ts-deck-nav-size)*3) + var(--ts-deck-nav-gap)*2);
+	
+		}
+	
+		.ts-slide-nav .ts-btn {
+			--ts-this-bg: var(--ts-bg-0);
+			width: var(--ts-deck-nav-size);
+			height: var(--ts-deck-nav-size);
+			padding: 0;
+			aspect-ratio: 1;
+			transition: all 300ms ease allow-discrete;
+	
+		}
+	
+		.ts-slide-nav .ts-btn:hover {
+			--ts-this-bg: var(--ts-accent);
+			--ts-text-secondary: var(--ts-on-accent);
+			background-color: var(--ts-this-bg) !important;
+		}
+	
+		.ts-slide-nav .ts-btn:disabled:not(:first-child) {
+			background-color: var(--ts-this-bg-dim-5) !important;
+	
+			--ts-text-primary: (--ts-text-muted-dim);
+			--ts-this-bg-border-disabled: color-mix(in srgb, var(--ts-this-bg), transparent 90%);
+			border-color: var(--ts-this-bg-border-disabled) !important;
+			border-block-color: var(--ts-deck-main-border);
+	
+			color: var(--ts-text-primary);
+			pointer-events: none;
+			opacity: 0.5;
+	
+		}
+	
+		.ts-slide-nav .ts-btn:disabled:first-child {
+	
+			opacity: 0;
+		}
+	
+		/*removed the counter  that is redundant, there is already one above. no need of another one on the buttons.*/
+		.ts-slide-nav #ts-counter {
+			height: var(--ts-deck-nav-size);
+			font-size: 1em;
+			display: none !important;
+		}
+	
+	
+		/* Slide indicators */
+		.ts-slide-num {
+			position: fixed;
+			top: var(--ts-container-pad);
+			right: var(--ts-slide-fixed-footer-offset-x);
+			font-family: var(--ts-font-mono);
+			font-size: var(--ts-fs-sm);
+			color: var(--ts-accent);
+			letter-spacing: var(--ts-letter-spacing-wide);
+			padding: calc(var(--ts-deck-nav-size) * 0.57);
+			border-radius: var(--ts-radius-sm);
+			pointer-events: none;
+		}
+	
+		.ts-slide-footer {
+			margin-top: auto;
+			padding-top: calc(var(--ts-deck-slide-gap) * 2);
+			font-family: var(--ts-font-mono);
+			font-size: var(--ts-slide-footer-fs);
+			color: var(--ts-text-muted);
+			letter-spacing: var(--ts-letter-spacing-wide);
+			text-transform: uppercase;
+			display: flex;
+			align-items: center;
+			border-top: 1px solid var(--ts-deck-main-border);
+			gap: var(--ts-deck-nav-gap);
+			--ts-slide-footer-fs: var(--ts-fs-xs);
+		}
+	
+		/*temporary replacement   swap from .fixed to not fixed to  test the fixed version as  the default one, if it's  better as  base design rule*/
+		.ts-slide-footer:not(.fixed) {
+			position: fixed;
+			bottom: var(--ts-slide-fixed-footer-offset);
+			left: var(--ts-slide-fixed-footer-offset) !important;
+			right: var(--ts-slide-fixed-footer-offset-x);
+			align-items: center;
+			font-family: var(--ts-font-mono);
+			z-index: var(--ts-z-raised);
+			font-size: var(--ts-slide-fixed-footer-fs);
+			padding: var(--ts-slide-fixed-footer-pad);
+			background: var(--ts-this-bg);
+			--ts-this-bg: var(--ts-deck-bg-color);
+			border-bottom-right-radius: var(--ts-deck-radius-nest);
+			border-bottom-left-radius: var(--ts-deck-radius-nest);
+			overflow: hidden;
+			height: var(--ts-slide-fixed-footer-h);
+			max-height: var(--ts-slide-fixed-footer-h);
+		}
+	
+		/*temporary replacement   swap from .fixed to not fixed to  test the fixed version as  the default one, if it's  better as  base design rule*/
+		.ts-progress:not(.fixed) {
+			position: fixed;
+			border-radius: 0;
+			box-shadow: none !important;
+			--ts-deck-progress-track-bg: var(--ts-deck-main-border);
+			--ts-this-bg: var(--ts-deck-progress-track-bg);
+	
+			background: var(--ts-this-bg);
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																															   §12  UTILITY COMPONENTS — Token-driven elements
+																																																																																															   ═══════════════════════════════════════════════════════════════════ */
+		:root,
+		:root {
+			--ts-this-bg-border-dim: color-mix(in srgb, var(--ts-this-bg-border), transparent 30%);
+			--ts-this-bg-border-dim-2: color-mix(in srgb, var(--ts-this-bg-border), transparent 30%);
+			--ts-this-bg-border-dim-3: color-mix(in srgb, var(--ts-this-bg-border), transparent 30%);
+			--ts-this-bg-border-dim-4: color-mix(in srgb, var(--ts-this-bg-border), transparent 30%);
+			--ts-slide-sidebar-w: 350px;
+			--ts-slide-sidebar-max-w: calc((100% - var(--ts-slide-sidebar-w)) + var(--ts-container-pad)*1);
+		}
+	
+		/* Accent bar */
+		.ts-accent-bar {
+			width: var(--ts-accent-bar-width);
+			height: var(--ts-accent-bar-height);
+			background: var(--ts-accent);
+			margin-block: 0;
+			margin-bottom: var(--ts-deck-card-gap) !important;
+		}
+	
+		/* Number displays */
+		.ts-num {
+			font-size: var(--ts-fs-4xl);
+			font-weight: var(--ts-font-weight-bold);
+			color: var(--ts-text-primary);
+			line-height: var(--ts-line-height-none);
+			margin: var(--ts-deck-card-margin) 0 calc(var(--ts-deck-card-margin) * 2);
+			letter-spacing: var(--ts-letter-spacing-tight);
+		}
+	
+		.ts-num--small {
+			font-size: var(--ts-fs-2xl);
+			font-weight: var(--ts-font-weight-semibold);
+			color: var(--ts-text-primary);
+			line-height: var(--ts-line-height-none);
+			margin: var(--ts-deck-card-margin) 0 var(--ts-deck-card-margin);
+		}
+	
+	
+		/* Success indicators */
+		.ts-val-success {
+			color: var(--ts-success);
+			font-family: var(--ts-font-mono);
+			font-weight: var(--ts-font-weight-semibold);
+		}
+	
+		/* Quote styling */
+		.ts-quote {
+			border-left: var(--ts-sp-px) solid var(--ts-accent);
+			padding: calc(var(--ts-deck-card-margin) * 2) 0 calc(var(--ts-deck-card-margin) * 2) var(--ts-deck-card-gap);
+			margin: 0;
+			font-size: var(--ts-fs-md);
+			line-height: var(--ts-line-height-loose);
+			color: var(--ts-text-secondary);
+			font-style: normal;
+		}
+	
+		.ts-quote-attribution {
+			font-size: calc(var(--ts-fs-2xs) * var(--ts-deck-body-scale));
+			color: var(--ts-text-muted);
+			margin-top: calc(var(--ts-deck-card-margin) * 2);
+		}
+	
+		/* Metrics layout */
+		.ts-deck-metrics {
+			display: flex;
+			flex-direction: column;
+			gap: var(--ts-deck-card-gap);
+		}
+	
+		.ts-deck-metrics {
+			display: flex;
+			flex-direction: column;
+			gap: .65em;
+			margin-top: var(--ts-deck-card-gap);
+		}
+	
+		.ts-deck-metric {
+			display: flex;
+			grid-template-columns: minmax(0, 1fr) auto;
+			gap: .8em;
+			align-items: center;
+			padding-top: .6em;
+			border-top: 1px solid var(--ts-this-bg-border);
+			justify-content: space-between;
+			flex-wrap: nowrap;
+		}
+	
+		.ts-deck-metric:first-child {
+			border-top: 0;
+			padding-top: 0;
+		}
+	
+		/* Metrics layout */
+		.ts-deck-metrics .ts-val-success {
+			font-size: 125%;
+			letter-spacing: 0.05rem;
+		}
+	
+		.ts-deck-metrics .ts-label {
+			border: none;
+			font-size: 80%;
+			line-height: 1;
+			padding-top: var(--ts-deck-card-gap);
+	
+		}
+	
+		.ts-deck-metric-value {
+			color: var(--ts-text-primary-dim-2);
+			font-weight: 500;
+			font-family: var(--ts-font-mono);
+			font-size: 1em;
+			flex: 1 1 50%;
+			text-align: right;
+			line-height: 1.3;
+			/* padding-top: 7px; */
+		}
+	
+		/* Meta information */
+		.ts-deck-meta-value {
+			color: var(--ts-text-primary-dim);
+			font-size: 1em;
+		}
+	
+		/* Brand elements */
+		.ts-logo {
+			font-family: var(--ts-font-display);
+			font-weight: var(--ts-font-weight-black);
+			font-size: var(--ts-fs-h3);
+			letter-spacing: var(--ts-letter-spacing-loose);
+			line-height: var(--ts-line-height-normal);
+			margin-bottom: 5% !important;
+		}
+	
+		.ts-slide-footer .ts-logo {
+			font-family: var(--ts-font-display);
+			font-weight: var(--ts-font-weight-bold);
+			font-size: 1em;
+			line-height: var(--ts-line-height-normal);
+			margin-bottom: 0 !important;
+			color: var(--ts-text-primary);
+		}
+	
+		.ts-logo .ts-accent {
+			color: var(--ts-accent);
+		}
+	
+		.ts-masonry {
+			height: 100%;
+		}
+	
+		/* Tagline */
+		.ts-deck-tagline {
+			font-family: var(--ts-font-mono);
+			font-size: calc(var(--ts-fs-xs) * var(--ts-deck-body-scale));
+			color: var(--ts-text-secondary);
+			letter-spacing: var(--ts-letter-spacing-wider);
+			text-transform: uppercase;
+		}
+	
+		/* Special indicators */
+	
+		.ts-card:has(.ts-kill-trigger),
+		.ts-card.ts-card--danger {
+			background-color: var(--ts-this-bg-dim-6);
+			border-color: var(--ts-this-bg-dim-3);
+			--ts-this-bg: var(--ts-accent);
+			--ts-accent: var(--ts-danger);
+			--ts-card-title-fs: var(--ts-fs-lg);
+			--ts-card-fs: 13px;
+			--ts-icon-size: 1.9rem;
+			--ts-text-secondary: color-mix(in srgb, currentcolor, var(--ts-text-primary) 30%);
+			--_ts-basis: var(--_ts-basis-2);
+			flex: 1 1 var(--_ts-basis) !important;
+			min-width: var(--ts-masonry-col-min);
+		}
+	
+		.ts-card:has(.ts-kill-trigger) {
+			.ts-kill-trigger {
+				font-family: var(--ts-font-display);
+				font-size: var(--ts-card-title-fs);
+				color: var(--ts-accent-text);
+				letter-spacing: var(--ts-letter-spacing-normal);
+				margin-bottom: var(--ts-deck-card-margin);
+				font-weight: var(--ts-font-weight-semibold);
+				--ts-accent: var(--ts-danger);
+			}
+	
+			.ts-kill-trigger.ts-card-title:not(:has(.ts-icon)) {
+				display: block;
+				text-align: left;
+				flex-direction: row;
+				flex-wrap: nowrap;
+				align-items: center;
+				position: relative !important;
+				color: var(--ts-accent);
+				line-height: 1lh;
+	
+			}
+	
+			.ts-kill-trigger.ts-card-title:has(.ts-icon) {
+				position: relative;
+				padding: 0;
+				padding-left: calc(var(--ts-icon-size)*1.2);
+				padding-block: calc(var(--ts-icon-size)*.4);
+				margin-bottom: calc(var(--ts-icon-size)*.2);
+				max-height: fit-content;
+				border-bottom: 1px solid;
+				vertical-align: middle;
+				align-content: center;
+				place-content: center;
+				margin-inline: calc(var(--ts-card-pad)*-1) !important;
+				margin-top: calc(var(--ts-card-pad)*-1);
+				flex: 1 1 auto;
+				width: auto;
+	
+			}
+	
+			.ts-kill-trigger.ts-card-title:has(.ts-icon)>.ts-icon {
+				position: absolute !important;
+				left: calc(var(--ts-icon-size)*0);
+				right: auto;
+				top: 50%;
+				transform: translateY(-50%);
+				bottom: 0;
+				margin: 0;
+				padding: 6px !important;
+				font-size: 70% !important;
+				max-width: calc(var(--ts-icon-size)*.75) !important;
+				width: var(--ts-icon-size);
+				height: var(--ts-icon-size);
+				display: grid;
+				place-content: center;
+			}
+	
+			.ts-kill-action {
+				font-size: var(--ts-fs-xs);
+				color: var(--ts-text-secondary);
+				line-height: var(--ts-line-height-normal);
+				font-family: var(--ts-font-mono);
+	
+			}
+	
+		}
+	
+		.ts-deck-card {
+			min-height: clamp(150px, 8rem, 50cqi);
+			align-content: center;
+			container-type: inline-size;
+			min-width: var(--ts-masonry-col-min) !important;
+	
+			>p {
+				margin-block: auto !important;
+				flex: 0;
+				text-wrap-style: pretty;
+				word-wrap: revert;
+				line-height: 1.2lh;
+				font-weight: 300;
+				color: color-mix(in srgb, currentcolor 80%, var(--ts-text-secondary) 80%);
+				/* font-size: calc(clamp(.15em + 1cqw, 0.25em + 1cqw, 0.5rem + 1cqw) ); */
+				font-size: clamp(0.2em + 1cqw, 0.5rem + 1cqw, 1.2em);
+				line-height: clamp(1.3em, 1.1rem + 0.5cqw, 1.75em);
+			}
+		}
+	
+		.ts-deck-card>div:has(>.ts-icon, >.ts-label, >.ts-icon + .ts-label):has(.ts-icon + .ts-label) {
+			border-bottom: 1px solid;
+			border-color: var(--ts-card-border);
+			--ts-icon-size: 1.75rem;
+			position: relative;
+			padding: 0 !important;
+			margin-bottom: auto;
+			min-height: fit-content;
+			vertical-align: middle;
+			margin-inline: calc((var(--ts-deck-card-pad) + var(--ts-deck-card-gap)*.4) *-1);
+			margin-top: calc((var(--ts-deck-card-pad) + var(--ts-deck-card-gap)*.4) *-1);
+			width: -webkit-fill-available;
+			font-size: .7em;
+			line-height: 1rem;
+	
+	
+	
+			>.ts-icon {
+				font-size: calc(var(--ts-icon-size)*.5) !important;
+				position: relative !important;
+				left: 0;
+				right: auto;
+				padding: 0 !important;
+	
+				bottom: 0;
+				margin: 0;
+				width: calc(var(--ts-icon-size)*1.5);
+				min-height: calc(var(--ts-icon-size)*1.5);
+				display: grid;
+				min-height: 100%;
+				max-height: unset;
+				place-content: center;
+				border-right: 1px solid;
+				border-color: var(--ts-card-border);
+				aspect-ratio: 1;
+			}
+	
+			.ts-label {
+				flex: 1;
+				padding-block: calc(var(--ts-icon-size)*.5);
+	
+			}
+		}
+	
+	
+		/* Roadmap items */
+		.ts-roadmap {
+			display: flex;
+			flex-direction: column;
+			gap: 0;
+			font-size: var(--ts-fs-lg);
+			--_label-w: 125px;
+			--ts-deck-card-gap: 1rem;
+		}
+	
+		.ts-roadmap-item {
+			display: flex;
+			gap: var(--ts-deck-card-gap);
+			align-items: flex-start;
+			padding: var(--ts-deck-card-pad) 0;
+			border-bottom: 1px solid var(--ts-deck-main-border);
+			flex-wrap: wrap;
+		}
+	
+		.ts-roadmap .ts-slide-row--label,
+		.ts-roadmap .ts-label {
+			font-family: var(--ts-font-mono);
+			font-size: .8rem;
+			color: var(--ts-accent);
+			flex: 1 1 var(--_label-w);
+			padding-top: var(--ts-bar-stroke-h);
+			text-transform: uppercase;
+			white-space: nowrap;
+		}
+	
+		.ts-roadmap-item:last-child {
+			border-bottom: none;
+		}
+	
+		.ts-roadmap-content {
+			flex: 1 1 calc((100% - var(--_label-w)) - var(--ts-deck-card-gap)*1);
+			font-size: calc(.98em * var(--ts-deck-body-scale));
+			color: var(--ts-text-secondary);
+			line-height: var(--ts-line-height-relaxed);
+			text-align: left;
+			letter-spacing: 0.06em;
+	
+		}
+	
+		/* Custom icon system */
+		.ts-icon.enter-icon {
+			--ts-icon-color: var(--ts-accent);
+			--ts-icon-size: var(--ts-deck-icon-size);
+	
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: var(--ts-icon-size);
+			height: var(--ts-icon-size);
+			color: var(--ts-icon-color);
+		}
+	
+		.ts-icon.enter-icon.grad {
+			padding: var(--ts-deck-icon-pad);
+			max-height: calc(var(--ts-icon-size) * 1.2);
+			max-width: calc(var(--ts-icon-size) * 1.2);
+			border-radius: var(--ts-deck-icon-border);
+			background: linear-gradient(30deg,
+					color-mix(in srgb, var(--ts-icon-color), var(--ts-text-primary) 80%) 0%,
+					color-mix(in srgb, var(--ts-icon-color), transparent 95%));
+			border: var(--ts-deck-icon-border) solid color-mix(in srgb, var(--ts-icon-color), var(--ts-text-primary-dim) 30%);
+			color: color-mix(in srgb, var(--ts-icon-color), #ffffff 30%);
+		}
+	
+		.ts-icon.enter-icon::before {
+			content: "";
+			background-color: currentColor;
+			width: var(--ts-icon-size);
+			height: var(--ts-icon-size);
+			mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHhtbG5zOnhsaW5rPSdodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rJyB2ZXJzaW9uPScxLjEnIHg9JzBweCcgeT0nMHB4JyB2aWV3Qm94PScwIDAgMTIyLjg5IDEwOC45NScgeG1sOnNwYWNlPSdwcmVzZXJ2ZSc+PHBhdGggZD0nTTIzLjAxLDBoNzYuODdjNi4zMywwLDEyLjA4LDIuNTksMTYuMjUsNi43NmM0LjE3LDQuMTcsNi43Niw5LjkyLDYuNzYsMTYuMjV2NjIuOTMgYzAsNi4zMy0yLjU5LDEyLjA4LTYuNzYsMTYuMjVjLTQuMTcsNC4xNy05LjkyLDYuNzYtMTYuMjUsNi43NkgyMy4wMWMtNi4zMywwLTEyLjA4LTIuNTktMTYuMjUtNi43NkMyLjU5LDk4LjAyLDAsOTIuMjcsMCw4NS45NCBWMjMuMDFjMC02LjMzLDIuNTktMTIuMDgsNi43Ni0xNi4yNUMxMC45MiwyLjU5LDE2LjY4LDAsMjMuMDEsMEwyMy4wMSwweiBNMjUuMTcsMzMuOGgyMi42NXY2LjE5SDMzLjY3djQuNjFoMTMuMTJ2NS45MUgzMy42N3Y1LjcgaDE0LjU4djYuNTVIMjUuMTdWMzMuOEwyNS4xNywzMy44eiBNNTAuOTYsNTYuOTRsNy41NC0wLjczYzAuMzEsMC45NCwwLjc1LDEuNjIsMS4zMSwyLjAyYzAuNTYsMC40LDEuMzEsMC42MSwyLjI0LDAuNjEgYzEuMDIsMCwxLjgxLTAuMjMsMi4zNy0wLjY5YzAuNDQtMC4zNCwwLjY2LTAuNzcsMC42Ni0xLjI4YzAtMC41OC0wLjI5LTEuMDMtMC44Ni0xLjM1Yy0wLjQxLTAuMjItMS41LTAuNS0zLjI2LTAuODMgYy0yLjY0LTAuNDktNC40Ny0wLjk0LTUuNS0xLjM2Yy0xLjAzLTAuNDEtMS44OS0xLjEyLTIuNTktMi4xYy0wLjctMC45OS0xLjA1LTIuMTItMS4wNS0zLjM5YzAtMS4zOCwwLjM4LTIuNTgsMS4xMy0zLjU3IGMwLjc2LTEsMS44LTEuNzUsMy4xNC0yLjI1YzEuMzMtMC40OSwzLjEyLTAuNzQsNS4zNi0wLjc0YzIuMzYsMCw0LjExLDAuMTksNS4yMywwLjU3YzEuMTMsMC4zOCwyLjA3LDAuOTgsMi44MiwxLjc4IGMwLjc1LDAuODEsMS4zOCwxLjg5LDEuODcsMy4yN2wtNy4xOSwwLjczYy0wLjE5LTAuNjctMC41LTEuMTYtMC45My0xLjQ4Yy0wLjU5LTAuNDItMS4zMS0wLjYzLTIuMTYtMC42MyBjLTAuODUsMC0xLjQ4LDAuMTYtMS44NywwLjQ5Yy0wLjM5LDAuMzItMC41OSwwLjcxLTAuNTksMS4xN2MwLDAuNTIsMC4yNSwwLjksMC43NCwxLjE3YzAuNDksMC4yNywxLjU4LDAuNTEsMy4yNCwwLjcxIGMyLjUzLDAuMyw0LjQxLDAuNzMsNS42NCwxLjI3YzEuMjMsMC41NCwyLjE3LDEuMzEsMi44MiwyLjMxYzAuNjYsMSwwLjk4LDIuMSwwLjk4LDMuM2MwLDEuMjEtMC4zNCwyLjM5LTEuMDQsMy41NCBjLTAuNjksMS4xNS0xLjc4LDIuMDYtMy4yNiwyLjc0Yy0xLjQ5LDAuNjgtMy41MSwxLjAyLTYuMDgsMS4wMmMtMy42MiwwLTYuMi0wLjU1LTcuNzQtMS42NUM1Mi4zOSw2MC41Miw1MS40LDU4Ljk2LDUwLjk2LDU2Ljk0IEw1MC45Niw1Ni45NHogTTkwLjQ4LDU0LjU2bDcuMjMsMC44NWMtMC40LDEuNi0xLjA1LDIuOTgtMS45Niw0LjE1Yy0wLjkxLDEuMTctMi4wNywyLjA4LTMuNDksMi43MiBjLTEuNDEsMC42NS0zLjIxLDAuOTctNS4zOSwwLjk3Yy0yLjExLDAtMy44Ni0wLjIxLTUuMjctMC42MmMtMS40LTAuNDItMi42LTEuMDktMy42Mi0yLjAyYy0xLjAxLTAuOTItMS44LTIuMDItMi4zNy0zLjI3IGMtMC41Ny0xLjI1LTAuODYtMi45MS0wLjg2LTQuOThjMC0yLjE2LDAuMzUtMy45NiwxLjA1LTUuMzljMC41MS0xLjA2LDEuMjEtMiwyLjEtMi44NGMwLjg5LTAuODQsMS43OS0xLjQ2LDIuNzMtMS44NyBjMS40OS0wLjY1LDMuMzktMC45Nyw1LjctMC45N2MzLjI1LDAsNS43MSwwLjYxLDcuNDIsMS44M2MxLjcsMS4yMywyLjg5LDMuMDEsMy41OCw1LjM3bC03LjE1LDEuMDFjLTAuMjItMC45LTAuNjMtMS41Ny0xLjIyLTIuMDMgYy0wLjU5LTAuNDUtMS4zOS0wLjY4LTIuMzktMC42OGMtMS4yNiwwLTIuMjgsMC40OC0zLjA2LDEuNDNjLTAuNzgsMC45Ni0xLjE3LDIuNC0xLjE3LDQuMzRjMCwxLjczLDAuMzksMy4wMywxLjE2LDMuOTMgYzAuNzcsMC45LDEuNzUsMS4zNCwyLjk1LDEuMzRjMC45OSwwLDEuODQtMC4yNywyLjUxLTAuOEM4OS42Myw1Ni40OSw5MC4xNCw1NS42Nyw5MC40OCw1NC41Nkw5MC40OCw1NC41NnogTTQuOTUsNzcuNDEgYzAuODYsMy4yMiwyLjU3LDYuMTEsNC44Niw4LjQxYzMuMzgsMy4zOSw4LjA1LDUuNDksMTMuMTksNS40OWg3Ni44N2MwLjIxLDAsMC40MSwwLDAuNjItMC4wMWwxLjI5LTAuMDkgYzQuMzMtMC40NCw4LjI0LTIuMzgsMTEuMTktNS4yOWwwLjA5LTAuMWMyLjMtMi4zLDQtNS4xOSw0Ljg2LTguNDF2LTU0LjRjMC00Ljk2LTIuMDMtOS40Ny01LjMxLTEyLjc1IGMtMy4yNy0zLjI3LTcuNzktNS4zMS0xMi43NS01LjMxSDIzLjAxYy00Ljk2LDAtOS40OCwyLjAzLTEyLjc1LDUuM2MtMy4yNywzLjI3LTUuMyw3Ljc5LTUuMywxMi43NVY3Ny40MUw0Ljk1LDc3LjQxeicvPjwvc3ZnPg==") no-repeat center center / contain;
+			-webkit-mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHhtbG5zOnhsaW5rPSdodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rJyB2ZXJzaW9uPScxLjEnIHg9JzBweCcgeT0nMHB4JyB2aWV3Qm94PScwIDAgMTIyLjg5IDEwOC45NScgeG1sOnNwYWNlPSdwcmVzZXJ2ZSc+PHBhdGggZD0nTTIzLjAxLDBoNzYuODdjNi4zMywwLDEyLjA4LDIuNTksMTYuMjUsNi43NmM0LjE3LDQuMTcsNi43Niw5LjkyLDYuNzYsMTYuMjV2NjIuOTMgYzAsNi4zMy0yLjU5LDEyLjA4LTYuNzYsMTYuMjVjLTQuMTcsNC4xNy05LjkyLDYuNzYtMTYuMjUsNi43NkgyMy4wMWMtNi4zMywwLTEyLjA4LTIuNTktMTYuMjUtNi43NkMyLjU5LDk4LjAyLDAsOTIuMjcsMCw4NS45NCBWMjMuMDFjMC02LjMzLDIuNTktMTIuMDgsNi43Ni0xNi4yNUMxMC45MiwyLjU5LDE2LjY4LDAsMjMuMDEsMEwyMy4wMSwweiBNMjUuMTcsMzMuOGgyMi42NXY2LjE5SDMzLjY3djQuNjFoMTMuMTJ2NS45MUgzMy42N3Y1LjcgaDE0LjU4djYuNTVIMjUuMTdWMzMuOEwyNS4xNywzMy44eiBNNTAuOTYsNTYuOTRsNy41NC0wLjczYzAuMzEsMC45NCwwLjc1LDEuNjIsMS4zMSwyLjAyYzAuNTYsMC40LDEuMzEsMC42MSwyLjI0LDAuNjEgYzEuMDIsMCwxLjgxLTAuMjMsMi4zNy0wLjY5YzAuNDQtMC4zNCwwLjY2LTAuNzcsMC42Ni0xLjI4YzAtMC41OC0wLjI5LTEuMDMtMC44Ni0xLjM1Yy0wLjQxLTAuMjItMS41LTAuNS0zLjI2LTAuODMgYy0yLjY0LTAuNDktNC40Ny0wLjk0LTUuNS0xLjM2Yy0xLjAzLTAuNDEtMS44OS0xLjEyLTIuNTktMi4xYy0wLjctMC45OS0xLjA1LTIuMTItMS4wNS0zLjM5YzAtMS4zOCwwLjM4LTIuNTgsMS4xMy0zLjU3IGMwLjc2LTEsMS44LTEuNzUsMy4xNC0yLjI1YzEuMzMtMC40OSwzLjEyLTAuNzQsNS4zNi0wLjc0YzIuMzYsMCw0LjExLDAuMTksNS4yMywwLjU3YzEuMTMsMC4zOCwyLjA3LDAuOTgsMi44MiwxLjc4IGMwLjc1LDAuODEsMS4zOCwxLjg5LDEuODcsMy4yN2wtNy4xOSwwLjczYy0wLjE5LTAuNjctMC41LTEuMTYtMC45My0xLjQ4Yy0wLjU5LTAuNDItMS4zMS0wLjYzLTIuMTYtMC42MyBjLTAuODUsMC0xLjQ4LDAuMTYtMS44NywwLjQ5Yy0wLjM5LDAuMzItMC41OSwwLjcxLTAuNTksMS4xN2MwLDAuNTIsMC4yNSwwLjksMC43NCwxLjE3YzAuNDksMC4yNywxLjU4LDAuNTEsMy4yNCwwLjcxIGMyLjUzLDAuMyw0LjQxLDAuNzMsNS42NCwxLjI3YzEuMjMsMC41NCwyLjE3LDEuMzEsMi44MiwyLjMxYzAuNjYsMSwwLjk4LDIuMSwwLjk4LDMuM2MwLDEuMjEtMC4zNCwyLjM5LTEuMDQsMy41NCBjLTAuNjksMS4xNS0xLjc4LDIuMDYtMy4yNiwyLjc0Yy0xLjQ5LDAuNjgtMy41MSwxLjAyLTYuMDgsMS4wMmMtMy42MiwwLTYuMi0wLjU1LTcuNzQtMS42NUM1Mi4zOSw2MC41Miw1MS40LDU4Ljk2LDUwLjk2LDU2Ljk0IEw1MC45Niw1Ni45NHogTTkwLjQ4LDU0LjU2bDcuMjMsMC44NWMtMC40LDEuNi0xLjA1LDIuOTgtMS45Niw0LjE1Yy0wLjkxLDEuMTctMi4wNywyLjA4LTMuNDksMi43MiBjLTEuNDEsMC42NS0zLjIxLDAuOTctNS4zOSwwLjk3Yy0yLjExLDAtMy44Ni0wLjIxLTUuMjctMC42MmMtMS40LTAuNDItMi42LTEuMDktMy42Mi0yLjAyYy0xLjAxLTAuOTItMS44LTIuMDItMi4zNy0zLjI3IGMtMC41Ny0xLjI1LTAuODYtMi45MS0wLjg2LTQuOThjMC0yLjE2LDAuMzUtMy45NiwxLjA1LTUuMzljMC41MS0xLjA2LDEuMjEtMiwyLjEtMi44NGMwLjg5LTAuODQsMS43OS0xLjQ2LDIuNzMtMS44NyBjMS40OS0wLjY1LDMuMzktMC45Nyw1LjctMC45N2MzLjI1LDAsNS43MSwwLjYxLDcuNDIsMS44M2MxLjcsMS4yMywyLjg5LDMuMDEsMy41OCw1LjM3bC03LjE1LDEuMDFjLTAuMjItMC45LTAuNjMtMS41Ny0xLjIyLTIuMDMgYy0wLjU5LTAuNDUtMS4zOS0wLjY4LTIuMzktMC42OGMtMS4yNiwwLTIuMjgsMC40OC0zLjA2LDEuNDNjLTAuNzgsMC45Ni0xLjE3LDIuNC0xLjE3LDQuMzRjMCwxLjczLDAuMzksMy4wMywxLjE2LDMuOTMgYzAuNzcsMC45LDEuNzUsMS4zNCwyLjk1LDEuMzRjMC45OSwwLDEuODQtMC4yNywyLjUxLTAuOEM4OS42Myw1Ni40OSw5MC4xNCw1NS42Nyw5MC40OCw1NC41Nkw5MC40OCw1NC41NnogTTQuOTUsNzcuNDEgYzAuODYsMy4yMiwyLjU3LDYuMTEsNC44Niw4LjQxYzMuMzgsMy4zOSw4LjA1LDUuNDksMTMuMTksNS40OWg3Ni44N2MwLjIxLDAsMC40MSwwLDAuNjItMC4wMWwxLjI5LTAuMDkgYzQuMzMtMC40NCw4LjI0LTIuMzgsMTEuMTktNS4yOWwwLjA5LTAuMWMyLjMtMi4zLDQtNS4xOSw0Ljg2LTguNDF2LTU0LjRjMC00Ljk2LTIuMDMtOS40Ny01LjMxLTEyLjc1IGMtMy4yNy0zLjI3LTcuNzktNS4zMS0xMi43NS01LjMxSDIzLjAxYy00Ljk2LDAtOS40OCwyLjAzLTEyLjc1LDUuM2MtMy4yNywzLjI3LTUuMyw3Ljc5LTUuMywxMi43NVY3Ny40MUw0Ljk1LDc3LjQxeicvPjwvc3ZnPg==") no-repeat center center / contain;
+		}
+	
+		/* ═══════════════════════════════════════════════════════════════════
+																																																																																															   §13  RESPONSIVE ADAPTATIONS — Token-driven breakpoints
+																																																																																															   ═══════════════════════════════════════════════════════════════════ */
+	
+		/* Grid layout adjustments */
+		.ts-col-full {
+			grid-column: 1 / -1;
+		}
+	
+		/* Responsive scenario grid */
+		@media (max-width: 768px) {
+			:root {
+				--ts-deck-scale: 0.9;
+				/* Scale down for mobile */
+				--ts-scenario-gap-ratio: 1;
+				/* Increase mobile gaps */
+				--ts-timeline-pad-x-ratio: 1.2;
+				/* Reduce mobile timeline padding */
+			}
+	
+			.ts-scenario-grid {
+				grid-template-columns: 1fr;
+				gap: calc(var(--ts-scenario-gap) * 2);
+			}
+	
+			.ts-timeline-content {
+				width: auto;
+				border-right: none;
+				padding-right: 0;
+			}
+	
+			.ts-timeline-revenue {
+				width: auto;
+				border-right: none;
+				padding-right: 0;
+			}
+		}
+	
+		/* Typography scale responsive adjustments */
+		@media (max-width: 480px) {
+			:root {
+				--ts-deck-title-scale: 1;
+				/* Smaller title scale on mobile */
+				--ts-deck-lead-scale: 1;
+				/* Reset lead scale for mobile */
+				--ts-deck-body-scale: 0.85;
+				/* Smaller body text on mobile */
+			}
+		}
+	
+		/* Reset deck-specific margins for clean token control */
+		.ts-deck .ts-slide * {
+			margin-block: 0;
+	
+		}
+	
+		/* CRAZY ODE FIXES, @temporary_fix 
+																																																																																															two column  slide view   layout rule.HARD FIZ TO  TYEPROAROY  SOLV  THE LÑAYOUT   OF SOME VIWS     TO  GENERATE A SPLIT TWO COLUMN VIW WITH  A MAOSNRY THATHAS ANOTHER MASONRY INIDE,   AND   USOGN THE TITLE DIV CONTAINER AS A LEFT  SIDEBAR  AS ASTYLISH  DESIGN  CONVENTION FOR   AN ALTERNATIOVER WAY OD FISPLAYING CARD YTHAT HAS  TOO LITTLE INFORMATION  TO  UST  USE THE ENTIRE SPACE.  this shpuld be done properly with classes but i did it this way. thsi shud  b removed once this layout syste is consolidated and this view ks reiewds. */
+	
+		.ts-deck .ts-slide:has(div:not([class])):has(>.ts-masonry .ts-masonry) {
+			.ts-masonry:has(.ts-masonry) {
+				max-height: calc(var(--ts-deck-slide-min-height) - var(--ts-deck-nav-size)*4 - 4px);
+				height: 100dvh;
+				display: flex;
+				align-content: stretch;
+				align-items: stretch;
+				gap: calc(var(--ts-deck-slide-gap)*1.5);
+				flex-direction: row;
+				flex-wrap: nowrap;
+			}
+	
+			.ts-masonry:has(.ts-masonry)>div:not([class]):not(:has(>.ts-masonry)) {
+				display: flex;
+				flex-direction: column;
+				flex-wrap: nowrap;
+				gap: var(--ts-deck-card-pad);
+				border-right: 1px solid var(--ts-deck-main-border);
+				padding-inline: calc(var(--ts-deck-slide-gap)*2);
+				/* Uses the token while maintaining the (100% + 1)*1px logic */
+				max-width: unset !important;
+				flex: 0 1 var(--ts-slide-sidebar-w) !important;
+				flex-wrap: wrap;
+				align-items: stretch;
+				justify-content: center;
+	
+	
+				&:not(:last-child) {
+					padding-left: 0;
+				}
+	
+				>*:not(.ts-accent-bar) {
+					/* flex: 1 1; */
+					max-height: fit-content;
+				}
+	
+			}
+	
+			.ts-masonry:has(.ts-masonry)>div:not([class]) {
+	
+				.ts-masonry {
+					/* display: flex; */
+					align-items: center;
+					align-content: center;
+	
+	
+	
+	
+	
+	
+	
+					.ts-card:not(:has([class*="kill"])) {
+						aspect-ratio: 1;
+						justify-content: center;
+					}
+	
+				}
+	
+	
+			}
+	
+	
+		}
+	
+		.ts-deck .ts-slide-footer,
+		.ts-deck .ts-logo,
+		.ts-deck .ts-slide--container,
+		.ts-deck .ts-slide--container *,
+		.ts-deck .ts-eyebrow,
+		.ts-deck .ts-masonry {
+			margin-block: revert;
+		}
+	
+		.ts-deck .ts-masonry:has(.ts-masonry)>div:not([class]):not(:has(>.ts-masonry))+.ts-masonry {
+	
+			gap: var(--ts-deck-card-pad);
+	
+			.ts-card {
+				aspect-ratio: 1;
+			}
+		}
+	
+		.ts-deck .ts-slide-footer,
+		.ts-deck .ts-logo,
+		.ts-deck .ts-slide--container,
+		.ts-deck .ts-slide--container *,
+		.ts-deck .ts-eyebrow,
+		.ts-deck .ts-masonry {
+			margin-block: revert;
+		}
+	
+		.ts-deck .ts-eyebrow:first-child {
+			/* margin-bottom: auto; */
+			/* position: absolute; */
+			/* top: var(--ts-deck-slide-pad-y); */
+		}
+	
+	
+		.ts-deck .ts-masonry {
+			/* margin-block: auto; */
+			/* float: right; */
+	
+		}
+	
+		/* Card gap overrides for deck context */
+		.ts-deck .ts-card:not(.ts-scenario),
+		.ts-deck .ts-card:not(.ts-scenario) * {
+			gap: var(--ts-deck-card-gap);
+		}
+	
+		@media screen and (min-width:1100px) {
+			.ts-deck .ts-masonry.ts-deck-masonry:has(> :nth-child(4)):not(:has(> :nth-child(5)))>.ts-card {
+				flex: 1 1 var(--_ts-basis-4);
+				--ts-masonry-cols-target: 1;
+				display: flex;
+				justify-content: center;
+				align-content: center;
+				aspect-ratio: 1;
+			}
+	
+		}
+	
+		@media screen and (max-width:1090px) {
+			.ts-deck .ts-masonry.ts-deck-masonry:has(> :nth-child(4)):not(:has(> :nth-child(5)))>.ts-card {
+				flex: 1 1 var(--_ts-basis);
+				min-width: 180px;
+				--ts-masonry-cols-target: 2;
+				aspect-ratio: unset;
+			}
+	
+		}
+	
+		.ts-masonry--full {
+			flex: 1 1 100% !important;
+			aspect-ratio: unset !important;
+			width: 100%;
+			max-width: unset !important;
+		}
+	
+		.ts-floating-picture.ts-section {
+			position: absolute;
+			width: calc(100dvw - var(--ts-deck-width) + var(--ts-deck-slide-pad-y)*2);
+			height: 100dvh;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: auto;
+			z-index: -9;
+			background-color: var(--ts-this-bg) !important;
+			border-left: 0px solid var(--ts-deck-main-border);
+			background-color: var(--ts-this-bg);
+			--ts-this-bg: var(--ts-bg-body);
+			object-fit: cover;
+			padding: 0;
+			overflow: hidden;
+			background-attachment: fixed;
+			clip-path: content-box;
+		}
+	
+		.ts-floating-picture.ts-section .ts-parallax__overlay {
+			position: fixed;
+			inset: 0;
+			background: var(--ts-this-bg-dim);
+			z-index: 2;
+		}
+	
+		.ts-floating-picture .ts-split-feature__slider {
+			position: fixed;
+			overflow: clip;
+			background-color: var(--ts-this-bg);
+			--ts-this-bg: var(--ts-bg-body);
+			filter: grayscale(1) !important;
+			height: 100%;
+		}
+	
+		.ts-floating-picture.ts-pattern-dots,
+		.ts-floating-picture.ts-pattern-dots * {
+			--ts-pattern-scale: .52 !important;
+			--ts-pattern-opacity: .4 !important;
+			--ts-pattern-color: var(--ts-text-muted-dim);
+			--pattern-scale: var(--ts-pattern-scale) !important;
+		}
+	
+		.ts-floating-picture.ts-pattern-dots::before {
+			background-color: var(--ts-this-bg-dim-5) !important;
+			background-image: radial-gradient(circle, var(--pattern-color) 1px, transparent 1px) !important;
+			background-size: calc(10px * var(--ts-pattern-scale)) calc(10px * var(--ts-pattern-scale)) !important;
+			background-repeat: repeat;
+			--ts-this-bg: var(--ts-bg-body) !important;
+			opacity: 1;
+			background-attachment: fixed;
+			--pattern-color-alpha: 100%;
+			--pattern-color: var(--ts-pattern-color, var(--ts-accent, #ff540a));
+		}
+	
+		.ts-floating-picture[class*="ts-pattern-"]::before {
+			z-index: 5;
+	
+		}
+	
+	
+		strong.gradient.hero-gradient {
+			font-weight: 900 !important;
+			font-size: 130%;
+			display: flex;
+			margin-block: 10px;
+			line-height: 1.2;
+			filter: contrast(1.16) brightness(1.2);
+		}
+	
+		.html_header_sidebar.html_content_align_left .container {
+			max-width: unset;
+			float: none;
+			margin: 0px auto;
+		}
+	
+		.av-section-color-overlay {
+			background: linear-gradient(to right, var(--ts-accent), var(--ts-accent-700)) !important;
+			mix-blend-mode: soft-light;
+			opacity: 1 !important;
+		}
+	
+	
+		.caption_left .slideshow_caption * {
+			filter: drop-shadow(0px 0px 4px #ffffff11) drop-shadow(0px 0px 14px #ffffff11);
+	
+		}
+	
+		@keyframes ts-zoom-in-out {
+			0% {
+				transform: scale(1);
+			}
+	
+			50% {
+				transform: scale(1.1);
+			}
+	
+			100% {
+				transform: scale(1);
+			}
+		}
+	
+	
+		.ts-split-feature__slider .ts-slide---item {
+			animation: ts-zoom-in-out 16s infinite;
+		}
+	</style>
+</head>
+
+<body class="ts-bg-body">
+	<div class="ts-section ts-floating-picture ts-z-0 ts-pattern-dots ts-parallax">
+		<div class="ts-parallax__overlay"></div>
+		<div class="ts-split-feature__slider ts-parallax__bg" id="banner-slider" data-ts-slider data-ts-slider-interval="8000">
+	
+			<img src="https://picsum.photos/1080/1920?random=2" alt="Pitch BG 1" class="ts-slide---item active" loading="eager" fetchpriority="high" decoding="async">
+			<img src="https://picsum.photos/1080/1920?random=3" alt="Pitch BG 2" class="ts-slide---item" loading="lazy" decoding="async">
+			<img src="https://picsum.photos/1080/1920?random=4" alt="Pitch BG 3" class="ts-slide---item" loading="lazy" decoding="async">
+			<img src="https://picsum.photos/1080/1920?random=5" alt="Pitch BG 4" class="ts-slide---item" loading="lazy" decoding="async">
+			<img src="https://picsum.photos/1080/1920?random=6" alt="Pitch BG 5" class="ts-slide---item" loading="lazy" decoding="async">
+			<div class="ts-slider-dots" id="slider-dots"></div>
+		</div>
+	</div>
+	<div id="ts-deck" class="ts-deck">
+		<div class="ts-progress">
+			<div class="ts-progress--bar" id="ts-progress" style="width: 0%"></div>
+		</div>
+
+		<!-- SLIDE 1: COVER -->
+		<div class="ts-slide ts-active" data-slide="1">
+			<div class="ts-slide-num">01 / 11</div>
+			<div class="ts-slide--container">
+				<div class="ts-logo">TOOL<span class="ts-accent-text">SKIN</span></div>
+				<div class="ts-eyebrow">Business Briefing · Q2 2026</div>
+				<h1 class="ts-deck-title">
+					Make money in 30 days.</h1>
+				<p class="ts-lead ts-deck-lead">A token-driven CSS design system, a service business
+					that uses it as the production engine, and a 90-day plan with revenue scenarios We can actually defend.</p>
+				<div class="ts-flex-row ts-gap-6 ts-mt-4">
+					<div class="ts-deck-meta">
+						<div class="ts-label">Prepared for</div>
+						<div class="ts-deck-meta-value">Co-founder review</div>
+					</div>
+					<div class="ts-deck-meta">
+						<div class="ts-label">Decision needed</div>
+						<div class="ts-deck-meta-value">Continue / pivot / shut down</div>
+					</div>
+				</div>
+			</div>
+			<div class="ts-slide-footer">Press <strong class="ts-icon ts-accent-text" data-icon="fa-solid fa-arrow-right"><span class="sr-only">→</span></strong> to advance · <span class="ts-icon enter-icon ts-accent-text"></span> <span class="sr-only">ESC</span>for grid view</div>
+		</div>
+
+		<!-- SLIDE 2: WHAT IS TOOLSKIN -->
+		<div class="ts-slide" data-slide="2">
+			<div class="ts-eyebrow">§01 · The product</div>
+			<div class="ts-slide-num">02 / 11</div>
+			<h2>What is Toolskin, in one minute.</h2>
+			<div class="ts-accent-bar"></div>
+			<p class="ts-lead ts-deck-lead">A single CSS file that turns any website, web app, or WordPress theme into a complete design system. Change one variable, the whole site re-themes. No build tools, no Node, no framework lock-in.</p>
+
+			<div class="ts-masonry ts-deck-masonry">
+				<div class="ts-card ts-deck-card ts-card--accent">
+					<div class="ts-flex-row ts-items-center ts-gap-3 ts-mb-3">
+						<div class="ts-icon ts-accent-text" data-icon="fa-solid fa-code" style="font-size: var(--ts-deck-icon-size);"></div>
+						<div class="ts-label">For developers</div>
+					</div>
+					<p>Token-driven CSS with derivative math. Change
+						<span class="ts-mono ts-accent-text">--ts-accent-h</span>, the entire theme regenerates via <span class="ts-mono">color-mix()</span> and <span class="ts-mono">clamp()</span>. Drop one stylesheet, ship anywhere.
+					</p>
+				</div>
+				<div class="ts-card ts-deck-card ts-card--featured">
+					<div class="ts-flex-row ts-items-center ts-gap-3 ts-mb-3">
+						<div class="ts-icon ts-accent-text" data-icon="fa-solid fa-palette" style="font-size: var(--ts-deck-icon-size);"></div>
+						<div class="ts-label">For designers</div>
+					</div>
+					<p>Figma variables that actually render in
+						production.
+						One token at the top, 240+ derived values cascade through every component automatically.</p>
+				</div>
+				<div class="ts-card ts-deck-card">
+					<div class="ts-flex-row ts-items-center ts-gap-3 ts-mb-3">
+						<div class="ts-icon ts-accent-text" data-icon="fa-solid fa-briefcase" style="font-size: var(--ts-deck-icon-size);"></div>
+						<div class="ts-label">For agencies</div>
+					</div>
+					<p>50 unique client brands from one stylesheet. Stop
+						redesigning from scratch. Token-swap your way to delivery in days, not weeks.</p>
+				</div>
+				<div class="ts-card ts-deck-card ts-card--accent">
+					<div class="ts-flex-row ts-items-center ts-gap-3 ts-mb-3">
+						<div class="ts-icon ts-accent-text" data-icon="fa-solid fa-users" style="font-size: var(--ts-deck-icon-size);"></div>
+						<div class="ts-label">For non-technical buyers</div>
+					</div>
+					<p>A free design "engine" any website can use to
+						look
+						professional. Premium features, themes, and bundled solutions are paid.</p>
+				</div>
+			</div>
+			<div class="ts-slide-footer">10,000+ lines of CSS · OKLCH auto-contrast · WCAG AA built in · Zero dependencies</div>
+		</div>
+
+		<!-- SLIDE 3: THE HARD TRUTH -->
+		<div class="ts-slide" data-slide="3">
+			<div class="ts-eyebrow">§02 · Market reality</div>
+			<div class="ts-slide-num">03 / 11</div>
+			<h2>The market changed in 2025. Plan accordingly.</h2>
+			<div class="ts-accent-bar"></div>
+
+			<div class="ts-masonry ts-deck-masonry">
+				<div class="ts-card ts-deck-card">
+					<span class="ts-badge ts-badge--danger">Dying</span>
+					<h3>Tailwind UI revenue collapsed 80%</h3>
+					<p>75% of engineering team laid off in 2025. Cause:
+						AI generators
+						(v0,
+						Cursor, Lovable, Bolt) made one-time-purchase component libraries obsolete.</p>
+					<div class="ts-quote">"Tailwind is bigger than ever. Revenue is down
+						80%."<div class="ts-quote-attribution">— Adam Wathan, founder · GitHub, 2025</div>
+					</div>
+				</div>
+				<div class="ts-card ts-deck-card">
+					<span class="ts-badge ts-badge--success">Surviving</span>
+					<h3>What still makes money in 2026</h3>
+					<ul class="ts-list ts-checklist">
+						<li><span class="check">✓</span>Enterprise contracts with SLA + support</li>
+						<li><span class="check">✓</span>Hosted services with recurring infrastructure</li>
+						<li><span class="check">✓</span>Education, certification, books</li>
+						<li><span class="check">✓</span>High-margin custom services</li>
+						<li><span class="check">✓</span>Niches AI doesn't serve (WordPress GUI users)</li>
+					</ul>
+				</div>
+				<div class="ts-card ts-deck-card ts-col-full">
+					<div class="ts-label ts-text-accent">Implication for Toolskin</div>
+					<p>Selling premium CSS components
+						and
+						templates as a primary revenue model is structurally weaker today than 18 months ago. The path to revenue is
+						<span class="ts-accent-text">services first</span>, productized later. Toolskin's value isn't selling the components –
+						it's <span class="ts-accent-text">using them as a production engine</span> to deliver client work faster than
+						competitors.
+					</p>
+				</div>
+			</div>
+
+			<div class="ts-slide-footer">Sources: Sacra · Contrary Research · Tailwind Labs founder statements · Yahoo Finance</div>
+		</div>
+
+		<!-- SLIDE 4: THE STRATEGY -->
+		<div class="ts-slide" data-slide="4">
+			<div class="ts-eyebrow">§03 · Strategy</div>
+			<div class="ts-slide-num">04 / 11</div>
+			<h2>Three revenue streams. Sequenced by speed.</h2>
+			<div class="ts-accent-bar"></div>
+
+			<div class="ts-masonry ts-deck-masonry">
+				<div class="ts-card ts-card--featured ts-deck-card">
+					<div class="ts-label ts-text-accent">Stream 1 · Days 1-30</div>
+					<h3>Services</h3>
+					<p>Use Toolskin as the
+						production engine.
+						Deliver
+						landing pages, UI systems, brand sites in <span class="ts-accent-text">days, not weeks</span>.</p>
+					<div class="ts-deck-metrics">
+						<div class="ts-deck-metric">
+							<div class="ts-label">Pricing</div>
+							<div class="ts-num--small">$1,500 – $8,000</div>
+						</div>
+						<div class="ts-deck-metric">
+							<div class="ts-label">Margin</div>
+							<div class="ts-val-success">70-85%</div>
+						</div>
+						<div class="ts-deck-metric">
+							<div class="ts-label">Cash flow</div>
+							<div class="ts-deck-metric-value">Immediate (50% deposit)</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="ts-card ts-deck-card">
+					<div class="ts-label">Stream 2 · Days 30-90</div>
+					<h3>Premium bundles</h3>
+					<p>UI kits and themes built
+						from real client
+						work.
+						Each bundle reusable across services.</p>
+					<div class="ts-deck-metrics">
+						<div class="ts-deck-metric">
+							<div class="ts-label">Pricing</div>
+							<div class="ts-num--small">$29 – $149</div>
+						</div>
+						<div class="ts-deck-metric">
+							<div class="ts-label">Margin</div>
+							<div class="ts-val-success">95%+ after build</div>
+						</div>
+						<div class="ts-deck-metric">
+							<div class="ts-label">Cash flow</div>
+							<div class="ts-deck-metric-value">Slow ramp · Compounding</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="ts-card ts-deck-card">
+					<div class="ts-label">Stream 3 · Months 6+</div>
+					<h3>Productized SaaS</h3>
+					<p>Toolskin Pro for WordPress:
+						theme +
+						customizer
+						+ premium support. <span class="ts-mono">$79/yr</span>.</p>
+					<div class="ts-deck-metrics">
+						<div class="ts-deck-metric">
+							<div class="ts-label">Pricing</div>
+							<div class="ts-num--small">$79 / year</div>
+						</div>
+						<div class="ts-deck-metric">
+							<div class="ts-label">Margin</div>
+							<div class="ts-val-success">90%+ recurring</div>
+						</div>
+						<div class="ts-deck-metric">
+							<div class="ts-label">Cash flow</div>
+							<div class="ts-deck-metric-value">After product-market fit</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ts-slide-footer">Stream 1 funds Stream 2. Stream 2 validates Stream 3. Don't chase 3 before 1 works.</div>
+		</div>
+
+		<!-- SLIDE 5: REVENUE SCENARIOS -->
+		<div class="ts-slide" data-slide="5">
+			<div class="ts-eyebrow">§04 · 30-day forecast</div>
+			<h2>Three scenarios. Plan around the middle.</h2>
+			<div class="ts-accent-bar"></div>
+			<p class="ts-lead ts-deck-lead">Honest projections based on industry baselines for
+				service businesses with no existing pipeline. Conservative is what most solo founders hit. Aggressive requires
+				existing audience or referral network.</p>
+
+			<div class="ts-slide-num">05 / 11</div>
+			<div class="ts-scenario-grid">
+				<div class="ts-card ts-deck-card">
+					<div class="ts-scenario-header"><span class="ts-badge ts-badge--danger">Conservative</span><span class="ts-scenario-prob">40% prob.</span></div>
+					<div class="ts-label">Day 30 cumulative</div>
+					<div class="ts-num">$1,500 – $4,000</div>
+					<div class="ts-scenario-breakdown">
+						<div>1 service contract @ $1.5-3K</div>
+						<div>5-15 bundle sales @ $29</div>
+						<div>0 referrals yet</div>
+					</div>
+					<div class="ts-label">Means</div>
+					<p class="ts-scenario-interpretation">
+						Pipeline-building phase.
+						Momentum
+						is the metric, not revenue.</p>
+				</div>
+
+				<div class="ts-card ts-card--featured ts-deck-card ts-scenario-base">
+					<div class="ts-scenario-header"><span class="ts-badge">Base case</span><span class="ts-scenario-prob">45% prob.</span></div>
+					<div class="ts-label ts-text-accent">Day 30 cumulative</div>
+					<div class="ts-num ts-text-accent">$5,000 – $12,000</div>
+					<div class="ts-scenario-breakdown ts-scenario-breakdown--base">
+						<div>2 service contracts @ $2-5K</div>
+						<div>20-40 bundle sales</div>
+						<div>1-2 referral conversations</div>
+					</div>
+					<div class="ts-label">Means</div>
+					<p class="ts-scenario-interpretation">Validated.
+						Continue. Build
+						Stream
+						2 in parallel.</p>
+				</div>
+
+				<div class="ts-card ts-card--accent ts-deck-card">
+					<div class="ts-scenario-header"><span class="ts-badge ts-badge--success">Aggressive</span><span class="ts-scenario-prob">15% prob.</span></div>
+					<div class="ts-label">Day 30 cumulative</div>
+					<div class="ts-num">$15,000 – $25,000</div>
+					<div class="ts-scenario-breakdown">
+						<div>3-4 service contracts @ $4-8K</div>
+						<div>50-100 bundle sales</div>
+						<div>HN/PH front page hit</div>
+					</div>
+					<div class="ts-label">Means</div>
+					<p class="ts-scenario-interpretation">Hire help.
+						Don't burn out.
+						Scale
+						Stream 1.</p>
+				</div>
+			</div>
+			<div class="ts-slide-footer">90-day projection: $15K-50K cumulative · Comparables: solo Tailwind theme creators on Gumroad
+				($30-80K/year)</div>
+		</div>
+
+		<!-- SLIDE 6: WEEK BY WEEK -->
+		<div class="ts-slide" data-slide="6">
+			<div class="ts-eyebrow">§05 · Execution</div>
+			<h2>Week-by-week. First 30 days.</h2>
+			<div class="ts-accent-bar"></div>
+			<div class="ts-slide-num">06 / 11</div>
+
+			<div class="ts-timeline">
+				<div class="ts-timeline-item">
+					<div class="ts-timeline-marker">
+						<span class="marker--word">Week</span>
+						<span class="marker--num">01</span>
+					</div>
+					<div class="ts-timeline-content">Open-source Toolskin on GitHub. Ship the showcase site. Email 30 past contacts with
+						the offer. Cold-DM 50 WordPress agencies.</div>
+					<div class="ts-timeline-revenue">$0 – $1.5K</div>
+					<div class="ts-badge">Foundation</div>
+				</div>
+				<div class="ts-timeline-item">
+					<div class="ts-timeline-marker">
+						<span class="marker--word">Week</span><span class="marker--num">02</span>
+					</div>
+					<div class="ts-timeline-content">First service call. Close 1 contract. Ship the first premium bundle ($29). Submit to
+						ProductHunt + HackerNews + Awesome lists.</div>
+					<div class="ts-timeline-revenue">$1.5K – $4K</div>
+					<div class="ts-badge">First $</div>
+				</div>
+				<div class="ts-timeline-item">
+					<div class="ts-timeline-marker">
+						<span class="marker--word">Week</span>
+						<span class="marker--num">03</span>
+					</div>
+					<div class="ts-timeline-content">Deliver service contract #1. Begin contract #2. Ship 2nd bundle. Twitter token-swap
+						demo videos. Daily DM activity.</div>
+					<div class="ts-timeline-revenue">$3K – $7K</div>
+					<div class="ts-badge">Validate</div>
+				</div>
+				<div class="ts-timeline-item">
+					<div class="ts-timeline-marker">
+						<span class="marker--word">Week</span>
+						<span class="marker--num">04</span>
+					</div>
+					<div class="ts-timeline-content">Deliver contract #2. Ship 3rd bundle. First case study public. Begin Stream 2
+						productization plan.</div>
+					<div class="ts-timeline-revenue">$5K – $12K</div>
+					<div class="ts-badge">Compound</div>
+				</div>
+			</div>
+
+			<div class="ts-card ts-deck-card">
+				<div class="ts-label ts-text-accent">Critical path metric</div>
+				<p>By Day 14: at least <span class="ts-mono ts-accent-text">1 signed service contract</span> with 50% deposit collected. If we don't hit this, we
+					don't have a service business – we have a hobby. See kill-switches.</p>
+			</div>
+			<div class="ts-slide-footer">Outreach math: 50 cold DMs → 10 replies → 3 calls → 1 close · Industry baseline</div>
+		</div>
+
+		<!-- SLIDE 7: KILL SWITCHES -->
+		<div class="ts-slide" data-slide="7">
+			<div class="ts-masonry">
+				<div style="max-width: 30dvw;">
+					<div class="ts-eyebrow">§06 · Decision gates</div>
+					<h2>Kill-switches. We commit to these now.</h2>
+					<div class="ts-accent-bar"></div>
+					<p class="ts-lead ts-deck-lead">Honest pre-commitments are what makes this credible.
+					<div class="ts-slide-num">07 / 11</div>
+					We define exit criteria up front so we don't sunk-cost our way into a 12-month money pit.</p>
+				</div>
+				<div>
+					<div class="ts-masonry">
+						<div class="ts-card ts-card--danger ts-deck-card">
+							<div class="ts-kill-trigger ts-card-title" data-icon="ion:warning-outline"> <strong>DAY 14 ·</strong> No signed contract</div>
+							<div class="ts-kill-action ts-card-content">Pivot service positioning. Audit pricing/offer/audience. If still no traction by Day
+								21, kill service stream and go pure-product.</div>
+							</div>
+							<div class="ts-card ts-card--danger ts-deck-card">
+							<div class="ts-kill-trigger ts-card-title" data-icon="ion:warning-outline"> <strong>DAY 30 ·</strong> Below $1.5K cumulative</div>
+							<div class="ts-kill-action ts-card-content">We're below the conservative scenario floor. Reset entire approach. Possible pivot to
+								consulting-only or shut down service ambitions.
+							</div>
+							</div>
+							<div class="ts-card ts-card--danger ts-deck-card">
+							<div class="ts-kill-trigger ts-card-title" data-icon="ion:warning-outline"><strong> DAY 60 ·</strong> Below $5K cumulative</div>
+							<div class="ts-kill-action ts-card-content">Project does not have product-service fit at current execution capacity. Either fund
+								full-time hire or wind down to side-project status.</div>
+							</div>
+							<div class="ts-card ts-card--danger ts-deck-card">
+							<div class="ts-kill-trigger ts-card-title" data-icon="ion:warning-outline"><strong> DAY 90 ·</strong> Below $15K cumulative</div>
+							<div class="ts-kill-action ts-card-content">Toolskin remains alive as open-source. Service business shutters. Founder pivots to
+								employment or consulting elsewhere.
+							</div>
+							</div>
+							<p class="ts-deck-lead ts-masonry--full ts-mt-4">These are commitments to you, not predictions. The point is to remove emotional sunk-cost from the decision. We agree to them today –
+								when the data is hypothetical and we have no skin in the game yet.
+							</p>
+							</div>
+							</div>
+			</div>
+
+			<div class="ts-slide-footer">Most failed founder partnerships fail because no one defined the exit criteria.</div>
+		</div>
+
+		<!-- SLIDE 8: SERVICE OFFERS -->
+		<div class="ts-slide" data-slide="8">
+			<div class="ts-eyebrow">§07 · Service catalog</div>
+			<h2>What we sell. Day one.</h2>
+			<div class="ts-accent-bar"></div>
+			<div class="ts-slide-num">08 / 11</div>
+
+			<table class="ts-deck-table">
+				<thead>
+					<tr>
+						<th>Offer</th>
+						<th>Scope</th>
+						<th>Price</th>
+						<th>Days</th>
+						<th>Margin</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><strong>Brand landing page</strong><br><span class="ts-table-subtitle">Most popular · Highest velocity</span></td>
+						<td>Single-page site, 5-7 sections, custom-themed Toolskin, copy review, deploy</td>
+						<td class="ts-table-number">$1,500</td>
+						<td class="ts-table-number">3-5</td>
+						<td class="ts-val-success">85%</td>
+					</tr>
+					<tr>
+						<td><strong>SaaS marketing site</strong></td>
+						<td>5-10 pages, hero, features, pricing, docs structure, deploy</td>
+						<td class="ts-table-number">$3,500</td>
+						<td class="ts-table-number">7-10</td>
+						<td class="ts-val-success">80%</td>
+					</tr>
+					<tr>
+						<td><strong>UI kit / design system</strong></td>
+						<td>Custom Toolskin theme + token map + 20+ components, Figma optional</td>
+						<td class="ts-table-number">$5,000</td>
+						<td class="ts-table-number">10-14</td>
+						<td class="ts-val-success">75%</td>
+					</tr>
+					<tr>
+						<td><strong>WordPress conversion</strong></td>
+						<td>Re-skin existing WP theme with Toolskin tokens, full responsive</td>
+						<td class="ts-table-number">$2,500</td>
+						<td class="ts-table-number">5-7</td>
+						<td class="ts-val-success">82%</td>
+					</tr>
+					<tr>
+						<td><strong>Brand identity + site combo</strong></td>
+						<td>Logo direction, brand tokens, full site, design system handover</td>
+						<td class="ts-table-number">$8,000</td>
+						<td class="ts-table-number">14-21</td>
+						<td class="ts-val-success">70%</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="ts-card ts-deck-card">
+				<div class="ts-label ts-text-accent">Toolskin advantage</div>
+				<p>Industry baseline for a $1,500
+					landing page: 5-10 working days. Using Toolskin: <span class="ts-accent-text ts-mono">3-5 days</span>. We charge market
+					rate, deliver in half the time, and reuse 70% of every project as bundle source material.</p>
+			</div>
+			<div class="ts-slide-footer">Anchor offer: Brand landing page @ $1,500 · 7 sales = $10K · No new code per sale</div>
+		</div>
+
+		<!-- SLIDE 9: 90-DAY PRODUCT ROADMAP -->
+		<div class="ts-slide" data-slide="9">
+			<div class="ts-eyebrow">§08 · Product roadmap</div>
+			<h2>90 days. From open-source to revenue product.</h2>
+			<div class="ts-accent-bar"></div>
+			<div class="ts-slide-num">09 / 11</div>
+
+			<div class=" ts-flex ts-roadmap">
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label plan">M 01 · Free</div>
+					<div class="ts-roadmap-content">Open-source Toolskin v1.0. Showcase site. Documentation. ProductHunt launch. <span class="ts-text-accent">Goal: 500 GitHub stars · 5,000 visitors</span></div>
+				</div>
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label plan">M 01 · Paid</div>
+					<div class="ts-roadmap-content">3 premium bundles ($29-79): SaaS landing kit, dashboard kit, marketing site kit. Sold
+						via Gumroad/LemonSqueezy.</div>
+				</div>
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label plan">M 02 · Free</div>
+					<div class="ts-roadmap-content">"Built with Toolskin" gallery. First case studies. WordPress integration starter
+						(free).</div>
+				</div>
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label plan">M 02 · Paid</div>
+					<div class="ts-roadmap-content">5 more bundles. First $149 mega-bundle. Affiliate program for designers.</div>
+				</div>
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label plan">M 03 · Free</div>
+					<div class="ts-roadmap-content">Refactor service learnings into reusable patterns. Begin Toolskin Pro for WordPress
+						beta.</div>
+				</div>
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label">M 03 · Paid</div>
+					<div class="ts-roadmap-content"><strong>Toolskin Pro for WordPress launch</strong> · $79/year.
+						Theme + customizer plugin + premium support. Initial 50 customers = <span class="ts-mono ts-accent-text">$3,950 ARR
+													start</span>.</div>
+				</div>
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label plan">M 04+ · Vision</div>
+					<div class="ts-roadmap-content">Marketplace for 3rd-party creators (30% take rate). Toolskin Cloud (hosted
+						brand-token
+						storage). Enterprise tier ($5K+/yr). Education products.</div>
+				</div>
+			</div>
+			<div class="ts-slide-footer">Free product is the funnel. Service revenue funds the runway. Pro WP = first scalable SKU.</div>
+		</div>
+
+		<!-- SLIDE 10: WHY THIS WORKS -->
+		<div class="ts-slide" data-slide="10">
+			<div class="ts-eyebrow">§09 · Defensibility</div>
+			<h2>Why we win – and where we don't.</h2>
+			<div class="ts-slide-num">10 / 11</div>
+			<div class="ts-accent-bar"></div>
+
+			<div class="ts-masonry ts-deck-masonry">
+				<div class="ts-card ts-deck-card">
+					<div class="ts-label">Defensible</div>
+					<ul class="ts-list ts-checklist">
+						<li><span class="check">✓</span><strong>The token engine itself</strong> – derivative
+							math, OKLCH, three-tier architecture. Hard to copy without rebuilding.</li>
+						<li><span class="check">✓</span><strong>Brand voice</strong> – industrial-precision
+							tone.
+							Differentiates instantly from soft alternatives.</li>
+						<li><span class="check">✓</span><strong>Founder credibility</strong> – established
+							presence in WordPress automation tooling space.</li>
+						<li><span class="check">✓</span><strong>Speed advantage</strong> – Toolskin as
+							production
+							engine = 50% faster delivery than competitors.</li>
+						<li><span class="check">✓</span><strong>WordPress niche</strong> – AI generators don't
+							serve GUI-driven WP users well.</li>
+					</ul>
+				</div>
+				<div class="ts-card ts-deck-card">
+					<div class="ts-label">Not defensible</div>
+					<ul class="ts-list ts-checklist">
+						<li><span class="x">✗</span>No network effects (CSS adoption isn't viral)</li>
+						<li><span class="x">✗</span>Low switching costs (CSS is easy to swap)</li>
+						<li><span class="x">✗</span>No capital advantage (we are not funded)</li>
+						<li><span class="x">✗</span>No talent moat (anyone could rebuild this)</li>
+						<li><span class="x">✗</span>AI eats the component market over time</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="ts-card ts-deck-card">
+				<div class="ts-label ts-text-accent">The honest moat</div>
+				<p>Our advantage is <span class="ts-accent-text">execution speed × brand-niche specificity</span>. We don't out-engineer Tailwind. We don't out-fund Vercel. We out-ship them in WordPress and adjacent SMB markets they don't bother targeting.</p>
+			</div>
+			<div class="ts-slide-footer">"We don't need a moat to start. We need a moat by year 2-3 to keep going."</div>
+		</div>
+
+		<!-- SLIDE 11: ASK -->
+		<div class="ts-slide" data-slide="11">
+			<div class="ts-eyebrow">§10 · The ask</div>
+			<div class="ts-slide-num">11 / 11</div>
+			<h2>What we're agreeing to.</h2>
+			<div class="ts-accent-bar"></div>
+
+			<div class="ts-masonry ts-deck-masonry">
+				<div class="ts-card ts-deck-card">
+					<div class="ts-label ts-text-accent">From Parnter</div>
+					<ul class="ts-list ts-checklist">
+						<li data-icon="fa-solid fa-arrow-right">30 days of patience while Stream 1 ramps</li>
+						<li data-icon="fa-solid fa-arrow-right">Honest weekly check-ins on the kill-switches</li>
+						<li data-icon="fa-solid fa-arrow-right">Trust the data, not the hype, on Day 14 and Day 30</li>
+						<li data-icon="fa-solid fa-arrow-right">Permission to say "kill it" if we hit a switch</li>
+					</ul>
+				</div>
+				<div class="ts-card ts-deck-card">
+					<div class="ts-label ts-text-accent">From Builder</div>
+					<ul class="ts-list ts-checklist">
+						<li data-icon="fa-solid fa-arrow-right">50 outreach actions / week, logged publicly</li>
+						<li data-icon="fa-solid fa-arrow-right">1 case study / completed project</li>
+						<li data-icon="fa-solid fa-arrow-right">Weekly revenue + pipeline transparency</li>
+						<li data-icon="fa-solid fa-arrow-right">No vanity metrics – closed revenue only</li>
+						<li data-icon="fa-solid fa-arrow-right">Honor the kill-switches without arguing</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="ts-card ts-card--featured ts-deck-card">
+				<div class="ts-label ts-text-accent">The decision</div>
+				<p>We give Toolskin <span class="ts-mono ts-accent-text">30 days</span> to validate as a service business. We define the exit criteria today. We
+					commit to the data, not the dream.</p>
+				<p>If Day 30 hits
+					the base case
+					($5-12K cumulative), we continue. If it hits aggressive ($15K+), we accelerate. If it hits conservative
+					($1.5-4K), we re-plan. Below conservative, we wind down honestly.</p>
+			</div>
+
+			<div class="ts-slide-footer">
+				<div class="ts-logo">TOOL<span class="ts-accent-text">SKIN</span> · Briefing v1</div>
+				<div class="ts-deck-tagline">SHIP THE FRAMEWORK. KEEP THE REST.</div>
+			</div>
+		</div>
+
+		<div class="ts-slide-nav">
+			<button class="ts-btn ts-btn--icon" id="ts-prev" data-icon="fa-solid fa-arrow-left"><span class="sr-only">←</span></button>
+			<span id="ts-counter">1 / 11</span>
+			<button class="ts-btn ts-btn--icon" id="ts-next" data-icon="fa-solid fa-arrow-right"><span class="sr-only">→</span></button>
+		</div>
+	</div>
+	<script>
+
+		(function () {
+			window.__TOOLSKIN_CONFIG__ = {
+				reveal: { useGSAP: false, stagger: 0.05, rootMargin: '0px 0px -40px 0px' },
+				smoothScroll: { enabled: false, duration: 1.2 },
+				preloader: {
+					enabled: true,
+					selector: '#ts-hidden',
+					maxVisibleMs: 0,
+					trackImages: true,
+					/** Minimum time the preloader stays visible after load+fonts (0 = off). */
+					minVisibleMs: 0,
+					/** Additional hold (ms) after minVisibleMs, before dismiss. */
+					extraHoldAfterLoadMs: 0,
+					/** Wait for `document.fonts.ready` before dismissing (when Font Loading API exists). */
+					waitForFonts: true,
+
+					debug: false
+				}
+
+			};
+			const deck = document.getElementById('ts-deck');
+			const slides = deck.querySelectorAll('.ts-slide');
+			const total = slides.length;
+			const prev = document.getElementById('ts-prev');
+			const next = document.getElementById('ts-next');
+			const counter = document.getElementById('ts-counter');
+			const progress = document.getElementById('ts-progress');
+			let current = 0;
+
+			function show(i) {
+				slides.forEach((s, idx) => s.classList.toggle('ts-active', idx === i));
+				counter.textContent = (i + 1) + ' / ' + total;
+				progress.style.width = ((i + 1) / total * 100) + '%';
+				prev.disabled = i === 0;
+				next.disabled = i === total - 1;
+				current = i;
+			}
+
+			prev.addEventListener('click', () => show(Math.max(0, current - 1)));
+			next.addEventListener('click', () => show(Math.min(total - 1, current + 1)));
+
+			document.addEventListener('keydown', (e) => {
+				if (!deck.offsetParent) return;
+				if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); show(Math.min(total - 1, current + 1)); }
+				if (e.key === 'ArrowLeft') { e.preventDefault(); show(Math.max(0, current - 1)); }
+				if (e.key === 'Home') show(0);
+				if (e.key === 'End') show(total - 1);
+			});
+
+			show(0);
+		})();
+	</script>
+
+
+
+</body>
+
+</html>

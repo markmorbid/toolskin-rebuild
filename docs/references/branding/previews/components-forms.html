@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Toolskin — Forms &amp; Inputs</title>
+<!-- <link rel="stylesheet" href="../toolskin.css"> -->
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css">
+<style>
+  
+body {
+  padding: 56px 48px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.label {
+  font-family: var(--ts-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ts-accent);
+  margin-bottom: 12px;
+}
+
+h1.page {
+  font-family: var(--ts-font-display);
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  margin: 0 0 8px;
+  color: var(--ts-text-primary);
+}
+
+p.lede {
+  font-family: var(--ts-font-body);
+  font-size: 14px;
+  color: var(--ts-text-secondary);
+  margin: 0 0 48px;
+  max-width: 720px;
+  line-height: 1.65;
+}
+
+h2 {
+  font-family: var(--ts-font-display);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 40px 0 16px;
+  color: var(--ts-text-primary);
+  letter-spacing: -.01em;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.panel {
+  background: var(--ts-bg-0);
+  border: 1px solid var(--ts-border-0);
+  border-radius: 10px;
+  padding: 24px;
+}
+
+/* ── Field structure ── */
+.ts-field {
+  margin-bottom: 16px;
+}
+
+.ts-field-label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--ts-font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ts-text-muted);
+}
+
+.ts-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ts-input-group .ts-input {
+  padding-left: 36px;
+}
+
+.ts-input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ts-text-muted);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.ts-input-inset-button .ts-input {
+  padding-right: 44px;
+}
+
+.ts-input-btn {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 8px;
+}
+
+.ts-input--mono {
+  font-family: var(--ts-font-mono);
+  color: var(--ts-accent);
+}
+
+.ts-textarea {
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.5;
+}
+
+/* ── Checkbox ── */
+.ts-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--ts-font-body);
+  font-size: 13px;
+  color: var(--ts-text-secondary);
+  cursor: pointer;
+}
+
+.ts-checkbox-row input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  background: var(--ts-bg-1);
+  border: 1px solid var(--ts-border-1);
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+}
+
+.ts-checkbox-row input[type="checkbox"]:checked {
+  background: var(--ts-accent);
+  border-color: var(--ts-accent);
+}
+
+.ts-checkbox-row input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0c0d0f;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ── Toggle ── */
+.ts-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+}
+
+.ts-toggle-label {
+  font-family: var(--ts-font-body);
+  font-size: 13px;
+  color: var(--ts-text-primary);
+}
+
+.ts-toggle {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+.ts-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ts-toggle__knob {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: var(--ts-bg-3);
+  border: 1px solid var(--ts-border-1);
+  border-radius: 999px;
+  transition: .2s;
+}
+
+.ts-toggle__knob::before {
+  content: '';
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--ts-text-primary);
+  border-radius: 50%;
+  transition: .2s;
+}
+
+.ts-toggle input:checked+.ts-toggle__knob {
+  background: var(--ts-accent);
+  border-color: var(--ts-accent);
+}
+
+.ts-toggle input:checked+.ts-toggle__knob::before {
+  transform: translate(16px, -50%);
+  background: #0c0d0f;
+}
+
+.ts-toggle input:disabled+.ts-toggle__knob {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.ts-toggle--sm {
+  width: 28px;
+  height: 16px;
+}
+
+.ts-toggle--sm .ts-toggle__knob::before {
+  width: 10px;
+  height: 10px;
+}
+
+.ts-toggle--sm input:checked+.ts-toggle__knob::before {
+  transform: translate(12px, -50%);
+}
+
+.ts-toggle--lg {
+  width: 44px;
+  height: 24px;
+}
+
+.ts-toggle--lg .ts-toggle__knob::before {
+  width: 18px;
+  height: 18px;
+}
+
+.ts-toggle--lg input:checked+.ts-toggle__knob::before {
+  transform: translate(20px, -50%);
+}
+
+/* ── Range ── */
+.ts-range-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ts-range {
+  appearance: none;
+  flex: 1;
+  height: 4px;
+  background: var(--ts-bg-3);
+  border-radius: 999px;
+  outline: none;
+}
+
+.ts-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ts-accent);
+  cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(255, 85, 0, .18);
+}
+
+.ts-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ts-accent);
+  cursor: pointer;
+  border: 0;
+}
+
+.ts-range-val {
+  font-family: var(--ts-font-mono);
+  font-size: 11px;
+  color: var(--ts-accent);
+  min-width: 44px;
+  text-align: right;
+}
+
+/* ── Color row ── */
+.ts-color-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ts-color-swatch {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--ts-radius-base);
+  border: 1px solid var(--ts-border-1);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.ts-color-swatch input[type="color"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ts-form-color-hex {
+  font-family: var(--ts-font-mono);
+}
+
+/* ── Code window ── */
+.ts-code-window {
+  background: var(--ts-bg-body);
+  border: 1px solid var(--ts-border-0);
+  border-radius: var(--ts-radius-base);
+  overflow: hidden;
+}
+
+.ts-code-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--ts-bg-1);
+  border-bottom: 1px solid var(--ts-border-0);
+}
+
+.ts-code-dotbtn {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.ts-code-dotbtn.red {
+  background: #ff5f56;
+}
+
+.ts-code-dotbtn.yellow {
+  background: #ffbd2e;
+}
+
+.ts-code-dotbtn.green {
+  background: #27c93f;
+}
+
+.ts-code-label {
+  flex: 1;
+  font-family: var(--ts-font-mono);
+  font-size: 11px;
+  color: var(--ts-text-muted);
+  margin-left: 8px;
+}
+
+.ts-code-content {
+  padding: 16px;
+  font-family: var(--ts-font-mono);
+  font-size: 12px;
+  color: var(--ts-text-secondary);
+}
+
+.ts-code-content pre {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.ts-accent-text {
+  color: var(--ts-accent);
+}
+</style>
+</head>
+<body>
+
+<div class="label">Toolskin · Components — Forms &amp; Inputs</div>
+<h1 class="page">Inputs that feel like a panel.</h1>
+<p class="lede">Field labels are mono caps. Inputs use surface-1 with hairline borders. Toggles are pill-shaped with the accent as their on-state. Ranges have a glow halo on the thumb. Cohesive — like browser devtools, but warmer.</p>
+
+<div class="grid-2">
+  <div>
+    <h2>Inputs &amp; fields</h2>
+    <div class="panel">
+      <div class="ts-field">
+        <label class="ts-field-label">Project name</label>
+        <div class="ts-input-group">
+          <span class="ts-input-icon">📁</span>
+          <input type="text" class="ts-input" placeholder="Enter project name…" />
+        </div>
+      </div>
+      <div class="ts-field">
+        <label class="ts-field-label">Video URL</label>
+        <div class="ts-input-group ts-input-inset-button">
+          <span class="ts-input-icon">▶</span>
+          <input type="text" class="ts-input" placeholder="https://www.youtube.com/watch?v=…">
+          <button class="ts-btn ts-btn--primary ts-input-btn">→</button>
+        </div>
+      </div>
+      <div class="ts-field">
+        <label class="ts-field-label">Search</label>
+        <div class="ts-input-group ts-input-inset-button">
+          <span class="ts-input-icon">⌕</span>
+          <input type="text" class="ts-input" placeholder="Search tokens…">
+          <button class="ts-btn ts-btn--primary ts-input-btn">→</button>
+        </div>
+      </div>
+      <div class="ts-field">
+        <label class="ts-field-label">Notes</label>
+        <textarea class="ts-input ts-textarea" placeholder="Add a note…"></textarea>
+      </div>
+      <div class="ts-field">
+        <label class="ts-field-label">CSS token (mono)</label>
+        <input type="text" class="ts-input ts-input--mono" value="--ts-accent-h: 18;" />
+      </div>
+    </div>
+
+    <h2>Checkboxes</h2>
+    <div class="panel" style="display:flex;flex-direction:column;gap:10px">
+      <label class="ts-checkbox-row"><input type="checkbox" checked /> Enable auto-scheduling</label>
+      <label class="ts-checkbox-row"><input type="checkbox" /> Rename-only mode</label>
+      <label class="ts-checkbox-row"><input type="checkbox" /> Notify subscribers on publish</label>
+    </div>
+
+    <h2>Code wrapper</h2>
+    <div class="ts-code-window">
+      <div class="ts-code-header">
+        <div class="ts-code-dotbtn red"></div>
+        <div class="ts-code-dotbtn yellow"></div>
+        <div class="ts-code-dotbtn green"></div>
+        <span class="ts-code-label">ts-button.config.json</span>
+      </div>
+      <div class="ts-code-content"><pre>{
+  <span class="ts-accent-text">"prefix"</span>: "ts-",
+  <span class="ts-accent-text">"states"</span>: {
+    "default": "bg-brand text-black",
+    "hover":   "translate-y-[-2px]",
+    "active":  "scale-95"
+  },
+  <span class="ts-accent-text">"animation"</span>: "spring-smooth"
+}</pre></div>
+    </div>
+  </div>
+
+  <div>
+    <h2>Toggles</h2>
+    <div class="panel">
+      <div class="ts-toggle-row"><span class="ts-toggle-label">⚡ UI transitions</span>
+        <label class="ts-toggle"><input type="checkbox" checked /><span class="ts-toggle__knob"></span></label></div>
+      <div class="ts-toggle-row"><span class="ts-toggle-label">💬 Show tooltips</span>
+        <label class="ts-toggle"><input type="checkbox" /><span class="ts-toggle__knob"></span></label></div>
+      <div class="ts-toggle-row"><span class="ts-toggle-label">📡 Live updates</span>
+        <label class="ts-toggle"><input type="checkbox" checked /><span class="ts-toggle__knob"></span></label></div>
+      <div class="ts-toggle-row"><span class="ts-toggle-label">Disabled</span>
+        <label class="ts-toggle"><input type="checkbox" disabled /><span class="ts-toggle__knob"></span></label></div>
+      <div class="ts-toggle-row"><span class="ts-toggle-label">Small</span>
+        <label class="ts-toggle ts-toggle--sm"><input type="checkbox" checked /><span class="ts-toggle__knob"></span></label></div>
+      <div class="ts-toggle-row"><span class="ts-toggle-label">Large</span>
+        <label class="ts-toggle ts-toggle--lg"><input type="checkbox" checked /><span class="ts-toggle__knob"></span></label></div>
+    </div>
+
+    <h2>Range sliders</h2>
+    <div class="panel">
+      <div class="ts-field">
+        <label class="ts-field-label">Delay (ms)</label>
+        <div class="ts-range-row">
+          <input type="range" class="ts-range" min="0" max="100" value="50" />
+          <span class="ts-range-val">50ms</span>
+        </div>
+      </div>
+      <div class="ts-field">
+        <label class="ts-field-label">Scale</label>
+        <div class="ts-range-row">
+          <input type="range" class="ts-range" min="0" max="100" value="65" />
+          <span class="ts-range-val">65%</span>
+        </div>
+      </div>
+      <div class="ts-field">
+        <label class="ts-field-label">Volume</label>
+        <div class="ts-range-row">
+          <input type="range" class="ts-range" min="0" max="200" value="120" />
+          <span class="ts-range-val">120</span>
+        </div>
+      </div>
+    </div>
+
+    <h2>Color pickers</h2>
+    <div class="panel">
+      <div class="ts-field">
+        <label class="ts-field-label">Color swatch 1</label>
+        <div class="ts-color-row">
+          <div class="ts-color-swatch" style="background:#ffffff"><input type="color" value="#ffffff" /></div>
+          <input type="text" class="ts-input ts-form-color-hex" value="#ffffff" />
+        </div>
+      </div>
+      <div class="ts-field">
+        <label class="ts-field-label">Color swatch 2</label>
+        <div class="ts-color-row">
+          <div class="ts-color-swatch" style="background:#ff5500"><input type="color" value="#ff5500" /></div>
+          <input type="text" class="ts-input ts-form-color-hex" value="#ff5500" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

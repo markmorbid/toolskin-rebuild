@@ -1,0 +1,1294 @@
+<div id="yss-modal-overlay" class="yss-modal-overlay">
+    <div id="yss-modal-readme" class="yss-modal-content yss-sticky-modal yss-scrollable-modal"
+        style="max-width: 700px;">
+        <div class="yss-modal-title"><button class="yss-btn yss-btn-icon yss-btn-fullscreen"
+                onclick="toggleSingleClass('yss-modal-readme', 'yss-fullscreen')" data-tooltip="Fullscreen Mode"><i
+                    class="fa-solid fa-expand" style="color: currentcolor;"></i></button>
+            <h3>README from GitHub<a href="https://github.com/markmorbid/toolpanel-userscript/blob/main/README.md"
+                    class="yss-btn" target="_blank"
+                    data-tooltip="https://github.com/markmorbid/toolpanel-userscript/blob/main/README.md"><i
+                        class="fa-brands fa-github" style="font-size: inherit; color: currentcolor;"></i><span>View on
+                        GitHub</span></a></h3><button class="yss-btn yss-btn-icon yss-close-btn"><i
+                    class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="yss-modal-view">
+            <div class="yss-readme-container">
+                <h1>YouTube Studio Toolpanel</h1>
+                <p><strong>Version:</strong> v3.10.4 </p>
+                <p><strong>Author:</strong> SatoshiSea</p>
+                <hr>
+                <p><a href="https://github.com/SatoshiSea" target="_blank" rel="noopener noreferrer"
+                        class="yss-lightbox"><img alt="Version"
+                            src="https://img.shields.io/badge/Version-3.10.4-blue.svg" class="yss-image"
+                            style="max-width: 100%;"></a></p>
+                <p><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer"
+                        class="yss-lightbox"><img alt="License: MIT"
+                            src="https://img.shields.io/badge/License-MIT-yellow.svg" class="yss-image"
+                            style="max-width: 100%;"></a></p>
+                <p><a href="https://www.tampermonkey.net/" target="_blank" rel="noopener noreferrer"
+                        class="yss-lightbox"><img alt="Platform"
+                            src="https://img.shields.io/badge/Platform-Tampermonkey-lightgrey.svg" class="yss-image"
+                            style="max-width: 100%;"></a></p>
+                <hr>
+                <p>A powerful, extensible, multi-tool UserScript UI for YouTube Studio. It automates mass scheduling,
+                    renaming, notifications management, scraping, uploading, downloading, calendar sync, and more. </p>
+                <p>This documentation covers the entire architecture, UI, feature usage, and developer extension
+                    guidance.</p>
+                <p><a href="https://satsea.io/video-calendar/img/1.png" target="_blank" rel="noopener noreferrer"
+                        class="yss-lightbox"><img alt="image" src="https://satsea.io/video-calendar/img/1.png"
+                            class="yss-image" style="max-width: 100%;"></a></p>
+                <table cellpadding="10" border="1" bordercolor="#333333" cellspacing="0" bgcolor="#111111"
+                    style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="https://satsea.io/video-calendar/img/2.png" target="_blank"
+                                    rel="noopener noreferrer" class="yss-lightbox"><img alt="image"
+                                        src="https://satsea.io/video-calendar/img/2.png" class="yss-image"
+                                        style="max-width: 100%;"></a></td>
+                            <td><a href="https://satsea.io/video-calendar/img/3.png" target="_blank"
+                                    rel="noopener noreferrer" class="yss-lightbox"><img alt="image"
+                                        src="https://satsea.io/video-calendar/img/3.png" class="yss-image"
+                                        style="max-width: 100%;"></a></td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Toolpanel full view</td>
+                            <td>Toolpanel in no-text buttons mode(compact mode)</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://satsea.io/video-calendar/img/4.png" target="_blank"
+                                    rel="noopener noreferrer" class="yss-lightbox"><img alt="image"
+                                        src="https://satsea.io/video-calendar/img/4.png" class="yss-image"
+                                        style="max-width: 100%;"></a></td>
+                            <td><a href="https://satsea.io/video-calendar/img/5.png" target="_blank"
+                                    rel="noopener noreferrer" class="yss-lightbox"><img alt="image"
+                                        src="https://satsea.io/video-calendar/img/5.png" class="yss-image"
+                                        style="max-width: 100%;"></a></td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Scheduler configuration modal.</td>
+                            <td>Help Modal Popup</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://satsea.io/video-calendar/img/6.png" target="_blank"
+                                    rel="noopener noreferrer" class="yss-lightbox"><img alt="image"
+                                        src="https://satsea.io/video-calendar/img/6.png" class="yss-image"
+                                        style="max-width: 100%;"></a></td>
+                            <td><a href="https://satsea.io/video-calendar/img/7.png" target="_blank"
+                                    rel="noopener noreferrer" class="yss-lightbox"><img alt="image"
+                                        src="https://satsea.io/video-calendar/img/7.png" class="yss-image"
+                                        style="max-width: 100%;"></a></td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Scraper calendar view.</td>
+                            <td>Calendar day detail</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://satsea.io/video-calendar/img/8.png" target="_blank"
+                                    rel="noopener noreferrer" class="yss-lightbox"><img alt="image"
+                                        src="https://satsea.io/video-calendar/img/8.png" class="yss-image"
+                                        style="max-width: 100%;"></a></td>
+                            <td><a href="https://satsea.io/video-calendar/img/9.png" target="_blank"
+                                    rel="noopener noreferrer" class="yss-lightbox"><img alt="image"
+                                        src="https://satsea.io/video-calendar/img/9.png" class="yss-image"
+                                        style="max-width: 100%;"></a></td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>BulkDownloader Modal</td>
+                            <td>Downloader Reference File Management</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://satsea.io/video-calendar/img/10.png" target="_blank"
+                                    rel="noopener noreferrer" class="yss-lightbox"><img alt="image"
+                                        src="https://satsea.io/video-calendar/img/10.png" class="yss-image"
+                                        style="max-width: 100%;"></a></td>
+                            <td><a href="https://satsea.io/video-calendar/img/11.png" target="_blank"
+                                    rel="noopener noreferrer" class="yss-lightbox"><img alt="image"
+                                        src="https://satsea.io/video-calendar/img/11.png" class="yss-image"
+                                        style="max-width: 100%;"></a></td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>BulkUploader Modal File selection</td>
+                            <td>BulkUploader Modal History</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-flag yss-icon-added"></i><span> The Main
+                            Panel</span></span></h2>
+                <p>The main panel is an overlay UI injected into YouTube Studio (<code>studio.youtube.com</code>) and
+                    compatible domains.</p>
+                <ul>
+                    <li><strong>Floating, draggable, and resizable panel.</strong></li>
+                    <li><strong>Buttons are context-aware:</strong> Only relevant tools are enabled, based on your
+                        current filter (e.g., Unlisted, Draft, Scheduled).</li>
+                    <li><strong>Collapsible and supports "Icon-Only" mode</strong> for compact display.</li>
+                </ul>
+                <p><strong>Key actions include:</strong></p>
+                <ul>
+                    <li>Bulk schedule/rename videos</li>
+                    <li>Un-draft and schedule</li>
+                    <li>Unlist Premieres</li>
+                    <li>Scrape video titles or export CSV</li>
+                    <li>Disable notifications across all videos</li>
+                    <li>Bulk download/upload</li>
+                    <li>Calendar view and sync</li>
+                </ul>
+                <h3>Main Panel Features</h3>
+                <table cellpadding="10" border="1" bordercolor="#333333" cellspacing="0" bgcolor="#111111"
+                    style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Description</th>
+                            <th>Context/Filter</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Schedule/Rename</td>
+                            <td>Bulk schedule or rename videos</td>
+                            <td>Unlisted, Draft, ...</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Un-Draft / Draft-to-Schedule</td>
+                            <td>Publish drafts as unlisted and optionally schedule them</td>
+                            <td>Draft</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Unlist Premieres</td>
+                            <td>Change scheduled Premieres to Unlisted</td>
+                            <td>Scheduled</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Scrape Titles/CSV Export</td>
+                            <td>Extract video titles or export CSV (with optional times)</td>
+                            <td>All</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Disable All Notifications</td>
+                            <td>Automate unchecking "Notify Subscribers"</td>
+                            <td>Unlisted, others</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Bulk Downloader/Upload</td>
+                            <td>Download or upload multiple videos</td>
+                            <td>All</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Calendar View</td>
+                            <td>Visualize schedule/export data</td>
+                            <td>All</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-brain yss-icon-added"></i><span> Context-Aware
+                            Controls</span></span></h2>
+                <p>Buttons are only enabled if your YouTube Studio filter matches the operation's requirements. For
+                    example:</p>
+                <ul>
+                    <li><strong>Schedule/Rename</strong>: Enabled when "Unlisted" or "Draft" filter is selected.</li>
+                    <li><strong>Unlist Premieres</strong>: Enabled when "Scheduled" filter is selected.</li>
+                    <li><strong>Disable All Notifs</strong>: Enabled with "Unlisted" filter.</li>
+                </ul>
+                <p>Hovering disabled buttons shows a tooltip explaining the required filter.</p>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-calendar yss-icon-added"></i><span> Scheduler
+                            &amp; Renamer</span></span></h2>
+                <p>Bulk schedule videos or rename them (with or without scheduling).</p>
+                <ul>
+                    <li><strong>Scheduler Modal:</strong> Lets you set start date/time, interval type
+                        (predefined/custom), and provide manual titles or auto-generate them via a pattern
+                        (<code>{num}</code>).</li>
+                    <li><strong>Rename-Only Mode:</strong> If enabled, only renames videos, skipping scheduling.</li>
+                    <li><strong>Bulk Search/Replace:</strong> Replace any word/string in all visible video titles across
+                        pages.</li>
+                </ul>
+                <h3>Scheduler Process Flow</h3>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-mermaid" code-lang="language-mermaid">flowchart TD
+                            A[User clicks Schedule] --&gt; B[Show Config Modal]
+                            B --&gt;|User confirms| C[Save config state]
+                            C --&gt; D[Iterate videos, set title]
+                            D --&gt; E[If scheduling, set date/time]
+                            E --&gt; F[Save changes]
+                            F --&gt;|All videos processed| G[Show summary]</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-mermaid">Language:
+                            mermaid</span><button class="ClipboardButton btn" aria-label="Copy" tabindex="0"
+                            role="button"><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <ul>
+                    <li><strong>State is persisted:</strong> Progress can be resumed after interruption.</li>
+                    <li><strong>Safe:</strong> Only processes visible, filtered videos.</li>
+                </ul>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-rocket yss-icon-added"></i><span> Un-Draft
+                            &amp; Draft-to-Schedule</span></span></h2>
+                <h3>Un-Draft</h3>
+                <ul>
+                    <li>Publishes all draft videos as Unlisted in bulk.</li>
+                </ul>
+                <h3>Draft-to-Schedule</h3>
+                <ul>
+                    <li>Combines "Un-Draft" and "Scheduler" in one pass:</li>
+                </ul>
+                <ol>
+                    <li>Publishes drafts as Unlisted.</li>
+                    <li>Filters to Unlisted.</li>
+                    <li>Schedules them according to your configuration.</li>
+                </ol>
+                <p><strong>Progress is tracked and resumable.</strong></p>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-eye yss-icon-added"></i><span>&zwj;</span><i
+                            class="fa-solid fa-comment yss-icon-added"></i><span> Un-List Premieres</span></span></h2>
+                <ul>
+                    <li>Bulk-converts all "Premiere" (scheduled) videos to "Unlisted" status.</li>
+                    <li>Requires "Scheduled" filter.</li>
+                </ul>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-file-pen yss-icon-added"></i><span> Scrapers
+                            (Titles &amp; CSV Export)</span></span></h2>
+                <h3>Scrape Titles</h3>
+                <ul>
+                    <li>Extracts all video titles currently visible (across all pages).</li>
+                    <li>Animated, real-time UI shows progress, stats, and allows copy/clear.</li>
+                </ul>
+                <h3>CSV Export</h3>
+                <ul>
+                    <li>Exports all video metadata to CSV.</li>
+                    <li>Optionally includes scheduled time (slower, requires opening each video).</li>
+                    <li>Data ready for calendar visualization or external use.</li>
+                </ul>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-bell-slash yss-icon-added"></i><span> Disable
+                            All Notifications</span></span></h2>
+                <ul>
+                    <li>Scans all videos, auto-unchecks the "Notify Subscribers" option.</li>
+                    <li>Works across multiple pages.</li>
+                    <li>Tracks queue, processed videos, and supports pause/resume and manual intervention.</li>
+                    <li><strong>Manual selection mode:</strong> Pick specific videos to process.</li>
+                </ul>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-arrow-down yss-icon-added"></i><i
+                            class="fa-solid fa-arrow-up yss-icon-added"></i><span> Bulk Downloader &amp;
+                            Uploader</span></span></h2>
+                <h3>Bulk Downloader</h3>
+                <ul>
+                    <li>Scrape download links for all videos matching filter/search.</li>
+                    <li>Pre-fetch mode: Scan all pages, compare to existing files, exclude duplicates.</li>
+                    <li>Live mode: Download current page videos.</li>
+                    <li>Import/export download lists.</li>
+                    <li>Retry/failure tracking, robust against YouTube UI changes.</li>
+                </ul>
+                <h4>Bulk Downloader: Modes and Features</h4>
+                <ul>
+                    <li>Modes:</li>
+                    <li>Live Processing: Process only the current page. Avoids navigation.</li>
+                    <li>Pre-fetch &amp; Compare: Scan all pages, collect download URLs, compare with imported files, and
+                        confirm downloads.</li>
+                    <li>Pre-fetch Only: Scan and export all download URLs without downloading. Use later for safe batch
+                        downloads.</li>
+                    <li>Manual Selection: Pick specific videos on the page. Then run targeted downloads.</li>
+                    <li>Features:</li>
+                    <li>Duplicate Avoidance: Compares normalized titles against imported filenames.</li>
+                    <li>URL Import/Export: Save or load JSON/CSV lists of videos and links.</li>
+                    <li>Retry and Failure Tracking: Retries failed downloads up to 3 times.</li>
+                    <li>Progress Control: Pause/stop, concurrent limits, and queued downloads.</li>
+                    <li>History and Summary: Persist success/failure, and show sortable summaries.</li>
+                </ul>
+                <h3>Bulk Uploader</h3>
+                <ul>
+                    <li>Supports batch uploads (e.g., 15 files at a time).</li>
+                    <li>Progress bar and detailed history tracking.</li>
+                    <li>Avoids duplicate uploads by comparing filenames.</li>
+                </ul>
+                <h4>Bulk Uploader: Detailed Features</h4>
+                <ul>
+                    <li>File Queue and Batching:</li>
+                    <li>Batch size default is 15 files per run.</li>
+                    <li>Multi-batch runs wait between batches for UI stabilization.</li>
+                    <li>Duplicate Detection and History:</li>
+                    <li>Checks GM history for previously successful uploads.</li>
+                    <li>Warns when attempted files were uploaded before.</li>
+                    <li>Resumable Flow:</li>
+                    <li>Auto-continue batches via YSS<em>UPLOADER</em>BATCH_INDEX if present.</li>
+                    <li>Supports cancel/stop from the mini indicator.</li>
+                    <li>UI/Controls:</li>
+                    <li>Select files, clear queue, and view upload history.</li>
+                    <li>Shows duplicates count and per-file delete in modal list.</li>
+                    <li>Robust Monitoring:</li>
+                    <li>Tracks mini-indicator status text to classify success/failure.</li>
+                    <li>Uses tolerant polling with safe timeouts.</li>
+                </ul>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-calendar-week yss-icon-added"></i><span>
+                            Calendar Sync Feature</span></span></h2>
+                <ul>
+                    <li><strong>Calendar Modal:</strong> Visualizes scheduled/exported videos in a monthly grid.</li>
+                    <li><strong>Sync with [satsea.io/video-calendar](https://satsea.io/video-calendar):</strong></li>
+                    <li>One-click sync exports your CSV to the calendar viewer.</li>
+                    <li>Full two-way bridge via GM storage and events.</li>
+                </ul>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-screwdriver-wrench yss-icon-added"></i><span>
+                            Developer's Guide: Modifying the Script</span></span></h2>
+                <h3>Core Architecture</h3>
+                <h4>State Management</h4>
+                <ul>
+                    <li>Each process (scheduler, renamer, uploader, etc.) maintains its own state object.</li>
+                    <li>Global states are used for UI, log areas, and modal references.</li>
+                </ul>
+                <h4>Centralized Process Management</h4>
+                <ul>
+                    <li><strong>setActiveProcess(processName):</strong> Sets the active process, updates UI, and starts
+                        progress tracking.</li>
+                    <li><strong>clearActiveProcess():</strong> Resets active process and UI.</li>
+                </ul>
+                <h4>UI Construction System</h4>
+                <p><strong>Key Builders:</strong></p>
+                <ul>
+                    <li><strong>UIMasterBuilder</strong>: Declarative, schema-based main panel construction.</li>
+                    <li><strong>YSSModalBuilder</strong>: Modal dialog builder with header, footer, draggable,
+                        back/close, stats, counter, and flexible content.</li>
+                    <li><strong>SmartButton System</strong>: Buttons with states (pause/resume, start/stop), icons,
+                        counters, and centralized management.</li>
+                    <li>**External Hosted Stylesheet/b&gt;: For performance reasons, the css styles are embedded in an
+                        external stylesheet from a raw css file on a github reposiitory. styles can be injected in
+                        GM\_addstyle, but its better to keep the styles on the external file.**</li>
+                </ul>
+                <h4>Utility Classes &amp; Managers</h4>
+                <ul>
+                    <li><strong>ProgressTracker:</strong> Tracks progress of multi-page bulk operations.</li>
+                    <li><strong>TableSorter:</strong> Makes tables sortable by column, with numeric and natural sorting.
+                    </li>
+                    <li><strong>TooltipManager:</strong> Enhanced, anti-overlap tooltips with arrow positioning.</li>
+                    <li><strong>ContentBuilder:</strong> Programmatic, schema-based HTML generator.</li>
+                </ul>
+                <hr>
+                <h3>1. UIMasterBuilder</h3>
+                <p>Responsible for building the main floating panel. </p>
+                <p>Takes a declarative schema with nested containers, sections, rows, buttons, checkboxes, and custom
+                    elements.</p>
+                <p><strong>Example usage:</strong></p>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js">const uiSchema = {
+                            type: 'container',
+                            id: 'yss-panel',
+                            className: 'yss-panel',
+                            children: [
+                            { type: 'custom', render: _createPanelHeader },
+                            // ... other UI rows and elements ...
+                            ]
+                            };
+                            const panel = new UIMasterBuilder(uiSchema).render();
+                            document.body.appendChild(panel);</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <hr>
+                <h3>2. YSSModalBuilder</h3>
+                <p>Builds and shows modals for configuration, progress, summaries, etc.</p>
+                <ul>
+                    <li>Supports draggable, sticky modal.</li>
+                    <li>Header with title/counter/back/close.</li>
+                    <li>Actions bar (left/right).</li>
+                    <li>Central content area.</li>
+                    <li><strong>Methods:</strong> <code>setContent()</code>, <code>addButtons()</code>,
+                        <code>show()</code>, <code>close()</code>, <code>updateCounter()</code>, etc.</li>
+                </ul>
+                <p><strong>Example:</strong></p>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js">const modal = new YSSModalBuilder('Bulk
+                            Scheduler Configuration', { isSticky: true, maxWidth: '600px' });
+                            modal.setContent([configForm]).addButtons([confirmBtn, cancelBtn]);
+                            modal.show().then(config =&gt; { /* ... */ });</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <hr>
+                <h3>3. SmartButton System</h3>
+                <p>All buttons (panel and modal) are "smart": </p>
+                <ul>
+                    <li>Can have multiple states: start/stop, pause/resume, etc.</li>
+                    <li>State change updates icon, text, tooltip, CSS.</li>
+                    <li>Centralized configuration for all buttons.</li>
+                </ul>
+                <p><strong>Example:</strong></p>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js">const startBtn = createSmartButton({
+                            id: 'yss-start-stop-btn',
+                            text: 'Schedule',
+                            icon: 'fa-regular fa-calendar-check',
+                            classes: ['yss-btn', 'yss-btn-start'],
+                            handlers: { onClick: onSchedulerStartStopClick },
+                            showCounter: true
+                            });</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-bell-concierge yss-icon-added"></i><span>
+                            Utility Classes &amp; Managers</span></span></h2>
+                <h3>ProgressTracker</h3>
+                <ul>
+                    <li>Attaches to a SmartButton.</li>
+                    <li>Listens to log entries or DOM changes.</li>
+                    <li>Shows numeric or percent progress on the button.</li>
+                    <li>Supports pre-scan (counts total videos across pages before starting).</li>
+                </ul>
+                <h3>TableSorter</h3>
+                <ul>
+                    <li>Makes any HTML table sortable by clicking headers.</li>
+                    <li>Supports <code>data-sort-key</code> attributes, numeric, and text sorting.</li>
+                </ul>
+                <h3>TooltipManager</h3>
+                <ul>
+                    <li>Replaces all tooltips with a smart, arrowed tooltip system.</li>
+                    <li>Avoids overlaps, adjusts on viewport resize, supports dynamic content.</li>
+                </ul>
+                <h3>ContentBuilder</h3>
+                <ul>
+                    <li>Declarative HTML creation for modals, instructions, and help.</li>
+                    <li>Used in help modals, manual selection instructions, etc.</li>
+                </ul>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-wand-magic-sparkles yss-icon-added"></i><span>
+                            How to Add a New Feature (Example)</span></span></h2>
+                <p>Suppose you want to add a <strong>"Bulk Private"</strong> button to set all filtered videos to
+                    Private:</p>
+                <ol>
+                    <li><strong>Define State:</strong></li>
+                </ol>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> const bulkPrivateState = { isRunning: false,
+                            stop: false };</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <ol>
+                    <li><strong>Add Button to UI Schema:</strong></li>
+                </ol>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> { type: 'button', id:
+                            'yss-bulk-private-btn', label: 'Bulk Private', onClick: onBulkPrivateClick }</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <ol>
+                    <li>**Button Config (in BUTTON_CONFIG):**</li>
+                </ol>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> 'yss-bulk-private-btn': {
+                            icon: 'fa-solid fa-lock',
+                            tooltip: 'Set all filtered videos to Private'
+                            }</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <ol>
+                    <li><strong>Implement Logic:</strong></li>
+                </ol>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> async function onBulkPrivateClick() {
+                            bulkPrivateState.isRunning = true;
+                            // Iterate video rows, open options, set to private, save
+                            bulkPrivateState.isRunning = false;
+                            }</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <ol>
+                    <li><strong>Register in processConfig if progress tracking is needed.</strong></li>
+                </ol>
+                <ol>
+                    <li><strong>Done!</strong> The new button appears, with icons, tooltips, and state management.</li>
+                </ol>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-trowel-bricks yss-icon-added"></i><span> Core
+                            Architecture (Class Diagram)</span></span></h2>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-mermaid" code-lang="language-mermaid">classDiagram
+                            class UIMasterBuilder {
+                            +schema
+                            +render()
+                            +_createElement(config)
+                            }
+                            class YSSModalBuilder {
+                            +constructor(title, options)
+                            +setContent(content)
+                            +addButtons(buttons)
+                            +show()
+                            +close(value)
+                            +updateCounter(value)
+                            }
+                            class SmartButton {
+                            +constructor(config)
+                            +setState(newState)
+                            +updateCounter(cur, total, mode)
+                            +enable()
+                            +disable()
+                            +show()
+                            +hide()
+                            }
+                            class ProgressTracker {
+                            +constructor(button, config)
+                            +start()
+                            +stop()
+                            +updateCounter()
+                            }
+                            class TableSorter {
+                            +constructor(table, initialSort)
+                            +sort(columnKey, reverse)
+                            }
+                            class TooltipManager {
+                            +enable()
+                            +disable()
+                            +toggle()
+                            }
+                            UIMasterBuilder --&gt; SmartButton
+                            YSSModalBuilder --&gt; SmartButton
+                            YSSModalBuilder --&gt; ProgressTracker
+                            YSSModalBuilder --&gt; TableSorter
+                            UIMasterBuilder --&gt; YSSModalBuilder</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-mermaid">Language:
+                            mermaid</span><button class="ClipboardButton btn" aria-label="Copy" tabindex="0"
+                            role="button"><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-shuffle yss-icon-added"></i><span> Data &amp;
+                            Process Flow (Sequence Diagram)</span></span></h2>
+                <p><strong>Example: Bulk Schedule Process</strong></p>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-mermaid" code-lang="language-mermaid">sequenceDiagram
+                            participant User
+                            participant Panel as Main Panel
+                            participant Modal as Scheduler Modal
+                            participant Tracker as ProgressTracker
+                            participant State as SchedulerState
+
+                            User-&gt;&gt;Panel: Click "Schedule"
+                            Panel-&gt;&gt;Modal: showConfigModal()
+                            Modal-&gt;&gt;User: Show config UI
+                            User-&gt;&gt;Modal: Confirm settings
+                            Modal-&gt;&gt;Panel: Return config
+                            Panel-&gt;&gt;State: Update state
+                            Panel-&gt;&gt;Tracker: start()
+                            Panel-&gt;&gt;Panel: Disable other buttons
+                            Panel-&gt;&gt;Panel: Iterate videos/schedule
+                            Panel-&gt;&gt;Tracker: Update progress
+                            Tracker--&gt;&gt;Panel: Counter update
+                            Panel-&gt;&gt;Panel: On finish/reset, re-enable buttons</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-mermaid">Language:
+                            mermaid</span><button class="ClipboardButton btn" aria-label="Copy" tabindex="0"
+                            role="button"><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-wrench yss-icon-added"></i><span> Developer
+                            Console Functions</span></span></h2>
+                <p>For advanced users/developers, run these functions in the browser console:</p>
+                <table cellpadding="10" border="1" bordercolor="#333333" cellspacing="0" bgcolor="#111111"
+                    style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Function</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr bgcolor="#0d0d0d">
+                            <td><code>debugDownloaderStorage()</code></td>
+                            <td>Inspect localStorage for downloader data</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td><code>clearCorruptedDownloaderData()</code></td>
+                            <td>Remove broken/corrupted download data</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td><code>showImportedFilesModal()</code></td>
+                            <td>Modal: View and manage imported files</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td><code>clearImportedFilesFromStorage()</code></td>
+                            <td>Remove all imported file data</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td><code>showPrefetchData()</code></td>
+                            <td>Show last prefetch data comparison modal</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td><code>clearPrefetchData()</code></td>
+                            <td>Remove prefetch data</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td><code>debugManualSelection()</code></td>
+                            <td>Simulate manual video selection mode</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td><code>debugVideoIdExtraction()</code></td>
+                            <td>Test video ID extraction on all rows</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-user yss-icon-added"></i><span>&zwj;</span><i
+                            class="fa-solid fa-laptop yss-icon-added"></i><span> API Endpoints</span></span></h2>
+                <p>*No explicit HTTP API endpoints are present in this script. </p>
+                <p>All operations are handled client-side via DOM, GM storage, and user interface.*</p>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-book yss-icon-added"></i><span> How to
+                            Troubleshoot or Extend</span></span></h2>
+                <ul>
+                    <li>Use the <strong>log area</strong> in the panel for info, warnings, and errors.</li>
+                    <li>All long-running actions are cancelable and show progress.</li>
+                    <li>Each process is encapsulated, and new bulk operations can be added following the existing
+                        architecture.</li>
+                </ul>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-flag-checkered yss-icon-added"></i><span>
+                            Summary Table of Features</span></span></h2>
+                <table cellpadding="10" border="1" bordercolor="#333333" cellspacing="0" bgcolor="#111111"
+                    style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th><span style="display: inline;"><i
+                                        class="fa-solid fa-screwdriver-wrench yss-icon-added"></i><span>
+                                        Tool/Feature</span></span></th>
+                            <th>Description</th>
+                            <th>Context Filter / Precondition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Schedule/Rename</td>
+                            <td>Bulk schedule or rename filtered videos</td>
+                            <td>"Unlisted" or "Draft" filter</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Un-Draft</td>
+                            <td>Publish all draft videos as Unlisted</td>
+                            <td>"Draft" filter</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Draft-to-Schedule</td>
+                            <td>Un-draft, then schedule all videos in one operation</td>
+                            <td>"Draft" filter</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Unlist Premieres</td>
+                            <td>Set all scheduled "Premiere" videos to Unlisted</td>
+                            <td>"Scheduled" filter</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Scrape Titles</td>
+                            <td>Extract all video titles, copy/export</td>
+                            <td>Any</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>CSV Export</td>
+                            <td>Export video data to CSV, with optional scheduled time</td>
+                            <td>Any</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Disable All Notifications</td>
+                            <td>Uncheck "Notify Subscribers" on all videos</td>
+                            <td>"Unlisted" or as chosen</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Bulk Downloader</td>
+                            <td>Download all matching videos, skip duplicates, multi-mode</td>
+                            <td>Any</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Bulk Uploader</td>
+                            <td>Upload batches of files, progress-tracked</td>
+                            <td>Any</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Calendar Sync</td>
+                            <td>Visualize schedule/export in a calendar, sync to <a
+                                    href="https://satsea.io/video-calendar" target="_blank"
+                                    rel="noopener noreferrer">satsea.io</a></td>
+                            <td>Any</td>
+                        </tr>
+                        <tr bgcolor="#0d0d0d">
+                            <td>Manual Selection</td>
+                            <td>Select specific videos for targeted bulk actions</td>
+                            <td>Any (enabled in multiple features)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-user yss-icon-added"></i><span>&zwj;</span><i
+                            class="fa-solid fa-laptop yss-icon-added"></i><span> Developer’s Notes</span></span></h2>
+                <ul>
+                    <li><strong>Adding new features:</strong></li>
+                    <li>Define a state object.</li>
+                    <li>Add UI button to schema.</li>
+                    <li>Register in <code>BUTTON_CONFIG</code>.</li>
+                    <li>Implement logic function.</li>
+                    <li>If needed, register in <code>processConfig</code> for progress tracking.</li>
+                </ul>
+                <ul>
+                    <li><strong>UI best practices:</strong></li>
+                    <li>Use <code>YSSModalBuilder</code> and <code>SmartButton</code> for all modals and buttons.</li>
+                    <li>Use centralized process management for running state, disabling/enabling relevant controls.</li>
+                    <li>Use ProgressTracker for multi-page/bulk operations.</li>
+                </ul>
+                <ul>
+                    <li><strong>Debugging:</strong></li>
+                    <li>Use the log area and browser console.</li>
+                    <li>All significant actions are logged with timestamp and severity.</li>
+                    <li>Many debug functions are available globally.</li>
+                </ul>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-puzzle-piece yss-icon-added"></i><span>
+                            Example: Adding a New Bulk Action</span></span></h2>
+                <p>Suppose you want to add a "Bulk Set Videos to Private" action:</p>
+                <ol>
+                    <li>Define a state object:</li>
+                    <li>Add a button to the UI schema:</li>
+                    <li>Register in <code>BUTTON_CONFIG</code>:</li>
+                    <li>Implement the click logic:</li>
+                    <li>Add to <code>processConfig</code> if you want progress tracking.</li>
+                </ol>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> const bulkPrivateState = { isRunning: false,
+                            stop: false };</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> { type: 'button', id:
+                            'yss-bulk-private-btn', label: 'Bulk Private', onClick: onBulkPrivateClick }</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> 'yss-bulk-private-btn': { icon: 'fa-solid
+                            fa-lock', tooltip: 'Set videos to Private' }</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> async function onBulkPrivateClick() {
+                            // Iterate all video rows, open options, set visibility, save.
+                            }</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-user yss-icon-added"></i><span>&zwj;</span><i
+                            class="fa-solid fa-wrench yss-icon-added"></i><span> Dependencies</span></span></h2>
+                <ul>
+                    <li><strong>FontAwesome</strong> for icons.</li>
+                    <li><strong>Violentmonkey/Tampermonkey</strong> for GM_* API (storage, resource, cross-tab
+                        messaging).</li>
+                    <li><strong>No heavy frameworks:</strong> Pure vanilla JavaScript for maximum compatibility.</li>
+                </ul>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-box-archive yss-icon-added"></i><span> Selector
+                            Maintenance and Update Guide</span></span></h2>
+                <p><strong>IMPORTANT:</strong> </p>
+                <p>YouTube frequently changes its UI and underlying CSS selectors. </p>
+                <p>THE TOOLPANEL'S SELECTORS ARE CENTRALIZED and easy to update per feature.</p>
+                <h4><strong>Bulk Uploader</strong></h4>
+                <ul>
+                    <li><strong>openUploadDialog()</strong> (main entry for opening the upload dialog)</li>
+                    <li><strong>uploadFileBatch()</strong> (for file input)</li>
+                    <li><strong>monitorUploadProgress()</strong> (to monitor upload progress, indicator)</li>
+                </ul>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> const CREATE_BUTTON_SELECTOR =
+                            'ytcp-button#create-icon, .ytcpAppHeaderCreateIcon';
+                            const CREATE_MENU_CANDIDATE_SELECTOR = 'ytcp-text-menu#creation-menu,
+                            .ytcpAppHeaderCreationMenu';
+                            const UPLOAD_MENU_ITEM_SELECTOR = 'tp-yt-paper-item[test-id="upload-beta"],
+                            ytcp-text-menu-item#upload-video, ytcp-text-menu-item[role="menuitem"]:nth-child(1),
+                            .ytcpAppHeaderUploadVideoMenuItem';
+                            const UPLOAD_DIALOG_CANDIDATE_SELECTOR = 'ytcp-uploads-dialog, ytcp-uploads-dialog[open],
+                            .yss-upload-dialog';</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> const UPLOADS_FILE_INPUT_SELECTOR =
+                            'input[type="file"][name="Filedata"]';</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> const UPLOADS_MINI_INDICATOR_SELECTOR =
+                            'ytcp-uploads-mini-indicator';
+                            const UPLOADS_PROGRESS_MONITOR_CLOSE_BTN_SELECTOR = 'ytcp-multi-progress-monitor
+                            #close-button';
+                            const UPLOADS_PROGRESS_MONITOR_HEADER_SELECTOR = 'ytcp-multi-progress-monitor .header
+                            span.count';</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <h4><strong>Bulk Downloader</strong></h4>
+                <ul>
+                    <li><strong>extractDownloadUrl()/downloadVideoForRow()</strong> (menu &amp; download links)</li>
+                </ul>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> const optionsSelectors = [
+                            'ytcp-icon-button[aria-label="Options"]',
+                            'ytcp-icon-button#options-menu',
+                            'ytcp-icon-button[tooltip="Options"]',
+                            'button[aria-label="Options"]',
+                            'ytcp-icon-button &gt; yt-icon[icon="more_vert"]',
+                            // ...more patterns
+                            ];
+                            const menuListboxSelector = 'tp-yt-paper-listbox#paper-list[role="menu"]';
+                            const downloadItemSelector = 'tp-yt-paper-item[test-id="download"]';
+                            const downloadAnchorSelector = 'a[href*="/download_my_video"]';</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <h4><strong>Disable Notifications</strong></h4>
+                <ul>
+                    <li><strong>handleVideoEditPage()</strong> and helpers</li>
+                </ul>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> const showMoreSelector = '#toggle-button';
+                            const notifyCheckboxSelector = 'ytcp-checkbox-lit#notify-subscribers';
+                            const saveSelectors = [
+                            '#save:not([disabled])',
+                            '#save-button:not([disabled])',
+                            'button[aria-label*="Save"]:not([disabled])',
+                            'button[data-tooltip*="Save"]:not([disabled])',
+                            'button[title*="Save"]:not([disabled])'
+                            ];</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <h4><strong>Unlister &amp; Scheduler</strong></h4>
+                <ul>
+                    <li><strong>handleUnlistPopup()</strong>, <strong>handleSchedulerPopup()</strong>,
+                        <strong>handleDatePicker()</strong>, <strong>handleTimePicker()</strong></li>
+                </ul>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> const visibilityPopupSelector =
+                            'ytcp-video-visibility-edit-popup';
+                            const expandFirstSelector = '#first-container-expand-button';
+                            const unlistedRadioSelector = 'tp-yt-paper-radio-button[name="UNLISTED"]';
+                            const saveButtonSelector = '#save-button';
+                            const dateTriggerSelector = '#datepicker-trigger';
+                            const scheduleContainerSelector = '#second-container';
+                            const timeInputSelector = 'ytcp-video-visibility-edit-popup:not([style*="display: none"])
+                            ytcp-datetime-picker tp-yt-paper-input#textbox input';
+                            const premiereCheckboxSelector = '#schedule-type-checkbox #checkbox';</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <h4><strong>Draft Publisher</strong></h4>
+                <ul>
+                    <li>All workflow step selectors and constants are grouped under the <code>SELECTORS</code> section:
+                    </li>
+                </ul>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> const VIDEO_ROW_SELECTOR = 'ytcp-video-row';
+                            const DRAFT_MODAL_SELECTOR = 'ytcp-uploads-dialog';
+                            const DRAFT_BUTTON_SELECTOR = '.edit-draft-button';
+                            const RADIO_BUTTON_SELECTOR = 'tp-yt-paper-radio-button';
+                            const NEXT_BUTTON_SELECTOR = '#next-button';
+                            const SAVE_BUTTON_SELECTOR = '#done-button';
+                            const VISIBILITY_PAPER_BUTTONS_SELECTOR = 'tp-yt-paper-radio-group#privacy-radios';
+                            const NOTIFY_SUBSCRIBERS_CHECKBOX_SELECTOR = 'ytcp-checkbox-lit#notify-subscribers';
+                            const SHARE_MODAL_DIALOG_SELECTOR = 'ytcp-video-share-dialog:not([style*="display: none"]),
+                            ytcp-video-share-dialog';</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <h4><strong>CSV Scraper</strong></h4>
+                <ul>
+                    <li>**csv_<em> helpers</em>* for titles &amp; time extraction:</li>
+                </ul>
+                <div class="highlight-code" style="position: relative;">
+                    <pre><code class="language-js" code-lang="language-js"> const rowSelector = 'ytcp-video-row';
+                            const titleSelector = 'a#video-title span';
+                            const visibilityEditSelector = '.tablecell-visibility
+                            .icon-text-edit-triangle-wrap.editable';
+                            const nextButtonSelector = '#navigate-after:not([disabled])';
+                            const timeInputInPopup = 'ytcp-video-visibility-edit-popup:not([style*="display: none"])
+                            ytcp-datetime-picker tp-yt-paper-input#textbox input';</code></pre>
+                    <div class="zeroclipboard-container"><span class="code-lang language-js">Language: js</span><button
+                            class="ClipboardButton btn" aria-label="Copy" tabindex="0" role="button"><svg
+                                aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-copy js-clipboard-copy-icon m-2">
+                                <path
+                                    d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                                </path>
+                                <path
+                                    d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                                </path>
+                            </svg><svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"
+                                class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+                                <path
+                                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z">
+                                </path>
+                            </svg><span class="copy-tooltip" style="opacity: 0;">Copied!</span></button></div>
+                </div>
+                <p><strong>Selector Update Process:</strong></p>
+                <ul>
+                    <li>If buttons stop working, <strong>first update the selectors in these functions</strong>.</li>
+                    <li>Use browser inspection tools to find new class names or structures.</li>
+                    <li>Prefer tolerant selectors (e.g. <code>[aria-label*="Options"]</code>,
+                        <code>[data-tooltip*="Save"]</code>).</li>
+                    <li>Test with debug functions in the browser console to verify extraction logic.</li>
+                    <li>Update constants near their respective functions to minimize impact.</li>
+                </ul>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-gear yss-icon-added"></i><span>
+                            Dependencies</span></span></h2>
+                <ul>
+                    <li><strong>FontAwesome</strong>: For all icons</li>
+                    <li><strong>Violentmonkey/Tampermonkey</strong>: For GM_* APIs (storage, cross-tab communication,
+                        resource management)</li>
+                    <li><strong>No external frameworks</strong>: 100% vanilla JavaScript for performance and
+                        compatibility</li>
+                </ul>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-circle-question yss-icon-added"></i><span>
+                            Troubleshooting</span></span></h2>
+                <ul>
+                    <li><strong>Buttons not enabled?</strong></li>
+                </ul>
+                <p> Make sure your Content filter matches the tool’s requirements.</p>
+                <ul>
+                    <li><strong>Bulk operations slow/stuck?</strong></li>
+                </ul>
+                <p> Keep the tab focused and do not navigate away until the operation completes.</p>
+                <ul>
+                    <li><strong>Tooltips/icons missing?</strong></li>
+                </ul>
+                <p> Wait for UI to finish loading; reload if needed.</p>
+                <ul>
+                    <li><strong>Process stuck?</strong></li>
+                </ul>
+                <p> Use reset/stop/clear buttons, reload page; progress is saved.</p>
+                <ul>
+                    <li><strong>Selector breakage after YouTube update?</strong></li>
+                </ul>
+                <p> Update selectors in the relevant section as described above.</p>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-flag-checkered yss-icon-added"></i><span> Final
+                            Note</span></span></h2>
+                <p>This script is robust, modular, and extensible. </p>
+                <p>The architecture is designed for both power users and developers to automate, manage, and scale their
+                    YouTube Studio workflow.</p>
+                <p>For bug reports, suggestions, or contributions, refer to the <a
+                        href="https://github.com/SatoshiSea/Youtube-Studio-ToolPanel-Automations" target="_blank"
+                        rel="noopener noreferrer">GitHub repository</a>.</p>
+                <hr>
+                <h2><span style="display: inline;"><i class="fa-solid fa-tag yss-icon-added"></i><span>
+                            License</span></span></h2>
+                <p><strong>MIT License</strong> — Free to use, modify, and contribute!</p>
+                <hr>
+                <p><strong>For YouTube Studio creators, automation is now within reach.</strong> </p>
+                <p><strong>Enjoy powerful, safe, and extensible workflow tools—right in your browser.</strong></p>
+            </div>
+        </div>
+        <div class="yss-modal-actions">
+            <div class="yss-modal-actions-left"></div>
+            <div class="yss-modal-actions-right"></div>
+        </div>
+    </div>
+</div>

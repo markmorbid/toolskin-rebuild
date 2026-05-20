@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Toolskin Pitchdeck</title>
+	<!-- Google Fonts — render-blocking (critical for body text) -->
+	<link rel="ts-preconnect" href="https://fonts.googleapis.com" />
+	<link rel="ts-preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+	<!-- Other CDN assets loaded dynamically by toolskin-assets.js -->
+	<noscript>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+	</noscript>
+	<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css" />
+	<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin-deck.css" />
+
+	<!-- <link rel="stylesheet" href="assets/css/toolskin.css" /> -->
+
+	<!-- <link rel="stylesheet" href="toolskin-pitchdeck.css" /> -->
+	<!-- <link rel="stylesheet" href="toolskin-pitchdeck_recovered-ASSHOLE.css" /> -->
+	<!--  all syles has been moved inline to make this  stand alone.  -->
+	<script src="https://satsea.io/toolskin-showcase/assets/js/toolskin-assets.js" defer></script>
+	<script src="https://satsea.io/toolskin-showcase/assets/js/toolskin.js" defer></script>
+	<script src="https://satsea.io/toolskin-showcase/assets/js/toolskin-uikit.js" defer></script>
+	<style>
+	
+
+	</style>
+</head>
+
+<body class="ts-bg-body">
+	<div class="ts-section ts-floating-picture ts-z-0 ts-pattern-dots ts-parallax" aria-hidden="true">
+		<div class="ts-parallax__overlay"></div>
+		<div class="ts-split-feature__slider ts-parallax__bg" id="banner-slider" data-ts-slider data-ts-slider-interval="8000">
+	
+			<img src="https://picsum.photos/1080/1920?random=2" alt="Pitch BG 1" class="ts-slide---item active" loading="eager" fetchpriority="high" decoding="async">
+			<img src="https://picsum.photos/1080/1920?random=3" alt="Pitch BG 2" class="ts-slide---item" loading="lazy" decoding="async">
+			<img src="https://picsum.photos/1080/1920?random=4" alt="Pitch BG 3" class="ts-slide---item" loading="lazy" decoding="async">
+			<img src="https://picsum.photos/1080/1920?random=5" alt="Pitch BG 4" class="ts-slide---item" loading="lazy" decoding="async">
+			<img src="https://picsum.photos/1080/1920?random=6" alt="Pitch BG 5" class="ts-slide---item" loading="lazy" decoding="async">
+			<div class="ts-slider-dots" id="slider-dots"></div>
+		</div>
+	</div>
+	<div id="ts-deck" class="ts-deck">
+		<div class="ts-progress">
+			<div class="ts-progress--bar" id="ts-progress" style="width: 0%"></div>
+		</div>
+
+		<!-- SLIDE 1: COVER -->
+		<div class="ts-slide ts-active" data-slide="1">
+			<div class="ts-slide-num">01 / 11</div>
+			<div class="ts-slide--container">
+				<div class="ts-logo">TOOL<span class="ts-accent">SKIN</span></div>
+				<div class="ts-eyebrow">Business Briefing · Q2 2026</div>
+				<h1 class="ts-deck-title">
+					Make money in 30 days.</h1>
+				<p class="ts-lead ts-deck-lead">A token-driven CSS design system, a service business
+					that uses it as the production engine, and a 90-day plan with revenue scenarios We can actually defend.</p>
+				<div class="ts-flex-row ts-gap-6 ts-mt-4">
+					<div class="ts-deck-meta">
+						<div class="ts-label">Prepared for</div>
+						<div class="ts-deck-meta-value">Co-founder review</div>
+					</div>
+					<div class="ts-deck-meta">
+						<div class="ts-label">Decision needed</div>
+						<div class="ts-deck-meta-value">Continue / pivot / shut down</div>
+					</div>
+				</div>
+			</div>
+			<div class="ts-slide-footer">Press <strong class="ts-icon ts-accent" data-icon="fa-solid fa-arrow-right"><span class="sr-only">→</span></strong> to advance · <span class="ts-icon enter-icon ts-accent"></span> <span class="sr-only">ESC</span>for grid view</div>
+		</div>
+
+		<!-- SLIDE 2: WHAT IS TOOLSKIN -->
+		<div class="ts-slide" data-slide="2">
+			<div class="ts-masonry ts-slide-split">
+				<div class="ts-slide-split__intro">
+					<div class="ts-eyebrow"><strong>§01</strong> · The product</div>
+					<div class="ts-slide-num">02 / 11</div>
+					<h2><strong class="ts-text-gradient ts-gradient-text">What is Toolskin</strong>, in one minute.</h2>
+					<div class="ts-accent-bar"></div>
+					<p class="ts-lead ts-deck-lead">A single CSS file that turns any website, web app, or WordPress theme into a complete design system. Change one variable, the whole site re-themes. No build tools, no Node, no framework lock-in.</p>
+				</div>
+
+				<div class="ts-slide-split__body">
+
+					<div class="ts-masonry">
+						<div class="ts-card ts-deck-card ts-card--accent">
+							<div class="ts-flex-row ts-items-center ts-gap-3 ts-mb-3">
+								<div class="ts-icon ts-icon--deck ts-accent" data-icon="fa-solid fa-code"></div>
+								<div class="ts-label">For developers</div>
+							</div>
+							<p>Token-driven CSS with derivative math. Change
+								<span class="ts-mono ts-accent">--ts-accent-h</span>, the entire theme regenerates via <span class="ts-mono">color-mix()</span> and <span class="ts-mono">clamp()</span>. Drop one stylesheet, ship anywhere.
+							</p>
+						</div>
+						<div class="ts-card ts-deck-card ts-card--featured">
+							<div class="ts-flex-row ts-items-center ts-gap-3 ts-mb-3">
+								<div class="ts-icon ts-icon--deck ts-accent" data-icon="fa-solid fa-palette"></div>
+								<div class="ts-label">For designers</div>
+							</div>
+							<p>Figma variables that actually render in
+								production.
+								One token at the top, 240+ derived values cascade through every component automatically.</p>
+						</div>
+						<div class="ts-card ts-deck-card">
+							<div class="ts-flex-row ts-items-center ts-gap-3 ts-mb-3">
+								<div class="ts-icon ts-icon--deck ts-accent" data-icon="fa-solid fa-briefcase"></div>
+								<div class="ts-label">For agencies</div>
+							</div>
+							<p>50 unique client brands from one stylesheet. Stop
+								redesigning from scratch. Token-swap your way to delivery in days, not weeks.</p>
+						</div>
+						<div class="ts-card ts-deck-card ts-card--accent">
+							<div class="ts-flex-row ts-items-center ts-gap-3 ts-mb-3">
+								<div class="ts-icon ts-icon--deck ts-accent" data-icon="fa-solid fa-users"></div>
+								<div class="ts-label">For non-technical buyers</div>
+							</div>
+							<p>A free design "engine" any website can use to
+								look
+								professional. Premium features, themes, and bundled solutions are paid.</p>
+						</div>
+					</div>
+					</div>
+
+			</div>
+			<div class="ts-slide-footer">10,000+ lines of CSS · OKLCH auto-contrast · WCAG AA built in · Zero dependencies</div>
+		</div>
+
+		<!-- SLIDE 3: THE HARD TRUTH -->
+		<div class="ts-slide" data-slide="3">
+			<div class="ts-eyebrow"><strong>§02</strong> · Market reality</div>
+			<div class="ts-slide-num">03 / 11</div>
+			<h2>The market changed in 2025. Plan accordingly.</h2>
+			<div class="ts-accent-bar"></div>
+
+			<div class="ts-masonry ts-deck-masonry">
+				<div class="ts-card ts-deck-card">
+					<span class="ts-badge ts-badge--danger">Dying</span>
+					<h3>Tailwind UI revenue collapsed 80%</h3>
+					<p>75% of engineering team laid off in 2025. Cause:
+						AI generators
+						(v0,
+						Cursor, Lovable, Bolt) made one-time-purchase component libraries obsolete.</p>
+					<div class="ts-quote">"Tailwind is bigger than ever. Revenue is down
+						80%."<div class="ts-quote-attribution">— Adam Wathan, founder · GitHub, 2025</div>
+					</div>
+				</div>
+				<div class="ts-card ts-deck-card">
+					<span class="ts-badge ts-badge--success">Surviving</span>
+					<h3>What still makes money in 2026</h3>
+					<ul class="ts-list ts-checklist">
+						<li><span class="check">✓</span>Enterprise contracts with SLA + support</li>
+						<li><span class="check">✓</span>Hosted services with recurring infrastructure</li>
+						<li><span class="check">✓</span>Education, certification, books</li>
+						<li><span class="check">✓</span>High-margin custom services</li>
+						<li><span class="check">✓</span>Niches AI doesn't serve (WordPress GUI users)</li>
+					</ul>
+				</div>
+				<div class="ts-card ts-deck-card ts-col-full">
+					<div class="ts-label ts-text-accent">Implication for Toolskin</div>
+					<p>Selling premium CSS components
+						and
+						templates as a primary revenue model is structurally weaker today than 18 months ago. The path to revenue is
+						<span class="ts-accent">services first</span>, productized later. Toolskin's value isn't selling the components –
+						it's <span class="ts-accent">using them as a production engine</span> to deliver client work faster than
+						competitors.
+					</p>
+				</div>
+			</div>
+
+			<div class="ts-slide-footer">Sources: Sacra · Contrary Research · Tailwind Labs founder statements · Yahoo Finance</div>
+		</div>
+
+		<!-- SLIDE 4: THE STRATEGY -->
+		<div class="ts-slide" data-slide="4">
+			<div class="ts-eyebrow"><strong>§03</strong> · Strategy</div>
+			<div class="ts-slide-num">04 / 11</div>
+			<h2>Three revenue streams. Sequenced by speed.</h2>
+			<div class="ts-accent-bar"></div>
+
+			<div class="ts-masonry ts-deck-masonry">
+				<div class="ts-card ts-card--accent-bar ts-deck-card">
+					<div class="ts-label ts-text-accent">Stream 1 · Days 1-30</div>
+					<h3>Services</h3>
+					<p>Use Toolskin as the
+						production engine.
+						Deliver
+						landing pages, UI systems, brand sites in <span class="ts-accent">days, not weeks</span>.</p>
+					<div class="ts-deck-metrics">
+						<div class="ts-deck-metric">
+							<div class="ts-label">Pricing</div>
+							<div class="ts-num--small">$1,500 – $8,000</div>
+						</div>
+						<div class="ts-deck-metric">
+							<div class="ts-label">Margin</div>
+							<div class="ts-val-success">70-85%</div>
+						</div>
+						<div class="ts-deck-metric">
+							<div class="ts-label">Cash flow</div>
+							<div class="ts-deck-metric-value">Immediate (50% deposit)</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="ts-card ts-deck-card ts-card--accent-bar">
+					<div class="ts-label">Stream 2 · Days 30-90</div>
+					<h3>Premium bundles</h3>
+					<p>UI kits and themes built
+						from real client
+						work.
+						Each bundle reusable across services.</p>
+					<div class="ts-deck-metrics">
+						<div class="ts-deck-metric">
+							<div class="ts-label">Pricing</div>
+							<div class="ts-num--small">$29 – $149</div>
+						</div>
+						<div class="ts-deck-metric">
+							<div class="ts-label">Margin</div>
+							<div class="ts-val-success">95%+ after build</div>
+						</div>
+						<div class="ts-deck-metric">
+							<div class="ts-label">Cash flow</div>
+							<div class="ts-deck-metric-value">Slow ramp · Compounding</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="ts-card ts-deck-card ts-card--accent-bar">
+					<div class="ts-label">Stream 3 · Months 6+</div>
+					<h3>Productized SaaS</h3>
+					<p>Toolskin Pro for WordPress:
+						theme +
+						customizer
+						+ premium support. <span class="ts-mono">$79/yr</span>.</p>
+					<div class="ts-deck-metrics">
+						<div class="ts-deck-metric">
+							<div class="ts-label">Pricing</div>
+							<div class="ts-num--small">$79 / year</div>
+						</div>
+						<div class="ts-deck-metric">
+							<div class="ts-label">Margin</div>
+							<div class="ts-val-success">90%+ recurring</div>
+						</div>
+						<div class="ts-deck-metric">
+							<div class="ts-label">Cash flow</div>
+							<div class="ts-deck-metric-value">After product-market fit</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ts-slide-footer">Stream 1 funds Stream 2. Stream 2 validates Stream 3. Don't chase 3 before 1 works.</div>
+		</div>
+
+		<!-- SLIDE 5: REVENUE SCENARIOS -->
+		<div class="ts-slide" data-slide="5">
+			<div class="ts-eyebrow"><strong>§04</strong> · 30-day forecast</div>
+			<h2>Three scenarios. Plan around the middle.</h2>
+			<div class="ts-accent-bar"></div>
+			<p class="ts-lead ts-deck-lead">Honest projections based on industry baselines for
+				service businesses with no existing pipeline. Conservative is what most solo founders hit. Aggressive requires
+				existing audience or referral network.</p>
+
+			<div class="ts-slide-num">05 / 11</div>
+			<div class="ts-scenario-grid">
+				<div class="ts-card ts-deck-card">
+					<div class="ts-scenario-header"><span class="ts-badge ts-badge--danger">Conservative</span><span class="ts-scenario-prob">40% prob.</span></div>
+					<div class="ts-label">Day 30 cumulative</div>
+					<div class="ts-num">$1,500 – $4,000</div>
+					<div class="ts-scenario-breakdown">
+						<div>1 service contract @ $1.5-3K</div>
+						<div>5-15 bundle sales @ $29</div>
+						<div>0 referrals yet</div>
+					</div>
+					<div class="ts-label">Means</div>
+					<p class="ts-scenario-interpretation">
+						Pipeline-building phase.
+						Momentum
+						is the metric, not revenue.</p>
+				</div>
+
+				<div class="ts-card ts-card--featured ts-deck-card ts-scenario-base">
+					<div class="ts-scenario-header"><span class="ts-badge">Base case</span><span class="ts-scenario-prob">45% prob.</span></div>
+					<div class="ts-label ts-text-accent">Day 30 cumulative</div>
+					<div class="ts-num ts-text-accent">$5,000 – $12,000</div>
+					<div class="ts-scenario-breakdown ts-scenario-breakdown--base">
+						<div>2 service contracts @ $2-5K</div>
+						<div>20-40 bundle sales</div>
+						<div>1-2 referral conversations</div>
+					</div>
+					<div class="ts-label">Means</div>
+					<p class="ts-scenario-interpretation">Validated.
+						Continue. Build
+						Stream
+						2 in parallel.</p>
+				</div>
+
+				<div class="ts-card ts-card--accent ts-deck-card">
+					<div class="ts-scenario-header"><span class="ts-badge ts-badge--success">Aggressive</span><span class="ts-scenario-prob">15% prob.</span></div>
+					<div class="ts-label">Day 30 cumulative</div>
+					<div class="ts-num">$15,000 – $25,000</div>
+					<div class="ts-scenario-breakdown">
+						<div>3-4 service contracts @ $4-8K</div>
+						<div>50-100 bundle sales</div>
+						<div>HN/PH front page hit</div>
+					</div>
+					<div class="ts-label">Means</div>
+					<p class="ts-scenario-interpretation">Hire help.
+						Don't burn out.
+						Scale
+						Stream 1.</p>
+				</div>
+			</div>
+			<div class="ts-slide-footer">90-day projection: $15K-50K cumulative · Comparables: solo Tailwind theme creators on Gumroad
+				($30-80K/year)</div>
+		</div>
+
+		<!-- SLIDE 6: WEEK BY WEEK -->
+		<div class="ts-slide" data-slide="6">
+			<div class="ts-eyebrow"><strong>§05</strong> · Execution</div>
+			<h2>Week-by-week. First 30 days.</h2>
+			<div class="ts-accent-bar"></div>
+			<div class="ts-slide-num">06 / 11</div>
+
+			<div class="ts-timeline">
+				<div class="ts-timeline-item">
+					<div class="ts-timeline-marker">
+						<span class="marker--word">Week</span>
+						<span class="marker--num">01</span>
+					</div>
+					<div class="ts-timeline-content">Open-source Toolskin on GitHub. Ship the showcase site. Email 30 past contacts with
+						the offer. Cold-DM 50 WordPress agencies.</div>
+					<div class="ts-timeline-revenue">$0 – $1.5K</div>
+					<div class="ts-badge">Foundation</div>
+				</div>
+				<div class="ts-timeline-item">
+					<div class="ts-timeline-marker">
+						<span class="marker--word">Week</span><span class="marker--num">02</span>
+					</div>
+					<div class="ts-timeline-content">First service call. Close 1 contract. Ship the first premium bundle ($29). Submit to
+						ProductHunt + HackerNews + Awesome lists.</div>
+					<div class="ts-timeline-revenue">$1.5K – $4K</div>
+					<div class="ts-badge">First $</div>
+				</div>
+				<div class="ts-timeline-item">
+					<div class="ts-timeline-marker">
+						<span class="marker--word">Week</span>
+						<span class="marker--num">03</span>
+					</div>
+					<div class="ts-timeline-content">Deliver service contract #1. Begin contract #2. Ship 2nd bundle. Twitter token-swap
+						demo videos. Daily DM activity.</div>
+					<div class="ts-timeline-revenue">$3K – $7K</div>
+					<div class="ts-badge">Validate</div>
+				</div>
+				<div class="ts-timeline-item">
+					<div class="ts-timeline-marker">
+						<span class="marker--word">Week</span>
+						<span class="marker--num">04</span>
+					</div>
+					<div class="ts-timeline-content">Deliver contract #2. Ship 3rd bundle. First case study public. Begin Stream 2
+						productization plan.</div>
+					<div class="ts-timeline-revenue">$5K – $12K</div>
+					<div class="ts-badge">Compound</div>
+				</div>
+			</div>
+
+			<div class="ts-card ts-deck-card">
+				<div class="ts-label ts-text-accent">Critical path metric</div>
+				<p>By Day 14: at least <span class="ts-mono ts-accent">1 signed service contract</span> with 50% deposit collected. If we don't hit this, we
+					don't have a service business – we have a hobby. See kill-switches.</p>
+			</div>
+			<div class="ts-slide-footer">Outreach math: 50 cold DMs → 10 replies → 3 calls → 1 close · Industry baseline</div>
+		</div>
+
+		<!-- SLIDE 7: KILL SWITCHES -->
+		<div class="ts-slide" data-slide="7">
+			<div class="ts-masonry ts-slide-split">
+				<div class="ts-slide-split__intro">
+					<div class="ts-slide-num">07 / 11</div>
+					<div class="ts-eyebrow"><strong>§06</strong> · Decision gates</div>
+					<h2>Kill-switches. We commit to these now.</h2>
+					<div class="ts-accent-bar"></div>
+					<p class="ts-lead ts-deck-lead">Honest pre-commitments are what makes this credible.
+					We define exit criteria up front so we don't sunk-cost our way into a 12-month money pit.</p>
+				</div>
+				<div class="ts-slide-split__body">
+					<div class="ts-masonry">
+						<div class="ts-card ts-card--danger ts-deck-card">
+							<div class="ts-kill-trigger ts-card-title" data-icon="ion:warning-outline"> <strong>DAY 14 ·</strong> No signed contract</div>
+							<div class="ts-kill-action ts-card-content">Pivot service positioning. Audit pricing/offer/audience. If still no traction by Day
+								21, kill service stream and go pure-product.</div>
+							</div>
+							<div class="ts-card ts-card--danger ts-deck-card">
+							<div class="ts-kill-trigger ts-card-title" data-icon="ion:warning-outline"> <strong>DAY 30 ·</strong> Below $1.5K cumulative</div>
+							<div class="ts-kill-action ts-card-content">We're below the conservative scenario floor. Reset entire approach. Possible pivot to
+								consulting-only or shut down service ambitions.
+							</div>
+							</div>
+							<div class="ts-card ts-card--danger ts-deck-card">
+							<div class="ts-kill-trigger ts-card-title" data-icon="ion:warning-outline"><strong> DAY 60 ·</strong> Below $5K cumulative</div>
+							<div class="ts-kill-action ts-card-content">Project does not have product-service fit at current execution capacity. Either fund
+								full-time hire or wind down to side-project status.</div>
+							</div>
+							<div class="ts-card ts-card--danger ts-deck-card">
+							<div class="ts-kill-trigger ts-card-title" data-icon="ion:warning-outline"><strong> DAY 90 ·</strong> Below $15K cumulative</div>
+							<div class="ts-kill-action ts-card-content">Toolskin remains alive as open-source. Service business shutters. Founder pivots to
+								employment or consulting elsewhere.
+							</div>
+							</div>
+							<p class="ts-card ts-card--featured ts-card--accent-bar ts-deck-lead ts-masonry--full ts-mt-4">These are commitments to you, not predictions. The point is to remove emotional sunk-cost from the decision. We agree to them today –
+								when the data is hypothetical and we have no skin in the game yet.
+							</p>
+							</div>
+							</div>
+			</div>
+
+			<div class="ts-slide-footer">* Most failed founder partnerships fail because no one defined the exit criteria.</div>
+		</div>
+
+		<!-- SLIDE 8: SERVICE OFFERS -->
+		<div class="ts-slide" data-slide="8">
+			<div class="ts-eyebrow"><strong>§07</strong> · Service catalog</div>
+			<h2>What we sell. Day one.</h2>
+			<div class="ts-accent-bar"></div>
+			<div class="ts-slide-num">08 / 11</div>
+
+			<table class="ts-deck-table">
+				<thead>
+					<tr>
+						<th>Offer</th>
+						<th>Scope</th>
+						<th>Price</th>
+						<th>Days</th>
+						<th>Margin</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><strong>Brand landing page</strong><br><span class="ts-table-subtitle">Most popular · Highest velocity</span></td>
+						<td>Single-page site, 5-7 sections, custom-themed Toolskin, copy review, deploy</td>
+						<td class="ts-table-number">$1,500</td>
+						<td class="ts-table-number">3-5</td>
+						<td class="ts-val-success">85%</td>
+					</tr>
+					<tr>
+						<td><strong>SaaS marketing site</strong></td>
+						<td>5-10 pages, hero, features, pricing, docs structure, deploy</td>
+						<td class="ts-table-number">$3,500</td>
+						<td class="ts-table-number">7-10</td>
+						<td class="ts-val-success">80%</td>
+					</tr>
+					<tr>
+						<td><strong>UI kit / design system</strong></td>
+						<td>Custom Toolskin theme + token map + 20+ components, Figma optional</td>
+						<td class="ts-table-number">$5,000</td>
+						<td class="ts-table-number">10-14</td>
+						<td class="ts-val-success">75%</td>
+					</tr>
+					<tr>
+						<td><strong>WordPress conversion</strong></td>
+						<td>Re-skin existing WP theme with Toolskin tokens, full responsive</td>
+						<td class="ts-table-number">$2,500</td>
+						<td class="ts-table-number">5-7</td>
+						<td class="ts-val-success">82%</td>
+					</tr>
+					<tr>
+						<td><strong>Brand identity + site combo</strong></td>
+						<td>Logo direction, brand tokens, full site, design system handover</td>
+						<td class="ts-table-number">$8,000</td>
+						<td class="ts-table-number">14-21</td>
+						<td class="ts-val-success">70%</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="ts-card ts-deck-card">
+				<div class="ts-label ts-text-accent">Toolskin advantage</div>
+				<p>Industry baseline for a $1,500
+					landing page: 5-10 working days. Using Toolskin: <span class="ts-accent ts-mono">3-5 days</span>. We charge market
+					rate, deliver in half the time, and reuse 70% of every project as bundle source material.</p>
+			</div>
+			<div class="ts-slide-footer">Anchor offer: Brand landing page @ $1,500 · 7 sales = $10K · No new code per sale</div>
+		</div>
+
+		<!-- SLIDE 9: 90-DAY PRODUCT ROADMAP -->
+		<div class="ts-slide" data-slide="9">
+			<div class="ts-eyebrow"><strong>§08</strong> · Product roadmap</div>
+			<h2>90 days. From open-source to revenue product.</h2>
+			<div class="ts-accent-bar"></div>
+			<div class="ts-slide-num">09 / 11</div>
+
+			<div class=" ts-flex ts-roadmap">
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label plan">M 01 · Free</div>
+					<div class="ts-roadmap-content">Open-source Toolskin v1.0. Showcase site. Documentation. ProductHunt launch. <span class="ts-text-accent">Goal: 500 GitHub stars · 5,000 visitors</span></div>
+				</div>
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label plan">M 01 · Paid</div>
+					<div class="ts-roadmap-content">3 premium bundles ($29-79): SaaS landing kit, dashboard kit, marketing site kit. Sold
+						via Gumroad/LemonSqueezy.</div>
+				</div>
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label plan">M 02 · Free</div>
+					<div class="ts-roadmap-content">"Built with Toolskin" gallery. First case studies. WordPress integration starter
+						(free).</div>
+				</div>
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label plan">M 02 · Paid</div>
+					<div class="ts-roadmap-content">5 more bundles. First $149 mega-bundle. Affiliate program for designers.</div>
+				</div>
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label plan">M 03 · Free</div>
+					<div class="ts-roadmap-content">Refactor service learnings into reusable patterns. Begin Toolskin Pro for WordPress
+						beta.</div>
+				</div>
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label">M 03 · Paid</div>
+					<div class="ts-roadmap-content"><strong>Toolskin Pro for WordPress launch</strong> · $79/year.
+						Theme + customizer plugin + premium support. Initial 50 customers = <span class="ts-mono ts-accent">$3,950 ARR
+													start</span>.</div>
+				</div>
+				<div class="ts-roadmap-item ts-slide-row">
+					<div class="ts-slide-row--label plan">M 04+ · Vision</div>
+					<div class="ts-roadmap-content">Marketplace for 3rd-party creators (30% take rate). Toolskin Cloud (hosted
+						brand-token
+						storage). Enterprise tier ($5K+/yr). Education products.</div>
+				</div>
+			</div>
+			<div class="ts-slide-footer">Free product is the funnel. Service revenue funds the runway. Pro WP = first scalable SKU.</div>
+		</div>
+
+		<!-- SLIDE 10: WHY THIS WORKS -->
+		<div class="ts-slide" data-slide="10">
+			<div class="ts-eyebrow"><strong>§09</strong> · Defensibility</div>
+			<h2>Why we win – and where we don't.</h2>
+			<div class="ts-slide-num">10 / 11</div>
+			<div class="ts-accent-bar"></div>
+
+			<div class="ts-masonry ts-deck-masonry">
+				<div class="ts-card ts-deck-card">
+					<div class="ts-label">Defensible</div>
+					<ul class="ts-list ts-checklist">
+						<li><span class="check">✓</span><strong>The token engine itself</strong> – derivative
+							math, OKLCH, three-tier architecture. Hard to copy without rebuilding.</li>
+						<li><span class="check">✓</span><strong>Brand voice</strong> – industrial-precision
+							tone.
+							Differentiates instantly from soft alternatives.</li>
+						<li><span class="check">✓</span><strong>Founder credibility</strong> – established
+							presence in WordPress automation tooling space.</li>
+						<li><span class="check">✓</span><strong>Speed advantage</strong> – Toolskin as
+							production
+							engine = 50% faster delivery than competitors.</li>
+						<li><span class="check">✓</span><strong>WordPress niche</strong> – AI generators don't
+							serve GUI-driven WP users well.</li>
+					</ul>
+				</div>
+				<div class="ts-card ts-deck-card">
+					<div class="ts-label">Not defensible</div>
+					<ul class="ts-list ts-checklist">
+						<li><span class="x">✗</span>No network effects (CSS adoption isn't viral)</li>
+						<li><span class="x">✗</span>Low switching costs (CSS is easy to swap)</li>
+						<li><span class="x">✗</span>No capital advantage (we are not funded)</li>
+						<li><span class="x">✗</span>No talent moat (anyone could rebuild this)</li>
+						<li><span class="x">✗</span>AI eats the component market over time</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="ts-card ts-deck-card">
+				<div class="ts-label ts-text-accent">The honest moat</div>
+				<p>Our advantage is <span class="ts-accent">execution speed × brand-niche specificity</span>. We don't out-engineer Tailwind. We don't out-fund Vercel. We out-ship them in WordPress and adjacent SMB markets they don't bother targeting.</p>
+			</div>
+			<div class="ts-slide-footer">"We don't need a moat to start. We need a moat by year 2-3 to keep going."</div>
+		</div>
+
+		<!-- SLIDE 11: ASK -->
+		<div class="ts-slide" data-slide="11">
+			<div class="ts-eyebrow"><strong>§10</strong> · The ask</div>
+			<div class="ts-slide-num">11 / 11</div>
+			<h2>What we're agreeing to.</h2>
+			<div class="ts-accent-bar"></div>
+
+			<div class="ts-masonry ts-deck-masonry">
+				<div class="ts-card ts-deck-card">
+					<div class="ts-label ts-text-accent">From Parnter</div>
+					<ul class="ts-list ts-checklist">
+						<li data-icon="fa-solid fa-arrow-right">30 days of patience while Stream 1 ramps</li>
+						<li data-icon="fa-solid fa-arrow-right">Honest weekly check-ins on the kill-switches</li>
+						<li data-icon="fa-solid fa-arrow-right">Trust the data, not the hype, on Day 14 and Day 30</li>
+						<li data-icon="fa-solid fa-arrow-right">Permission to say "kill it" if we hit a switch</li>
+					</ul>
+				</div>
+				<div class="ts-card ts-deck-card">
+					<div class="ts-label ts-text-accent">From Builder</div>
+					<ul class="ts-list ts-checklist">
+						<li data-icon="fa-solid fa-arrow-right">50 outreach actions / week, logged publicly</li>
+						<li data-icon="fa-solid fa-arrow-right">1 case study / completed project</li>
+						<li data-icon="fa-solid fa-arrow-right">Weekly revenue + pipeline transparency</li>
+						<li data-icon="fa-solid fa-arrow-right">No vanity metrics – closed revenue only</li>
+						<li data-icon="fa-solid fa-arrow-right">Honor the kill-switches without arguing</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="ts-card ts-card--featured ts-deck-card">
+				<div class="ts-label ts-text-accent">The decision</div>
+				<p>We give Toolskin <span class="ts-mono ts-accent">30 days</span> to validate as a service business. We define the exit criteria today. We
+					commit to the data, not the dream.</p>
+				<p>If Day 30 hits
+					the base case
+					($5-12K cumulative), we continue. If it hits aggressive ($15K+), we accelerate. If it hits conservative
+					($1.5-4K), we re-plan. Below conservative, we wind down honestly.</p>
+			</div>
+
+			<div class="ts-slide-footer">
+				<div class="ts-logo">TOOL<span class="ts-accent">SKIN</span> · Briefing v1</div>
+				<div class="ts-deck-tagline">SHIP THE FRAMEWORK. KEEP THE REST.</div>
+			</div>
+		</div>
+
+		<!-- SLIDE 12: CLOSING -->
+		<div class="ts-slide" data-slide="12" aria-label="Thank you">
+			<div class="ts-eyebrow"><strong>§12</strong> · Closing</div>
+			<div class="ts-slide-num">12 / 12</div>
+			<h2 class="ts-deck-title">Thank you.</h2>
+			<div class="ts-accent-bar"></div>
+			<p class="ts-lead ts-deck-lead">One stylesheet. One service line. One 90-day commitment. The next move is yours.</p>
+			<div class="ts-slide-footer">Decision today · Kickoff tomorrow · First contract by Day 14</div>
+		</div>
+
+		<div class="ts-slide-nav">
+			<button class="ts-btn ts-btn--icon" id="ts-prev" data-icon="fa-solid fa-arrow-left"><span class="sr-only">←</span></button>
+			<span id="ts-counter">1 / 11</span>
+			<button class="ts-btn ts-btn--icon" id="ts-next" data-icon="fa-solid fa-arrow-right"><span class="sr-only">→</span></button>
+		</div>
+
+	</div>
+		
+	<script>
+
+		(function () {
+			window.__TOOLSKIN_CONFIG__ = {
+				reveal: { useGSAP: false, stagger: 0.05, rootMargin: '0px 0px -40px 0px' },
+				smoothScroll: { enabled: false, duration: 1.2 },
+				preloader: {
+					enabled: true,
+					selector: '#ts-hidden',
+					maxVisibleMs: 0,
+					trackImages: true,
+					/** Minimum time the preloader stays visible after load+fonts (0 = off). */
+					minVisibleMs: 0,
+					/** Additional hold (ms) after minVisibleMs, before dismiss. */
+					extraHoldAfterLoadMs: 0,
+					/** Wait for `document.fonts.ready` before dismissing (when Font Loading API exists). */
+					waitForFonts: true,
+
+					debug: false
+				}
+
+			};
+			const deck = document.getElementById('ts-deck');
+			const slides = deck.querySelectorAll('.ts-slide');
+			const total = slides.length;
+			const prev = document.getElementById('ts-prev');
+			const next = document.getElementById('ts-next');
+			const counter = document.getElementById('ts-counter');
+			const progress = document.getElementById('ts-progress');
+			let current = 0;
+
+			function show(i) {
+				slides.forEach((s, idx) => s.classList.toggle('ts-active', idx === i));
+				counter.textContent = (i + 1) + ' / ' + total;
+				progress.style.width = ((i + 1) / total * 100) + '%';
+				prev.disabled = i === 0;
+				next.disabled = i === total - 1;
+				current = i;
+			}
+
+			prev.addEventListener('click', () => show(Math.max(0, current - 1)));
+			next.addEventListener('click', () => show(Math.min(total - 1, current + 1)));
+
+			document.addEventListener('keydown', (e) => {
+				if (!deck.offsetParent) return;
+				if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); show(Math.min(total - 1, current + 1)); }
+				if (e.key === 'ArrowLeft') { e.preventDefault(); show(Math.max(0, current - 1)); }
+				if (e.key === 'Home') show(0);
+				if (e.key === 'End') show(total - 1);
+			});
+
+			show(0);
+		})();
+	</script>
+
+
+
+	
+
+</body>
+
+</html>

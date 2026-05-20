@@ -1,0 +1,190 @@
+<!-- Suno Track Generation & Download History Modal — extracted from Suno_Automation_v3.8.1.user.js showTrackTableModal() + SunoModalBuilder -->
+<div class="suno-modal-overlay closable" data-modal="track-status">
+    <div class="suno-modal-content" style="max-width:95vw;">
+        <div class="suno-modal-title">
+            <h3>
+                <ion-icon name="musical-notes" class="suno-icon"></ion-icon>
+                Track Generation &amp; Download History
+            </h3>
+            <button class="suno-btn suno-btn-icon" title="Close">
+                <ion-icon name="close" class="suno-icon"></ion-icon>
+            </button>
+        </div>
+        <div class="suno-modal-view">
+            <div class="suno-track-modal-content">
+
+                <!-- Filter / Tab Bar -->
+                <div class="suno-track-filter-bar">
+                    <div class="suno-track-tabs">
+                        <button class="suno-tab-btn active" data-filter="all" data-tooltip="View all tracks in history">
+                            <ion-icon name="musical-notes" class="suno-icon"></ion-icon>
+                            <span>Total Tracks</span>
+                            <span class="suno-stat-value">43</span>
+                        </button>
+                        <button class="suno-tab-btn" data-filter="automation"
+                            data-tooltip="View tracks from automation runs">
+                            <ion-icon name="flash" class="suno-icon"></ion-icon>
+                            <span>Automation</span>
+                            <span class="suno-stat-value">12</span>
+                        </button>
+                        <button class="suno-tab-btn" data-filter="bulk" data-tooltip="View tracks from bulk downloads">
+                            <ion-icon name="cloud-download" class="suno-icon"></ion-icon>
+                            <span>Bulk Downl.</span>
+                            <span class="suno-stat-value">31</span>
+                        </button>
+                        <button class="suno-tab-btn" data-filter="session"
+                            data-tooltip="View tracks from current session only">
+                            <ion-icon name="play" class="suno-icon"></ion-icon>
+                            <span>This Session</span>
+                            <span class="suno-stat-value">5</span>
+                        </button>
+                        <button class="suno-tab-btn" data-filter="queue"
+                            data-tooltip="View and manage fetched tracks for download">
+                            <ion-icon name="cloud-download-outline" class="suno-icon"></ion-icon>
+                            <span>Fetch Queue</span>
+                            <span class="suno-stat-value">31</span>
+                        </button>
+                    </div>
+                    <div class="suno-track-search">
+                        <ion-icon name="search" class="suno-icon"></ion-icon>
+                        <input type="text" placeholder="Search tracks..." id="suno-track-search-input"
+                            class="suno-input" data-tooltip="Search by track name, ID, or styles">
+                    </div>
+                    <button id="suno-toggle-optional" class="suno-btn suno-btn-icon"
+                        data-tooltip="Show/Hide optional columns (ID, Styles, Initial Text, Settings)">
+                        <ion-icon name="eye-off" class="suno-icon" style="font-size:16px;"></ion-icon>
+                    </button>
+                </div>
+
+                <!-- Track Table -->
+                <div id="suno-track-table-scroll" class="suno-table-scroll">
+                    <table id="suno-track-table" class="suno-table">
+                        <thead>
+                            <tr>
+                                <th data-sort="index">#</th>
+                                <th>Img</th>
+                                <th data-sort="title">Track Name</th>
+                                <th data-sort="duration">Duration</th>
+                                <th data-sort="generationStarted" class="gen-started">Generated</th>
+                                <th data-sort="downloadedAt" class="date">Downloaded</th>
+                                <th data-sort="fileSize">Size</th>
+                                <th class="optional-column" style="display:none;" data-sort="styles">Styles/Prompt</th>
+                                <th class="optional-column" style="display:none;" data-sort="id">ID</th>
+                                <th data-sort="downloadStatus">Status</th>
+                                <th data-sort="source">Source</th>
+                                <th class="download-url-cell">URL</th>
+                            </tr>
+                        </thead>
+                        <tbody id="suno-track-table-body">
+                            <tr class="in-history">
+                                <td>1</td>
+                                <td class="thumbnail-cell"><img src="https://picsum.photos/200?random=1" style="width:32px;height:32px;border-radius:4px;object-fit:cover;background:var(--suno-bg-secondary,#111);">
+                                </td>
+                                <td>Midnight Echoes — Vol.1</td>
+                                <td>3:42</td>
+                                <td class="gen-started">2 min ago</td>
+                                <td class="date">Just now</td>
+                                <td>4.2 MB</td>
+                                <td class="optional-column" style="display:none;">Lo-fi, Ambient</td>
+                                <td class="optional-column" style="display:none;">a1b2c3d4</td>
+                                <td><span class="status-badge completed">completed</span></td>
+                                <td class="source-cell"><span class="source-badge automation">Automation</span></td>
+                                <td class="download-url-cell"><button class="suno-btn suno-btn-icon suno-btn-grad" data-tooltip="Open download URL in new tab"><ion-icon name="download" class="suno-icon" style="font-size: 14px;"></ion-icon></button></td>
+                            </tr>
+                            <tr class="in-history">
+                                <td>2</td>
+                                <td class="thumbnail-cell"><img src="https://picsum.photos/200?random=2" style="width:32px;height:32px;border-radius:4px;object-fit:cover;background:var(--suno-bg-secondary,#111);">
+                                </td>
+                                <td>Solar Winds Drift</td>
+                                <td>4:15</td>
+                                <td class="gen-started">5 min ago</td>
+                                <td class="date">3 min ago</td>
+                                <td>5.1 MB</td>
+                                <td class="optional-column" style="display:none;">Synthwave, Electronic</td>
+                                <td class="optional-column" style="display:none;">e5f6g7h8</td>
+                                <td><span class="status-badge completed">completed</span></td>
+                                <td class="source-cell"><span class="source-badge automation">Automation</span></td>
+                                <td class="download-url-cell"><button class="suno-btn suno-btn-icon suno-btn-grad" data-tooltip="Open download URL in new tab"><ion-icon name="download" class="suno-icon" style="font-size: 14px;"></ion-icon></button></td>
+                            </tr>
+                            <tr class="in-history">
+                                <td>3</td>
+                                <td class="thumbnail-cell"><img src="https://picsum.photos/200?random=3" style="width:32px;height:32px;border-radius:4px;object-fit:cover;background:var(--suno-bg-secondary,#111);">
+                                </td>
+                                <td>Digital Nomad Beats</td>
+                                <td>—</td>
+                                <td class="gen-started">now</td>
+                                <td class="date">—</td>
+                                <td>—</td>
+                                <td class="optional-column" style="display:none;">Hip-Hop, Chill</td>
+                                <td class="optional-column" style="display:none;">i9j0k1l2</td>
+                                <td><span class="status-badge pending">Pending</span></td>
+                                <td class="source-cell"><span class="source-badge automation">Automation</span></td>
+                                <td class="download-url-cell" style="text-align: center;">—</td>
+                            </tr>
+                            <tr class="in-history">
+                                <td>4</td>
+                                <td class="thumbnail-cell"><img src="https://picsum.photos/200?random=4" style="width:32px;height:32px;border-radius:4px;object-fit:cover;background:var(--suno-bg-secondary,#111);">
+                                </td>
+                                <td>Cosmic Overdrive</td>
+                                <td>—</td>
+                                <td class="gen-started">8 min ago</td>
+                                <td class="date">—</td>
+                                <td>—</td>
+                                <td class="optional-column" style="display:none;">Rock, Instrumental</td>
+                                <td class="optional-column" style="display:none;">m3n4o5p6</td>
+                                <td><span class="status-badge failed">Failed</span></td>
+                                <td class="source-cell"><span class="source-badge automation">Automation</span></td>
+                                <td class="download-url-cell" style="text-align: center;">—</td>
+                            </tr>
+                            <tr class="in-history">
+                                <td>5</td>
+                                <td class="thumbnail-cell"><img src="https://picsum.photos/200?random=5" style="width:32px;height:32px;border-radius:4px;object-fit:cover;background:var(--suno-bg-secondary,#111);">
+                                </td>
+                                <td>Neon Whispers</td>
+                                <td>3:58</td>
+                                <td class="gen-started">12 min ago</td>
+                                <td class="date">10 min ago</td>
+                                <td>4.8 MB</td>
+                                <td class="optional-column" style="display:none;">Dreampop, Shoegaze</td>
+                                <td class="optional-column" style="display:none;">q7r8s9t0</td>
+                                <td><span class="status-badge completed">Completed</span></td>
+                                <td class="source-cell"><span class="source-badge bulk">Bulk</span></td>
+                                <td class="download-url-cell"><button class="suno-btn suno-btn-icon suno-btn-grad" data-tooltip="Open download URL in new tab"><ion-icon name="download" class="suno-icon" style="font-size: 14px;"></ion-icon></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty state (hidden by default in mockup) -->
+                <div id="suno-track-empty" class="suno-track-empty" style="display:none;">
+                    No tracks found. Start generating or download songs to see them here.
+                </div>
+
+            </div>
+        </div>
+        <div class="suno-modal-actions">
+            <div class="suno-modal-actions-left">
+                <button class="suno-btn btn-danger suno-close-btn">
+                    <ion-icon name="close" class="suno-icon"></ion-icon><span>Close</span>
+                </button>
+                <button class="suno-btn btn-danger">
+                    <ion-icon name="trash" class="suno-icon"></ion-icon><span>Clear History</span>
+                </button>
+            </div>
+            <div class="suno-modal-actions-right">
+                <button class="suno-btn btn-primary">
+                    <ion-icon name="cloud-download" class="suno-icon"></ion-icon><span>Queue Manager</span>
+                </button>
+                <button class="suno-btn btn-info">
+                    <ion-icon name="search" class="suno-icon"></ion-icon><span>Check Duplicates</span>
+                </button>
+                <button class="suno-btn">
+                    <ion-icon name="download-outline" class="suno-icon"></ion-icon><span>Export CSV</span>
+                </button>
+                <button class="suno-btn btn-info">
+                    <ion-icon name="refresh" class="suno-icon"></ion-icon><span>Refresh</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

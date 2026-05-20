@@ -1,0 +1,112 @@
+<!-- YSS Calendar View Modal — extracted from Youtube_Toolpanel_4.2.7.user.js showCalendarModal() -->
+<div class="yss-modal-overlay yss-modal-overlay-closable" id="yss-modal-overlay">
+    <div class="yss-modal-content yss-sticky-modal" style="max-width:900px;">
+        <div class="yss-modal-title" style="cursor: move;">
+            <button class="yss-btn yss-btn-icon yss-back-btn" title="Back">
+                <i class="fa-solid fa-arrow-left" style="font-size: inherit; color: currentcolor;"></i>
+            </button>
+            <h3>Calendar View <strong>12 videos</strong></h3>
+            <button class="yss-btn yss-btn-icon yss-close-btn" title="Close">
+                <i class="fa-solid fa-xmark" style="font-size: inherit; color: currentcolor;"></i>
+            </button>
+        </div>
+
+        <div class="yss-modal-view">
+            <!-- ── Monthly Calendar Grid ── -->
+            <div class="yss-summary-table">
+                <h4 class="yss-summary-title">
+                    <i class="fa-solid fa-calendar" style="font-size: inherit; color: currentcolor;"></i>
+                    March 2026
+                    <button class="yss-toggle-stats-btn" title="Toggle visibility">
+                        <i class="fa-solid fa-chevron-down" style="font-size: inherit; color: currentcolor;"></i>
+                    </button>
+                </h4>
+                <div class="yss-summary-rows">
+                    <div
+                        style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:.78rem;">
+                        <div style="font-weight:bold;color:var(--yss-text-secondary);">Sun</div>
+                        <div style="font-weight:bold;color:var(--yss-text-secondary);">Mon</div>
+                        <div style="font-weight:bold;color:var(--yss-text-secondary);">Tue</div>
+                        <div style="font-weight:bold;color:var(--yss-text-secondary);">Wed</div>
+                        <div style="font-weight:bold;color:var(--yss-text-secondary);">Thu</div>
+                        <div style="font-weight:bold;color:var(--yss-text-secondary);">Fri</div>
+                        <div style="font-weight:bold;color:var(--yss-text-secondary);">Sat</div>
+                        <!-- Week 1 -->
+                        <div style="opacity:.35">–</div>
+                        <div style="opacity:.35">–</div>
+                        <div style="opacity:.35">–</div>
+                        <div style="opacity:.35">–</div>
+                        <div style="opacity:.35">–</div>
+                        <div style="opacity:.35">–</div>
+                        <div style="padding:4px;border-radius:4px;background:var(--yss-bg-alt);">1</div>
+                        <!-- Week 2 -->
+                        <div style="padding:4px;border-radius:4px;">2</div>
+                        <div
+                            style="padding:4px;border-radius:4px;background:var(--yss-accent-blue);color:white;font-weight:bold;">
+                            3 <small>(2)</small></div>
+                        <div style="padding:4px;border-radius:4px;">4</div>
+                        <div
+                            style="padding:4px;border-radius:4px;background:var(--yss-accent-blue);color:white;font-weight:bold;">
+                            5 <small>(1)</small></div>
+                        <div style="padding:4px;border-radius:4px;">6</div>
+                        <div
+                            style="padding:4px;border-radius:4px;background:var(--yss-accent-blue);color:white;font-weight:bold;">
+                            7 <small>(3)</small></div>
+                        <div style="padding:4px;border-radius:4px;">8</div>
+                        <!-- Week 3 -->
+                        <div style="padding:4px;border-radius:4px;">9</div>
+                        <div
+                            style="padding:4px;border-radius:4px;background:var(--yss-accent-blue);color:white;font-weight:bold;">
+                            10 <small>(2)</small></div>
+                        <div style="padding:4px;border-radius:4px;">11</div>
+                        <div
+                            style="padding:4px;border-radius:4px;background:var(--yss-accent-blue);color:white;font-weight:bold;">
+                            12 <small>(1)</small></div>
+                        <div
+                            style="padding:4px;border-radius:4px;background:var(--yss-success);color:white;font-weight:bold;">
+                            13 <small>Today</small></div>
+                        <div
+                            style="padding:4px;border-radius:4px;background:var(--yss-accent-blue);color:white;font-weight:bold;">
+                            14 <small>(3)</small></div>
+                        <div style="padding:4px;border-radius:4px;">15</div>
+                        <!-- Week 4+ -->
+                        <div style="padding:4px;border-radius:4px;">16</div>
+                        <div style="padding:4px;border-radius:4px;">17</div>
+                        <div style="padding:4px;border-radius:4px;">18</div>
+                        <div style="padding:4px;border-radius:4px;">19</div>
+                        <div style="padding:4px;border-radius:4px;">20</div>
+                        <div style="padding:4px;border-radius:4px;">21</div>
+                        <div style="padding:4px;border-radius:4px;">22</div>
+                        <div style="padding:4px;border-radius:4px;">23</div>
+                        <div style="padding:4px;border-radius:4px;">24</div>
+                        <div style="padding:4px;border-radius:4px;">25</div>
+                        <div style="padding:4px;border-radius:4px;">26</div>
+                        <div style="padding:4px;border-radius:4px;">27</div>
+                        <div style="padding:4px;border-radius:4px;">28</div>
+                        <div style="padding:4px;border-radius:4px;">29</div>
+                        <div style="padding:4px;border-radius:4px;">30</div>
+                        <div style="padding:4px;border-radius:4px;">31</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Upload Schedule (example import area) ── -->
+            <div class="yss-form-group" style="margin-top:12px;">
+                <label>Import Schedule from CSV</label>
+                <div style="display:flex;gap:8px;">
+                    <button class="yss-btn yss-btn-secondary"><i class="fa-solid fa-file-import"></i><span>Import
+                            CSV</span></button>
+                    <button class="yss-btn yss-btn-secondary"><i class="fa-solid fa-file-export"></i><span>Export
+                            CSV</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="yss-modal-actions">
+            <div class="yss-modal-actions-left">
+                <button class="yss-btn yss-btn-secondary yss-close-btn"><i
+                        class="fa-solid fa-xmark"></i><span>Close</span></button>
+            </div>
+        </div>
+    </div>
+</div>

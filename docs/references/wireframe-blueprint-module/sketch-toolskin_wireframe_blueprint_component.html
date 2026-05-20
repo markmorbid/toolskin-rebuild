@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Toolskin Wireframe Blueprint System</title>
+  <link rel="stylesheet" href="toolskin.css" />
+  <style>
+    /* Layered on top of Toolskin tokens */
+
+    :root {
+      --wf-bg: var(--tk-color-surface, #0e0f12);
+      --wf-line: var(--tk-color-border, #2a2d36);
+      --wf-accent: var(--tk-color-primary, #7aa2ff);
+      --wf-text: var(--tk-color-text-muted, #9aa3b2);
+    }
+
+    body {
+      margin: 0;
+      background: var(--wf-bg);
+      color: var(--wf-text);
+      font-family: var(--tk-font-sans, system-ui);
+    }
+
+    .wf-root {
+      padding: 24px;
+    }
+
+    /* === Blueprint Grid Engine === */
+
+    .wf-canvas {
+      position: relative;
+      border: 1px solid var(--wf-line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .wf-grid {
+      display: grid;
+      width: 100%;
+      height: 100%;
+    }
+
+    .wf-grid--blueprint {
+      background-image:
+        linear-gradient(var(--wf-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--wf-line) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .wf-grid--dense {
+      background-size: 12px 12px;
+    }
+
+    .wf-grid--coarse {
+      background-size: 48px 48px;
+    }
+
+    /* === Layout Regions === */
+
+    .wf-region {
+      position: relative;
+      border: 1px dashed var(--wf-accent);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .wf-region::after {
+      content: attr(data-label);
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      font-size: 10px;
+      opacity: 0.6;
+    }
+
+    /* === Preset Layout Schemas === */
+
+    .wf-layout--app {
+      grid-template-columns: 240px 1fr;
+      grid-template-rows: 64px 1fr;
+    }
+
+    .wf-layout--app .wf-header { grid-column: 1 / -1; }
+    .wf-layout--app .wf-sidebar { grid-row: 2; }
+    .wf-layout--app .wf-main { grid-row: 2; }
+
+
+    .wf-layout--landing {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto 1fr auto;
+    }
+
+    .wf-layout--dashboard {
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 120px;
+      gap: 12px;
+    }
+
+    /* === Theme Toggle === */
+
+    .wf-light {
+      --wf-bg: #ffffff;
+      --wf-line: #d9dce3;
+      --wf-accent: #3b82f6;
+      --wf-text: #6b7280;
+    }
+
+    /* === Controls === */
+
+    .wf-controls {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .wf-button {
+      padding: 6px 10px;
+      border: 1px solid var(--wf-line);
+      background: transparent;
+      color: inherit;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="wf-root" id="app">
+
+  <div class="wf-controls">
+    <button class="wf-button" data-action="layout" data-value="app">App</button>
+    <button class="wf-button" data-action="layout" data-value="landing">Landing</button>
+    <button class="wf-button" data-action="layout" data-value="dashboard">Dashboard</button>
+
+    <button class="wf-button" data-action="grid" data-value="blueprint">Grid</button>
+    <button class="wf-button" data-action="grid" data-value="dense">Dense</button>
+    <button class="wf-button" data-action="grid" data-value="coarse">Coarse</button>
+
+    <button class="wf-button" data-action="theme">Invert</button>
+  </div>
+
+  <div class="wf-canvas" style="height: 600px;">
+    <div id="wfGrid" class="wf-grid wf-grid--blueprint wf-layout--app">
+
+      <div class="wf-region wf-header" data-label="header"></div>
+      <div class="wf-region wf-sidebar" data-label="sidebar"></div>
+      <div class="wf-region wf-main" data-label="main"></div>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="toolskin.js"></script>
+<script>
+
+const grid = document.getElementById('wfGrid');
+const root = document.getElementById('app');
+
+/* === Layout Engine === */
+
+function setLayout(type) {
+  grid.classList.remove('wf-layout--app','wf-layout--landing','wf-layout--dashboard');
+  grid.classList.add('wf-layout--' + type);
+
+  grid.innerHTML = '';
+
+  if (type === 'app') {
+    grid.innerHTML = `
+      <div class="wf-region wf-header" data-label="header"></div>
+      <div class="wf-region wf-sidebar" data-label="sidebar"></div>
+      <div class="wf-region wf-main" data-label="main"></div>
+    `;
+  }
+
+  if (type === 'landing') {
+    grid.innerHTML = `
+      <div class="wf-region" data-label="hero"></div>
+      <div class="wf-region" data-label="features"></div>
+      <div class="wf-region" data-label="content"></div>
+      <div class="wf-region" data-label="footer"></div>
+    `;
+  }
+
+  if (type === 'dashboard') {
+    for (let i = 0; i < 12; i++) {
+      const el = document.createElement('div');
+      el.className = 'wf-region';
+      el.setAttribute('data-label', 'widget ' + (i + 1));
+      grid.appendChild(el);
+    }
+  }
+}
+
+/* === Grid Mode === */
+
+function setGrid(type) {
+  grid.classList.remove('wf-grid--blueprint','wf-grid--dense','wf-grid--coarse');
+  grid.classList.add('wf-grid--' + type);
+}
+
+/* === Theme Toggle === */
+
+function toggleTheme() {
+  root.classList.toggle('wf-light');
+}
+
+/* === Controls Binding === */
+
+root.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-action]');
+  if (!btn) return;
+
+  const action = btn.dataset.action;
+  const value = btn.dataset.value;
+
+  if (action === 'layout') setLayout(value);
+  if (action === 'grid') setGrid(value);
+  if (action === 'theme') toggleTheme();
+});
+
+</script>
+
+</body>
+</html>

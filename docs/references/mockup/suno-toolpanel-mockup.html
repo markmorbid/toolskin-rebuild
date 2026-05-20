@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<!-- saved from url=(0018)https://cthdrl.co/ -->
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Suno Toolpanel Mockup</title>
+	<link rel="stylesheet" href="../assets/css/Suno_Automation_v3.8.1.user.css">
+	<link rel="stylesheet" href="../assets/css/extra-styles.css">
+	<link rel="icon" type="image/x-icon" href="https://www.google.com/s2/favicons?sz=64&domain=suno.com" sizes="any">
+	<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+		rel="stylesheet">
+
+	<link rel="preload" href="https://suno.com/static-p/PPNeueMontreal-Regular.7a832673.woff" as="font" type="font/woff"
+		crossorigin="anonymous">
+	<link rel="preload" href="https://suno.com/static-p/PPNeueMontreal-Medium.8b97a885.woff" as="font" type="font/woff"
+		crossorigin="anonymous">
+
+	<script type="text/javascript" src="../assets/js/mockup-scripts.js"></script>
+	<style>
+		body {
+			background-image: url(../assets/img/bg_yt_s.jpg);
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: left center;
+			font-family: var(--suno-font-family);
+
+		}
+
+		:root {
+			--suno-font-family: 'Space Grotesk', system-ui, sans-serif;
+			--suno-font-family: 'Inter', system-ui, sans-serif;
+			--suno-font-family-mono: 'Space Mono', 'Monaco', 'Consolas', monospace;
+		}
+	</style>
+	<script>
+		// Helper to create Ionicon element
+		const createIonIcon = (name, options = {}) => {
+			const icon = document.createElement('ion-icon');
+			icon.setAttribute('name', name);
+			if (options.size) icon.style.fontSize = options.size;
+			if (options.color) icon.style.color = options.color;
+			if (options.outline) icon.setAttribute('name', `${name}-outline`);
+			if (options.sharp) icon.setAttribute('name', `${name}-sharp`);
+			if (options.ariaLabel) icon.setAttribute('aria-label', options.ariaLabel);
+			else icon.setAttribute('aria-hidden', 'true');
+			return icon;
+		};
+
+		// Mapping from ICONS object keys to Ionicons names
+		const IONICONS_MAP = {
+			play: 'play',
+			stop: 'stop',
+			pause: 'pause',
+			check: 'checkmark',
+			chartBar: 'bar-chart',
+			download: 'download',
+			cloudDownload: 'cloud-download',
+			copy: 'copy',
+			eye: 'eye',
+			eyeSlash: 'eye-off',
+			fileExport: 'download-outline',
+			layerGroup: 'layers',
+			xmark: 'close',
+			minus: 'remove',
+			chartLine: 'trending-up',
+			music: 'musical-notes',
+			trash: 'trash',
+			refresh: 'refresh',
+			info: 'information-circle',
+			warning: 'warning',
+			error: 'close-circle',
+			success: 'checkmark-circle',
+			circle: 'ellipse',
+			gear: 'settings',
+			chevronUp: 'chevron-up',
+			chevronDown: 'chevron-down',
+			createMusic: 'add-circle',
+			search: 'search',
+			bolt: 'flash',
+			barChart: 'bar-chart',
+			calendar: 'calendar',
+			time: 'time',
+			clear: 'broom',
+			cloudDownload: 'cloud-download',
+			flash: 'flash',
+			timer: 'timer',
+			checkmark: 'checkmark',
+			checkmarkCircle: 'checkmark-circle',
+			errorCircle: 'close-circle',
+			successCircle: 'checkmark-circle',
+			warningCircle: 'warning-circle',
+			informationCircle: 'information-circle',
+		};
+	</script>
+</head>
+
+<body>
+	<div class="container" id="main">
+
+
+
+		<header class="suno-panel-header" id="header" style="padding: 20px;max-height: 60px!important;padding: 5px!important;border-radius: calc(var(--mockup-border-radius)*1)!important;">
+			<div class="suno-panel-header-left" style="flex: 1;padding: 10px 5px 10px 13px;line-height: 1;">
+				<h1 style="flex:1;font-size: var(--suno-font-size-md-2, 1.2rem)!important;padding: 0;flex-direction: row;justify-content: space-between;">Suno Toolpanel Mockup <strong style="margin-left: 0;">// Main Mode</strong></h1> </div>
+			<div class="suno-panel-header-right">
+				<a href="index.html" style="font-size: 15px!important;" class="suno-btn"><ion-icon name="arrow-back-outline"></ion-icon> Index </a>
+			</div>
+		</header>
+		<div id="suno-panel" class="suno-panel layout_two suno-gradient-btn">
+			<div class="suno-panel-header"><span class="suno-panel-version">v3.8.1</span>
+				<div class="suno-panel-header-left">
+					<ion-icon name="play" class="suno-icon" aria-hidden="true" style="font-size: 14px;"
+						role="img"></ion-icon><span>Suno Automation &amp; Downloader</span>
+				</div>
+				<div class="suno-panel-header-right">
+					<button class="suno-panel-header-btn hide" data-tooltip="Toggle Gradient Style" style="opacity: 1;">
+						<ion-icon name="trending-up" class="suno-icon"></ion-icon>
+					</button>
+					<button class="suno-panel-header-btn hide" data-tooltip="Toggle Tooltips">
+						<ion-icon name="checkmark" class="suno-icon"></ion-icon>
+					</button>
+					<button class="suno-panel-header-btn" data-tooltip="Help &amp; Instructions">
+						<ion-icon name="help-circle" class="suno-icon"></ion-icon>
+					</button>
+					<button class="suno-panel-header-btn" data-tooltip="Settings">
+						<ion-icon name="settings" class="suno-icon"></ion-icon>
+					</button>
+					<button class="suno-panel-header-btn" data-tooltip="Minimize Panel">
+						<ion-icon name="remove" class="suno-icon"></ion-icon>
+					</button>
+				</div>
+			</div>
+			<div class="suno-panel-controls" id="suno-panel-controls">
+				<div class="suno-button-row" style="position: relative; padding-right: 40px;">
+					<button id="activate-suno-script" class="suno-btn btn-primary"
+						data-tooltip="Start automated track generation">
+						<ion-icon
+							src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PScwIDAgNjAgNjAnPjxwYXRoIGZpbGw9J2N1cnJlbnRDb2xvcicgZD0nTTIyLjksMTcuNmwtOC4xLDAuOGMtMS41LDAuMS0yLjYsMS40LTIuNiwyLjhWNDZjLTAuNi0wLjEtMS4xLTAuMS0xLjctMC4xYy00LjcsMC04LjYsMy04LjYsNi44YzAsMy43LDMuOCw2LjgsOC42LDYuOCBjNC43LDAsOC42LTMsOC42LTYuOFYzMS42bDE1LjctMS42Yy0wLjEtMC4yLTAuMi0wLjQtMC4zLTAuNmwtMS45LTQuNmwtNC42LTEuOUMyNS43LDIyLjEsMjMuOCwyMC4xLDIyLjksMTcuNiBNMzkuNywzNC41djguMSBjLTAuNi0wLjEtMS4xLTAuMS0xLjctMC4xYy00LjcsMC04LjYsMy04LjYsNi44YzAsMy44LDMuOCw2LjgsOC42LDYuOHM4LjYtMyw4LjYtNi44VjM0LjVDNDQuNCwzNS4zLDQxLjksMzUuNCwzOS43LDM0LjUgTTI4LjIsMTUuNGMtMC4xLTEuNCwwLjgtMi44LDIuMS0zLjNsNS41LTIuMmMwLjktMC4zLDEuNS0xLDEuOS0xLjlMNDAsMi42YzEuMi0yLjgsNS4yLTIuOCw2LjMsMGwyLjIsNS41YzAuMywwLjgsMSwxLjUsMS45LDEuOSBsNS41LDIuMmMxLjEsMC41LDEuOCwxLjQsMiwyLjRjMC4xLDEuMy0wLjcsMi43LTIuMSwzLjNMNTAuNCwyMGMtMC45LDAuMy0xLjUsMS0xLjksMS45bC0yLjIsNS41Yy0xLjIsMi44LTUuMiwyLjgtNi40LDBsLTIuMi01LjUgYy0wLjMtMC44LTEtMS41LTEuOS0xLjlsLTUuNS0yLjJDMjkuMiwxNy40LDI4LjUsMTYuNSwyOC4yLDE1LjQnPjwvcGF0aD48L3N2Zz4="
+							class="suno-icon" aria-hidden="true" role="img"></ion-icon><span
+							class="suno-btn-text">Start Generating</span></button>
+					<button id="suno-toggle-status" class="suno-btn btn-info"
+						data-tooltip="Show Track Generation Status Modal Panel">
+						<ion-icon name="bar-chart" class="suno-icon" aria-hidden="true"
+							role="img"></ion-icon><span class="suno-btn-text">Track Status</span></button>
+					<button id="stop-clicks-button" class="suno-btn btn-danger suno-btn-icon"
+						data-tooltip="Stop the automation" disabled="">
+						<ion-icon name="stop" class="suno-icon" aria-hidden="true"
+							role="img"></ion-icon><span class="suno-btn-text">Stop Clicks</span></button>
+					<button id="pause-automation-button" class="suno-btn btn-pause suno-btn-icon"
+						data-tooltip="Pause the Automation Progress" disabled="">
+						<ion-icon name="pause" class="suno-icon" aria-hidden="true"
+							role="img"></ion-icon><span class="suno-btn-text">Pause</span></button>
+					<button class="suno-btn btn-transp" style="position: absolute; right: 0;"
+						data-tooltip="Help: Track Generation">
+						<ion-icon name="help-circle" class="suno-icon" aria-hidden="true"
+							style="font-size: 14px;" role="img"></ion-icon>
+					</button>
+				</div>
+			</div>
+			<div class="suno-panel-controls suno-bulk-content" id="suno-bulk-controls">
+				<div class="suno-button-row title suno-bulk-progress" id="suno-bulk-progress">
+					<ion-icon name="cloud-download" class="suno-icon" aria-hidden="true"
+						role="img"></ion-icon><span class="progress-label"> Stopped. <strong>31</strong> songs
+						collected.</span>
+					<button class="suno-panel-btn" title="Hide Progress">
+						<ion-icon name="close" class="suno-icon" aria-hidden="true" style="font-size: 12px;"
+							role="img"></ion-icon>
+					</button>
+				</div>
+				<div class="suno-button-row" style="position: relative; padding-right: 40px;">
+					<button id="suno-bulk-all" class="suno-btn btn-primary"
+						data-tooltip="Fetch All Tracks from the Workspace">
+						<ion-icon name="layers" class="suno-icon" aria-hidden="true"
+							role="img"></ion-icon><span>Fetch All Tracks</span></button>
+					<button id="suno-bulk-view-queue" class="suno-btn btn-info"
+						data-tooltip="Open Queue Tab to view and manage Fetched Tracks and Downloads">
+						<ion-icon name="list" class="suno-icon" aria-hidden="true"
+							role="img"></ion-icon><span>View Queue</span></button>
+					<button id="suno-bulk-stop" class="btn-danger suno-btn suno-btn-icon"
+						data-tooltip="Stop the Fetching or Bulk Downloading Process" disabled="">
+						<ion-icon name="stop" class="suno-icon" aria-hidden="true"
+							role="img"></ion-icon><span>Stop</span></button>
+					<button id="suno-bulk-pause" class="btn-warning suno-btn suno-btn-icon"
+						data-tooltip="Pause the Fetching or Bulk Downloading Process" disabled="">
+						<ion-icon name="pause" class="suno-icon" aria-hidden="true"
+							role="img"></ion-icon><span>Pause</span></button>
+				</div>
+				<div class="suno-button-row" style="position: relative; padding-right: 40px;">
+					<button id="suno-bulk-download" class="suno-btn btn-success"
+						data-tooltip="Bulk Download All Fetched Tracks">
+						<ion-icon name="download" class="suno-icon" aria-hidden="true"
+							role="img"></ion-icon><span>Bulk Download All</span></button>
+					<button class="suno-btn suno-btn-icon" data-tooltip="Copy Fetched Tracks List to Clipboard"
+						disabled="">
+						<ion-icon name="copy" class="suno-icon" aria-hidden="true"
+							role="img"></ion-icon><span>Copy</span></button>
+					<button class="suno-btn suno-btn-icon btn-secondary"
+						data-tooltip="Save Fetched Tracks List to .txt File" disabled="">
+						<ion-icon name="download-outline" class="suno-icon" aria-hidden="true"
+							role="img"></ion-icon><span>Save .txt</span></button>
+					<button class="suno-btn btn-transp" style="position: absolute; right: 0;"
+						data-tooltip="Help: Bulk Downloader">
+						<ion-icon name="help-circle" class="suno-icon" aria-hidden="true"
+							style="font-size: 14px;" role="img"></ion-icon>
+					</button>
+				</div>
+			</div>
+			<div class="suno-panel-log-wrapper">
+				<div class="suno-log-buttons">
+					<button class="suno-log-btn" data-tooltip="Copy Log">
+						<ion-icon name="copy" class="suno-icon" aria-hidden="true" style="font-size: 12px;"
+							role="img"></ion-icon>
+					</button>
+					<button class="suno-log-btn" data-tooltip="Download Log">
+						<ion-icon name="download" class="suno-icon"></ion-icon>
+					</button>
+					<button class="suno-log-btn" data-tooltip="Clear Log">
+						<ion-icon name="close" class="suno-icon" aria-hidden="true" style="font-size: 12px;"
+							role="img"></ion-icon>
+					</button>
+				</div>
+				<div class="suno-log-area" id="suno-log-area">
+					<div class="suno-log-entry log-info">[4:52:33 PM] Loaded 0 bulk downloaded track IDs from storage
+					</div>
+					<div class="suno-log-entry log-info">[4:52:34 PM] 📜 Infinite scroll view detected</div>
+					<div class="suno-log-entry log-info">[4:52:39 PM] No songs found on page. Try scrolling or checking
+						if the page has loaded.</div>
+					<div class="suno-log-entry log-info">[4:52:40 PM] No songs found on page. Try scrolling or checking
+						if the page has loaded.</div>
+				</div>
+			</div>
+		</div>
+		<div id="modal-container" style="display: none;">
+		</div>
+	</div>
+</body>
+</head>

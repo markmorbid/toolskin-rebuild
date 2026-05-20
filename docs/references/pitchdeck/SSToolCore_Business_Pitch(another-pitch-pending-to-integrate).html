@@ -1,0 +1,2003 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToolCore Business Pitch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Varela+Round&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" crossorigin="anonymous" type="module"></script>
+    <script src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" crossorigin="anonymous" nomodule></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      /* =========================================
+           1. GLOBAL VARIABLES & THEME CONFIG
+           ========================================= */
+      :root {
+        /* --- BASE VALUES (Change these 5 values to theme the deck) --- */
+        --ts-maincolor: #ff5500;
+        --ts-base-color-primary: var(--ts-maincolor);
+        /* Satoshi Orange */
+        --ts-altcolor: #0088cc;
+        --ts-base-color-secondary: var(--ts-altcolor);
+
+        /* Sea Blue */
+        --ts-base-bg: #f2f2f2;
+        --ts-base-bg-alt: #ffffff;
+        /* Light Gray BG */
+        --ts-base-unit: 16px;
+        /* Spatial Unit */
+        --ts-base-radius: 12px;
+        /* Corner Roundness */
+
+        --ts-font-base: 0.875rem;
+
+        --ts-border-color-primary: #cccccc;
+        --ts-border-color-secondary: #dedede;
+        --ts-graph-size: 80%;
+
+        /* --- TYPOGRAPHY --- */
+        --ts-font-main: "Montserrat", sans-serif;
+        --ts-font-title: "Varela Round", sans-serif;
+        --ts-text-dark: #333333;
+        --ts-text-light: #666666;
+        --ts-text-white: var(--ts-base-bg-alt);
+
+        /* --- CALCULATED VARIABLES (Do not edit directly) --- */
+
+        /* Spacing Logic */
+        --ts-gap-xs: calc(var(--ts-base-unit) * 0.5);
+        --ts-gap-sm: var(--ts-base-unit);
+        --ts-gap-md: calc(var(--ts-base-unit) * 2);
+        --ts-gap-lg: calc(var(--ts-base-unit) * 3);
+        --ts-gap-xl: calc(var(--ts-base-unit) * 5);
+
+        /* Radius Logic */
+        --ts-radius-sm: calc(var(--ts-base-radius) * 0.5);
+        --ts-radius-md: var(--ts-base-radius);
+        --ts-radius-lg: calc(var(--ts-base-radius) * 1.5);
+        --ts-radius-xl: calc(var(--ts-base-radius) * 2.5);
+
+        /* Font Sizes */
+        /*  --ss-font-base: 1rem;
+            --ss-font-xs: 0.85rem;
+            --ss-font-sm: 1rem;
+            --ss-font-md: 1.25rem;
+            --ss-font-lg: 2rem;
+            --ss-font-xl: 3.5rem;
+            --ss-font-xxl: 4rem; */
+
+        --ts-font-xxl: calc(var(--ts-font-base) * 3);
+        --ts-font-xl: calc(var(--ts-font-base) * 2.5);
+        --ts-font-lg: calc(var(--ts-font-base) * 2);
+        --ts-font-md: calc(var(--ts-font-base) * 1.4);
+        --ts-font-sm: calc(var(--ts-font-base) / 1.2);
+        --ts-font-xs: calc(var(--ts-font-base) / 1.5);
+
+        /* Component Specifics */
+        --ts-card-bg: var(--ts-base-bg-alt);
+        --ts-card-bg-secondary: var(--ts-base-bg);
+        --ts-card-bg-tertiary: #e6e6e6;
+        --ts-card-border-color: var(--ts-border-color-primary);
+        --ts-card-border-color-secondary: var(--ts-border-color-secondary);
+        --ts-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        --ts-card-shadow-secondary: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+        --ts-btn-height: 50px;
+        --ts-nav-height: 60px;
+      }
+
+      /* =========================================
+           2. RESET & LAYOUT SETUP
+           ========================================= */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: var(--ts-font-main);
+        background-color: var(--ts-base-bg);
+        color: var(--ts-text-dark);
+        overflow: hidden;
+        /* Hide scrollbars, use tabs */
+        height: 100vh;
+        width: 100vw;
+      }
+
+      .ts-logo {
+        font-family: var(--ts-font-title);
+        font-weight: 700;
+        color: var(--ts-base-color-primary);
+      }
+
+      .ts-logo-sub {
+        font-family: var(--ts-font-main);
+        font-weight: 400;
+        color: var(--ts-base-color-primary);
+      }
+
+      .ts-logo-container {
+        display: flex;
+        align-items: center;
+      }
+
+      h1 {
+        font-family: var(--ts-font-title);
+        font-weight: 700;
+        font-size: var(--ts-font-xl);
+      }
+
+      h2 {
+        font-family: var(--ts-font-title);
+        font-weight: 700;
+        font-size: var(--ts-font-lg);
+      }
+
+      h3 {
+        font-family: var(--ts-font-title);
+        font-weight: 700;
+        font-size: var(--ts-font-md);
+      }
+
+      h4 {
+        font-family: var(--ts-font-title);
+        font-weight: 700;
+        font-size: var(--ts-font-md);
+      }
+
+      h5 {
+        font-family: var(--ts-font-title);
+        font-weight: 700;
+        font-size: var(--ts-font-base);
+      }
+
+      h6 {
+        font-family: var(--ts-font-title);
+        font-weight: 700;
+        font-size: var(--ts-font-md);
+      }
+
+      p {
+        font-family: var(--ts-font-main);
+        font-weight: 400;
+        font-size: var(--ts-font-base);
+        margin: 0;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      li {
+        font-family: var(--ts-font-main);
+        font-weight: 400;
+        margin: 0;
+      }
+
+      a {
+        font-family: var(--ts-font-main);
+        font-weight: 400;
+        margin: 0;
+      }
+
+      /* =========================================
+           3. DYNAMIC NAVIGATION (Hover to Reveal)
+           ========================================= */
+      .ts-nav-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: var(--ts-nav-height);
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* Hidden by default, creates a hover zone */
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(5px);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-bottom: 1px solid var(--ts-border-color-primary);
+      }
+
+      .ts-nav-container:hover {
+        opacity: 1;
+      }
+
+      .ts-nav-tabs {
+        display: flex;
+        gap: 4px;
+      }
+
+      .ts-nav-tab {
+        width: 40px;
+        height: 10px;
+        background-color: var(--ts-border-color-primary);
+        cursor: pointer;
+        border-radius: 20px;
+        transition:
+          background-color 0.2s,
+          height 0.2s;
+      }
+
+      .ts-nav-tab:hover {
+        background-color: var(--ts-base-color-secondary);
+      }
+
+      .ts-nav-tab.ts-active {
+        background-color: var(--ts-base-color-primary);
+      }
+
+      /* =========================================
+           4. DECK CONTAINER & SLIDE LOGIC
+           ========================================= */
+      #ts-deck-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--ss-gap-xl);
+        } */
+      .ts-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        inset: 0;
+        width: -webkit-fill-available;
+        height: -webkit-fill-available;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease-in-out;
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        padding: var(--ts-gap-xl);
+        padding: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: stretch;
+      }
+
+      .ts-slide.ts-active {
+        opacity: 1;
+        pointer-events: all;
+        z-index: 10;
+      }
+
+      /* Inner Content Wrapper (Max width constraint) */
+      /* .slide-inner {
+            width: 100%;
+            max-width: 1400px;
+            height: 80%;
+            display: flex;
+            align-items: center;
+            gap: var(--ss-gap-lg);
+            flex-wrap: nowrap;
+
+        } */
+      .ts-slide-inner {
+        width: -webkit-fill-available;
+        /*  max-width: 1440px; */
+        height: -webkit-fill-available;
+        display: flex;
+        align-items: stretch;
+        gap: var(--ts-gap-md);
+        flex-wrap: nowrap;
+        flex: 1;
+        flex-direction: row;
+      }
+
+      .ts-slide-inner:not(:has(.ts-slide-graphic.ts-fullheight)) {
+        padding: var(--ts-gap-xl);
+      }
+
+      .ts-slide-graphic.ts-fullheight {
+        height: 100vh;
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: row;
+        align-content: stretch;
+        align-items: stretch;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        max-width: 40vw;
+      }
+
+      .ts-slide-graphic.ts-fullheight:has(.ts-bg-image):after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background-color: color-mix(in srgb, var(--ts-base-bg), transparent 40%);
+        border-radius: 0;
+        backdrop-filter: grayscale(1);
+      }
+
+      .ts-bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        border-radius: 0;
+      }
+
+      .ts-slide-inner:has(.ts-slide-graphic.ts-fullheight) {
+        justify-content: space-between !important;
+        /* gap: 0; */
+        max-width: unset;
+      }
+
+      .ts-slide-inner:has(.ts-slide-graphic.ts-fullheight) {
+        gap: 0;
+      }
+
+      .ts-slide-inner:has(.ts-slide-graphic.ts-fullheight) .ts-slide-content>* {
+        width: -webkit-fill-available;
+        max-width: 800px;
+        margin: 0px auto;
+      }
+
+      .ts-slide-inner:has(.ts-slide-graphic.ts-fullheight) .ts-slide-content {
+        flex: 1 1;
+        /* max-width: 50vw; */
+        width: -webkit-fill-available;
+        padding: 5vw;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* =========================================
+           5. LAYOUT VARIANTS
+           ========================================= */
+
+      /* Layout A: Graphic Left, Content Right (Default Flex) */
+      .ts-layout-a,
+      .ts-layout-a .ts-slide-inner {
+        flex-direction: row;
+      }
+
+      /* Layout B: Graphic Right, Content Left */
+      .ts-layout-b,
+      .ts-layout-b .ts-slide-inner {
+        flex-direction: row-reverse;
+      }
+
+      .ts-maincolor {
+        background-color: var(--ts-maincolor);
+        color: var(--ts-text-white);
+        --ts-text-light: currentColor;
+        --ts-base-color-primary: currentColor;
+        --ts-base-color-secondary: currentColor;
+      }
+
+      .ts-altcolor {
+        background-color: var(--ts-altcolor);
+        color: var(--ts-text-white);
+        --ts-text-light: currentColor;
+        --ts-base-color-primary: currentColor;
+        --ts-base-color-secondary: currentColor;
+      }
+
+      /* Intro / Outro / Centered */
+      .ts-layout-center {
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        gap: var(--ts-gap-sm);
+      }
+
+      /* Separator Slide */
+      .ts-layout-separator {
+        background-color: var(--ts-base-color-primary);
+        color: var(--ts-text-white);
+      }
+
+      .ts-layout-separator .ts-slide-inner {
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        align-content: center;
+        padding: var(--ts-gap-xl);
+      }
+
+      .ts-layout-separator h1 {
+        color: white;
+        border: none;
+        background: none;
+        padding: 0;
+        font-size: 5rem;
+        font-weight: bold;
+        margin-bottom: 0px;
+      }
+
+      .ts-layout-separator p {
+        max-width: 800px;
+        text-align: center;
+        line-height: 1.5;
+      }
+
+      /* =========================================
+           6. COMPONENT STYLING
+           ========================================= */
+
+      /* Graphics Area */
+      .ts-slide-graphic {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .ts-graphic-placeholder {
+        width: -webkit-fill-available;
+        max-width: var(--ts-graph-size, unset);
+        aspect-ratio: 1;
+        padding-top: 80%;
+        padding: var(--ts-gap-lg);
+        background: #e0e0e0;
+        border-radius: var(--ts-radius-xl);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: var(--ts-gap-md);
+      }
+
+      .ts-graphic-placeholder::after {
+        content: "Graphic Area";
+        /* position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;*/
+      }
+
+      /* Example SVG Icon Style */
+      .ts-graphic-icon {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+      }
+
+      /* Content Area */
+      /*  .slide-content {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            padding: 0 var(--ss-gap-lg);
+        } 
+        .slide-content {
+            flex: 1.5 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            padding: 0 var(--ss-gap-lg);
+            gap: var(--ss-gap-sm);
+        }*/
+      .ts-slide-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        padding: 0 var(--ts-gap-lg);
+        gap: var(--ts-content-spacing);
+        align-items: stretch;
+        align-content: stretch;
+        flex-wrap: wrap;
+        flex: 1;
+        --ts-content-spacing: var(--ts-gap-sm);
+      }
+
+      /* The Content Card (White Box) */
+      .ts-content-card {
+        background: var(--ts-card-bg);
+        padding: var(--ts-gap-lg);
+        border-radius: var(--ts-base-radius);
+        /* box-shadow: var(--ss-card-shadow); */
+        border: 1px solid var(--ts-border-color-primary);
+        position: relative;
+        display: grid;
+        gap: var(--ts-content-spacing);
+      }
+
+      .ts-content-card .ts-slide-description {
+        margin-bottom: 0px;
+      }
+
+      /* Header Group: Title + Number */
+      .ts-header-group {
+        display: flex;
+        align-items: center;
+        align-items: stretch;
+        /* justify-content: space-between; */
+        /* margin-bottom: var(--ss-gap-md); */
+        gap: var(--ts-content-spacing);
+        flex-wrap: wrap;
+      }
+
+      .ts-header-group.ts-vertical {
+        flex-direction: column;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .ts-header-group h2,
+      .ts-header-group h1 {
+        margin: 0;
+      }
+
+      .ts-header-group h2 strong,
+      .ts-header-group h1 strong {
+        color: var(--ts-base-color-primary);
+      }
+
+      .ts-header-group h1:not(:has(strong)),
+      .ts-header-group h2:not(:has(strong)) {
+        display: inline-flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+      }
+
+      .ts-header-group h2 strong span,
+      .ts-header-group h1 strong span {
+        color: var(--ts-base-color-secondary);
+      }
+
+      /* Title Box (Orange/Blue Background) */
+      .ts-slide-title {
+        background-color: var(--ts-text-white);
+        padding: var(--ts-gap-md);
+        border-radius: var(--ts-base-radius);
+        font-size: calc(var(--ts-font-xl) / 1.6);
+        font-weight: 700;
+        text-transform: uppercase;
+        display: inline-block;
+        font-family: var(--ts-font-title);
+        display: inline-flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        flex: 1;
+        border: 1px solid var(--ts-border-color-primary);
+        color: var(--ts-text-light);
+        gap: var(--ts-content-spacing);
+      }
+
+      .ts-slide-title.ts-orange,
+      .ts-slide-number.ts-orange {
+        background-color: var(--ts-base-color-primary);
+        color: var(--ts-text-white);
+        border-color: var(--ts-base-color-primary);
+      }
+
+      /* Variant Color */
+      .ts-slide-title.ts-blue,
+      .ts-slide-number.ts-blue {
+        background-color: var(--ts-base-color-secondary);
+        color: var(--ts-text-white);
+        border-color: var(--ts-base-color-secondary);
+      }
+
+      /* Slide Number [01] */
+
+      .ts-slide-number {
+        font-size: calc(var(--ts-font-xl) / 1.3);
+        color: var(--ts-base-color-secondary);
+        font-weight: bold;
+        border: 1px solid var(--ts-border-color-primary);
+        padding: calc(var(--ts-font-xl) / 1.8);
+        border-radius: var(--ts-base-radius);
+        background-color: #fff;
+        font-family: var(--ts-font-title);
+        aspect-ratio: 1;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        order: -1;
+        white-space: nowrap;
+      }
+
+      .ts-slide-number:before {
+        content: "[";
+        color: var(--ts-base-color-primary);
+      }
+
+      .ts-slide-number:after {
+        content: "]";
+        color: var(--ts-base-color-primary);
+      }
+
+      .ts-slide-number.ts-transparent {
+        background-color: transparent;
+        color: var(--ts-text-white);
+        border-color: currentColor;
+      }
+
+      .ts-slide-number.ts-transparent:before,
+      .ts-slide-number.ts-orange:before,
+      .ts-slide-number.ts-blue:before {
+        color: inherit;
+      }
+
+      .ts-slide-number.ts-transparent:after,
+      .ts-slide-number.ts-orange:after,
+      .ts-slide-number.ts-blue:after {
+        color: inherit;
+      }
+
+      /* Typography */
+      .ts-slide-subtitle {
+        font-size: var(--ts-font-lg);
+        color: var(--ts-base-color-primary);
+        font-weight: 700;
+        margin-bottom: var(--ts-gap-sm);
+        font-family: var(--ts-font-title);
+      }
+
+      .ts-slide-description {
+        font-size: var(--ts-font-base);
+        line-height: 1.6;
+        color: var(--ts-text-light);
+        margin-bottom: var(--ts-gap-xs);
+      }
+
+      .ts-slide-description:last-child {
+        margin-bottom: 0;
+      }
+
+      /* Lists */
+      .ts-feature-list {
+        list-style: none;
+        margin-top: var(--ts-gap-sm);
+        text-align: left;
+      }
+
+      .ts-feature-list li {
+        position: relative;
+        padding-left: var(--ts-gap-sm);
+        margin-bottom: var(--ts-gap-xs);
+        font-size: var(--ts-font-sm);
+        color: var(--ts-text-dark);
+        line-height: 1.6;
+      }
+
+      .ts-feature-list li::before {
+        content: "»";
+        position: absolute;
+        left: 0;
+        color: var(--ts-base-color-primary);
+        font-weight: bold;
+      }
+
+      /* Intro Specifics */
+      .ts-logo-main {
+        width: 150px;
+        height: 150px;
+        /*background: linear-gradient(135deg, var(--ss-base-color-secondary) 50%, var(--ss-base-color-primary) 50%);*/
+        border-radius: var(--ts-radius-lg);
+        margin-bottom: var(--ts-gap-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        font-weight: bold;
+      }
+
+      .ts-intro-title {
+        font-size: var(--ts-font-xl);
+        color: var(--ts-base-color-primary);
+        margin-bottom: var(--ts-gap-xs);
+      }
+
+      section[data-type="intro"]>* {
+        max-width: 570px !important;
+      }
+
+      .ts-intro-title span {
+        color: var(--ts-base-color-secondary);
+      }
+
+      .ts-footer-info {
+        margin-top: var(--ts-gap-xl);
+        font-size: var(--ts-font-xs);
+        color: var(--ts-text-light);
+      }
+
+      /* Grids */
+      .ts-grid {
+        display: grid;
+        gap: var(--ts-content-spacing, var(--ts-gap-md));
+      }
+
+      .ts-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .ts-grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      .ts-grid-4 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+
+      .ts-team-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 80%;
+      }
+
+      .ts-team-member {
+        display: grid;
+        gap: var(--ts-content-spacing, var(--ts-gap-sm));
+      }
+
+      .ts-team-member-image {
+        width: 200px;
+        height: auto;
+        aspect-ratio: 1/1;
+        background-color: var(--ts-card-bg-tertiary);
+        border: 1px solid var(--ts-border-color-primary);
+        border-radius: var(--ts-radius-md);
+        object-fit: cover;
+        overflow: hidden;
+      }
+
+      .ts-team-member-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .ts-team-member-info {
+        display: grid;
+        gap: var(--ts-gap-xs);
+        padding-bottom: var(--ts-gap-md);
+      }
+
+      .ts-team-member-name {
+        font-size: var(--ts-font-md);
+        color: var(--ts-text-dark);
+        font-weight: bold;
+        font-family: var(--ts-font-title);
+      }
+
+      .ts-team-member-title {
+        font-size: var(--ts-font-sm);
+        color: var(--ts-text-light);
+        color: var(--ts-base-color-primary);
+      }
+
+      .ts-slide-graphic.ts-fullheight .ts-graphic-placeholder {
+        border-radius: 0;
+        aspect-ratio: unset;
+        max-width: unset;
+      }
+
+      .ts-slide-graphic.ts-fullheight:has(img) .ts-graphic-placeholder {
+        opacity: 1;
+        /* background: transparent; */
+        z-index: 1;
+      }
+
+      .ts-slide-graphic.ts-fullheight:has(img) .ts-graphic-placeholder.ts-blue-fill {
+        background-color: color-mix(in srgb, var(--ts-base-color-secondary), transparent 35%);
+      }
+
+      .ts-slide-graphic.ts-fullheight:has(img) .ts-graphic-placeholder.ts-orange-fill {
+        background-color: color-mix(in srgb, var(--ts-base-color-primary), transparent 35%);
+      }
+
+      .ts-graphic-placeholder ion-icon {
+        font-size: var(--ts-font-xxl);
+      }
+
+      .ts-slide-graphic.ts-fullheight:has(img) .ts-graphic-placeholder ion-icon {
+        background-color: #0000004d;
+        padding: var(--ts-gap-md);
+        aspect-ratio: 1;
+        display: grid;
+        place-content: center;
+        position: relative;
+        border-radius: var(--ts-radius-lg);
+      }
+
+      .ts-slide-graphic .ts-graphic-placeholder:has(ion-icon):after {
+        display: none;
+      }
+
+      /* General Layout Building Classes*/
+
+      .ts-px-xs {
+        padding-inline: var(--ts-gap-xs);
+      }
+
+      .ts-px-sm {
+        padding-inline: var(--ts-gap-sm);
+      }
+
+      .ts-px-md {
+        padding-inline: var(--ts-gap-md);
+      }
+
+      .ts-px-lg {
+        padding-inline: var(--ts-gap-lg);
+      }
+
+      .ts-px-xl {
+        padding-inline: var(--ts-gap-xl);
+      }
+
+      .ts-py-xs {
+        padding-block: var(--ts-gap-xs);
+      }
+
+      .ts-py-sm {
+        padding-block: var(--ts-gap-sm);
+      }
+
+      .ts-py-md {
+        padding-block: var(--ts-gap-md);
+      }
+
+      .ts-py-lg {
+        padding-block: var(--ts-gap-lg);
+      }
+
+      .ts-py-xl {
+        padding-block: var(--ts-gap-xl);
+      }
+
+      .ts-pl-xs {
+        padding-left: var(--ts-gap-xs);
+      }
+
+      .ts-pl-sm {
+        padding-left: var(--ts-gap-sm);
+      }
+
+      .ts-pl-md {
+        padding-left: var(--ts-gap-md);
+      }
+
+      .ts-pl-lg {
+        padding-left: var(--ts-gap-lg);
+      }
+
+      .ts-pl-xl {
+        padding-left: var(--ts-gap-xl);
+      }
+
+      .ts-pr-xs {
+        padding-right: var(--ts-gap-xs);
+      }
+
+      .ts-pr-sm {
+        padding-right: var(--ts-gap-sm);
+      }
+
+      .ts-pr-md {
+        padding-right: var(--ts-gap-md);
+      }
+
+      .ts-pr-lg {
+        padding-right: var(--ts-gap-lg);
+      }
+
+      .ts-pr-xl {
+        padding-right: var(--ts-gap-xl);
+      }
+
+      .ts-pt-xs {
+        padding-top: var(--ts-gap-xs);
+      }
+
+      .ts-pt-sm {
+        padding-top: var(--ts-gap-sm);
+      }
+
+      .ts-pt-md {
+        padding-top: var(--ts-gap-md);
+      }
+
+      .ts-pt-lg {
+        padding-top: var(--ts-gap-lg);
+      }
+
+      .ts-pt-xl {
+        padding-top: var(--ts-gap-xl);
+      }
+
+      .ts-pb-xs {
+        padding-bottom: var(--ts-gap-xs);
+      }
+
+      .ts-pb-sm {
+        padding-bottom: var(--ts-gap-sm);
+      }
+
+      .ts-pb-md {
+        padding-bottom: var(--ts-gap-md);
+      }
+
+      .ts-pb-lg {
+        padding-bottom: var(--ts-gap-lg);
+      }
+
+      .ts-pb-xl {
+        padding-bottom: var(--ts-gap-xl);
+      }
+
+      .ts-mx-xs {
+        margin-inline: var(--ts-gap-xs);
+      }
+
+      .ts-mx-sm {
+        margin-inline: var(--ts-gap-sm);
+      }
+
+      .ts-mx-md {
+        margin-inline: var(--ts-gap-md);
+      }
+
+      .ts-mx-lg {
+        margin-inline: var(--ts-gap-lg);
+      }
+
+      .ts-mx-xl {
+        margin-inline: var(--ts-gap-xl);
+      }
+
+      .ts-my-xs {
+        margin-block: var(--ts-gap-xs);
+      }
+
+      .ts-my-sm {
+        margin-block: var(--ts-gap-sm);
+      }
+
+      .ts-my-md {
+        margin-block: var(--ts-gap-md);
+      }
+
+      .ts-my-lg {
+        margin-block: var(--ts-gap-lg);
+      }
+
+      .ts-my-xl {
+        margin-block: var(--ts-gap-xl);
+      }
+
+      .ts-ml-xs {
+        margin-left: var(--ts-gap-xs);
+      }
+
+      .ts-ml-sm {
+        margin-left: var(--ts-gap-sm);
+      }
+
+      .ts-ml-md {
+        margin-left: var(--ts-gap-md);
+      }
+
+      .ts-ml-lg {
+        margin-left: var(--ts-gap-lg);
+      }
+
+      .ts-ml-xl {
+        margin-left: var(--ts-gap-xl);
+      }
+
+      .ts-mr-xs {
+        margin-right: var(--ts-gap-xs);
+      }
+
+      .ts-mr-sm {
+        margin-right: var(--ts-gap-sm);
+      }
+
+      .ts-mr-md {
+        margin-right: var(--ts-gap-md);
+      }
+
+      .ts-mr-lg {
+        margin-right: var(--ts-gap-lg);
+      }
+
+      .ts-mr-xl {
+        margin-right: var(--ts-gap-xl);
+      }
+
+      .ts-mt-xs {
+        margin-top: var(--ts-gap-xs);
+      }
+
+      .ts-mt-sm {
+        margin-top: var(--ts-gap-sm);
+      }
+
+      .ts-mt-md {
+        margin-top: var(--ts-gap-md);
+      }
+
+      .ts-mt-lg {
+        margin-top: var(--ts-gap-lg);
+      }
+
+      .ts-mt-xl {
+        margin-top: var(--ts-gap-xl);
+      }
+
+      .ts-mb-xs {
+        margin-bottom: var(--ts-gap-xs);
+      }
+
+      .ts-mb-sm {
+        margin-bottom: var(--ts-gap-sm);
+      }
+
+      .ts-mb-md {
+        margin-bottom: var(--ts-gap-md);
+      }
+
+      .ts-mb-lg {
+        margin-bottom: var(--ts-gap-lg);
+      }
+
+      .ts-mb-xl {
+        margin-bottom: var(--ts-gap-xl);
+      }
+
+      .ts-orange-fill {
+        fill: var(--ts-base-color-primary);
+        color: var(--ts-text-white);
+        background-color: var(--ts-base-color-primary);
+      }
+
+      .ts-blue-fill {
+        fill: var(--ts-base-color-secondary);
+        color: var(--ts-text-white);
+        background-color: var(--ts-base-color-secondary);
+      }
+
+      .ts-orange-color {
+        color: var(--ts-base-color-primary);
+      }
+
+      .ts-blue-color {
+        color: var(--ts-base-color-secondary);
+      }
+
+      p.ts-slide-description strong.ts-orange-fill,
+      p.ts-slide-description strong.ts-blue-fill {
+        padding: 3px 6px;
+        border-radius: 35px;
+      }
+
+      section.ts-slide.ts-layout-center .ts-slide-inner {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-content: stretch;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .ts-grid>.ts-content-card {
+        padding: var(--ts-gap-md);
+        box-shadow: none;
+      }
+
+      .ts-graphic-placeholder ion-icon {
+        font-size: calc(var(--ts-font-xxl) * 2);
+      }
+
+      /* PRINT STYLES FOR PDF EXPORT */
+      @media print {
+        @page {
+          size: 1920px 1080px;
+          /* Landscape aspect ratio */
+          margin: 0;
+        }
+
+        body,
+        html {
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          overflow: visible !important;
+          background-color: var(--ts-base-bg);
+        }
+
+        .ts-nav-container,
+        .ts-print-btn {
+          display: none !important;
+        }
+
+        .ts-deck-container {
+          display: block !important;
+          width: 100% !important;
+          height: auto !important;
+          overflow: visible !important;
+        }
+
+        /* Force all slides to be visible and take up full page */
+        section.ts-slide {
+          display: flex !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          position: relative !important;
+          width: 100vw !important;
+          height: 100vh !important;
+          page-break-after: always;
+          break-after: page;
+          margin: 0 !important;
+          overflow: hidden !important;
+          left: auto !important;
+          top: auto !important;
+          transform: none !important;
+        }
+
+        /* Ensure background colors/graphics print */
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+      }
+
+      /* Print Button Style */
+      .ts-print-btn {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--ts-base-color-primary);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-family: var(--ts-font-main);
+        font-weight: 600;
+        font-size: 0.8rem;
+        z-index: 1001;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.2s ease;
+      }
+
+      .ts-print-btn:hover {
+        background: var(--ts-base-color-secondary);
+      }
+
+      /* Plans and Pricing Columns Styles*/
+      .ts-plans {
+        display: grid;
+        gap: var(--ts-gap-sm);
+      }
+
+      .ts-plans>div,
+      .ts-plans .ts-card {
+        background: var(--ts-card-bg);
+        padding: var(--ts-gap-lg) var(--ts-gap-md);
+        border-radius: var(--ts-base-radius);
+        box-shadow: var(--ts-card-shadow);
+        border: none !important;
+        outline: 1px solid var(--ts-border-color-primary);
+        position: relative;
+        display: flex;
+        gap: var(--ts-gap-xs);
+        gap: 0;
+        position: relative !important;
+        z-index: 1;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: stretch;
+        justify-content: space-between;
+        align-items: stretch;
+        --ts-card-accent: var(--ts-base-color-secondary);
+        min-height: 320px;
+      }
+
+      .ts-plans>div:before,
+      .ts-plans .ts-card:before {
+        content: "";
+        display: block;
+        position: absolute;
+        inset: 0px;
+        background: var(--ts-card-bg);
+        border-radius: calc(var(--ts-base-radius) - 1px);
+        z-index: -1;
+      }
+
+      .ts-plans>div:after,
+      .ts-plans .ts-card:after {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        right: auto;
+        top: auto;
+        transform: rotateX(70deg) translateX(-50%);
+        transform-style: preserve-3d;
+        width: 70%;
+        transform-origin: center;
+        translate: 0 0px 0;
+        filter: blur(28px);
+        height: 40px;
+        background: #0000007e;
+        z-index: -2;
+      }
+
+      .ts-plans>div.ts-highlight,
+      .ts-plans .ts-card.ts-highlight {
+        outline: 2px solid var(--ts-card-accent);
+        scale: 1.0;
+        z-index: 9;
+        box-shadow: var(--ts-card-shadow);
+        --ts-card-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        margin: calc(var(--ts-gap-xs)*-2);
+        --ts-card-accent: var(--ts-base-color-primary);
+      }
+
+      .ts-plans:has(.ts-highlight) {
+        gap: var(--ts-gap-xs);
+      }
+
+      .ts-plans .ts-card>* {
+        flex: 0 1 auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        justify-content: center;
+        gap: var(--ts-gap-xs);
+        margin: 0;
+      }
+
+      .ts-plans .ts-card-row {
+        flex: 1 1 100%;
+        width: 100%;
+        flex: 1 1 auto;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        align-content: stretch;
+      }
+
+      .ts-slide .ts-plans .ts-card .ts-card-footer {
+        border-top: 1px solid var(--ts-border-color-primary);
+        padding-top: 10px;
+        margin-top: 10px;
+        flex: 1 1 auto;
+        width: 100%;
+        display: flex;
+        font-size: 0.8rem;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+      }
+
+      .ts-plans .ts-card .ts-card-header {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: center;
+        width: -webkit-fill-available;
+        /* max-height: fit-content; */
+        padding-bottom: var(--ts-gap-sm);
+        border-bottom: 1px solid var(--ts-border-color-primary);
+        margin-bottom: var(--ts-gap-sm);
+        color: var(--ts-card-accent);
+      }
+
+      .ts-plans .ts-card-row p {
+        font-size: 0.8rem;
+        flex: 1;
+        text-align: left;
+      }
+
+
+      .ts-card-footer h4,
+      .ts-card-footer h5,
+      .ts-card-row h4,
+      .ts-card-row h5 {
+        color: var(--ts-card-accent);
+      }
+
+      .ts-slide-graphic.ts-fullheight:before,
+      .ts-triangle:before {
+        content: "";
+        width: 0;
+        height: 0;
+        border-style: solid;
+        display: inline-block;
+        position: absolute !important;
+        top: 50% !important;
+        transform: translateY(-50%);
+        z-index: 9999 !important;
+        --ts-triangle-size: var(--ts-font-lg);
+        background: transparent !important;
+      }
+
+      .ts-layout-b .ts-slide-graphic.ts-fullheight:before,
+      .ts-triangle.ts-left:before {
+
+        border-width: var(--ts-triangle-size) 0 var(--ts-triangle-size) var(--ts-triangle-size);
+        border-color: transparent transparent transparent var(--ts-base-bg);
+        right: auto;
+        left: 0;
+
+      }
+
+      .ts-layout-a .ts-slide-graphic.ts-fullheight:before,
+      .ts-triangle.ts-right:before {
+
+        border-width: var(--ts-triangle-size) var(--ts-triangle-size) var(--ts-triangle-size) 0;
+        border-color: transparent var(--ts-base-bg) transparent transparent;
+        left: auto;
+        right: 0;
+
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navigation (Hidden until hover top) -->
+    <div class="ts-nav-container">
+      <div class="ts-nav-tabs" id="ts-navTabs">
+        <!-- JavaScript will populate tabs here -->
+      </div>
+    </div>
+
+    <!-- Main Deck Container -->
+    <div id="ts-deck-container">
+      <!-- SLIDE 1: TITLE -->
+      <section class="ts-slide ts-layout-center ts-active" data-type="intro">
+        <div class="ts-logo-main">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 180 180">
+            <g>
+              <path class="ts-orange-fill" d="M14,90c0-19,0-38.1,0-57.1c0-12.1,10.7-20.8,22.5-18.4c11,2.2,18.7,17.7,10.5,28.7c-2.5,3.3-5.6,6-8.4,9.1  C32.5,59.2,28.5,67,28.2,76.4c-0.7,18.6,12.2,34.3,30.5,37.5c8.2,1.4,16,0.6,23.4-3.4c1.2-0.6,1.5-0.4,1.5,0.9  c-0.1,3.1,0,6.2,0,9.2c0,3.8,2.5,6.5,5.9,6.5c3.6,0,6.2-2.7,6.2-6.6c0-6.6,0-13.1,0-19.7c0-1.2,0.3-2.1,1.2-2.9  c2.4-2.2,4.6-4.4,7-6.6c7.7-6.9,18.6-5.6,24.3,3c3.5,5.3,2.8,13.3-1.7,17.9c-4.3,4.4-8.6,8.8-12.9,13.2  c-11.3,11.5-22.6,22.9-33.8,34.4c-4.1,4.2-9.1,6.2-15,6.2c-10.6,0-21.1,0-31.7,0c-8.5,0-15.7-5.3-18.1-13.2  c-0.6-1.9-0.9-3.8-0.9-5.8C14,127.9,14,109,14,90z" />
+              <path class="ts-blue-fill" d="M95.7,70.6c0-3.6,0-7.1,0-10.6c0-0.9,0-1.7-0.3-2.6c-0.9-3-3.7-4.9-6.6-4.5c-3,0.4-5.2,2.9-5.3,6  c0,7,0,13.9,0,20.9c0,1.1-0.2,1.9-1,2.6c-2.4,2.3-4.6,4.7-7.1,7c-5.5,5-15,4.8-20.9-0.4c-5.7-5-6.6-13.5-2-19.9  c2.4-3.4,5.6-6.2,8.5-9.2c11.6-11.8,23.3-23.5,35-35.2c2-2.1,4.2-4,6.3-6c3.2-3.1,7-4.5,11.3-4.5c11.4-0.1,22.8-0.1,34.1,0  c10.7,0.1,18.8,9.4,18.2,20.2c-0.4,7.8-0.2,15.7-0.3,23.5c-0.4,27.9,0,55.8-0.2,83.8c0,3.3,0.3,6.6-0.3,9.9  c-1.6,7.9-7.9,13.5-16.2,14.5c-7.1,0.8-14.7-3.7-17.8-10.6c-3.1-6.9-2.5-13.4,2.4-19.2c2.9-3.4,6.3-6.5,9.3-9.9  c9.2-10.6,11.5-22.8,6.9-36C145,77,135.5,68.5,121.3,66c-8.4-1.5-16.3,0.6-23.8,4.2c-0.4,0.2-0.8,0.4-1.2,0.6  C96.2,70.7,96.1,70.6,95.7,70.6z" />
+            </g>
+          </svg>
+        </div>
+        <h1 class="ts-intro-title" style="max-width: 900px">
+          Automation Infrastructure for the
+          <span class="ts-orange-color">AI Media Economy</span>
+        </h1>
+        <p class="ts-slide-description" style="font-size: 1.5rem">Operational Systems, Workflow Engineering & Scalable Media Automation</p>
+        <p class="ts-footer-info">Confidential Business Proposal – 2026</p>
+      </section>
+
+      <!-- SLIDE 2: EXECUTIVE SUMMARY -->
+      <section class="ts-slide ts-layout-b" data-type="content">
+        <div class="ts-slide-inner">
+          <div class="ts-slide-graphic ts-fullheight">
+            <div class="ts-graphic-placeholder ts-orange-fill" style="--ts-graph-size: 75%">
+              <ion-icon name="clipboard-outline"></ion-icon>
+            </div>
+          </div>
+          <div class="ts-slide-content">
+            <div class="ts-header-group">
+              <div class="ts-slide-title">Executive Summary</div>
+              <div class="ts-slide-number ts-auto-index"></div>
+            </div>
+            <div class="ts-content-card">
+              <p class="ts-slide-description">This venture provides high-level automation infrastructure consulting for AI-native media operators.</p>
+              <p class="ts-slide-description ts-mt-sm">The service focuses on designing operational layers that enable scalable content production, workflow orchestration, and multi-platform automation.</p>
+              <p class="ts-slide-description ts-mt-sm">
+                <strong>Rather than offering isolated tools, the company delivers:</strong>
+              </p>
+              <ul class="ts-feature-list">
+                <li>Workflow diagnostics & Architecture design</li>
+                <li>Custom control dashboards</li>
+                <li>Deployment and scaling strategy</li>
+                <li>Ongoing optimization retainers</li>
+              </ul>
+              <p class="ts-slide-description ts-mt-sm" style="font-style: italic">The objective is to become the operational backbone for AI-driven media businesses.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: MARKET OPPORTUNITY -->
+      <section class="ts-slide ts-layout-a" data-type="content">
+        <div class="ts-slide-inner">
+          <div class="ts-slide-graphic ts-fullheight">
+            <div class="ts-graphic-placeholder ts-blue-fill" style="--ts-graph-size: 75%">
+              <ion-icon name="trending-up-outline"></ion-icon>
+            </div>
+          </div>
+          <div class="ts-slide-content">
+            <div class="ts-header-group">
+              <div class="ts-slide-title ts-blue">The Infrastructure Gap</div>
+              <div class="ts-slide-number ts-auto-index"></div>
+            </div>
+            <div class="ts-content-card">
+              <h3 class="ts-slide-subtitle">AI content generation platforms are scaling rapidly. Operational workflow systems are not.</h3>
+              <p class="ts-slide-description ts-mt-sm">Media teams using AI tools face:</p>
+              <ul class="ts-feature-list">
+                <li>Manual publishing friction</li>
+                <li>Lack of bulk management systems</li>
+                <li>Limited dashboard visibility</li>
+                <li>Cross-platform workflow fragmentation</li>
+                <li>Scaling bottlenecks</li>
+              </ul>
+              <h3 class="ts-blue-color">This creates demand for: Automation-first operational architecture.</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: TECHNOLOGY EXPERTISE -->
+      <section class="ts-slide ts-layout-b" data-type="content">
+        <div class="ts-slide-inner">
+          <div class="ts-slide-graphic ts-fullheight">
+            <div class="ts-graphic-placeholder ts-orange-fill" style="--ts-graph-size: 75%">
+              <ion-icon name="construct-outline"></ion-icon>
+            </div>
+          </div>
+          <div class="ts-slide-content">
+            <div class="ts-header-group">
+              <div class="ts-slide-title">Technology & Proven Build Experience</div>
+              <div class="ts-slide-number ts-auto-index"></div>
+            </div>
+            <div class="ts-content-card">
+              <p class="ts-slide-description">
+                <strong>Over multiple years, advanced automation layers were engineered across:</strong>
+              </p>
+              <ul class="ts-feature-list">
+                <li>AI music generation platforms</li>
+                <li>High-volume video publishing systems</li>
+                <li>AI media generation dashboards</li>
+              </ul>
+              <p class="ts-slide-description ts-mt-md">
+                <strong>Core capabilities developed include:</strong>
+              </p>
+              <ul class="ts-feature-list">
+                <li>Custom UI control panels injected into live environments</li>
+                <li>Bulk publishing and metadata orchestration systems</li>
+                <li>Modular JavaScript component frameworks</li>
+                <li>Workflow state persistence systems</li>
+              </ul>
+              <p class="ts-slide-description ts-mt-sm" style="font-size: 0.9rem; opacity: 0.8">These capabilities form the technical backbone of consultancy delivery.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: SERVICE OFFERING -->
+      <section class="ts-slide ts-layout-a" data-type="content">
+        <div class="ts-slide-inner">
+          <div class="ts-slide-graphic ts-fullheight">
+            <div class="ts-graphic-placeholder ts-blue-fill" style="--ts-graph-size: 75%">
+              <ion-icon name="layers-outline"></ion-icon>
+            </div>
+          </div>
+          <div class="ts-slide-content">
+            <div class="ts-header-group">
+              <div class="ts-slide-title">Consulting Services</div>
+              <div class="ts-slide-number ts-auto-index"></div>
+            </div>
+
+            <div class="ts-content-card ts-mb-sm">
+              <h3 class="ts-orange-color">Primary Offer: Automation Infrastructure Consulting</h3>
+            </div>
+
+            <div class="ts-grid ts-grid-2">
+              <div class="ts-content-card">
+                <ul class="ts-feature-list">
+                  <li><strong>1.</strong> Workflow Audit & Diagnosis</li>
+                  <li><strong>2.</strong> System Architecture Blueprint</li>
+                  <li>
+                    <strong>3.</strong> Custom Automation Dashboard Development
+                  </li>
+                </ul>
+              </div>
+              <div class="ts-content-card">
+                <ul class="ts-feature-list">
+                  <li><strong>4.</strong> Deployment & Integration</li>
+                  <li><strong>5.</strong> Optimization & Scaling Support</li>
+                </ul>
+              </div>
+            </div>
+
+            <p class="ts-slide-description ts-mt-sm">Each engagement is structured for measurable operational efficiency gains.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: SERVICE PLANS & PRICING -->
+      <section class="ts-slide ts-layout-center" data-type="content">
+        <div class="ts-slide-inner" style="--ts-content-spacing: var(--ts-gap-sm);">
+          <div class="ts-header-group ts-mb-md">
+            <div class="ts-slide-title ts-orange">Engagement Models</div>
+            <div class="ts-slide-number ts-auto-index"></div>
+          </div>
+
+          <div class="ts-plans ts-pricing ts-grid ts-grid-3" style="width: 100%; align-items: stretch; max-width: 940px">
+            <div class="ts-card">
+              <h3 class="ts-card-header"><ion-icon name="map-outline" role="img" class="ts-md ts-hydrated"></ion-icon>Plan A</h3>
+              <div class="ts-card-row" style="flex-direction: column; align-items: center; gap: 5px;">
+                <p style="text-align: center; font-weight: bold; width: 100%;">Infrastructure Blueprint</p>
+                <h2 class="ts-orange-color ts-my-sm" style="margin: 10px 0;">$12k – $18k</h2>
+              </div>
+              <ul class="ts-feature-list" style="font-size: 0.8rem; width: 100%;">
+                <li>Duration: 3–4 weeks</li>
+                <li>Audit & Diagnosis</li>
+                <li>Architecture Design</li>
+                <li>Workflow Strategy</li>
+              </ul>
+            </div>
+            <div class="ts-card ts-highlight">
+              <h3 class="ts-card-header"><ion-icon name="rocket-outline" role="img" class="ts-md ts-hydrated"></ion-icon>Plan B</h3>
+              <div class="ts-card-row" style="flex-direction: column; align-items: center; gap: 5px;">
+                <p style="text-align: center; font-weight: bold; width: 100%;">Full Automation Deployment</p>
+                <h2 class="ts-orange-color ts-my-sm" style="margin: 10px 0;">$25k – $60k</h2>
+              </div>
+              <ul class="ts-feature-list" style="font-size: 0.8rem; width: 100%;">
+                <li>Duration: 6–12 weeks</li>
+                <li><strong>Includes Blueprint</strong></li>
+                <li>Custom Dashboard</li>
+                <li>Automation System Build</li>
+              </ul>
+            </div>
+            <div class="ts-card">
+              <h3 class="ts-card-header"><ion-icon name="infinite-outline" role="img" class="ts-md ts-hydrated"></ion-icon>Plan C</h3>
+              <div class="ts-card-row" style="flex-direction: column; align-items: center; gap: 5px;">
+                <p style="text-align: center; font-weight: bold; width: 100%;">Enterprise Retainer</p>
+                <h2 class="ts-orange-color ts-my-sm" style="margin: 10px 0;">
+                  $4k – $15k
+                  <span style="font-size: 0.8rem; color: var(--ts-text-light)">/mo</span>
+                </h2>
+              </div>
+              <ul class="ts-feature-list" style="font-size: 0.8rem; width: 100%;">
+                <li>Maintenance</li>
+                <li>Iteration & Updates</li>
+                <li>Performance Opt.</li>
+              </ul>
+            </div>
+          </div>
+          <p class="ts-slide-description ts-mt-sm">Custom enterprise contracts available.</p>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: REVENUE STRUCTURE -->
+      <section class="ts-slide ts-layout-a" data-type="content">
+        <div class="ts-slide-inner">
+          <div class="ts-slide-graphic ts-fullheight">
+            <img src="bg_image.jpg" alt="Business Model" class="ts-bg-image" style="opacity: 0.1" />
+            <div class="ts-graphic-placeholder ts-blue-fill" style="--ts-graph-size: 75%">
+              <ion-icon name="cash-outline"></ion-icon>
+            </div>
+          </div>
+          <div class="ts-slide-content">
+            <div class="ts-header-group">
+              <div class="ts-slide-title ts-blue">Revenue Model</div>
+              <div class="ts-slide-number ts-auto-index"></div>
+            </div>
+            <div class="ts-content-card">
+              <h3 class="ts-slide-subtitle ts-orange-color">Primary Revenue Streams</h3>
+              <ul class="ts-feature-list">
+                <li>High-ticket consulting projects</li>
+                <li>Monthly retainers</li>
+                <li>Enterprise contracts</li>
+              </ul>
+            </div>
+            <div class="ts-content-card ts-mt-md">
+              <h3 class="ts-slide-subtitle ts-blue-color">Secondary Future Layer</h3>
+              <ul class="ts-feature-list">
+                <li>Productized automation kit subscription</li>
+                <li>Premium infrastructure packages</li>
+              </ul>
+            </div>
+            <p class="ts-slide-description ts-mt-sm">Revenue is initially service-driven with long-term hybrid SaaS expansion.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: FINANCIAL PROJECTIONS -->
+      <section class="ts-slide ts-layout-center" data-type="content">
+        <div class="ts-slide-inner" style="--ts-content-spacing: var(--ts-gap-sm);">
+          <div class="ts-header-group ts-mb-md">
+            <div class="ts-slide-title ts-orange">3-Year Revenue Projection</div>
+            <div class="ts-slide-number ts-auto-index"></div>
+          </div>
+          <div class="ts-plans ts-pricing ts-grid ts-grid-3" style="width:100%;max-width: 940px;">
+            <div class="ts-card">
+              <h3 class="ts-card-header"><ion-icon name="calendar-outline" role="img" class="ts-md ts-hydrated"></ion-icon>Year 1</h3>
+              <div class="ts-card-row">
+                <p><strong>6–10 projects</strong> <br> (Avg $30k)</p>
+                <h5>$180k – $300k</h5>
+              </div>
+              <div class="ts-card-row">
+                <p><strong>Retainers</strong> (3 @ $6k/mo)</p>
+                <h5>$216k</h5>
+              </div>
+              <div class="ts-card-footer">
+                <strong>Total Projected</strong>
+                <h5>$396k - $516k</h5>
+              </div>
+            </div>
+
+            <div class="ts-card ts-highlight">
+              <h3 class="ts-card-header"><ion-icon name="calendar" role="img" class="ts-md ts-hydrated"></ion-icon>Year 2</h3>
+              <div class="ts-card-row">
+                <p><strong>15 projects</strong> ($35k)</p>
+                <h5>$525k</h5>
+              </div>
+              <div class="ts-card-row">
+                <p><strong>Retainers</strong> (8 @ $8k/mo)</p>
+                <h5>$768k</h5>
+              </div>
+              <div class="ts-card-footer">
+                <strong>Total Projected</strong>
+                <h5 class="ts-orange-color">~ $1.29M</h5>
+              </div>
+            </div>
+
+            <div class="ts-card">
+              <h3 class="ts-card-header"><ion-icon name="calendar-outline" role="img" class="ts-md ts-hydrated"></ion-icon>Year 3</h3>
+              <div class="ts-card-row">
+                <p><strong>Consulting Stabilized</strong></p>
+                <h5>~ $900k</h5>
+              </div>
+              <div class="ts-card-row">
+                <p><strong>Early SaaS Layer</strong></p>
+                <h5>$356k</h5>
+              </div>
+              <div class="ts-card-footer">
+                <strong>Total Projected</strong>
+                <h5>$1.25M - $1.4M</h5>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </section>
+
+      <!-- SLIDE 9: COST STRUCTURE -->
+      <section class="ts-slide ts-layout-b" data-type="content">
+        <div class="ts-slide-inner">
+          <div class="ts-slide-graphic ts-fullheight">
+            <div class="ts-graphic-placeholder ts-orange-fill" style="--ts-graph-size: 75%">
+              <ion-icon name="pie-chart-outline"></ion-icon>
+            </div>
+          </div>
+          <div class="ts-slide-content">
+            <div class="ts-header-group">
+              <h2 class="ts-slide-title ts-orange">Cost Structure & Earnings</h2>
+              <div class="ts-slide-number ts-auto-index"></div>
+            </div>
+
+            <div class="ts-content-card">
+              <h3 class="ts-slide-subtitle">Avg. 8-Week Deployment ($40k Project)</h3>
+              <ul class="ts-feature-list" style="font-size: 0.85rem">
+                <li>
+                  <strong>Strategy & Arch (20%)</strong>
+                  – $8,000
+                </li>
+                <li>
+                  <strong>Dev & Engineering (35%)</strong>
+                  – $14,000
+                </li>
+                <li>
+                  <strong>Design & UX (15%)</strong>
+                  – $6,000
+                </li>
+                <li>
+                  <strong>Implementation & QA (10%)</strong>
+                  – $4,000
+                </li>
+                <li>
+                  <strong>Client Acquisition (10%)</strong>
+                  – $4,000
+                </li>
+                <li>
+                  <strong>Hosting & Ops (10%)</strong>
+                  – $4,000
+                </li>
+              </ul>
+              <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--ts-border-color-primary)">
+                <p>
+                  <strong>Target Margin:</strong>
+                  35%–55%
+                </p>
+                <p>
+                  <strong>Effective Blended Rate:</strong>
+                  $150–$300/hr
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: OPEN SOURCE STRATEGY -->
+      <section class="ts-slide ts-layout-a" data-type="content">
+        <div class="ts-slide-inner">
+          <div class="ts-slide-graphic ts-fullheight">
+            <div class="ts-graphic-placeholder ts-blue-fill" style="--ts-graph-size: 75%">
+              <ion-icon name="globe-outline"></ion-icon>
+            </div>
+          </div>
+          <div class="ts-slide-content">
+            <div class="ts-header-group">
+              <div class="ts-slide-title ts-blue">Open Source Strategy</div>
+              <div class="ts-slide-number ts-auto-index"></div>
+            </div>
+            <div class="ts-content-card">
+              <p class="ts-slide-description">
+                <strong>A public automation kit will be maintained as:</strong>
+              </p>
+              <ul class="ts-feature-list">
+                <li>Community-driven repository</li>
+                <li>Modular component system</li>
+                <li>Public documentation hub</li>
+              </ul>
+            </div>
+            <div class="ts-content-card ts-mt-sm">
+              <h3 class="ts-slide-subtitle ts-orange-color">Sustainability</h3>
+              <p class="ts-slide-description" style="font-size: 0.9rem">
+                Core framework is open. Advanced consultancy modules remain private.
+                <br />
+                <br />
+                This ensures
+                <strong>Long-term sustainability</strong>
+                ,
+                <strong>Brand authority</strong>
+                , and
+                <strong>Talent attraction</strong>
+                .
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: INVESTOR STRATEGY -->
+      <section class="ts-slide ts-layout-b" data-type="content">
+        <div class="ts-slide-inner">
+          <div class="ts-slide-graphic ts-fullheight">
+            <div class="ts-graphic-placeholder ts-orange-fill" style="--ts-graph-size: 75%">
+              <ion-icon name="trending-up-outline"></ion-icon>
+            </div>
+          </div>
+          <div class="ts-slide-content" style="gap: var(--ts-gap-sm)">
+            <div class="ts-header-group" style="gap: var(--ts-gap-sm)">
+              <div class="ts-slide-title">Capital &amp; Growth Strategy</div>
+              <div class="ts-slide-number ts-auto-index">10</div>
+            </div>
+            <div class="ts-grid" style="gap: var(--ts-gap-sm)">
+              <div class="ts-grid ts-grid-3" style="gap: var(--ts-gap-sm)">
+                <div class="ts-content-card">
+                  <h3>Phase 1</h3>
+                  Bootstrap via consulting
+                </div>
+                <div class="ts-content-card">
+                  <h3>Phase 2</h3>
+                  Reinvest into product
+                </div>
+                <div class="ts-content-card">
+                  <h3>Phase 3</h3>
+                  Seed for SaaS
+                </div>
+              </div>
+
+              <div class="ts-slide-description ts-content-card">
+                <h4>Investor Positioning:</h4>
+                Proven revenue, De-risked market validation, Recurring retainers.
+              </div>
+
+              <div class="ts-content-card ts-orange-fill">
+                <p class="ts-slide-description" style="color: white">
+                  <strong>Target Raise (if pursued):</strong>
+                </p>
+                <h2>$500k – $1.5M Seed</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: LONG-TERM VISION -->
+      <section class="ts-slide ts-layout-center" data-type="content">
+        <div class="ts-slide-inner" style="--ts-content-spacing: var(--ts-gap-sm);">
+          <div class="ts-header-group">
+            <div class="ts-slide-title ts-blue">Long-Term Positioning</div>
+            <div class="ts-slide-number ts-auto-index">11</div>
+          </div>
+
+          <div style="text-align: center; max-width: 980px; flex: 0; width: -webkit-fill-available" class="ts-grid ts-grid-2">
+            <h3 style="grid-column: 2 span; display: block" class="ts-content-card">
+              To become the
+              <span class="ts-orange-color">Operational Infrastructure Layer</span>
+              behind AI-native media companies.
+            </h3>
+            <p class="ts-content-card">From consulting to platform.</p>
+            <p class="ts-content-card">From systems to ecosystem.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 13: THANK YOU (Ending) -->
+      <section class="ts-slide ts-layout-center" data-type="ending">
+        <div class="ts-logo-main">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 180 180">
+            <g>
+              <path class="ts-orange-fill" d="M14,90c0-19,0-38.1,0-57.1c0-12.1,10.7-20.8,22.5-18.4c11,2.2,18.7,17.7,10.5,28.7c-2.5,3.3-5.6,6-8.4,9.1  C32.5,59.2,28.5,67,28.2,76.4c-0.7,18.6,12.2,34.3,30.5,37.5c8.2,1.4,16,0.6,23.4-3.4c1.2-0.6,1.5-0.4,1.5,0.9  c-0.1,3.1,0,6.2,0,9.2c0,3.8,2.5,6.5,5.9,6.5c3.6,0,6.2-2.7,6.2-6.6c0-6.6,0-13.1,0-19.7c0-1.2,0.3-2.1,1.2-2.9  c2.4-2.2,4.6-4.4,7-6.6c7.7-6.9,18.6-5.6,24.3,3c3.5,5.3,2.8,13.3-1.7,17.9c-4.3,4.4-8.6,8.8-12.9,13.2  c-11.3,11.5-22.6,22.9-33.8,34.4c-4.1,4.2-9.1,6.2-15,6.2c-10.6,0-21.1,0-31.7,0c-8.5,0-15.7-5.3-18.1-13.2  c-0.6-1.9-0.9-3.8-0.9-5.8C14,127.9,14,109,14,90z" />
+              <path class="ts-blue-fill" d="M95.7,70.6c0-3.6,0-7.1,0-10.6c0-0.9,0-1.7-0.3-2.6c-0.9-3-3.7-4.9-6.6-4.5c-3,0.4-5.2,2.9-5.3,6  c0,7,0,13.9,0,20.9c0,1.1-0.2,1.9-1,2.6c-2.4,2.3-4.6,4.7-7.1,7c-5.5,5-15,4.8-20.9-0.4c-5.7-5-6.6-13.5-2-19.9  c2.4-3.4,5.6-6.2,8.5-9.2c11.6-11.8,23.3-23.5,35-35.2c2-2.1,4.2-4,6.3-6c3.2-3.1,7-4.5,11.3-4.5c11.4-0.1,22.8-0.1,34.1,0  c10.7,0.1,18.8,9.4,18.2,20.2c-0.4,7.8-0.2,15.7-0.3,23.5c-0.4,27.9,0,55.8-0.2,83.8c0,3.3,0.3,6.6-0.3,9.9  c-1.6,7.9-7.9,13.5-16.2,14.5c-7.1,0.8-14.7-3.7-17.8-10.6c-3.1-6.9-2.5-13.4,2.4-19.2c2.9-3.4,6.3-6.5,9.3-9.9  c9.2-10.6,11.5-22.8,6.9-36C145,77,135.5,68.5,121.3,66c-8.4-1.5-16.3,0.6-23.8,4.2c-0.4,0.2-0.8,0.4-1.2,0.6  C96.2,70.7,96.1,70.6,95.7,70.6z" />
+            </g>
+          </svg>
+        </div>
+        <h1 class="ts-intro-title ts-blue-color">Thanks!</h1>
+        <p class="ts-slide-description">SatoshiSea | 2026</p>
+      </section>
+    </div>
+
+    <!-- =========================================
+       7. JAVASCRIPT LOGIC
+       ========================================= -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const slides = document.querySelectorAll(".ts-slide");
+        const navContainer = document.getElementById("ts-navTabs");
+        let currentIndex = 0;
+        let slideIndexCounter = 1;
+
+        // 1. Initialize Logic
+        slides.forEach((slide, index) => {
+          // A. Generate Nav Tabs
+          const tab = document.createElement("div");
+          tab.classList.add("ts-nav-tab");
+          if (index === 0) tab.classList.add("ts-active");
+
+          // Click to navigate
+          tab.addEventListener("click", () => goToSlide(index));
+          navContainer.appendChild(tab);
+
+          // B. Auto-Numbering Logic (Skipping Intro/Outro types if needed,
+          // but PDF shows continuous numbering starting from Intro+1 usually)
+          const type = slide.getAttribute("data-type");
+          const numberDisplay = slide.querySelector(".ts-auto-index");
+
+          if (type !== "intro" && type !== "ending") {
+            if (numberDisplay) {
+              // Format number as [01], [02]
+              let formattedNum = slideIndexCounter < 10 ? `0${slideIndexCounter}` : slideIndexCounter;
+              numberDisplay.innerText = `${formattedNum}`;
+            }
+            slideIndexCounter++;
+          }
+        });
+
+        // C. Add Export PDF Button to Nav
+        const printBtn = document.createElement("button");
+        printBtn.innerText = "Export PDF";
+        printBtn.className = "ts-print-btn";
+        printBtn.addEventListener("click", () => {
+          window.print();
+        });
+        navContainer.parentElement.appendChild(printBtn); // Append to container, not tabs list to keep absolute pos relative to container
+
+        const tabs = document.querySelectorAll(".ts-nav-tab");
+
+        // 2. Navigation Function
+        function goToSlide(index) {
+          // Bounds check
+          if (index < 0 || index >= slides.length) return;
+
+          // Remove active classes
+          slides[currentIndex].classList.remove("ts-active");
+          tabs[currentIndex].classList.remove("ts-active");
+
+          // Update Index
+          currentIndex = index;
+
+          // Add active classes
+          slides[currentIndex].classList.add("ts-active");
+          tabs[currentIndex].classList.add("ts-active");
+        }
+
+        // 3. Keyboard Navigation
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
+            goToSlide(currentIndex + 1);
+          } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+            goToSlide(currentIndex - 1);
+          }
+        });
+
+        // 4. Click on slide to advance (Optional User Experience)
+        /*document.getElementById('deck-container').addEventListener('click', (e) => {
+                        if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') {
+                            goToSlide(currentIndex + 1);
+                        }
+                    });*/
+      });
+      const createElement = (tag, attributes = {}) => {
+        const el = document.createElement(tag);
+        Object.entries(attributes).forEach(([key, value]) => {
+          if (key === "class" || key === "className") {
+            el.className = Array.isArray(value) ? value.join(" ") : value;
+          } else if (key.startsWith("data-")) {
+            el.setAttribute(key, value);
+          } else if (key === "text") {
+            el.textContent = value;
+          } else {
+            el[key] = value;
+          }
+        });
+        return el;
+      };
+
+      // Icon creation helper (simplified - uses ion-icon)
+      const createIcon = (iconName, size = null) => {
+        if (!iconName) {
+          const span = document.createElement("span");
+          span.className = "ts-icon";
+          return span;
+        }
+
+        const icon = document.createElement("ion-icon");
+        icon.setAttribute("name", iconName);
+        icon.className = "ts-icon";
+        if (size) {
+          icon.style.fontSize = size;
+        }
+        icon.setAttribute("aria-hidden", "true");
+        return icon;
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Toolskin · Masonry v5 — test bench</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css">
+
+<style>
+/* Global box-sizing reset — without this, padding+border breaks flex-basis math */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ============================================================
+   TOOLSKIN TOKENS (inlined subset from toolskin.css)
+   ============================================================ */
+:root {
+    --ts-accent-h: 18;
+    --ts-accent-s: 100%;
+    --ts-accent-l: 52%;
+    --ts-accent: hsl(var(--ts-accent-h), var(--ts-accent-s), var(--ts-accent-l));
+    --ts-bg-body: #0c0d0f;
+    --ts-bg-0: #14161a;
+    --ts-bg-1: #1c1e24;
+    --ts-bg-2: #23262e;
+    --ts-border-0: rgba(255, 255, 255, 0.07);
+    --ts-border-accent: rgba(255, 85, 0, 0.35);
+    --ts-text-primary: #e8e9ea;
+    --ts-text-secondary: rgba(232, 233, 234, 0.65);
+    --ts-text-muted: rgba(232, 233, 234, 0.45);
+    --ts-radius-md: 6px;
+    --ts-radius-lg: 10px;
+    --ts-sp-3: 12px;
+    --ts-sp-4: 16px;
+    --ts-sp-5: 20px;
+    --ts-sp-6: 24px;
+    --ts-font-display: 'Space Grotesk', system-ui, sans-serif;
+    --ts-font-body: 'Space Grotesk', system-ui, sans-serif;
+    --ts-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+/* ============================================================
+   PAGE CHROME
+   ============================================================ */
+html, body {
+    background:
+        radial-gradient(70% 50% at 20% 0%, color-mix(in srgb, var(--ts-accent) 20%, transparent), transparent 60%),
+        var(--ts-bg-body);
+    color: var(--ts-text-primary);
+    font-family: var(--ts-font-body);
+    margin: 0;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px 32px 96px;
+}
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ts-accent);
+    margin: 0 0 18px;
+}
+.eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--ts-accent);
+}
+
+h1 {
+    font-family: var(--ts-font-display);
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-weight: 700;
+    margin: 0 0 18px;
+    max-width: 18ch;
+}
+h1 em { font-style: italic; color: var(--ts-accent); font-weight: 600; }
+
+.lead {
+    font-size: 16px;
+    max-width: 70ch;
+    line-height: 1.55;
+    color: var(--ts-text-secondary);
+    margin: 0 0 36px;
+}
+
+.tb-controls {
+    position: sticky;
+    top: 16px;
+    z-index: 10;
+    background: color-mix(in srgb, var(--ts-bg-body), transparent 6%);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--ts-border-0);
+    border-radius: var(--ts-radius-lg);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+.tb-controls label {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ts-text-secondary);
+}
+.tb-controls input[type="range"] {
+    flex: 1;
+    accent-color: var(--ts-accent);
+}
+.tb-controls .px {
+    font-family: var(--ts-font-mono);
+    font-size: 12px;
+    color: var(--ts-accent);
+    min-width: 6ch;
+    text-align: right;
+}
+
+.tb-head {
+    margin: 32px 0 12px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.tb-head h2 {
+    font-family: var(--ts-font-display);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+}
+.tb-head .count {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ts-accent);
+    padding: 2px 8px;
+    border: 1px solid var(--ts-border-accent);
+    border-radius: 4px;
+}
+.tb-head .desc {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    color: var(--ts-text-muted);
+    margin: 0;
+    flex: 1 1 100%;
+    line-height: 1.5;
+}
+
+.tb-frame {
+    margin: 0 auto;
+    border-left: 1px dashed rgba(255,255,255,0.06);
+    border-right: 1px dashed rgba(255,255,255,0.06);
+    transition: max-width .12s ease;
+}
+
+.cell {
+    background: var(--ts-bg-0);
+    border: 1px solid var(--ts-border-0);
+    border-radius: var(--ts-radius-lg);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    overflow: hidden;
+}
+.cell .v {
+    font-family: var(--ts-font-display);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ts-text-primary);
+    letter-spacing: -0.02em;
+}
+.cell .v em { color: var(--ts-accent); font-style: normal; }
+.cell .l {
+    font-family: var(--ts-font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ts-accent);
+    margin-top: 2px;
+}
+
+</style>
+</head>
+<body class="ts-main ts-showcase ts-landing">
+
+<div  class="wrap">
+
+    <div class="eyebrow">§ Masonry v5 · test bench</div>
+    <h1>One engine. <em>Every</em> count.</h1>
+    <p class="lead">The slider sets each masonry's container width. Drag it and watch every row redistribute harmonically — no orphans, no half-empty trailing slots. The dashed verticals mark the active container width that the @container queries are reading.</p>
+
+    <div class="tb-controls">
+        <label for="frame">Container</label>
+        <input id="frame" type="range" min="240" max="1136" value="1136" step="1">
+        <span class="px" id="px">1136px</span>
+    </div>
+
+    <div class="tb-head">
+        <h2>Hero stat strip</h2>
+        <span class="count">5 items</span>
+        <p class="desc">Wide: 5-in-row. Mid: 3+2 (50/50 last row). Narrow: 2+2+1 (last full). Tiny: stack.</p>
+    </div>
+    <div class="tb-frame">
+        <div class="ts-masonry">
+            <div class="cell"><div class="v">5</div><div class="l">Demos</div></div>
+            <div class="cell"><div class="v">1</div><div class="l">Stylesheet</div></div>
+            <div class="cell"><div class="v">3</div><div class="l">Variables</div></div>
+            <div class="cell"><div class="v">240<em>+</em></div><div class="l">Tokens</div></div>
+            <div class="cell"><div class="v">0</div><div class="l">JS deps</div></div>
+        </div>
+    </div>
+
+    <div class="tb-head">
+        <h2>1 item</h2><span class="count">:only-child</span>
+        <p class="desc">Forced full-width.</p>
+    </div>
+    <div class="tb-frame">
+        <div class="ts-masonry">
+            <div class="cell"><div class="v">1</div><div class="l">Solo</div></div>
+        </div>
+    </div>
+
+    <div class="tb-head">
+        <h2>2 items</h2><span class="count">:has guard</span>
+        <p class="desc">Forced halves.</p>
+    </div>
+    <div class="tb-frame">
+        <div class="ts-masonry">
+            <div class="cell"><div class="v">2a</div><div class="l">Left</div></div>
+            <div class="cell"><div class="v">2b</div><div class="l">Right</div></div>
+        </div>
+    </div>
+
+    <div class="tb-head">
+        <h2>3 items</h2><span class="count">:has guard</span>
+        <p class="desc">Forced thirds.</p>
+    </div>
+    <div class="tb-frame">
+        <div class="ts-masonry">
+            <div class="cell"><div class="v">3a</div><div class="l">One</div></div>
+            <div class="cell"><div class="v">3b</div><div class="l">Two</div></div>
+            <div class="cell"><div class="v">3c</div><div class="l">Three</div></div>
+        </div>
+    </div>
+
+    <div class="tb-head">
+        <h2>4 items</h2><span class="count">:has guard · 2x2</span>
+        <p class="desc">Forced 2x2. Kills the 3+1 orphan.</p>
+    </div>
+    <div class="tb-frame">
+        <div class="ts-masonry">
+            <div class="cell"><div class="v">4a</div><div class="l">North</div></div>
+            <div class="cell"><div class="v">4b</div><div class="l">East</div></div>
+            <div class="cell"><div class="v">4c</div><div class="l">South</div></div>
+            <div class="cell"><div class="v">4d</div><div class="l">West</div></div>
+        </div>
+    </div>
+
+    <div class="tb-head">
+        <h2>6 items</h2><span class="count">:has guard · 3+3</span>
+        <p class="desc">Forced 3+3. Kills the 5+1 orphan when wide.</p>
+    </div>
+    <div class="tb-frame">
+        <div class="ts-masonry">
+            <div class="cell"><div class="v">6a</div><div class="l">One</div></div>
+            <div class="cell"><div class="v">6b</div><div class="l">Two</div></div>
+            <div class="cell"><div class="v">6c</div><div class="l">Three</div></div>
+            <div class="cell"><div class="v">6d</div><div class="l">Four</div></div>
+            <div class="cell"><div class="v">6e</div><div class="l">Five</div></div>
+            <div class="cell"><div class="v">6f</div><div class="l">Six</div></div>
+        </div>
+    </div>
+
+    <div class="tb-head">
+        <h2>7 items</h2><span class="count">ladder</span>
+        <p class="desc">Wide: 5+2 (last 2 stretch 50/50). Narrow: 3+3+1.</p>
+    </div>
+    <div class="tb-frame">
+        <div class="ts-masonry">
+            <div class="cell"><div class="v">7a</div><div class="l">A</div></div>
+            <div class="cell"><div class="v">7b</div><div class="l">B</div></div>
+            <div class="cell"><div class="v">7c</div><div class="l">C</div></div>
+            <div class="cell"><div class="v">7d</div><div class="l">D</div></div>
+            <div class="cell"><div class="v">7e</div><div class="l">E</div></div>
+            <div class="cell"><div class="v">7f</div><div class="l">F</div></div>
+            <div class="cell"><div class="v">7g</div><div class="l">G</div></div>
+        </div>
+    </div>
+
+    <div class="tb-head">
+        <h2>8 items</h2><span class="count">ladder</span>
+        <p class="desc">Wide: 5+3 (last 3 stretch thirds).</p>
+    </div>
+    <div class="tb-frame">
+        <div class="ts-masonry">
+            <div class="cell"><div class="v">8a</div><div class="l">A</div></div>
+            <div class="cell"><div class="v">8b</div><div class="l">B</div></div>
+            <div class="cell"><div class="v">8c</div><div class="l">C</div></div>
+            <div class="cell"><div class="v">8d</div><div class="l">D</div></div>
+            <div class="cell"><div class="v">8e</div><div class="l">E</div></div>
+            <div class="cell"><div class="v">8f</div><div class="l">F</div></div>
+            <div class="cell"><div class="v">8g</div><div class="l">G</div></div>
+            <div class="cell"><div class="v">8h</div><div class="l">H</div></div>
+        </div>
+    </div>
+
+    <div class="tb-head">
+        <h2>9 items</h2><span class="count">ladder</span>
+        <p class="desc">Wide: 5+4 (last 4 stretch quarters).</p>
+    </div>
+    <div class="tb-frame">
+        <div class="ts-masonry">
+            <div class="cell"><div class="v">9a</div><div class="l">A</div></div>
+            <div class="cell"><div class="v">9b</div><div class="l">B</div></div>
+            <div class="cell"><div class="v">9c</div><div class="l">C</div></div>
+            <div class="cell"><div class="v">9d</div><div class="l">D</div></div>
+            <div class="cell"><div class="v">9e</div><div class="l">E</div></div>
+            <div class="cell"><div class="v">9f</div><div class="l">F</div></div>
+            <div class="cell"><div class="v">9g</div><div class="l">G</div></div>
+            <div class="cell"><div class="v">9h</div><div class="l">H</div></div>
+            <div class="cell"><div class="v">9i</div><div class="l">I</div></div>
+        </div>
+    </div>
+
+    <div class="tb-head">
+        <h2>10 items</h2><span class="count">ladder · clean grid</span>
+        <p class="desc">Wide: 5+5. Narrow: 3+3+3+1 (last full). Tiny: 2+2+2+2+2.</p>
+    </div>
+    <div class="tb-frame">
+        <div class="ts-masonry">
+            <div class="cell"><div class="v">10a</div><div class="l">A</div></div>
+            <div class="cell"><div class="v">10b</div><div class="l">B</div></div>
+            <div class="cell"><div class="v">10c</div><div class="l">C</div></div>
+            <div class="cell"><div class="v">10d</div><div class="l">D</div></div>
+            <div class="cell"><div class="v">10e</div><div class="l">E</div></div>
+            <div class="cell"><div class="v">10f</div><div class="l">F</div></div>
+            <div class="cell"><div class="v">10g</div><div class="l">G</div></div>
+            <div class="cell"><div class="v">10h</div><div class="l">H</div></div>
+            <div class="cell"><div class="v">10i</div><div class="l">I</div></div>
+            <div class="cell"><div class="v">10j</div><div class="l">J</div></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const slider = document.getElementById('frame');
+const px = document.getElementById('px');
+const frames = document.querySelectorAll('.tb-frame');
+function applyWidth() {
+    const w = slider.value;
+    px.textContent = w + 'px';
+    frames.forEach(f => f.style.maxWidth = w + 'px');
+}
+slider.addEventListener('input', applyWidth);
+applyWidth();
+</script>
+
+</body>
+</html>

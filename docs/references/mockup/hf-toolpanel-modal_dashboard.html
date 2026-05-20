@@ -1,0 +1,117 @@
+<div id="hf-modal-overlay" class="hf-modal-overlay closable visible" style="opacity: 1;">
+    <div class="hf-modal-content hf-dashboard-modal hf-track-modal-content" style="max-width: 95vw;" style="opacity: 1;">
+        <div class="hf-modal-title">
+            <h3>Higgsfield Dashboard</h3>
+            <button class="hf-btn hf-btn-icon hf-close-btn">
+                <ion-icon name="close" class="hf-icon"></ion-icon>
+            </button>
+        </div>
+        <div class="hf-modal-view">
+            <div class="hf-track-modal-content">
+                <div class="hf-track-filter-bar">
+                    <div class="hf-track-tabs" style="display: none;">
+                        <button class="hf-tab-btn active" data-filter="total" data-tooltip="View all items">
+                            <ion-icon name="list" class="hf-icon"></ion-icon><span>Total</span><span class="hf-stat-value" id="hf-tab-count-total">0</span></button>
+                        <button class="hf-tab-btn " data-filter="pending" data-tooltip="View pending items" disabled="">
+                            <ion-icon name="time" class="hf-icon"></ion-icon><span>Pending</span><span class="hf-stat-value" id="hf-tab-count-pending">0</span></button>
+                        <button class="hf-tab-btn " data-filter="generating" data-tooltip="View items being generated" disabled="">
+                            <ion-icon name="play" class="hf-icon"></ion-icon><span>Generating</span><span class="hf-stat-value" id="hf-tab-count-generating">0</span></button>
+                        <button class="hf-tab-btn " data-filter="success" data-tooltip="View successfully completed items" disabled="">
+                            <ion-icon name="checkmark-circle" class="hf-icon"></ion-icon><span>Success</span><span class="hf-stat-value" id="hf-tab-count-success">0</span></button>
+                        <button class="hf-tab-btn " data-filter="failed" data-tooltip="View failed items" disabled="">
+                            <ion-icon name="close-circle" class="hf-icon"></ion-icon><span>Failed</span><span class="hf-stat-value" id="hf-tab-count-failed">0</span></button>
+                    </div>
+                    <div class="hf-track-search">
+                        <ion-icon name="search" class="hf-icon"></ion-icon>
+                        <input type="text" placeholder="Search queue..." id="hf-dashboard-search-input" class="hf-input" data-tooltip="Search by ID, prompt, or status">
+                    </div>
+                    <button id="hf-toggle-optional" class="hf-btn hf-btn-icon" data-tooltip="Show/Hide optional columns">
+                        <ion-icon name="eye-off" class="hf-icon" style="font-size: 16px;"></ion-icon>
+                    </button>
+                </div>
+                <div class="hf-queue-stats" id="hf-dashboard-stats" style="">
+                    <div class="hf-stat-item" data-stat="total">
+                        <ion-icon name="list" class="hf-icon" style="font-size: 12px;"></ion-icon><span class="hf-stat-label">Total:</span><span class="hf-stat-value" id="hf-stat-total">0</span></div>
+                    <div class="hf-stat-item" data-stat="pending">
+                        <ion-icon name="time" class="hf-icon" style="font-size: 12px;"></ion-icon><span class="hf-stat-label">Pending:</span><span class="hf-stat-value" id="hf-stat-pending">0</span></div>
+                    <div class="hf-stat-item" data-stat="generating">
+                        <ion-icon name="play" class="hf-icon" style="font-size: 12px;"></ion-icon><span class="hf-stat-label">Generating:</span><span class="hf-stat-value" id="hf-stat-generating">0</span></div>
+                    <div class="hf-stat-item" data-stat="success">
+                        <ion-icon name="checkmark-circle" class="hf-icon" style="font-size: 12px;"></ion-icon><span class="hf-stat-label">Success:</span><span class="hf-stat-value" id="hf-stat-success">0</span></div>
+                    <div class="hf-stat-item" data-stat="failed">
+                        <ion-icon name="close-circle" class="hf-icon" style="font-size: 12px;"></ion-icon><span class="hf-stat-label">Failed:</span><span class="hf-stat-value" id="hf-stat-failed">0</span></div>
+                    <div class="hf-stat-item" data-stat="paused">
+                        <ion-icon name="pause" class="hf-icon" style="font-size: 12px;"></ion-icon><span class="hf-stat-label">Paused:</span><span class="hf-stat-value" id="hf-stat-paused">0</span></div>
+                    <div class="hf-stat-item" data-stat="stopped">
+                        <ion-icon name="stop" class="hf-icon" style="font-size: 12px;"></ion-icon><span class="hf-stat-label">Stopped:</span><span class="hf-stat-value" id="hf-stat-stopped">0</span></div>
+                </div>
+                <div class="hf-dashboard-table-section">
+                    <div id="hf-dashboard-table-scroll" class="hf-table-scroll">
+                        <table id="hf-dashboard-table" class="hf-table">
+                            <thead>
+                                <tr>
+                                    <th class="" data-sort-key="null">
+                                        <input type="checkbox" id="hf-select-all-checkbox" class="hf-bulk-select-checkbox">
+                                    </th>
+                                    <th class="sortable" data-sort-key="id" style="cursor: pointer;">ID</th>
+                                    <th class="" data-sort-key="null">Image</th>
+                                    <th class="sortable" data-sort-key="prompt" style="cursor: pointer;">Prompt</th>
+                                    <th class="sortable" data-sort-key="status" style="cursor: pointer;">Status</th>
+                                    <th class="optional-column sortable" data-sort-key="timestamp" style="display: none; cursor: pointer;">Timestamp</th>
+                                    <th class="optional-column sortable" data-sort-key="cellId" style="display: none; cursor: pointer;">Cell ID</th>
+                                    <th class="optional-column sortable" data-sort-key="filename" style="display: none; cursor: pointer;">Filename</th>
+                                    <th class="" data-sort-key="null">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hf-dashboard-tbody"></tbody>
+                        </table>
+                    </div>
+                    <div id="hf-bulk-actions-container" class="hf-bulk-actions-container floating-version" style="display: none;"><span id="hf-selection-counter" class="hf-selection-counter">0 selected</span>
+                        <button id="hf-bulk-actions-btn" class="hf-btn btn-primary" data-tooltip="Bulk actions for selected items">
+                            <ion-icon name="ellipsis-horizontal" class="hf-icon"></ion-icon><span>Actions</span></button>
+                        <div id="hf-bulk-actions-dropdown" class="hf-bulk-actions-dropdown" style="display: none;">
+                            <button class="hf-bulk-action-item" data-action="download">
+                                <ion-icon name="cloud-download" class="hf-icon" style="font-size: 14px;"></ion-icon><span>Download Selected Videos</span></button>
+                            <button class="hf-bulk-action-item" data-action="check-duplicates">
+                                <ion-icon name="git-compare" class="hf-icon" style="font-size: 14px;"></ion-icon><span>Check if Duplicated</span></button>
+                            <button class="hf-bulk-action-item" data-action="delete">
+                                <ion-icon name="trash" class="hf-icon" style="font-size: 14px;"></ion-icon><span>Delete Entry</span></button>
+                            <button class="hf-bulk-action-item" data-action="reset-regenerate">
+                                <ion-icon name="refresh" class="hf-icon" style="font-size: 14px;"></ion-icon><span>Reset and Regenerate</span></button>
+                            <button class="hf-bulk-action-item" data-action="fetch-metadata">
+                                <ion-icon name="cloud-download-outline" class="hf-icon" style="font-size: 14px;"></ion-icon><span>Fetch All Items Metadata</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div id="hf-dashboard-empty" class="hf-track-empty loading_wrapper">
+                    <ion-icon name="list-outline" class="hf-icon" style="font-size: 48px;"></ion-icon>
+                    <p>No items in queue. Import data to get started.</p>
+                    <div class="hf-dashboard-input-section" style="width: 100%;">
+                        <div class="hf-dashboard-input-row">
+                            <button id="hf-dashboard-import" class="hf-btn btn-info">
+                                <ion-icon name="cloud-upload" class="hf-icon"></ion-icon><span class="hf-btn-text">Import CSV</span></button>
+                            <button id="hf-dashboard-show-textarea" class="hf-btn btn-secondary">
+                                <ion-icon name="text-outline" class="hf-icon"></ion-icon><span class="hf-btn-text">Show Textarea</span></button>
+                        </div>
+                        <input type="file" accept=".csv" id="hf-dashboard-csv-input" class="hf-file-input">
+                        <textarea id="hf-dashboard-input" class="hf-dashboard-textarea" placeholder="Paste spreadsheet data here (ID, img_URL, Prompt)... or import CSV file" style="display: none;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hf-modal-actions">
+            <div class="hf-modal-actions-left">
+                <button class="hf-btn btn-stop" data-tooltip="Clear imported data">
+                    <ion-icon name="trash-outline" class="hf-icon"></ion-icon><span>Clear Imported</span></button>
+            </div>
+            <div class="hf-modal-actions-right">
+                <button class="hf-btn btn-primary" data-tooltip="Import CSV and start queue">
+                    <ion-icon name="play" class="hf-icon"></ion-icon><span>Import &amp; Start</span></button>
+                <button class="hf-btn btn-success" id="hf-dashboard-export" data-tooltip="Export queue to CSV" disabled="">
+                    <ion-icon name="download" class="hf-icon"></ion-icon><span>Export CSV</span></button>
+                <button class="hf-btn btn-secondary" id="hf-dashboard-export-json" data-tooltip="Export queue to JSON" disabled="">
+                    <ion-icon name="document" class="hf-icon"></ion-icon><span>Export JSON</span></button>
+            </div>
+        </div>
+    </div>
+</div>
