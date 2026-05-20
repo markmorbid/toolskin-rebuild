@@ -153,7 +153,7 @@ Any council deliberation touching visual decisions uses UPGRADED voices: **Archi
 
 - **Pattern 16 — Council HALT on fundamental implications.** If a council surfaces a fundamental implication missed at the prior gate, HALT, classify (spec amendment / missed architectural choice / reframe), surface to owner, do NOT auto-resolve.
 - **Pattern 17 — Visual audit before specs.** Design-system work visually audits the rendered source-of-truth BEFORE producing specs. Source-of-truth hierarchy: owner's eye > rendered screenshots > vision analysis > CSS text.
-- **Pattern 18 — Quota Safety Protocol.** On quota-approach, execute the 6-step save protocol (stop dispatch → write `_session-N-state-quota-halt.md` → stage progress → report → halt → no last-second dispatches).
+- **Pattern 18 — Quota Safety Protocol + session-close handoff.** On quota-approach, execute the 6-step save protocol (stop dispatch → write `_session-N-state-quota-halt.md` → stage progress → report → halt → no last-second dispatches). **Extension (binding):** at EVERY session close — and on any quota halt — the agent MUST update AND commit `.remember/remember.md` with the session handoff (done / next / non-obvious context). The handoff note is the memory bridge between sessions. On a quota halt the state is written to BOTH `_session-N-state-quota-halt.md` and `.remember/remember.md`, in sync.
 
 ## §20 — GATE 5 COUNCIL APPENDIX (3 resolutions)
 

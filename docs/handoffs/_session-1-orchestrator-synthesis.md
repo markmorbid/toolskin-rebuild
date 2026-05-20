@@ -650,6 +650,14 @@ When the agent detects that owner quota is approaching cutoff (5-hour limit, wee
 
 **Why binding:** Tokens consumed beyond quota = work lost mid-execution. A subagent dispatch cut off mid-Phase-E or mid-Wave-1.6 leaves partial files and broken state the owner must diagnose. The 2-minute save protocol is the cheapest insurance.
 
+**Pattern 18 extension — session-close handoff note (binding, added 2026-05-20):**
+
+The handoff note is the memory bridge between sessions; without it, the next session starts cold. So Pattern 18 extends:
+
+- At **every session close** — AND whenever a quota limit approaches before the session can close cleanly — the agent MUST: (a) update `.remember/remember.md` with the current session state (what's done, what's next, non-obvious context); (b) stage + commit it. This is **not optional**.
+- When the quota SAVE PROTOCOL fires, the state doc is written to **BOTH** `docs/handoffs/_session-N-state-quota-halt.md` AND `.remember/remember.md`, kept in sync.
+- The `claude-remember` plugin lives at `.claude/skills/remember/` (project scope) + the Claude Code user plugin path (global). Use `/remember` or write `.remember/remember.md` directly.
+
 **Companion to Patterns 16 + 17:** all three halt for owner; none auto-resolve.
 
 ---
