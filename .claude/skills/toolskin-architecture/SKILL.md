@@ -11,6 +11,17 @@ Heavy detail lives in `docs/handoffs/` (the 10 rebuild specs + syntheses) and in
 
 ---
 
+## ▶ SESSION START — cold-resume routine (run FIRST, every session)
+
+A fresh session has no memory of prior sessions. Before any task work, re-establish context — re-analyze, never assume (Pattern 18 Session Continuity Protocol, §19):
+
+1. Read `.remember/remember.md` — the handoff note (State / Next / In-flight / Context).
+2. Read this SKILL.md in full + the orchestrator synthesis `docs/handoffs/_session-1-orchestrator-synthesis.md` + any `_session-N-state-*.md` the handoff points to.
+3. **Verify disk reality matches the handoff** — `git log --oneline`, `git status`; confirm the files/commits the handoff claims actually exist. If reality ≠ handoff → HALT and surface; never improvise.
+4. Confirm full context, then proceed from the handoff's "Next".
+
+Throughout the session, checkpoint at every clean boundary (commit + refresh `.remember/remember.md`) — see §19.
+
 ## §1 — REPO MODEL — READ FIRST
 
 - **Canonical project:** `toolskin-rebuild/` — THE Toolskin project going forward. Branch `master`, single branch, no worktrees. All work happens here. Writable areas: `assets/css/next/`, `sandbox/`, `docs/`, `tools/`, `.claude/`.
@@ -153,7 +164,12 @@ Any council deliberation touching visual decisions uses UPGRADED voices: **Archi
 
 - **Pattern 16 — Council HALT on fundamental implications.** If a council surfaces a fundamental implication missed at the prior gate, HALT, classify (spec amendment / missed architectural choice / reframe), surface to owner, do NOT auto-resolve.
 - **Pattern 17 — Visual audit before specs.** Design-system work visually audits the rendered source-of-truth BEFORE producing specs. Source-of-truth hierarchy: owner's eye > rendered screenshots > vision analysis > CSS text.
-- **Pattern 18 — Quota Safety Protocol + session-close handoff.** On quota-approach, execute the 6-step save protocol (stop dispatch → write `_session-N-state-quota-halt.md` → stage progress → report → halt → no last-second dispatches). **Extension (binding):** at EVERY session close — and on any quota halt — the agent MUST update AND commit `.remember/remember.md` with the session handoff (done / next / non-obvious context). The handoff note is the memory bridge between sessions. On a quota halt the state is written to BOTH `_session-N-state-quota-halt.md` and `.remember/remember.md`, in sync.
+- **Pattern 18 — Session Continuity Protocol (checkpoint + cold-resume).** Guarantees any session (clean end OR quota cutoff) leaves a state a fresh cold session resumes with zero context loss. The agent has NO reliable in-band quota meter, so continuity does NOT rely on detecting the cutoff — it relies on continuous checkpointing + owner triggering + the SESSION START routine (top of this file).
+  - **Checkpoint** = `git commit` completed work at a clean boundary + refresh `.remember/remember.md`. Take one: after every phase / wave / step; BEFORE every expensive op (multi-agent dispatch, long build); at every owner gate / HALT; at session close; the instant the owner signals quota-approach.
+  - **Handoff note** (`.remember/remember.md`) — refreshed at every checkpoint; always carries State / Next / In-flight / Context. On a quota halt the same state also goes to `docs/handoffs/_session-N-state-quota-halt.md`, in sync.
+  - **Cold-resume** — every fresh session FIRST runs the SESSION START routine: read handoff → read SKILL.md + synthesis → verify disk reality matches → proceed. Re-analyze, never assume.
+  - **Resumable by design** — parallel sub-agents each write their own part file before any merge; no operation leaves state only this session can explain.
+  - Reliable triggers: owner signal, clean boundary, before-expensive-op. Agent self-detection of quota is best-effort only, never depended on. Full protocol: `docs/handoffs/_session-1-orchestrator-synthesis.md` §Pattern 18.
 
 ## §20 — GATE 5 COUNCIL APPENDIX (3 resolutions)
 

@@ -629,34 +629,55 @@ This pattern emerged Session 1 when the rebuild progressed through Wave 1 + Wave
 
 ---
 
-### Pattern 18 — Quota Safety Protocol (binding)
+### Pattern 18 — Session Continuity Protocol (binding — checkpoint + cold-resume)
 
-*Added to `rebuild-orchestration` skill (Session 1.5 install). Captured here for binding effect immediately — Session 1 Day 2.*
+*Added to `rebuild-orchestration` skill (Session 1.5 install). Captured here for binding effect immediately. Supersedes the original "Quota Safety Protocol" framing — rewritten 2026-05-20 after stress-testing.*
 
-When the agent detects that owner quota is approaching cutoff (5-hour limit, weekly cap, or context-window threshold), the agent MUST execute a save-state protocol BEFORE any further token-consuming work.
+**Goal:** every session — whether it ends cleanly OR is cut off by a quota cap — leaves the project in a state where a fresh, cold session resumes with ZERO context loss and re-establishes full context by re-analysis.
 
-**Detection triggers:**
-1. Owner notifies in chat ("limit hit", "approaching cap", "quota warning") → execute SAVE PROTOCOL immediately.
-2. System surfaces a warning in the agent environment (status line, context indicator) → execute SAVE PROTOCOL.
-3. Self-assessment — >2 hours of continuous subagent dispatches in one session AND about to dispatch another → pause and ask owner "Token quota status check before next dispatch?"
+**Why this is NOT a "detect-and-save" protocol:** the agent has no reliable in-band token/quota meter — it cannot see how much of the 5-hour / weekly cap remains mid-turn. A last-second save only fires if a trigger reaches the agent, and the only reliable trigger is the owner. (The context window is a non-issue — the harness auto-compacts it.) So continuity is guaranteed by **continuous checkpointing + owner triggering + a cold-start re-analysis routine** — never by catching the cliff.
 
-**SAVE PROTOCOL — 6 steps, in order (~2 min):**
-1. **STOP DISPATCH** — no new subagent dispatch, no new file edit. Complete only the one in-flight tool call.
-2. **WRITE STATE DOC** — append to `docs/handoffs/_session-N-state-quota-halt.md`: ISO timestamp, reason, last action completed, next planned action, in-flight work needing redo, `git status` output, resumption pointer (which step to restart from).
-3. **STAGE PROGRESS** — `git add` files modified this session that survived. DO NOT commit (next session's owner reviews).
-4. **REPORT TO OWNER** — single message: "QUOTA HALT — saved state to `_session-N-state-quota-halt.md`"; one-line last-completed / next-planned; files-staged count, no commits; "Resume after quota reset."
-5. **HALT** — no further work; wait for owner direction after quota resets.
-6. **NO last-second subagent dispatches** "just to get one more thing done" — dispatches are the most token-expensive operations and cause partial completions / lost work.
+**What a hard cutoff does:** git commits and file writes are atomic — no corruption. The only real risk is inconsistent *multi-file* state or a partially-completed sub-agent dispatch. Checkpoint discipline bounds that loss to "work since the last checkpoint", which the handoff note flags as in-flight.
 
-**Why binding:** Tokens consumed beyond quota = work lost mid-execution. A subagent dispatch cut off mid-Phase-E or mid-Wave-1.6 leaves partial files and broken state the owner must diagnose. The 2-minute save protocol is the cheapest insurance.
+#### A. CHECKPOINT DISCIPLINE (runs throughout every session)
 
-**Pattern 18 extension — session-close handoff note (binding, added 2026-05-20):**
+A **checkpoint** = (1) `git commit` of all completed work at a clean boundary + (2) a refreshed `.remember/remember.md`. Take a checkpoint:
+- After every completed phase / wave / major step.
+- BEFORE every expensive or hard-to-resume operation (a multi-agent dispatch, a long build) — so a mid-operation death resumes from known-good.
+- At every owner gate / HALT.
+- At session close.
+- The instant the owner signals quota-approach.
 
-The handoff note is the memory bridge between sessions; without it, the next session starts cold. So Pattern 18 extends:
+Between checkpoints keep work **resumable by design**: parallel sub-agents each write their own part file before any merge; multi-file edits are ordered so partial completion is detectable; no operation leaves the repo in a state only this session's memory can explain.
 
-- At **every session close** — AND whenever a quota limit approaches before the session can close cleanly — the agent MUST: (a) update `.remember/remember.md` with the current session state (what's done, what's next, non-obvious context); (b) stage + commit it. This is **not optional**.
-- When the quota SAVE PROTOCOL fires, the state doc is written to **BOTH** `docs/handoffs/_session-N-state-quota-halt.md` AND `.remember/remember.md`, kept in sync.
-- The `claude-remember` plugin lives at `.claude/skills/remember/` (project scope) + the Claude Code user plugin path (global). Use `/remember` or write `.remember/remember.md` directly.
+#### B. THE HANDOFF NOTE — `.remember/remember.md`
+
+The single memory bridge between sessions. Every checkpoint refreshes it. It MUST always carry enough for a cold session to resume with zero loss:
+- **State** — commits on the branch, what's on disk, working-tree status.
+- **Next** — the immediate next action(s), priority-ordered.
+- **In-flight** — anything started but not completed (needs redo / verification).
+- **Context** — non-obvious gotchas, bindings, owner decisions, and *why*.
+
+On a quota halt the same state is ALSO written to `docs/handoffs/_session-N-state-quota-halt.md`; the two are kept in sync.
+
+#### C. COLD-START RE-ANALYSIS ROUTINE (the FIRST thing every fresh session does)
+
+A fresh session has no memory of prior sessions. Before ANY task work it MUST re-establish context — re-analyze, never assume:
+1. Read `.remember/remember.md` — the handoff.
+2. Read `.claude/skills/toolskin-architecture/SKILL.md` (auto-loads) + the orchestrator synthesis + any `_session-N-state-*.md` the handoff points to.
+3. **Verify disk reality matches the handoff** — `git log --oneline`, `git status`, confirm the files/commits the handoff claims actually exist (the Day 2 Step 1 disk-verification is the template). If reality ≠ handoff → HALT and surface; never improvise.
+4. Confirm full context, then proceed from the handoff's "Next".
+
+This runs EVERY session start. Verified current reality always wins over a remembered claim — memory can be stale.
+
+#### D. TRIGGERS
+
+- **Owner signal (reliable)** — owner says quota is close → checkpoint immediately, then await direction.
+- **Clean boundary (reliable)** — phase / wave / gate done → checkpoint.
+- **Before an expensive op (reliable)** — about to dispatch agents or run a long build → checkpoint first.
+- **Agent self-detection of quota is best-effort only** — never depended on (no reliable meter).
+
+If a quota cutoff is imminent and a trigger fires: STOP new dispatch, finish only the in-flight tool call, take a checkpoint (commit + handoff + `_session-N-state-quota-halt.md`), report, HALT. No last-second sub-agent dispatches.
 
 **Companion to Patterns 16 + 17:** all three halt for owner; none auto-resolve.
 

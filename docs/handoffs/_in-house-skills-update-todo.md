@@ -149,7 +149,7 @@ Owner-authored orchestration skill, provided externally to chat (at `docs/sessio
 **Install path:** `.claude/skills/rebuild-orchestration/SKILL.md`
 
 - [ ] Install the skill at project scope.
-- [ ] Verify it carries Pattern 16 (Council HALT on fundamental implications), Pattern 17 (Visual audit before specs), Pattern 18 (Quota Safety Protocol — including the session-close handoff-note extension added 2026-05-20: update + commit `.remember/remember.md` at every session close).
+- [ ] Verify it carries Pattern 16 (Council HALT on fundamental implications), Pattern 17 (Visual audit before specs), Pattern 18 (Session Continuity Protocol — checkpoint discipline + cold-resume re-analysis routine; rewritten 2026-05-20, supersedes the original "Quota Safety Protocol" framing).
 - [ ] **Pattern 18 is binding from now on:** on quota-approach detection (owner notification / system warning / >2h continuous dispatch self-assessment), execute the 6-step SAVE PROTOCOL — stop dispatch → write `_session-N-state-quota-halt.md` → `git add` surviving progress (no commit) → report to owner → halt → no last-second subagent dispatches.
 
 ---
