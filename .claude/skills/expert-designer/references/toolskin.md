@@ -192,16 +192,18 @@ Borders derived from surface context:
 ### 11.6 Radius, shadow, animation, layout tokens
 
 ```css
-/* Radius (one value controls all) */
---ts-radius-base: 10px;
+/* Radius — Wave 1.6 CONFIRMED: base = 8px (not 10px), ladder is EXPLICIT (not calc-derived) */
+/* OLD REPO (toolskin-showcase) — shown here for reference only; rebuild uses explicit ladder below */
+--ts-radius-base: 8px;  /* corrected from 10px — Wave 1.6 visual audit confirmed running CSS */
 --ts-radius-scale: 1;
 --ts-radius: calc(var(--ts-radius-base) * var(--ts-radius-scale));
---ts-radius-xs: calc(var(--ts-radius) * 0.3);
---ts-radius-sm: calc(var(--ts-radius) * 0.5);
---ts-radius-md: var(--ts-radius);
---ts-radius-lg: calc(var(--ts-radius) * 1.4);
---ts-radius-xl: calc(var(--ts-radius) * 2);
+--ts-radius-xs: calc(var(--ts-radius) * 0.3);  /* ~2px */
+--ts-radius-sm: calc(var(--ts-radius) * 0.5);  /* 4px */
+--ts-radius-md: var(--ts-radius);               /* 8px */
+--ts-radius-lg: calc(var(--ts-radius) * 1.4);  /* ~11px → 10px in explicit rebuild */
+--ts-radius-xl: calc(var(--ts-radius) * 2);    /* 16px */
 --ts-radius-full: 9999px;
+/* REBUILD explicit ladder (assets/css/next/primitives/): 4/6/8/10/16 + 9999 pill + 0 sharp */
 
 /* Shadow scale */
 --ts-shadow-1: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);

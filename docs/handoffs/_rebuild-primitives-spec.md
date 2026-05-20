@@ -50,8 +50,8 @@ S1 does NOT design `--ts-this-*` derivatives — that's S2. S1 does NOT design c
 ### 1.3 What S1 does NOT redesign (out of scope, honored)
 
 - **Spacing primitives** (`--ts-sp-*` 4px scale) — out of scope, lives in `assets/css/next/primitives/spacing.css` per T2 §3.2 row 2.
-- **Typography primitives** (`--ts-fs-*` harmonic 1.125 ladder, `--ts-font-*`) — out of scope, in `primitives/typography.css` per T2 §3.2 row 3.
-- **Radius primitives** (`--ts-radius-*`) — out of scope, `primitives/radius.css` per T2 §3.2 row 4.
+- **Typography primitives** (`--ts-fs-*` harmonic 1.125 ladder from **15px base**, `--ts-font-*`) — out of scope, in `primitives/typography.css` per T2 §3.2 row 3. **Wave 1.6 amendment (2026-05-20):** base = 15px (confirmed in running toolskin.css — NOT 13px, NOT 16px). Weight ladder = `300/400/500/600/700/900` — **NO 800** (Space Grotesk ships 300–700 standard; OQ-B3 abandoned). H1=700, H2=600. Google Fonts `wght@300..700` URL.
+- **Radius primitives** (`--ts-radius-*`) — out of scope, `primitives/radius.css` per T2 §3.2 row 4. **Wave 1.6 amendment (2026-05-20):** base = **8px** (confirmed). Ladder is **explicit** `4/6/8/10/16` + `9999` pill + `0` sharp — NOT calc-derived. Authoritative source: `docs/handoffs/_rebuild-design-dna.md` Wave 1.6 Reconciliation block + `docs/handoffs/_rebuild-visual-audit.md`.
 - **Motion primitives** (`--ts-ease-*`, `--ts-dur-*`) — out of scope, `primitives/motion.css` per T2 §3.2 row 5.
 - **Border-color primitives** — derived from surface depth at the system layer (S2). The old toolskin.css declared `--ts-border-0` through `--ts-border-4` as `color-mix(#fff, transparent N%)` literals; v2 routes border color through `--ts-this-bg-border` which S2 composes from the surface tier. S1 surfaces this in the migration map (§10).
 - **Status colors** (`--ts-success`, `--ts-danger`, `--ts-warning`, `--ts-info`) — apcach-derived primitives with fixed hue anchors; included briefly in §11 (deferred to Session 2 if time-boxed out, but math sketched here for completeness).

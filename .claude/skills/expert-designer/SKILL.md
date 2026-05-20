@@ -173,7 +173,7 @@ Periodically:
 
 **Surfaces:** `--ts-bg-body` → `--ts-bg-0` through `--ts-bg-5`
 
-**Radius:** `--ts-radius-base` → xs/sm/md/lg/xl/full
+**Radius:** base = **8px**, explicit ladder `4/6/8/10/16` (+ 9999 pill, 0 sharp) — Wave 1.6 confirmed. Rebuild tokens: `--ts-radius-10` through `--ts-radius-50`, `--ts-radius-pill`, `--ts-radius-sharp`. NOT calc-derived.
 
 **Text:** `--ts-text-primary` (#e8e9ea), `--ts-text-secondary`, `--ts-text-muted`, `--ts-text-accent`
 

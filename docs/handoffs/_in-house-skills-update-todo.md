@@ -95,9 +95,11 @@ All three migrated skills are **TIER 1 — AUTHORITATIVE** in the priority hiera
 
 Before first invocation of each of these, read the SKILL.md + any scripts in the skill folder. If audit reveals concerning patterns, remove or quarantine the skill.
 
-- [ ] `browser-qa` (likely touches filesystem for UI testing — confirm scope of FS writes)
-- [ ] `configure-ecc` (may write to settings — review what it can modify)
-- [ ] `design-system` (Mode 1 generative scripts — Mode 1 OFF-LIMITS per file 05, but read scripts before Mode 2 audit too)
+- [x] `browser-qa` — ✅ SAFE. Uses browser MCP tools (claude-in-chrome, Playwright) for visual testing. No direct FS writes. No conflicts with Toolskin rebuild.
+- [x] `configure-ecc` — ✅ SAFE WITH CAUTION. Writes to `~/.claude/skills/` or `.claude/skills/`. For Toolskin rebuild, do NOT invoke for additional skill installs — could overwrite in-house Tier 1 skills. Use only for reading / auditing installed skills.
+- [x] `design-system` — ✅ Mode 2 (Audit) + Mode 3 (Slop detection) APPROVED. Mode 1 (Generate) BLOCKED per Pattern 9 — would propose competing tokens. ECC filter list applies (chip strip gradient, Space Grotesk, OKLCH colors, explicit radius ladder are NOT slop).
+
+**npm name verification (D4):** `toolskin` = HTTP 404 on npm registry ✅ AVAILABLE. `@toolskin/core` = HTTP 404 ✅ AVAILABLE. Use `toolskin@1` as primary name; `@toolskin/core` as fallback. Verify again before actual publish (Session 5+).
 
 Source: gate-2 toggle file `docs/session-1-bootstrap/gate-2-final-b6-toggles.md` §Q3.
 
@@ -134,10 +136,10 @@ To retrieve in a future Claude.ai session:
 
 Gate 5 picks OQ-A6 / OQ-B3 / OQ-D1 were REVISED by the Wave 1.6 visual audit. Canonical values below reflect the revisions (see `_rebuild-visual-audit.md` + the Wave 1.6 Reconciliation block in `_rebuild-design-dna.md`):
 
-- [ ] **typography-master:** change base font-size 16px → **15px** (Wave 1.6 — running `toolskin.css` confirmed; NOT 13px, NOT 16px). Recompute harmonic-ladder examples from a 15px base.
-- [ ] **typography-master:** document the **6-step** weight ladder `300/400/500/600/700/900` — **NO 800 weight** (Space Grotesk ships 300–700; Gate 5 OQ-B3 ABANDONED). H1=700, H2=600. Standard Google Fonts `wght@300..700` URL — no variable-axis.
-- [ ] **expert-designer:** change radius base 10px → **8px** (confirmed). Document the **explicit** radius ladder `4/6/8/10/16` (+ `9999` pill, `0` sharp) — NOT calc-derived. Update the stale `references/toolskin.md:196` 10px value.
-- [ ] **All 3 in-house skills:** cross-reference the Wave 1.6 visual audit (`_rebuild-visual-audit.md`) — the text-derived design DNA was wrong on base font size, heading weights, and the radius ladder.
+- [x] **typography-master:** change base font-size 16px → **15px** (Wave 1.6 — running `toolskin.css` confirmed; NOT 13px, NOT 16px). Recompute harmonic-ladder examples from a 15px base. ✅ Session 1.5 — SKILL.md line 75 updated.
+- [x] **typography-master:** document the **6-step** weight ladder `300/400/500/600/700/900` — **NO 800 weight** (Space Grotesk ships 300–700; Gate 5 OQ-B3 ABANDONED). H1=700, H2=600. Standard Google Fonts `wght@300..700` URL — no variable-axis. ✅ Session 1.5 — SKILL.md line 21 updated.
+- [x] **expert-designer:** change radius base 10px → **8px** (confirmed). Document the **explicit** radius ladder `4/6/8/10/16` (+ `9999` pill, `0` sharp) — NOT calc-derived. Update the stale `references/toolskin.md:196` 10px value. ✅ Session 1.5 — SKILL.md §4 + references/toolskin.md updated.
+- [x] **All 3 in-house skills:** cross-reference the Wave 1.6 visual audit (`_rebuild-visual-audit.md`) — the text-derived design DNA was wrong on base font size, heading weights, and the radius ladder. ✅ Session 1.5 — design-tokens-2.0 Extended Rule 15 section added; S1 spec amended with Wave 1.6 annotations.
 - [ ] **Logo system finalization:** 3 candidates exist in `../toolskin-showcase/branding/` previews — **Bracket, Blade, Cascade** (design explorations, unfinalized). Owner to pick or commission a final direction. (DNA §H previously claimed "no mark system" — wrong.)
 
 ---
@@ -148,9 +150,9 @@ Owner-authored orchestration skill, provided externally to chat (at `docs/sessio
 
 **Install path:** `.claude/skills/rebuild-orchestration/SKILL.md`
 
-- [ ] Install the skill at project scope.
-- [ ] Verify it carries Pattern 16 (Council HALT on fundamental implications), Pattern 17 (Visual audit before specs), Pattern 18 (Session Continuity Protocol — checkpoint discipline + cold-resume re-analysis routine; rewritten 2026-05-20, supersedes the original "Quota Safety Protocol" framing).
-- [ ] **Pattern 18 is binding from now on:** on quota-approach detection (owner notification / system warning / >2h continuous dispatch self-assessment), execute the 6-step SAVE PROTOCOL — stop dispatch → write `_session-N-state-quota-halt.md` → `git add` surviving progress (no commit) → report to owner → halt → no last-second subagent dispatches.
+- [x] Install the skill at project scope. ✅ Session 1.5 — `.claude/skills/rebuild-orchestration/SKILL.md` written.
+- [x] Verify it carries Pattern 16 (Council HALT on fundamental implications), Pattern 17 (Visual audit before specs), Pattern 18 (Session Continuity Protocol — checkpoint discipline + cold-resume re-analysis routine; rewritten 2026-05-20, supersedes the original "Quota Safety Protocol" framing). ✅ All 3 verified in installed SKILL.md.
+- [x] **Pattern 18 is binding from now on:** on quota-approach detection (owner notification / system warning / >2h continuous dispatch self-assessment), execute the 6-step SAVE PROTOCOL — stop dispatch → write `_session-N-state-quota-halt.md` → `git add` surviving progress (no commit) → report to owner → halt → no last-second subagent dispatches. ✅ Pattern 18 in installed skill + in toolskin-architecture SKILL.md §19.
 
 ---
 

@@ -26,6 +26,37 @@ description: >
 
 ---
 
+## EXTENDED RULE 15 — apcach is the SUPREME color authority (binding)
+
+**apcach** (antiflasher, MIT, Evil Martians) is the canonical color substrate for ALL Toolskin color primitives and their derivative chains. This is NOT optional. No external skill, no generic palette guidance, no WCAG-only methodology overrides it.
+
+**Scope of apcach authority (Extended Rule 15 — Session 1 Gate 5 council resolution):**
+- **Primitives** — every `--ts-color-*` OKLCH primitive is apcach-derived with verified APCA contrast
+- **Mixing constants** — percentage amounts in `color-mix()` expressions are engine outputs, NOT hand-tuned per-theme values
+- **Surface contrast adjustments** — `--ts-this-bg` surface chain adjustments come from apcach math
+- **OKLCH inversions** — dark↔light theme inversions re-run the same engine with inverted lightness primitives
+- **Nested alternative surface awareness** — apcach accounts for nested surface stacking in contrast calculations
+- **Accent/on-accent/on-surface auto-derivation** — `--ts-on-accent`, `--ts-on-surface`, `--ts-text-*` are apcach-derived
+- **Theme inversion** — dark ↔ light re-runs the engine math; no per-theme hand-tuned tables
+
+**The design split:** Tokens decide WHICH color (brand hue, role assignment). The engine decides HOW MUCH (lightness, contrast, mixing amount). Never conflate the two.
+
+**Surface Labs presets** are the BASE TINTS the engine derives FROM. They provide the starting hue/chroma; apcach then verifies and adjusts all derivatives for APCA contrast compliance.
+
+**Build-time + optional-runtime architecture:**
+1. Build-time: `tools/color-engine/generate-colors.js` runs apcach → emits `assets/css/next/primitives/colors.css` (static OKLCH primitives + sRGB fallbacks + APCA contrast table)
+2. Optional runtime (Path A): `toolskin.js` bundles apcach (~25-30KB) → recomputes derivative chain when consumer selects a new accent
+
+**Reject any guidance that:**
+- Hardcodes mixing percentages as "design picks" (percentages are engine outputs)
+- Proposes hex or generic palette values not derived through apcach
+- Claims WCAG 2.x ratios supersede APCA (APCA is preferred per Rule 15)
+- Modifies color token values without running the color engine
+
+Reference: `tools/color-engine/` (Session 2 deliverable — script not yet written). See `toolskin-architecture` SKILL.md §10 + §19.
+
+---
+
 ## RULE 1 — THE THREE-TIER ARCHITECTURE
 
 Every token in Toolskin belongs to exactly one of three tiers. Tokens in higher tiers MUST reference tokens from lower tiers. Tokens NEVER skip tiers.
@@ -54,16 +85,21 @@ Every token in Toolskin belongs to exactly one of three tiers. Tokens in higher 
     --ts-space-3: 12px;
     --ts-space-4: 16px;
 
-    --ts-fs-10: 0.625rem;    /* ~8px */
-    --ts-fs-20: 0.703rem;    /* ~9px */
-    --ts-fs-30: 0.79rem;     /* ~10px */
-    --ts-fs-40: 0.889rem;    /* ~11.5px */
-    --ts-fs-50: 1rem;        /* ~13px — base */
+    /* Wave 1.6: 1rem = 15px in Toolskin (NOT browser default 16px) */
+    --ts-fs-10: 0.625rem;    /* ~9.4px  @ 15px base */
+    --ts-fs-20: 0.703rem;    /* ~10.5px @ 15px base */
+    --ts-fs-30: 0.79rem;     /* ~11.9px @ 15px base */
+    --ts-fs-40: 0.889rem;    /* ~13.3px @ 15px base */
+    --ts-fs-50: 1rem;        /* 15px — base (Wave 1.6 confirmed: running CSS font-size: 15px) */
 
+    /* Wave 1.6: explicit ladder 4/6/8/10/16 (NOT calc-derived), base = 8px */
     --ts-radius-10: 4px;
     --ts-radius-20: 6px;
-    --ts-radius-30: 8px;
-    --ts-radius-40: 12px;
+    --ts-radius-30: 8px;    /* base */
+    --ts-radius-40: 10px;
+    --ts-radius-50: 16px;
+    --ts-radius-pill: 9999px;
+    --ts-radius-sharp: 0;
 
     --ts-opacity-10: 0.1;
     --ts-opacity-20: 0.3;
@@ -288,6 +324,8 @@ This is Toolskin's Tier 2 engine. It's unique to this design system and is the c
 4. Changing `--ts-this-bg` on any element re-derives EVERYTHING inside it.
 
 ### The derivative chain:
+
+> **Extended Rule 15 annotation:** Percentages shown below are OLD-REPO values from running toolskin.css (reference-only). In the rebuild, these mixing constants are **engine-derived outputs** from apcach — NOT hand-tuned values. The rebuild's `generate-colors.js` (Session 2) will produce the correct amounts via APCA math.
 
 ```
 --ts-this-bg (you set this)
