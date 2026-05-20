@@ -40,4 +40,4 @@ The Wave 1.6 Reconciliation block at the TOP of `_rebuild-design-dna.md` is auth
 - Repo isolation: `../toolskin-showcase/` is read-only reference forever — never write, cd, or commit there.
 - HALT protocol: surface council fundamental implications + visual-audit gaps + quota-approach to the owner; never auto-resolve (Patterns 16 / 17 / 18).
 - **Pattern 18 — Session Continuity Protocol (rewritten 2026-05-20):** checkpoint (commit + refresh this note) at every clean boundary and before every expensive op; on a quota halt also write `docs/handoffs/_session-N-state-quota-halt.md`. The agent has no reliable quota meter — the owner is the reliable trigger. Every fresh session runs the SESSION START cold-resume routine in `toolskin-architecture` SKILL.md FIRST.
-- The `toolskin-architecture` skill auto-loads — read it (and run its SESSION START routine) first every session.
+- `CLAUDE.md` auto-loads every session and triggers the SESSION START cold-resume routine automatically — the agent self-initializes; no kickoff prompt needed. The `toolskin-architecture` skill carries the full routine (§19).

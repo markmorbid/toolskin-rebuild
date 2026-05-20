@@ -1,5 +1,16 @@
 # Toolskin Rebuild — Project Conventions
 
+## Session start — FIRST ACTION, every session (binding)
+
+Before any task work, run the cold-resume routine (Pattern 18 — Session Continuity Protocol):
+
+1. Read `.remember/remember.md` — the handoff note (State / Next / In-flight / Context).
+2. Read `.claude/skills/toolskin-architecture/SKILL.md` in full + `docs/handoffs/_session-1-orchestrator-synthesis.md` + any `_session-N-state-*.md` the handoff points to.
+3. Verify disk reality matches the handoff — `git log --oneline`, `git status`. If reality ≠ handoff, HALT and surface; never improvise.
+4. Report current standing, then proceed from the handoff's "Next".
+
+This runs automatically every session — the agent self-initializes; no special kickoff prompt is needed. Full protocol: `toolskin-architecture` SKILL.md §19.
+
 ## Identity
 
 - Project: Toolskin Design System Rebuild
