@@ -72,7 +72,7 @@ Open `references/font-catalog.md` whenever you need:
 - **Variables:** `--ts-font-body`, `--ts-font-heading`, `--ts-font-mono` are the only font tokens. Add new ones sparingly.
 - **Runtime swap:** `setMainVar()` writes to `:root` — all downstream components re-theme via cascade.
 - **Loading strategy:** Font files stay in `<head>` render-blocking. Do NOT move them into `toolskin-assets.js`.
-- **Scale rule:** Prefer modular ratio (1.125–1.25×) from **15px base** (1rem = 15px in Toolskin — NOT browser default 16px), snapped to 4pt grid. Use `clamp()` for fluid type. Wave 1.6 confirmed: running toolskin.css sets font-size: 15px on :root.
+- **Scale rule:** Prefer modular ratio (1.125–1.25×) from **13px base** (1rem = 13px in Toolskin — NOT browser default 16px), snapped to 4pt grid. Use `clamp()` for fluid type. (RULING 3 — confirmed from running toolskin.css:287. Wave 1.6 visual audit was misleading.)
 - **Hierarchy rule:** Per modern design-system convention, hierarchy comes from weight/size/color — not by stacking more families. Keep Toolskin at 1–2 families max.
 
 For the full 289-font Awwwards-tier catalog, pairing tables, trend analysis, and wordmark/logo guidance, consult **`references/font-catalog.md`**.
