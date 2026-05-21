@@ -1,38 +1,38 @@
 # Handoff — Toolskin Rebuild
 
 ## State
-Session 1.5 housekeeping is fully closed. Three commits this session (all clean — pre-commit hook passed each):
-- `5fa1112` — install `toolskin-visual-audit` skill (v1.1)
-- `87c6a13` — install `token-validation` skill + archive agent-teams workflow docs + treemap update
-- `9452cef` — CLAUDE.md "Module reference library" section
+**Session 2 (primitives implementation) is COMPLETE.** Session 2 commits:
+- `8c6ddd7` — rename `docs/references/CLAUDE.md` → `README.md` (was auto-loading as stale nested instructions)
+- `1855d11` — code-audit catalog `docs/handoffs/_code-audit-catalog.md` — binding ground truth for Sessions 2-N
+- `cf1f787` — amend S1 spec §3: surfaces are presets, not apcach-derived
+- `5f4a6bb` — static primitives `spacing/typography/radius/motion.css` + `sandbox/00-foundation/colors.html`
+- `4958c87` — color engine `tools/color-engine/generate-colors.js` + `colors.css` + contrast report + presets JSON
 
-`toolskin-visual-audit` (the last S1.5 blocker) is installed at `.claude/skills/toolskin-visual-audit/SKILL.md`. Source = `docs/references/toolskin-visual-audit-SKILL.md` (the reconciled v1.1 — all 5 Wave 1.6 amendments already baked in). Two install-time changes: YAML frontmatter added (the skill was undiscoverable without it); the `cd "../toolskin-showcase"` in the setup snippet rewritten to `python3 -m http.server --directory` (repo-isolation Rule 12 / reconciliation task 5).
+`assets/css/next/primitives/` now holds the full primitive layer: `colors.css`, `spacing.css`, `typography.css`, `radius.css`, `motion.css`. APCA verification: **30/30 pairs pass**. (S1.5 closeout earlier in the session: `5fa1112`, `87c6a13`, `9452cef`, `2dd63cc`.)
 
-`token-validation` is installed at `.claude/skills/token-validation/SKILL.md` with the OKLCH/apcach REBUILD NOTE prepended. Its `AGENT_CONTEXT.md` was moved to `docs/references/_components-docs/agent-teams/` (it is the agent-teams shared knowledge base, not skill context). The agent-teams folder now holds all 5 reference docs.
+## Next — Session 3: system layer
+Per `_session-1-orchestrator-synthesis.md` §5 + `docs/handoffs/_rebuild-system-spec.md` (S2 spec): write `assets/css/next/system/*.css` — the `--ts-this-bg` derivative chain (surfaces / text / states) + shared-tokens layer skeleton — and the real `_base.html`.
 
-## Next — Session 2: primitives implementation
-Per `docs/handoffs/_rebuild-primitives-spec.md` (S1 spec):
-1. **Prerequisite:** `npm install apcach` inside `tools/color-engine/` (agent owns the install). S1 spec §2 reads the apcach API from `tools/color-engine/node_modules/apcach/`.
-2. **Write `tools/color-engine/generate-colors.js`** from scratch — self-contained (constants embedded, no env/args), deterministic (byte-identical output, no timestamps). Emits:
-   - `assets/css/next/primitives/colors.css` — 7-step surface ramp + accent family + text primitives; dark `:root` + `[data-theme="light"] :root`; **dual-emission** (`#hex` sRGB fallback + `oklch(...)` per primitive — R-D3-dual-emit).
-   - `assets/css/next/primitives/colors-contrast-report.md` — APCA audit table via `calcContrast()`.
-3. Also write the static primitive files: `spacing.css`, `typography.css` (15px base; weight 300/400/500/600/700/900 — NO 800), `radius.css` (explicit 4/6/8/10/16 + 9999 + 0), `motion.css`.
-4. Session-2-startup housekeeping (synthesis §3.1, before the colors work): S3 registry "Design DNA pointer" column; S6 R-DNA-1..6 refusal family; wire S5 G1 parity criterion to `_rebuild-design-dna.md` §I.
+**Deferred housekeeping — do at Session 3 startup or when owner directs:**
+- S3 registry "Design DNA pointer" column; S6 R-DNA-1..6 refusal family; S5 G1 parity wiring (synthesis §3.1). Tracked as task #10.
+- typography-master skill: update its base font-size to **13px** (it currently says 15px — RULING 3).
+- `core-memories.md` says "Base font size: 15px" — **STALE; canonical is 13px (RULING 3).** Owner should correct that memory file.
 
 ## In-flight
-Nothing started-but-incomplete. Working tree clean except the owner-placed files below.
+Nothing. Working tree clean except owner-placed untracked files (below).
 
-## Context — owner-placed files NOT committed (surface, do not touch)
-The owner dropped files between sessions; only the skill bundles were in this session's scope. Left untracked/uncommitted for the owner to triage:
-- `docs/references/toolskin-visual-audit-SKILL.md` — the v1.1 SOURCE the install copied from. The `docs/session-1-bootstrap/toolskin-visual-audit/` folder the owner's prompt named holds only v1.0 (`SKILL.md` tracked + `SKILL-v1.md` untracked). Commit `5fa1112`'s message says "Sourced from docs/session-1-bootstrap/…" — used verbatim per owner instruction despite that imprecision.
-- `docs/references/_components-docs/token-validation/` — a duplicate reference copy of the token-validation bundle (the live skill is `.claude/skills/token-validation/`).
-- 2 pitchdeck docs the owner moved from `docs/session-1-bootstrap/toolskin-visual-audit/` → `docs/references/_components-docs/` (2 deletions + 2 untracked in `git status`). They DUPLICATE copies already at `docs/references/pitchdeck/md-files/` — dedup decision is the owner's.
-- `docs/references/CLAUDE.md` — the old showcase CLAUDE.md. WARNING: a CLAUDE.md inside the repo auto-loads as nested instructions when editing files under `docs/references/`; its content is stale (HSL model, 16px base). Recommend renaming it so it does not load as live instructions.
-- `.claude/settings.local.json`, `docs/references/toolskin-showcase-latest.html`, `docs/session-1-bootstrap/_phase-5-classification-applied.md` — untracked, owner-placed, untriaged.
+## Context — Session 2 rulings (binding)
+- **R1 — surfaces = presets.** `--ts-bg-*` / `--ts-text-*` are the 10 curated `TOOLSKIN_SURFACE_PRESETS`, NOT apcach-derived. apcach 0.6.4 is the contrast layer only (verification + on-ink). apcach physically cannot step a dark surface ramp — APCA returns Lc 0 for sub-~12% lightness steps. This killed the original S1 §3 algorithm (§3 now amended).
+- **R2 — `colors.css`** bakes the default pair (`dark-practical-neutral-v1` on `:root`/`[data-theme=dark]`; `light-practical-clean-v1` on `[data-theme=light]`) + all 10 presets as `.ts-preset-*` classes. Verbatim catalog: `docs/references/surface-presets-catalog.json`.
+- **R3 — base font 13px** (running `toolskin.css:287`; the Wave-1.6 "15px" was a misleading branding preview). `typography.css` derives from 13px.
+- **R4 — `--ts-on-accent` threshold 0.75**; `--ts-accent` = `#ff5500`.
+- **R5 — spacing stops at `--ts-sp-16`** (sp-17..24 were a flagged source error).
+- **R6 — no second CSS audit pass.** Catalog token blocks are complete; per-selector rule bodies deferred to Session 4+ block work (visual-audit skill handles them).
+- APCA verification targets are role-calibrated floors for the *pre-tuner* base values (primary 75 / secondary 45 / muted 25 — Option 4). The running `_toolskinApplyContrastToTokenMap` (colorjs.io) tuner adjusts secondary/muted at runtime; the rebuild has NOT ported that tuner.
 
-## Context — bindings (still binding)
-- Wave 1.6 canonical: 15px base; weight 300/400/500/600/700/900 — NO 800; radius explicit 4/6/8/10/16; H1=700, H2=600.
-- Extended Rule 15: apcach is the supreme color authority for the whole derivation chain — no hand-tuned per-theme values.
-- Pre-commit hook installed at `.git/hooks/pre-commit`; passes docs/skills commits (CSS checks skip until block CSS exists in `assets/css/next/`).
-- `.remember/remember.md` was found EMPTY in the working tree at session start (the committed version was intact); the remember plugin's session-start behavior likely empties it. The committed handoff is the durable record — `git show HEAD:.remember/remember.md` recovers it. Manual cold-resume via CLAUDE.md remains the active mechanism on Windows.
-- Windows long-path gotcha: a 213-char filename under `docs/references/mockup/...` needs one-shot `git -c core.longpaths=true` for `git add` of that path (never modify git config). This session's commits did not touch it.
+## Context — environment / gotchas
+- `tools/color-engine/`: apcach 0.6.4 installed. `package.json` tracked (`type: module` + apcach dep). `node_modules` + `package-lock.json` gitignored (build tooling, Rule 13). Re-run: `node tools/color-engine/generate-colors.js` (deterministic — byte-identical output, exit 0 = all pairs pass).
+- Pre-commit hook active at `.git/hooks/pre-commit`. With block CSS now present, @ts-deps/topo-sort + Check #12 dual-emission run on every commit; all green so far.
+- Owner-placed untracked files — NOT in any session's scope, for owner triage: 2 pitchdeck-doc moves under `_components-docs/`, `_components-docs/token-validation/`, `docs/references/{toolskin-showcase-latest.html, toolskin-visual-audit-SKILL.md}`, `docs/session-1-bootstrap/{SKILL-v1.md, _phase-5-classification-applied.md}`, `.claude/settings.local.json`, and an owner GoFullPage capture under `docs/handoffs/_visual-audit/owner-ground-truth/`.
+- remember plugin empties the working-tree `remember.md` on session start; the committed version is the durable record (`git show HEAD:.remember/remember.md`).
+- Windows long-path gotcha: a 213-char file under `docs/references/mockup/...` needs one-shot `git -c core.longpaths=true` for `git add` of that path.
