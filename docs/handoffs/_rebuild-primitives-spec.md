@@ -95,6 +95,24 @@ The build script ALSO emits a separate optional `colors-p3.css` for white-label 
 
 ## 3. Surface palette generation
 
+> **⚠️ AMENDED 2026-05-20 — RULING 1 (binding). Supersedes this section's surface-derivation method.**
+>
+> The code audit (`_code-audit-catalog.md` §6.1) established that the running Toolskin derives
+> surfaces from 10 hand-curated `TOOLSKIN_SURFACE_PRESETS` palettes — NOT from a contrast engine.
+> A live apcach probe confirmed apcach physically cannot step a dark surface ramp: APCA reports
+> Lc 0 for lightness steps below ~12%, and `crToBg` against black jumps 0 → L 0.367 with no
+> reachable values between. **Binding correction:**
+>
+> - Surfaces (`--ts-bg-body`, `--ts-bg-0..5`) and text (`--ts-text-primary/secondary/muted`) are
+>   the curated `TOOLSKIN_SURFACE_PRESETS` palettes. They are NOT apcach-derived.
+> - apcach is the **contrast layer only** — it VERIFIES curated text/surface pairs against APCA
+>   targets and derives accent / `--ts-on-accent` auto-contrast ink.
+> - §3.2 and §3.3 below (the `crToBg`-chained apcach surface-derivation pseudocode) are
+>   **SUPERSEDED** — retained for historical context only.
+> - Implemented build: `tools/color-engine/generate-colors.js` (Session 2 rescope) — emits
+>   `assets/css/next/primitives/colors.css`, `docs/handoffs/colors-contrast-report.md`, and
+>   `docs/references/surface-presets-catalog.json`.
+
 ### 3.1 The 7-step surface ramp
 
 Toolskin's surface stack is **7 steps**: `--ts-bg-body` (the page background, darkest in dark mode) + `--ts-bg-0` through `--ts-bg-5` (6 progressively brighter card/layer surfaces). This mirrors the old `toolskin.css` lines 190–196.
