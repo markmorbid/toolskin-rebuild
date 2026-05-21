@@ -6,7 +6,7 @@ Toolskin Design System Rebuild. Branch `master` in `toolskin-rebuild/`. Referenc
 
 ## Wave 1.6 canonical values (BINDING — visual reality wins)
 
-- **Base font size: 15px** (not 13px, not 16px — Wave 1.6 confirmed from running toolskin.css)
+- **Base font size: 13px** (CONFIRMED — toolskin.css:287, RULING 3. Wave 1.6 branding preview was misleading.)
 - **Weight ladder: 300/400/500/600/700/900 — NO 800** (Space Grotesk ships 300–700; OQ-B3 abandoned)
 - **Radius ladder: 4/6/8/10/16** (+ 9999 pill, 0 sharp) — explicit, NOT calc-derived. Base = 8px.
 - H1=700, H2=600. Google Fonts `wght@300..700` URL — no variable-axis.
