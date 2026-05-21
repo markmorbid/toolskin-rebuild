@@ -108,7 +108,7 @@ apcach (antiflasher/apcach, MIT, Evil Martians) is the authority for the ENTIRE 
 
 The signature visual decisions that make Toolskin recognisably Toolskin. Full spec: `docs/handoffs/_rebuild-design-dna.md`. **Wave 1.6 visually audited the rendered system and the owner annotated it — visual reality wins over text-derived claims (Pattern 17).** Canonical values:
 
-- **Base font size: `--ts-fs-base: 15px`** (Wave 1.6 — confirmed in running `toolskin.css`; not 13px, not 16px). Harmonic ladder derives from 15px.
+- **Base font size: `--ts-fs-base: 13px`** (confirmed in running `toolskin.css:287`). Harmonic ladder derives from 13px. **RULING 3 correction (2026-05-21):** 13px confirmed from `toolskin.css:287`. Wave 1.6 visual audit (15px) was an instrumentation error.
 - **Weight ladder: 6-step `300/400/500/600/700/900`** — NO 800. H1 = 700, H2 = 600. Space Grotesk ships 300–700; standard Google Fonts `wght@300..700` URL.
 - **Radius ladder: explicit fixed steps `4/6/8/10/16`** (+ `9999` pill, `0` sharp). 8px base. NOT calc-derived.
 - Accent appears SOLID only on primary button + active chip; elsewhere tinted/bordered/glow.
@@ -205,7 +205,7 @@ Full deliberation: `docs/handoffs/_session-1-orchestrator-synthesis.md` Appendix
 Wave 1.6 was the first time any agent analysed RENDERED PIXELS of Toolskin (Pattern 17). 124 screenshots (90 Playwright headless + 34 owner real-Chrome) were audited by 5 parallel analysts; the owner annotated the findings. Canonical record: `docs/handoffs/_rebuild-visual-audit.md`; owner annotations: `docs/session-1-bootstrap/owner-annotations-visual-audit.md`.
 
 **Three Gate 5 picks were revised by visual reality:**
-- **OQ-A6** → base font size is **15px** (not 13px). S1 ladder derives from 15px.
+- **OQ-A6** → SUPERSEDED by RULING 3. Base font size is **13px** (confirmed `toolskin.css:287`). The visual audit that said 15px was an instrumentation error.
 - **OQ-B3 ABANDONED** → 6-step weight ladder `300/400/500/600/700/900`, no 800; H1=700, H2=600; standard `wght@300..700`. Resolution #3 WITHDRAWN.
 - **OQ-D1** → 8px base confirmed; radius ladder is explicit `4/6/8/10/16` (not calc-derived).
 

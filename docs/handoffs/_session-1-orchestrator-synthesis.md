@@ -720,7 +720,7 @@ Wave 1.6 executed: Playwright build-time tooling installed at `tools/visual-audi
 
 ### Three Gate 5 picks revised (owner annotation, binding)
 
-- **OQ-A6 — REVISED.** Base font size is **15px** (running `toolskin.css`), not 13px (and not the typography-master skill's 16px). The S1 harmonic ladder derives from 15px.
+- **OQ-A6 — REVISED.** Base font size is **15px** (running `toolskin.css`), not 13px (and not the typography-master skill's 16px). The S1 harmonic ladder derives from 15px. ⚠ RULING 3 (2026-05-21): SUPERSEDED. 13px confirmed from `toolskin.css:287`.
 - **OQ-B3 — ABANDONED.** Space Grotesk ships 300–700 (SIL OFL); the 800 weight never rendered in production. Canonical weight ladder is **6-step `300/400/500/600/700/900`**. H1=700, H2=600. The `--ts-font-weight-extra-bold: 800` primitive is DROPPED from S1.
 - **OQ-D1 — PARTIAL REVISE.** 8px base CONFIRMED. The radius ladder is **explicit fixed steps `4/6/8/10/16`** (+ `9999` pill, `0` sharp), NOT the calc-derived scale in DNA §D1.
 

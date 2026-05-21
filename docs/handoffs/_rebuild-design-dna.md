@@ -12,6 +12,8 @@
 ═══════════════════════════════════════════════════════════════════════
 ## ⚠ WAVE 1.6 VISUAL AUDIT RECONCILIATION (2026-05-19 — BINDING)
 
+> ⚠ RULING 3 (2026-05-21): 15px below is wrong. Canonical value is 13px — see `toolskin.css:287` and Session 2 RULING 3.
+
 This Wave 1.5 spec was authored entirely from CSS / HTML / skill TEXT. Wave 1.6 (Pattern 17) audited 124 rendered screenshots — 90 Playwright headless + 34 owner real-Chrome GoFullPage — and the owner annotated the findings. **Where this block and any section below disagree, THIS BLOCK WINS** (Pattern 17 source-of-truth hierarchy: owner's eye > rendered pixels > CSS text).
 
 Full audit + owner annotations: `_rebuild-visual-audit.md`. Owner annotations also at `docs/session-1-bootstrap/owner-annotations-visual-audit.md`.

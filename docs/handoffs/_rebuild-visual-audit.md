@@ -1,5 +1,7 @@
 # Toolskin Rebuild — Wave 1.6 Visual Audit
 
+> ⚠ CORRECTION (2026-05-21 — RULING 3): This audit concluded base font size = 15px. That conclusion was wrong — the branding preview page used a different font-size context. Running `toolskin.css:287` confirmed: `--ts-fs-base: 13px`. All "15px canonical" references in this doc are superseded by RULING 3.
+
 **Authored:** Session 1 Day 2 (2026-05-19), per the council-resolutions brief Wave 1.6 + Pattern 17.
 **Status:** `AWAITING OWNER ANNOTATION` (HALT W1.6.B).
 
