@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolskin · Color Primitives — sandbox</title>
+
+  <!-- Session 2 foundation preview. Loads ONLY the generated color primitives. -->
+  <link rel="stylesheet" href="../../assets/css/next/primitives/colors.css" />
+
+  <style>
+    /* Layout only — every COLOR comes from colors.css tokens (dogfooding). */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--ts-bg-body);
+      color: var(--ts-text-primary);
+      min-height: 100vh;
+      padding: 32px;
+      transition: background 200ms ease, color 200ms ease;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; }
+    header {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
+      padding-bottom: 20px; margin-bottom: 24px;
+      border-bottom: 1px solid var(--ts-bg-5);
+    }
+    h1 { font-size: 20px; font-weight: 600; margin: 0; flex: 1 1 240px; }
+    .controls { display: flex; align-items: center; gap: 10px; }
+    button, label.picker {
+      font: inherit; font-size: 13px;
+      padding: 8px 14px; border-radius: 8px;
+      border: 1px solid var(--ts-bg-5);
+      background: var(--ts-bg-2); color: var(--ts-text-primary);
+      cursor: pointer;
+    }
+    label.picker { display: flex; align-items: center; gap: 8px; }
+    label.picker input { width: 30px; height: 30px; border: none; background: none; padding: 0; cursor: pointer; }
+    h2 { font-size: 13px; font-weight: 600; color: var(--ts-text-secondary);
+         text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 10px; }
+    .stack { display: flex; flex-direction: column; gap: 2px; }
+    .surface {
+      padding: 15px 18px; border-radius: 6px;
+      display: flex; align-items: baseline; gap: 20px; flex-wrap: wrap;
+    }
+    .surface .name { font-weight: 600; font-size: 13px; min-width: 86px; }
+    .surface .samples { display: flex; gap: 20px; font-size: 13px; }
+    .s-primary { color: var(--ts-text-primary); }
+    .s-secondary { color: var(--ts-text-secondary); }
+    .s-muted { color: var(--ts-text-muted); }
+    .accent-demo { margin-top: 32px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .accent-btn {
+      background: var(--ts-accent); color: var(--ts-on-accent);
+      border: none; border-radius: 8px; padding: 12px 22px;
+      font: inherit; font-size: 13px; font-weight: 600; cursor: default;
+    }
+    .accent-swatch { width: 46px; height: 46px; border-radius: 8px; background: var(--ts-accent); }
+    .note { margin-top: 30px; font-size: 12px; line-height: 1.6; color: var(--ts-text-muted); }
+    code { font-family: ui-monospace, "JetBrains Mono", monospace; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Toolskin — Color Primitives</h1>
+      <div class="controls">
+        <label class="picker">Accent
+          <input type="color" id="accent" value="#ff5500" />
+        </label>
+        <button id="theme" type="button">Theme: dark</button>
+      </div>
+    </header>
+
+    <h2>Surface depth stack</h2>
+    <div class="stack" id="stack"></div>
+
+    <h2 style="margin-top:32px">Accent + auto-contrast ink</h2>
+    <div class="accent-demo">
+      <button class="accent-btn" type="button">Accent button</button>
+      <div class="accent-swatch"></div>
+      <span class="s-secondary"><code>--ts-accent</code> &rarr; <code>--ts-on-accent</code> picks readable ink automatically</span>
+    </div>
+
+    <p class="note">
+      Loads only <code>assets/css/next/primitives/colors.css</code>. Surfaces and text are the
+      curated default preset (<code>dark-practical-neutral-v1</code> /
+      <code>light-practical-clean-v1</code>). The accent picker writes <code>--ts-accent</code>
+      on <code>:root</code>; <code>--ts-on-accent</code> recomputes via OKLCH relative-color.
+      The theme toggle flips <code>data-theme</code> on <code>&lt;html&gt;</code>.
+    </p>
+  </div>
+
+  <script>
+    // Surface depth stack — bg-body + bg-0..5, each showing the three text tiers.
+    var surfaces = [
+      ['--ts-bg-body', 'bg-body'],
+      ['--ts-bg-0', 'bg-0'],
+      ['--ts-bg-1', 'bg-1'],
+      ['--ts-bg-2', 'bg-2'],
+      ['--ts-bg-3', 'bg-3'],
+      ['--ts-bg-4', 'bg-4'],
+      ['--ts-bg-5', 'bg-5'],
+    ];
+    var stack = document.getElementById('stack');
+    surfaces.forEach(function (s) {
+      var row = document.createElement('div');
+      row.className = 'surface';
+      row.style.background = 'var(' + s[0] + ')';
+      row.innerHTML =
+        '<span class="name">' + s[1] + '</span>' +
+        '<span class="samples">' +
+          '<span class="s-primary">Primary text</span>' +
+          '<span class="s-secondary">Secondary</span>' +
+          '<span class="s-muted">Muted</span>' +
+        '</span>';
+      stack.appendChild(row);
+    });
+
+    // Accent color picker -> writes --ts-accent on :root.
+    document.getElementById('accent').addEventListener('input', function (e) {
+      document.documentElement.style.setProperty('--ts-accent', e.target.value);
+    });
+
+    // Theme toggle -> flips data-theme on <html>.
+    var themeBtn = document.getElementById('theme');
+    themeBtn.addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      themeBtn.textContent = 'Theme: ' + next;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+/* ============================================================================
+ * radius.css — Toolskin radius primitives  ·  Session 2
+ * ----------------------------------------------------------------------------
+ * Wave 1.6 (binding): the radius ladder is an EXPLICIT fixed set of steps —
+ * NOT calc-derived from a scale (the running toolskin.css §1f calc-derived
+ * 8-step ladder is superseded). 5 steps + pill + sharp. Base 8px = --ts-radius-md.
+ * Token names: xs/sm/md/lg/xl chosen to match the running namespace; `-sharp`
+ * is new (0-radius flush corners). Naming flagged for owner review.
+ * ========================================================================== */
+
+:root {
+  --ts-radius-base: 8px;
+
+  /* — Explicit ladder: 4 / 6 / 8 / 10 / 16 — */
+  --ts-radius-xs: 4px;
+  --ts-radius-sm: 6px;
+  --ts-radius-md: 8px;   /* = --ts-radius-base */
+  --ts-radius-lg: 10px;
+  --ts-radius-xl: 16px;
+
+  /* — Endpoints — */
+  --ts-radius-full: 9999px;  /* pill / fully-rounded */
+  --ts-radius-sharp: 0;      /* intentional flush corners at composition boundaries */
+}

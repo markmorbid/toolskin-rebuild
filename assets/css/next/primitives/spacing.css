@@ -1,0 +1,50 @@
+/* ============================================================================
+ * spacing.css — Toolskin spacing primitives  ·  Session 2
+ * ----------------------------------------------------------------------------
+ * Tiered 4px-based scale, transcribed from running toolskin.css §1e.
+ * Layout tier intentionally STOPS at --ts-sp-16: the source flagged --ts-sp-17..24
+ * as a "CRITICAL IMPLEMENTATION ERROR" (geometric blow-up to 229–1091px). They are
+ * dropped per RULING 5.
+ * ========================================================================== */
+
+:root {
+  /* — Tier 1: primitives (the only knobs) — */
+  --ts-sp-base: 4px;
+  --ts-sp-density: 1;   /* component-tier multiplier (UI roominess) */
+  --ts-sp-rhythm: 1;    /* layout-tier multiplier (page breathing) */
+  --ts-sp-ratio: 1.25;  /* layout-tier geometric ratio (perfect fourth) */
+
+  /* — Derived — */
+  --ts-sp: var(--ts-sp-base);
+  --ts-sp-unit: calc(var(--ts-sp-base) * var(--ts-sp-density));
+
+  /* — Micro tier (0–4): fixed, crisp, never rescaled — */
+  --ts-sp-0: 0px;
+  --ts-sp-px: 1px;
+  --ts-sp-1: var(--ts-sp-base);            /* 4px  */
+  --ts-sp-2: calc(var(--ts-sp-base) * 2);  /* 8px  */
+  --ts-sp-3: calc(var(--ts-sp-base) * 3);  /* 12px */
+  --ts-sp-4: calc(var(--ts-sp-base) * 4);  /* 16px */
+
+  /* — Component tier (5–9): linear × density — */
+  --ts-sp-5: calc(var(--ts-sp-unit) * 5);  /* 20px @ density 1 */
+  --ts-sp-6: calc(var(--ts-sp-unit) * 6);  /* 24px */
+  --ts-sp-7: calc(var(--ts-sp-unit) * 7);  /* 28px */
+  --ts-sp-8: calc(var(--ts-sp-unit) * 8);  /* 32px */
+  --ts-sp-9: calc(var(--ts-sp-unit) * 9);  /* 36px */
+
+  /* — Layout tier (10–16): geometric × rhythm — anchor 48px, ×1.25 per step.
+       Chained so overriding --ts-sp-10 or --ts-sp-ratio rescales the tier. — */
+  --ts-sp-10: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm));  /* 48px  */
+  --ts-sp-11: calc(var(--ts-sp-10) * var(--ts-sp-ratio));          /* 60px  */
+  --ts-sp-12: calc(var(--ts-sp-11) * var(--ts-sp-ratio));          /* 75px  */
+  --ts-sp-13: calc(var(--ts-sp-12) * var(--ts-sp-ratio));          /* 94px  */
+  --ts-sp-14: calc(var(--ts-sp-13) * var(--ts-sp-ratio));          /* 117px */
+  --ts-sp-15: calc(var(--ts-sp-14) * var(--ts-sp-ratio));          /* 146px */
+  --ts-sp-16: calc(var(--ts-sp-15) * var(--ts-sp-ratio));          /* 183px */
+
+  /* — Fluid section tokens (responsive by design, not by media query) — */
+  --ts-section-gap: clamp(var(--ts-sp-12), 8vw, var(--ts-sp-16));
+  --ts-section-pad: clamp(var(--ts-sp-12), 8vw, var(--ts-sp-16));
+  --ts-hero-pad: clamp(var(--ts-sp-13), 12vw, var(--ts-sp-16));
+}
