@@ -5,26 +5,38 @@
  * Spec: docs/handoffs/_rebuild-system-spec.md §3 (derivative chain) + §10 (knobs).
  *
  * A component sets ONE token — --ts-this-bg: var(--ts-bg-N) — on its root. Every
- * derivative below recomputes against it, and the cascade propagates the whole
- * chain to descendants automatically (Rule 4 surface superposition). The chain is
- * declared inside ONE :where(:root, :root *) block: specificity (0,0,0), so any
- * component rule wins, and the color-mix() calls resolve --ts-this-bg at the
- * CONSUMER scope — re-rooting the chain wherever a parent re-scopes the surface.
+ * derivative recomputes against it and the cascade propagates the chain inward
+ * to descendants (Rule 4 surface superposition).
+ *
+ * ── TWO BLOCKS, on purpose (correction to spec §3.1 / §6.2 / §10.2) ──────────
+ * INPUTS (--ts-this-bg + the §10 feel knobs) are declared at PLAIN :root, so
+ * they INHERIT. A parent — or :root, or a component setting one on itself —
+ * propagates to its whole subtree by normal custom-property inheritance.
+ *
+ * They must NOT live in :where(:root, :root *): a universal selector re-declares
+ * the property on every element, and a declared value always beats an inherited
+ * one — so an ancestor override could never reach a descendant. The Session-3
+ * surfaces sandbox proved this (descendants reverted to bg-1; the §10 designer
+ * knobs were inert). See the CORRECTION banner in _rebuild-system-spec.md.
+ *
+ * DERIVATIVES are declared in :where(:root, :root *) — they MUST re-resolve on
+ * every element against that element's own inherited inputs, and :where() keeps
+ * specificity at (0,0,0) so any component rule wins.
  *
  * Color discipline (Rule 15 / spec §3 preamble): every formula composes S1
  * primitives via color-mix(in oklch, ...) — never `in srgb`, never a raw color
- * value. The mix TARGETS are theme-relative primitives (--ts-bg-body floor,
+ * value. Mix TARGETS are theme-relative primitives (--ts-bg-body floor,
  * --ts-text-primary ceiling) so "dark" and "bright" stay correct in both modes
  * by construction.  No !important anywhere (spec §13.3).
  *
  * @ts-deps: primitives/colors.css
  * ========================================================================== */
 
-:where(:root, :root *) {
+/* ── INPUTS — inheritable (plain :root, NOT universal) ─────────────────────── */
+:root {
 
-  /* ── Feel knobs (spec §10.1) ──────────────────────────────────────────────
-   * Override these once at :root in a custom stylesheet to retune the entire
-   * derivative chain — gradients and borders absorb the change automatically. */
+  /* Feel knobs (spec §10.1). Override once here — or on any ancestor / component
+   * scope — and the whole derivative chain absorbs the change automatically. */
   --ts-this-bg-grad-angle:      136deg;  /* gradient direction — top-left -> bottom-right */
   --ts-this-bg-grad-angle-2:    114deg;  /* alternate angle for a second gradient variant */
   --ts-this-bg-grad-bright-pct: 6%;      /* mix amount for the bright gradient stop */
@@ -35,32 +47,35 @@
   --ts-mix-perc-active:   20%;  /* active border (accent mix) */
   --ts-mix-perc-disabled: 8%;   /* disabled border (muted-text mix) */
 
-  /* ── Surface input (spec §3.1) ────────────────────────────────────────────
-   * Set by the component or a Layer-2 parent override. Falls back to bg-1 so a
-   * chainless element still resolves rather than breaking. */
+  /* Surface input (spec §3.1). The component or a parent layout block sets this;
+   * the page floor defaults to bg-1 so a chainless element still resolves. */
   --ts-this-bg: var(--ts-bg-1);
+}
 
-  /* ── Subtractive variants — recess toward the body floor (spec §3.2) ────── */
+/* ── DERIVATIVES — recomputed per element ──────────────────────────────────── */
+:where(:root, :root *) {
+
+  /* Subtractive variants — recess toward the body floor (spec §3.2) */
   --ts-this-bg-dark:   color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body) var(--ts-this-bg-grad-dark-pct));
   --ts-this-bg-dark-1: color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body) calc(var(--ts-this-bg-grad-dark-pct) * 0.15));
   --ts-this-bg-dark-2: color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body) calc(var(--ts-this-bg-grad-dark-pct) * 0.85));
 
-  /* ── Transparent-mixed variants — see-through surfaces (spec §3.3) ──────── */
+  /* Transparent-mixed variants — see-through surfaces (spec §3.3) */
   --ts-this-bg-dim:   color-mix(in oklch, var(--ts-this-bg), transparent 12%);
   --ts-this-bg-dim-2: color-mix(in oklch, var(--ts-this-bg), transparent 25%);
   --ts-this-bg-dim-3: color-mix(in oklch, var(--ts-this-bg), transparent 50%);
   --ts-this-bg-dim-4: color-mix(in oklch, var(--ts-this-bg), transparent 60%);
 
-  /* ── Additive variant — raise toward primary text (spec §3.4) ──────────── */
+  /* Additive variant — raise toward primary text (spec §3.4) */
   --ts-this-bg-bright: color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) var(--ts-this-bg-grad-bright-pct));
 
-  /* ── State variants — hover / active / focus / disabled (spec §3.5) ────── */
+  /* State variants — hover / active / focus / disabled (spec §3.5) */
   --ts-this-bg-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) 20%);
   --ts-this-bg-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body)      15%);
   --ts-this-bg-focus:    color-mix(in oklch, var(--ts-this-bg), var(--ts-accent)       20%);
   --ts-this-bg-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-text-muted)   60%);
 
-  /* ── Borders — base + all 5 states (spec §3.7) ──────────────────────────── */
+  /* Borders — base + all 5 states (spec §3.7) */
   --ts-this-bg-border:          color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc));
   --ts-this-bg-border-0:        color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) calc(var(--ts-mix-perc) * 0.5));
   --ts-this-bg-border-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc-hover));
@@ -69,7 +84,7 @@
   --ts-this-bg-border-focus:    var(--ts-accent);
   --ts-this-bg-focus-outline:   var(--ts-accent);
 
-  /* ── Gradients — three coherent states (spec §3.6) ──────────────────────── */
+  /* Gradients — three coherent states (spec §3.6) */
   --ts-this-bg-grad: linear-gradient(
       var(--ts-this-bg-grad-angle),
       var(--ts-this-bg-bright),

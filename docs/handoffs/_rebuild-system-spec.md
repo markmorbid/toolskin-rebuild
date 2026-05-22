@@ -1,5 +1,20 @@
 # S2 — System Layer Spec (`--ts-this-*` derivative chain)
 
+> ⚠ CORRECTION (2026-05-22 — Session 3, File 1 build): §3.1 and the §6.2 code block
+> place `--ts-this-bg` *inside* `:where(:root, :root *)`, and §10 implies the feel
+> knobs (`--ts-this-bg-grad-*-pct`, `--ts-mix-perc*`, `--ts-this-bg-grad-angle`)
+> live there too. That is wrong. A universal selector re-declares the property on
+> every element, and a declared value always beats an inherited one — so the §6
+> superposition claim ("every block inside this section's subtree resolves
+> `--ts-this-bg-*` against bg-2") and the §10.2 designer-override claim ("override
+> at `:root` … the entire chain absorbs the new feel") both fail. The Session-3
+> surfaces sandbox + a computed-style probe proved it (descendants reverted to
+> bg-1; knob overrides were inert). **Canonical fix, shipped in
+> `assets/css/next/system/surfaces.css`:** declare the INPUTS (`--ts-this-bg` + the
+> §10 knobs) at plain `:root` so they inherit; keep only the recomputed
+> DERIVATIVES in `:where(:root, :root *)`. §3.1, §6.2, §10.1–10.3 should be read
+> with this correction; the derivative formulas themselves are unchanged.
+
 **Sub-agent:** S2 — System Layer Architect
 **Wave:** 2.2 (sequential — dispatched alone, consumes S1's locked output; S3-S6 dispatch in parallel after this)
 **Session:** 1
