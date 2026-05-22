@@ -13,7 +13,20 @@
 > `assets/css/next/system/surfaces.css`:** declare the INPUTS (`--ts-this-bg` + the
 > §10 knobs) at plain `:root` so they inherit; keep only the recomputed
 > DERIVATIVES in `:where(:root, :root *)`. §3.1, §6.2, §10.1–10.3 should be read
-> with this correction; the derivative formulas themselves are unchanged.
+> with this correction.
+>
+> ⚠ CORRECTION 2 (2026-05-22 — owner-flagged on the Session-3 sandbox): §3.4 / §3.5
+> / §3.7 mix the surface toward `--ts-text-primary` / `--ts-text-muted` for the
+> bright / hover / disabled / border steps. Those inks are not neutral — they
+> carry a blue-violet hue (~271°) plus a small chroma, so `color-mix(in oklch, …)`
+> ROTATES a chromatic surface's hue (an accent border drifted to a desaturated
+> pink — probe: hue 38.8° → 352.9°). Fix shipped in `surfaces.css`: mix toward
+> `--ts-ink-contrast` / `--ts-ink-muted` — the same inks with hue + chroma
+> stripped (`oklch(from … l 0 none)`). Lightness still flips by theme, so the
+> contrast step stays theme-correct; the surface keeps its own hue. Probe-verified:
+> accent derivatives hold hue 38.8° exactly in dark and light. Mix targets
+> `--ts-bg-body` (floor recession) and `--ts-accent` (active/focus tint) are
+> intentional and left unchanged.
 
 **Sub-agent:** S2 — System Layer Architect
 **Wave:** 2.2 (sequential — dispatched alone, consumes S1's locked output; S3-S6 dispatch in parallel after this)

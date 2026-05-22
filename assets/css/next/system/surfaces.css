@@ -12,22 +12,25 @@
  * INPUTS (--ts-this-bg + the §10 feel knobs) are declared at PLAIN :root, so
  * they INHERIT. A parent — or :root, or a component setting one on itself —
  * propagates to its whole subtree by normal custom-property inheritance.
- *
  * They must NOT live in :where(:root, :root *): a universal selector re-declares
  * the property on every element, and a declared value always beats an inherited
- * one — so an ancestor override could never reach a descendant. The Session-3
- * surfaces sandbox proved this (descendants reverted to bg-1; the §10 designer
- * knobs were inert). See the CORRECTION banner in _rebuild-system-spec.md.
- *
+ * one — so an ancestor override could never reach a descendant.
  * DERIVATIVES are declared in :where(:root, :root *) — they MUST re-resolve on
  * every element against that element's own inherited inputs, and :where() keeps
  * specificity at (0,0,0) so any component rule wins.
  *
+ * ── HUE-LOCKED CONTRAST INKS (correction to spec §3.4 / §3.5 / §3.7) ─────────
+ * The spec mixes surfaces toward --ts-text-primary / --ts-text-muted for the
+ * bright / hover / disabled / border steps. Those inks are NOT neutral — they
+ * carry a blue-violet hue (~271deg) and a small chroma, so color-mix(in oklch)
+ * ROTATES the hue of any chromatic surface (an accent border drifted to pink).
+ * Fix: mix toward --ts-ink-contrast / --ts-ink-muted — the same inks with hue
+ * + chroma stripped (hue: none -> powerless). Lightness still flips by theme,
+ * so the contrast step is theme-correct; the surface keeps its own hue.
+ *
  * Color discipline (Rule 15 / spec §3 preamble): every formula composes S1
  * primitives via color-mix(in oklch, ...) — never `in srgb`, never a raw color
- * value. Mix TARGETS are theme-relative primitives (--ts-bg-body floor,
- * --ts-text-primary ceiling) so "dark" and "bright" stay correct in both modes
- * by construction.  No !important anywhere (spec §13.3).
+ * value.  No !important anywhere (spec §13.3).
  *
  * @ts-deps: primitives/colors.css
  * ========================================================================== */
@@ -42,10 +45,17 @@
   --ts-this-bg-grad-bright-pct: 6%;      /* mix amount for the bright gradient stop */
   --ts-this-bg-grad-dark-pct:   14%;     /* mix amount for the dark gradient stop */
 
-  --ts-mix-perc:          10%;  /* base border contrast (text-primary mix) */
+  --ts-mix-perc:          10%;  /* base border contrast */
   --ts-mix-perc-hover:    25%;  /* hover border contrast */
   --ts-mix-perc-active:   20%;  /* active border (accent mix) */
-  --ts-mix-perc-disabled: 8%;   /* disabled border (muted-text mix) */
+  --ts-mix-perc-disabled: 8%;   /* disabled border */
+
+  /* Achromatic contrast inks — text-ink LIGHTNESS only, hue + chroma stripped
+   * (hue: none -> powerless in color-mix). Mixing a chromatic surface toward
+   * these steps lightness/contrast WITHOUT rotating the surface's hue. They
+   * still flip with the theme because the source ink's lightness flips. */
+  --ts-ink-contrast: oklch(from var(--ts-text-primary) l 0 none);
+  --ts-ink-muted:    oklch(from var(--ts-text-muted)   l 0 none);
 
   /* Surface input (spec §3.1). The component or a parent layout block sets this;
    * the page floor defaults to bg-1 so a chainless element still resolves. */
@@ -55,7 +65,8 @@
 /* ── DERIVATIVES — recomputed per element ──────────────────────────────────── */
 :where(:root, :root *) {
 
-  /* Subtractive variants — recess toward the body floor (spec §3.2) */
+  /* Subtractive variants — recess toward the body floor (spec §3.2).
+   * Mix target is --ts-bg-body: an intentional blend toward the page floor. */
   --ts-this-bg-dark:   color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body) var(--ts-this-bg-grad-dark-pct));
   --ts-this-bg-dark-1: color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body) calc(var(--ts-this-bg-grad-dark-pct) * 0.15));
   --ts-this-bg-dark-2: color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body) calc(var(--ts-this-bg-grad-dark-pct) * 0.85));
@@ -66,25 +77,27 @@
   --ts-this-bg-dim-3: color-mix(in oklch, var(--ts-this-bg), transparent 50%);
   --ts-this-bg-dim-4: color-mix(in oklch, var(--ts-this-bg), transparent 60%);
 
-  /* Additive variant — raise toward primary text (spec §3.4) */
-  --ts-this-bg-bright: color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) var(--ts-this-bg-grad-bright-pct));
+  /* Additive variant — raise toward the (hue-locked) contrast ink (spec §3.4) */
+  --ts-this-bg-bright: color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-contrast) var(--ts-this-bg-grad-bright-pct));
 
   /* State variants — hover / active / focus / disabled (spec §3.5) */
-  --ts-this-bg-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) 20%);
-  --ts-this-bg-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body)      15%);
-  --ts-this-bg-focus:    color-mix(in oklch, var(--ts-this-bg), var(--ts-accent)       20%);
-  --ts-this-bg-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-text-muted)   60%);
+  --ts-this-bg-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-contrast) 20%);
+  --ts-this-bg-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body)      15%);  /* floor blend */
+  --ts-this-bg-focus:    color-mix(in oklch, var(--ts-this-bg), var(--ts-accent)       20%);  /* accent tint */
+  --ts-this-bg-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-muted)    60%);
 
-  /* Borders — base + all 5 states (spec §3.7) */
-  --ts-this-bg-border:          color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc));
-  --ts-this-bg-border-0:        color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) calc(var(--ts-mix-perc) * 0.5));
-  --ts-this-bg-border-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc-hover));
+  /* Borders — base + all 5 states (spec §3.7).
+   * Neutral steps use the hue-locked ink; active/focus stay accent by design. */
+  --ts-this-bg-border:          color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-contrast) var(--ts-mix-perc));
+  --ts-this-bg-border-0:        color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-contrast) calc(var(--ts-mix-perc) * 0.5));
+  --ts-this-bg-border-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-contrast) var(--ts-mix-perc-hover));
   --ts-this-bg-border-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-accent)       var(--ts-mix-perc-active));
-  --ts-this-bg-border-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-text-muted)   var(--ts-mix-perc-disabled));
+  --ts-this-bg-border-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-muted)    var(--ts-mix-perc-disabled));
   --ts-this-bg-border-focus:    var(--ts-accent);
   --ts-this-bg-focus-outline:   var(--ts-accent);
 
-  /* Gradients — three coherent states (spec §3.6) */
+  /* Gradients — three coherent states (spec §3.6).
+   * hover-grad stops shift toward the hue-locked ink; active-grad toward floor. */
   --ts-this-bg-grad: linear-gradient(
       var(--ts-this-bg-grad-angle),
       var(--ts-this-bg-bright),
@@ -93,8 +106,8 @@
   );
   --ts-this-bg-hover-grad: linear-gradient(
       var(--ts-this-bg-grad-angle),
-      color-mix(in oklch, var(--ts-this-bg-bright), var(--ts-text-primary) 15%),
-      color-mix(in oklch, var(--ts-this-bg-dark),   var(--ts-text-primary) 8%),
+      color-mix(in oklch, var(--ts-this-bg-bright), var(--ts-ink-contrast) 15%),
+      color-mix(in oklch, var(--ts-this-bg-dark),   var(--ts-ink-contrast) 8%),
       var(--ts-this-bg-hover)
   );
   --ts-this-bg-active-grad: linear-gradient(
