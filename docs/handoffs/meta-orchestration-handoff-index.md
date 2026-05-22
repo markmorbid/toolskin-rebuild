@@ -5,7 +5,7 @@ of the Toolskin Rebuild project. It is NOT a complete record — it is a search 
 `conversation_search` tool to retrieve full context on any topic listed below.
 
 **This chat ended at:** ~100 message limit, Session 2 complete, Session 3 pending.
-**Active repo:** `toolskin-rebuild` on master (last commit: 498ffba — 15px sweep)
+**Active repo:** `toolskin-rebuild` on master (last commit: 704d702 — handoff index; RULING 3 sweep complete)
 **Reference repo:** `toolskin-showcase` (READ-ONLY FOREVER — Rule 12)
 
 ---
@@ -134,8 +134,8 @@ Search for specific findings:
 
 | Issue | Search query | Where |
 |-------|--------------|-------|
-| Sweep extension still in progress | `"sweep extension 6 more files design-tokens-2.0 probe assertion"` | Agent was executing when this chat ended |
-| typography-master skill 13px | `"typography-master 15px 13px update ruling 3"` | May be done in final sweep |
+| Sweep extension — ✅ COMPLETE (114f0e7) | `"sweep extension 6 more files design-tokens-2.0 probe assertion"` | RULING 3 swept across all skills + docs; canon verified clean |
+| typography-master skill 13px — ✅ COMPLETE (ab05a55) | `"typography-master 15px 13px update ruling 3"` | SKILL.md line 75 → 13px; re-confirmed clean in the 114f0e7 sweep |
 | S3 DNA-pointer column | `"S3 DNA pointer column session 3 startup housekeeping"` | Deferred from Session 1.5 |
 | S6 R-DNA-1..6 refusal family | `"R-DNA refusal family wave 1.5 anti-patterns S6"` | Deferred |
 | S5 G1 wiring | `"S5 G1 parity criterion visual audit DNA combined ground truth"` | Deferred |
