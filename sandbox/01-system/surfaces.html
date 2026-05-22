@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolskin · System Layer — Surfaces (--ts-this-bg-* chain) — sandbox</title>
+
+  <!-- Session 3 system-layer preview. Loads the REAL files, in cascade order:
+       primitives first, then the system surfaces.css derivative chain.
+       Nothing about the chain is inlined here — this page consumes it live. -->
+  <link rel="stylesheet" href="../../assets/css/next/primitives/colors.css" />
+  <link rel="stylesheet" href="../../assets/css/next/system/surfaces.css" />
+
+  <style>
+    /* Layout only. Every COLOR resolves from colors.css primitives or the
+       surfaces.css --ts-this-bg-* chain (dogfooding the system layer). */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 13px;                       /* RULING 3 — 13px base */
+      line-height: 1.55;
+      background: var(--ts-bg-body);
+      color: var(--ts-text-primary);
+      min-height: 100vh;
+      padding: 28px;
+      transition: background 200ms ease, color 200ms ease;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; }
+    a { color: var(--ts-accent); }
+    code, .mono { font-family: ui-monospace, "JetBrains Mono", "Courier New", monospace; }
+
+    header {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
+      padding-bottom: 18px; margin-bottom: 22px;
+      border-bottom: 1px solid var(--ts-bg-5);
+    }
+    header h1 { font-size: 19px; font-weight: 700; margin: 0; flex: 1 1 280px; }
+    header .sub { flex-basis: 100%; font-size: 12px; color: var(--ts-text-muted); }
+    .controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    button, select, label.picker {
+      font: inherit; font-size: 12px;
+      padding: 7px 12px; border-radius: 6px;
+      border: 1px solid var(--ts-bg-5);
+      background: var(--ts-bg-2); color: var(--ts-text-primary);
+      cursor: pointer;
+    }
+    label.picker { display: flex; align-items: center; gap: 7px; }
+    label.picker input[type=color] { width: 26px; height: 26px; border: none; background: none; padding: 0; cursor: pointer; }
+
+    h2 {
+      font-size: 12px; font-weight: 600; color: var(--ts-text-secondary);
+      text-transform: uppercase; letter-spacing: 0.09em;
+      margin: 30px 0 12px; padding-top: 6px;
+    }
+    h2:first-of-type { margin-top: 8px; }
+    .lead { font-size: 12.5px; color: var(--ts-text-muted); margin: 0 0 14px; max-width: 70ch; }
+
+    /* ── Knob panel ──────────────────────────────────────────────────────── */
+    .knobs {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px 22px;
+      background: var(--ts-bg-1); border: 1px solid var(--ts-bg-4);
+      border-radius: 8px; padding: 16px 18px;
+    }
+    .knob { display: flex; flex-direction: column; gap: 5px; }
+    .knob .row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .knob label { font-size: 11.5px; font-weight: 600; }
+    .knob .val { font-size: 11px; color: var(--ts-accent); }
+    .knob input[type=range] { width: 100%; accent-color: var(--ts-accent); }
+    .knob select { width: 100%; }
+    .knob .tok { font-size: 10px; color: var(--ts-text-muted); }
+
+    /* ── Derivative-chain swatch grid ────────────────────────────────────── */
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 8px;
+    }
+    .sw {
+      border-radius: 6px; padding: 12px 12px 10px;
+      min-height: 78px; display: flex; flex-direction: column; justify-content: flex-end;
+      border: 1px solid var(--ts-bg-4);
+    }
+    .sw .tok { font-size: 11px; font-weight: 600; }
+    .sw .computed { font-size: 9.5px; opacity: 0.72; margin-top: 2px; word-break: break-all; }
+    /* checker so transparent (dim-*) swatches read as see-through */
+    .sw.alpha {
+      background-image:
+        linear-gradient(45deg, var(--ts-bg-4) 25%, transparent 25%, transparent 75%, var(--ts-bg-4) 75%),
+        linear-gradient(45deg, var(--ts-bg-4) 25%, transparent 25%, transparent 75%, var(--ts-bg-4) 75%);
+      background-size: 14px 14px; background-position: 0 0, 7px 7px;
+    }
+    .sw .fill {
+      flex: 1; border-radius: 4px; margin-bottom: 8px; min-height: 26px;
+    }
+    /* border swatches: show the token as a thick ring on the current surface */
+    .sw.border-sw .fill { border: 4px solid; background: var(--ts-this-bg); }
+
+    /* ── Gradient demo ───────────────────────────────────────────────────── */
+    .grads { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+    .grad-box {
+      height: 96px; border-radius: 8px; border: 1px solid var(--ts-this-bg-border);
+      display: flex; align-items: flex-end; padding: 10px;
+      color: var(--ts-text-primary); font-size: 11px; font-weight: 600;
+    }
+
+    /* ── 5-state interactive demo (canonical spec §7.1 recipe) ───────────── */
+    .state-demo { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+    .demo-card {
+      font: inherit; font-size: 13px; font-weight: 600;
+      padding: 18px 26px; border-radius: 8px; cursor: pointer;
+      color: var(--ts-text-primary);
+      background: var(--ts-this-bg-grad);
+      border: 1px solid var(--ts-this-bg-border);
+      transition: background 180ms ease, border-color 180ms ease;
+    }
+    .demo-card:hover    { background: var(--ts-this-bg-hover-grad);  border-color: var(--ts-this-bg-border-hover); }
+    .demo-card:active   { background: var(--ts-this-bg-active-grad); border-color: var(--ts-this-bg-border-active); }
+    .demo-card:focus-visible {
+      outline: 2px solid var(--ts-this-bg-focus-outline); outline-offset: 2px;
+      border-color: var(--ts-this-bg-border-focus);
+    }
+    .demo-card.is-disabled {
+      background: var(--ts-this-bg-disabled);
+      border-color: var(--ts-this-bg-border-disabled);
+      color: var(--ts-text-muted); cursor: not-allowed;
+    }
+
+    /* ── Surface superposition demo — ONE rule, three contexts ───────────── */
+    .surf-card {
+      /* This rule is declared ONCE. Each card re-roots --ts-this-bg, so the
+         whole derivative chain recomputes per nesting level (Rule 4). */
+      background: var(--ts-this-bg-grad);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: 8px; padding: 16px;
+      color: var(--ts-text-primary);
+    }
+    .surf-card + .surf-card, .surf-card .surf-card { margin-top: 12px; }
+    .surf-card .tag { font-size: 11px; font-weight: 700; }
+    .surf-card .meta { font-size: 10.5px; color: var(--ts-text-muted); }
+
+    /* ── Reference panel ─────────────────────────────────────────────────── */
+    .refpanel {
+      border: 1px solid var(--ts-bg-4); border-radius: 8px;
+      background: var(--ts-bg-1); overflow: hidden; margin-top: 8px;
+    }
+    .refpanel > summary {
+      cursor: pointer; padding: 12px 16px; font-weight: 600; font-size: 12px;
+      list-style: none; display: flex; justify-content: space-between; align-items: center;
+      color: var(--ts-text-secondary);
+    }
+    .refpanel > summary::-webkit-details-marker { display: none; }
+    .refpanel .ref-body { padding: 0 16px 16px; }
+    .ref-scroll {
+      max-height: 540px; overflow: auto; border-radius: 6px;
+      border: 1px solid var(--ts-bg-4); background: #000;
+    }
+    .ref-scroll img { display: block; width: 100%; height: auto; }
+    .ref-note { font-size: 11px; color: var(--ts-text-muted); margin: 10px 0 0; line-height: 1.6; }
+
+    .note { margin: 34px 0 8px; font-size: 11.5px; line-height: 1.7; color: var(--ts-text-muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Toolskin — System Layer · Surfaces</h1>
+      <div class="controls">
+        <label class="picker">Accent
+          <input type="color" id="accent" value="#ff5500" />
+        </label>
+        <button id="theme" type="button">Theme: dark</button>
+      </div>
+      <p class="sub">
+        Live render of <code>assets/css/next/system/surfaces.css</code> — the
+        <code>--ts-this-bg-*</code> derivative chain (spec §3 + §10). Set one token,
+        the whole chain recomputes; the cascade propagates it (Rule 4).
+      </p>
+    </header>
+
+    <!-- ── CONTROLS ──────────────────────────────────────────────────────── -->
+    <h2>Interactive controls</h2>
+    <p class="lead">
+      The surface tier feeds <code>--ts-this-bg</code> for the demo region below.
+      The four knobs write the global feel tokens on <code>:root</code> — every
+      derivative absorbs the change with no rule rewrite.
+    </p>
+    <div class="knobs">
+      <div class="knob">
+        <label for="surface">Demo surface — <span class="tok mono">--ts-this-bg</span></label>
+        <select id="surface">
+          <option value="var(--ts-bg-body)">--ts-bg-body</option>
+          <option value="var(--ts-bg-0)">--ts-bg-0</option>
+          <option value="var(--ts-bg-1)">--ts-bg-1</option>
+          <option value="var(--ts-bg-2)" selected>--ts-bg-2</option>
+          <option value="var(--ts-bg-3)">--ts-bg-3</option>
+          <option value="var(--ts-bg-4)">--ts-bg-4</option>
+          <option value="var(--ts-bg-5)">--ts-bg-5</option>
+          <option value="var(--ts-accent)">--ts-accent</option>
+        </select>
+      </div>
+      <div class="knob">
+        <label for="preset">Surface preset palette</label>
+        <select id="preset">
+          <option value="">Default (theme-driven)</option>
+          <option value="ts-preset-dark-neutral-cool-v1">dark · neutral cool v1</option>
+          <option value="ts-preset-dark-warm-slate-v2">dark · warm slate v2</option>
+          <option value="ts-preset-dark-blue-tinted-v3">dark · blue-tinted v3</option>
+          <option value="ts-preset-dark-practical-neutral-v1">dark · practical neutral v1</option>
+          <option value="ts-preset-dark-practical-cool-v2">dark · practical cool v2</option>
+          <option value="ts-preset-light-neutral-clean-v1">light · neutral clean v1</option>
+          <option value="ts-preset-light-warm-paper-v2">light · warm paper v2</option>
+          <option value="ts-preset-light-cool-professional-v3">light · cool professional v3</option>
+          <option value="ts-preset-light-practical-clean-v1">light · practical clean v1</option>
+          <option value="ts-preset-light-practical-cool-v2">light · practical cool v2</option>
+        </select>
+      </div>
+      <div class="knob">
+        <div class="row"><label>Dark mix %</label><span class="val" id="darkPctVal">14%</span></div>
+        <input type="range" id="darkPct" min="0" max="30" step="1" value="14" />
+        <span class="tok mono">--ts-this-bg-grad-dark-pct</span>
+      </div>
+      <div class="knob">
+        <div class="row"><label>Bright mix %</label><span class="val" id="brightPctVal">6%</span></div>
+        <input type="range" id="brightPct" min="0" max="20" step="1" value="6" />
+        <span class="tok mono">--ts-this-bg-grad-bright-pct</span>
+      </div>
+      <div class="knob">
+        <div class="row"><label>Border mix %</label><span class="val" id="mixPctVal">10%</span></div>
+        <input type="range" id="mixPct" min="0" max="30" step="1" value="10" />
+        <span class="tok mono">--ts-mix-perc</span>
+      </div>
+      <div class="knob">
+        <div class="row"><label>Hover border %</label><span class="val" id="mixHoverVal">25%</span></div>
+        <input type="range" id="mixHover" min="0" max="50" step="1" value="25" />
+        <span class="tok mono">--ts-mix-perc-hover</span>
+      </div>
+      <div class="knob">
+        <div class="row"><label>Gradient angle</label><span class="val" id="angleVal">136deg</span></div>
+        <input type="range" id="angle" min="0" max="360" step="2" value="136" />
+        <span class="tok mono">--ts-this-bg-grad-angle</span>
+      </div>
+    </div>
+
+    <!-- ── DERIVATIVE CHAIN ──────────────────────────────────────────────── -->
+    <div id="chain-root">
+      <h2>Derivative chain — every <code>--ts-this-bg-*</code> token</h2>
+      <p class="lead">
+        All swatches below derive from the single <code>--ts-this-bg</code> set on
+        their container. Computed values are read live via <code>getComputedStyle</code>.
+      </p>
+      <div class="grid" id="chainGrid"></div>
+
+      <h2>Gradient variants — the 3 state gradients</h2>
+      <div class="grads">
+        <div class="grad-box" style="background: var(--ts-this-bg-grad)">--ts-this-bg-grad (idle)</div>
+        <div class="grad-box" style="background: var(--ts-this-bg-hover-grad)">--ts-this-bg-hover-grad</div>
+        <div class="grad-box" style="background: var(--ts-this-bg-active-grad)">--ts-this-bg-active-grad</div>
+      </div>
+
+      <h2>5-state interaction pattern (spec §7.1)</h2>
+      <p class="lead">
+        Hover, press, and tab-focus this element. Each state pulls its background
+        and border straight from the chain — no <code>color-mix</code> in the
+        component, no hardcoded state colors.
+      </p>
+      <div class="state-demo">
+        <button type="button" class="demo-card" id="demoCard">Interactive surface</button>
+        <button type="button" class="demo-card is-disabled" disabled>Disabled state</button>
+        <label class="picker"><input type="checkbox" id="disableToggle" /> force-disable the left card</label>
+      </div>
+    </div>
+
+    <!-- ── SURFACE SUPERPOSITION ─────────────────────────────────────────── -->
+    <h2>Surface superposition — one rule, three nested contexts (Rule 4)</h2>
+    <p class="lead">
+      <code>.surf-card</code> is styled <strong>once</strong>. Each nested card only
+      re-roots <code>--ts-this-bg</code> — the derivative chain recomputes per level
+      and the cascade carries it inward. No per-level rules exist.
+    </p>
+    <div class="surf-card" style="--ts-this-bg: var(--ts-bg-1)">
+      <div class="tag">outer · --ts-this-bg: var(--ts-bg-1)</div>
+      <div class="meta">background = --ts-this-bg-grad · border = --ts-this-bg-border</div>
+      <div class="surf-card" style="--ts-this-bg: var(--ts-bg-3)">
+        <div class="tag">middle · --ts-this-bg: var(--ts-bg-3)</div>
+        <div class="meta">same rule — chain re-rolled against bg-3</div>
+        <div class="surf-card" style="--ts-this-bg: var(--ts-accent)">
+          <div class="tag">inner · --ts-this-bg: var(--ts-accent)</div>
+          <div class="meta">same rule — chain re-rolled against the accent</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── WAVE 1.6 REFERENCE ────────────────────────────────────────────── -->
+    <h2>Wave 1.6 reference — the equivalent showcase feature</h2>
+    <details class="refpanel" open>
+      <summary><span>toolskin-showcase · surface-lab.html — owner real-Chrome ground truth</span><span class="mono">▾</span></summary>
+      <div class="ref-body">
+        <div class="ref-scroll">
+          <img src="../../docs/handoffs/_visual-audit/owner-ground-truth/screencapture-localhost-8002-surface-lab-html-2026-05-19-21_59_42.jpg"
+               alt="Wave 1.6 visual audit — surface-lab.html, dark mode, full page" />
+        </div>
+        <p class="ref-note">
+          Source: <code>docs/handoffs/_rebuild-visual-audit.md</code> — Batch C,
+          <code>surface-lab.html</code>. The showcase's surface lab renders the
+          <code>--ts-bg-0…5</code> ladder as a swatch matrix plus a "GLOBAL CONTRAST
+          TWEAK" slider and a surface-token export — the live equivalent of the
+          derivative chain this sandbox rebuilds at the system layer. Visual-audit
+          verdict for this surface: <em>no anomalies — surface ladder + tunable
+          mixing confirmed canonical</em>. This sandbox reproduces that surface
+          tooling on top of the rebuilt token chain.
+        </p>
+      </div>
+    </details>
+
+    <p class="note">
+      Loads <code>assets/css/next/primitives/colors.css</code> +
+      <code>assets/css/next/system/surfaces.css</code> — no chain logic is inlined.
+      The accent picker writes <code>--ts-accent</code>; the theme button flips
+      <code>data-theme</code>; the preset selector toggles a <code>.ts-preset-*</code>
+      class on <code>&lt;html&gt;</code>. Every knob writes a single token and the
+      whole chain re-resolves.
+    </p>
+  </div>
+
+  <script>
+    // ── Derivative-chain swatch model ──────────────────────────────────────
+    var chain = [
+      ['--ts-this-bg',              'fill'],
+      ['--ts-this-bg-bright',       'fill'],
+      ['--ts-this-bg-dark',         'fill'],
+      ['--ts-this-bg-dark-1',       'fill'],
+      ['--ts-this-bg-dark-2',       'fill'],
+      ['--ts-this-bg-dim',          'alpha'],
+      ['--ts-this-bg-dim-2',        'alpha'],
+      ['--ts-this-bg-dim-3',        'alpha'],
+      ['--ts-this-bg-dim-4',        'alpha'],
+      ['--ts-this-bg-hover',        'fill'],
+      ['--ts-this-bg-active',       'fill'],
+      ['--ts-this-bg-focus',        'fill'],
+      ['--ts-this-bg-disabled',     'fill'],
+      ['--ts-this-bg-border',       'border'],
+      ['--ts-this-bg-border-0',     'border'],
+      ['--ts-this-bg-border-hover', 'border'],
+      ['--ts-this-bg-border-active','border'],
+      ['--ts-this-bg-border-disabled','border'],
+      ['--ts-this-bg-border-focus', 'border']
+    ];
+
+    var grid = document.getElementById('chainGrid');
+    var swatches = [];
+    chain.forEach(function (c) {
+      var token = c[0], kind = c[1];
+      var card = document.createElement('div');
+      card.className = 'sw' + (kind === 'alpha' ? ' alpha' : '') + (kind === 'border' ? ' border-sw' : '');
+      var fill = document.createElement('div');
+      fill.className = 'fill';
+      if (kind === 'border') { fill.style.borderColor = 'var(' + token + ')'; }
+      else { fill.style.background = 'var(' + token + ')'; }
+      var tok = document.createElement('div');
+      tok.className = 'tok mono';
+      tok.textContent = token;
+      var computed = document.createElement('div');
+      computed.className = 'computed mono';
+      card.appendChild(fill);
+      card.appendChild(tok);
+      card.appendChild(computed);
+      grid.appendChild(card);
+      swatches.push({ token: token, kind: kind, fill: fill, out: computed });
+    });
+
+    // Read resolved values back so the sandbox shows the actual math output.
+    function refreshComputed() {
+      swatches.forEach(function (s) {
+        var cs = getComputedStyle(s.fill);
+        s.out.textContent = (s.kind === 'border' ? cs.borderTopColor : cs.backgroundColor);
+      });
+    }
+
+    // ── Controls ───────────────────────────────────────────────────────────
+    var root = document.documentElement;
+    var chainRoot = document.getElementById('chain-root');
+
+    document.getElementById('surface').addEventListener('change', function (e) {
+      chainRoot.style.setProperty('--ts-this-bg', e.target.value);
+      requestAnimationFrame(refreshComputed);
+    });
+
+    function bindKnob(id, valId, prop, unit, scope) {
+      var input = document.getElementById(id);
+      var label = document.getElementById(valId);
+      input.addEventListener('input', function () {
+        var v = input.value + unit;
+        (scope || root).style.setProperty(prop, v);
+        label.textContent = v;
+        requestAnimationFrame(refreshComputed);
+      });
+    }
+    bindKnob('darkPct',   'darkPctVal',   '--ts-this-bg-grad-dark-pct',   '%');
+    bindKnob('brightPct', 'brightPctVal', '--ts-this-bg-grad-bright-pct', '%');
+    bindKnob('mixPct',    'mixPctVal',    '--ts-mix-perc',                '%');
+    bindKnob('mixHover',  'mixHoverVal',  '--ts-mix-perc-hover',          '%');
+    bindKnob('angle',     'angleVal',     '--ts-this-bg-grad-angle',      'deg');
+
+    // Preset palette — swap the .ts-preset-* class on <html>.
+    var presetClasses = [];
+    document.getElementById('preset').addEventListener('change', function (e) {
+      presetClasses.forEach(function (c) { root.classList.remove(c); });
+      presetClasses = [];
+      if (e.target.value) { root.classList.add(e.target.value); presetClasses.push(e.target.value); }
+      requestAnimationFrame(refreshComputed);
+    });
+
+    // Accent picker -> --ts-accent on :root.
+    document.getElementById('accent').addEventListener('input', function (e) {
+      root.style.setProperty('--ts-accent', e.target.value);
+      requestAnimationFrame(refreshComputed);
+    });
+
+    // Theme toggle -> data-theme on <html>.
+    var themeBtn = document.getElementById('theme');
+    themeBtn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      themeBtn.textContent = 'Theme: ' + next;
+      requestAnimationFrame(refreshComputed);
+    });
+
+    // Force-disable toggle on the interactive demo card.
+    document.getElementById('disableToggle').addEventListener('change', function (e) {
+      document.getElementById('demoCard').classList.toggle('is-disabled', e.target.checked);
+    });
+
+    // Initial surface for the demo region + first computed read.
+    chainRoot.style.setProperty('--ts-this-bg', 'var(--ts-bg-2)');
+    requestAnimationFrame(refreshComputed);
+  </script>
+</body>
+</html>

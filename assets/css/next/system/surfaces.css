@@ -1,0 +1,91 @@
+/* ============================================================================
+ * surfaces.css — Toolskin SYSTEM layer  ·  the --ts-this-bg-* derivative chain
+ * ----------------------------------------------------------------------------
+ * Tier 2 of the three-tier token architecture (primitives -> SYSTEM -> component).
+ * Spec: docs/handoffs/_rebuild-system-spec.md §3 (derivative chain) + §10 (knobs).
+ *
+ * A component sets ONE token — --ts-this-bg: var(--ts-bg-N) — on its root. Every
+ * derivative below recomputes against it, and the cascade propagates the whole
+ * chain to descendants automatically (Rule 4 surface superposition). The chain is
+ * declared inside ONE :where(:root, :root *) block: specificity (0,0,0), so any
+ * component rule wins, and the color-mix() calls resolve --ts-this-bg at the
+ * CONSUMER scope — re-rooting the chain wherever a parent re-scopes the surface.
+ *
+ * Color discipline (Rule 15 / spec §3 preamble): every formula composes S1
+ * primitives via color-mix(in oklch, ...) — never `in srgb`, never a raw color
+ * value. The mix TARGETS are theme-relative primitives (--ts-bg-body floor,
+ * --ts-text-primary ceiling) so "dark" and "bright" stay correct in both modes
+ * by construction.  No !important anywhere (spec §13.3).
+ *
+ * @ts-deps: primitives/colors.css
+ * ========================================================================== */
+
+:where(:root, :root *) {
+
+  /* ── Feel knobs (spec §10.1) ──────────────────────────────────────────────
+   * Override these once at :root in a custom stylesheet to retune the entire
+   * derivative chain — gradients and borders absorb the change automatically. */
+  --ts-this-bg-grad-angle:      136deg;  /* gradient direction — top-left -> bottom-right */
+  --ts-this-bg-grad-angle-2:    114deg;  /* alternate angle for a second gradient variant */
+  --ts-this-bg-grad-bright-pct: 6%;      /* mix amount for the bright gradient stop */
+  --ts-this-bg-grad-dark-pct:   14%;     /* mix amount for the dark gradient stop */
+
+  --ts-mix-perc:          10%;  /* base border contrast (text-primary mix) */
+  --ts-mix-perc-hover:    25%;  /* hover border contrast */
+  --ts-mix-perc-active:   20%;  /* active border (accent mix) */
+  --ts-mix-perc-disabled: 8%;   /* disabled border (muted-text mix) */
+
+  /* ── Surface input (spec §3.1) ────────────────────────────────────────────
+   * Set by the component or a Layer-2 parent override. Falls back to bg-1 so a
+   * chainless element still resolves rather than breaking. */
+  --ts-this-bg: var(--ts-bg-1);
+
+  /* ── Subtractive variants — recess toward the body floor (spec §3.2) ────── */
+  --ts-this-bg-dark:   color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body) var(--ts-this-bg-grad-dark-pct));
+  --ts-this-bg-dark-1: color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body) calc(var(--ts-this-bg-grad-dark-pct) * 0.15));
+  --ts-this-bg-dark-2: color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body) calc(var(--ts-this-bg-grad-dark-pct) * 0.85));
+
+  /* ── Transparent-mixed variants — see-through surfaces (spec §3.3) ──────── */
+  --ts-this-bg-dim:   color-mix(in oklch, var(--ts-this-bg), transparent 12%);
+  --ts-this-bg-dim-2: color-mix(in oklch, var(--ts-this-bg), transparent 25%);
+  --ts-this-bg-dim-3: color-mix(in oklch, var(--ts-this-bg), transparent 50%);
+  --ts-this-bg-dim-4: color-mix(in oklch, var(--ts-this-bg), transparent 60%);
+
+  /* ── Additive variant — raise toward primary text (spec §3.4) ──────────── */
+  --ts-this-bg-bright: color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) var(--ts-this-bg-grad-bright-pct));
+
+  /* ── State variants — hover / active / focus / disabled (spec §3.5) ────── */
+  --ts-this-bg-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) 20%);
+  --ts-this-bg-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body)      15%);
+  --ts-this-bg-focus:    color-mix(in oklch, var(--ts-this-bg), var(--ts-accent)       20%);
+  --ts-this-bg-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-text-muted)   60%);
+
+  /* ── Borders — base + all 5 states (spec §3.7) ──────────────────────────── */
+  --ts-this-bg-border:          color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc));
+  --ts-this-bg-border-0:        color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) calc(var(--ts-mix-perc) * 0.5));
+  --ts-this-bg-border-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc-hover));
+  --ts-this-bg-border-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-accent)       var(--ts-mix-perc-active));
+  --ts-this-bg-border-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-text-muted)   var(--ts-mix-perc-disabled));
+  --ts-this-bg-border-focus:    var(--ts-accent);
+  --ts-this-bg-focus-outline:   var(--ts-accent);
+
+  /* ── Gradients — three coherent states (spec §3.6) ──────────────────────── */
+  --ts-this-bg-grad: linear-gradient(
+      var(--ts-this-bg-grad-angle),
+      var(--ts-this-bg-bright),
+      var(--ts-this-bg-dark),
+      var(--ts-this-bg)
+  );
+  --ts-this-bg-hover-grad: linear-gradient(
+      var(--ts-this-bg-grad-angle),
+      color-mix(in oklch, var(--ts-this-bg-bright), var(--ts-text-primary) 15%),
+      color-mix(in oklch, var(--ts-this-bg-dark),   var(--ts-text-primary) 8%),
+      var(--ts-this-bg-hover)
+  );
+  --ts-this-bg-active-grad: linear-gradient(
+      var(--ts-this-bg-grad-angle),
+      color-mix(in oklch, var(--ts-this-bg),      var(--ts-bg-body) 8%),
+      color-mix(in oklch, var(--ts-this-bg-dark), var(--ts-bg-body) 15%),
+      var(--ts-this-bg-active)
+  );
+}
