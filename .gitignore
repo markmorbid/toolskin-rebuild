@@ -9,6 +9,11 @@ tools/visual-audit/test-results/
 # Visual audit — Playwright headless captures (regenerable via tools/visual-audit/capture.mjs)
 # Owner real-Chrome ground-truth (owner-ground-truth/) IS committed — it is not regenerable.
 docs/handoffs/_visual-audit/screenshots/
+# Sandbox captures — regenerable via tools/visual-audit/capture-sandbox.mjs
+docs/handoffs/_visual-audit/sandbox/
+
+# Playwright/Chrome MCP scratch (snapshots, console logs, ad-hoc screenshots)
+.playwright-mcp/
 
 # OS
 Thumbs.db
