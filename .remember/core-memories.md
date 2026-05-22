@@ -11,6 +11,10 @@ Toolskin Design System Rebuild. Branch `master` in `toolskin-rebuild/`. Referenc
 - **Radius ladder: 4/6/8/10/16** (+ 9999 pill, 0 sharp) — explicit, NOT calc-derived. Base = 8px.
 - H1=700, H2=600. Google Fonts `wght@300..700` URL — no variable-axis.
 
+## Rulings
+
+RULING 7: apcach is the constant engine for the entire system layer. Every mixing constant, percentage, threshold, and lightness delta in `surfaces.css` and all future system files must be apcach-derived outputs baked by `generate-colors.js` at build time. Hand-tuned literals are Rule-15 violations regardless of whether they look right. The CSS composes — apcach decides the amounts. Committed constants in `surfaces.css` (`a0ea9e4`) are provisional Rule-15-noncompliant placeholders.
+
 ## Session 2 — complete (2026-05-21)
 
 Primitives layer shipped — 11 deliverables across 5 commits (Session 2 closed at 74bb77f). `tools/color-engine/generate-colors.js` now exists (commit 4958c87) — imports apcach, emits `assets/css/next/primitives/colors.css`. Next: Session 3 — system layer (`--ts-this-*` derivatives).
