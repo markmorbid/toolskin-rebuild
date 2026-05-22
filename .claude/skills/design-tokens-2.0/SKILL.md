@@ -85,12 +85,12 @@ Every token in Toolskin belongs to exactly one of three tiers. Tokens in higher 
     --ts-space-3: 12px;
     --ts-space-4: 16px;
 
-    /* Wave 1.6: 1rem = 15px in Toolskin (NOT browser default 16px) */
-    --ts-fs-10: 0.625rem;    /* ~9.4px  @ 15px base */
-    --ts-fs-20: 0.703rem;    /* ~10.5px @ 15px base */
-    --ts-fs-30: 0.79rem;     /* ~11.9px @ 15px base */
-    --ts-fs-40: 0.889rem;    /* ~13.3px @ 15px base */
-    --ts-fs-50: 1rem;        /* 15px — base (Wave 1.6 confirmed: running CSS font-size: 15px) */
+    /* RULING 3 (2026-05-21): 1rem = 13px in Toolskin (NOT browser default 16px). 13px confirmed canonical — toolskin.css:287. */
+    --ts-fs-10: 0.625rem;    /* ~8.1px  @ 13px base */
+    --ts-fs-20: 0.703rem;    /* ~9.1px  @ 13px base */
+    --ts-fs-30: 0.79rem;     /* ~10.3px @ 13px base */
+    --ts-fs-40: 0.889rem;    /* ~11.6px @ 13px base */
+    --ts-fs-50: 1rem;        /* 13px — base (RULING 3 2026-05-21: 13px confirmed canonical — toolskin.css:287) */
 
     /* Wave 1.6: explicit ladder 4/6/8/10/16 (NOT calc-derived), base = 8px */
     --ts-radius-10: 4px;

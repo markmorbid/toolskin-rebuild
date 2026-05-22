@@ -218,7 +218,7 @@ Beyond the Space Grotesk anchor — what intentional typographic decisions disti
 
 ### B5. Font-size base is 13px (NOT 16px) — denser UI by intent
 
-> ⚠ **SUPERSEDED — Wave 1.6 Visual Audit.** The canonical base is **15px**, confirmed in the running `toolskin.css` — not 13px (and not the typography-master skill's 16px). See the Wave 1.6 Reconciliation block at the top of this doc. The §B5 text below is the superseded Wave 1.5 text-derived claim.
+> ⚠ **SUPERSEDED — Wave 1.6 Visual Audit.** The canonical base is **15px**, confirmed in the running `toolskin.css` — not 13px (and not the typography-master skill's 16px). See the Wave 1.6 Reconciliation block at the top of this doc. The §B5 text below is the superseded Wave 1.5 text-derived claim. ⚠ RULING 3 (2026-05-21): 13px confirmed.
 
 **Rule:** `--ts-fs-base: 13px` (declared with intentional `0.8rem` shadow declaration on the line above showing the author's preference signal). Body reads denser than a typical Material/Tailwind site (16px base) — Toolskin is a tool-system UI, not a marketing site.
 

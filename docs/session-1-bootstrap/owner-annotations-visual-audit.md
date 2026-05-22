@@ -1,4 +1,6 @@
 # Owner annotations
+
+> ⚠ CORRECTION (2026-05-21 — RULING 3): This document concludes base font = 15px. That conclusion was wrong. Confirmed canonical value: 13px (`toolskin.css:287`). All 15px references below are superseded by RULING 3.
 ## (Paste this section at the bottom of _rebuild-visual-audit.md)
 
 ---

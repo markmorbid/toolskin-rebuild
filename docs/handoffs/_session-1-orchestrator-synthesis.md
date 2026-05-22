@@ -733,9 +733,9 @@ Wave 1.6 executed: Playwright build-time tooling installed at `tools/visual-audi
 ### Reconciliation actions completed (W1.6.6)
 
 - `_rebuild-design-dna.md` — prepended a binding "Wave 1.6 Visual Audit Reconciliation" block; §B3 / §B5 / §D1 marked SUPERSEDED inline; §F7 marquee + §H logo-system corrections recorded.
-- `_in-house-skills-update-todo.md` — Day 2 skill-delta items corrected (15px not 13px; 6-step weight ladder, no 800; explicit radius ladder; logo-system finalization item added).
+- `_in-house-skills-update-todo.md` — Day 2 skill-delta items corrected (15px not 13px; 6-step weight ladder, no 800; explicit radius ladder; logo-system finalization item added). ⚠ RULING 3 (2026-05-21): SUPERSEDED. 13px confirmed from `toolskin.css:287`.
 - This synthesis — Wave 1.6 outcome recorded (this section).
 
 ### Binding for Phase E + Session 2
 
-Phase E `toolskin-architecture/SKILL.md` §23 (Wave 1.6 Visual Audit appendix) encodes `_rebuild-visual-audit.md` + the owner annotations + these 3 revisions as the binding visual ground truth. The §22 refusal patterns reflect the withdrawn Resolution #3 (no 800 weight). S1 (Session 2) implements primitives from the **15px base / 6-step weight ladder / explicit radius ladder** — a minor S1 spec-doc amendment, no sub-agent re-dispatch.
+Phase E `toolskin-architecture/SKILL.md` §23 (Wave 1.6 Visual Audit appendix) encodes `_rebuild-visual-audit.md` + the owner annotations + these 3 revisions as the binding visual ground truth. The §22 refusal patterns reflect the withdrawn Resolution #3 (no 800 weight). S1 (Session 2) implements primitives from the **15px base / 6-step weight ladder / explicit radius ladder** — a minor S1 spec-doc amendment, no sub-agent re-dispatch. ⚠ RULING 3 (2026-05-21): SUPERSEDED. 13px confirmed from `toolskin.css:287`.

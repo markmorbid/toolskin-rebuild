@@ -146,7 +146,7 @@ Borders derived from surface context:
 --ts-fs-sm:  calc(var(--ts-fs) * 0.75);    /* 12px — captions */
 --ts-fs-md:  calc(var(--ts-fs) * 0.8125);  /* 13px — body small */
 --ts-fs-lg:  calc(var(--ts-fs) * 0.875);   /* 14px — body alt */
---ts-fs-xl:  calc(var(--ts-fs) * 0.9375);  /* 15px */
+--ts-fs-xl:  calc(var(--ts-fs) * 0.9375);  /* xl step — STALE 16px-base ladder; rebuild canon base = 13px per RULING 3 (toolskin.css:287) */
 --ts-fs-2xl: calc(var(--ts-fs) * 1.125);   /* 18px */
 --ts-fs-3xl: calc(var(--ts-fs) * 1.25);    /* 20px */
 --ts-fs-4xl: calc(var(--ts-fs) * 1.5);     /* 24px */

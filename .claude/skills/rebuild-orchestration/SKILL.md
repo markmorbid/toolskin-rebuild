@@ -89,7 +89,7 @@ TIER 5 — SUPPORTING
   13. apcach (build-time tooling, not a skill)
 ```
 
-When ECC design-system audit flags a Toolskin intentional choice (chip strip edge-fade gradient, Space Grotesk, OKLCH-derived colors, harmonic 1.125 ladder, 15px base font, explicit radius ladder 4/6/8/10/16, substring distribution selectors per cascade-sensitivity rule) → flag is informational only, Toolskin's in-house authority wins.
+When ECC design-system audit flags a Toolskin intentional choice (chip strip edge-fade gradient, Space Grotesk, OKLCH-derived colors, harmonic 1.125 ladder, 13px base font (RULING 3), explicit radius ladder 4/6/8/10/16, substring distribution selectors per cascade-sensitivity rule) → flag is informational only, Toolskin's in-house authority wins.
 
 ## Pattern 5 — Agent owns interactive installs
 

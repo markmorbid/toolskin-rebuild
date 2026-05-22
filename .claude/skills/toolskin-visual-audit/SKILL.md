@@ -40,7 +40,7 @@ Do **not** invoke for greenfield design from scratch — that's not what this is
 
 These values were confirmed by the Wave 1.6 visual audit (May 2026) against the running toolskin.css and owner real-Chrome captures. Use these in any rebuild work, not the showcase's inline comments.
 
-- **Base font size:** `--ts-fs-base: 15px` (not 13px, not 16px)
+- **Base font size:** `--ts-fs-base: 13px` (RULING 3, 2026-05-21 — confirmed `toolskin.css:287`; Wave 1.6's "15px" was an instrumentation error)
 - **Font weight ladder:** 300 / 400 / 500 / 600 / 700 / 900 (6 steps — NO 800 weight; Space Grotesk ships 300–700 max under SIL OFL)
 - **H1 weight:** 700 (`--ts-font-weight-bold`), **H2 weight:** 600 (`--ts-font-weight-semibold`)
 - **Radius base:** `--ts-radius-base: 8px`
@@ -72,7 +72,7 @@ toolskin-rebuild/                    ← canonical project (all work here)
 
 Canonical token namespaces (rebuild):
 
-- `--ts-fs-*` — font sizes (base=15px, harmonic ladder)
+- `--ts-fs-*` — font sizes (base=13px, harmonic ladder)
 - `--ts-sp-*` — spacing (4pt grid, tiered scale; `--ts-sp-1..--ts-sp-24`)
 - `--ts-radius-*` — radii (explicit: 4/6/8/10/16/9999/0)
 - `--ts-line-height-*` — `none`, `display`, `tight`, `snug`, `normal`, `relaxed`, `loose`, `very-loose`
@@ -190,7 +190,7 @@ console.log(JSON.stringify(probe, null, 2));
 
 If `color` resolves to `rgb(12, 13, 15)` on an orange-bg button, you've found a token leak (should be `var(--ts-on-accent)` → white).
 
-If `fsBase` resolves to anything other than `15px`, the base font token isn't applied correctly.
+If `fsBase` resolves to anything other than `13px`, the base font token isn't applied correctly.
 
 ### 5. Component grading rubric
 
@@ -332,6 +332,6 @@ Do not pad with prose. The user wants the verdict, the proof, and the path forwa
 ## Versioning
 
 - **v1.0** — 2026-05-19. Initial extraction from the Toolskin pitchdeck refactor session.
-- **v1.1** — 2026-05-19. Rebuild reconciliation: Wave 1.6 binding values (15px base, 6-step weight ladder, explicit radius 4/6/8/10/16), repo isolation amendment (reference vs rebuild paths), script path update (tools/visual-audit/ not scripts/), direct-primitive-reference gotcha added (#10), font-weight-800 gotcha added (#11), token namespace updated for rebuild.
+- **v1.1** — 2026-05-19. Rebuild reconciliation: Wave 1.6 binding values (15px base, 6-step weight ladder, explicit radius 4/6/8/10/16), repo isolation amendment (reference vs rebuild paths), script path update (tools/visual-audit/ not scripts/), direct-primitive-reference gotcha added (#10), font-weight-800 gotcha added (#11), token namespace updated for rebuild. **[RULING 3 correction, 2026-05-21: the "15px base" recorded above was an instrumentation error — canonical base is 13px, confirmed `toolskin.css:287`; this skill's probe assertion and rebuild-context value table are corrected accordingly.]**
 
 Update `## Toolskin-specific gotchas` whenever a new bug-pattern shows up that costs more than one iteration to fix.
