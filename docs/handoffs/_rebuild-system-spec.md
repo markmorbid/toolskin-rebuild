@@ -15,18 +15,21 @@
 > DERIVATIVES in `:where(:root, :root *)`. §3.1, §6.2, §10.1–10.3 should be read
 > with this correction.
 >
-> ⚠ CORRECTION 2 (2026-05-22 — owner-flagged on the Session-3 sandbox): §3.4 / §3.5
-> / §3.7 mix the surface toward `--ts-text-primary` / `--ts-text-muted` for the
-> bright / hover / disabled / border steps. Those inks are not neutral — they
-> carry a blue-violet hue (~271°) plus a small chroma, so `color-mix(in oklch, …)`
-> ROTATES a chromatic surface's hue (an accent border drifted to a desaturated
-> pink — probe: hue 38.8° → 352.9°). Fix shipped in `surfaces.css`: mix toward
-> `--ts-ink-contrast` / `--ts-ink-muted` — the same inks with hue + chroma
-> stripped (`oklch(from … l 0 none)`). Lightness still flips by theme, so the
-> contrast step stays theme-correct; the surface keeps its own hue. Probe-verified:
-> accent derivatives hold hue 38.8° exactly in dark and light. Mix targets
-> `--ts-bg-body` (floor recession) and `--ts-accent` (active/focus tint) are
-> intentional and left unchanged.
+> ⚠ CORRECTION 2 (2026-05-22 — owner-flagged on the Session-3 sandbox): §3.2 / §3.4
+> / §3.5 / §3.7 mix surfaces toward `--ts-text-primary` / `--ts-text-muted` /
+> `--ts-bg-body`. None of those is a true neutral — each carries a hue (~264–271°)
+> plus chroma, so `color-mix(in oklch, …)` ROTATES a chromatic surface's hue (an
+> accent border drifted to pink; the accent dark-step drifted to a darker pink
+> instead of a darker orange). Fix shipped in `surfaces.css`: three hue-locked
+> anchors — `--ts-tone-contrast` / `--ts-tone-muted` / `--ts-tone-floor` — each
+> being one of those colours with hue + chroma stripped (`oklch(from … l 0 none)`,
+> keeping only the theme-flipping lightness). Every bright / hover / disabled /
+> border / dark / active step mixes toward an anchor; only `--ts-accent` stays a
+> hued mix target (intentional tint on focus + active-border). Probe-verified:
+> accent derivatives hold hue 38.8° exactly in dark and light; neutral surfaces
+> unchanged. Also: the §10.1 border knobs were too weak for real UI — raised from
+> 10/25/20/8 to **20/40/34/10** (`--ts-mix-perc` / `-hover` / `-active` /
+> `-disabled`); the sandbox sliders fine-tune them live.
 
 **Sub-agent:** S2 — System Layer Architect
 **Wave:** 2.2 (sequential — dispatched alone, consumes S1's locked output; S3-S6 dispatch in parallel after this)

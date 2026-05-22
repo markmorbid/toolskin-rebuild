@@ -19,14 +19,19 @@
  * every element against that element's own inherited inputs, and :where() keeps
  * specificity at (0,0,0) so any component rule wins.
  *
- * ── HUE-LOCKED CONTRAST INKS (correction to spec §3.4 / §3.5 / §3.7) ─────────
- * The spec mixes surfaces toward --ts-text-primary / --ts-text-muted for the
- * bright / hover / disabled / border steps. Those inks are NOT neutral — they
- * carry a blue-violet hue (~271deg) and a small chroma, so color-mix(in oklch)
- * ROTATES the hue of any chromatic surface (an accent border drifted to pink).
- * Fix: mix toward --ts-ink-contrast / --ts-ink-muted — the same inks with hue
- * + chroma stripped (hue: none -> powerless). Lightness still flips by theme,
- * so the contrast step is theme-correct; the surface keeps its own hue.
+ * ── HUE-LOCKED MIX ANCHORS (correction to spec §3.2 / §3.4 / §3.5 / §3.7) ────
+ * The spec mixes surfaces toward --ts-text-primary / --ts-text-muted / --ts-bg-body
+ * for the bright / hover / disabled / border / dark / active steps. None of those
+ * is a true neutral — each carries a hue (text inks ~271deg blue-violet, the body
+ * floor ~264deg) plus some chroma, so color-mix(in oklch) ROTATES the hue of any
+ * CHROMATIC surface: an accent border drifted to pink; an accent dark-step
+ * drifted to a darker pink instead of a darker orange.
+ * Fix: mix toward the --ts-tone-* anchors — those same colors with hue + chroma
+ * stripped (oklch(from … l 0 none) -> powerless hue). Each anchor keeps only the
+ * source's LIGHTNESS, which still flips by theme, so the contrast / recession
+ * step stays theme-correct while the surface keeps its own hue exactly.
+ * Only --ts-accent stays a real (hued) mix target — accent tint is intentional
+ * on the focus + active-border steps.
  *
  * Color discipline (Rule 15 / spec §3 preamble): every formula composes S1
  * primitives via color-mix(in oklch, ...) — never `in srgb`, never a raw color
@@ -45,17 +50,25 @@
   --ts-this-bg-grad-bright-pct: 6%;      /* mix amount for the bright gradient stop */
   --ts-this-bg-grad-dark-pct:   14%;     /* mix amount for the dark gradient stop */
 
-  --ts-mix-perc:          10%;  /* base border contrast */
-  --ts-mix-perc-hover:    25%;  /* hover border contrast */
-  --ts-mix-perc-active:   20%;  /* active border (accent mix) */
-  --ts-mix-perc-disabled: 8%;   /* disabled border */
+  /* Border-contrast knobs. Tuned UP from the spec's 10/25/20/8 (§10.1) — at 10%
+   * the base border was barely perceptible and unusable for real UI. These give
+   * a clearly-visible resting edge with distinct hover / active states; the
+   * sandbox sliders fine-tune them live. Disabled stays low on purpose. */
+  --ts-mix-perc:          20%;  /* base border — clearly visible resting edge */
+  --ts-mix-perc-hover:    40%;  /* hover border — distinct state lift */
+  --ts-mix-perc-active:   34%;  /* active border (accent mix) — reads as engaged */
+  --ts-mix-perc-disabled: 10%;  /* disabled border — intentionally faint (low contrast = inactive) */
 
-  /* Achromatic contrast inks — text-ink LIGHTNESS only, hue + chroma stripped
-   * (hue: none -> powerless in color-mix). Mixing a chromatic surface toward
-   * these steps lightness/contrast WITHOUT rotating the surface's hue. They
-   * still flip with the theme because the source ink's lightness flips. */
-  --ts-ink-contrast: oklch(from var(--ts-text-primary) l 0 none);
-  --ts-ink-muted:    oklch(from var(--ts-text-muted)   l 0 none);
+  /* Hue-locked mix anchors — the LIGHTNESS of a key colour with hue + chroma
+   * stripped (hue: none -> powerless in color-mix). Mixing a chromatic surface
+   * toward one of these steps lightness WITHOUT rotating the surface's hue.
+   * Each anchor's lightness still flips with the theme, so steps stay
+   * theme-correct.  -contrast: toward the text-primary pole (raise / hover /
+   * border).  -muted: toward the muted-text pole (disabled).  -floor: toward
+   * the page-floor pole (dark recession / active). */
+  --ts-tone-contrast: oklch(from var(--ts-text-primary) l 0 none);
+  --ts-tone-muted:    oklch(from var(--ts-text-muted)   l 0 none);
+  --ts-tone-floor:    oklch(from var(--ts-bg-body)      l 0 none);
 
   /* Surface input (spec §3.1). The component or a parent layout block sets this;
    * the page floor defaults to bg-1 so a chainless element still resolves. */
@@ -65,11 +78,10 @@
 /* ── DERIVATIVES — recomputed per element ──────────────────────────────────── */
 :where(:root, :root *) {
 
-  /* Subtractive variants — recess toward the body floor (spec §3.2).
-   * Mix target is --ts-bg-body: an intentional blend toward the page floor. */
-  --ts-this-bg-dark:   color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body) var(--ts-this-bg-grad-dark-pct));
-  --ts-this-bg-dark-1: color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body) calc(var(--ts-this-bg-grad-dark-pct) * 0.15));
-  --ts-this-bg-dark-2: color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body) calc(var(--ts-this-bg-grad-dark-pct) * 0.85));
+  /* Subtractive variants — recess toward the (hue-locked) floor pole (spec §3.2) */
+  --ts-this-bg-dark:   color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-floor) var(--ts-this-bg-grad-dark-pct));
+  --ts-this-bg-dark-1: color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-floor) calc(var(--ts-this-bg-grad-dark-pct) * 0.15));
+  --ts-this-bg-dark-2: color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-floor) calc(var(--ts-this-bg-grad-dark-pct) * 0.85));
 
   /* Transparent-mixed variants — see-through surfaces (spec §3.3) */
   --ts-this-bg-dim:   color-mix(in oklch, var(--ts-this-bg), transparent 12%);
@@ -77,27 +89,27 @@
   --ts-this-bg-dim-3: color-mix(in oklch, var(--ts-this-bg), transparent 50%);
   --ts-this-bg-dim-4: color-mix(in oklch, var(--ts-this-bg), transparent 60%);
 
-  /* Additive variant — raise toward the (hue-locked) contrast ink (spec §3.4) */
-  --ts-this-bg-bright: color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-contrast) var(--ts-this-bg-grad-bright-pct));
+  /* Additive variant — raise toward the (hue-locked) contrast pole (spec §3.4) */
+  --ts-this-bg-bright: color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-contrast) var(--ts-this-bg-grad-bright-pct));
 
   /* State variants — hover / active / focus / disabled (spec §3.5) */
-  --ts-this-bg-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-contrast) 20%);
-  --ts-this-bg-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body)      15%);  /* floor blend */
-  --ts-this-bg-focus:    color-mix(in oklch, var(--ts-this-bg), var(--ts-accent)       20%);  /* accent tint */
-  --ts-this-bg-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-muted)    60%);
+  --ts-this-bg-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-contrast) 20%);
+  --ts-this-bg-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-floor)    15%);
+  --ts-this-bg-focus:    color-mix(in oklch, var(--ts-this-bg), var(--ts-accent)        20%);  /* accent tint */
+  --ts-this-bg-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-muted)    60%);
 
   /* Borders — base + all 5 states (spec §3.7).
-   * Neutral steps use the hue-locked ink; active/focus stay accent by design. */
-  --ts-this-bg-border:          color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-contrast) var(--ts-mix-perc));
-  --ts-this-bg-border-0:        color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-contrast) calc(var(--ts-mix-perc) * 0.5));
-  --ts-this-bg-border-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-contrast) var(--ts-mix-perc-hover));
-  --ts-this-bg-border-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-accent)       var(--ts-mix-perc-active));
-  --ts-this-bg-border-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-ink-muted)    var(--ts-mix-perc-disabled));
+   * Neutral steps use the hue-locked contrast/muted poles; active + focus stay
+   * accent by design. */
+  --ts-this-bg-border:          color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-contrast) var(--ts-mix-perc));
+  --ts-this-bg-border-0:        color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-contrast) calc(var(--ts-mix-perc) * 0.5));
+  --ts-this-bg-border-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-contrast) var(--ts-mix-perc-hover));
+  --ts-this-bg-border-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-accent)        var(--ts-mix-perc-active));
+  --ts-this-bg-border-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-muted)    var(--ts-mix-perc-disabled));
   --ts-this-bg-border-focus:    var(--ts-accent);
   --ts-this-bg-focus-outline:   var(--ts-accent);
 
-  /* Gradients — three coherent states (spec §3.6).
-   * hover-grad stops shift toward the hue-locked ink; active-grad toward floor. */
+  /* Gradients — three coherent states (spec §3.6). Every mix is hue-locked. */
   --ts-this-bg-grad: linear-gradient(
       var(--ts-this-bg-grad-angle),
       var(--ts-this-bg-bright),
@@ -106,14 +118,14 @@
   );
   --ts-this-bg-hover-grad: linear-gradient(
       var(--ts-this-bg-grad-angle),
-      color-mix(in oklch, var(--ts-this-bg-bright), var(--ts-ink-contrast) 15%),
-      color-mix(in oklch, var(--ts-this-bg-dark),   var(--ts-ink-contrast) 8%),
+      color-mix(in oklch, var(--ts-this-bg-bright), var(--ts-tone-contrast) 15%),
+      color-mix(in oklch, var(--ts-this-bg-dark),   var(--ts-tone-contrast) 8%),
       var(--ts-this-bg-hover)
   );
   --ts-this-bg-active-grad: linear-gradient(
       var(--ts-this-bg-grad-angle),
-      color-mix(in oklch, var(--ts-this-bg),      var(--ts-bg-body) 8%),
-      color-mix(in oklch, var(--ts-this-bg-dark), var(--ts-bg-body) 15%),
+      color-mix(in oklch, var(--ts-this-bg),      var(--ts-tone-floor) 8%),
+      color-mix(in oklch, var(--ts-this-bg-dark), var(--ts-tone-floor) 15%),
       var(--ts-this-bg-active)
   );
 }
