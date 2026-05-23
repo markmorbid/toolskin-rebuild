@@ -1,0 +1,236 @@
+# Extracted Blocks Catalog — Section 3: Effects + Special Sections
+
+**Sub-agent:** 3  ·  **Chunk:** root effects files  ·  **Files:** 2  ·  **Total bytes:** ~22,231
+
+## Files in this chunk
+
+| File | Lines | Bytes | Block type |
+|---|---|---|---|
+| grid-bg-anim.css | 307 | 10,356 | special section / effects — CSS grid background engine v1.0, dot-grid overlay, mouse-parallax interactive variant, accent-glow + grain composition, plus `:root` fallback defaults for the JS `ToolskinGridBg._applyVars` runtime |
+| effects-layers-special-sections-css.css | 494 | 11,875 | effects + animations — scroll-reveal class library (`.ts-fade-*`/`.ts-zoom-*`/`.ts-slide-*`/`.ts-flip-up`/`.ts-bounce-in`/`.ts-reveal`), glow tokens, shimmer/scanline/headline-sweep, focus-ring, skeleton loader, scroll-driven parallax, viewport-paused utility |
+
+## Per-file catalog
+
+### grid-bg-anim.css
+
+- **Path:** `docs/references/toolskin.css_extracted-core-blocks-to-refactor/grid-bg-anim.css`
+- **Lines:** 307  ·  **Bytes:** 10,356
+- **Block type:** special-section / effects engine — the CSS half of `ToolskinGridBg` (audit catalog §1 — "gridBg" config L84 + `_applyVars` L4349). Renders the radial-glow + grid-line + dual-dot-layer composition; supports `.anim`, `.interactive`, and `.ts-grain` modifier combinations.
+- **Key `--ts-*` tokens declared (in the `:root` fallback block, L290–307):**
+  - Grid geometry: `--ts-grid-size`, `--ts-grid-width` (`!important`, defaults to `--ts-grid-size`), `--ts-grid-height` (`!important`, defaults to `--ts-grid-size`), `--ts-point-gap-width` (`!important`), `--ts-point-gap-height` (`!important`)
+  - Grid stroke: `--ts-line-color: var(--ts-border-1)`, `--ts-grid-line-opacity: 40%`
+  - Dot layers: `--ts-dot-alpha: 1`, `--ts-dot-color: var(--ts-accent)`, `--ts-dot-size: 2px`, `--ts-dot-scale: 1`, `--ts-dot-speed: 50s`
+  - Glow + noise: `--ts-grid-gradient-opacity: 0.2`, `--ts-grid-gradient-pos: bottom left`, `--ts-grid-noise-opacity: 0.75`
+- **Key `--ts-*` tokens referenced (consumed but not declared here):**
+  - Surface chain (legacy): `--ts-bg-0` (L24, L152), `--ts-bg-1` (L21, L24), `--ts-bg-2` (L22), `--ts-bg-3` (L23)
+  - Accent chain: `--ts-accent` (L168, L176, L298 default), `--ts-accent-dim` (L22), `--ts-accent-dim-2` (L23)
+  - Border chain: `--ts-border-1` (L193, L195, L294 default)
+- **Custom property registration:** `@property --animation-offset-y` (L5–9) — registers a `<percentage>` typed property, non-inheriting, `initial-value: 0%`. This is the only `@property` declaration in the file and powers the `move-performant-var` keyframes (L273–281) used by `.anim.grid-bg.interactive .ts-section-color-overlay:after` (L253–257).
+- **Key `.ts-*` / `.grid-bg` classes defined:**
+  - Base: `.grid-bg_v1`, `.grid-bg_v1.ba-grid` (+ `:before`/`:after` pseudos), `.grid-bg`, `.ba-grid` (+ `::before`/`::after`)
+  - Modifiers: `.anim.grid-bg_v1`, `.anim.grid-bg`, `.grid-bg.interactive`, `.anim.grid-bg.interactive`, `.anim.interactive.grid-bg`, `.ba-grid.ts-grain`, `.ba-grid:not(.ts-grain)::before`
+  - Inner overlays: `.ts-section-color-overlay` + `:before`/`:after`, including `.grid-bg .ts-section-color-overlay`, `.grid-bg.interactive .ts-section-color-overlay`, `.anim.grid-bg .ts-section-color-overlay:after`/`:before`
+  - State guards: `.grid-bg[style*="animation-play-state: paused"] #ts-gradient-canvas` and `.ts-oce-video-bg` (L107–112); `.grid-bg[style*="animation-play-state: paused"] .ts-section-color-overlay::before/::after` (L284–287)
+  - Z-index protector: `.grid-bg > *:not(.ts-section-color-overlay, .ts-effects-layer, .ts-color-overlay-layer, .ts-grain-layer, #ts-gradient-canvas, .ts-oce-video-bg, canvas, iframe)` (L102–105)
+  - Theme override: `[data-theme="light"] .ba-grid::after` (L200–202) — bumps `--ts-grid-line-opacity` to `0.9` in light mode
+- **Keyframes defined:** `move_v1` (L83–91), `move-performant` (L263–271), `move-performant-var` (L273–281)
+- **Owner annotations VERBATIM with line numbers:**
+  - L3: `/* CSS GRID BACKGROUND ANIMTION V_1.0 */`
+  - L93: `/* END CSS GRID BACKGROUND ANIMTION */`
+  - L95–99: `/* ─── Grid-bg z-index stack ───────────────────────────────────────────\n\t0 = ba-grid:before (grid lines)\n\t0 = ts-section-color-overlay (dot layers)\n\t5 = all other children (content)\n\t───────────────────────── */`
+  - L101: `/* Content sits above all background layers — exclude effect/overlay layers */`
+  - L114–115: `/* Overlay: z-index 3 so dots sit above grid lines(1) and color overlay(2).\n\tNo isolation — grain is on its own topmost layer now, no conflict. */`
+  - L140–142: `/* TODO: position:relative removed — was creating stacking context that\n\tfought with effects-layer absolute positioning. Grid-bg on effects-layer\n\tinherits position:absolute from .ts-effects-layer instead. */`
+  - L145–148: `/* ── Grid background base ─────────────────────────────────────────────\n\tOpaque dark background-color. Gradient glow on a separate pseudo-element\n\tso it doesn't fight with background-image !important chains.\n\tAll values driven by CSS custom properties (set by JS ToolskinGridBg). */`
+  - L155–157: `/* ── Accent glow (::before when NO ts-grain) ─────────────────────────\n\tWhen ts-grain IS present, ::before is used for noise (set by .ts-grain rules) —\n\tthe glow is applied on the section background-image instead. */`
+  - L172–173: `/* When ts-grain IS present: glow baked into the section background-image\n\tusing 30% accent (safe color-mix, no calc) */`
+  - L180–182: `/* ── Grid lines (::after) ────────────────────────────────────────────\n\tStays fixed (doesn't move with mouse parallax).\n\tOpacity controlled by --ts-grid-line-opacity (set by JS). */`
+  - L220: `/* Outer dot layer — smaller, subtler (restored to initial design values) */`
+  - L226: `/* Inner dot layer — scale factor controllable via --ts-dot-scale */`
+  - L259–261 (commented-out block): `/*.anim.interactive.grid-bg .ts-section-color-overlay:before {\n\tanimation: move-performant-var var(--ts-dot-speed) linear infinite; \n\t}*/`
+  - L283: `/* Pause all child animations when section is off-screen (set by JS IntersectionObserver) */`
+  - L289: `/* --- Grid-bg CSS fallback defaults (overridden by JS ToolskinGridBg._applyVars) --- */`
+  - L296: `/* Dot color: default = accent. JS overrides with color-mix for alpha control. */`
+  - L300: `/* Inner dot layer scale factor — controllable via editor */`
+- **Refactor flags:**
+  - **Legacy surface tokens** — every gradient in `.grid-bg_v1.ba-grid` (L21–24) and the `background-color: var(--ts-bg-0)` on `.ba-grid` (L152) reference the *flat numbered* `--ts-bg-0..3` chain, NOT the new `--ts-this-bg` derivative chain installed in the surfaces engine (commit `a0ea9e4`). Per the rebuild Phase 0–5 mandate (`design-tokens-2.0` skill), these MUST migrate to `--ts-this-bg-*` derivatives so the engine propagates correctly when this layer is nested inside any surface.
+  - **`!important` ladders** — L21–25, L43, L46, L57–58, L102–105 (z-index), L107–112 (display kill), L197 (background-size), L249 (interactive background-image override), L286–287 (animation-play-state). The engine relies on `!important` to win over inline styles set by JS, but each instance is a long-term coupling debt.
+  - **`@keyframes ts-shimmer` duplicate** is not in this file (it lives in §8c — see file 2). However, this file defines `move-performant` AND `move-performant-var` — the variable-driven version uses `@property --animation-offset-y` to enable smooth `translateY` interpolation, while the non-var version animates `transform` directly. Both coexist; selector specificity decides which fires per modifier combo. Worth a council note: are both needed, or can the var-version subsume the legacy one?
+  - **Stacking-context comment at L114–115 contradicts L95–99 z-index map.** L95–99 says "0 = ts-section-color-overlay"; L116–119 then declares `z-index: 3` on `.grid-bg .ts-section-color-overlay`. The comment at L114–115 documents the resolution ("dots above grid lines(1) and color overlay(2)") but the L95–99 ASCII map needs updating.
+  - **Hardcoded animation durations** (`6.4s`, `3.2s`, `1.6s`, `30s`, `12.4s`) inside `.anim.grid-bg_v1:after`, `.ts-section-color-overlay:after/:before` (L72, L76, L80, L235, L240). These should likely flow through `--ts-dot-speed` or a new `--ts-grid-anim-*` token family — currently the only tokenized speed is `--ts-dot-speed` (default `50s`) used in the `move-performant-var` chain.
+  - **Light-theme opacity bump** (L200–202) is the only theme-aware rule in the file. Other tokens (`--ts-dot-color`, `--ts-grid-gradient-opacity`) likely also need light-mode counterparts; currently they cascade from the accent + border chain which IS theme-aware, so it may be intentional. Flag for council.
+  - **`@property --animation-offset-y` declared at top-level** without a `--ts-` prefix — breaks the namespace contract. Should be `--ts-animation-offset-y` to align with the rebuild's `--ts-*` token discipline.
+- **Session 3 relationship:**
+  - **DIRECTLY consumes the surface chain** via `--ts-bg-0..3` (L21–24, L152). This is the most surface-chain-dependent file in the chunk — when surfaces.css migrates to `--ts-this-bg-*` derivatives, this file's gradient backgrounds will need a parallel migration or they will paint with stale tokens.
+  - **Future text/states/effects files would NOT inherit from this** — this file is a leaf consumer of the system layer, not a contributor. It declares `--ts-grid-*` and `--ts-dot-*` tokens that are component-tier, not system-tier (despite being in `:root`). Per the three-tier architecture (`token-validation` skill), these `--ts-grid-*` and `--ts-dot-*` tokens are arguably mis-placed at the System tier; they are Component-tier defaults that happen to be globally declared because the JS engine writes them globally.
+  - The grain glow at L174–178 uses `color-mix(in srgb, var(--ts-accent) 30%, transparent)` — a safe color-mix pattern that bypasses OKLCH but works without `apcach`. Future effects refactor should consider migrating to the `apcach`-aware color-mix patterns used in `surfaces.css`.
+- **Gap vs `_code-audit-catalog.md`:**
+  - (a) Already covered: the full `:root` fallback block (L290–307) is documented at audit catalog L541 verbatim. `_applyVars` runtime writes (L241 of catalog) match the declared fallback tokens. The `.grid-bg.interactive` selector is listed at L669. `@keyframes move_v1`, `move-performant`, `move-performant-var` all appear in the §4.8 keyframes inventory (catalog L562).
+  - (b) NEW vs catalog: the **z-index stack comment** at L95–99 with the explicit ASCII layering map is design intelligence not surfaced in the catalog. The **L140–142 TODO** explaining why `position: relative` was removed (stacking-context fight with `.ts-effects-layer`) is critical architectural lore — catalog mentions `.ts-effects-layer` exists (L579) but not this resolution history. The **L114–115 comment** documenting the z-index 3 conflict resolution is also new. The dual-path (with-grain vs without-grain) glow architecture at L155–178 — using `::before` for glow when no grain, and baking glow into `background-image` when `.ts-grain` IS present — is undocumented in the catalog. The `@property --animation-offset-y` registration is not in the catalog's CSS variables section (§4.11).
+  - (c) Contradictions: catalog L604 lists `--ts-line-color` as written by `ToolskinGridBg._applyVars` "if `lineColor` set", but the CSS fallback declares it unconditionally as `var(--ts-border-1)`. Cascade order matters here — if JS does NOT call `_applyVars` (e.g., FOUC, JS disabled), the CSS fallback wins. The catalog wording slightly understates how robust the CSS-only fallback is. Also, L283 ("set by JS IntersectionObserver") matches catalog §6's viewport manager but is not cross-referenced.
+
+---
+
+### effects-layers-special-sections-css.css
+
+- **Path:** `docs/references/toolskin.css_extracted-core-blocks-to-refactor/effects-layers-special-sections-css.css`
+- **Lines:** 494  ·  **Bytes:** 11,875
+- **Block type:** effects + animations + utilities — a heterogeneous file owner-tagged with multiple section headers (`§8` Effects & Animations, `§8b` Scroll Reveal, `§8c` Shimmer/Skeleton, `§8e` Framework Configuration, `§6d` Scroll-Driven Parallax, `§6e` Viewport Paused). Combines the scroll-reveal library, glow/shimmer tokens, focus-ring, scanline, headline-sweep, skeleton, and CSS scroll-driven parallax into one extracted blob.
+- **Key `--ts-*` tokens declared (in the `:root` block at L219–239):**
+  - Glow shadows: `--ts-glow-accent` (dual-shadow, `color-mix` of `--ts-accent` 50% + 25%), `--ts-glow-success`, `--ts-glow-danger`, `--ts-glow-info` (parallel structures, each consuming the matching status token)
+  - Easing curves: `--ts-easing-standard: cubic-bezier(0.4, 0, 0.2, 1)`, `--ts-easing-emph: cubic-bezier(0.2, 0.8, 0.2, 1)`, `--ts-easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1)`
+  - Durations: `--ts-dur-fast: 120ms`, `--ts-dur-base: 220ms`, `--ts-dur-slow: 420ms`
+- **Key `--ts-*` tokens referenced (consumed):**
+  - Easing: `--ts-ease-out` (L22, L155), `--ts-ease-spring` (L156)
+  - Durations: `--ts-dur-slower` (L22, L155), `--ts-dur-fast` (L203)
+  - Surface chain (legacy): `--ts-bg-1` (L273), `--ts-bg-2` (L367, twice), `--ts-bg-3` (L367)
+  - Color tokens: `--ts-text-primary` (L271, L309, L311, L313), `--ts-accent` (L221, L310, L312, L325), `--ts-success` (L224), `--ts-danger` (L227), `--ts-info` (L230)
+  - Radius: `--ts-radius-base` (L276), `--ts-radius-sm` (L370)
+  - Parallax data inputs: `--ts-parallax-from` (L467, default `-10%`), `--ts-parallax-to` (L470, default `10%`)
+- **Key `.ts-*` / `[data-*]` classes defined:**
+  - Reveal base set (all `opacity: 0` + transition): `.ts-reveal`, `.ts-fade-in`, `.ts-fade-up`, `.ts-fade-left`, `.ts-fade-right`, `.ts-zoom-in`, `.ts-zoom-out`, `.ts-slide-up`, `.ts-slide-left`, `.ts-slide-right`, `.ts-flip-up`, `.ts-bounce-in` (L9–25)
+  - Visible counterparts: each reveal class paired with `.ts-visible` (L36–49 and per-class blocks L28–173)
+  - Stagger delays: `.ts-delay-1` (100ms) through `.ts-delay-6` (600ms) (L176–198)
+  - Speed variants: `.ts-reveal-fast`/`-slow`/`-slower` (L201–214)
+  - Glow utilities: `.ts-glow`, `.ts-glow-success`, `.ts-glow-danger`, `.ts-glow-info` (L241–255)
+  - Shimmer/skeleton/scanline/headline: `.ts-shimmer` (L268–277), `.ts-scanline` + `::after` (L280–294), `.ts-headline-sweep` (L307–319), `.ts-skeleton` (L366–371)
+  - Focus ring: `:where(button, a, input, textarea, select, [tabindex]):focus-visible` (L324–328)
+  - Config utility: `.ts-no-grain` + `:root.ts-no-grain .ts-grain` (with `::before` variants, L386–394)
+  - Locomotive guards: `[data-scroll-container]:not(.ts-grain)`, `[data-scroll]`, plus the transform-suppression and reveal-preservation selector sets (L399–443) — **NOTE: these duplicate the same rules in `configuration-utilities.css` cataloged by sub-agent 2**
+  - Scroll-driven parallax: `[data-ts-parallax]` + `> [data-ts-parallax-bg]` (L451–474), inside `@supports (animation-timeline: view())`
+  - Viewport-paused: `.ts-viewport-paused`, `.ts-viewport-paused .ts-marquee-text-text` (L487–493)
+- **Keyframes defined:** `ts-shimmer` declared TWICE in this file (L258–266 AND L373–381), `ts-headline-sweep` (L297–305), `ts-parallax-shift` (L465–473, inside `@supports`)
+- **Owner annotations VERBATIM with line numbers:**
+  - L1–3: `/* ═══════════════════════════════════════════════════════════════════════\n\t§8  EFFECTS & ANIMATIONS\n\t═══════════════════════════════════════════════════════════════════════ */`
+  - L6: `/* ─── §8b  Scroll Reveal Animations (Safe, Smooth, Auto-Applied) ────── */`
+  - L8: `/* Base reveal classes - hidden until visible */`
+  - L27: `/* Fade In - Simple opacity */`
+  - L51: `/* Fade Up - Classic reveal from bottom */`
+  - L62: `/* Fade Left - From right side */`
+  - L73: `/* Fade Right - From left side */`
+  - L84: `/* Zoom In - Scale up */`
+  - L95: `/* Zoom Out - Scale down */`
+  - L106: `/* Slide Up - Larger movement */`
+  - L117: `/* Slide Left - Larger horizontal */`
+  - L128: `/* Slide Right - Larger horizontal */`
+  - L139: `/* Flip Up - 3D flip */`
+  - L151: `/* Bounce In - Spring effect */`
+  - L164: `/* Generic reveal class */`
+  - L175: `/* Stagger delays for sequential animations */`
+  - L200: `/* Speed variants */`
+  - L216–218: `/* ============================================================\n   E. EFFECT TOKENS — glow, noise, shimmer, scanline, grain\n   ============================================================ */`
+  - L257: `/* Shimmer — for skeleton loaders and highlights */`
+  - L279: `/* Scanline — for game/tech UIs */`
+  - L296: `/* Marquee shimmer (for hero headlines) */`
+  - L321–323: `/* ============================================================\n   FOCUS RING — accessibility\n   ============================================================ */`
+  - L330–332: `/* ============================================================\n   PREFERS-REDUCED-MOTION\n   ============================================================ */`
+  - L340: `/* Reduced motion support */`
+  - **L341 (HIGH-VALUE OWNER NOTE):** `/* REFACTOR NOTE: Commented this annoying   restirction. we need another way of making this, oit locks functional elements and interactions severally, depending on the suer system preferences and it's not a desired  behaviour, it sa hardcoded blocking result. */`
+  - **L343 (HIGH-VALUE OWNER NOTE):** `/* REFACTOR NOTE: disbaled this featued  while on development process. is annoyuind and should be enabled  manually by user. it affects */`
+  - L344–362 (commented-out @media block): the entire `@media (prefers-reduced-motion: reduce)` reveal-class kill block is wrapped in `/* ... */` — disabled intentionally per the L341/L343 owner notes
+  - L364: `/* ─── §8c  Shimmer / Skeleton ───────────────────────────────────────── */`
+  - L383: `/* ─── §8e  Framework Configuration Utilities ─────────────────────────── */`
+  - L385: `/* Disable noise/grain globally or per-element */`
+  - L398: `/* Locomotive Scroll container */`
+  - L407: `/* CRITICAL: Prevent Locomotive from breaking layouts */`
+  - L408–410: `/* Don't apply transforms to layout-critical elements.\n\tNOTE: .ts-fade-up and .ts-fade-in are EXCLUDED — they need their\n\ttransforms for scroll reveal animations to work correctly. */`
+  - L421–422: `/* Reveal animations MUST keep their transforms even with [data-scroll].\n\tThe transition handles the animation; Locomotive should not override. */`
+  - L433: `/* Only allow transforms on specifically tagged parallax elements */`
+  - L439: `/* Allow transforms on inner elements that aren't animated */`
+  - L448: `/* ─── §6d  CSS SCROLL-DRIVEN PARALLAX ────────────────────────────────────── */`
+  - L449: `/* Pure CSS parallax using animation-timeline: view() */`
+  - L476: `/* Disable parallax for reduced motion */`
+  - L484: `/* ─── §6e  VIEWPORT PAUSED UTILITY ────────────────────────────────────── */`
+  - L485: `/* Applied by ToolskinViewportManager when elements are off-screen */`
+- **Refactor flags:**
+  - **CRITICAL — `@keyframes ts-shimmer` defined TWICE inside this single file** (L258–266 AND L373–381). The second definition wins (last-defined). The two definitions are NOT equivalent: L258–266 animates `background-position` from `-200% 0` to `200% 0`; L373–381 animates from `100% 50%` to `0% 50%`. This means `.ts-shimmer` (L268–277) declares an animation that is *interpreted by the L373 definition*, not the L258 definition. This is the same `ts-shimmer` double-declaration the audit catalog flagged at L921 ("declared twice — lines 10841 and a later ~22xxx") — confirmed here as living in the SAME extracted file.
+  - **`prefers-reduced-motion` deliberately disabled** for the reveal-class kill (L344–362 commented out). Owner notes (L341, L343) explain this is intentional because the kill was "annoying" and "locks functional elements". This is an a11y regression that the rebuild MUST address with a saner approach — e.g., opt-in `--ts-reveal-allow-reduced-motion` class instead of a blanket disable. Surface to Council and the `accessibility` skill.
+  - **`prefers-reduced-motion` still active for shimmer/sweep** (L333–339) — but `.ts-shimmer` references the `ts-shimmer` keyframes and the kill simply sets `animation: none`. After the rebuild's reveal-motion refactor, decide whether shimmer/sweep should follow the same opt-in pattern as reveals.
+  - **`prefers-reduced-motion` for parallax** (L477–482) is still active and correct.
+  - **Hardcoded values** that should be tokens: `0.18` rgba in `.ts-scanline::after` (L290), `0.85`/`1.15`/`0.3` scale values across zoom/bounce, `40px`/`80px` translate values, `30px` in `.ts-reveal`, `100ms` through `600ms` literal delays in `.ts-delay-*`, `800ms`/`1200ms` in slow/slower variants, `1.4s ease infinite` in `.ts-skeleton`, `1.6s linear infinite` in `.ts-shimmer`, `6s linear infinite` in `.ts-headline-sweep`, `2px solid` focus ring outline width. None of these flow through tokens today — a clear opportunity to expand the `--ts-dur-*` and `--ts-ease-*` token families to cover reveal-distance, scale-from, focus-ring-width, etc.
+  - **Mixed easing namespaces** — file declares `--ts-easing-standard/-emph/-spring` (L233–235) but references `--ts-ease-out/-spring` (L22, L155, L156). The declared `--ts-easing-*` family is never used inside this file (probably referenced elsewhere). Two parallel naming conventions (`--ts-easing-*` vs `--ts-ease-*`) is a hazard — Council should pick one and migrate.
+  - **Mixed duration namespaces** — file declares `--ts-dur-fast/-base/-slow` (L236–238) and ALSO references `--ts-dur-slower` (L22, L155). `--ts-dur-slower` is NOT declared in this file but IS used. The audit catalog §1i (L499) lists the full duration scale `--ts-dur-fast:220ms / -base:300ms / -slow:550ms / -slower:700ms` — but this file's `:root` block declares `--ts-dur-fast: 120ms / -base: 220ms / -slow: 420ms`, **CONTRADICTING the catalog's documented values by 100ms across the board**. Two competing `:root` declarations for the same token family is a serious cascade-order bug waiting to happen.
+  - **`color-mix(in srgb, ...)` everywhere for glow tokens** — same pattern as grid-bg-anim.css's grain glow. Works without `apcach` but bypasses OKLCH. Per the rebuild Phase 0–5 mandate, decide whether `apcach`-aware color-mix patterns should replace these.
+  - **Duplicated Locomotive guards** — L399–443 of this file are byte-for-byte identical (or near-identical) to `configuration-utilities.css` (cataloged by sub-agent 2). When the rebuild assembles its canonical reveal/effects CSS, ONE of these copies must die.
+  - **Focus-ring `:where()` wrapper** lowers specificity to zero — easy to override, by design. But `border-radius: inherit` (L327) inside `:focus-visible` can produce surprising rings when the target has no border-radius parent — flag for visual audit during effects refactor.
+  - **`outline-offset: 2px` + `outline: 2px solid var(--ts-accent)`** — both hardcoded. Should flow through `--ts-focus-ring-width` and `--ts-focus-ring-offset` tokens for theme tuning.
+  - **`@supports (animation-timeline: view())`** at L451 — correct progressive-enhancement gating. No fallback for non-supporting browsers (Safari pre-26, all of Firefox as of 2026 unless flag enabled). Council should decide whether a JS-driven parallax fallback (audit catalog §1 `ToolskinParallaxFallback`) covers this gap or if a CSS-only translate fallback is needed.
+  - **Scroll-reveal opacity:0 + JS-dependent `.ts-visible`** — without the JS reveal observer (`ToolskinMotion` or equivalent), `.ts-fade-*` content is invisible forever. FOUC + JS-fail risk. Catalog L166 confirms `defaultAnimation:'ts-fade-up'` is auto-applied to `.ts-card, .ts-panel, .demo-card, .ts-pricing-card` — meaning every card on every page hides until JS runs. A `<noscript>` or `:not(:has(script))`-style fallback should be considered.
+- **Session 3 relationship:**
+  - **Indirectly consumes the surface chain** via `--ts-bg-1/-2/-3` in `.ts-shimmer` (L273) and `.ts-skeleton` (L367 — uses `--ts-bg-2` twice and `--ts-bg-3` once for the gradient stops). When surfaces.css migrates to `--ts-this-bg-*`, the shimmer/skeleton gradients will paint wrong unless they migrate too.
+  - **Text-layer dependency** — the file references `--ts-text-primary` in `.ts-shimmer` (L271) and `.ts-headline-sweep` (L309, L311, L313). When the future text-layer system file lands, this file's references will be the canary that confirms the text chain is wired correctly.
+  - **States-layer dependency** — `.ts-glow-success/-danger/-info` reference `--ts-success`, `--ts-danger`, `--ts-info`. The states/status token chain is a prerequisite for this file to render correctly.
+  - **Effects-tier propagation** — the `--ts-glow-*` tokens at L219–231 are themselves SYSTEM-tier composite tokens (built from accent/status primitives via `color-mix`). When these are referenced by components (buttons with `.ts-glow`, cards, etc.), the chain is Primitive (`--ts-accent`) → System (`--ts-glow-accent`) → Component (`.ts-btn.ts-glow`). The three-tier architecture is correctly followed for the glow family — this is a positive precedent for other system-tier composite tokens.
+  - **Future effects.css** (if extracted) would consume `--ts-easing-*` and `--ts-dur-*` declared here. The namespace conflict (see refactor flag above) MUST be resolved before any downstream extraction.
+- **Gap vs `_code-audit-catalog.md`:**
+  - (a) Already covered: `.ts-shimmer` double-declaration is flagged at catalog L921. `.ts-skeleton` is mentioned at catalog L402–403 and §4.10 L587. `.ts-grain`/`.ts-no-grain` are listed in the State/utility class index at catalog L590. The full reveal class family `.ts-fade-up/-in/-left/-right`, `.ts-zoom-in/-out`, `.ts-slide-up/-left/-right`, `.ts-flip-up`, `.ts-bounce-in`, `.ts-reveal` is implied by catalog L90 (motion config) and L166 (defaultAnimation:'ts-fade-up'). `.ts-glow*`, `.ts-shimmer`, `.ts-scanline`, `.ts-headline-sweep` appear in §4.8 (keyframes) and §4.10 (component families). `--ts-glow-*` family is implied but not explicitly listed in §4.6/4.7 of the catalog. `@keyframes ts-headline-sweep`, `ts-parallax-shift` are in catalog §4.8.
+  - (b) NEW vs catalog: the **deliberate disabling of `prefers-reduced-motion`** with the L341/L343 owner refactor notes is **NOT in the catalog and is critical design intelligence** — the rebuild's accessibility posture depends on understanding why this was disabled. The **`--ts-glow-*` token declarations** (L219–231) are not explicitly listed in catalog §4.6/4.7 (only mentioned implicitly via the `.ts-glow*` class family at L580). The **`--ts-easing-standard/-emph/-spring` declarations** (L233–235) and the **`--ts-dur-fast/-base/-slow` declarations with VALUES DIFFERENT FROM catalog §1i** (L236–238) are new and represent a token-conflict bug not surfaced anywhere. The **stagger delay class family** `.ts-delay-1..6` is not in the catalog. The **`.ts-reveal-fast/-slow/-slower` speed variants** are not in the catalog. The **focus-ring `:where()` rule** is not in the catalog. The **`.ts-viewport-paused` + `.ts-viewport-paused .ts-marquee-text-text`** rules at L487–493 are partially covered (catalog mentions ToolskinViewportManager) but the explicit CSS selectors are not.
+  - (c) Contradictions:
+    - **`--ts-dur-*` value mismatch** between this file (L236–238: 120/220/420ms) and catalog §1i (L499: 220/300/550/700ms). This is a real cascade contradiction — which `:root` declaration wins depends on file load order, and the rebuild must pick a single source of truth.
+    - **`--ts-easing-*` vs `--ts-ease-*` namespace conflict** — catalog §1i (L499) lists `--ts-ease-out/in-out/spring/snap/out-slow/in-slow/in-out-slow/out-linear/in-linear` AND `--ts-panel-ease-out/in`. This file ADDS a parallel `--ts-easing-*` family (L233–235). Two namespaces for the same concept.
+    - **`@keyframes ts-shimmer` double-declaration is INSIDE THIS FILE** (L258 and L373) — catalog L921 said "lines 10841 and ~22xxx" referring to the original `toolskin.css`. The extraction preserved BOTH copies into one file, making the bug even more obvious and unambiguous. Useful for the rebuild — kill the right copy.
+    - **Reveal-motion `prefers-reduced-motion` discrepancy** — catalog does not surface that the reveal kill is commented out; an external reader following the catalog would assume a11y is respected.
+    - **Locomotive guard duplication** between this file (L399–443) and `configuration-utilities.css` (cataloged by sub-agent 2) — both files extract the same source rules, creating a near-certain redundancy in any naive paste-assembly.
+
+---
+
+## Annotation index
+
+- grid-bg-anim.css:L3: `/* CSS GRID BACKGROUND ANIMTION V_1.0 */`
+- grid-bg-anim.css:L93: `/* END CSS GRID BACKGROUND ANIMTION */`
+- grid-bg-anim.css:L95-99: `/* ─── Grid-bg z-index stack ───────────────────────────────────────── 0 = ba-grid:before (grid lines) 0 = ts-section-color-overlay (dot layers) 5 = all other children (content) ───────────────────────── */`
+- grid-bg-anim.css:L101: `/* Content sits above all background layers — exclude effect/overlay layers */`
+- grid-bg-anim.css:L114-115: `/* Overlay: z-index 3 so dots sit above grid lines(1) and color overlay(2). No isolation — grain is on its own topmost layer now, no conflict. */`
+- grid-bg-anim.css:L140-142: `/* TODO: position:relative removed — was creating stacking context that fought with effects-layer absolute positioning. Grid-bg on effects-layer inherits position:absolute from .ts-effects-layer instead. */`
+- grid-bg-anim.css:L145-148: `/* ── Grid background base ───────────────────────────────────────────── Opaque dark background-color. Gradient glow on a separate pseudo-element so it doesn't fight with background-image !important chains. All values driven by CSS custom properties (set by JS ToolskinGridBg). */`
+- grid-bg-anim.css:L155-157: `/* ── Accent glow (::before when NO ts-grain) ───────────────────────── When ts-grain IS present, ::before is used for noise (set by .ts-grain rules) — the glow is applied on the section background-image instead. */`
+- grid-bg-anim.css:L172-173: `/* When ts-grain IS present: glow baked into the section background-image using 30% accent (safe color-mix, no calc) */`
+- grid-bg-anim.css:L180-182: `/* ── Grid lines (::after) ──────────────────────────────────────────── Stays fixed (doesn't move with mouse parallax). Opacity controlled by --ts-grid-line-opacity (set by JS). */`
+- grid-bg-anim.css:L220: `/* Outer dot layer — smaller, subtler (restored to initial design values) */`
+- grid-bg-anim.css:L226: `/* Inner dot layer — scale factor controllable via --ts-dot-scale */`
+- grid-bg-anim.css:L259-261: `/*.anim.interactive.grid-bg .ts-section-color-overlay:before { animation: move-performant-var var(--ts-dot-speed) linear infinite; }*/` (commented-out rule)
+- grid-bg-anim.css:L283: `/* Pause all child animations when section is off-screen (set by JS IntersectionObserver) */`
+- grid-bg-anim.css:L289: `/* --- Grid-bg CSS fallback defaults (overridden by JS ToolskinGridBg._applyVars) --- */`
+- grid-bg-anim.css:L296: `/* Dot color: default = accent. JS overrides with color-mix for alpha control. */`
+- grid-bg-anim.css:L300: `/* Inner dot layer scale factor — controllable via editor */`
+- effects-layers-special-sections-css.css:L1-3: `/* ═══════════════════════════════════════════════════════════════════════ §8  EFFECTS & ANIMATIONS ═══════════════════════════════════════════════════════════════════════ */`
+- effects-layers-special-sections-css.css:L6: `/* ─── §8b  Scroll Reveal Animations (Safe, Smooth, Auto-Applied) ────── */`
+- effects-layers-special-sections-css.css:L8: `/* Base reveal classes - hidden until visible */`
+- effects-layers-special-sections-css.css:L27: `/* Fade In - Simple opacity */`
+- effects-layers-special-sections-css.css:L51: `/* Fade Up - Classic reveal from bottom */`
+- effects-layers-special-sections-css.css:L62: `/* Fade Left - From right side */`
+- effects-layers-special-sections-css.css:L73: `/* Fade Right - From left side */`
+- effects-layers-special-sections-css.css:L84: `/* Zoom In - Scale up */`
+- effects-layers-special-sections-css.css:L95: `/* Zoom Out - Scale down */`
+- effects-layers-special-sections-css.css:L106: `/* Slide Up - Larger movement */`
+- effects-layers-special-sections-css.css:L117: `/* Slide Left - Larger horizontal */`
+- effects-layers-special-sections-css.css:L128: `/* Slide Right - Larger horizontal */`
+- effects-layers-special-sections-css.css:L139: `/* Flip Up - 3D flip */`
+- effects-layers-special-sections-css.css:L151: `/* Bounce In - Spring effect */`
+- effects-layers-special-sections-css.css:L164: `/* Generic reveal class */`
+- effects-layers-special-sections-css.css:L175: `/* Stagger delays for sequential animations */`
+- effects-layers-special-sections-css.css:L200: `/* Speed variants */`
+- effects-layers-special-sections-css.css:L216-218: `/* ============================================================ E. EFFECT TOKENS — glow, noise, shimmer, scanline, grain ============================================================ */`
+- effects-layers-special-sections-css.css:L257: `/* Shimmer — for skeleton loaders and highlights */`
+- effects-layers-special-sections-css.css:L279: `/* Scanline — for game/tech UIs */`
+- effects-layers-special-sections-css.css:L296: `/* Marquee shimmer (for hero headlines) */`
+- effects-layers-special-sections-css.css:L321-323: `/* ============================================================ FOCUS RING — accessibility ============================================================ */`
+- effects-layers-special-sections-css.css:L330-332: `/* ============================================================ PREFERS-REDUCED-MOTION ============================================================ */`
+- effects-layers-special-sections-css.css:L340: `/* Reduced motion support */`
+- effects-layers-special-sections-css.css:L341: `/* REFACTOR NOTE: Commented this annoying   restirction. we need another way of making this, oit locks functional elements and interactions severally, depending on the suer system preferences and it's not a desired  behaviour, it sa hardcoded blocking result. */`
+- effects-layers-special-sections-css.css:L343: `/* REFACTOR NOTE: disbaled this featued  while on development process. is annoyuind and should be enabled  manually by user. it affects */`
+- effects-layers-special-sections-css.css:L344-362: (commented-out @media (prefers-reduced-motion: reduce) block killing all reveal classes — disabled intentionally per L341/L343)
+- effects-layers-special-sections-css.css:L364: `/* ─── §8c  Shimmer / Skeleton ───────────────────────────────────────── */`
+- effects-layers-special-sections-css.css:L383: `/* ─── §8e  Framework Configuration Utilities ─────────────────────────── */`
+- effects-layers-special-sections-css.css:L385: `/* Disable noise/grain globally or per-element */`
+- effects-layers-special-sections-css.css:L398: `/* Locomotive Scroll container */`
+- effects-layers-special-sections-css.css:L407: `/* CRITICAL: Prevent Locomotive from breaking layouts */`
+- effects-layers-special-sections-css.css:L408-410: `/* Don't apply transforms to layout-critical elements. NOTE: .ts-fade-up and .ts-fade-in are EXCLUDED — they need their transforms for scroll reveal animations to work correctly. */`
+- effects-layers-special-sections-css.css:L421-422: `/* Reveal animations MUST keep their transforms even with [data-scroll]. The transition handles the animation; Locomotive should not override. */`
+- effects-layers-special-sections-css.css:L433: `/* Only allow transforms on specifically tagged parallax elements */`
+- effects-layers-special-sections-css.css:L439: `/* Allow transforms on inner elements that aren't animated */`
+- effects-layers-special-sections-css.css:L448: `/* ─── §6d  CSS SCROLL-DRIVEN PARALLAX ────────────────────────────────────── */`
+- effects-layers-special-sections-css.css:L449: `/* Pure CSS parallax using animation-timeline: view() */`
+- effects-layers-special-sections-css.css:L476: `/* Disable parallax for reduced motion */`
+- effects-layers-special-sections-css.css:L484: `/* ─── §6e  VIEWPORT PAUSED UTILITY ────────────────────────────────────── */`
+- effects-layers-special-sections-css.css:L485: `/* Applied by ToolskinViewportManager when elements are off-screen */`
