@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en" data-ts-offcanvas-editor>
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- Theme before first paint (matches ToolskinTheme storageKey + auto mode) to reduce FOUC -->
+  <script>
+    (function () {
+      try {
+        var key = 'ts-theme-mode';
+        var m = localStorage.getItem(key);
+        if (!m) return;
+        if (m === 'auto') {
+          m = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (m === 'dark' || m === 'light') {
+          document.documentElement.setAttribute('data-theme', m);
+          document.documentElement.setAttribute('data-ts-theme', m);
+        }
+      } catch (e) { /* ignore */ }
+    })();
+  </script>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toolskin · Design System Showcase</title>
+
+  <!-- Google Fonts — render-blocking (critical for preloader + body text, prevents FOUT) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <!-- Other CDN assets (FA, Ionicons, Lenis, GSAP, etc.) loaded dynamically by toolskin-assets.js -->
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  </noscript>
+  <link rel="icon" href="https://satsea.io/toolskin-showcase/assets/img/favicon.ico" sizes="any">
+  <link rel="icon" href="https://satsea.io/toolskin-showcase/assets/img/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="https://satsea.io/toolskin-showcase/assets/img/apple-touch-icon.png">
+
+  <!-- Preloader critical CSS — inline so the lock is available at first paint,
+       before the external stylesheet finishes loading. Mirrors generator/index.html
+       <style id="ts-preloader-boot"> pattern. -->
+   <style id="ts-preloader-boot">
+      html.ts-preloader-lock,
+      html.ts-preloader-lock body {
+        overflow: hidden !important;
+      }
+
+      html.ts-preloader-lock #ts-app,
+      html.ts-preloader-lock #ts-main {
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
+
+      html.ts-preloader-lock .ts-preloader {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+      }
+
+      /* Hide sidebar during preloader (it's outside #ts-main) */
+      html.ts-preloader-lock .ts-oce-panel.ts-oce--open,
+      html.ts-preloader-lock .ts-oce-panel.ts-oce--open .ts-oce-fab {
+        opacity: 0 !important;
+        z-index: -20 !important;
+
+        pointer-events: none !important;
+      }
+    </style>
+
+  <!-- Toolskin System (local — render-critical) -->
+ <script>
+      document.documentElement.classList.add('ts-preloader-lock');
+     window.__TOOLSKIN_CONFIG__ = {
+        cursor: { mode: 'simple', follower: true, easing: 0.42, followerEasing: 0.12 },
+        reveal: { enabled: false, useGSAP: false, stagger: 0.05, rootMargin: '0px 0px -40px 0px' },
+        smoothScroll: { enabled: false, duration: 1.2 },
+      };
+      // Font-gate: reveal preloader text only after the two fonts it uses are loaded.
+      // Uses document.fonts.load() for specific families (resolves fast, doesn't wait for FA).
+      Promise.all([
+        document.fonts.load('600 1em "Space Grotesk"'),
+        document.fonts.load('400 1em "JetBrains Mono"')
+      ]).then(function () {
+        document.documentElement.classList.add('ts-fonts-ready');
+      });
+    </script>
+  <!-- <link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin-merged-2.css" /> -->
+  <!-- <link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin-merged-3.2.css" /> -->
+    <link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css" />
+
+  <!-- ToolskinAssets — dynamic asset pipeline (must load before toolskin.js early boot) -->
+  <script src="https://satsea.io/toolskin-showcase/assets/js/toolskin-assets.js" defer></script>
+  <!-- Toolskin Framework — early boot IIFE kicks off ToolskinAssets.loadAll() -->
+  <script src="https://satsea.io/toolskin-showcase/assets/js/toolskin.js" defer></script>
+  <script src="https://satsea.io/toolskin-showcase/assets/js/toolskin-uikit.js" defer></script>
+  <script src="https://satsea.io/toolskin-showcase/assets/js/ts-gradient-canvas.js" defer></script>
+  <script src="https://satsea.io/toolskin-showcase/assets/js/ts-offcanvas-editor.js" defer></script>
+  <script src="https://satsea.io/toolskin-showcase/assets/js/toolskin.showcase.js" defer></script>
+
+  <!-- External CDN libs (Lenis, Locomotive, GSAP, Color.js) are now loaded dynamically by toolskin-assets.js -->
+
+  <!-- Showcase config — must be before toolskin.js so __tsPreloaderEarlyBoot reads it -->
+ 
+  <!-- Toolskin Configuration -->
+  <script>
+    window.addEventListener('ts:ready', () => {
+      console.log('✅ Toolskin Framework Initialized');
+      console.log('Config:', Toolskin.config);
+    });
+
+  
+
+
+  </script>
+
+</head>
+
+<body>
+  <!-- Synchronous lock — add class BEFORE any content element is parsed/painted.
+       The deferred toolskin.js IIFE is a safety net, not the primary mechanism. -->
+
+
+  <div id="ts-preloader" class="ts-preloader" >
+    <div class="ts-preloader__brand">
+      <div class="ts-preloader__logo">
+        <svg class="ts-preloader__bolt" viewBox="0 0 384 512" fill="currentColor" ><path d="M0 256L28.5 28c2-16 15.6-28 31.8-28H228.9c15 0 27.1 12.1 27.1 27.1c0 3.2-.6 6.4-1.6 9.5L192 192h174.8c21.8 0 36.3 22.6 27.2 42.6L179.2 481.2c-7.5 16.4-30.4 12.6-32.5-5.4L128 256z"/></svg>
+        TOOL<em>SKIN</em>
+      </div>
+      <div class="ts-preloader__bar-wrap"><span class="ts-preloader__bar"></span></div>
+      <div class="ts-preloader__hint">Loading Surface Lab</div>
+    </div>
+  </div>
+
+  <main id="ts-main" class="ts-main ts-showcase ts-landing">
+
+     <!--  FIXED NAV ────── -->
+      <nav class="ts-nav-fixed" id="ts-topbar">
+        <div class="ts-topbar__logo">
+          TOOL<em>SKIN</em>
+          <span>Design System v1.0</span>
+        </div>
+
+        <div class="ts-nav-fixed__links ts-nav-truncate ts-auto-icon" id="ts-primary-menu">
+          <a href="#top">Top</a>
+          <a href="#tokens">Tokens</a>
+          <a href="#surface-presets">Surfaces</a>
+          <a href="#accent">Accent Colors</a>
+          <a href="../index.html_toolskin-showcase%5Blatest_showcase_reference%5D.html" class="ts-nav-link ts-btn ts-btn--primary" data-ts-icon="ion:color-palette-outline" data-tooltip="Navigate to the Tokens and Surfaces Color Lab from the Design System.">Showcase</a>
+          <a href="../generator/index.html" class="ts-nav-link ts-btn ts-btn--outline" data-ts-icon="ion:options-outline" data-tooltip="Check the Banner generator, a branded interface fully built with toolksin design system that  lets you  design your own brand banner for simple   featured images or  covers. a sample of this  system power.">Banner UI</a>
+          <a href="../generator/patterns.html" class="ts-nav-link ts-btn ts-btn--ghost" data-ts-icon="ion:grid-outline" data-tooltip="Another awesome  ui like the banner generator but focused on   live  generating and testing   fully  exportable adn usable css patterns with their css code  ready to use here or anywhere.">Patterns</a>
+
+        </div>
+        <!-- The "More" Button -->
+        <div id="navbar-collapse" class="ts-nav-more">
+          <button class="ts-more-trigger">•••</button>
+          <div id="navbar-extend" class="ts-nav-dropdown"></div>
+        </div>
+        <!-- Theme Toggle (right side of menu) -->
+        <!-- <button class="ts-theme-toggle" data-theme-toggle aria-label="Toggle theme">
+          <span class="ts-icon ts-theme-icon-light" data-ts-icon="fa-solid fa-sun" ></span>
+          <span class="ts-icon ts-theme-icon-dark" data-ts-icon="fa-solid fa-moon" ></span>
+        </button> 
+        <button class="theme-toggle theme-toggle--force-motion" type="button" data-theme-toggle title="Toggle theme" aria-label="Toggle theme">
+          <svg xmlns="http://www.w3.org/2000/svg"  width="1em" height="1em" fill="currentColor" class="theme-toggle__expand" viewBox="0 0 32 32">
+            <clipPath id="theme-toggle__expand__cutout">
+              <path d="M0-11h25a1 1 0 0017 13v30H0Z"></path>
+            </clipPath>
+            <g clip-path="url(#theme-toggle__expand__cutout)">
+              <circle cx="16" cy="16" r="8.4"></circle>
+              <path d="M18.3 3.2c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3S14.7.9 16 .9s2.3 1 2.3 2.3zm-4.6 25.6c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3-1 2.3-2.3 2.3-2.3-1-2.3-2.3zm15.1-10.5c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zM3.2 13.7c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3S.9 17.3.9 16s1-2.3 2.3-2.3zm5.8-7C9 7.9 7.9 9 6.7 9S4.4 8 4.4 6.7s1-2.3 2.3-2.3S9 5.4 9 6.7zm16.3 21c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm2.4-21c0 1.3-1 2.3-2.3 2.3S23 7.9 23 6.7s1-2.3 2.3-2.3 2.4 1 2.4 2.3zM6.7 23C8 23 9 24 9 25.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z"></path>
+            </g>
+          </svg>
+        </button>-->
+        <label class=" theme-toggle theme-toggle--force-motion theme-toggle--toggled" data-theme-toggle title="Toggle theme">
+          <input type="checkbox" />
+          <span class="theme-toggle-sr">Toggle theme</span>
+          <svg xmlns="http://www.w3.org/2000/svg"  width="1em" height="1em" fill="currentColor" class="theme-toggle__expand" viewBox="0 0 32 32">
+            <clipPath id="theme-toggle__expand__cutout">
+              <path d="M0-11h25a1 1 0 0017 13v30H0Z" />
+            </clipPath>
+            <g clip-path="url(#theme-toggle__expand__cutout)">
+              <circle cx="16" cy="16" r="8.4" />
+              <path d="M18.3 3.2c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3S14.7.9 16 .9s2.3 1 2.3 2.3zm-4.6 25.6c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3-1 2.3-2.3 2.3-2.3-1-2.3-2.3zm15.1-10.5c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zM3.2 13.7c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3S.9 17.3.9 16s1-2.3 2.3-2.3zm5.8-7C9 7.9 7.9 9 6.7 9S4.4 8 4.4 6.7s1-2.3 2.3-2.3S9 5.4 9 6.7zm16.3 21c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm2.4-21c0 1.3-1 2.3-2.3 2.3S23 7.9 23 6.7s1-2.3 2.3-2.3 2.4 1 2.4 2.3zM6.7 23C8 23 9 24 9 25.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z" />
+            </g>
+          </svg>
+        </label>
+        <a class="ts-btn ts-btn--icon ts-back_top-nav ts-fixed-btn" href="#top" data-icon="ion:arrow-up-outline" id="ts-top-btn"><span class="sr-only">Back to top</span></a>
+        <div class="ts-ui-select" data-ts-ui-select-placeholder="Search frameworks...">
+          <select class="ts-ui-select__native">
+            <option value="react" data-icon="fa-brands fa-react">React</option>
+            <option value="vue" data-icon="fa-brands fa-vuejs">Vue.js</option>
+            <option value="angular" data-icon="fa-brands fa-angular">Angular</option>
+            <option value="svelte" data-icon="fa-solid fa-fire">Svelte</option>
+            <option value="vanilla" data-icon="fa-brands fa-js-square">Vanilla JS</option>
+          </select>
+        </div>
+      </nav>
+
+
+    <!--  HERO — effects on dedicated layer elements, not section pseudo-elements -->
+    <section class="ts-section ts-hero gradient-canvas ts-hero-centered" id="top">
+      <!-- Canvas auto-injected by ts-gradient-canvas.js into .gradient-canvas#top -->
+
+      <!-- Layer stack: canvas(0) → grid-lines(1) → color-overlay(2) → dots(3) → content(5) → grain(7)
+           Dot grid: classes on SECTION so ToolskinGridBg receives mouse events.
+           Overlay element is direct child so CSS vars cascade from section inline styles. -->
+      <div class="ts-effects-layer ba-grid" ></div>
+      <div class="ts-color-overlay-layer" style="background: color-mix(in srgb, var(--ts-bg-0) 80%, transparent);">
+      </div>
+      <div class="ts-section-color-overlay" ></div>
+      <div class="ts-container ts-relative ts-z-1 ts-flex-row  ts-center ts-fullwidth" style="z-index: 5;">
+        <div class="ts-hero-content ts-flex-col">
+          <div class="ts-hero__badge">
+            <span class="ts-icon ts-icon-dot" data-ts-icon="fa-solid fa-circle" ></span>
+            Design System · v1.0.0 · 2026
+          </div>
+
+          <h1 class="ts-hero-title ">
+            TOOL<span class="ts-gradient-text">SKIN</span>
+          </h1>
+
+          <p class="ts-lead ts-hero-lead ">
+            A token-driven CSS design system built for WordPress, web applications, and UI toolkits. One stylesheet.
+            Infinite control.
+          </p>
+
+          <div class="ts-hero__actions ">
+            <button class="ts-btn ts-btn--primary ts-btn--lg" data-modal-open="modal-demo">
+              <span class="ts-icon" data-ts-icon="fa-solid fa-bolt" ></span> View Components
+            </button>
+            <a href="#tokens" class="ts-btn ts-btn--outline ts-btn--lg">
+              <span class="ts-icon" data-ts-icon="fa-solid fa-code" ></span> Design Tokens
+            </a>
+          </div>
+
+          <div class="theme-swatches ">
+            <span class="ts-accent-label">Accent</span>
+            <div class="theme-swatch" data-color="#ff5500" onclick="Toolskin.setAccentHex('#ff5500')" data-tooltip="Orange">
+            </div>
+            <div class="theme-swatch" data-color="#00e5ff" onclick="Toolskin.setAccentHex('#00e5ff')" data-tooltip="Cyan">
+            </div>
+            <div class="theme-swatch" data-color="#2efc86" onclick="Toolskin.setAccentHex('#2efc86')" data-tooltip="Green">
+            </div>
+            <div class="theme-swatch" data-color="#a855f7" onclick="Toolskin.setAccentHex('#a855f7')" data-tooltip="Purple">
+            </div>
+            <div class="theme-swatch" data-color="#f7931a" onclick="Toolskin.setAccentHex('#f7931a')" data-tooltip="Bitcoin">
+            </div>
+            <div class="theme-swatch" data-color="#ec4899" onclick="Toolskin.setAccentHex('#ec4899')" data-tooltip="Pink">
+            </div>
+          </div> 
+        </div>
+       
+      </div>
+
+      <!-- Grain layer: TOPMOST — texturizes everything via mix-blend-mode -->
+      <div class="ts-grain-layer ts-grain ts-grain--flickered" ></div>
+
+      <!-- decorative accent glow blob -->
+      <div class="glow-bulb-2" id="ts-hero-glow" style="display:none"></div>
+    </section>
+
+    <!-- Accent band: gradients + text use per-element accent tokens -->
+    <section class="ts-section ts-section--accent-band ts-section--fullbleed ts-grain ts-grain--strong"
+      aria-label="Accent highlight" id="accent">
+      <div class="ts-container ts-text-center">
+        <span class="ts-label">Live accent</span>
+        <h2 class="ts-display-editorial ts-mt-4">One engine — surfaces, gradients, controls</h2>
+        <p class="ts-caption ts-mt-3 ts-max-w-lg ts-mx-auto">Foreground colors and accent gradients follow
+          <code>--ts-accent</code> on
+          every element, so nested components stay in sync when the theme or accent changes.
+        </p>
+        <div class="ts-mt-6">
+          <a href="#tokens" class="ts-btn ts-btn--secondary">Open token lab</a>
+        </div>
+      </div>
+    </section>
+
+    <!--  SECTION: DESIGN TOKENS ──────────────────────────────────── -->
+    <section class="ts-section ts-bg-grad-surface-0" id="tokens">
+      <div class="ts-container">
+        <div class="ts-section-divider rounded ts-zoom-in">
+          <h2>§1 — Design Tokens</h2>
+        </div>
+
+        <!-- Color palette -->
+        <span class="ts-label ">Surfaces — ts-surface-0 through ts-surface-5</span>
+        <div class="ts-row  ">
+          <div class="ts-flex-col ts-gap-1">
+            <div class="ts-surface-0 ts-rounded ts-border ts-swatch"></div>
+            <span class="ts-caption">bg-0</span>
+          </div>
+          <div class="ts-flex-col ts-gap-1">
+            <div class="ts-surface-1 ts-rounded ts-border ts-swatch"></div>
+            <span class="ts-caption">bg-1</span>
+          </div>
+          <div class="ts-flex-col ts-gap-1">
+            <div class="ts-surface-2 ts-rounded ts-border ts-swatch"></div>
+            <span class="ts-caption">bg-2</span>
+          </div>
+          <div class="ts-flex-col ts-gap-1">
+            <div class="ts-surface-3 ts-rounded ts-border ts-swatch"></div>
+            <span class="ts-caption">bg-3</span>
+          </div>
+          <div class="ts-flex-col ts-gap-1">
+            <div class="ts-surface-4 ts-rounded ts-border ts-swatch"></div>
+            <span class="ts-caption">bg-4</span>
+          </div>
+          <div class="ts-flex-col ts-gap-1">
+            <div class="ts-surface-5 ts-rounded ts-border ts-swatch"></div>
+            <span class="ts-caption">bg-5</span>
+          </div>
+          <div class="ts-flex-col ts-gap-1">
+            <div class="ts-swatch ts-swatch--accent"></div>
+            <span class="ts-caption">accent</span>
+          </div>
+          <div class="ts-flex-col ts-gap-1">
+            <div class="ts-swatch ts-swatch--accent-dim"></div>
+            <span class="ts-caption">accent-dim</span>
+          </div>
+          <div class="ts-flex-col ts-gap-1">
+            <div class="ts-swatch ts-swatch--alt"></div>
+            <span class="ts-caption">alt</span>
+          </div>
+          <div class="ts-flex-col ts-gap-1">
+            <div class="ts-swatch ts-swatch--success"></div>
+            <span class="ts-caption">success</span>
+          </div>
+          <div class="ts-flex-col ts-gap-1">
+            <div class="ts-swatch ts-swatch--warning"></div>
+            <span class="ts-caption">warning</span>
+          </div>
+          <div class="ts-flex-col ts-gap-1">
+            <div class="ts-swatch ts-swatch--danger"></div>
+            <span class="ts-caption">danger</span>
+          </div>
+        </div>
+
+        <!-- Token lab: live grid + preview / contrast / export (grouped) -->
+        <span class="ts-label ts-mt-10">S1 — Live token values (theme-aware)</span>
+        <p class="ts-caption ts-mb-4">Hex values read from <code>document.documentElement</code> computed styles.
+          Updates
+          when you toggle light/dark.</p>
+        <div id="token-lab-dynamic-grid" class="ts-mb-10" role="region" aria-label="Live token colors"></div>
+
+        <div class="ts-card ts-mb-10" id="token-lab-hub">
+          <div class="ts-card__title">Preview, contrast &amp; surface export</div>
+          <p class="ts-caption">Accent swatches set both the mini preview and the hex used by <strong>Apply
+              accent
+              to theme</strong>. Gradients change <strong>surface background only</strong> in the preview; contrast-safe
+            text colors stay local to the preview card until you apply an accent swatch.</p>
+
+          <p class="ts-label ts-mb-3"><span class="ts-icon" data-ts-icon="fa-solid fa-sliders"
+              ></span>
+            Accent &amp; surface preview</p>
+          <div class="ts-grid ts-grid--2 ts-gap-3  ts-align-start">
+            <div class="ts-p-8 ts-card ts-surface-1 ts-mb-0">
+              <div class="ts-card__title ts-fs-sm">Preview controls</div>
+              <p class="ts-fs-sm ts-text-secondary">Gradients are <strong>preview-only</strong> surfaces. Use
+                accent presets, then <strong>Apply accent to theme</strong> to sync <code>--ts-accent</code>.</p>
+              <span class="ts-label">Accent presets</span>
+              <div class="ts-row ts-flex-wrap ts-gap-2" id="token-accent-presets"></div>
+              <span class="ts-label">Gradient backgrounds (preview)</span>
+              <div class="ts-row ts-flex-wrap ts-gap-2" id="token-grad-presets"></div>
+              <div class="ts-row ts-gap-2 ts-flex-wrap">
+                <button type="button" class="ts-btn ts-btn--primary" id="token-preview-apply">Apply accent to
+                  theme</button>
+                <button type="button" class="ts-btn ts-btn--secondary" id="token-preview-reset">Reset
+                  preview</button>
+              </div>
+            </div>
+            <div id="token-preview-root" class="ts-p-8 ts-card ts-surface-1">
+              <span class="ts-label ts-mb-2">Mini interface (preview)</span>
+              <p class="ts-fs-xs ts-text-muted">Uses <code>--token-preview-accent</code> /
+                <code>--token-preview-surface</code> on this panel only. Gradient picks adjust readable preview text
+                only.
+              </p>
+              <div class="ts-token-preview-surface ts-rounded ts-p-3">
+                <span class="ts-badge ts-token-preview-accent-text"
+                  style="background: color-mix(in srgb, var(--token-preview-accent), transparent 88%); border: 1px solid color-mix(in srgb, var(--token-preview-accent), transparent 40%);">Preview</span>
+                <p class="ts-caption ts-mt-2 ts-token-preview-accent-text">Accent-driven label</p>
+                <p class="ts-fs-sm" style="color: var(--token-preview-muted);">Secondary text uses preview tokens.</p>
+              </div>
+              <div class="ts-progress ts-mb-3">
+                <div class="ts-progress__bar"
+                  style="width:72%; background: linear-gradient(90deg, var(--token-preview-accent), color-mix(in srgb, var(--token-preview-accent), #000 25%));">
+                </div>
+              </div>
+              <div class="ts-flex ts-gap-3"><button type="button"
+                  class="ts-btn ts-btn--primary ts-flex-1">Primary</button>
+                <button type="button" class="ts-btn ts-btn--secondary ts-flex-1">Secondary</button>
+              </div>
+            </div>
+          </div>
+
+
+          <div class=" ts-p-8 ts-card ts-surface-1" id="surface-contrast-tuning">
+            <div class="ts-h6 ts-mb-2">Global contrast tweak (surface maps)</div>
+            <p class="ts-caption ts-mb-3">Drag for a <strong>live</strong> preview on this page, then <strong>Apply
+                contrast
+                tweak</strong> to write
+              <code class="ts-mono">--ts-text-secondary</code>, <code class="ts-mono">--ts-text-muted</code>, and a
+              slight
+              <code class="ts-mono">--ts-bg-2</code> adjustment into <strong>both</strong> dark and light theme maps
+              (needs
+              <a href="https://colorjs.io/" target="_blank" rel="noopener">Color.js</a>). If Color.js is missing, Apply
+              only
+              previews on the live page via <code class="ts-mono">color-mix</code>. <strong>Clear contrast
+                tweak</strong>
+              reverts the last map apply or removes temporary page overrides.
+            </p>
+            <div class="ts-field ts-mb-2">
+              <label class="ts-field-label" for="surface-contrast-range">Contrast tension <span
+                  class="ts-fs-xs ts-text-muted" id="surface-contrast-value">35</span>%</label>
+              <input type="range" id="surface-contrast-range" min="0" max="100" value="35" class="ts-range"
+                style="width:100%" />
+            </div>
+            <div class="ts-flex-row ts-gap-2 ts-flex-wrap">
+              <button type="button" class="ts-btn ts-btn--primary" id="surface-contrast-apply">Apply contrast
+                tweak</button>
+              <button type="button" class="ts-btn ts-btn--secondary" id="surface-contrast-clear">Clear
+                contrast
+                tweak</button>
+            </div>
+          </div>
+
+
+          <div id="token-surface-export-card" class="ts-p-6 ts-card ts-surface-1">
+            <div class="ts-h6 ts-mb-2">Surface token export (dark + light)</div>
+            <p class="ts-caption ts-mb-3">Current <code>Toolskin</code> surface maps. Optional block appends
+              <strong>live
+                computed</strong> <code>:root</code> values for paste-ready output. Refresh after presets or contrast.
+            </p>
+            <div class="ts-flex-row ts-gap-2 ts-flex-wrap ts-mb-3 ts-items-center">
+              <label class="ts-flex-row ts-gap-2 ts-items-center ts-fs-sm ts-cursor-pointer">
+                <input type="checkbox" id="token-surface-export-include-computed" />
+                Include computed <code>:root</code> snapshot
+              </label>
+            </div>
+            <div class="ts-flex-row ts-gap-2 ts-flex-wrap ts-mb-3">
+              <button type="button" class="ts-btn ts-btn--secondary" id="token-surface-export-refresh">Refresh
+                export</button>
+              <button type="button" class="ts-btn ts-btn--secondary" id="token-surface-export-copy">Copy
+                all</button>
+            </div>
+            <textarea id="token-surface-export" readonly class="ts-input ts-textarea ts-font-mono ts-resizable"
+              rows="22" style="width:100%;min-height:18rem;font-size:12px;line-height:1.45;" spellcheck="false"
+              aria-label="Exported CSS custom properties for dark and light surface tokens"></textarea>
+          </div>
+        </div>
+
+        <!-- Token code reference -->
+        <span class="ts-label">Key Token Reference</span>
+        <div class="ts-grid ts-grid--2  ts-gap-4">
+          <div class="ts-card ts-card--accent-bar">
+            <div class="ts-card__title"><span class="ts-icon" data-ts-icon="fa-solid fa-palette"
+                ></span> &nbsp;Color Engine (HSL)</div>
+            <code class="ts-mono ts-code-block">
+            --ts-accent-h: 18;<br>
+            --ts-accent-s: 100%;<br>
+            --ts-accent-l: 52%;<br>
+            --ts-accent: hsl(h,s,l);<br>
+            --ts-accent-dim: color-mix(…,transparent 82%);<br>
+            --ts-accent-border: color-mix(…,transparent 60%);
+          </code>
+          </div>
+          <div class="ts-card ts-card--accent-bar">
+            <div class="ts-card__title"><span class="ts-icon" data-ts-icon="fa-solid fa-ruler"
+                ></span>
+              &nbsp;Radius (Global)</div>
+            <code class="ts-mono ts-code-block">
+            --ts-radius-base: 10px; ← master<br>
+            --ts-radius-xs: calc(base × 0.3)<br>
+            --ts-radius-sm: calc(base × 0.5)<br>
+            --ts-radius-md: base<br>
+            --ts-radius-lg: calc(base × 1.4)<br>
+            --ts-radius-xl: calc(base × 2)
+          </code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--  SECTION: SURFACE PRESET LAB (isolated dark / light token testing) -->
+    <section class="ts-section ts-section--alt ts-bg-grad-surface-radial-soft" id="surface-presets">
+      <div class="ts-container">
+        <div class="ts-section-divider rounded ts-zoom-in">
+          <h2>§1b — Surface preset lab (testing)</h2>
+        </div>
+        <p class="ts-caption ts-mb-2">Curated background and text tokens (delivered labels). <strong>Dark</strong>
+          presets
+          only update the dark-theme map; <strong>light</strong> presets only update the light-theme map — no
+          cross-mixing.</p>
+        <p class="ts-fs-sm ts-text-secondary ts-mb-4">Each card includes a description, a swatch ramp (surfaces + text),
+          and code for that mode. Use <strong>Apply</strong> or activate the card (click / Enter / Space). Reset
+          restores
+          the factory defaults: <em>Practical · Neutral</em> (dark) and <em>Practical · Clean neutral</em> (light).</p>
+        <p class="ts-fs-sm ts-text-secondary ts-mb-4" id="surface-preset-delivery-notes" style="max-width:52rem;"></p>
+
+        <span class="ts-label ts-mb-4" id="surface-preset-dark-heading">Dark theme versions</span>
+        <div class="ts-grid ts-grid--3 ts-gap-4 ts-mb-10" id="surface-preset-dark-grid" role="group"
+          aria-labelledby="surface-preset-dark-heading"></div>
+
+        <span class="ts-label ts-mb-4" id="surface-preset-light-heading">Light theme versions</span>
+        <div class="ts-grid ts-grid--3 ts-gap-4 " id="surface-preset-light-grid" role="group"
+          aria-labelledby="surface-preset-light-heading"></div>
+
+        <div class="ts-text-center">
+          <button type="button" class="ts-btn ts-btn--danger ts-btn--lg" id="surface-preset-reset" style="width:100%;">
+            Reset surface presets (Practical Neutral · dark &amp; Practical Clean · light)
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!--  FOOTER ─────────── -->
+    <footer class="ts-footer ts-footer--dark" id="footer">
+      <div class="ts-container">
+        <div class="ts-footer-row">
+          <!-- Brand Column -->
+          <div class="ts-footer-column">
+            <div class="ts-topbar__logo ts-fs-base ts-mb-4">TOOL<em>SKIN</em></div>
+            <p class="ts-caption ts-mb-4">A framework-independent design system. Built for
+              real products.</p>
+
+            <!-- Social Links -->
+            <h4 class="ts-label ts-footer-widget-title dashed">Follow Us</h4>
+            <ul class="ts-social-links">
+              <li><a href="#" class="ts-social-link rounded colored" data-brand="github"
+                  data-icon="ion:logo-github"></a>
+              </li>
+              <li><a href="#" class="ts-social-link rounded colored" data-brand="twitter"
+                  data-icon="ion:logo-twitter"></a></li>
+              <li><a href="#" class="ts-social-link rounded colored" data-brand="linkedin"
+                  data-icon="ion:logo-linkedin"></a></li>
+              <li><a href="#" class="ts-social-link rounded colored" data-brand="youtube"
+                  data-icon="ion:logo-youtube"></a></li>
+            </ul>
+          </div>
+
+          <!-- Multi-column Widgets -->
+          <div class="ts-footer-columns">
+            <!-- Framework Links -->
+            <div class="ts-footer-widget">
+              <h3 class="ts-label ts-footer-widget-title dashed">Framework</h3>
+              <div class="ts-footer-menu">
+                <ul class="ts-menu-list">
+                  <li class="ts-menu-item chevron"><a href="#tokens" class="ts-menu-link">Design Tokens</a></li>
+                  <li class="ts-menu-item chevron"><a href="#surface-presets" class="ts-menu-link">Surface presets</a>
+                  </li>
+                  <li class="ts-menu-item chevron"><a href="#buttons" class="ts-menu-link">Components</a></li>
+                  <li class="ts-menu-item chevron"><a href="#layouts" class="ts-menu-link">Layouts</a></li>
+                  <li class="ts-menu-item chevron"><a href="#forms" class="ts-menu-link">Forms</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Resources Links -->
+            <div class="ts-footer-widget">
+              <h3 class="ts-label ts-footer-widget-title dashed">Resources</h3>
+              <div class="ts-footer-menu">
+                <ul class="ts-menu-list">
+                  <li class="ts-menu-item arrow"><a href="#" class="ts-menu-link">Documentation</a></li>
+                  <li class="ts-menu-item arrow"><a href="#" class="ts-menu-link">Changelog</a></li>
+                  <li class="ts-menu-item arrow"><a href="#" class="ts-menu-link">WordPress Guide</a></li>
+                  <li class="ts-menu-item arrow"><a href="#" class="ts-menu-link">GitHub Repo</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Newsletter Widget -->
+            <div class="ts-footer-widget ts-widget--wide">
+              <h3 class="ts-label ts-footer-widget-title dashed">Newsletter</h3>
+              <div class="ts-footer-newsletter">
+                <p class="ts-footer-newsletter-desc">Stay updated with the latest design patterns and framework updates.
+                </p>
+                <form class="ts-newsletter-form"
+                  onsubmit="event.preventDefault(); alert('Newsletter signup coming soon!');">
+                  <div class="ts-newsletter-input-group">
+                    <input type="email" class="ts-newsletter-input" placeholder="your@email.com" required />
+                    <button type="submit" class="ts-newsletter-btn">Subscribe</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Socket -->
+      <div class="ts-footer-socket">
+        <div class="ts-footer-socket-row">
+          <p class="ts-footer-copyright">© 2026 Toolskin / ToolSkin Design System — All patterns are
+            framework-independent
+            native CSS.</p>
+
+          <!-- Alternative Social Links (flat style in footer socket) -->
+          <ul class="ts-social-links">
+            <li><a href="#" class="ts-social-link flat" data-icon="ion:logo-facebook"></a></li>
+            <li><a href="#" class="ts-social-link flat" data-icon="ion:logo-instagram"></a></li>
+            <li><a href="#" class="ts-social-link flat" data-icon="ion:logo-pinterest"></a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+
+    <!--  MODALS ─────────── -->
+
+    <!-- Demo Modal (Large) -->
+    <div class="ts-overlay" id="modal-demo">
+      <div class="ts-modal ts-modal--lg">
+        <div class="ts-modal__header">
+          <div class="ts-topbar__logo ts-fs-lg">TOOL<em>SKIN</em></div>
+          <div class="ts-modal__title">Modal — Full Demo</div>
+          <button class="ts-modal__close" data-modal-close aria-label="Close">
+            <span class="ts-icon" data-ts-icon="fa-solid fa-xmark" ></span>
+          </button>
+        </div>
+        <div class="ts-modal__body">
+          <p class="ts-text-secondary ts-mb-5">This modal is controlled entirely via HTML attributes. No JavaScript
+            required for basic open/close.</p>
+          <div class="ts-grid ts-grid--2 ts-mb-4 ts-gap-4">
+            <div class="ts-field">
+              <label class="ts-field-label">Project Name</label>
+              <input type="text" class="ts-input" placeholder="Enter name…" />
+            </div>
+            <div class="ts-field">
+              <label class="ts-field-label">Status</label>
+              <div class="ts-ui-select">
+                <select class="ts-select">
+                  <option>Active</option>
+                  <option>Paused</option>
+                  <option>Archived</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="ts-field ts-mb-4">
+            <label class="ts-field-label">Notes</label>
+            <textarea class="ts-input ts-textarea ts-resizable" placeholder="Add a note…" rows="3"></textarea>
+          </div>
+          <div class="ts-toggle-row">
+            <span class="ts-toggle-label">Send notification on save</span>
+            <label class="ts-toggle"><input type="checkbox" /><span class="ts-toggle__knob"></span></label>
+          </div>
+        </div>
+        <div class="ts-modal__footer">
+          <button class="ts-btn ts-btn--danger" data-modal-close>Cancel</button>
+          <button class="ts-btn ts-btn--primary"><span class="ts-icon" data-ts-icon="fa-solid fa-floppy-disk"
+              ></span> Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo Modal (Small) -->
+    <div class="ts-overlay" id="modal-sm">
+      <div class="ts-modal ts-modal--sm">
+        <div class="ts-modal__header">
+          <div class="ts-modal__title"><span class="ts-icon ts-text-warning"
+              data-ts-icon="fa-solid fa-triangle-exclamation" ></span>
+            &nbsp;Confirm Action</div>
+          <button class="ts-modal__close" data-modal-close><span class="ts-icon" data-ts-icon="fa-solid fa-xmark"
+              ></span></button>
+        </div>
+        <div class="ts-modal__body">
+          <p class="ts-text-secondary">Are you sure you want to proceed? This action cannot be undone.</p>
+        </div>
+        <div class="ts-modal__footer">
+          <button class="ts-btn ts-btn--secondary" data-modal-close>Cancel</button>
+          <button class="ts-btn ts-btn--danger"><span class="ts-icon" data-ts-icon="fa-solid fa-trash"
+              ></span> Delete</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Toast container (auto-created by JS, shown here for reference) -->
+  <div class="ts-toast-container"></div>
+
+  <!-- Showcase Scripts (extracted from inline to assets/js/toolskin.showcase.js) -->
+  <!-- inline block removed — see assets/js/toolskin.showcase.js -->
+
+</body>
+
+</html>

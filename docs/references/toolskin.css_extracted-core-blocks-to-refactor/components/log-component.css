@@ -1,0 +1,119 @@
+
+/* ─── §6m  LOG / TERMINAL BLOCK ─────────────────────────────────────── */
+
+.ts-log {
+	background: var(--ts-log-bg);
+	border: 1px solid var(--ts-panel-border);
+	border-radius: var(--ts-radius-md);
+	overflow-y: auto;
+	max-height: 150px;
+	/*scrollbar-width: thin;
+	scrollbar-color: var(--ts-bg-5) transparent;*/
+	position: relative;
+}
+
+.ts-log__entry {
+	padding: calc(var(--ts-log-sp) / 1.2) var(--ts-log-sp);
+	font-family: var(--ts-font-mono);
+	font-size: var(--ts-log-fs);
+	border-top: 1px solid var(--ts-panel-border);
+	line-height: var(--ts-log-sp);
+	color: var(--ts-text-secondary);
+	background: var(--ts-log-bg);
+}
+
+.ts-log__entry:first-child {
+
+	border-top: none;
+
+}
+
+.ts-log__entry--info {
+	color: var(--ts-text-secondary);
+}
+
+.ts-log__entry--debug {
+	color: var(--ts-text-muted);
+}
+
+.ts-log__entry--success {
+	color: var(--ts-success);
+}
+
+.ts-log__entry--warning {
+	color: var(--ts-warning);
+}
+
+.ts-log__entry--error {
+	color: var(--ts-danger);
+}
+
+.ts-log__entry--accent {
+	color: var(--ts-accent);
+}
+
+.ts-log__actions {
+	position: absolute;
+	top: var(--ts-log-gap);
+	right: var(--ts-log-gap);
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-log-pad-small);
+	z-index: 1;
+}
+
+/* ─── §6n  PROGRESS BAR ─── */
+
+.ts-progress {
+	width: 100%;
+	height: 12px;
+	background: var(--ts-bg-3);
+	border-radius: var(--ts-radius-full);
+	overflow: hidden;
+}
+
+.ts-progress__bar {
+	height: 100%;
+	background: var(--ts-accent-grad);
+	border-radius: var(--ts-radius-full);
+	transition: width var(--ts-dur-slow) var(--ts-ease-out);
+	min-width: 4px;
+}
+
+.ts-progress--sm {
+	height: 5px;
+}
+
+.ts-progress--lg {
+	height: 18px;
+}
+
+.ts-progress--striped .ts-progress__bar {
+	background-image: repeating-linear-gradient(45deg,
+			transparent,
+			transparent 8px,
+			color-mix(in srgb, #fff, transparent 82%) 8px,
+			color-mix(in srgb, #fff, transparent 82%) 16px);
+	background-size: 20px 100%;
+}
+
+/* Progress label row */
+.ts-progress-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ts-sp-3);
+	margin-bottom: var(--ts-modal-gap--ts-sp-2);
+}
+
+.ts-progress-label {
+	font-size: var(--ts-fs-sm);
+	color: var(--ts-text-secondary);
+}
+
+.ts-progress-value {
+	font-size: var(--ts-fs-sm);
+	font-weight: 700;
+	color: var(--ts-accent);
+	font-family: var(--ts-font-mono);
+}

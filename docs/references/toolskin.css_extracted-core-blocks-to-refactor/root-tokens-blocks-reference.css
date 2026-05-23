@@ -1,0 +1,985 @@
+
+/* ═══════════════════════════════════════════════════════════════════════
+	§1  DESIGN TOKENS
+	═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+	/* ─── §1a  ACCENT / COLOR ENGINE ────────────────────────────────────
+All color variations are derived dynamically from three primitives:
+--ts-accent-h  (hue)   —  change this to recolor everything
+--ts-accent-s  (sat)
+--ts-accent-l  (light)
+──────────────────────── */
+	--ts-accent-h: 18;
+	--ts-accent-s: 100%;
+	--ts-accent-l: 52%;
+
+
+
+	/* Computed accent base */
+	--ts-accent: hsl(var(--ts-accent-h), var(--ts-accent-s), var(--ts-accent-l));
+
+	/* Opacity / border tints (inherit global accent) */
+	--ts-accent-dim-0: color-mix(in srgb, var(--ts-accent), transparent 60%);
+	--ts-accent-dim: color-mix(in srgb, var(--ts-accent), transparent 82%);
+	--ts-accent-dim-2: color-mix(in srgb, var(--ts-accent), transparent 92%);
+	--ts-accent-dim-3: color-mix(in srgb, var(--ts-accent), transparent 90%);
+	/* OWNER FIXES: NEW VALUES ADDED:  the  numbers re not in order. bt the values needed are these.*/
+	--ts-accent-dim-1: color-mix(in srgb, var(--ts-accent), transparent 50%);
+	--ts-accent-dim-4: color-mix(in srgb, var(--ts-accent), transparent 70%);
+	--ts-accent-dim-5: color-mix(in srgb, var(--ts-accent), transparent 88%);
+	--ts-accent-dim-6: color-mix(in srgb, var(--ts-accent), transparent 95%);
+	--ts-accent-border: color-mix(in srgb, var(--ts-accent), transparent 60%);
+
+
+	/* Alt / secondary accent (complement — configurable) */
+	--ts-accent-alt-h: 195;
+	--ts-accent-alt-s: 100%;
+	--ts-accent-alt-l: 40%;
+	--ts-accent-alt: hsl(var(--ts-accent-alt-h), var(--ts-accent-alt-s), var(--ts-accent-alt-l));
+	--ts-accent-alt-dim: color-mix(in srgb, var(--ts-accent-alt), transparent 80%);
+	--ts-accent-alt-border: color-mix(in srgb, var(--ts-accent-alt), transparent 60%);
+
+
+
+	/* Color palette */
+	--ts-orange: #ff540a;
+	--ts-blue: #007bff;
+	--ts-green: #28a745;
+	--ts-red: #dc3545;
+	--ts-yellow: #ffc107;
+	--ts-purple: #6f42c1;
+	--ts-pink: #e83e8c;
+	--ts-gray: #6c757d;
+
+
+
+/* SPECIAL NEW YELLOW VARIABLE OF ACCENT TINT, USED ON THE TREE  LAYOUT TYPE. all the colors should core build woththe hsl asnd deployed to be globally handler later */
+  --ts-accent-tree-h: 38;
+  --ts-accent-tree-s: 96%;
+  --ts-accent-tree-l: 56%;
+
+	--ts-accent-tree: hsl(var(--ts-accent-tree-h), var(--ts-accent-tree-s), var(--ts-accent-tree-l));
+	--ts-accent-tree-dim: color-mix(in srgb, var(--ts-accent-tree), transparent 80%);
+	--ts-accent-tree-border: color-mix(in srgb, var(--ts-accent-tree), transparent 60%);
+
+
+	/* Color variants */
+	--ts-yellow-dim: color-mix(in srgb, var(--ts-yellow), transparent 82%);
+	--ts-orange-dim: color-mix(in srgb, var(--ts-orange), transparent 82%);
+	--ts-blue-dim: color-mix(in srgb, var(--ts-blue), transparent 82%);
+	--ts-green-dim: color-mix(in srgb, var(--ts-green), transparent 82%);
+	--ts-purple-dim: color-mix(in srgb, var(--ts-purple), transparent 82%);
+	--ts-red-dim: color-mix(in srgb, var(--ts-red), transparent 82%);
+	--ts-pink-dim: color-mix(in srgb, var(--ts-pink), transparent 82%);
+	--ts-gray-dim: color-mix(in srgb, var(--ts-gray), transparent 82%);
+
+	/* Color borders */
+	--ts-yellow-border: color-mix(in srgb, var(--ts-yellow), transparent 60%);
+	--ts-orange-border: color-mix(in srgb, var(--ts-orange), transparent 60%);
+	--ts-blue-border: color-mix(in srgb, var(--ts-blue), transparent 60%);
+	--ts-green-border: color-mix(in srgb, var(--ts-green), transparent 60%);
+	--ts-purple-border: color-mix(in srgb, var(--ts-purple), transparent 60%);
+	--ts-red-border: color-mix(in srgb, var(--ts-red), transparent 60%);
+	--ts-pink-border: color-mix(in srgb, var(--ts-pink), transparent 60%);
+	--ts-gray-border: color-mix(in srgb, var(--ts-gray), transparent 60%);
+
+
+
+	/* Status colors (derived relative to hue) */
+	--ts-success: hsl(142, 76%, 36%);
+	--ts-success-dim: color-mix(in srgb, var(--ts-success), transparent 82%);
+	--ts-warning: hsl(45, 100%, 50%);
+	--ts-warning-dim: color-mix(in srgb, var(--ts-warning), transparent 82%);
+	--ts-danger: hsl(0, 90%, 55%);
+	--ts-danger-dim: color-mix(in srgb, var(--ts-danger), transparent 82%);
+	--ts-info: hsl(210, 90%, 55%);
+	--ts-info-dim: color-mix(in srgb, var(--ts-info), transparent 82%);
+
+	/* ─── §1b  SURFACE & BACKGROUND SCALE ──────────────────────────────
+A 6-level depth stack from darkest body to brightest card surface
+──────────────────────── */
+	/* Default dark stack = Practical · Neutral (recommended; ToolskinTheme init) */
+	--ts-bg-body: #0c0d0f;
+	--ts-bg-0: #111214;
+	--ts-bg-1: #17181b;
+	--ts-bg-2: #1f2024;
+	--ts-bg-3: #28292e;
+	--ts-bg-4: #323439;
+	--ts-bg-5: #3e4045;
+
+
+
+	/* Transparent surface variants (for overlays) */
+	--ts-bg-0-t: color-mix(in srgb, var(--ts-bg-0), transparent 30%);
+	--ts-bg-1-t: color-mix(in srgb, var(--ts-bg-1), transparent 30%);
+	--ts-bg-2-t: color-mix(in srgb, var(--ts-bg-2), transparent 40%);
+	--ts-bg-3-t: color-mix(in srgb, var(--ts-bg-3), transparent 40%);
+	--ts-bg-4-t: color-mix(in srgb, var(--ts-bg-4), transparent 40%);
+	--ts-bg-overlay: color-mix(in srgb, var(--ts-bg-body), transparent 8%);
+
+	/* ✅ ENHANCED: Modern glass morphism tokens */
+	--ts-glass-subtle: color-mix(in srgb, var(--ts-bg-1), transparent 20%);
+	--ts-glass-medium: color-mix(in srgb, var(--ts-bg-2), transparent 30%);
+	--ts-glass-strong: color-mix(in srgb, var(--ts-bg-3), transparent 40%);
+	--ts-glass-border: color-mix(in srgb, #ffffff, transparent 80%);
+	--ts-glass-border-strong: color-mix(in srgb, #ffffff, transparent 70%);
+
+	/* Radial depth gradient (section backgrounds) */
+	--ts-radial-depth: radial-gradient(ellipse at 60% 40%, var(--ts-bg-1) 0%, var(--ts-bg-body) 100%);
+	/* ✅ UNIFIED accent glow backgrounds - all use dynamic accent tokens */
+	--ts-accent-glow-bg: radial-gradient(ellipse at 50% -10%, var(--ts-accent-dim-0) 10%, var(--ts-bg-0-t) 70%);
+	--ts-accent-glow-bg-2: radial-gradient(ellipse at 50% -20%, var(--ts-accent-dim-0) -15%, var(--ts-accent-dim-3) 54%, var(--ts-accent-dim-3) 82%);
+	--ts-accent-glow-bg-3: radial-gradient(ellipse at 50% -20%, var(--ts-accent-dim-0) -15%, transparent 74%, transparent 72%);
+	/* ─── §1c  BORDER SYSTEM ────────────────────────────────────────────
+Borders are always derived from their background context
+──────────────────────── */
+	--ts-border-0: color-mix(in srgb, #fff, transparent 94%);
+	/* subtlest */
+	--ts-border-1: color-mix(in srgb, #fff, transparent 90%);
+	/* standard */
+	--ts-border-2: color-mix(in srgb, #fff, transparent 84%);
+	/* prominent */
+	--ts-border-3: color-mix(in srgb, #fff, transparent 80%);
+	--ts-border-4: color-mix(in srgb, #fff, transparent 76%);
+	--ts-border-accent: var(--ts-accent-border);
+	--ts-border-alt: var(--ts-accent-alt-border);
+
+	/* ─── §1d  TYPOGRAPHY ───
+Font stack — framework-independent, single import via class or link
+Dynamic type scale: all sizes derived from --ts-fs-base
+──────────────────────── */
+	--ts-font-display: "Space Grotesk", system-ui, sans-serif;
+	--ts-font-body: "Space Grotesk", system-ui, -apple-system, sans-serif;
+	--ts-font-mono: "JetBrains Mono", "Fira Code", "Courier New", monospace;
+	--ts-fontawesome-family: "Font Awesome 6 Free", "Font Awesome 7 Free";
+	--ts-font-weight-thin: 300;
+	--ts-font-weight-normal: 400;
+	--ts-font-weight-medium: 500;
+	--ts-font-weight-semibold: 600;
+	--ts-font-weight-bold: 700;
+	--ts-font-weight-black: 900;
+
+	/* ✅ ENHANCED: Comprehensive line height system for perfect vertical rhythm */
+	--ts-line-height-none: 1;
+	--ts-line-height-display: 0.9;
+	/* Display/hero headings (large clamped sizes — unitless to scale proportionally) */
+	--ts-line-height-tight: 1.1;
+	/* Display headings */
+	--ts-line-height-snug: 1.25;
+	/* Headings h1-h3 */
+	--ts-line-height-normal: 1.4;
+	/* Headings h4-h6 */
+	--ts-line-height-relaxed: 1.5;
+	/* Body text */
+	--ts-line-height-loose: 1.625;
+	/* Lead paragraphs */
+	--ts-line-height-very-loose: 1.75;
+	/* Long-form content */
+	--ts-letter-spacing-tight: -0.04em;
+	--ts-letter-spacing-normal: 0;
+	--ts-letter-spacing-wide: 0.08em;
+	--ts-letter-spacing-wider: 0.12em;
+
+	/* Eyebrow / overline labels — small all-caps lead-in primitives. (B23 Wave 2 / A2)
+	   Sit OUTSIDE the modular --ts-fs-* harmonic ladder by design: the eyebrow is a
+	   role-fixed UI affordance, not a body-text rung. Px literal chosen to match the
+	   raw-value declaration style of --ts-fs-base (13px) sibling and the --ts-letter-spacing-*
+	   family (raw em units) — both Tier-1 primitives that hold raw values, not derivations. */
+	--ts-fs-eyebrow: 9px;
+	--ts-letter-spacing-eyebrow: 0.06em;
+
+	/* ─── §1d.2  HARMONIC FONT SIZE SCALE ────────────────────────────
+Single-ratio scale built on a base + multiplier ratio.
+Each step is exactly --ts-fs-ratio × the previous step.
+No collisions, no broken sub-base, no ad-hoc multipliers.
+Override --ts-fs-base or --ts-fs-ratio to rescale everything.
+Override any individual size per-component as needed.
+──────────────────────── */
+	--ts-fs-base: 0.8rem;
+	--ts-fs-base: 13px;
+	/* Smallest comfortable UI text. Override per project. */
+	--ts-fs-ratio: 1.12;
+	/* Minor second — gentle, harmonic. Try 1.2 for more drama. */
+	--ts-fs-display-ratio: 1.333;
+	/* Perfect fourth — for impact headings. */
+	--ts-font-scale: 1;
+	--ts-fs: calc(var(--ts-fs-base) * var(--ts-font-scale));
+	--ts-fs-base-val: var(--ts-fs-base);
+
+	/* ─── Body sizes — single ratio (1.125), no collisions ─────
+Each step = previous × 1.125. Math: 1.125² = 1.266, 1.125³ = 1.424,
+1.125⁴ = 1.602, 1.125⁵ = 1.802, 1.125⁶ = 2.027, 1.125⁷ = 2.281
+Sub-base divides: 1/1.125 = 0.889, 1/1.125² = 0.79, 1/1.125³ = 0.703 */
+	--ts-fs-4xs: calc(var(--ts-fs) * 0.625);
+	/* ~8.1px — fine print */
+	--ts-fs-3xs: calc(var(--ts-fs) * 0.703);
+	/* ~9.1px — micro labels */
+	--ts-fs-2xs: calc(var(--ts-fs) * 0.79);
+	/* ~10.3px — captions */
+	--ts-fs-xs: calc(var(--ts-fs) * 0.889);
+	/* ~11.6px — body small, nav */
+	--ts-fs-sm: calc(var(--ts-fs) * 0.93);
+	/* ~11.6px — body small, nav */
+	--ts-fs-md: var(--ts-fs);
+	/* 13px — base, UI labels */
+	--ts-fs-lg: calc(var(--ts-fs) * 1.1);
+	/* ~14.6px — body default */
+	--ts-fs-xlg: calc(var(--ts-fs) * 1.266);
+	/* ~16.5px — large UI text */
+	--ts-fs-xl: calc(var(--ts-fs) * 1.4);
+	/* ~18.5px — small headings */
+	--ts-fs-2xl: calc(var(--ts-fs) * 1.602);
+	/* ~20.8px */
+	--ts-fs-3xl: calc(var(--ts-fs) * 1.802);
+	/* ~23.4px */
+	--ts-fs-4xl: calc(var(--ts-fs) * 2.027);
+	/* ~26.4px */
+
+	/* ─── Heading hierarchy ─────
+Small headings (h6, h5) align with body ladder for harmony.
+Large headings (h3-h1) use clamp() for responsive scale.
+Each clamp uses the body ratio for min/max so they snap to the same scale. */
+	--ts-fs-h6: var(--ts-fs-md);
+	/* 14.6px — body alignment */
+	--ts-fs-h5: var(--ts-fs-lg);
+	/* 16.5px */
+	--ts-fs-h4: var(--ts-fs-xl);
+	/* 18.5px */
+	--ts-fs-h3: clamp(var(--ts-fs-xl), 2vw, var(--ts-fs-lg));
+	/* 20.8 → 23.4 */
+	--ts-fs-h2: clamp(var(--ts-fs-2xl), 3vw, calc(var(--ts-fs) * 2.566));
+	/* 23.4 → 33.4 */
+	--ts-fs-h1: clamp(var(--ts-fs-4xl), 5vw, calc(var(--ts-fs) * 3.247));
+	/* 26.4 → 42.2 */
+
+	/* ─── Display sizes — uses larger ratio (1.333) for impact ─────
+These are deliberately a different scale from body — display type
+needs more contrast against the body to feel "display". */
+	--ts-fs-display-md: clamp(calc(var(--ts-fs) * 3.247), 6vw, calc(var(--ts-fs) * 4.328));
+	/* 42 → 56 */
+	--ts-fs-display-lg: clamp(calc(var(--ts-fs) * 4.328), 8vw, calc(var(--ts-fs) * 5.769));
+	/* 56 → 75 */
+	--ts-fs-display-xl: clamp(calc(var(--ts-fs) * 5.769), 10vw, calc(var(--ts-fs) * 7.690));
+	/* 75 → 100 */
+
+	/* ─── Body text aliases ───── */
+	--ts-fs-body: var(--ts-fs-md);
+	/* 14.6px — comfortable read */
+	--ts-fs-body-sm: var(--ts-fs-sm);
+	/* 13px — secondary text */
+	--ts-fs-caption: var(--ts-fs-2xs);
+	/* 10.3px — captions */
+	--ts-fs-small: var(--ts-fs-3xs);
+	/* 9.1px — fine print */
+	--ts-fs-lead: var(--ts-fs-md);
+	/* 16.5px — intro paragraphs */
+
+	/* ─── Legacy aliases ─────
+Kept for backward compat. Hero preserves its tuned 10× max
+that was sized to fit "TOOLSKIN" in the 620px container. */
+	--ts-fs-hero: clamp(calc(var(--ts-fs) * 3.5), 12vw, calc(var(--ts-fs) * 10));
+	--ts-fs-display: var(--ts-fs-display-md);
+	--ts-fs-section-title: var(--ts-fs-h2);
+	--ts-fs-pricing: var(--ts-fs-display-md);
+
+
+	/* ─── §1e  SPACING SCALE (Tiered + Modular) ───────────────────────────
+   ONE primitive base (--ts-sp-base) drives a tiered scale:
+     • Micro (1–4):    linear, NOT rescaled — hairlines stay crisp
+     • Component (5–9): linear × density   — gaps, padding, controls
+     • Layout (10+):   geometric × rhythm  — sections, hero, vertical air
+   Geometric ratio = perfect fourth (1.25) — each step is perceptibly
+   larger than the last instead of an invisible +4px nudge.
+─────────────────────────────────────────────────────────────────────── */
+
+	/* —— Tier 1: PRIMITIVES (the only knobs you turn) —— */
+	--ts-sp-base: 4px;
+	/* atomic unit */
+	--ts-sp-density: 1;
+	/* component-tier multiplier (UI roominess) */
+	--ts-sp-rhythm: 1;
+	/* layout-tier multiplier (page breathing) */
+	--ts-sp-ratio: 1.25;
+	/* geometric ratio — try 1.2 (minor 3rd) or 1.333 (perfect 4th) */
+
+	/* —— Derived primitives (don't touch) —— */
+	--ts-sp: var(--ts-sp-base);
+	/* alias: the base */
+	--ts-sp-unit: calc(var(--ts-sp-base) * var(--ts-sp-density));
+	/* component grid */
+
+	/* —— MICRO TIER: 1–4 — fixed, crisp, never rescales —— */
+	--ts-sp-0: 0px;
+	--ts-sp-px: 1px;
+	/* hairline */
+	--ts-sp-1: var(--ts-sp-base);
+	/*  4px */
+	--ts-sp-2: calc(var(--ts-sp-base) * 2);
+	/*  8px */
+	--ts-sp-3: calc(var(--ts-sp-base) * 3);
+	/* 12px */
+	--ts-sp-4: calc(var(--ts-sp-base) * 4);
+	/* 16px */
+
+	/* —— COMPONENT TIER: 5–9 — linear × density —— */
+	--ts-sp-5: calc(var(--ts-sp-unit) * 5);
+	/* 20px @ density 1 */
+	--ts-sp-6: calc(var(--ts-sp-unit) * 6);
+	/* 24px */
+	--ts-sp-7: calc(var(--ts-sp-unit) * 7);
+	/* 28px */
+	--ts-sp-8: calc(var(--ts-sp-unit) * 8);
+	/* 32px */
+	--ts-sp-9: calc(var(--ts-sp-unit) * 9);
+	/* 36px — restored linear scale (was unit*10 = 40px, off-by-one) */
+
+	/* —— LAYOUT TIER: 10+ — geometric × rhythm —— */
+	/* Anchor at 48px (= sp-base × 12), then ×ratio each step.
+   At ratio 1.25:  48 → 60 → 75 → 94 → 117 → 146 → 183 → 229 */
+	--ts-sp-10: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm));
+	/*  48px */
+	--ts-sp-11: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio));
+	/*  60px */
+	--ts-sp-12: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio) * var(--ts-sp-ratio));
+	/*  75px */
+	--ts-sp-13: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio));
+	/*  94px */
+	--ts-sp-14: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio));
+	/* 117px */
+	--ts-sp-15: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio));
+	/* 146px */
+	--ts-sp-16: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio));
+	/* 183px */
+
+	/* —— REFACTOR NOTES: CRITICAL IMPLEMENTATION ERROR
+
+After unit sp-16, the calculations become excessively large. The multipliers grow out of control, making these values unusable for practical frontend design.
+
+These tokens should not be used in their current form, as they are already distributed across the design system and introduce inconsistency and scaling issues.
+
+They must be removed and globally replaced from this point forward.
+
+Action:
+- Remove all tokens from --ts-sp-17 and above
+- Replace them with more logical and usable values derived from the existing scale
+- Ensure replacements make sense for real-world padding and margin usage
+- Retain only tokens that are genuinely useful or percentage-based for responsive behavior
+
+The current values are not practical for layout spacing and should be deprecated.
+
+*/
+	--ts-sp-17: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio));
+	/* 229px */
+	--ts-sp-18: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio));
+	/* 286px */
+	--ts-sp-19: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio));
+	/* 358px */
+	--ts-sp-20: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio));
+	/* 447px */
+	--ts-sp-21: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio));
+	/* 559px */
+	--ts-sp-22: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio));
+	/* 698px */
+	--ts-sp-23: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio));
+	/* 873px */
+	--ts-sp-24: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio) * var(--ts-sp-ratio));
+	/* 1091px */
+	/* —— FLUID SECTION TOKENS (responsive by design, not by media query) —— */
+	--ts-section-gap: clamp(var(--ts-sp-12), 8vw, var(--ts-sp-16));
+	/*  75 → 8vw → 183 */
+	--ts-section-pad: clamp(var(--ts-sp-12), 8vw, var(--ts-sp-16));
+	--ts-hero-pad: clamp(var(--ts-sp-13), 12vw, var(--ts-sp-16));
+
+	/* ─── §1f  RADIUS SCALE ─────────────────────────────────────────────
+Global radius: one token controls the entire design feel
+──────────────────────── */
+	--ts-radius-base: 8px;
+	--ts-radius-scale: 1;
+
+	/* Scaled base radius */
+	--ts-radius: calc(var(--ts-radius-base) * var(--ts-radius-scale));
+
+	/* All radius tokens derived from the scaled base */
+	--ts-radius-2xs: calc(var(--ts-radius) * 0.3);
+	--ts-radius-xs: calc(var(--ts-radius) * 0.6);
+	--ts-radius-sm: calc(var(--ts-radius) * 0.87);
+	--ts-radius-md: var(--ts-radius);
+	--ts-radius-lg: calc(var(--ts-radius) * 1.15);
+	--ts-radius-2xl: calc(var(--ts-radius) * 1.5);
+	--ts-radius-xl: calc(var(--ts-radius) * 2);
+	--ts-radius-full: 9999px;
+
+	/* ─── §1f-nest  NEST-REDUCTION TOKENS (NEW-B16) ─────────────────────
+	   Amount subtracted per nesting depth level for containerish components
+	   (.ts-card, .ts-panel). Pure CSS custom-property inheritance — no JS.
+	   Both values default to 2px; tune independently if needed.
+	   See §6d below for the mechanism (Layer 1 + Layer 2 rules).
+	──────────────────────────────────────────────────────────────────── */
+	--ts-radius-nest-reduction: 2px;
+	--ts-pd-nest-reduction: 2px;
+
+	/* ─── §1g  SHADOW SCALE ─────────────────────────────────────────────
+Shadows respect the accent color for glow variants
+──────────────────────── */
+	/* ✅ WORLD-CLASS: Enhanced 5-level shadow system */
+	--ts-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.05);
+	/* Subtle elements */
+	--ts-shadow-2: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+	/* Cards, buttons */
+	--ts-shadow-3: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+	/* Dropdowns, panels */
+	--ts-shadow-4: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+	/* Large modals */
+	--ts-shadow-5: 0 25px 50px rgba(0, 0, 0, 0.25), 0 12px 25px rgba(0, 0, 0, 0.15);
+	/* Dramatic depth */
+	--ts-shadow-accent-sm: 0 0 0 0px var(--ts-accent-border),
+		0 4px 16px color-mix(in srgb, var(--ts-accent), transparent 75%);
+	--ts-shadow-accent: 0 0 0 1px var(--ts-accent-border),
+		0 8px 32px color-mix(in srgb, var(--ts-accent), transparent 65%);
+	--ts-shadow-accent-lg: 0 0 0 1px var(--ts-accent-border),
+		0 16px 60px color-mix(in srgb, var(--ts-accent), transparent 55%);
+	--ts-accent-shadow-glow: 0 0 7px -2px var(--ts-accent-bright), inset 0 0 3px -2px var(--ts-accent), inset 0 0 20px -2px color-mix(in srgb, var(--ts-accent), transparent 81%);
+	--ts-accent-shadow-glow-2: inset 0 0 9px 0px color-mix(in srgb, var(--ts-accent), transparent 61%),
+inset 0 0 0px 1px var(--ts-accent-border), 
+0 0 9px 0px color-mix(in srgb, var(--ts-accent), transparent 44%);
+	--ts-backdrop-blur: 8px;
+	--ts-backdrop-blur-2: calc(var(--ts-backdrop-blur) * 2);
+
+	/* ─── §1h  Z-INDEX STACK ────────────────────────────────────────────*/
+	--ts-z-base: 0;
+	--ts-z-raised: 10;
+	--ts-z-dropdown: 100;
+	--ts-z-sticky: 2000;
+	--ts-z-panel: 500;
+	--ts-z-modal: 17009;
+	--ts-z-toast: 11000;
+	--ts-z-cursor: 12000;
+	--ts-z-offcanvas: 17000;
+	--ts-z-offcanvas-panel: 17018;
+	--ts-z-preloader: 20000;
+	/* Legacy alias — prefer --ts-z-modal / --ts-z-preloader */
+	--ts-z-overlay: 10000;
+
+	/* ─── §1i  ANIMATION TOKENS ─────────────────────────────────────────*/
+	--ts-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--ts-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+	--ts-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+	--ts-ease-snap: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	--ts-ease-out-slow: cubic-bezier(0.25, 0.1, 0.25, 1);
+	--ts-ease-in-slow: cubic-bezier(0.75, 0.8, 0.25, 1);
+	--ts-ease-in-out-slow: cubic-bezier(0.25, 0.1, 0.25, 1);
+	--ts-ease-out-linear: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+	--ts-ease-in-linear: cubic-bezier(0.215, 0.61, 0.355, 1);
+	--ts-panel-ease-out: cubic-bezier(0.56, 0.29, 0.15, 1.19);
+	--ts-panel-ease-in: cubic-bezier(0.73, 0.03, 0, 0.92);
+	--ts-dur-fast: 220ms;
+	--ts-dur-base: 300ms;
+	--ts-dur-slow: 550ms;
+	--ts-dur-slower: 700ms;
+	--ts-transition: all var(--ts-dur-base) var(--ts-ease-out);
+
+	/* ─── §1j  LAYOUT TOKENS ────────────────────────────────────────────*/
+	--ts-container-sm: 640px;
+	--ts-container-md: 960px;
+	--ts-container-lg: 1280px;
+	--ts-container-xl: 1520px;
+	--ts-container-pad: clamp(1rem, 5vw, 4rem);
+	--ts-grid-gap: var(--ts-sp-6);
+	--ts-card-gap: var(--ts-sp-4);
+
+	/* ─── §1k  COMPONENT-LEVEL TOKENS (derived from above) ─────────────
+These are the "per-component" settings — each component reads its
+own local vars which fall back to the global ones above.
+──────────────────────── */
+
+	/* ✅ BUTTON STYLE TOKENS (non-scaling properties) */
+	/* REFACTOR NOTE: THE BUTTON RADIUS AND THE EXISTENT RADIUS VALUES HAS VERY FEW CONTROLS AND RAMPS.
+SO THE BUTTONS HAS  NO REAL DESIGN FEATURES FOR THIS AND FLEXIBVILITY.
+this should be also scalable on the   scaled lg, md and sm  presets  sizes of buttons.
+we need more radius presets tokens and a   size and content aware radius value that   
+suites a good design option (a dynamic radius value, respondign to a classs or a 
+special token value).
+-- important: here should be also  the blocks of the buttons that are somewhere  else on the code. but  there are several tokenized settigns patterns built. maybe here we should set the base  tokens and set another scoped on buttons root  rule for the button type or wrapper for buttons type wildcard to avboid overloading the frontend with  rules and tokens that ar enot used.  this must be globally reached but not unnecesary   throiwn on all the dom elements with root *. */
+	--ts-btn-radius: var(--ts-radius-sm);
+	--ts-btn-fw: 400;
+	--ts-btn-ls: 0.055em;
+	--ts-btn-dur: var(--ts-dur-base);
+
+
+	/* ─── Input system — derives from --ts-this-bg ──────────────────────
+Any parent that sets --ts-this-bg automatically restyles all its
+inputs. No need to override per-element bg/border/color/transitions
+— set the parent surface and the cascade does the rest. */
+	--ts-input-h: var(--ts-btn-h);
+	--ts-input-pad-x: calc(var(--ts-input-h)*.3);
+	--ts-input-pad-y: calc(var(--ts-input-pad-x)*.7);
+	--ts-input-padding: var(--ts-input-pad-y) var(--ts-input-pad-x) var(--ts-input-pad-y) var(--ts-input-pad-left);
+	--ts-input-pad-left: calc(var(--ts-input-h) + var(--ts-input-pad-y));
+	--ts-input-radius: var(--ts-radius-sm);
+	--ts-input-fs: var(--ts-fs-body-sm);
+
+	/* Surfaces — derived from --ts-this-bg. Override --ts-this-bg on a parent to recolor. */
+	--ts-input-bg: var(--ts-this-bg-dim-3);
+	--ts-input-bg-2: var(--ts-this-bg-bright-1);
+	--ts-input-bg-2-t: var(--ts-this-bg-dim);
+	--ts-input-bg-active: var(--ts-this-bg-bright);
+	--ts-input-bg-focus: var(--ts-this-bg-dark-1);
+	--ts-input-bg-grad: var(--ts-this-bg-grad-2);
+
+	/* Borders — derived from --ts-this-bg-border (which uses --ts-mix-perc) */
+	--ts-input-border: var(--ts-this-bg-border);
+	--ts-input-border-hover: var(--ts-this-bg-border-hover);
+	--ts-input-border-focus: var(--ts-border-accent);
+	--ts-input-border-disabled: var(--ts-this-bg-border-disabled);
+
+	/* Text colors — keep dim by default, brighten on focus */
+	--ts-input-color: var(--ts-text-primary-dim-2);
+	--ts-input-color-focus: var(--ts-text-primary);
+	--ts-input-accent: var(--ts-accent);
+
+	/* Inset action button (search icon, clear, etc.) */
+	--ts-input-btn-color: var(--ts-input-color);
+	--ts-input-btn-bg: var(--ts-input-bg-2);
+	--ts-input-btn-bg-accent: var(--ts-accent);
+	--ts-input-btn-bg-accent-color: var(--ts-on-accent);
+
+	/* Single transition token — components reference this, not a list */
+	--ts-input-transitions:
+		border-color var(--ts-dur-fast) var(--ts-ease-out),
+		outline-color var(--ts-dur-fast) var(--ts-ease-out),
+		color var(--ts-dur-fast) var(--ts-ease-out),
+		background-color var(--ts-dur-fast) var(--ts-ease-out),
+		box-shadow var(--ts-dur-fast) var(--ts-ease-out);
+	--ts-card-transitions: border-color var(--ts-dur-fast) var(--ts-ease-out),
+		outline-color var(--ts-dur-fast) var(--ts-ease-out),
+		transform var(--ts-dur-fast) var(--ts-ease-out),
+		color var(--ts-dur-fast) var(--ts-ease-out),
+		background var(--ts-dur-fast) var(--ts-ease-out),
+		box-shadow var(--ts-dur-fast) var(--ts-ease-out);
+	/* Card — one step above panels so blocks read off the page */
+	--ts-card-pad: var(--ts-sp-6);
+	--ts-card-radius: var(--ts-radius-lg);
+	--ts-card-bg: var(--ts-bg-1-t);
+	--ts-card-bg-2: var(--ts-bg-2);
+	--ts-card-border: var(--ts-border-0);
+	--ts-card-header-h: 45px;
+	--ts-card-sp: var(--ts-sp-3);
+	--ts-card-fs: var(--ts-fs-sm);
+	--ts-card-title-fs: calc(var(--ts-card-fs) * 1.1);
+
+	/* Range slider — must exist on plain :root (Pattern Generator, etc.); banner app may override */
+	--ts-range-h: 10px;
+	--ts-range-thumb: calc(var(--ts-range-h) * 1.8);
+	--ts-range-bg: var(--ts-bg-3);
+	--ts-range-bg-2: var(--ts-bg-0);
+	--ts-range-border: var(--ts-border-1);
+	--ts-range-accent: var(--ts-accent);
+	--ts-range-label: var(--ts-range-bg);
+	--ts-range-text: var(--ts-text-primary);
+	--ts-range-rad: calc(var(--ts-range-h) * 2);
+	--ts-range-arrow: 5px;
+
+	/* Panel (control panels, tool panels) */
+	--ts-panel-w: 340px;
+	--ts-panel-bg: var(--ts-bg-1);
+	--ts-panel-border: var(--ts-border-0);
+	--ts-panel-radius: var(--ts-radius-md);
+
+	/* Topbar */
+	--ts-topbar-h: 65px;
+	--ts-promo-banner-h: calc(var(--ts-topbar-h)*.85);
+	--ts-topbar-bg: var(--ts-bg-1);
+	--ts-topbar-padding: var(--ts-topbar-pad-y) var(--ts-topbar-pad-y) var(--ts-topbar-pad-y) var(--ts-topbar-pad-x);
+	--ts-topbar-pad-x: calc(var(--ts-topbar-h)*.4);
+	--ts-topbar-pad-y: calc(var(--ts-topbar-pad-x)*.78);
+
+	/* Sidebar */
+	--ts-sidebar-w: 240px;
+
+	/* Log / Terminal */
+	--ts-log-bg: var(--ts-bg-1);
+	--ts-log-fs: var(--ts-fs-xs);
+	--ts-log-sp: 15px;
+	--ts-log-gap: calc(var(--ts-log-sp)/2);
+	--ts-log-pad-small: calc(var(--ts-log-sp)/3);
+
+	/* Text colors (semantic) — Practical · Neutral dark */
+	--ts-text-primary: #e8e9ea;
+	--ts-text-secondary: #9ea0a5;
+	--ts-text-muted: #6d6f74;
+	--ts-text-accent: var(--ts-accent);
+	
+	--ts-text-invert: #000000;
+	--ts-cursor-size: 20px;
+	--ts-cursor-color: var(--ts-accent);
+	--ts-cursor-grow: 3;
+	--ts-cursor-arrow-size: 4px;
+	--ts-cursor-transition-dur: 0.25s;
+	/* Size/color transition speed */
+	--ts-cursor-follower-dur: 0.25s;
+	/* Follower size transition speed */
+	--ts-sb-size: 12px;
+	--ts-sb-thumb: linear-gradient(-73deg, var(--ts-this-bg-bright-3) -10%, var(--ts-this-bg-border-0), var(--ts-this-bg-border) 110%);
+	--ts-sb-thumb-hover: linear-gradient(-23deg,
+			color-mix(in srgb, var(--ts-accent), var(--ts-this-bg-dark-1) 45%),
+			color-mix(in srgb, var(--ts-accent), var(--ts-this-bg-bright) 25%),
+			color-mix(in srgb, var(--ts-text-accent), var(--ts-this-bg-dark-2) 26%));
+	--ts-sb-border: color-mix(in srgb, var(--ts-this-bg-border), transparent 73%);
+	--ts-sb-border-hover: color-mix(in srgb, var(--ts-accent), var(--ts-sb-border) 85%);
+	--ts-sb-track: color-mix(in srgb, var(--ts-this-bg-2-t), transparent 50%);
+	--ts-sb-track-hover: color-mix(in srgb, var(--ts-this-bg-border-0), transparent 63%);
+	--ts-sb-track-border-w: 1px;
+	--ts-sb-thumb-border-w: 1px;
+	--ts-tab-radius: var(--ts-radius-sm);
+	--ts-tab-radius-rounded: var(--ts-radius-full);
+	--ts-checkbox-size: 25px;
+	--ts-resize-enabled: 1;
+	/* 1 = ON, 0 = OFF */
+
+	/* Resizer tokens */
+	--ts-resizer-size: var(--ts-sp-4);
+	--ts-resizer-radius: calc(var(--ts-radius-sm) - 2px);
+	--ts-resizer-color: var(--ts-border-2);
+	--ts-resizer-accent: var(--ts-accent);
+	--ts-resizer-opacity: 0.6;
+	--ts-resizer-opacity-hover: 1;
+	--ts-preloader-bar-height: 5px;
+	--ts-btn-base-transitions: opacity 0.3s linear,
+		border-color var(--ts-dur-base) linear,
+		outline-color var(--ts-dur-base) linear,
+		color var(--ts-dur-fast) linear,
+		background var(--ts-dur-slow) linear,
+		box-shadow var(--ts-dur-base) linear;
+	--ts-index-bar-height: 3px;
+
+	/* ══════════════════════════════════════════════════════════════════
+	   ROOT 1b — SEMANTIC COLOR PALETTE
+	   ══════════════════════════════════════════════════════════════════
+	   7 semantic color families. Each family: base + dim + bright + dark.
+	   Ladder math (per family):
+	     dim    = color-mix(base 50%, --ts-bg-body)  — muted bg tint
+	     bright = color-mix(base 80%, white)          — light tint for dark-UI badges
+	     dark   = color-mix(base 60%, black)          — deep shade for borders/icons
+	   NEW tokens use --ts-color-* namespace.
+	   EXISTING tokens (--ts-success, --ts-warning, --ts-danger, --ts-info)
+	   are aliased to the new tokens for backward compat — do NOT remove.
+	   NEW-B15 / 2026-04-25
+	   ══════════════════════════════════════════════════════════════════ */
+
+	/* Primary (= accent — auto-derived, updates with theme) */
+	--ts-color-primary: var(--ts-accent);
+	--ts-color-primary-dim: color-mix(in oklch, var(--ts-color-primary) 50%, var(--ts-bg-body));
+	--ts-color-primary-bright: color-mix(in oklch, var(--ts-color-primary) 80%, white);
+	--ts-color-primary-dark: color-mix(in oklch, var(--ts-color-primary) 60%, black);
+
+	/* Secondary — Purple/blue */
+	--ts-color-secondary: oklch(0.65 0.15 280);
+	--ts-color-secondary-dim: color-mix(in oklch, var(--ts-color-secondary) 50%, var(--ts-bg-body));
+	--ts-color-secondary-bright: color-mix(in oklch, var(--ts-color-secondary) 80%, white);
+	--ts-color-secondary-dark: color-mix(in oklch, var(--ts-color-secondary) 60%, black);
+
+	/* Success — Green (base from existing --ts-success: hsl(142, 76%, 36%)) */
+	--ts-color-success: oklch(0.7 0.2 145);
+	--ts-color-success-dim: color-mix(in oklch, var(--ts-color-success) 50%, var(--ts-bg-body));
+	--ts-color-success-bright: color-mix(in oklch, var(--ts-color-success) 80%, white);
+	--ts-color-success-dark: color-mix(in oklch, var(--ts-color-success) 60%, black);
+	/* Backward-compat aliases */
+	--ts-success: var(--ts-color-success);
+	--ts-success-dim: var(--ts-color-success-dim);
+
+	/* Warning — Amber (base from existing --ts-warning: hsl(45, 100%, 50%)) */
+	--ts-color-warning: oklch(0.78 0.18 75);
+	--ts-color-warning-dim: color-mix(in oklch, var(--ts-color-warning) 50%, var(--ts-bg-body));
+	--ts-color-warning-bright: color-mix(in oklch, var(--ts-color-warning) 80%, white);
+	--ts-color-warning-dark: color-mix(in oklch, var(--ts-color-warning) 60%, black);
+	/* Backward-compat aliases */
+	--ts-warning: var(--ts-color-warning);
+	--ts-warning-dim: var(--ts-color-warning-dim);
+
+	/* Error — Red (maps to existing --ts-danger: hsl(0, 90%, 55%); new canonical name is error) */
+	--ts-color-error: oklch(0.62 0.22 25);
+	--ts-color-error-dim: color-mix(in oklch, var(--ts-color-error) 50%, var(--ts-bg-body));
+	--ts-color-error-bright: color-mix(in oklch, var(--ts-color-error) 80%, white);
+	--ts-color-error-dark: color-mix(in oklch, var(--ts-color-error) 60%, black);
+	/* Backward-compat aliases (--ts-danger widely used — keep both) */
+	--ts-danger: var(--ts-color-error);
+	--ts-danger-dim: var(--ts-color-error-dim);
+
+	/* Info — Sky blue (base from existing --ts-info: hsl(210, 90%, 55%)) */
+	--ts-color-info: oklch(0.68 0.18 230);
+	--ts-color-info-dim: color-mix(in oklch, var(--ts-color-info) 50%, var(--ts-bg-body));
+	--ts-color-info-bright: color-mix(in oklch, var(--ts-color-info) 80%, white);
+	--ts-color-info-dark: color-mix(in oklch, var(--ts-color-info) 60%, black);
+	/* Backward-compat aliases */
+	--ts-info: var(--ts-color-info);
+	--ts-info-dim: var(--ts-color-info-dim);
+
+	/* Disabled — Neutral grey */
+	--ts-color-disabled: oklch(0.55 0.02 270);
+	--ts-color-disabled-dim: color-mix(in oklch, var(--ts-color-disabled) 50%, var(--ts-bg-body));
+	--ts-color-disabled-bright: color-mix(in oklch, var(--ts-color-disabled) 80%, white);
+	--ts-color-disabled-dark: color-mix(in oklch, var(--ts-color-disabled) 60%, black);
+
+	/* Accent ramp */
+	--ts-accent-50: oklch(from var(--ts-accent) 0.97 calc(c * 0.25) h);
+	--ts-accent-100: oklch(from var(--ts-accent) 0.93 calc(c * 0.45) h);
+	--ts-accent-200: oklch(from var(--ts-accent) 0.86 calc(c * 0.65) h);
+	--ts-accent-300: oklch(from var(--ts-accent) 0.78 calc(c * 0.80) h);
+	--ts-accent-400: oklch(from var(--ts-accent) 0.71 calc(c * 0.92) h);
+	--ts-accent-500: var(--ts-accent);
+	--ts-accent-600: oklch(from var(--ts-accent) calc(l * 0.88) c h);
+	--ts-accent-700: oklch(from var(--ts-accent) calc(l * 0.74) c h);
+	--ts-accent-800: oklch(from var(--ts-accent) calc(l * 0.58) calc(c * 0.85) h);
+	--ts-accent-900: oklch(from var(--ts-accent) calc(l * 0.42) calc(c * 0.65) h);
+
+	/* Success */
+	--ts-success-50: oklch(from var(--ts-success) 0.97 calc(c * 0.25) h);
+	--ts-success-100: oklch(from var(--ts-success) 0.92 calc(c * 0.45) h);
+	--ts-success-300: oklch(from var(--ts-success) 0.78 calc(c * 0.80) h);
+	--ts-success-500: var(--ts-success);
+	--ts-success-700: oklch(from var(--ts-success) calc(l * 0.72) c h);
+	--ts-success-900: oklch(from var(--ts-success) calc(l * 0.42) calc(c * 0.65) h);
+
+	/* Warning */
+	--ts-warning-50: oklch(from var(--ts-warning) 0.97 calc(c * 0.25) h);
+	--ts-warning-100: oklch(from var(--ts-warning) 0.92 calc(c * 0.45) h);
+	--ts-warning-300: oklch(from var(--ts-warning) 0.80 calc(c * 0.80) h);
+	--ts-warning-500: var(--ts-warning);
+	--ts-warning-700: oklch(from var(--ts-warning) calc(l * 0.72) c h);
+	--ts-warning-900: oklch(from var(--ts-warning) calc(l * 0.42) calc(c * 0.65) h);
+
+	/* Danger */
+	--ts-danger-50: oklch(from var(--ts-danger) 0.97 calc(c * 0.25) h);
+	--ts-danger-100: oklch(from var(--ts-danger) 0.92 calc(c * 0.45) h);
+	--ts-danger-300: oklch(from var(--ts-danger) 0.78 calc(c * 0.80) h);
+	--ts-danger-500: var(--ts-danger);
+	--ts-danger-700: oklch(from var(--ts-danger) calc(l * 0.72) c h);
+	--ts-danger-900: oklch(from var(--ts-danger) calc(l * 0.42) calc(c * 0.65) h);
+
+	/* Info */
+	--ts-info-50: oklch(from var(--ts-info) 0.97 calc(c * 0.25) h);
+	--ts-info-100: oklch(from var(--ts-info) 0.92 calc(c * 0.45) h);
+	--ts-info-300: oklch(from var(--ts-info) 0.78 calc(c * 0.80) h);
+	--ts-info-500: var(--ts-info);
+	--ts-info-700: oklch(from var(--ts-info) calc(l * 0.72) c h);
+	--ts-info-900: oklch(from var(--ts-info) calc(l * 0.42) calc(c * 0.65) h);
+
+	/* Neutral ramp (semantic — same names work in light & dark) */
+	--ts-neutral-50: #f7f7f8;
+	--ts-neutral-100: #e8e9ea;
+	--ts-neutral-200: #c8cacd;
+	--ts-neutral-300: #9ca0a8;
+	--ts-neutral-400: #6e727b;
+	--ts-neutral-500: #4a4d56;
+	--ts-neutral-600: #363942;
+	--ts-neutral-700: #2d3038;
+	--ts-neutral-800: #1c1e24;
+	--ts-neutral-900: #0c0d0f;
+
+	/* Grid background system - fully tokenized */
+	--ts-grid-scale: 1;
+	--ts-bg-grid-base: 2.5rem;
+	--ts-bg-grid-size: calc(var(--ts-bg-grid-base) * var(--ts-grid-scale, 1));
+	--ts-bg-grid-mix: 91%;
+	--ts-bg-grid-col1: var(--ts-text-primary);
+	--ts-bg-grid-col2: transparent;
+	--ts-bg-grid-line: color-mix(in srgb, var(--ts-bg-grid-col1), var(--ts-bg-grid-col2) var(--ts-bg-grid-mix));
+	--ts-bg-grid-pattern:
+		repeating-linear-gradient(0deg,
+			transparent,
+			transparent calc(var(--ts-bg-grid-size) - 1px),
+			var(--ts-bg-grid-line) var(--ts-bg-grid-size)),
+		repeating-linear-gradient(90deg,
+			transparent,
+			transparent calc(var(--ts-bg-grid-size) - 1px),
+			var(--ts-bg-grid-line) var(--ts-bg-grid-size));
+}
+
+:root {
+	/* OWNER FIX UPDATE: Tunable knobs — override per-instance or per-context */
+	--ts-ui-select-dd-min: 12rem;
+	/* floor: ~3 options + search */
+	--ts-ui-select-dd-runway: 14rem;
+	/* nav + trigger + breathing room */
+	--ts-ui-select-dd-max-abs: 28rem;
+	/* absolute cap on tall screens */
+	--ts-ui-select-dd-max-rel: 70dvh;
+	/* relative cap on short screens */
+
+	/* The formula — declared ONCE, consumed everywhere */
+	--ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min),
+			calc(100dvh - var(--ts-ui-select-dd-runway)),
+			min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
+}
+
+/* -------------------------------------------------------------------
+	DYNAMIC GRADIENT + HOVER/ACTIVE SYSTEM
+	-------------------------------------------------------------------
+	Define once, reuse everywhere.
+	Just set --ts-this-bg on any element and the rest auto’generates.
+	Hover, active, focus, disabled states are fully automatic.
+	------------------------------------------------------------------- */
+/* Base variables (derived from --ts-this-bg) */
+:where(:root, :root *) {
+	/* ✅ BUTTON SCALING TOKENS - Global inheritance for perfect scaling */
+	/* The base unit — single knob to retune the whole button system */
+	--ts-btn-base: 45;
+	--ts-btn-scale: 1;
+	--ts-btn-size: calc(var(--ts-btn-base) * var(--ts-btn-scale));
+
+	/* RATIO TOKENS — each derives one dimension from --ts-btn-size.
+	   Tune any of these globally without math; per-size variants
+	   override individually. */
+	--ts-btn-h-ratio: 1;
+	/* h = size × this        (was hardcoded 1) */
+	--ts-btn-pad-x-ratio: 0.45;
+	/* pad-x = h × this */
+	--ts-btn-pad-y-ratio: 0.42;
+	/* pad-y = pad-x × this */
+	--ts-btn-fs-ratio: 0.23;
+	/* fs = h × this */
+	--ts-btn-icon-ratio: 1;
+	/* icon = fs × this */
+
+	/* DERIVED — never override these directly; tune the ratios above */
+	--ts-btn-h: calc(var(--ts-btn-size) * var(--ts-btn-h-ratio) * 1px);
+	--ts-btn-pad-x: calc(var(--ts-btn-h) * var(--ts-btn-pad-x-ratio));
+	--ts-btn-pad-x: calc(var(--ts-btn-size) * var(--ts-btn-pad-x-ratio) * 1px);
+	--ts-btn-pad-y: calc(var(--ts-btn-pad-x) * var(--ts-btn-pad-y-ratio));
+	--ts-btn-pad-x: calc(var(--ts-btn-size) * var(--ts-btn-pad-x-ratio) * 1px);
+	--ts-btn-pad-y: calc(var(--ts-btn-pad-x) * var(--ts-btn-pad-y-ratio));
+	--ts-btn-fs: calc(var(--ts-btn-h) * var(--ts-btn-fs-ratio));
+	--ts-btn-fs: calc(var(--ts-btn-size) * var(--ts-btn-fs-ratio) * 1px);
+	--ts-btn-icon-size: calc(var(--ts-btn-fs) * var(--ts-btn-icon-ratio));
+
+
+	/* ✅ ACCENT TOKENS - Global inheritance for dynamic theming */
+	/* Opacity / border tints (inherit global accent) */
+	--ts-accent-dim-0: color-mix(in srgb, var(--ts-accent), transparent 60%);
+	--ts-accent-dim: color-mix(in srgb, var(--ts-accent), transparent 82%);
+	--ts-accent-dim-2: color-mix(in srgb, var(--ts-accent), transparent 92%);
+	--ts-accent-dim-3: color-mix(in srgb, var(--ts-accent), transparent 90%);
+	--ts-accent-border: color-mix(in srgb, var(--ts-accent), transparent 60%);
+	/* Auto on-accent: oklch auto-selects white or black text for accent backgrounds.
+		Dark mode: threshold 0.75 — only very light accents (yellow, lime, cyan) get black text.
+		Mid-tone accents like orange/red keep white text for dark-mode visual consistency. */
+	--ts-on-accent: oklch(from var(--ts-accent) clamp(0, (0.75 - l) * 999, 1) 0 0);
+	--ts-on-accent-dim: color-mix(in srgb, var(--ts-on-accent), transparent 80%);
+	--ts-on-accent-dim-1: color-mix(in srgb, var(--ts-on-accent), transparent 70%);
+	--ts-on-accent-dim-2: color-mix(in srgb, var(--ts-on-accent), transparent 50%);
+	--ts-on-accent-dim-3: color-mix(in srgb, var(--ts-on-accent), transparent 40%);
+	--ts-accent-bright: color-mix(in srgb, var(--ts-accent), #ffffff 8%);
+	--ts-accent-bright-2: color-mix(in srgb, var(--ts-accent), #ffffff 18%);
+	--ts-accent-dark: color-mix(in srgb, var(--ts-accent), #000000 10%);
+	--ts-accent-dark-2: color-mix(in srgb, var(--ts-accent), #000000 18%);
+	--ts-accent-muted: color-mix(in srgb, var(--ts-accent), var(--ts-bg-body) 46%);
+	--ts-accent-border: color-mix(in srgb, var(--ts-accent), transparent 60%);
+	--ts-accent-border-hover: color-mix(in srgb, var(--ts-accent), transparent 40%);
+
+	/* ✅ ACCENT GRADIENTS - Dynamic gradient system */
+	--ts-accent-grad: linear-gradient(to top left, var(--ts-accent-bright), var(--ts-accent-dark), var(--ts-accent));
+	--ts-accent-grad-comp: linear-gradient(136deg, var(--ts-accent-bright), var(--ts-accent-dark-2), var(--ts-accent-bright-2), var(--ts-accent-dark-2));
+	--ts-accent-grad-flat: linear-gradient(90deg, var(--ts-accent-bright), var(--ts-accent-dark));
+
+
+
+
+	/* If --ts-this-bg is not set, fallback to a neutral surface */
+	--ts-this-bg: var(--ts-bg-1, #1f1f2a);
+
+	/* Lighten / darken variants (for gradients and states) */
+	--ts-this-bg-bright: color-mix(in srgb, var(--ts-this-bg), #ffffff 8%);
+	--ts-this-bg-dark: color-mix(in srgb, var(--ts-this-bg), #000000 14%);
+	--ts-this-bg-dark-2: color-mix(in srgb, var(--ts-this-bg), #000000 12%);
+
+	/* Predefined gradient (can be overridden) */
+	--ts-this-bg: var(--ts-bg-1);
+	--ts-this-bg-dim: color-mix(in srgb, var(--ts-this-bg), transparent 12%);
+	--ts-this-bg-dim-2: color-mix(in srgb, var(--ts-this-bg), transparent 25%);
+	--ts-this-bg-dim-3: color-mix(in srgb, var(--ts-this-bg), transparent 50%);
+	--ts-this-bg-dim-4: color-mix(in srgb, var(--ts-this-bg), transparent 60%);
+	--ts-this-bg-dim-5: color-mix(in srgb, var(--ts-this-bg), transparent 70%);
+	--ts-this-bg-dim-6: color-mix(in srgb, var(--ts-this-bg), transparent 80%);
+	--ts-this-bg-dim-7: color-mix(in srgb, var(--ts-this-bg), transparent 90%);
+	--ts-this-bg-bright: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) 14%);
+	--ts-this-bg-bright: color-mix(in srgb, var(--ts-this-bg), #ffffff var(--ts-this-bg-grad-bright-pct, 6%));
+	--ts-this-bg-bright-1: color-mix(in srgb, var(--ts-this-bg), #ffffff 4%);
+	--ts-this-bg-bright-2: color-mix(in srgb, var(--ts-this-bg), #ffffff 8%);
+	--ts-this-bg-bright-3: color-mix(in srgb, var(--ts-this-bg), #ffffff 14%);
+	--ts-this-bg-dark: color-mix(in srgb, var(--ts-this-bg), var(--ts-bg-body) 32%);
+	--ts-this-bg-dark: color-mix(in srgb, var(--ts-this-bg), #000000 var(--ts-this-bg-grad-dark-pct, 14%));
+	--ts-this-bg-dark-1: color-mix(in srgb, var(--ts-this-bg), #000000 2%);
+	--ts-this-bg-dark-2: color-mix(in srgb, var(--ts-this-bg), #000000 12%);
+	--ts-this-bg-muted: color-mix(in srgb, var(--ts-this-bg), var(--ts-bg-body) 46%);
+
+	/* ─── GRADIENT CONTROL TOKENS ──────────────────────────────────────
+		Tune the gradient feel from one place. Override on any scope
+		to control the look across the entire subtree. */
+	--ts-this-bg-grad-angle: 136deg;
+	--ts-this-bg-grad-angle-2: 114deg;
+	--ts-this-bg-grad-bright-pct: 6%;
+	--ts-this-bg-grad-dark-pct: 14%;
+	--ts-this-bg-grad: linear-gradient(var(--ts-this-bg-grad-angle), var(--ts-this-bg), var(--ts-this-bg-dark), var(--ts-this-bg));
+	--ts-this-bg-grad-comp: linear-gradient(151deg, var(--ts-this-bg-bright), var(--ts-this-bg-dark), var(--ts-this-bg), var(--ts-this-bg-bright), var(--ts-this-bg-dark));
+	--ts-this-bg-grad-flat: linear-gradient(90deg, var(--ts-this-bg-bright), var(--ts-this-bg-dark));
+	--ts-this-bg-grad-1: linear-gradient(var(--ts-this-bg-grad-angle), var(--ts-this-bg-bright), var(--ts-this-bg-dark), var(--ts-this-bg));
+	--ts-this-bg-grad-2: linear-gradient(to top left, var(--ts-this-bg), var(--ts-this-bg-dark), var(--ts-this-bg));
+	--ts-this-bg-grad-3: linear-gradient(116deg, var(--ts-this-bg-bright), var(--ts-this-bg), var(--ts-this-bg-bright));
+	--ts-this-bg-grad-4: linear-gradient(var(--ts-this-bg-grad-angle), var(--ts-this-bg-focus), color-mix(in srgb, var(--ts-this-bg-bright-2), transparent 20%), color-mix(in srgb, var(--ts-this-bg-bright-3), transparent 20%));
+	/* ─── BORDER STATE TOKENS ──────────────────────────────────────────
+		All borders derive from --ts-this-bg using a single control token:
+		--ts-mix-perc (intensity %). Override --ts-mix-perc on any scope to
+		control border contrast across the entire subtree. */
+	--ts-mix-perc: 10%;
+	--ts-mix-perc-hover: 25%;
+	--ts-mix-perc-active: 20%;
+	--ts-mix-perc-disabled: 8%;
+	--ts-this-bg-border: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc));
+	--ts-this-bg-border-0: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) calc(var(--ts-mix-perc) * 0.5));
+	--ts-this-bg-border-hover: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc-hover));
+	--ts-this-bg-border-active: color-mix(in srgb, var(--ts-this-bg), var(--ts-accent, #ff540a) var(--ts-mix-perc-active));
+	--ts-this-bg-border-disabled: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-muted) var(--ts-mix-perc-disabled));
+	--ts-this-bg-border-focus: var(--ts-accent, #ff540a);
+
+	/* --- HOVER, ACTIVE, FOCUS, DISABLED (automatic) --- */
+	--ts-this-bg-hover: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary-dim) 30%);
+	--ts-this-bg-active: color-mix(in srgb, var(--ts-this-bg), #000000 15%);
+	--ts-this-bg-focus: color-mix(in srgb, var(--ts-this-bg), var(--ts-accent, #ff540a) 20%);
+	--ts-this-bg-disabled: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-muted) 60%);
+
+	/* Hover/active gradients */
+	--ts-this-bg-hover-grad: linear-gradient(126deg, color-mix(in srgb, var(--ts-this-bg-bright), var(--ts-text-primary) 15%), color-mix(in srgb, var(--ts-this-bg-dark), var(--ts-text-primary) 8%), var(--ts-this-bg-hover));
+	--ts-this-bg-active-grad: linear-gradient(126deg, color-mix(in srgb, var(--ts-this-bg), #000000 8%), color-mix(in srgb, var(--ts-this-bg-dark), #000000 15%), var(--ts-this-bg-active));
+
+	/* Focus outline colour */
+	--ts-this-bg-focus-outline: var(--ts-accent, #ff540a);
+
+	/* ─── AUTO TEXT-ON-SURFACE (OKLCH luminance pivot) ─────────────────
+		Mirrors --ts-on-accent. Generates readable text color for ANY
+		--ts-this-bg value by flipping to white when the surface is dark
+		and to near-black when the surface is light. Tunable threshold. */
+	--ts-on-surface-threshold: 0.5;
+	--ts-on-surface: oklch(from var(--ts-this-bg) clamp(0.05, (var(--ts-on-surface-threshold) - l) * 999, 0.95) 0 0);
+	--ts-on-surface-dim: color-mix(in srgb, var(--ts-on-surface), transparent 30%);
+	--ts-on-surface-muted: color-mix(in srgb, var(--ts-on-surface), oklch(0 0 0 / var(--ts-on-surface-threshold)) 95%);
+	--ts-text-primary-dim: color-mix(in srgb, var(--ts-text-primary), transparent 70%);
+	--ts-text-primary-dim-2: color-mix(in srgb, var(--ts-text-primary), transparent 40%);
+	--ts-text-secondary-dim: color-mix(in srgb, var(--ts-text-secondary), transparent 70%);
+	--ts-text-secondary-dim-2: color-mix(in srgb, var(--ts-text-secondary), transparent 40%);
+	--ts-text-muted-dim: color-mix(in srgb, var(--ts-text-muted), transparent 70%);
+	--ts-text-muted-dim-2: color-mix(in srgb, var(--ts-text-muted), transparent 40%);
+	--ts-text-accent-dim: color-mix(in srgb, var(--ts-text-accent), transparent 70%);
+	--ts-text-accent-dim-2: color-mix(in srgb, var(--ts-text-accent), transparent 40%);
+	--ts-text-accent-2: color-mix(in srgb, var(--ts-accent), var(--ts-text-primary) 40%);
+	--ts-text-accent-3: color-mix(in srgb, var(--ts-accent), var(--ts-text-primary) 60%);
+	--ts-text-invert-dim: color-mix(in srgb, var(--ts-text-invert), transparent 70%);
+	--ts-text-invert-dim-2: color-mix(in srgb, var(--ts-text-invert), transparent 40%);
+	--ts-this-color-bright: color-mix(in srgb,
+			var(--ts-text-accent),
+			var(--ts-on-accent) 12%);
+
+--ts-text-accent: color-mix(in srgb, var(--ts-accent), var(--ts-text-primary) 20%);
+	--ts-text-accent-2: color-mix(in srgb, var(--ts-accent), var(--ts-text-primary) 40%);
+	--ts-text-accent-3: color-mix(in srgb, var(--ts-accent), var(--ts-text-primary) 60%);
+}

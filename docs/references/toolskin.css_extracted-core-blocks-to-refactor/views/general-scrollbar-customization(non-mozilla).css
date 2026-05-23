@@ -1,0 +1,58 @@
+/* ─── §8d  Custom Scrollbar ─────────────────────────────────────────── */
+/*
+	::-webkit-scrollbar { width: 6px; height: 6px; }
+	::-webkit-scrollbar-track { background: var(--ts-bg-0); }
+	::-webkit-scrollbar-thumb { background: var(--ts-bg-4); border-radius: var(--ts-radius-full); }
+	::-webkit-scrollbar-thumb:hover { background: var(--ts-accent); }
+	*/
+::-webkit-scrollbar {
+	width: var(--ts-sb-size) !important;
+	height: var(--ts-sb-size) !important;
+	--ts-this-bg: var(--ts-bg-4)!important;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--ts-sb-thumb) !important;
+	cursor: pointer !important;
+	border-radius: var(--ts-radius-base);
+	border-radius: 0;
+
+	border: var(--ts-sb-thumb-border-w) solid transparent !important;
+	background-clip: border-box !important;
+	/* background-clip: content-box!important; */
+	outline: var(--ts-sb-thumb-border-w) solid var(--ts-sb-border) !important;
+	outline-offset: -1px;
+	/* --ts-sb-border: #36373a; */
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--ts-sb-thumb-hover) !important;
+	cursor: pointer !important;
+	outline: var(--ts-sb-thumb-border-w) solid var(--ts-sb-border-hover);
+}
+
+::-webkit-scrollbar-track {
+
+	background: var(--ts-sb-track)!important;
+	cursor: pointer !important;
+	border-inline: var(--ts-sb-track-border-w) solid var(--ts-sb-border); 
+	border-radius: 0 !important;
+	background-clip: border-box !important;
+	/* background-clip: content-box !important; 
+		border-inline: 1px solid var(--ts-sb-border);*/
+	outline-offset: -1px;
+}
+
+::-webkit-scrollbar-track:hover {
+	background: var(--ts-sb-track-hover) !important;
+}
+
+::-webkit-scrollbar-thumb:active {
+	background: var(--ts-sb-thumb-hover) !important;
+}
+
+/* Thin scrollbar utility */
+.ts-scrollbar-thin {
+	scrollbar-width: thin;
+	scrollbar-color: var(--ts-bg-4) transparent;
+}

@@ -1,0 +1,269 @@
+[
+  {
+    "id": "root",
+    "name": "my-project",
+    "type": "folder",
+    "url": ".",
+    "size": null,
+    "mtime": 1779484544,
+    "ctime": 1779484544,
+    "children": [
+      {
+        "id": "src",
+        "name": "src",
+        "type": "folder",
+        "url": "src",
+        "size": null,
+        "mtime": 1779484544,
+        "ctime": 1779484544,
+        "children": [
+          {
+            "id": "src_index",
+            "name": "index.html",
+            "type": "file",
+            "url": "src/index.html",
+            "size": 2048,
+            "mtime": 1779484544,
+            "ctime": 1779484544,
+            "children": []
+          },
+          {
+            "id": "src_style",
+            "name": "style.css",
+            "type": "file",
+            "url": "src/style.css",
+            "size": 4096,
+            "mtime": 1779484544,
+            "ctime": 1779484544,
+            "children": []
+          },
+          {
+            "id": "src_app",
+            "name": "app.js",
+            "type": "file",
+            "url": "src/app.js",
+            "size": 8192,
+            "mtime": 1779484544,
+            "ctime": 1779484544,
+            "children": []
+          },
+          {
+            "id": "src_components",
+            "name": "components",
+            "type": "folder",
+            "url": "src/components",
+            "size": null,
+            "mtime": 1779484544,
+            "ctime": 1779484544,
+            "children": [
+              {
+                "id": "cmp_btn",
+                "name": "Button.jsx",
+                "type": "file",
+                "url": "src/components/Button.jsx",
+                "size": 1536,
+                "mtime": 1779484544,
+                "ctime": 1779484544,
+                "children": []
+              },
+              {
+                "id": "cmp_card",
+                "name": "Card.jsx",
+                "type": "file",
+                "url": "src/components/Card.jsx",
+                "size": 2300,
+                "mtime": 1779484544,
+                "ctime": 1779484544,
+                "children": []
+              },
+              {
+                "id": "cmp_modal",
+                "name": "Modal.jsx",
+                "type": "file",
+                "url": "src/components/Modal.jsx",
+                "size": 3100,
+                "mtime": 1779484544,
+                "ctime": 1779484544,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "assets",
+        "name": "assets",
+        "type": "folder",
+        "url": "assets",
+        "size": null,
+        "mtime": 1779484544,
+        "ctime": 1779484544,
+        "children": [
+          {
+            "id": "assets_img",
+            "name": "img",
+            "type": "folder",
+            "url": "assets/img",
+            "size": null,
+            "mtime": 1779484544,
+            "ctime": 1779484544,
+            "children": [
+              {
+                "id": "img_logo",
+                "name": "logo.svg",
+                "type": "file",
+                "url": "assets/img/logo.svg",
+                "size": 920,
+                "mtime": 1779484544,
+                "ctime": 1779484544,
+                "children": []
+              },
+              {
+                "id": "img_hero",
+                "name": "hero.png",
+                "type": "file",
+                "url": "assets/img/hero.png",
+                "size": 184320,
+                "mtime": 1779484544,
+                "ctime": 1779484544,
+                "children": []
+              },
+              {
+                "id": "img_bg",
+                "name": "background.jpg",
+                "type": "file",
+                "url": "assets/img/background.jpg",
+                "size": 256000,
+                "mtime": 1779484544,
+                "ctime": 1779484544,
+                "children": []
+              },
+              {
+                "id": "img_real",
+                "name": "toolskin-logo.png",
+                "type": "file",
+                "url": "https://satsea.io/toolskin-showcase/assets/img/bg_yt.jpg",
+                "size": 120000,
+                "mtime": 1779484544,
+                "ctime": 1779484544,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "assets_fonts",
+            "name": "fonts",
+            "type": "folder",
+            "url": "assets/fonts",
+            "size": null,
+            "mtime": 1779484544,
+            "ctime": 1779484544,
+            "children": [
+              {
+                "id": "font_a",
+                "name": "Inter.woff2",
+                "type": "file",
+                "url": "assets/fonts/Inter.woff2",
+                "size": 45000,
+                "mtime": 1779484544,
+                "ctime": 1779484544,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "docs",
+        "name": "docs",
+        "type": "folder",
+        "url": "docs",
+        "size": null,
+        "mtime": 1779484544,
+        "ctime": 1779484544,
+        "children": [
+          {
+            "id": "doc_readme",
+            "name": "README.md",
+            "type": "file",
+            "url": "docs/README.md",
+            "size": 1024,
+            "mtime": 1779484544,
+            "ctime": 1779484544,
+            "children": []
+          },
+          {
+            "id": "doc_changelog",
+            "name": "CHANGELOG.md",
+            "type": "file",
+            "url": "docs/CHANGELOG.md",
+            "size": 768,
+            "mtime": 1779484544,
+            "ctime": 1779484544,
+            "children": []
+          },
+          {
+            "id": "doc_guide",
+            "name": "guide.pdf",
+            "type": "file",
+            "url": "docs/guide.pdf",
+            "size": 51200,
+            "mtime": 1779484544,
+            "ctime": 1779484544,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "pkg",
+        "name": "package.json",
+        "type": "file",
+        "url": "package.json",
+        "size": 512,
+        "mtime": 1779484544,
+        "ctime": 1779484544,
+        "children": []
+      },
+      {
+        "id": "lock",
+        "name": "package-lock.json",
+        "type": "file",
+        "url": "package-lock.json",
+        "size": 89000,
+        "mtime": 1779484544,
+        "ctime": 1779484544,
+        "children": []
+      },
+      {
+        "id": "gitignore",
+        "name": ".gitignore",
+        "type": "file",
+        "url": ".gitignore",
+        "size": 128,
+        "mtime": 1779484544,
+        "ctime": 1779484544,
+        "children": []
+      },
+      {
+        "id": "readme_root",
+        "name": "README.md",
+        "type": "file",
+        "url": "README.md",
+        "size": 2400,
+        "mtime": 1779484544,
+        "ctime": 1779484544,
+        "children": []
+      },
+      {
+        "id": "config",
+        "name": "config.json",
+        "type": "file",
+        "url": "config.json",
+        "size": 640,
+        "mtime": 1779484544,
+        "ctime": 1779484544,
+        "children": []
+      }
+    ]
+  }
+]

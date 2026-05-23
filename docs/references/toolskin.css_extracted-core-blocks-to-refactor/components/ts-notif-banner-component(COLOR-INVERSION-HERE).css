@@ -1,0 +1,128 @@
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   COMPONENT: ts-banner
+   Full-width strip used for surfacing system overrides (e.g., debug
+   stylesheet swap), maintenance notices, etc. Variants: --info,
+   --success, --warning, --danger. Uses fixed positioning at top.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ts-banner {
+	position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: var(--ts-z-banner, 2147483645);
+
+	display: flex;
+		align-items: center;
+		gap: var(--ts-sp-3, 12px);
+		padding: var(--ts-sp-2, 8px) var(--ts-sp-4, 16px);
+
+	font-family: var(--ts-font-body, system-ui, sans-serif);
+		font-size: 12px;
+		font-weight: 600;
+		line-height: 1.4;
+min-height: var(--ts-promo-banner-h);
+	max-height: var(--ts-promo-banner-h);
+
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0);
+
+	/* ── TOKEN RESOLUTION ───────────────────────────── */
+	--ts-this-bg: var(--ts-this-bg-surface);
+	--ts-this-fg: var(--ts-this-surface-text);
+
+	/* ── AUTO INVERSION ─────────────────────────────── */
+	--ts-this-bg-inverse: var(--ts-this-fg);
+	--ts-this-fg-inverse: var(--ts-this-bg);
+
+	/* ── DEFAULT SURFACE ────────────────────────────── */
+	--ts-this-bg-surface: var(--ts-bg-2, #1a1c20);
+	--ts-this-surface-text: var(--ts-text-primary, #e8eaed);
+
+	background: var(--ts-this-bg);
+	color: var(--ts-this-fg);
+
+	border-bottom: 1px solid var(--ts-this-bg-border);
+
+	/* ── VARIANTS (ONLY SOURCE TOKENS) ───────────────── */
+	&.ts-banner--info {
+		--ts-this-bg-surface: var(--ts-info, #3b82f6);
+		--ts-this-surface-text: #fff;
+	}
+
+	&.ts-banner--success {
+		--ts-this-bg-surface: var(--ts-success, #10b981);
+		--ts-this-surface-text: #fff;
+	}
+
+	&.ts-banner--warning {
+		--ts-this-bg-surface: var(--ts-warning, #fbbf24);
+		--ts-this-surface-text: #1a1c20;
+	}
+
+	&.ts-banner--danger {
+		--ts-this-bg-surface: var(--ts-danger, #ef4444);
+		--ts-this-surface-text: #fff;
+	}
+
+	/* ── CHILD AUTO-INVERSION ───────────────────────── */
+	.ts-banner__tag,
+	.ts-banner__action {
+		background: var(--ts-this-bg-inverse);
+		color: var(--ts-this-fg-inverse);
+	}
+}
+
+.ts-banner__label {
+	flex: 1 1 auto;
+		display: flex;
+		align-items: center;
+		gap: var(--ts-sp-2, 8px);
+		flex-wrap: wrap;
+}
+
+.ts-banner__tag {
+	font-family: var(--ts-font-mono, ui-monospace, monospace);
+	font-size: 11px;
+	letter-spacing: 0.04em;
+	padding: 8px 10px;
+	border-radius: 5px;
+	line-height: 1.5;
+}
+
+.ts-banner__file {
+	font-family: var(--ts-font-mono, ui-monospace, monospace);
+	font-weight: 900;
+	font-size: 1.12em;
+	letter-spacing: -0.008em;
+	line-height: 1.3;
+	margin-left: 2px;
+}
+
+.ts-banner__meta {
+	opacity: 0.75;
+		font-weight: 500;
+}
+
+.ts-banner__action {
+	padding: 7px 8px;
+	border-radius: 5px;
+	font-size: 9px;
+	font-weight: 600;
+	border: none;
+	cursor: pointer;
+}
+
+.ts-banner__dismiss {
+	width: 24px;
+		height: 24px;
+		border-radius: 4px;
+		background: transparent;
+		border: none;
+		font-size: 20px;
+		cursor: pointer;
+		line-height: 1;
+		padding: 0;
+		color: inherit;
+}

@@ -1,0 +1,150 @@
+/* === Marquee Component (self-contained) === */
+
+.ts-marquee-container {
+	--ts-marquee-border-color: var(--ts-border-0);
+	--ts-marquee-bg: var(--ts-bg-1);
+	--ts-marquee-bg: var(--ts-accent-glow-bg-2);
+	--ts-marquee-color: var(--ts-text-primary);
+	--ts-marquee-font-size: var(--ts-fs-4xl);
+	--ts-marquee-font-size: var(--ts-fs-hero);
+	--ts-marquee-speed: 45s;
+	--ts-marquee-radius: var(--ts-radius-lg);
+	--ts-marquee-pad: var(--ts-section-pad);
+	--ts-marquee-pad: var(--ts-sp-8);
+	--ts-marquee-border: 1px;
+	--ts-marquee-separator: calc(var(--ts-marquee-font-size) / 2);
+	--ts-marquee-gutter: var(--ts-sp-6);
+	--ts-marquee-height: 100%;
+	--ts-marquee-width: 100%;
+	--ts-marquee-weight: 600;
+	pointer-events: none;
+	/* OWNER FIXES: i added poinet event none to avoid the animation stop on hover. tis shoud be removed whenthe behaviour is removed from the defaults. this is a hardcoded tmeporary fix. */
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	width: var(--ts-marquee-width);
+	height: var(--ts-marquee-height);
+	box-sizing: border-box;
+	padding: var(--ts-marquee-gutter);
+}
+
+.ts-marquee.fullwidth.ts-marquee-container {
+	min-width: calc(100vw + var(--ts-marquee-border) + var(--ts-marquee-border) - var(--ts-marquee-gutter));
+	width: 100%;
+	max-width: none;
+	border-radius: 0;
+	border: none;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1 1 100%;
+	position: relative;
+	z-index: 1;
+	order: -1;
+	transform: translateX(-50%);
+	left: 50%;
+}
+
+.ts-masonry-item .ts-marquee.fullwidth.ts-marquee-container {
+	left: auto;
+	transform: none;
+}
+
+.ts-marquee-text-wrap {
+	background: var(--ts-marquee-bg);
+	overflow: hidden;
+	font-size: var(--ts-marquee-font-size);
+	letter-spacing: -0.01em;
+	font-weight: var(--ts-marquee-weight);
+	flex-shrink: 0;
+	width: 100%;
+	border: var(--ts-marquee-border) solid var(--ts-marquee-border-color);
+	padding: var(--ts-marquee-pad);
+	border-radius: var(--ts-marquee-radius);
+}
+
+.ts-marquee-text-content {
+	display: flex;
+	width: max-content;
+	/* Automatically fits the text exactly */
+	will-change: transform;
+}
+
+.ts-marquee-text-text {
+	-webkit-animation-name: ts-marquee-loop;
+	animation-name: ts-marquee-loop;
+	-webkit-animation-timing-function: linear;
+	animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+	animation-iteration-count: infinite;
+	animation-duration: var(--ts-marquee-speed);
+	display: inline-block;
+	white-space: nowrap;
+	padding-right: var(--ts-marquee-separator);
+	color: var(--ts-marquee-color);
+	vertical-align: top;
+}
+
+/* Guard: <br> from innerText ignores white-space:nowrap — hide them */
+.ts-marquee-text-text br {
+	display: none;
+}
+
+/* Right direction (reverse animation) */
+.ts-marquee[data-mq-direction="right"] .ts-marquee-text-text {
+	animation-direction: reverse;
+}
+
+/* === responsive: hide below 700px (matches original) ===
+	@media (max-width: 700px) {
+	.ts-marquee-container {
+		display: none;
+	}
+	} */
+
+/* Marquee only: duplicate strip via ::before so translateX(-50%) loops seamlessly */
+.ts-marquee-container .ts-marquee-text-text[data-text-content] {
+	display: inline-block;
+	position: relative;
+	white-space: nowrap;
+}
+
+.ts-marquee-container .ts-marquee-text-text[data-text-content]::before {
+	content: attr(data-text-content);
+	padding-right: var(--ts-marquee-separator);
+}
+
+@-webkit-keyframes ts-marquee-text-animation {
+	0% {
+		transform: translateX(0);
+	}
+
+	100% {
+		transform: translateX(-50%);
+	}
+}
+
+@keyframes ts-marquee-text-animation {
+	0% {
+		transform: translateX(0);
+	}
+
+	100% {
+		transform: translateX(-50%);
+	}
+}
+
+@keyframes ts-marquee-loop {
+	from {
+		transform: translateX(0);
+	}
+
+	to {
+		transform: translateX(-50%);
+	}
+
+	/* Moves text by exactly half its width, creating seamless loop */
+}

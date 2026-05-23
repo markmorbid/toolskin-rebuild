@@ -1,0 +1,747 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css" />
+
+    <!-- Toolskin Framework (loads after dependencies) -->
+    <script src="https://satsea.io/toolskin-showcase/assets/js/toolskin.js" defer></script>
+
+<style>
+  .ts-preloader{
+  display: none!important;
+}
+</style>
+    <title>Phantom Gallery - 3D Mobile Optimized</title>
+
+    <style>
+        :root {
+            --ts-phantom-bg-color: #111111;
+            --ts-phantom-accent: var(--ts-accent, #ffb91d);
+            --ts-phantom-font: var(--ts-font-body);
+            --ts-phantom-text-color: #f0f0f0;
+            --ts-phantom-text-secondary: #888;
+            --ts-phantom-text-tertiary: #666;
+            --ts-phantom-overlay-bg: rgba(8, 8, 8, 0.95);
+            --ts-phantom-box-shadow: rgba(0, 0, 0, 0.5);
+            --ts-phantom-bgblur: 20px;
+            --ts-phantom-radius: var(--ts-radius-md, 8px);
+            --ts-phantom-bg-glass-light: rgba(255, 255, 255, 0.1);
+            --ts-phantom-border-glass-light: rgba(255, 255, 255, 0.2);
+            --ts-phantom-transition-dur-fast: 0.3s;
+            --ts-phantom-transition-dur-base: 1s;
+            --ts-phantom-transition-dur-slow: 3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: var(--ts-phantom-bg-color);
+            color: var(--ts-phantom-text-color);
+            cursor: grab;
+            font-family: 'JetBrains Mono', monospace;
+            user-select: none;
+            overflow: hidden;
+            touch-action: none;
+            -webkit-overflow-scrolling: touch;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        body.dragging {
+            cursor: grabbing;
+        }
+
+        body.ts-lightbox-open {
+            overflow: hidden;
+        }
+
+        .ts-iris-blur:not(.ts-grain, .ts-grain--animated, .ts-grain--flickered, .ts-grain--perf, .ba-grid, .grid-bg)::before,
+        .ts-iris-blur.ts-grain::after,
+        .ts-iris-blur.ba-grid::after,
+        .ts-iris-blur.grid-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 20;
+            background: radial-gradient(ellipse at center,
+                    transparent 0%,
+                    transparent 20%,
+                    transparent 45%,
+                    rgba(0, 0, 0, 0.08) 66%,
+                    rgba(0, 0, 0, 0.3) 80%,
+                    rgba(0, 0, 0, .8) 100%) !important;
+
+            -webkit-mask-image: radial-gradient(ellipse at center,
+                    transparent 60%,
+                    black 85%,
+                    black 100%);
+
+            mask-image: radial-gradient(ellipse at center,
+                    transparent 60%,
+                    black 85%,
+                    black 100%);
+
+            backdrop-filter: blur(var(--ts-phantom-bgblur));
+            -webkit-backdrop-filter: blur(var(--ts-phantom-bgblur));
+        }
+
+        #ts-phantom-gallery {
+            position: relative;
+            width: 100vw !important;
+            height: 100vh !important;
+            opacity: 1;
+            transition: opacity 0.8s ease-in-out, filter var(--ts-phantom-transition-dur-fast) ease;
+            transform: translateZ(0) !important;
+            -webkit-transform: translateZ(0) !important;
+        }
+
+        #ts-phantom-gallery canvas {
+            transition: opacity 0.8s ease-in-out, filter var(--ts-phantom-transition-dur-fast) ease;
+            z-index: 1 !important;
+        }
+
+        #ts-phantom-gallery:not(.loaded) canvas {
+            opacity: 0 !important;
+        }
+
+        #ts-phantom-gallery.loaded canvas {
+            opacity: 1 !important;
+        }
+
+        #ts-phantom-gallery.blur {
+            filter: blur(5px) !important;
+            pointer-events: none;
+        }
+
+        .ts-loading-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 999999999999999999999999;
+            transition: opacity var(--ts-phantom-transition-dur-fast) ease-out;
+        }
+
+        .ts-loading-container.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .ts-loading-text {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--ts-phantom-text-color-secondary);
+            margin-bottom: 20px;
+            letter-spacing: 0.05em;
+        }
+
+        .ts-loading-bar-container {
+            width: 200px;
+            height: 5px;
+            background: var(--ts-phantom-bg-glass-light);
+            border-radius: var(--ts-phantom-radius);
+            overflow: hidden;
+        }
+
+        .ts-loading-bar {
+            height: 100%;
+            background: var(--ts-phantom-text-color-tertiary);
+            width: 0;
+            transition: width var(--ts-phantom-transition-dur-fast) ease;
+            border-radius: var(--ts-phantom-radius);
+        }
+
+        .ts-lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--ts-phantom-overlay-bg);
+            backdrop-filter: blur(calc(var(--ts-phantom-bgblur)/2));
+            -webkit-backdrop-filter: blur(calc(var(--ts-phantom-bgblur)/2));
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .ts-lightbox-overlay.open {
+            display: flex;
+        }
+
+        .ts-lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 2001;
+        }
+
+        .ts-lightbox-main {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: calc(100vh - 120px);
+            padding-top: 50px;
+            max-height: 80vh;
+        }
+
+
+
+        .ts-lightbox-header {
+            display: flex;
+            color: var(--ts-phantom-text-color);
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 15px;
+            background: #0000006b;
+            align-items: center;
+            gap: 15px;
+            max-width: unset;
+            margin-bottom: 8px;
+            border-radius: var(--ts-phantom-radius);
+            border: 1px solid #ffffff29 !important;
+            width: 100%;
+            flex: 1;
+        }
+
+        .ts-lightbox-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 0px 0;
+            letter-spacing: 0.05rem;
+            color: var(--ts-phantom-accent) !important;
+            line-height: 1;
+            flex: 1;
+            text-align: left;
+        }
+
+        .ts-lightbox-meta {
+            font-size: 12px;
+            color: var(--ts-phantom-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .ts-lightbox-img {
+            max-width: 90vw;
+            max-height: calc(80vh - 80px);
+            width: auto;
+            height: auto;
+            border-radius: var(--ts-phantom-radius);
+            box-shadow: 0 20px 60px var(--ts-phantom-box-shadow);
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity var(--ts-phantom-transition-dur-base) ease-in-out;
+            border: 1px solid var(--ts-phantom-border-glass-light);
+        }
+
+        .ts-lightbox-img.loaded {
+            opacity: 1;
+        }
+
+        .ts-lightbox-close {
+            position: fixed;
+            top: 110px;
+            right: 50px;
+            background: none;
+            border: none;
+            color: var(--ts-phantom-text-color-secondary);
+            cursor: pointer;
+            font-size: 32px;
+            font-weight: 300;
+            transition: all var(--ts-phantom-transition-dur-fast) ease;
+            z-index: 2002;
+            padding: 10px;
+            line-height: 1;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ts-lightbox-close:hover {
+            color: var(--ts-phantom-text-color);
+            transform: scale(1.1);
+        }
+
+
+
+        /* Navigation Buttons */
+        .ts-lightbox-nav {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--ts-phantom-text-color);
+            width: 50px;
+            height: 50px;
+            border-radius: var(--ts-phantom-radius);
+            cursor: pointer;
+            font-size: 28px;
+            font-weight: 300;
+            transition: all var(--ts-phantom-transition-dur-fast) ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            padding: 0;
+            position: fixed;
+        }
+
+        .ts-lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .ts-lightbox-nav:active {
+            transform: scale(0.95);
+        }
+
+        .ts-lightbox-prev {
+            order: -1;
+            left: 10px;
+        }
+
+        .ts-lightbox-next {
+            order: 1;
+            right: 10px;
+        }
+
+        /* Close Button */
+        .ts-lightbox-close {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--ts-phantom-bg-glass-light);
+            color: var(--ts-phantom-text-secondary);
+            cursor: pointer;
+            font-size: 32px;
+            font-weight: 300;
+            transition: all var(--ts-phantom-transition-dur-fast) ease;
+            z-index: 1000001;
+            padding: 10px;
+            line-height: 1;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--ts-phantom-radius);
+        }
+
+        .ts-lightbox-nav,
+        .ts-lightbox-close {
+            background: transparent !important;
+            border: none !important;
+            padding: 12px;
+        }
+
+        svg.ts-icon.x-mark {
+            width: 15px;
+        }
+
+        .ts-icon {
+            max-width: 100%;
+            max-height: 100%;
+            aspect-ratio: 1;
+            display: flex;
+            margin: 0;
+            font-size: inherit;
+        }
+
+        .ts-lightbox-close:hover {
+            color: var(--ts-phantom-text-color);
+            background: var(--ts-phantom-bg-glass-light);
+            border-color: var(--ts-phantom-border-glass-light);
+            transform: scale(1.1);
+        }
+
+        .ts-lightbox-thumbnails {
+            display: flex;
+            gap: 10px;
+            max-width: 600px;
+            padding: 10px 0;
+            justify-content: center;
+            flex-wrap: nowrap;
+            position: relative;
+            z-index: 2001;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .ts-lightbox-thumbnails::-webkit-scrollbar {
+            display: none;
+        }
+
+        .ts-lightbox-thumbnail {
+            flex-shrink: 0;
+            width: 100px;
+            height: 75px;
+            border-radius: var(--ts-phantom-radius);
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all var(--ts-phantom-transition-dur-fast) ease-in-out;
+            opacity: 0.4;
+            position: relative;
+        }
+
+        .ts-lightbox-thumbnail:hover {
+            opacity: 0.7;
+            transform: scale(1.05);
+        }
+
+        .ts-lightbox-thumbnail.active {
+            opacity: 1;
+            border-color: var(--ts-phantom-accent);
+        }
+
+        .ts-lightbox-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        @media (max-width: 800px) {
+            .ts-lightbox-content {
+                flex-direction: column;
+                max-width: 100vw;
+                max-height: 100vh;
+                padding: 10px;
+            }
+
+            .ts-lightbox-main {
+                height: calc(100vh - 180px);
+                padding-top: 100px;
+                max-height: 70vh;
+            }
+
+            .ts-lightbox-img {
+                max-width: 95vw;
+                max-height: calc(70vh - 100px);
+                width: auto;
+                height: auto;
+            }
+
+            .ts-lightbox-close {
+                top: 85px;
+                right: 15px;
+                font-size: 28px;
+            }
+
+            .ts-lightbox-thumbnails {
+                max-width: 100%;
+                gap: 8px;
+                padding: 10px;
+            }
+
+            .ts-lightbox-thumbnail {
+                width: 70px;
+                height: 52px;
+            }
+        }
+
+        @keyframes ts-fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .ts-lightbox-overlay.open .ts-lightbox-content {
+            animation: ts-fadeIn var(--ts-phantom-transition-dur-base) ease-out;
+        }
+
+        html,
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden !important;
+            scrollbar-width: none;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            justify-content: center;
+            align-content: center;
+            place-content: center;
+            background: var(--ts-phantom-bg-color);
+
+        }
+
+        body.noise:after {
+            content: "" !important;
+            position: fixed !important;
+            inset: 0 !important;
+            background-image: url("https://satsea.io/toolskin-showcase/assets/img/grainy-noise.gif");
+            background-repeat: repeat !important;
+            background-size: 250px 250px;
+            background-position: left top !important;
+            mix-blend-mode: soft-light;
+            opacity: 0.21 !important;
+            pointer-events: none !important;
+            z-index: 999999999999999999999999 !important;
+            display: block !important;
+        }
+
+        body.noise.lighter:after {
+            content: "" !important;
+            position: fixed !important;
+            inset: 0 !important;
+            background-image: url("https://satsea.io/toolskin-showcase/assets/img/grainy-noise.gif");
+            background-repeat: repeat !important;
+            background-size: 300px;
+            background-position: left top !important;
+            mix-blend-mode: screen;
+            opacity: 0.1 !important;
+            pointer-events: none !important;
+            z-index: 999999999999999999999999 !important;
+            display: block !important;
+        }
+    </style>
+    <!-- Toolskin Configuration -->
+    <script>
+        window.addEventListener('ts:ready', () => {
+            console.log('✅ Toolskin Framework Initialized');
+            console.log('Config:', Toolskin.config);
+        });
+
+        if (typeof THREE === 'undefined') {
+            document.addEventListener('DOMContentLoaded', function () {
+                const el = document.getElementById('ts-loading');
+                if (el) el.innerHTML = '<div class="ts-loading-text">FAILED TO LOAD RESOURCES</div>';
+            });
+            console.error('Three.js library failed to load');
+        }
+
+        // After deferred scripts (toolskin-uikit.js), so ToolskinUIKit exists. ts:ready may fire earlier when core runs before uikit.
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.ToolskinUIKit && typeof ToolskinUIKit.init === 'function') {
+                ToolskinUIKit.init(document);
+            }
+            const schemaHost = document.getElementById('showcase-accordion-schema');
+
+            const projects = [
+                {
+                    mainImage: "https://picsum.photos/300?random=1",
+                    images: [
+                        "https://picsum.photos/300?random=2",
+                        "https://picsum.photos/300?random=3",
+                        "https://picsum.photos/300?random=4",
+                        "https://picsum.photos/300?random=5"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=6",
+                    images: [
+                        "https://picsum.photos/300?random=7",
+                        "https://picsum.photos/300?random=8",
+                        "https://picsum.photos/300?random=9"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=10",
+                    images: [
+                        "https://picsum.photos/300?random=11",
+                        "https://picsum.photos/300?random=12",
+                        "https://picsum.photos/300?random=13",
+                        "https://picsum.photos/300?random=14"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=15",
+                    images: [
+                        "https://picsum.photos/300?random=16",
+                        "https://picsum.photos/300?random=17"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=18",
+                    images: [
+                        "https://picsum.photos/300?random=19",
+                        "https://picsum.photos/300?random=20",
+                        "https://picsum.photos/300?random=21",
+                        "https://picsum.photos/300?random=22",
+                        "https://picsum.photos/300?random=23"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=24",
+                    images: [
+                        "https://picsum.photos/300?random=25",
+                        "https://picsum.photos/300?random=26",
+                        "https://picsum.photos/300?random=27",
+                        "https://picsum.photos/300?random=28"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=29",
+                    images: [
+                        "https://picsum.photos/300?random=30",
+                        "https://picsum.photos/300?random=31"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=32",
+                    images: [
+                        "https://picsum.photos/300?random=33",
+                        "https://picsum.photos/300?random=34",
+                        "https://picsum.photos/300?random=35"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=36",
+                    images: [
+                        "https://picsum.photos/300?random=37",
+                        "https://picsum.photos/300?random=38",
+                        "https://picsum.photos/300?random=39",
+                        "https://picsum.photos/300?random=40"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=41",
+                    images: [
+                        "https://picsum.photos/300?random=42",
+                        "https://picsum.photos/300?random=43",
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=44",
+                    images: [
+                        "https://picsum.photos/300?random=45",
+                        "https://picsum.photos/300?random=46",
+                        "https://picsum.photos/300?random=47",
+                        "https://picsum.photos/300?random=48"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=49",
+                    images: [
+                        "https://picsum.photos/300?random=50",
+                        "https://picsum.photos/300?random=51",
+                        "https://picsum.photos/300?random=52"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=53",
+                    images: [
+                        "https://picsum.photos/300?random=54",
+                        "https://picsum.photos/300?random=55",
+                        "https://picsum.photos/300?random=56",
+                        "https://picsum.photos/300?random=57"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=58",
+                    images: [
+                        "https://picsum.photos/300?random=59",
+                        "https://picsum.photos/300?random=60"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=61",
+                    images: [
+                        "https://picsum.photos/300?random=2",
+                        "https://picsum.photos/300?random=63",
+                        "https://picsum.photos/300?random=64",
+                        "https://picsum.photos/300?random=65"
+                    ]
+                },
+                {
+                    mainImage: "https://picsum.photos/300?random=66",
+                    images: [
+                        "https://picsum.photos/300?random=67",
+                        "https://picsum.photos/300?random=68",
+                        "https://picsum.photos/300?random=69"
+                    ]
+                }
+            ];
+
+        });
+    </script>
+</head>
+
+<body class="ts-toolskin">
+
+    <div class="ts-loading-container" id="ts-loading">
+        <div class="ts-loading-text">LOADING GALLERY</div>
+        <div class="ts-loading-bar-container">
+            <div class="ts-loading-bar" id="ts-loadingBar"></div>
+        </div>
+    </div>
+
+    <section id="ts-phantom-gallery" class="ts-section ts-h-full ts-iris-blur">
+    </section>
+
+    <div class="ts-lightbox-overlay" id="ts-lightbox">
+        <button class="ts-lightbox-close ts-btn" id="ts-lightbox-close" aria-label="Close"><svg class="ts-icon x-mark"
+                xmlns="http://www.w3.org/2000/svg" viewBox="128.42 127.92 384.15 384.15" fill="currentColor">
+                <path
+                    d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z">
+                </path>
+            </svg></button>
+        <div class="ts-lightbox-content">
+            <div class="ts-lightbox-main">
+                <img src="" id="ts-lightbox-img" class="ts-lightbox-img" alt="">
+            </div>
+            <div class="ts-lightbox-thumbnails" id="ts-lightbox-thumbnails">
+                <div class="ts-lightbox-thumbnail">
+                    <img src="" class="ts-lightbox-img" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

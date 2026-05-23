@@ -1,0 +1,308 @@
+
+
+/* CSS GRID BACKGROUND ANIMTION V_1.0 */
+
+@property --animation-offset-y {
+	syntax: "<percentage>";
+	inherits: false;
+	initial-value: 0%;
+}
+
+.grid-bg_v1 {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.grid-bg_v1.ba-grid {
+	position: relative;
+	z-index: 1;
+
+	background-image: radial-gradient(ellipse at bottom, var(--ts-bg-1) 0%, var(--ts-bg-1) 100%),
+		radial-gradient(ellipse at bottom left, var(--ts-accent-dim) 10%, var(--ts-bg-2) 40%),
+		linear-gradient(to bottom, var(--ts-accent-dim-2), var(--ts-bg-3) 50%),
+		linear-gradient(135deg, var(--ts-bg-1), var(--ts-bg-0)) !important;
+}
+
+.grid-bg_v1.ba-grid:before,
+.grid-bg_v1.ba-grid:after,
+.grid-bg_v1 .ts-section-color-overlay:before,
+.grid-bg_v1 .ts-section-color-overlay:after {
+	content: "";
+	position: absolute;
+	z-index: 0;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	mix-blend-mode: overlay;
+}
+
+.grid-bg_v1.ba-grid:before {
+	background-image: linear-gradient(var(--ts-line-color), transparent 1px),
+		linear-gradient(to right, var(--ts-line-color), transparent 1px) !important;
+	background-size: 100% var(--ts-grid-height),
+		var(--ts-grid-width) 100%;
+}
+
+.grid-bg_v1.ba-grid:after {
+	background-image: radial-gradient(var(--ts-dot-color) 1px, transparent 1px);
+	background-size: var(--ts-point-gap-width) var(--ts-point-gap-height);
+	background-position: calc(var(--ts-point-gap-width) / 2) calc(var(--ts-point-gap-height) / 2);
+}
+
+
+.grid-bg_v1 .ts-section-color-overlay:after {
+	background-image: radial-gradient(var(--ts-dot-color) var(--ts-dot-size), transparent var(--ts-dot-size)) !important;
+	background-size: var(--ts-dot-size) var(--ts-dot-size) !important;
+	background-position: var(--ts-grid-size) var(--ts-grid-size) !important;
+}
+
+.grid-bg_v1 .ts-section-color-overlay:after {
+	transform: scale(1.1, 1.1);
+}
+
+.grid-bg_v1 .ts-section-color-overlay:before {
+	background-image: radial-gradient(var(--ts-dot-color) calc(var(--ts-dot-size) + 1px),
+			transparent calc(var(--ts-dot-size) + 1px));
+	transform: scale(1.2, 1.2);
+}
+
+.anim.grid-bg_v1:after {
+	animation: 6.4s linear move_v1 infinite;
+}
+
+.anim.grid-bg_v1 .ts-section-color-overlay:after {
+	animation: 3.2s linear move_v1 infinite;
+}
+
+.anim.grid-bg_v1 .ts-section-color-overlay:before {
+	animation: 1.6s linear move_v1 infinite;
+}
+
+@keyframes move_v1 {
+	0% {
+		background-position: calc(var(--ts-point-gap-width) / 2) calc(var(--ts-point-gap-height) / 2);
+	}
+
+	100% {
+		background-position: calc(var(--ts-point-gap-width) / 2) calc(var(--ts-point-gap-height) / 2 * -1);
+	}
+}
+
+/* END CSS GRID BACKGROUND ANIMTION */
+
+/* ─── Grid-bg z-index stack ───────────────────────────────────────────
+	0 = ba-grid:before (grid lines)
+	0 = ts-section-color-overlay (dot layers)
+	5 = all other children (content)
+	───────────────────────── */
+
+/* Content sits above all background layers — exclude effect/overlay layers */
+.grid-bg>*:not(.ts-section-color-overlay, .ts-effects-layer, .ts-color-overlay-layer, .ts-grain-layer, #ts-gradient-canvas, .ts-oce-video-bg, canvas, iframe) {
+	position: relative !important;
+	z-index: 5 !important;
+}
+
+.grid-bg[style*="animation-play-state: paused"] #ts-gradient-canvas,
+.grid-bg[style*="animation-play-state: paused"] .ts-oce-video-bg {
+	display: none !important;
+	visibility: hidden !important;
+	opacity: 0 !important;
+}
+
+/* Overlay: z-index 3 so dots sit above grid lines(1) and color overlay(2).
+	No isolation — grain is on its own topmost layer now, no conflict. */
+.grid-bg .ts-section-color-overlay {
+	pointer-events: none;
+	z-index: 3;
+}
+
+.grid-bg.interactive .ts-section-color-overlay {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 3;
+	transform: translateX(var(--mouse-x, 0px)) translateY(var(--mouse-y, 0px)) translateZ(0);
+	contain: layout style;
+}
+
+.anim.grid-bg.interactive .ts-section-color-overlay:before {
+	animation: move-performant-var var(--ts-dot-speed) linear infinite;
+}
+
+.grid-bg {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	/* TODO: position:relative removed — was creating stacking context that
+		fought with effects-layer absolute positioning. Grid-bg on effects-layer
+		inherits position:absolute from .ts-effects-layer instead. */
+}
+
+/* ── Grid background base ─────────────────────────────────────────────
+	Opaque dark background-color. Gradient glow on a separate pseudo-element
+	so it doesn't fight with background-image !important chains.
+	All values driven by CSS custom properties (set by JS ToolskinGridBg). */
+
+.ba-grid {
+	z-index: 3;
+	background-color: var(--ts-bg-0);
+}
+
+/* ── Accent glow (::before when NO ts-grain) ─────────────────────────
+	When ts-grain IS present, ::before is used for noise (set by .ts-grain rules) —
+	the glow is applied on the section background-image instead. */
+.ba-grid:not(.ts-grain)::before {
+	content: "";
+	pointer-events: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 2;
+	opacity: var(--ts-grid-gradient-opacity, 0.3);
+	background: radial-gradient(ellipse at var(--ts-grid-gradient-pos, bottom left), var(--ts-accent) 0%,
+			transparent 65%);
+}
+
+/* When ts-grain IS present: glow baked into the section background-image
+	using 30% accent (safe color-mix, no calc) */
+.ba-grid.ts-grain {
+	background-image: radial-gradient(ellipse at var(--ts-grid-gradient-pos, bottom left),
+			color-mix(in srgb, var(--ts-accent) 30%, transparent) 0%,
+			transparent 65%);
+}
+
+/* ── Grid lines (::after) ────────────────────────────────────────────
+	Stays fixed (doesn't move with mouse parallax).
+	Opacity controlled by --ts-grid-line-opacity (set by JS). */
+.ba-grid::after {
+	content: "";
+	pointer-events: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 2;
+	opacity: var(--ts-grid-line-opacity, 0.45);
+	background-image: linear-gradient(var(--ts-line-color, var(--ts-border-1)) 0px,
+			transparent 1px),
+		linear-gradient(to right, var(--ts-line-color, var(--ts-border-1)) 0px,
+			transparent 1px);
+	background-size: 100% var(--ts-grid-size, 40px), var(--ts-grid-size, 40px) 100% !important;
+}
+
+[data-theme="light"] .ba-grid::after {
+	--ts-grid-line-opacity: 0.9;
+}
+
+.grid-bg .ts-section-color-overlay:before,
+.grid-bg .ts-section-color-overlay:after {
+	content: "";
+	position: absolute;
+	z-index: 0;
+	left: 0;
+	top: 0;
+	right: 0;
+	width: 100%;
+	height: 200%;
+	background-image: radial-gradient(var(--ts-dot-color) var(--ts-dot-size),
+			transparent var(--ts-dot-size));
+	background-size: var(--ts-point-gap-width) var(--ts-point-gap-height);
+	background-size: var(--ts-point-gap-width) var(--ts-point-gap-width);
+}
+
+/* Outer dot layer — smaller, subtler (restored to initial design values) */
+.grid-bg .ts-section-color-overlay:after {
+	transform: scale(1, 1);
+	opacity: 0.35;
+}
+
+/* Inner dot layer — scale factor controllable via --ts-dot-scale */
+.grid-bg .ts-section-color-overlay:before {
+	background-image: radial-gradient(var(--ts-dot-color) calc(var(--ts-dot-size) + 1px),
+			transparent calc(var(--ts-dot-size) + 1px));
+	transform: scale(var(--ts-dot-scale, 1.4), var(--ts-dot-scale, 1.4));
+	opacity: 0.6;
+}
+
+.anim.grid-bg .ts-section-color-overlay:after {
+	animation: move-performant 30s linear infinite;
+	background-position: calc((100vw / 1.5) * 3 + var(--ts-point-gap-width));
+}
+
+.anim.grid-bg .ts-section-color-overlay:before {
+	animation: move-performant 12.4s linear infinite;
+}
+
+.grid-bg.interactive .ts-section-color-overlay:after {
+	transform: translateX(var(--mouse-x-1, 0px)) translateY(calc(var(--animation-offset-y) + var(--mouse-y-1, 0px))) translateZ(0) scale(calc(var(--ts-dot-scale)*.8));
+}
+
+.grid-bg.interactive .ts-section-color-overlay:before {
+	background-image: radial-gradient(var(--ts-dot-color) calc(var(--ts-dot-size) + 1px),
+			transparent calc(var(--ts-dot-size) + 1px)) !important;
+	transform: scale(var(--ts-dot-scale, 1.4), var(--ts-dot-scale, 1.4)) translateX(var(--mouse-x-2, 0px)) translateY(calc(var(--animation-offset-y) + var(--mouse-y-2, 0px))) translateZ(0);
+}
+
+.anim.interactive.grid-bg .ts-section-color-overlay:after {
+	animation: move-performant-var calc(var(--ts-dot-speed) * calc(var(--ts-dot-scale)*.8)) linear infinite;
+	background-position: 100%;
+	background-position: calc((100vw / calc(var(--ts-dot-scale)*.8)) * 2 + 50vw + 100%);
+}
+
+/*.anim.interactive.grid-bg .ts-section-color-overlay:before {
+	animation: move-performant-var var(--ts-dot-speed) linear infinite; 
+	}*/
+
+@keyframes move-performant {
+	from {
+		transform: translateY(0);
+	}
+
+	to {
+		transform: translateY(-50%);
+	}
+}
+
+@keyframes move-performant-var {
+	from {
+		--animation-offset-y: 0%;
+	}
+
+	to {
+		--animation-offset-y: -50%;
+	}
+}
+
+/* Pause all child animations when section is off-screen (set by JS IntersectionObserver) */
+.grid-bg[style*="animation-play-state: paused"] .ts-section-color-overlay::before,
+.grid-bg[style*="animation-play-state: paused"] .ts-section-color-overlay::after {
+	animation-play-state: paused !important;
+}
+
+/* --- Grid-bg CSS fallback defaults (overridden by JS ToolskinGridBg._applyVars) --- */
+:root {
+	--ts-grid-size: 40px;
+	--ts-grid-width: var(--ts-grid-size) !important;
+	--ts-grid-height: var(--ts-grid-size) !important;
+	--ts-line-color: var(--ts-border-1);
+	--ts-grid-line-opacity: 40%;
+	/* Dot color: default = accent. JS overrides with color-mix for alpha control. */
+	--ts-dot-alpha: 1;
+	--ts-dot-color: var(--ts-accent);
+	--ts-dot-size: 2px;
+	/* Inner dot layer scale factor — controllable via editor */
+	--ts-dot-scale: 1;
+	--ts-dot-speed: 50s;
+	--ts-point-gap-width: var(--ts-grid-size) !important;
+	--ts-point-gap-height: var(--ts-grid-size) !important;
+	--ts-grid-gradient-opacity: 0.2;
+	--ts-grid-gradient-pos: bottom left;
+	--ts-grid-noise-opacity: 0.75;
+}

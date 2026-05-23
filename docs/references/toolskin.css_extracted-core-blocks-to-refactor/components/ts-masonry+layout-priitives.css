@@ -1,0 +1,642 @@
+
+/* ============================================================
+   TOOLSKIN · MASONRY — Integration v5
+   ------------------------------------------------------------
+   Canonical base : .ts-masonry
+   Item           : .ts-masonry > * (auto)  |  .ts-masonry-item (explicit)
+   Variants       : .ts-masonry--gallery   ·   .ts-masonry--grid (reserved)
+   Modifiers      : .full · .half · .wide · .tall · .ts--image
+   ------------------------------------------------------------
+   Coexists alongside legacy:
+     .ts-masonry--v2, .ts-ui-masonry, .ts-masonry--grid (broken-but-used)
+   No legacy selectors are touched. No legacy classes are removed.
+   ============================================================ */
+
+
+/* ============================================================
+   0.  GLOBAL TOKEN DEFAULTS
+   ------------------------------------------------------------
+   Theme-overridable on :root for system-wide image/visual
+   defaults. Instance overrides go on .ts-masonry directly.
+   ============================================================ */
+:root .ts-masonry:not(.ts-portfolio-grid, :has(.ts-marquee)),
+:root .ts-masonry:not(.ts-portfolio-grid, :has(.ts-marquee)) * {
+	--ts-masonry-image-aspect: 4 / 3;
+	--ts-masonry-image-radius: var(--ts-radius-md);
+	--ts-masonry-image-bg: var(--ts-bg-1);
+	--ts-masonry-image-border: var(--ts-border-0);
+
+	--ts-masonry-tall-multiplier: 2;
+
+	--ts-masonry-hover-scale: 1.04;
+	--ts-masonry-hover-duration: 380ms;
+	--ts-masonry-hover-ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+
+/* ============================================================
+   1.  CORE LAYOUT ENGINE  (LOCKED — v5)
+   ------------------------------------------------------------
+   Already shipped in your toolskin-extras.css. Repeated here
+   for self-contained delivery only. If your stylesheet already
+   declares v5, DELETE this block — DO NOT edit it.
+   ============================================================ */
+
+.ts-masonry:not(:has(.ts-marquee)) {
+	--ts-masonry-cols-target: 5;
+	--ts-masonry-col-min: 10rem;
+	--ts-masonry-gap: var(--ts-sp-4);
+	--ts-masonry-row-h: 7.5rem;
+
+	--_ts-basis-5: calc((100% - 4 * var(--ts-masonry-gap)) / 5 - 1px);
+	--_ts-basis-4: calc((100% - 3 * var(--ts-masonry-gap)) / 4 - 1px);
+	--_ts-basis-3: calc((100% - 2 * var(--ts-masonry-gap)) / 3 - 1px);
+	--_ts-basis-2: calc((100% - 1 * var(--ts-masonry-gap)) / 2 - 1px);
+	--_ts-basis-1: 100%;
+	--_ts-basis: var(--_ts-basis-5);
+
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ts-masonry-gap);
+	align-content: flex-start;
+
+	container-type: inline-size;
+	container-name: ts-masonry;
+}
+
+.ts-masonry>* {
+	box-sizing: border-box;
+	flex: 1 1 var(--_ts-basis);
+	min-width: 0;
+	min-height: var(--ts-masonry-row-h);
+}
+
+@container ts-masonry (max-width: 54rem) {
+	.ts-masonry>* {
+		--_ts-basis: var(--_ts-basis-3);
+	}
+}
+
+@container ts-masonry (max-width: 28rem) {
+	.ts-masonry>* {
+		--_ts-basis: var(--_ts-basis-2);
+	}
+}
+
+@container ts-masonry (max-width: 18rem) {
+	.ts-masonry>* {
+		--_ts-basis: var(--_ts-basis-1);
+	}
+}
+
+.ts-masonry:has(> :only-child)>* {
+	--_ts-basis: var(--_ts-basis-1);
+}
+
+.ts-masonry:has(> :nth-child(2):last-child)>* {
+	--_ts-basis: var(--_ts-basis-2);
+}
+
+.ts-masonry:has(> :nth-child(3):last-child)>* {
+	--_ts-basis: var(--_ts-basis-3);
+}
+
+.ts-masonry:has(> :nth-child(4):last-child)>* {
+	--_ts-basis: var(--_ts-basis-2);
+}
+
+.ts-masonry:has(> :nth-child(6):last-child)>* {
+	--_ts-basis: var(--_ts-basis-3);
+}
+
+
+/* ============================================================
+   2.  EXPLICIT ITEM MARKER
+   ------------------------------------------------------------
+   .ts-masonry-item is purely a hook for modifiers. Specificity
+   (0,2,0) beats > * (0,1,0) so any rule scoped to it wins
+   automatically — modifiers below rely on this.
+   ============================================================ */
+/* .ts-masonry > .ts-masonry-item {
+    // baseline pass-through — no overrides 
+}*/
+
+
+/* ============================================================
+   3.  WIDTH MODIFIERS .ts-masonry
+   ------------------------------------------------------------
+   Each modifier rewrites --_ts-basis (which the locked engine
+   reads as flex-basis). flex-grow stays at 1 for .full and
+   .half; .wide bumps it to 2 for proportional stretching.
+   ============================================================ */
+
+/* Full row — works with or without .ts-masonry-item */
+
+.ts-masonry>.full,
+.ts-masonry>.fullwidth,
+.ts-masonry>.ts-masonry--full,
+.ts-masonry>.ts-masonry-item.full,
+.ts-masonry>.ts-masonry-item.fullwidth,
+.ts-masonry>.ts-masonry-item.ts-masonry--full {
+	--_ts-basis: 100%;
+}
+
+/* Half row — exactly 50% regardless of cols-target */
+.ts-masonry>.half,
+.ts-masonry>.ts-masonry-item.half {
+	--_ts-basis: var(--_ts-basis-2);
+}
+
+/* Wide — 2× the active basis (relative span; respects ladder) */
+.ts-masonry>.wide,
+.ts-masonry>.ts-masonry--wide,
+.ts-masonry>.ts-masonry-item.wide,
+.ts-masonry>.ts-masonry-item.ts-masonry--wide {
+	flex-grow: 2;
+	flex-basis: calc(var(--_ts-basis) * 2 + var(--ts-masonry-gap));
+}
+
+
+.ts-masonry.ts-portfolio-grid {
+	grid-template-columns: unset;
+	max-width: unset;
+	margin: 0 auto;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ts-masonry-gap);
+	align-content: flex-start;
+	container-type: inline-size;
+	container-name: ts-masonry;
+	--ts-masonry-col-min: 12rem;
+	--ts-masonry-gap: var(--ts-sp-4);
+	--ts-masonry-row-h: calc(var(--ts-masonry-col-min)*1.1);
+	--_ts-basis-5: calc((100% - 4 * var(--ts-masonry-gap)) / 5 - 1px);
+	--_ts-basis-4: calc((100% - 3 * var(--ts-masonry-gap)) / 4 - 1px);
+	--_ts-basis-3: calc((100% - 2 * var(--ts-masonry-gap)) / 3 - 1px);
+	--_ts-basis-2: calc((100% - 1 * var(--ts-masonry-gap)) / 2 - 1px);
+	--_ts-basis-1: 100%;
+	--_ts-basis: var(--_ts-basis-3);
+}
+
+.ts-masonry.ts-portfolio-grid>*:not(.ts-flip-card, .ts-card.ts-col-span-2),
+.ts-masonry.ts-portfolio-grid>.ts-flip-card>* {
+	box-sizing: border-box;
+	--ts-masonry-row-h: var(--ts-flip-card-h) !important;
+	flex: 1 1 var(--_ts-basis) !important;
+	min-width: calc(var(--ts-masonry-col-min) - var(--ts-masonry-gap)*2);
+
+	min-height: var(--ts-masonry-row-h) !important;
+}
+
+.ts-masonry.ts-portfolio-grid>.ts-card.ts-col-span-2 {
+	flex: 2 1 var(--_ts-span-basis) !important;
+	box-sizing: border-box;
+	--_ts-span-basis: calc(var(--_ts-basis) * 2 + var(--ts-masonry-gap)) !important;
+	min-height: calc((var(--ts-masonry-col-min)*1.1) + var(--ts-masonry-gap)*2) !important;
+	--ts-card-pad: var(--ts-sp-8);
+	padding: var(--ts-card-pad);
+}
+
+/* ============================================================
+   4.  HEIGHT MODIFIER
+   ============================================================ */
+.ts-masonry>.tall,
+.ts-masonry>.ts-masonry--tall,
+.ts-masonry>.ts-masonry-item.tall,
+.ts-masonry>.ts-masonry-item.ts-masonry--tall {
+	min-height: calc(var(--ts-masonry-row-h) * var(--ts-masonry-tall-multiplier));
+}
+
+
+/* ============================================================
+   5.  IMAGE HANDLING
+   ------------------------------------------------------------
+   Three convergent trigger paths:
+     (A) explicit canonical : .ts-masonry-item--image
+     (B) explicit alias     : .ts--image
+     (C) auto-detection     : :has(> img:not(.ts-icon, .ts-logo))
+                              — skipped on known card components
+   All produce the same surface treatment.
+   ============================================================ */
+
+/* ---- Wrapper-image container surface ---- */
+
+/* (A)(B) explicit — overrides everything (including cards) */
+.ts-masonry>.ts-masonry-item--image,
+.ts-masonry>.ts-masonry-item.ts--image,
+.ts-masonry>.ts--image,
+/* (C) auto-detect on .ts-masonry-item — skip cards */
+.ts-masonry>.ts-masonry-item:has(> img:not(.ts-icon, .ts-logo)):not(.ts-card, .ts-flip-card, .ts-swipe-card),
+/* (C) auto-detect on bare element wrappers — skip cards */
+.ts-masonry> :not(.ts-masonry-item, .ts-card, .ts-flip-card, .ts-swipe-card):has(> img:not(.ts-icon, .ts-logo)) {
+	position: relative;
+	overflow: hidden;
+	aspect-ratio: var(--ts-masonry-image-aspect);
+	background: var(--ts-this-bg, var(--ts-masonry-image-bg));
+	border: 1px solid var(--ts-this-bg-border, var(--ts-masonry-image-border));
+	border-radius: var(--ts-masonry-image-radius);
+	/* aspect-ratio drives height; clear engine row-h floor */
+	min-height: 0;
+}
+
+/* ---- Inner <img> positioning ---- */
+.ts-masonry>.ts-masonry-item--image>img,
+.ts-masonry>.ts-masonry-item.ts--image>img,
+.ts-masonry>.ts--image>img,
+.ts-masonry>.ts-masonry-item:has(> img:not(.ts-icon, .ts-logo)):not(.ts-card, .ts-flip-card, .ts-swipe-card)>img,
+.ts-masonry> :not(.ts-masonry-item, .ts-card, .ts-flip-card, .ts-swipe-card):has(> img:not(.ts-icon, .ts-logo))>img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+/* ---- Bare <img> as direct child of .ts-masonry ---- */
+.ts-masonry>img:not(.ts-icon, .ts-logo) {
+	aspect-ratio: var(--ts-masonry-image-aspect);
+	background: var(--ts-this-bg, var(--ts-masonry-image-bg));
+	border: 1px solid var(--ts-this-bg-border, var(--ts-masonry-image-border));
+	border-radius: var(--ts-masonry-image-radius);
+	object-fit: cover;
+	display: block;
+	width: 100%;
+	height: auto;
+	min-height: 0;
+}
+
+/* ---- Aspect-ratio modes (apply to image items) ---- */
+.ts-masonry>.ts-masonry-item--natural {
+	aspect-ratio: auto;
+}
+
+.ts-masonry>.ts-masonry-item--square {
+	aspect-ratio: 1 / 1;
+}
+
+
+/* ============================================================
+   6.  GALLERY VARIANT  ·  .ts-masonry--gallery
+   ------------------------------------------------------------
+   Reuses the v5 wrap engine, retunes for image tiles:
+     · smaller default col-min (more tiles per row)
+     · 1:1 default aspect (square gallery)
+     · every child treated as an image surface
+     · subtle hover lift on the inner image
+   ============================================================ */
+.ts-masonry.ts-masonry--gallery {
+	--ts-masonry-cols-target: 4;
+	--ts-masonry-col-min: 9rem;
+	--ts-masonry-image-aspect: 1 / 1;
+	--ts-masonry-row-h: 0;
+}
+
+.ts-masonry.ts-masonry--gallery>* {
+	position: relative;
+	overflow: hidden;
+	aspect-ratio: var(--ts-masonry-image-aspect);
+	background: var(--ts-this-bg, var(--ts-masonry-image-bg));
+	border: 1px solid var(--ts-this-bg-border, var(--ts-masonry-image-border));
+	border-radius: var(--ts-masonry-image-radius);
+	min-height: 0;
+}
+
+.ts-masonry.ts-masonry--gallery>*>img,
+.ts-masonry.ts-masonry--gallery>img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform var(--ts-masonry-hover-duration) var(--ts-masonry-hover-ease),
+		filter var(--ts-masonry-hover-duration);
+	will-change: transform;
+}
+
+.ts-masonry.ts-masonry--gallery>*:hover>img,
+.ts-masonry.ts-masonry--gallery>img:hover {
+	transform: scale(var(--ts-masonry-hover-scale));
+	filter: brightness(1.06) saturate(1.04);
+}
+
+
+/* ============================================================
+   7.  COMPONENT COMPATIBILITY
+   ------------------------------------------------------------
+   .ts-card, .ts-flip-card, .ts-swipe-card use position:relative
+   and 3D transforms internally. The masonry sets size only;
+   it must NOT add transforms or override their height tokens.
+   The auto-image system already excludes these via :not(...).
+   ============================================================ */
+
+/* Plain card: stretch to its slot */
+.ts-section:not(:has(.ts-marquee)) .ts-masonry>.ts-card {
+	width: 100%;
+}
+
+/* Flip / swipe cards: defer to their own height tokens.
+   Setting min-height: 0 first releases the engine's row-h floor;
+   then we re-establish min-height from the card's own var (with
+   a 0 fallback so a missing var doesn't crash sizing). */
+.ts-masonry>.ts-flip-card,
+.ts-masonry>.ts-swipe-card,
+.ts-masonry>.ts-masonry-item:has(> .ts-flip-card),
+.ts-masonry>.ts-masonry-item:has(> .ts-swipe-card) {
+	min-height: 0;
+}
+
+.ts-masonry>.ts-flip-card {
+	min-height: var(--ts-flip-card-h, 0);
+}
+
+.ts-masonry>.ts-swipe-card {
+	min-height: var(--ts-swipe-card-h, 0);
+}
+
+
+/* ============================================================
+   8.  RESERVED HOOK — .ts-masonry--grid
+   ------------------------------------------------------------
+   Reserved for a future pure CSS-grid mode (named tracks,
+   row-balanced image walls). Intentionally no styles yet.
+   ============================================================ */
+/* .ts-masonry.ts-masonry--grid { /* TBD */
+/* } */
+
+
+
+
+/*THIS ARE  HARDFIXES   CODE  PATCHES THAT ARE KEOPT TO KEEP THE LAYOUT  STABLE ON THE SHOWCASE BLOCK FOR THE MARQUEE GRID, BECASUE THE NEW REFACTORED MASONRY DOENST HAS SUPPORT FOR THAT   IRRATIONAL BUILT LAYOUT. SO ONCE REFACTORED, REBUILD THE MARQUEE  DISPLAY LAYOUT.  THIS CODE IS ONLY TEMPORARY.
+
+
+*/
+
+
+
+
+
+@media (max-width: 1400px) {
+
+	.ts-section:has(.ts-marquee) .ts-masonry {
+
+		--ts-masonry-min-col: clamp(200px, 15rem, 800px);
+
+	}
+
+}
+
+.ts-masonry--wide-full:has(.ts-marquee) {
+	margin-block: var(--ts-sp-6);
+}
+
+.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--wide-full {
+	grid-column: span 2;
+}
+
+.ts-section:has(.ts-marquee) .ts-masonry--wide-full {
+	grid-column: 1 / -1;
+	text-align: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Responsive breakpoints for masonry */
+@media (max-width: 1400px) {
+	.ts-section:has(.ts-marquee) .ts-masonry {
+		--ts-masonry-min-col: clamp(200px, 15rem, 800px);
+	}
+
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--wide-full,
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--xwide {
+		grid-column: span 2;
+	}
+
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--hero {
+		grid-column: span 2;
+	}
+}
+
+@media (max-width: 1024px) {
+	.ts-section:has(.ts-marquee) .ts-masonry {
+		--ts-masonry-min-col: clamp(260px, 15rem, 760px);
+	}
+
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--wide-full {
+		grid-column: span 2;
+	}
+
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--xwide,
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--hero {
+		grid-column: span 2;
+	}
+}
+
+@media (max-width: 768px) {
+	.ts-section:has(.ts-marquee) .ts-masonry {
+		--ts-masonry-min-col: 6rem;
+		--ts-masonry-row-h: auto;
+		display: flex !important;
+		flex-direction: column;
+		align-items: stretch;
+		flex-wrap: nowrap;
+		justify-content: center;
+		align-content: stretch;
+	}
+
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--wide,
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--wide-full,
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--xwide {
+		grid-column: span 2;
+	}
+
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--hero {
+		grid-column: span 2;
+		grid-row: span 2;
+	}
+}
+
+@media (max-width: 480px) {
+	.ts-section:has(.ts-marquee) .ts-masonry {
+		--ts-masonry-min-col: 120px;
+		--ts-masonry-row-h: 120px;
+	}
+
+	.ts-section:has(.ts-marquee) .ts-masonry {
+		--ts-masonry-min-col: 15rem;
+		--ts-masonry-row-h: 9rem;
+		--ts-masonry-cols: 1 !important;
+		grid-template-columns: 1fr;
+		grid-auto-flow: unset;
+		display: flex !important;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		align-items: stretch;
+	}
+
+	/* All wide items become single column on mobile */
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--wide,
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--wide-full,
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--xwide,
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--hero {
+		grid-column: span 1;
+	}
+
+	/* Keep tall items but reduce span */
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--tall-full,
+	.ts-section:has(.ts-marquee) .ts-masonry .ts-masonry--xtall {
+		grid-row: span 2;
+	}
+}
+
+.ts-section:has(.ts-marquee) .ts-masonry {
+
+	--ts-masonry-min-col: clamp(300px, 16rem, 780px);
+	--ts-masonry-row-h: 16rem;
+	--ts-masonry-gap: var(--ts-sp-4);
+	--ts-masonry-cols: auto-fit;
+	display: grid !important;
+	grid-template-columns: repeat(var(--ts-masonry-cols), minmax(var(--ts-masonry-min-col), 1fr));
+	grid-auto-rows: var(--ts-masonry-row-h);
+	gap: var(--ts-masonry-gap);
+	align-items: stretch;
+	justify-items: stretch;
+	align-content: stretch;
+	grid-auto-flow: dense;
+}
+
+
+
+/* ============================================================
+D. LAYOUT PRIMITIVES
+--------------------------------------------------------------
+Composable building blocks for any page structure.
+  .ts-stack           vertical rhythm via gap
+  .ts-stack--tight / --loose
+  .ts-cluster         horizontal wrap with gap
+  .ts-grid--auto      auto-fit responsive grid
+  .ts-sidebar         fixed-left sidebar + flexible main
+  .ts-split           50/50 two-column
+  .ts-frame           aspect-ratio media frame
+  .ts-center          centered content with max-width
+============================================================ */
+
+.ts-stack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-stack-gap, var(--ts-sp-4));
+}
+
+.ts-stack--tight {
+	gap: var(--ts-sp-2);
+}
+
+.ts-stack--loose {
+	gap: var(--ts-sp-8);
+}
+
+.ts-stack--xl {
+	gap: var(--ts-sp-12);
+}
+
+.ts-cluster {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ts-cluster-gap, var(--ts-sp-3));
+	align-items: center;
+}
+
+.ts-cluster--end {
+	justify-content: flex-end;
+}
+
+.ts-cluster--between {
+	justify-content: space-between;
+}
+
+.ts-grid--auto {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+	gap: var(--ts-sp-4);
+}
+
+.ts-grid--2 {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--ts-sp-4);
+}
+
+.ts-grid--3 {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--ts-sp-4);
+}
+
+.ts-grid--4 {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--ts-sp-4);
+}
+
+@media (max-width: 720px) {
+
+	.ts-grid--3,
+	.ts-grid--4 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 480px) {
+
+	.ts-grid--2,
+	.ts-grid--3,
+	.ts-grid--4 {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ts-split {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--ts-sp-6);
+}
+
+@media (max-width: 720px) {
+	.ts-split {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ts-frame {
+	aspect-ratio: var(--ts-frame-ratio, 16 / 9);
+	overflow: hidden;
+	border-radius: var(--ts-radius-lg);
+	background: var(--ts-bg-1);
+}
+
+.ts-frame--square {
+	aspect-ratio: 1 / 1;
+}
+
+.ts-frame--video {
+	aspect-ratio: 16 / 9;
+}
+
+.ts-frame--photo {
+	aspect-ratio: 4 / 3;
+}
+
+.ts-frame--phone {
+	aspect-ratio: 9 / 19.5;
+}
+
+.ts-center {
+	max-width: var(--ts-center-w, 1200px);
+	margin-inline: auto;
+	padding-inline: var(--ts-sp-6);
+}

@@ -1,0 +1,1092 @@
+
+
+/* ─── §6c  PANELS ───────── */
+
+/* Tool Panel — floating, fixed UI control block */
+.ts-panel,
+.ts-ui-panel {
+	--_panel-accent: var(--ts-accent);
+	--ts-this-bg: var(--ts-bg-1);
+	/* §6d NEW-B16: Layer 1 — consume --ts-nest-radius for panel. */
+	background: var(--ts-panel-bg);
+	border: 1px solid var(--ts-panel-border);
+	border-radius: var(--ts-nest-radius, var(--ts-panel-radius));
+	box-shadow: var(--ts-shadow-1);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	position: relative;
+	--ts-panel-bg: var(--ts-this-bg);
+	--ts-panel-border: var(--ts-this-bg-border-hover);
+	transform: translate(calc(var(--ts--btn-fixed-offset)*-2.75),calc(var(--ts--debug-root-offset-y)*.75));
+
+}
+
+/* ─── §6d  NEST-REDUCTION SYSTEM (NEW-B16) ──────────────────────────────
+   CSS-only depth-reduction for containerish components (.ts-card, .ts-panel).
+
+   MECHANISM — explicit depth selectors referencing root canonical tokens:
+
+   CSS custom properties cannot reference themselves in a calc() — neither
+   unregistered nor @property-registered variants avoid the own-element cycle
+   (the browser's own-element resolution always sees the new declaration, not
+   the inherited parent value). The only cycle-free CSS-only approach is to
+   reference the ROOT canonical token at each depth level and multiply the step:
+     Depth 1: --ts-nest-* = canonical             (via Layer 1 on .ts-card)
+     Depth 2: --ts-nest-* = canonical − 1×step   (.ts-card .ts-card)
+     Depth 3: --ts-nest-* = canonical − 2×step   (.ts-card .ts-card .ts-card)
+
+   @property is kept for --ts-nest-radius / --ts-nest-pad so the base rule
+   can initialize them from var(--ts-card-radius) with typed resolution and
+   border-radius: var(--ts-nest-radius) always gets a valid <length>.
+
+   TUNING: --ts-radius-nest-reduction / --ts-pd-nest-reduction (§1f-nest, :root).
+   COVERAGE: 3 explicit depth levels (L1/L2/L3) covers all realistic UI layouts.
+────────────────────────────────────────────────────────────────────────── */
+
+/* Register working tokens as typed <length> for valid initial-value resolution */
+@property --ts-nest-radius {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 9.2px;
+	/* safe fallback — --ts-radius-lg at base scale 8px×1.15 */
+}
+
+@property --ts-nest-pad {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 24px;
+	/* safe fallback — --ts-sp-6 at base scale 4px×6 */
+}
+
+/* Layer 1: initialize working tokens — set on .ts-card / .ts-panel base rules above.
+   .ts-card  → --ts-nest-radius: var(--ts-card-radius);  --ts-nest-pad: var(--ts-card-pad,var(--ts-panel-pad));
+   .ts-panel → --ts-nest-radius: var(--ts-panel-radius);
+   border-radius and padding consume var(--ts-nest-radius) / var(--ts-nest-pad). */
+
+/* Depth 2 — 1 level of reduction (cards/panels directly inside a card/panel) */
+.ts-card .ts-card,
+.ts-card .ts-panel,
+.ts-panel .ts-card,
+.ts-panel .ts-panel,
+.ts-panel,
+.ts-ui-panel,
+.ts-ui-panel * {
+	--ts-nest-radius: calc(var(--ts-card-radius) - (1 * var(--ts-radius-nest-reduction)));
+	--ts-nest-pad: calc(var(--ts-card-pad, var(--ts-panel-pad)) - (1 * var(--ts-pd-nest-reduction)));
+	--ts-sb-size: 8px;
+
+}
+
+/* Depth 3 — 2 levels of reduction (cards/panels at 3+ nesting depth) */
+.ts-card .ts-card .ts-card,
+.ts-card .ts-card .ts-panel,
+.ts-card .ts-panel .ts-card,
+.ts-panel .ts-card .ts-card,
+.ts-panel .ts-card .ts-panel,
+.ts-panel .ts-panel .ts-card,
+.ts-panel .ts-panel .ts-panel {
+	--ts-nest-radius: calc(var(--ts-card-radius) - (2 * var(--ts-radius-nest-reduction)));
+	--ts-nest-pad: calc(var(--ts-card-pad, var(--ts-panel-pad)) - (2 * var(--ts-pd-nest-reduction)));
+
+
+}
+
+/* Panel header */
+.ts-ui-panel__header,
+.ts-panel__header {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-panel-gap);
+	padding: 0;
+	background: color-mix(in srgb, var(--ts-bg-4), transparent 50%);
+	border-bottom: 1px solid var(--ts-panel-border);
+	flex-shrink: 0;
+}
+
+.ts-ui-panel__title,
+.ts-panel__title {
+	font-size: var(--ts-fs-sm);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: var(--ts-letter-spacing-wider);
+	color: var(--ts-text-primary);
+	flex: 1;
+	padding: var(--ts-panel-pad-small) var(--ts-panel-sp);
+}
+
+.ts-ui-panel__title strong,
+.ts-panel__title strong {
+	color: var(--_panel-accent);
+}
+
+.ts-ui-panel__header-actions,
+.ts-panel__header-actions {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-panel-gap);
+}
+
+.ts-panel__header-actions.flat .ts-btn {
+	border-radius: 0;
+	border: 1px solid var(--_btn-border);
+	border-block-width: 0;
+	border-right-width: 0;
+	--_btn-border: var(--ts-border-0);
+}
+
+.ts-panel__header-actions.flat {
+	gap: 0;
+}
+
+.ts-panel:has(.ts-panel__body.ts-hidden) .ts-panel__header {
+	border-bottom-width: 0;
+}
+
+
+
+/* Panel body — scrollable */
+
+.ts-panel__body,
+.ts-ui-panel__body {
+	flex: 1;
+	overflow-y: auto;
+	padding: var(--ts-panel-gap);
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-panel-gap);
+
+	--ts-btn-h: 55px;
+}
+
+
+/* Control rows inside panels */
+.ts-panel__row {
+	display: flex;
+	align-items: stretch;
+	gap: var(--ts-panel-gap);
+	flex-wrap: wrap;
+	/* gap: var(--ts-panel-pad-small); */
+}
+
+.ts-ui-panel__row,
+.ts-ui-panel__actions {
+	display: flex !important;
+	align-items: stretch;
+	gap: var(--ts-panel-gap) !important;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: space-between;
+	flex: 1;
+
+
+	/* ONLY hide if:
+	   1. there are buttons
+	   2. none of them are visible
+	*/
+	&:has(.ts-btn):not(:has(.ts-btn:not([hidden]))) {
+		display: none !important;
+	}
+}
+
+.ts-ui-panel .ts-btn:not(.ts-btn--icon) {
+	flex: 1 1 auto;
+	--ts-btn-scale: .8;
+	--ts-btn-fs-ratio: .32;
+	--ts-btn-h-ratio: 1.1;
+}
+
+.ts-ui-panel .ts-btn.ts-btn--icon {
+	flex: 0 1 auto;
+	--ts-btn-h-ratio: .7;
+	--ts-btn-fs-ratio: .5;
+	padding: 0 !important;
+}
+
+.ts-panel__group,
+.ts-ui-panel__group {
+	display: flex;
+	align-items: stretch;
+	gap: var(--ts-panel-pad-small);
+	/* background: var(--ts-bg-1); */
+	/* border: 1px solid var(--ts-panel-border); */
+	border-radius: var(--ts-panel-radius);
+	/* border-radius: 0; */
+	padding: var(--ts-panel-pad-small);
+	padding: 0;
+}
+
+/* Status bar */
+.ts-ui-panel__status,
+.ts-panel__status {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-panel-sp);
+	padding: var(--ts-panel-pad-small) var(--ts-panel-pad-small) var(--ts-panel-pad-small) var(--ts-panel-sp);
+	background: var(--ts-bg-2-t);
+	border-top: 1px solid var(--ts-panel-border);
+	font-size: var(--ts-fs-sm);
+	color: var(--ts-text-muted);
+	flex-shrink: 0;
+	flex-wrap: wrap;
+}
+
+.ts-ui-panel__status-item,
+.ts-panel__status-item {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-panel-gap);
+}
+
+.ts-ui-panel__status-item i,
+.ts-ui-panel__status-item ion-icon,
+.ts-panel__status-item i,
+.ts-panel__status-item ion-icon {
+	font-size: var(--ts-fs-sm);
+}
+
+/* Collapsed state */
+.ts-ui-panel.ts-ui-panel--collapsed .ts-ui-panel__body,
+.ts-ui-panel.ts-ui-panel--collapsed .ts-ui-panel__status,
+.ts-panel.ts-panel--collapsed .ts-panel__body,
+.ts-panel.ts-panel--collapsed .ts-panel__status {
+	display: none;
+}
+
+/* Docked panel (sidebar-style) */
+.ts-panel--docked,
+.ts-ui-panel--docked {
+	position: fixed;
+	top: var(--ts-topbar-h);
+	right: 0;
+	height: calc(100vh - var(--ts-topbar-h));
+	width: var(--ts-panel-w);
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	border-radius: 0;
+	z-index: var(--ts-z-panel);
+}
+
+/* Floating panel */
+.ts-panel--float,
+.ts-ui-panel--float {
+	position: fixed;
+	z-index: var(--ts-z-panel);
+	min-width: 420px;
+	max-width: 90vw;
+	transition: display .5ms allow-discrete, opacity .3ms;
+}
+
+/* 
+@refactor_note @owner_alias_addition 
+@ts-panel--refactor-plan 
+@ts-panel-expansion 
+@component-consolidation 
+
+# CLARIFICATION: 
+ts-ui-panel is currently added as an alias due to #ts-debug-root requirements; 
+the debugger widget layout needs different settings than the original ts/panel 
+showcase, so dedicated rules and some #ts-debug-root–scoped overrides were 
+introduced to avoid breaking the demo. 
+
+# INTENT: unify ts/panel and ts-ui-panel into a single system after refactor, 
+capable of handling any build without conflicts; prioritize flexibility, 
+componentization, and tokenization. Do not isolate ts-ui-panel or its aliases,
+Do not modify existing #ts-debug-root classes, as they are being adapted 
+to prevent forcing hardcoded panel tokens that do not fully match widget needs. 
+This component requires increased design flexibility and a token-driven 
+configuration model, consistent with the overall system approach. */
+
+#ts-debug-root {
+	position: fixed;
+	bottom: var(--ts--debug-root-offset-y) !important;
+	right: var(--ts--btn-fixed-offset) !important;
+	--ts--debug-root-offset-y: calc(var(--ts--btn-fixed-offset) + var(--ts-sp-2) + var(--ts-btn-h, 45px));
+	overflow: visible !important;
+	--ts--btn-fixed-offset: var(--ts-sp-5);
+}
+
+#ts-debug-root>.ts-btn {
+	width: var(--ts-btn-h, 45px) !important;
+	height: var(--ts-btn-h, 45px) !important;
+	aspect-ratio: 1;
+	border-radius: var(--ts-btn-radius) !important;
+	--_btn-swatch: #111214;
+	--ts-this-bg: var(--_btn-swatch);
+	--_btn-bg: var(--ts-this-bg-dark-2);
+	--ts-btn-bg: var(--_btn-bg);
+	--_btn-bg-grad: var(--ts-this-bg-grad-1);
+	--_btn-bg-grad-hover: var(--ts-this-bg-grad-3);
+	--_btn-border: var(--ts-this-bg-bright-2);
+	--_btn-border-hover: var(--ts-this-bg-bright-3);
+	--_btn-border-active: color-mix(in srgb,var(--ts-this-bg),var(--ts-on-accent) 60%);
+	--_btn-color: var(--_btn-border-active)!important;
+	--_btn-color-hover: var(--ts-on-accent)!important;
+	border-radius: var(--ts-btn-radius);
+	outline-offset: -1px;
+	border-width: 1px;
+	outline-style: solid;
+	outline-width: 1px;
+	background-color: var(--_btn-bg);
+	background-image: var(--ts-btn-bg);
+	outline-color: var(--_btn-border);
+	border-color: var(--_btn-border);
+	box-shadow: none;
+	color: var(--_btn-color)!important;
+
+
+	&:hover,&:focus{
+	--ts-btn-bg: var(--_btn-bg-grad-hover);
+	--_btn-border: var(--_btn-border-hover);
+			--_btn-color: var(--_btn-color-hover)!important;
+
+	}
+
+	
+
+	
+}
+#ts-debug-root:has([data-ts-panel]:not([hidden])) {
+
+	.ts-btn{
+		--_btn-swatch: var(--ts-accent)!important;
+			--_btn-color: var(--_btn-color-hover)!important;
+		box-shadow: revert-layer;
+
+	}
+}
+
+
+
+
+#ts-debug-root [data-ts-panel][hidden],
+#ts-debug-root [data-ts-panel] * [hidden] {
+	display: none !important;
+
+}
+
+#ts-debug-root [data-ts-panel]:not([hidden]) {
+	display: flex !important;
+
+	
+}
+
+#ts-debug-root,
+#ts-debug-root * {
+	--ts-ui-select-dd-min: 200px;
+	--ts-ui-select-dd-runway: 15dvh;
+	--ts-ui-select-dd-max-abs: 15dvh;
+	--ts-ui-select-dd-max-rel: 10dvh;
+	--ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min), calc(100dvh - var(--ts-ui-select-dd-runway)), min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
+	--ts-shadow-accent: inset 0 0 0px 1px var(--ts-accent-border), 0 4px 15px color-mix(in srgb, var(--ts-accent-border-hover), transparent 79%);
+	--ts-input-color: var(--ts-text-primary-dim-2);
+	--ts-input-color-hover: var(--ts-text-primary);
+	--ts-select-item-bg: var(--ts-this-bg-dim);
+	--ts-select-item-bg-hover: var(--ts-this-bg-dark);
+	--ts-select-item-bg-active: var(--ts-accent-dim-0);
+	--ts-input-border: var(--ts-this-bg-border);
+	--ts-input-border-active: var(--ts-this-bg-border-focus);
+	--ts-root-btn-h: calc(var(--ts-btn-h, 45px)*.65);
+}
+
+#ts-debug-root [data-ts-panel],
+#ts-debug-root .ts-ui-panel {
+	pointer-events: auto;
+	background: var(--ts-panel-bg) !important;
+	overflow: visible;
+	--ts-this-bg: var(--ts-bg-1);
+	--ts-panel-bg: var(--ts-this-bg);
+	--ts-panel-border: var(--ts-border-2);
+	--ts-panel-border-2: var(--ts-this-bg-border-active);
+	--ts-panel-border-3: var(--ts-this-bg-border-hover);
+	--ts-panel-pad: var(--ts-sp-3);
+	--ts-panel-gap: var(--ts-sp-3);
+	--ts-sb-size: 4px;
+	--ts-btn-h: 32px;
+	--ts-panel-pad-small: calc(var(--ts-panel-pad)*.5);
+	--ts-panel-pad-small: calc(var(--ts-panel-pad)*.5);
+
+	backdrop-filter: blur(var(--ts-backdrop-blur));
+	font-size: var(--ts-fs-base);
+	color: var(--ts-text-primary-dim-2);
+	outline: 0px solid var(--ts-panel-border);
+	outline-offset: -1px;
+	min-width: 450px !important;
+	padding: 0 !important;
+	gap: var(--ts-panel-gap);
+	/*box-shadow: var(--ts-shadow-accent-sm);*/
+border-color: var(--ts-panel-border);
+outline-color: var(--ts-panel-border);
+	border-width: 1px;
+
+	.ts-ui-panel__header {
+		--ts-this-bg: var(--ts-on-surface);
+		--ts-on-surface: var(--ts-bg-3);
+		border: 1px solid var(--ts-panel-border);
+		margin: -1px;
+		background: var(--ts-this-bg-dim-3);
+		padding: 0;
+		border-radius: var(--ts-panel-radius) var(--ts-panel-radius) 0 0;
+		font-weight: 400;
+		color: var(--ts-text-primary);
+		overflow: hidden;
+
+		* {
+			color: inherit;
+			font-weight: 300;
+		}
+
+		.ts-btn {
+			border-radius: 0;
+			--ts-btn-fs-ratio: .5;
+			border-width: 0px;
+			aspect-ratio: 1;
+			--ts-btn-bg: transparent !important;
+			--ts-text-secondary-dim-2: var(--ts-on-surface);
+		}
+	}
+
+	.ts-ui-panel__title {
+		font-size: var(--ts-fs-xs);
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: var(--ts-letter-spacing-wider);
+		color: var(--ts-text-primary);
+		flex: 1;
+		padding: 8px 15px;
+		line-height: 1lh;
+	}
+
+	.ts-ui-panel__body {
+		flex: 1;
+		overflow: visible;
+		padding: var(--ts-panel-pad);
+		gap: var(--ts-panel-gap);
+		display: flex;
+		flex-direction: column;
+		--ts-this-bg: var(--ts-bg-0);
+		padding-block: 0;
+		/*background: var(--ts-panel-bg);*/
+	}
+
+	.ts-tabs {
+		margin-inline: calc(var(--ts-panel-pad)*-1);
+		border-top: 1px solid var(--ts-panel-border) !important;
+
+		>.ts-tab {
+			padding-block: 0;
+			height: 38px;
+			flex: 1;
+			--ts-this-bg: var(--ts-panel-bg);
+			background: var(--ts-this-bg-dim-7);
+			border-color: var(--ts-border-0);
+			margin-top: 0;
+			border-radius: 0;
+		}
+
+		.ts-tab:not(:last-child) {
+			border-right-width: 1px;
+			border-right-style: solid;
+			margin-right: -1px;
+		}
+
+		.ts-tab.active,
+		.ts-tab.is-active,
+		.ts-tab.ts-active {
+			color: var(--ts-accent);
+			border-bottom-color: currentcolor;
+			border-bottom-width: 2px;
+			--ts-this-bg: currentcolor;
+		}
+
+		.ts-tab:not(.active,
+			.is-active, .ts-active) {
+			border-bottom-width: 1px !important;
+		}
+	}
+
+	.ts-debug-diff-selects:not([hidden]) {
+		display: flex !important;
+	}
+
+	.ts-ui-panel__actions {
+		gap: var(--ts-panel-pad-small, 5px) !important;
+
+	}
+
+	.ts-ui-panel__row {
+		background: var(--ts-card-bg-2);
+		gap: var(--ts-panel-gap);
+		padding: 8px 10px;
+		align-items: center;
+		border: 1px solid;
+		border-color: var(--ts-panel-border);
+		border-radius: var(--ts-panel-radius);
+		color: var(--ts-text-primary-dim-2);
+	}
+
+	.ts-ui-panel__row:not(:first-of-type) {
+
+		margin-block-start: calc((var(--ts-panel-gap)*-1) - 1px);
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+
+	.ts-ui-panel__row:not(:last-of-type):first-of-type {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	.ts-debug-diff-selects {
+
+		flex: 1 1 100%;
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		gap: 5px !important;
+
+		>label:has(.ts-ui-select, .ts-select),
+		>*:has(>.ts-ui-select, >.ts-select) {
+			flex: 1 1 auto;
+			display: flex;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+			flex-direction: column;
+			font-size: 80%;
+			min-width: 0;
+			max-width: auto;
+		}
+	}
+
+	.ts-ui-panel__footer {
+		border-top: 1px solid var(--ts-panel-border) !important;
+		flex: 1;
+		gap: var(--ts-panel-pad-small);
+		padding: calc(var(--ts-panel-gap));
+		margin-inline: calc(var(--ts-panel-pad)*-1) !important;
+		margin-top: var(--ts-panel-pad-small);
+		background: var(--ts-this-bg-muted);
+		color: var(--ts-text-secondary);
+		line-height: 1em;
+		border-radius: var(--ts-panel-radius);
+		text-align: center;
+		font-size: 88%;
+		border-radius: 0 0 var(--ts-panel-radius) var(--ts-panel-radius);
+	}
+
+	/* ════════════════════════════════════════════════════════════════════
+   .ts-ui-select — self-contained tokenized component
+   ═════════════════════════════════════════════════════════════════════
+   Token discipline (three-tier):
+   - Component tokens (--ts-select-*) defined here at component root
+   - Surface inherited via --ts-this-bg with safe fallback
+   - Sub-elements ONLY consume tokens, never define
+   - Works in isolation (debugger widget) AND in core (toolskin.css)
+   - All consumed tokens have either a fallback or a default declared
+     here, so the component never collapses if a parent scope is missing.
+   ════════════════════════════════════════════════════════════════════ */
+
+	.ts-ui-select {
+		/* ── Component tokens — defaults declared at component root ──── */
+
+		/* Surface chain (consumes --ts-this-bg from parent, falls back gracefully) */
+		--ts-this-bg: var(--ts-bg-1, #1a1b1e);
+
+		--ts-this-bg-2-t: color-mix(in srgb, var(--ts-this-bg), transparent 12%);
+		/* --ts-this-bg-focus: color-mix(in srgb, var(--ts-this-bg), white 4%); */
+
+		/* Sizing */
+		--ts-select-h: var(--ts-btn-h, 38px);
+		--ts-select-width: clamp(12ch, 20ch, 28ch);
+		--ts-select-max-w: var(--ts-select-width);
+		--ts-select-btn-max-h: calc(var(--ts-select-h) - 2px);
+
+		/* Padding (single source of truth — derived from height) */
+		--ts-select-pad-x: calc(var(--ts-select-h) * 0.3);
+		--ts-select-pad-y: calc(var(--ts-select-h) * 0.12);
+
+		/* Radius */
+		--ts-select-rad: var(--ts-radius-sm, 6px);
+
+		/* Typography */
+		--ts-select-fs: var(--ts-fs-xs, 0.875rem);
+		--ts-select-fs-text-icon: var(--ts-select-fs);
+		--ts-select-fw: 500;
+		--ts-select-ls: 0.02em;
+		--ts-select-gap: var(--ts-sp-1, 4px);
+
+		/* Color states */
+		--ts-select-color: var(--ts-text-secondary, rgba(255, 255, 255, 0.7));
+		--ts-select-color-hover: var(--ts-text-primary, rgba(255, 255, 255, 0.92));
+		--ts-select-color-active: var(--ts-accent, #ff5500);
+
+		/* Icon sizing */
+		--ts-btn-icon: calc(var(--ts-select-fs) * 1.1);
+
+		/* Dropdown */
+
+
+		/* Shadow */
+
+		/* ── Layout  */
+		appearance: none;
+		display: inline-flex;
+		align-items: center;
+		justify-content: stretch;
+		flex-direction: column;
+		box-sizing: border-box;
+		position: relative;
+		/* gap: var(--ts-select-gap); */
+		/* min-width: var(--ts-select-width); */
+		/* max-width: var(--ts-select-max-w); */
+		min-height: calc(var(--ts-select-h) - 1px);
+		max-height: calc(var(--ts-select-h));
+		padding: 0;
+		max-width: unset;
+		min-width: unset;
+
+		/* padding-inline: var(--ts-select-pad-x); */
+
+		/* ── Visual ─────────────────────────────────────────────────── */
+		background: var(--ts-this-bg);
+		/* border: 1px solid var(--ts-this-bg-border); */
+		color: var(--ts-select-color);
+		/* font-size: var(--ts-select-fs); */
+		font-weight: var(--ts-select-fw);
+		letter-spacing: var(--ts-select-ls);
+		transition: all 0.25s ease;
+		--ts-this-bg: transparent;
+
+
+		/* ── Icon defaults inside the select ────────────────────────── */
+		i,
+		.ts-icon,
+		ion-icon {
+			font-size: var(--ts-btn-icon);
+			max-width: var(--ts-btn-icon);
+			max-height: var(--ts-btn-icon);
+			display: grid;
+			place-content: center;
+			align-items: center;
+		}
+
+		/* ── Trigger  */
+		.ts-ui-select__trigger {
+			flex: 1 1;
+			display: flex;
+			align-items: center;
+			gap: var(--ts-select-gap);
+			min-height: unset;
+			max-height: var(--ts-select-btn-max-h);
+			padding-inline: var(--ts-select-pad-x);
+			padding-block: var(--ts-select-pad-y);
+			font-size: var(--ts-select-fs);
+			font-weight: inherit;
+			letter-spacing: var(--ts-select-ls);
+			color: var(--ts-select-color);
+			background-color: var(--ts-this-bg);
+			border: 1px solid var(--ts-panel-border);
+			border-radius: var(--ts-select-rad);
+			/* outline: none; */
+			cursor: pointer;
+			min-width: unset !important;
+			transition: all 0.2s ease;
+			--ts-this-bg: var(--ts-bg-2);
+		}
+
+		.ts-ui-select__trigger:hover {
+			--ts-select-color: var(--ts-select-color-active);
+			--ts-panel-border: var(--ts-this-bg-border-hover);
+			--ts-this-bg: var(--ts-accent-dim-2);
+		}
+
+		/* ── Trigger value (selected text)  */
+		.ts-ui-select__value {
+			gap: var(--ts-select-gap);
+			display: flex;
+			align-items: center;
+
+			font-size: 85%;
+			text-transform: uppercase;
+			letter-spacing: inherit;
+
+			min-width: unset;
+			max-width: unset;
+			max-inline-size: max-content;
+
+			--ts-btn-icon: 1em;
+
+			i,
+			.ts-icon,
+			ion-icon {
+				font-size: var(--ts-btn-icon);
+				max-width: var(--ts-btn-icon);
+				min-height: var(--ts-btn-icon);
+				max-height: var(--ts-btn-icon);
+				color: var(--ts-select-color);
+			}
+		}
+
+		/* ── Dropdown panel ─────────────────────────────────────────── */
+		.ts-ui-select__dropdown {
+			position: absolute;
+			top: calc(100% - 1px);
+			left: 0;
+			right: 0;
+			/*max-width: var(--ts-select-max-w);*/
+			max-height: var(--ts-ui-select-dd-max-h) !important;
+			min-height: 0;
+			min-height: var(--ts-ui-select-dd-min);
+			background: var(--ts-this-bg);
+			outline: 1px solid var(--ts-this-bg-border);
+			border-radius: var(--ts-select-rad);
+			box-shadow: var(--ts-shadow-accent-sm);
+			overflow: hidden !important;
+			z-index: 100;
+		}
+
+		/* ── Search + List inside dropdown ──────────────────────────── */
+		.ts-ui-select__list {
+			height: var(--ts-select-dd-max-h) !important;
+			max-height: var(--ts-select-dd-max-h) !important;
+			/* min-height: 0; */
+			flex: 1;
+			overflow-x: hidden !important;
+			font-size: var(--ts-select-fs);
+
+			overflow-y: auto !important;
+
+
+
+
+			i,
+			.ts-icon,
+			ion-icon {
+				font-size: calc(var(--ts-select-fs-text-icon) * 0.85);
+				width: 1.3ch;
+			}
+		}
+
+		.ts-ui-select__search>input,
+		.ts-ui-select__option {
+			padding-block: var(--ts-select-pad-y);
+			padding-inline: var(--ts-select-pad-x);
+			font-size: var(--ts-select-fs)
+		}
+
+		.ts-ui-select__search>input {
+			padding-left: calc(var(--ts-select-pad-x)*2 + var(--ts-select-gap));
+
+		}
+
+		/* ── Option states  */
+		.ts-ui-select__option {
+			display: flex;
+			align-items: center;
+			gap: var(--ts-select-gap);
+			cursor: pointer;
+			color: var(--ts-select-color);
+			transition: background-color 0.15s ease, color 0.15s ease;
+			max-height: 20px !important;
+			padding-block: 0px !important;
+			background-color: var(--ts-select-item-bg);
+			border-bottom: 1px solid var(--ts-border-0) !important;
+		}
+
+
+		.ts-ui-select__option:hover {
+			--ts-select-item-bg: var(--ts-select-item-bg-hover);
+			--ts-select-color: var(--ts-select-color-hover);
+			--ts-this-bg: var(--ts-select-item-bg);
+
+			i,
+			.ts-icon,
+			ion-icon {
+				color: var(--ts-select-color-active);
+			}
+		}
+
+		.ts-ui-select__option.ts-ui-select__option--selected {
+			--ts-select-item-bg: var(--ts-select-item-bg-active);
+			--ts-select-color: var(--ts-select-color-active);
+
+			i,
+			.ts-icon,
+			ion-icon {
+				color: var(--ts-select-color-active);
+			}
+		}
+
+		/* ── Option / search-input typography ───────────────────────── */
+		.ts-ui-select__option-text,
+		.ts-ui-select__search>input {
+			scrollbar-width: none;
+			font-weight: 400;
+			text-transform: none;
+			letter-spacing: normal;
+			color: inherit;
+			font-size: 90%;
+			background: transparent;
+			border: none;
+			outline: none;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			scrollbar-width: none;
+			flex: 1 1 100%;
+			line-height: 1;
+
+
+		}
+
+		.ts-ui-select__option-text {
+			overflow-y: scroll !important;
+			min-width: unset;
+		}
+
+		/* ── Open state ─────────────────────────────────────────────── */
+		&.ts-ui-select--open {
+			z-index: 99999;
+
+			.ts-ui-select__trigger {
+				--ts-select-color: var(--ts-select-color-active);
+				--ts-this-bg-border: var(--ts-this-bg-border-focus);
+				--ts-this-bg: var(--ts-accent-dim-2);
+				color: var(--ts-select-color);
+
+				.ts-ui-select__value,
+				.ts-ui-select__text {
+					color: inherit;
+				}
+
+				i,
+				.ts-icon,
+				ion-icon {
+					color: var(--ts-select-color-active);
+				}
+			}
+		}
+	}
+
+}
+
+/* ─── §6c  PANELS ───────── */
+
+/* Tool Panel — floating, fixed UI control block */
+.ts-panel {
+	--_panel-accent: var(--ts-accent);
+	--ts-this-bg: var(--ts-bg-1);
+	/* §6d NEW-B16: Layer 1 — consume --ts-nest-radius for panel. */
+	background: var(--ts-panel-bg);
+	border: 1px solid var(--ts-panel-border);
+	border-radius: var(--ts-nest-radius, var(--ts-panel-radius));
+	box-shadow: var(--ts-shadow-1);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	position: relative;
+	--ts-panel-bg: var(--ts-this-bg);
+	--ts-panel-border: var(--ts-this-bg-border-hover);
+}
+
+/* ─── §6d  NEST-REDUCTION SYSTEM (NEW-B16) ──────────────────────────────
+   CSS-only depth-reduction for containerish components (.ts-card, .ts-panel).
+
+   MECHANISM — explicit depth selectors referencing root canonical tokens:
+
+   CSS custom properties cannot reference themselves in a calc() — neither
+   unregistered nor @property-registered variants avoid the own-element cycle
+   (the browser's own-element resolution always sees the new declaration, not
+   the inherited parent value). The only cycle-free CSS-only approach is to
+   reference the ROOT canonical token at each depth level and multiply the step:
+     Depth 1: --ts-nest-* = canonical             (via Layer 1 on .ts-card)
+     Depth 2: --ts-nest-* = canonical − 1×step   (.ts-card .ts-card)
+     Depth 3: --ts-nest-* = canonical − 2×step   (.ts-card .ts-card .ts-card)
+
+   @property is kept for --ts-nest-radius / --ts-nest-pad so the base rule
+   can initialize them from var(--ts-card-radius) with typed resolution and
+   border-radius: var(--ts-nest-radius) always gets a valid <length>.
+
+   TUNING: --ts-radius-nest-reduction / --ts-pd-nest-reduction (§1f-nest, :root).
+   COVERAGE: 3 explicit depth levels (L1/L2/L3) covers all realistic UI layouts.
+────────────────────────────────────────────────────────────────────────── */
+
+/* Register working tokens as typed <length> for valid initial-value resolution */
+@property --ts-nest-radius {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 9.2px;
+	/* safe fallback — --ts-radius-lg at base scale 8px×1.15 */
+}
+
+@property --ts-nest-pad {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 24px;
+	/* safe fallback — --ts-sp-6 at base scale 4px×6 */
+}
+
+/* Layer 1: initialize working tokens — set on .ts-card / .ts-panel base rules above.
+   .ts-card  → --ts-nest-radius: var(--ts-card-radius);  --ts-nest-pad: var(--ts-card-pad);
+   .ts-panel → --ts-nest-radius: var(--ts-panel-radius);
+   border-radius and padding consume var(--ts-nest-radius) / var(--ts-nest-pad). */
+
+/* Depth 2 — 1 level of reduction (cards/panels directly inside a card/panel) */
+.ts-card .ts-card,
+.ts-card .ts-panel,
+.ts-panel .ts-card,
+.ts-panel .ts-panel {
+	--ts-nest-radius: calc(var(--ts-card-radius) - (1 * var(--ts-radius-nest-reduction)));
+	--ts-nest-pad: calc(var(--ts-card-pad) - (1 * var(--ts-pd-nest-reduction)));
+}
+
+/* Depth 3 — 2 levels of reduction (cards/panels at 3+ nesting depth) */
+.ts-card .ts-card .ts-card,
+.ts-card .ts-card .ts-panel,
+.ts-card .ts-panel .ts-card,
+.ts-panel .ts-card .ts-card,
+.ts-panel .ts-card .ts-panel,
+.ts-panel .ts-panel .ts-card,
+.ts-panel .ts-panel .ts-panel {
+	--ts-nest-radius: calc(var(--ts-card-radius) - (2 * var(--ts-radius-nest-reduction)));
+	--ts-nest-pad: calc(var(--ts-card-pad) - (2 * var(--ts-pd-nest-reduction)));
+}
+
+/* Panel header */
+.ts-panel__header {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-log-gap);
+	padding: 0;
+	background: color-mix(in srgb, var(--ts-bg-4), transparent 50%);
+	border-bottom: 1px solid var(--ts-panel-border);
+	flex-shrink: 0;
+}
+
+.ts-panel__title {
+	font-size: var(--ts-fs-md);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: var(--ts-letter-spacing-wider);
+	color: var(--ts-text-primary);
+	flex: 1;
+	padding: var(--ts-log-pad-small) var(--ts-log-sp);
+}
+
+.ts-panel__title strong {
+	color: var(--_panel-accent);
+}
+
+.ts-panel__header-actions {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-log-gap);
+}
+
+.ts-panel__header-actions.flat .ts-btn {
+	border-radius: 0;
+	border: 1px solid var(--_btn-border);
+	border-block-width: 0;
+	border-right-width: 0;
+	--_btn-border: var(--ts-border-0);
+}
+
+.ts-panel__header-actions.flat {
+	gap: 0;
+}
+
+.ts-panel:has(.ts-panel__body.ts-hidden) .ts-panel__header {
+	border-bottom-width: 0;
+}
+
+/* Panel body — scrollable */
+.ts-panel__body {
+	flex: 1;
+	overflow-y: auto;
+	padding: var(--ts-log-sp);
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-log-gap);
+	/* gap: var(--ts-log-pad-small); 
+	scrollbar-width: thin;
+	scrollbar-color: var(--ts-bg-5) transparent;*/
+	/* --ts-log-gap: 0; */
+	/* --ts-panel-radius: 0; */
+	/* --ts-btn-radius: 0; */
+	--ts-btn-h: 55px;
+}
+
+/* Control rows inside panels */
+.ts-panel__row {
+	display: flex;
+	align-items: stretch;
+	gap: var(--ts-log-gap);
+	flex-wrap: wrap;
+	/* gap: var(--ts-log-pad-small); */
+}
+
+.ts-panel__group {
+	display: flex;
+	align-items: stretch;
+	gap: var(--ts-log-gap);
+	/* background: var(--ts-bg-1); */
+	/* border: 1px solid var(--ts-panel-border); */
+	border-radius: var(--ts-panel-radius);
+	/* border-radius: 0; */
+	padding: var(--ts-log-pad-small);
+	padding: 0;
+}
+
+/* Status bar */
+.ts-panel__status {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-log-sp);
+	padding: var(--ts-log-pad-small) var(--ts-log-pad-small) var(--ts-log-pad-small) var(--ts-log-sp);
+	background: var(--ts-bg-2-t);
+	border-top: 1px solid var(--ts-panel-border);
+	font-size: var(--ts-fs-sm);
+	color: var(--ts-text-muted);
+	flex-shrink: 0;
+	flex-wrap: wrap;
+}
+
+.ts-panel__status-item {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-log-gap);
+}
+
+.ts-panel__status-item i,
+.ts-panel__status-item ion-icon {
+	font-size: var(--ts-fs-sm);
+}
+
+/* Collapsed state */
+.ts-panel.ts-panel--collapsed .ts-panel__body,
+.ts-panel.ts-panel--collapsed .ts-panel__status {
+	display: none;
+}
+
+/* Docked panel (sidebar-style) */
+.ts-panel--docked {
+	position: fixed;
+	top: var(--ts-topbar-h);
+	right: 0;
+	height: calc(100vh - var(--ts-topbar-h));
+	width: var(--ts-panel-w);
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	border-radius: 0;
+	z-index: var(--ts-z-panel);
+}
+
+/* Floating panel */
+.ts-panel--float {
+	position: fixed;
+	z-index: var(--ts-z-panel);
+	min-width: 320px;
+	max-width: 90vw;
+}

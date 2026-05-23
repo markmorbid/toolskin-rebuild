@@ -1,0 +1,270 @@
+
+/* #CRAZY_FIX_RULES: HERE THE TABLES WORKS GOOD BUT HAS REDUNDANCIES AND LACKS SMART FLEXIBILITY AND STULING  TO BE RESPONSIVE AND AVOIDING BREALING USING MODERN TABLE LAYOUT IMPLEMENTATION. ALSO THE   CELLS WITH ACTIONS DOESN T HAS INNER WRAPPERS FOR BUTTONS CELLS  AND  THERE IS NO REAL SUPPORT FOR IMAGE CELLS, OR PADING FLEXIBILOITY OR  COLUMN SIZING  PROPERLY. WE NEED  TO BE ABLE TO HANDLE GRIDS BETTER  AND THE PARAMETERS.. THE INNER ELEMENTS OF A TABLE ARE RTEALLY DIFFICULT AND STANDARD TO HANDLE.  I MANAGED TO IMPROVE THE CHECKBOXES AND SELECTED STATUSES. AND THE BULK SELECTION  ASSET LOOKS BETTER NOW.  BUT THE SACRIPT FOR BULK MENU  REVEAL AND THE LOGICS FOR TOOLK  DESIGN IS NOT ON MAIN CORE  JS, IS ON ANOTHER JS FOR SHOWECASE. IT MUST BE  MERGED.  */
+/* ── Table sort + scroll + sticky thead + bulk bar ─────────────── */
+
+.ts-ui-table--sortable,
+.ts-ui-table-scroll,
+.ts-ui-bulk-bar {
+
+	--ts-table-border: var(--ts-border-1);
+	--ts-table-cell-border: color-mix(in srgb, var(--ts-table-border), transparent 40%);
+	--ts-table-head-border: color-mix(in srgb, var(--ts-table-border), transparent 50%);
+	--ts-table-bg-th: var(--ts-bg-0);
+	--ts-table-bg-1: var(--ts-bg-1);
+	--ts-table-bg-2: var(--ts-bg-2);
+	--ts-table-cell-pad: var(--ts-sp-3);
+	--ts-table-cb-size: 1.2rem;
+	--ts-table-cell-fs: var(--ts-fs-sm);
+	--ts-table-th-fs: calc(var(--ts-table-cell-fs)*.9);
+}
+
+.ts-ui-table--sortable {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+
+}
+
+.ts-ui-table-scroll {
+	position: relative;
+	max-height: min(420px, 70vh);
+	overflow: auto;
+	overflow-x: auto;
+	border-radius: var(--ts-radius-md);
+	border: 1px solid color-mix(in srgb, var(--ts-table-border), transparent 35%);
+	background: var(--ts-table-bg-1);
+}
+
+.ts-ui-table-bulk-wrap {
+	position: relative;
+	/*padding-bottom: 4.5rem;*/
+}
+
+.ts-ui-table--sortable thead th {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	background: var(--ts-table-bg-th);
+	color: var(--ts-text-primary);
+	font-size: var(--ts-table-th-fs);
+	font-weight: 600;
+	text-align: left;
+	padding: var(--ts-table-cell-pad);
+	border-bottom: 1px solid var(--ts-table-head-border);
+	background-clip: padding-box;
+	user-select: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ts-ui-table--sortable thead th[data-sort-key],
+.ts-ui-table--sortable thead th[data-ts-ui-sort] {
+	position: sticky;
+	padding-right: calc(var(--ts-table-cell-pad)* 1.2);
+}
+
+.ts-ui-table--sortable tbody td {
+	padding: var(--ts-table-cell-pad);
+	font-size: var(--ts-table-cell-fs);
+	color: var(--ts-text-secondary);
+	border: 0px solid var(--ts-table-cell-border);
+	border-bottom-width: 1px;
+	vertical-align: middle;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	border-bottom: 1px solid var(--ts-table-cell-border);
+}
+
+.ts-ui-table--sortable tbody tr:last-child td {
+	border-bottom: 1px solid var(--ts-table-cell-border);
+}
+
+.ts-ui-table--sortable tbody tr.ts-ui-row--selected td {
+	background: color-mix(in srgb, var(--ts-accent), transparent 92%);
+	background-color: var(--ts-this-bg-dim-2);
+	border-color: color-mix(in srgb, var(--ts-table-select-accent), transparent 10%);
+	border-color: var(--ts-this-bg);
+	color: var(--ts-accent-bright-2);
+	--ts-table-select-accent: color-mix(in srgb, var(--ts-accent), var(--ts-table-bg-1) 72%);
+	--ts-this-bg: var(--ts-table-select-accent);
+
+}
+
+.ts-ui-table--sortable.ts-ui-table--striped tbody tr:nth-child(odd) td {
+	background: color-mix(in srgb, var(--ts-table-bg-2), transparent 72%);
+}
+
+.ts-ui-table--sortable.ts-ui-table--striped tbody tr:nth-child(even) td {
+	background: color-mix(in srgb, var(--ts-table-bg-1), transparent 55%);
+}
+
+
+
+.ts-ui-table--sortable.ts-ui-table--striped tbody tr.ts-ui-row--selected td {
+	background: color-mix(in srgb, var(--ts-table-select-accent), transparent 88%);
+}
+
+.ts-ui-table--sortable.ts-ui-table--striped tbody tr.ts-ui-row--selected:nth-child(odd) td {
+	background-color: var(--ts-this-bg-dim-2);
+
+}
+
+.ts-ui-table--sortable.ts-ui-table--striped tbody tr.ts-ui-row--selected:nth-child(even) td {
+	background-color: var(--ts-this-bg-dim-4);
+
+}
+
+.ts-ui-table--sortable.ts-ui-table--grid th,
+.ts-ui-table--sortable.ts-ui-table--grid td {
+	border-left: 1px solid var(--ts-table-cell-border);
+	border-right: 1px solid var(--ts-table-cell-border);
+	border-color: var(--ts-table-cell-border);
+}
+
+/* REFACTOR NOTES: HERE  the component has two conflitive  implementastions at the same time: IT has the icon implemented a ijected  on the sortable header,s bitt istill has the  generated asccii char arrows that works pretty good. the problem is that the fotnaWESOME  injected ones ar enot styled and not working. and th e current bhelow yes. sao let's   deciede and  merge both versions to keep the most solid one with proper icons and statesd. */
+.ts-ui-table--sortable.ts-ui-table--grid thead th {
+	border-bottom: 1px solid var(--ts-table-head-border);
+}
+
+.ts-ui-table--sortable .ts-ui-th--sortable[data-sort-key]::after,
+.ts-ui-table--sortable th[data-ts-ui-sort]::after {
+	content: '⇅';
+
+	position: absolute;
+	right: calc(var(--ts-table-cell-pad)*.7);
+	top: 50%;
+	left: auto;
+	margin-left: 0 !important;
+	float: none;
+	transform: translateY(-50%);
+	font-size: var(--ts-table-th-fs);
+	line-height: 1;
+	opacity: 1 !important;
+	font-style: normal;
+	font-weight: 400;
+	color: var(--ts-accent);
+	vertical-align: middle;
+	pointer-events: none;
+}
+
+.ts-ui-table--sortable .ts-ui-th--active:not(.ts-ui-th--reverse)::after {
+	content: '▲';
+	opacity: 1 !important;
+	color: var(--ts-accent);
+}
+
+.ts-ui-table--sortable .ts-ui-th--active.ts-ui-th--reverse::after {
+	content: '▼';
+	opacity: 1 !important;
+	color: var(--ts-accent);
+}
+
+.ts-ui-table--sortable thead th[data-ts-ui-sort].ts-ui-th--sort-asc::after {
+	content: '▲';
+
+	opacity: 1 !important;
+	color: var(--ts-accent);
+}
+
+.ts-ui-table--sortable thead th[data-ts-ui-sort].ts-ui-th--sort-desc::after {
+	content: '▼';
+	opacity: 1 !important;
+	color: var(--ts-accent);
+}
+
+.ts-ui-table__select-all,
+.ts-ui-row-checkbox {
+	--ts-ui-control-size: var(--ts-table-cb-size);
+	vertical-align: middle;
+}
+
+
+.ts-ui-checkbox-cell {
+	width: calc(var(--ts-table-cb-size)*3.5);
+	text-align: center !important;
+	text-overflow: clip !important;
+	padding-inline: 0 !important;
+}
+
+.ts-ui-bulk-bar {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	inset: var(--ts-table-cell-pad);
+	top: auto;
+	z-index: 5;
+	display: flex !important;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: calc(var(--ts-table-cell-pad)*.8);
+	padding: var(--ts-table-cell-pad) calc(var(--ts-table-cell-pad)*1.4);
+	border-radius: var(--ts-radius-base);
+	border: 1px solid color-mix(in srgb, var(--ts-table-border, var(--ts-border-1)), var(--ts-text-primary) 4%);
+	background: color-mix(in srgb, var(--ts-table-bg-th), transparent 20%);
+	backdrop-filter: blur(4px) grayscale(0);
+	/* @refactor:backdrop-critical */
+	/* @refactor:glass-dependent */
+	/* @refactor:needs-solid-fallback */
+	/* @refactor:token-dependency */
+	box-shadow: 2px 5px 11px rgba(0, 0, 0, 0.21);
+	/* margin-right: var(--ts-ui-scrollbar-size); */
+	justify-content: space-between;
+	transition-property: opacity, transform;
+	transition-duration: 0.4s;
+	transition-timing-function: var(--ts-panel-ease-out);
+}
+
+.ts-ui-bulk-bar:not([hidden], [style*="display: none"], [style*="display:none"]) {
+
+	display: flex !important;
+	opacity: 1 !important;
+	transform: translateY(0) !important;
+	pointer-events: all !important;
+
+}
+
+.ts-ui-bulk-bar[hidden],
+.ts-ui-bulk-bar[style*="display: none"],
+.ts-ui-bulk-bar[style*="display:none"] {
+	display: flex !important;
+	opacity: 0 !important;
+	transform: translateY(var(--ts-table-cell-pad)) !important;
+	pointer-events: none !important;
+}
+
+.ts-ui-bulk-bar__count {
+	font-size: var(--ts-fs-lg);
+	font-weight: 500;
+	color: var(--ts-text-primary);
+	margin-right: var(--ts-table-cell-pad);
+	padding-right: calc(var(--ts-table-cell-pad)*1.2);
+	border-right: 1px solid var(--ts-table-border);
+}
+
+.ts-ui-bulk-bar__actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: calc(var(--ts-table-cell-pad)*.8);
+	flex: 1;
+}
+
+.ts-ui-bulk-bar__actions .ts-btn {
+	--ts-btn-radius: 6px;
+	--ts-btn-fs: var(--ts-fs-2xs) !important;
+}
+
+.ts-ui-bulk-bar__actions .ts-btn.ts-btn--danger {
+	margin-left: auto;
+}
+
+.ts-ui-draggable-bounds {
+	position: relative;
+	min-height: 140px;
+	padding: var(--ts-sp-4);
+	border-radius: var(--ts-radius-sm);
+	border: 1px dashed var(--ts-border-0);
+	background: var(--ts-bg-0);
+}

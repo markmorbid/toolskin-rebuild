@@ -1,0 +1,800 @@
+/* //// @ts-inputs-refactor-dedupe & @ts-section-auto-bg-refactor — #MAIN_BG_SURFACE #START_REVIEW
+
+Special styling scope for nested inputs inside card components within normal un-classed .ts-section cotnainer surface contexts
+(e.g. `.ts-section` and equivalent background/contrast scenarios and odd type and first type).
+
+This block represents the main surface engine layer and must remain focused on color/contrast behavior only.
+
+PURPOSE:
+- Ensure proper contrast for inputs inside main ts-section default/variant sections
+- Apply token-driven contrast rules for accessibility across surface variations
+- Support advanced surface mixing (background + accent + state)
+
+IMPORTANT NOTES:
+- Structural/layout rules are NOT intended to live in this block
+- However, some implementations here are more advanced than the current main scope
+- These must be reviewed carefully before removal to avoid regressions
+
+SCOPE:
+- Targets inputs nested within cards under ts-section/non-alt sections
+- Applies only color, border, outline, and surface-related token logic
+- Must NOT define layout, sizing, spacing, or structural behavior
+
+REFACTOR REQUIREMENTS:
+- Perform deduplication and diff checks against the main input system
+- Validate changes via visual audits to prevent downgrades
+- Preserve any improved behavior found in this scope
+
+@migrate_up RULES:
+Tagged declarations identified as NON-color logic must be:
+1. Extracted from this block
+2. Deduplicated
+3. Reassigned to their correct global/component scope
+4. Reapplied in the exact equivalent selectors outside this alternation engine
+
+These rules are REQUIRED and must be preserved, but relocated.
+
+EXTRACTED NON-COLOR RULES (reference set):
+border-radius: var(--ts-input-radius)!important;
+font-family: inherit;
+font-size: var(--ts-input-fs);
+padding-block: var(--ts-input-pad-x);
+height: var(--ts-input-h);
+width: 100%;
+position: relative;
+display: flex;
+flex-direction: row;
+flex-wrap: nowrap;
+align-items: center;
+border-radius: var(--ts-input-radius);
+padding-block: 0 !important;
+font-size: var(--ts-input-fs) !important;
+border-radius: 0;
+border-top-left-radius: 0 !important;
+border-bottom-left-radius: 0 !important;
+height: 100%;
+transition: var(--ts-input-transitions);
+
+
+ NOTE:
+
+- These declarations were identified via grep as non-color rules
+- Use them strictly as a migration reference set
+
+Do NOT remove any rules that affect visual appearance, including:
+- Borders
+- Outlines
+- Surface/background rendering
+- Any color-related behavior
+
+Additionally:
+- Preserve any base rules that can be shared with sibling alternation scopes
+  (e.g. `.ts-section--alt` or even/auto alternation variants)
+- Avoid redeclaring identical rules across scopes when they perform the same function
+- Consolidate shared logic into a single structured layer
+
+Refactor strategy:
+- Keep only the necessary structural rules in a shared base scope
+- Move variant-specific differences into token overrides
+- Ensure each scope defines only what is strictly required
+
+Token constraints:
+- Declarations tied to `@ts-sectionKEY_token` MUST remain intact
+- These tokens define the differentiation between base and alt scopes
+- Do NOT modify, remove, or relocate these token declarations
+- Do NOT alter any rules that depend on these tokens
+
+Cascade requirements:
+- If token-driven declarations are missing at the correct scope, styles will break
+- Ensure the cascade remains fully functional after deduplication
+- Validate that properties are still resolved correctly through inheritance and overrides
+
+Examples:
+- Duplicated rules across base/alt scopes should be removed where identical
+- Refer to: @ts-section-auto-bg_dedupe for known duplication patterns
+
+GOAL:
+- Isolate this block as a pure base `.ts-section` surface and contrast engine
+- Support nested card/input elements with consistent contrast behavior
+- Enable seamless alternation with `.ts-section--alt` and automated even-section logic
+- Relocate all structural/layout logic into shared, tokenized component layers
+- Achieve a clean, deduplicated system without breaking cascade or variant behavior
+
+
+
+//// */
+
+.ts-section:nth-of-type(odd):not(.ts-section--alt, .ts-hero, .ts-section--dark, .ts-section--overlay, .ts-section--glow, .ts-section--accent-band,
+	.ts-section--alt *, .ts-hero *, .ts-section--dark-2 *, .ts-section--overlay *, .ts-section--glow *, .ts-section--accent-band *) {
+	background-color: var(--ts-this-bg-dim);
+	--ts-this-bg: var(--ts-main-surface-bg);
+	--ts-this-bg-surface: var(--ts-bg-body);
+	--ts-on-surface: var(--ts-this-bg-surface);
+	--ts-on-surface-muted: var(--ts-text-primary-dim);
+	--ts-main-surface-bg: color-mix(in srgb, var(--ts-on-surface-muted), var(--ts-on-surface) 93%);
+	--ts-card-border: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) 12%);
+	/* @ts-sectionKEY_token*/
+	/* --ts-this-bg-border: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary-dim) 25%); */
+	/* @ts-sectionKEY_token*/
+}
+
+.ts-section:nth-of-type(odd):not(.ts-section--alt, .ts-hero, .ts-section--dark-2, .ts-section--overlay, .ts-section--glow, .ts-section--accent-band,
+	.ts-section--alt *, .ts-hero *, .ts-section--dark-2 *, .ts-section--overlay *, .ts-section--glow *, .ts-section--accent-band *) *:not(.ts-btn, .ts-btn *, table, table *, [class*="ts-ui-"], [class*="ts-ui-"] *) {
+	--ts-card-bg: var(--ts-bg-1);
+	/* @ts-sectionKEY_token*/
+	--ts-card-bg-2: var(--ts-main-surface-bg);
+	/* @ts-sectionKEY_token*/
+	--ts-input-radius: var(--ts-radius-sm);
+	/* @ts-section-auto-bg_dedupe*/
+	--ts-input-bg: var(--ts-card-bg-2);
+	/* @ts-sectionKEY_token*/
+	--ts-input-bg-2: var(--ts-card-bg);
+	/* @ts-sectionKEY_token*/
+	--ts-card-border: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) 8%);
+	/* @ts-sectionKEY_token*/
+	--ts-input-border: var(--ts-this-bg-border);
+	/* @ts-sectionKEY_token*/
+	--_input-accent: var(--ts-accent);
+	/* @ts-sectionKEY_token*/
+	--_input-color: var(--ts-text-primary-dim-2);
+	/* @ts-sectionKEY_token*/
+	--_input-accent: var(--ts-accent);
+	/* @ts-sectionKEY_token*/
+	--_input-focus: var(--ts-text-primary);
+	/* @ts-sectionKEY_token*/
+	--_input-hover: var(--ts-text-primary);
+	/* @ts-sectionKEY_token*/
+	--_input-bg: var(--ts-this-bg-dim);
+	/* @ts-sectionKEY_token*/
+	--_input-bg-hover: var(--ts-this-bg);
+	/* @ts-sectionKEY_token*/
+	--_input-bg-focus: var(--ts-this-bg-dark-1);
+	/* @ts-sectionKEY_token*/
+	--_btn-color: var(--ts-text-primary-dim);
+	/* @ts-sectionKEY_token*/
+	--ts-input-transitions: border-color var(--ts-dur-fast) var(--ts-ease-out),
+		outline-color var(--ts-dur-fast) var(--ts-ease-out),
+		color var(--ts-dur-fast) var(--ts-ease-out),
+		background-color var(--ts-dur-fast) var(--ts-ease-out),
+		box-shadow var(--ts-dur-fast) var(--ts-ease-out);
+	/* @ts-section-auto-bg_dedupe*/
+	--ts-this-bg-surface: var(--ts-card-bg);
+	/* @ts-sectionKEY_token*/
+	--ts-on-surface: var(--ts-this-bg-surface);
+	/* @ts-sectionKEY_token*/
+	--ts-on-surface-muted: var(--ts-text-primary-dim);
+	/* @ts-sectionKEY_token*/
+	--ts-main-surface-bg: color-mix(in srgb, var(--ts-on-surface-muted) 5%, var(--ts-on-surface) 88%);
+	
+
+
+
+
+
+
+
+
+
+	/* Base input style */
+	/* @ts-section-auto-bg_dedupe*/
+
+	.ts-input:not(.ts-resizable),
+	.ts-select,
+	.ts-textarea:not(.ts-resizable),
+	.ts-ui-select__trigger,
+	.ts-input-inset-button,
+	.ts-resizable-wrap,
+	.ts-input-group {
+		outline-color: var(--ts-input-border) !important;
+		border-color: var(--ts-input-border);
+		/* @ts-sectionKEY_token*/
+		outline-color: var(--ts-input-border);
+		/* @ts-sectionKEY_token*/
+		/* border-radius: var(--ts-input-radius) !important; */
+		color: var(--_input-color);
+		font-family: inherit;
+		font-size: var(--ts-input-fs);
+		padding-block: var(--ts-input-pad-x);
+		height: var(--ts-input-h);
+		width: 100%;
+		outline: none;
+		transition: var(--ts-input-transitions);
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		/* align-items: center; */
+		background: var(--_input-bg) !important;
+		/* @ts-sectionKEY_token*/
+		--ts-this-bg: var(--ts-input-bg);
+		/* @ts-sectionKEY_token*/
+		border-width: 1px;
+		outline-offset: -1px;
+		padding-right: calc(var(--ts-input-pad-y)*2);
+	}
+
+	/* @ts-section-auto-bg_dedupe*/
+
+	:where(.ts-input-group:has(.ts-input:focus-within, .ts-input:focus-visible, .ts-input:focus, .ts-input:active)) {
+		--ts-input-border: var(--_input-accent) !important;
+	}
+
+	/* @ts-section-auto-bg_dedupe*/
+
+	:where(.ts-input:not(.ts-resizable):hover, .ts-select:hover, .ts-textarea:not(.ts-resizable):hover, .ts-ui-select__trigger:hover, .ts-input-group.ts-input-inset-button:hover, .ts-resizable-wrap:hover, .ts-input-group:hover) {
+		--ts-input-border: var(--ts-this-bg-border-hover) !important;
+		--_input-color: var(--_input-hover);
+		color: var(--_input-color) !important;
+		--_input-bg: var(--_input-bg-hover) !important;
+
+	}
+
+	/* @ts-section-auto-bg_dedupe*/
+
+	:where(.ts-input-group:has(.ts-input:focus) .ts-input-icon) {
+		color: var(--_input-accent) !important;
+	}
+
+	/* @ts-section-auto-bg_dedupe*/
+
+	.ts-input-group,
+	.ts-input-inset-button {
+		border: 1px solid;
+		overflow: hidden !important;
+		background-color: var(--_input-bg) !important;
+		border-color: var(--ts-input-border);
+		outline-color: var(--ts-input-border);
+		border-radius: var(--ts-input-radius);
+		padding-block: 0 !important;
+		font-size: var(--ts-input-fs) !important;
+
+
+
+		.ts-input {
+			--ts-input-bg: transparent !important;
+			--ts-input-border: var(--ts-input-bg) !important;
+			border: none;
+			background: none !important;
+		}
+	}
+
+	/* @ts-section-auto-bg_dedupe*/
+
+	.ts-input-group.ts-input-inset-button {
+		padding-right: 0 !important;
+&:has(>.ts-icon){
+		padding-left: calc(var(--ts-input-h)*.8);
+	}
+		/* @ts-section-auto-bg_dedupe*/
+
+		.ts-btn.ts-input-btn,
+		.ts-btn {
+			border-radius: var(--ts-input-radius);
+			border-radius: 0;
+			border-top-left-radius: 0 !important;
+			border-bottom-left-radius: 0 !important;
+			height: 100%;
+			border: 0px solid var(--ts-input-border);
+			box-shadow: none;
+			outline-offset: -1px;
+			border-left-width: 1px !important;
+			background: var(--ts-this-bg-dim) !important;
+			transition: var(--ts-input-transitions);
+			--ts-this-bg: var(--ts-input-bg);
+			--_input-bg: transparent;
+			filter: none !important;
+
+		}
+
+		/* @ts-section-auto-bg_dedupe*/
+
+		.ts-btn.ts-input-btn.ts-btn--primary:not(:hover, :active, :focus) {
+			--_input-bg: transparent;
+			background: var(--ts-input-bg) !important;
+			transition: var(--ts-input-transitions);
+			--ts-this-bg: var(--_input-bg);
+		}
+
+		.ts-btn:not(:hover, :active, :focus) {
+			--ts-this-bg: var(--_input-bg);
+			background: var(--ts-input-bg) !important;
+
+		}
+
+		/* @ts-section-auto-bg_dedupe*/
+
+		.ts-btn.ts-input-btn.ts-btn--primary {
+			--_input-bg: var(--_input-accent) !important;
+			--_btn-color: var(--ts-on-accent);
+		}
+
+		:where(.ts-input-inset-button:has(.ts-input:focus-within, .ts-input:focus-visible, .ts-input:focus, .ts-input:active) .ts-btn),
+		.ts-btn.ts-input-btn.ts-btn--primary:hover,
+		.ts-btn.ts-input-btn.ts-btn--primary:focus,
+		.ts-btn.ts-input-btn.ts-btn--primary:active {
+			--ts-this-bg: var(--_input-accent) !important;
+			--_btn-color: var(--ts-on-accent);
+
+		}
+
+		/* @ts-section-auto-bg_dedupe*/
+
+		.ts-card {
+			border-color: var(--ts-card-border);
+			background: var(--ts-card-bg);
+			--ts-this-bg: var(--ts-main-surface-bg);
+			/* @ts-sectionKEY_token*/
+
+		}
+
+		.ts-card {
+			/* @ts-section-auto-bg_dedupe*/
+
+			.ts-input:not(.ts-resizable),
+			.ts-input-group,
+			.ts-input-inset-button,
+			.ts-select,
+			.ts-textarea:not(.ts-resizable),
+			.ts-ui-select__trigger {
+
+				border-color: var(--ts-input-border);
+				outline-color: var(--ts-input-border);
+				color: var(--_input-color) !important;
+				background-color: var(--_input-bg) !important;
+
+				--ts-this-bg: var(--ts-input-bg);
+
+				.ts-input:focus {
+					background-color: var(--_input-bg-focus) !important;
+					--ts-input-border: var(--ts-this-bg-border-hover);
+					--_input-color: var(--_input-focus);
+				}
+
+			}
+
+			/* @ts-section-auto-bg_dedupe*/
+
+			.ts-card {
+
+
+				--ts-card-bg: var(--ts-card-bg-2);
+				--ts-input-bg: var(--ts-input-bg-2);
+
+
+			}
+
+
+
+
+		}
+
+		/* @ts-section-auto-bg_dedupe*/
+
+		.ts-input:focus {
+			background-color: var(--_input-bg-focus) !important;
+			border-color: var(--ts-input-border);
+			outline-color: var(--ts-input-border);
+			color: var(--_input-color) !important;
+		}
+
+
+
+	}
+
+}
+
+/* //// #END_REVIEW Special #MAIN_BG_SURFACE syling scrope for nested inputsinside cards  for contrsst radio on normal style sections  with  contrast  rules////  */
+
+
+/* //// @ts-inputs-refactor-dedupe & @ts-section-auto-bg-refactor — #START_REVIEW
+
+ALT SURFACE ENGINE — NESTED INPUTS (CARD CONTEXT)
+
+This block defines the ALT (alternative) surface layer for inputs inside cards,
+typically under `.ts-section--alt` or equivalent alternated/even section contexts.
+
+It is an extension of the MAIN surface engine (#MAIN_BG_SURFACE) and must follow
+the same architectural rules, acting only as a visual override layer.
+
+────────────────────────────────────────────────────────────
+
+PURPOSE:
+- Apply contrast adjustments for inputs within ALT surface contexts
+- Override base surface tokens using ALT-specific values
+- Enable consistent alternation behavior (manual `.ts-section--alt` or automatic even-section logic)
+
+────────────────────────────────────────────────────────────
+
+SCOPE (STRICT):
+- ONLY visual properties are allowed:
+  - Color
+  - Background / surface
+  - Border / outline
+  - Shadow (if token-driven and surface-related)
+
+- MUST NOT include:
+  - Layout (flex, display, positioning)
+  - Sizing (width, height)
+  - Spacing (padding, margin, gap)
+  - Typography structure
+
+All structural logic must live in the MAIN/base component layer.
+
+────────────────────────────────────────────────────────────
+
+ARCHITECTURE RELATION:
+
+This block MUST:
+- Inherit shared base rules from the main `.ts-section` surface system
+- Override ONLY what is necessary via tokens
+- Avoid duplicating any rule already defined in the base scope
+
+If a rule is identical to the base → REMOVE it here
+If a rule differs only by value → TOKENIZE it
+If a rule is structural → MIGRATE UP (remove from this block)
+
+────────────────────────────────────────────────────────────
+
+@migrate_up RULES:
+
+Non-color declarations found in this scope are NOT valid here and must be:
+1. Extracted
+2. Deduplicated
+3. Moved to the correct base/component scope
+4. Reapplied using the same selectors outside the ALT engine
+
+These rules are REQUIRED but misplaced — relocation is mandatory.
+
+Reference set (non-color rules to migrate):
+border-radius: var(--ts-input-radius)!important;
+font-family: inherit;
+font-size: var(--ts-input-fs);
+padding-block: var(--ts-input-pad-x);
+height: var(--ts-input-h);
+width: 100%;
+position: relative;
+display: flex;
+flex-direction: row;
+flex-wrap: nowrap;
+align-items: center;
+border-radius: var(--ts-input-radius);
+padding-block: 0 !important;
+font-size: var(--ts-input-fs) !important;
+border-radius: 0;
+border-top-left-radius: 0 !important;
+border-bottom-left-radius: 0 !important;
+height: 100%;
+transition: var(--ts-input-transitions);
+
+────────────────────────────────────────────────────────────
+
+DEDUPLICATION RULES:
+
+- Remove duplicated rules that perform identical operations across base and ALT scopes
+- Share common logic in the base layer
+- Keep this block minimal and override-focused
+
+Refer to:
+@ts-section-auto-bg_dedupe
+
+────────────────────────────────────────────────────────────
+
+TOKEN CONSTRAINTS:
+
+- `@ts-sectionKEY_token` declarations MUST remain intact
+- These define the differentiation between base and ALT surfaces
+- DO NOT modify, remove, or relocate them
+- Any rule depending on these tokens must remain correctly scoped
+
+Failure to preserve token scope WILL break the rendering engine.
+
+────────────────────────────────────────────────────────────
+
+CASCADE & OVERRIDE LOGIC:
+
+- The cascade must continue resolving from base → ALT overrides
+- Missing token declarations at the correct scope will break styles
+- After deduplication, verify that inheritance still resolves correctly
+
+ALT behavior must:
+- Override base visually
+- Never redefine base structure
+
+────────────────────────────────────────────────────────────
+
+ALT CLASS + AUTO ALTERNATION LOGIC:
+
+- This rule set intentionally EXCLUDES direct dependency conflicts with `.ts-section--alt`
+- Automatic alternation (e.g. :nth-child / even logic) must coexist with manual class usage
+
+IMPORTANT:
+- Do NOT remove ALT exclusion logic
+- Manual `.ts-section--alt` must override automatic alternation safely
+- This prevents selector conflicts and cross-browser inconsistencies
+
+This is NOT an error — it is required for stability.
+
+────────────────────────────────────────────────────────────
+
+GOAL:
+
+- Isolate this block as a pure ALT surface/contrast override engine
+- Maintain strict separation from structural/component logic
+- Enable seamless alternation (manual + automatic)
+- Ensure zero duplication and full token-driven behavior
+- Preserve cascade integrity across all variants
+
+Refer to:
+#MAIN_BG_SURFACE for base architecture and system rules
+
+//// */
+.ts-section:nth-of-type(even):not(.ts-section--alt, .ts-hero, .ts-section--dark, .ts-section--overlay, .ts-section--glow, .ts-section--accent-band,
+	.ts-section--alt *, .ts-hero *, .ts-section--dark *, .ts-section--overlay *, .ts-section--glow *, .ts-section--accent-band *),
+.ts-section.ts-section--alt {
+	background-color: var(--ts-this-bg-dim-5);
+	/* @ts-sectionKEY_token*/
+	--ts-this-bg: var(--ts-alt-surface-bg);
+	/* @ts-sectionKEY_token*/
+	--ts-this-bg-surface: var(--ts-bg-0);
+	/* @ts-sectionKEY_token*/
+	--ts-on-surface: var(--ts-this-bg-surface);
+	/* @ts-sectionKEY_token*/
+	--ts-on-surface-muted: var(--ts-text-primary-dim);
+	/* @ts-sectionKEY_token*/
+	--ts-alt-surface-bg: color-mix(in srgb, var(--ts-on-surface-muted), var(--ts-on-surface) 95%);
+	/* @ts-sectionKEY_token*/
+	--ts-this-bg-border: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary-dim) 20%);
+	/* @ts-sectionKEY_token*/
+
+}
+
+/* note: this rule excludes the alt class too, becasue if the rule uis enfoced by the suer, the  odd and even logic will breka the css matching styling and may conflict oin soem browser,s so overriding the class usage is better than forcing the class  enfocement. FONT REMOVE THE  ALT SECITON EXCLUSION, IS NOT AN ERROR.  */
+.ts-section--alt *:not(.ts-btn, .ts-btn *, table, table *, [class*="ts-ui-"], [class*="ts-ui-"] *),
+.ts-section:nth-of-type(even):not(.ts-section--alt, .ts-hero, .ts-section--dark, .ts-section--overlay, .ts-section--glow, .ts-section--accent-band,
+	.ts-section--alt *, .ts-hero *, .ts-section--dark *, .ts-section--overlay *, .ts-section--glow *, .ts-section--accent-band *) *:not(.ts-btn, .ts-btn *, table, table *, [class*="ts-ui-"], [class*="ts-ui-"] *) {
+	--ts-card-bg: var(--ts-bg-1-t);
+	/* @ts-sectionKEY_token*/
+	--ts-card-bg-2: var(--ts-alt-surface-bg);
+	/* @ts-sectionKEY_token*/
+	/*@ts-section-auto-bg_dedupe*/
+	--ts-input-bg: var(--ts-card-bg-2);
+	/* @ts-sectionKEY_token*/
+	--ts-input-bg-2: var(--ts-card-bg);
+	/* @ts-sectionKEY_token*/
+	--ts-card-border: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary-dim-2) 8%);
+	/* @ts-sectionKEY_token*/
+	--ts-input-border: var(--ts-card-border);
+	/* @ts-sectionKEY_token*/
+	--_input-accent: var(--ts-accent);
+	/* @ts-sectionKEY_token*/
+	--_input-color: var(--ts-text-primary-dim-2);
+	/* @ts-sectionKEY_token*/
+	--_input-accent: var(--ts-accent);
+	/* @ts-sectionKEY_token*/
+	--_input-focus: var(--ts-text-primary);
+	/* @ts-sectionKEY_token*/
+	--_input-hover: var(--ts-text-primary);
+	/* @ts-sectionKEY_token*/
+	--_input-bg: var(--ts-this-bg-dim);
+	/* @ts-sectionKEY_token*/
+	--_input-bg-hover: var(--ts-this-bg-dim-2);
+	/* @ts-sectionKEY_token*/
+	--_input-bg-focus: var(--ts-this-bg-dark-1);
+	/* @ts-sectionKEY_token*/
+	--_btn-color: var(--ts-text-primary-dim);
+	/* @ts-sectionKEY_token*/
+	--ts-input-transitions: border-color var(--ts-dur-fast) var(--ts-ease-out),
+		outline-color var(--ts-dur-fast) var(--ts-ease-out),
+		color var(--ts-dur-fast) var(--ts-ease-out),
+		background-color var(--ts-dur-fast) var(--ts-ease-out),
+		box-shadow var(--ts-dur-fast) var(--ts-ease-out);
+	/*@ts-section-auto-bg_dedupe*/
+	--ts-this-bg-surface: var(--ts-card-bg);
+	/* @ts-sectionKEY_token*/
+	--ts-on-surface: var(--ts-this-bg-surface);
+	/* @ts-sectionKEY_token*/
+	--ts-on-surface-muted: var(--ts-text-primary-dim);
+	/* @ts-sectionKEY_token*/
+	--ts-alt-surface-bg: color-mix(in srgb, var(--ts-on-surface-muted), var(--ts-on-surface) 97%);
+
+	/* @ts-sectionKEY_token*/
+
+	/* Base input style */
+	/*@ts-section-auto-bg_dedupe*/
+	/* Base input style */
+.ts-input:not(.ts-resizable),
+.ts-select,
+.ts-textarea:not(.ts-resizable),
+.ts-ui-select__trigger,
+.ts-input-group.ts-input-inset-button,
+.ts-resizable-wrap {
+	--_input-accent: var(--ts-accent);
+	--_input--focus-accent: var(--ts-on-accent);
+	--_input-focus: var(--ts-text-primary);
+	--_input-color: var(--ts-text-primary-dim-2);
+	--_input-bg: var(--ts-this-bg-dim-3);
+	--ts-input-border: var(--ts-this-bg-border);
+	border: 1px solid var(--ts-input-border);
+	border-radius: var(--ts-input-radius);
+	color: var(--_input-color);
+	font-family: inherit;
+	font-size: var(--ts-input-fs);
+	padding: 0 var(--ts-input-pad-x);
+	background: var(--ts-this-bg-dim);
+	/* background-image: var(--ts-this-bg-grad-3); */
+	height: var(--ts-input-h);
+	width: 100%;
+	outline: none;
+	transition: border-color var(--ts-dur-fast) var(--ts-ease-out),
+		box-shadow var(--ts-dur-fast) var(--ts-ease-out);
+	--ts-this-bg: var(--ts-input-bg);
+	--ts-input-bg: var(--ts-bg-2-t);
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+}
+
+
+	/*@ts-section-auto-bg_dedupe*/
+	:where(.ts-input-group:has(.ts-input:focus-within, .ts-input:focus-visible, .ts-input:focus, .ts-input:active)) {
+		--ts-input-border: var(--_input-accent) !important;
+	}
+
+	:where(.ts-input:not(.ts-resizable):hover, .ts-select:hover, .ts-textarea:not(.ts-resizable):hover, .ts-ui-select__trigger:hover, .ts-input-group.ts-input-inset-button:hover, .ts-resizable-wrap:hover, .ts-input-group:hover) {
+		--ts-input-border: var(--ts-this-bg-border-hover) !important;
+		--_input-color: var(--_input-hover);
+		color: var(--_input-color) !important;
+		--_input-bg: var(--_input-bg-hover) !important;
+
+	}
+
+	:where(.ts-input-group:has(.ts-input:focus) .ts-input-icon) {
+		color: var(--_input-accent) !important;
+	}
+
+	/*@ts-section-auto-bg_dedupe*/
+	.ts-input-group,
+	.ts-input-inset-button {
+		border: 1px solid;
+		overflow: hidden !important;
+		background: var(--_input-bg) !important;
+		border-color: var(--ts-input-border);
+		outline-color: var(--ts-input-border);
+		border-radius: var(--ts-input-radius);
+		/* @migrate_up */
+		padding-block: 0 !important;
+		/* @migrate_up */
+		font-size: var(--ts-input-fs) !important;
+		/* @migrate_up */
+
+
+
+		.ts-input {
+			--ts-input-bg: transparent !important;
+			--ts-input-border: var(--ts-input-bg) !important;
+			border: none;
+			background: none !important;
+		}
+	}
+
+	.ts-input-group.ts-input-inset-button {
+		padding-right: 0 !important;
+
+		/*@ts-section-auto-bg_dedupe*/
+		.ts-btn.ts-input-btn,
+		.ts-btn {
+			border-radius: var(--ts-input-radius);
+			/* @migrate_up */
+			border-radius: 0;
+			/* @migrate_up */
+			border-top-left-radius: 0 !important;
+			/* @migrate_up */
+			border-bottom-left-radius: 0 !important;
+			/* @migrate_up */
+			height: 100%;
+			/* @migrate_up */
+			border: 0px solid var(--ts-input-border);
+			box-shadow: none;
+			outline-offset: -1px;
+			border-left-width: 1px !important;
+			background: var(--ts-this-bg-dim) !important;
+			transition: var(--ts-input-transitions);
+			/* @migrate_up */
+			--ts-this-bg: var(--ts-input-bg);
+			--_input-bg: transparent;
+			filter: none !important;
+
+		}
+
+		/*@ts-section-auto-bg_dedupe*/
+		.ts-btn.ts-input-btn.ts-btn--primary:not(:hover, :active, :focus) {
+			--_input-bg: transparent;
+			background: var(--ts-input-bg) !important;
+			transition: var(--ts-input-transitions);
+			--ts-this-bg: var(--_input-bg);
+		}
+
+		.ts-btn:not(:hover, :active, :focus) {
+			--ts-this-bg: var(--_input-bg);
+			background: var(--ts-input-bg) !important;
+
+		}
+
+		.ts-btn.ts-input-btn.ts-btn--primary {
+			--_input-bg: var(--_input-accent) !important;
+			--_btn-color: var(--ts-on-accent);
+		}
+
+		:where(.ts-input-inset-button:has(.ts-input:focus-within, .ts-input:focus-visible, .ts-input:focus, .ts-input:active) .ts-btn),
+		.ts-btn.ts-input-btn.ts-btn--primary:hover,
+		.ts-btn.ts-input-btn.ts-btn--primary:focus,
+		.ts-btn.ts-input-btn.ts-btn--primary:active {
+			--ts-this-bg: var(--_input-accent) !important;
+			--_btn-color: var(--ts-on-accent);
+
+		}
+
+
+		.ts-card {
+			border-color: var(--ts-card-border);
+			background: var(--ts-card-bg);
+			--ts-this-bg: var(--ts-alt-surface-bg);
+			/* @ts-sectionKEY_token*/
+
+		}
+
+		.ts-card {
+
+			.ts-input:not(.ts-resizable),
+			.ts-input-group,
+			.ts-input-inset-button,
+			.ts-select,
+			.ts-textarea:not(.ts-resizable),
+			.ts-ui-select__trigger {
+
+				border-color: var(--ts-input-border);
+				outline-color: var(--ts-input-border);
+				color: var(--_input-color) !important;
+				background: var(--_input-bg) !important;
+
+				--ts-this-bg: var(--ts-input-bg);
+
+				.ts-input:focus {
+					background: var(--_input-bg-focus) !important;
+					--ts-input-border: var(--ts-this-bg-border-hover);
+					--_input-color: var(--_input-focus);
+				}
+
+			}
+
+			.ts-card {
+
+
+				--ts-card-bg: var(--ts-card-bg-2);
+				--ts-input-bg: var(--ts-input-bg-2);
+
+
+			}
+
+
+			/*@ts-section-auto-bg_dedupe*/
+
+		}
+
+		/*@ts-section-auto-bg_dedupe*/
+		.ts-input:focus {
+			background: var(--ts-this-bg-dim-3) !important;
+			border-color: var(--ts-input-border);
+			outline-color: var(--ts-input-border);
+			color: var(--_input-color) !important;
+		}
+
+
+
+	}
+
+}
+
+/* //// @ts-inputs-refactor-dedupe & @ts-section-auto-bg-refactor — #END_REVIEW Special styling scope for nested inputs inside card components for alt variant.//// */

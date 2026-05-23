@@ -1,0 +1,538 @@
+
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TS-GALLERY  ·  Float-based asymmetric image gallery
+   ───────────────────────────────────────────────────────────────────────
+   Sibling to .ts-masonry — different mechanics, different use case.
+   .ts-masonry  → flex + clamp,  responsive auto-layout for cards
+   .ts-gallery  → float + %s,    authored asymmetric layout for images
+
+   Architecture: Design Tokens 2.0 three-tier
+     Tier 1 PRIMITIVE   (--ts-bg-N, --ts-sp-N, --ts-radius-*)  — :root only
+     Tier 2 SYSTEM      (--ts-this-bg, --ts-this-bg-border, …)  — set by component
+     Tier 3 COMPONENT   (--ts-gallery-*)                        — references Tier 2
+
+   Markup contract (JS-hydrated):
+     <ul class="ts-gallery" data-ts-gallery>
+       <li class="quarter double-height" data-src="…" data-caption="…"></li>
+       <li class="half" data-src="…"></li>
+     </ul>
+
+   Sizes:  full · two-third · half · third · quarter
+   Mods:   double-height · float-right · responsive-half
+   ════════════════════════════════════════════════════════════════════════ */
+
+
+
+/* ─── §1  COMPONENT TOKENS (Tier 3 → Tier 2 only) ─────────────────────── */
+
+.ts-gallery {
+	/* Set the surface this component sits on → Tier 2 derivatives compute */
+	--ts-this-bg: var(--ts-bg-1);
+
+	/* Layout base — derivative chain: change --ts-gallery-row-h, everything scales */
+	--ts-gallery-row-h: 18rem;
+	--ts-gallery-gap: var(--ts-sp-2);
+	--ts-gallery-radius: var(--ts-radius-md);
+	--ts-gallery-tall-mult: 2;
+
+	/* Surfaces — every value routes through Tier 2 */
+	--ts-gallery-tile-bg: var(--ts-this-bg);
+	--ts-gallery-tile-border: 1px solid var(--ts-this-bg-border);
+	--ts-gallery-tile-shadow: 0 1px 0 0 var(--ts-this-bg-bright) inset;
+	--ts-gallery-overlay-bg: linear-gradient(to top,
+		color-mix(in srgb, var(--ts-this-bg) 88%, transparent) 0%,
+			color-mix(in srgb, var(--ts-this-bg) 0%, transparent) 60%);
+	--ts-gallery-caption-color: var(--ts-text-primary);
+
+	/* Motion — references global timing tokens */
+	--ts-gallery-hover-scale: 1.06;
+	--ts-gallery-hover-duration: var(--ts-dur-slow);
+	--ts-gallery-hover-ease: var(--ts-ease-out);
+	--ts-gallery-fade-duration: var(--ts-dur-slower);
+
+	/* Focus ring — derives from accent */
+	--ts-gallery-focus-ring: 0 0 0 3px color-mix(in srgb, var(--ts-accent) 55%, transparent);
+}
+
+
+/* ─── §2  CONTAINER ───────────────────────────────────────────────────── */
+
+.ts-gallery {
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	overflow: hidden;       
+	border-radius: var(--ts-gallery-radius);
+	container-type: inline-size;
+	container-name: ts-gallery;
+	--ts-this-bg: var(--ts-bg-1)!important;
+}
+
+.ts-gallery::after {
+	content: ""!important;
+	display: block!important;
+	clear: both!important;
+}
+
+
+/* ─── §3  ITEMS ───────────────────────────────────────────────────────── */
+
+.ts-gallery > li,
+.ts-gallery > .ts-gallery__item {
+	position: relative;
+	display: block;
+	float: left;
+	box-sizing: border-box;
+	width: 50%;
+	/* default: half */
+	height: var(--ts-gallery-row-h);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	background: var(--ts-gallery-tile-bg);
+	border: var(--ts-gallery-tile-border);
+	border-radius: var(--ts-gallery-radius);
+	overflow: hidden;
+	cursor: pointer;
+	outline: none;
+	transition:
+		transform var(--ts-gallery-hover-duration) var(--ts-gallery-hover-ease),
+		box-shadow var(--ts-gallery-hover-duration) var(--ts-gallery-hover-ease);
+}
+
+/* Apply gap as inset padding-style border (avoids margin-collapsing on floats) */
+.ts-gallery>li,
+.ts-gallery>.ts-gallery__item {
+	border-width: calc(var(--ts-gallery-gap) / 2);
+	border-style: solid;
+	border-color: transparent;
+		/* the "gap" is transparent border */
+	background-clip: padding-box;
+}
+
+/* Keyboard focus — accent ring through the transparent border */
+.ts-gallery>li:focus-visible,
+.ts-gallery>.ts-gallery__item:focus-visible {
+	box-shadow: var(--ts-gallery-focus-ring);
+	z-index: 2;
+}
+
+
+/* ─── §4  SIZE MODIFIERS ──────────────────────────────────────────────── */
+
+.ts-gallery>.full,
+.ts-gallery>.ts-gallery__item--full {
+	width: 100%;
+}
+
+.ts-gallery>.two-third,
+.ts-gallery>.ts-gallery__item--two-third {
+	width: 66.666%;
+}
+
+.ts-gallery>.half,
+.ts-gallery>.ts-gallery__item--half {
+	width: 50%;
+}
+
+.ts-gallery>.third,
+.ts-gallery>.ts-gallery__item--third {
+	width: 33.333%;
+}
+
+.ts-gallery>.quarter,
+.ts-gallery>.ts-gallery__item--quarter {
+	width: 25%;
+}
+
+.ts-gallery>.double-height,
+.ts-gallery>.ts-gallery__item--double-height {
+	height: calc(var(--ts-gallery-row-h) * var(--ts-gallery-tall-mult));
+}
+
+.ts-gallery>.float-right,
+.ts-gallery>.ts-gallery__item--float-right {
+	float: right;
+}
+
+
+/* ─── §5  MEDIA LAYER (the actual image) ──────────────────────────────── */
+
+.ts-gallery__media {
+	position: absolute;
+	inset: 0;
+	background-color: var(--ts-this-bg);
+	background-position: center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	transform-origin: center center;
+	transition:
+		transform var(--ts-gallery-hover-duration) var(--ts-gallery-hover-ease),
+		filter var(--ts-gallery-hover-duration) var(--ts-gallery-hover-ease),
+		opacity var(--ts-gallery-fade-duration) var(--ts-ease-out);
+	will-change: transform;
+}
+
+/* Pre-load state — skeleton shimmer (reuses existing --ts-skeleton primitive) */
+.ts-gallery__media:not(.ts-gallery__media--loaded) {
+	opacity: 0;
+}
+
+.ts-gallery__skeleton {
+	position: absolute;
+	inset: 0;
+	/* Shimmer steps route through Tier 2 (--ts-this-bg derivatives), so the
+	   shimmer auto-adapts to whatever surface the gallery sits on. */
+	background: linear-gradient(
+		90deg,
+		var(--ts-this-bg) 25%,
+		var(--ts-this-bg-hover) 50%,
+		var(--ts-this-bg) 75%
+	);
+	background-size: 400px 100%;
+	animation: ts-gallery-shimmer 1.4s ease-in-out infinite;
+	transition: opacity var(--ts-gallery-fade-duration) var(--ts-ease-out);
+	pointer-events: none;
+}
+
+.ts-gallery__item--loaded .ts-gallery__skeleton {
+	opacity: 0;
+}
+
+.ts-gallery__media--loaded {
+	opacity: 1;
+}
+
+@keyframes ts-gallery-shimmer {
+	0%   { background-position: -400px 0; }
+	100% { background-position:  400px 0; }
+}
+
+/* Hidden <img> kept in DOM for SEO / a11y — never visible */
+.ts-gallery__seo-img {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+
+/* ─── §6  HOVER + CAPTION OVERLAY ─────────────────────────────────────── */
+
+.ts-gallery > li:hover .ts-gallery__media,
+.ts-gallery > .ts-gallery__item:hover .ts-gallery__media {
+	transform: scale(var(--ts-gallery-hover-scale));
+	filter: brightness(1.04);
+}
+
+.ts-gallery__overlay {
+	position: absolute;
+	inset: 0;
+	background: var(--ts-gallery-overlay-bg);
+	opacity: 0;
+	transition: opacity var(--ts-gallery-hover-duration) var(--ts-gallery-hover-ease);
+	pointer-events: none;
+	display: flex;
+	align-items: flex-end;
+	padding: var(--ts-sp-4);
+}
+
+.ts-gallery > li:hover .ts-gallery__overlay,
+.ts-gallery > .ts-gallery__item:hover .ts-gallery__overlay,
+.ts-gallery > li:focus-visible .ts-gallery__overlay,
+.ts-gallery > .ts-gallery__item:focus-visible .ts-gallery__overlay {
+	opacity: 1;
+}
+
+.ts-gallery__caption {
+	color: var(--ts-gallery-caption-color);
+	font-size: var(--ts-fs-sm, 0.85rem);
+	font-weight: 500;
+	line-height: 1.3;
+	letter-spacing: 0.01em;
+	transform: translateY(8px);
+	transition: transform var(--ts-gallery-hover-duration) var(--ts-gallery-hover-ease);
+}
+
+.ts-gallery > li:hover .ts-gallery__caption,
+.ts-gallery > .ts-gallery__item:hover .ts-gallery__caption {
+	transform: translateY(0);
+}
+
+
+/* ─── §7  VARIANT — UNIFORM GRID (square tiles, equal sizes) ──────────── */
+
+.ts-gallery--uniform > li,
+.ts-gallery--uniform > .ts-gallery__item {
+	width: 25%;
+	height: 0;
+	padding-bottom: calc(25% - var(--ts-gallery-gap));
+	float: none;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.ts-gallery--uniform {
+	font-size: 0;          /* kill inline-block whitespace */
+}
+
+.ts-gallery--uniform > li > *,
+.ts-gallery--uniform > .ts-gallery__item > * {
+	font-size: 1rem;       /* restore */
+}
+
+
+/* ─── §8  VARIANT — SORTABLE (flex-based for FLIP support) ────────────── */
+/*  Use --uniform for best sortable UX; float layouts don't reorder smoothly. */
+
+.ts-gallery--sortable > li,
+.ts-gallery--sortable > .ts-gallery__item {
+	transition:
+		transform var(--ts-dur-base) var(--ts-ease-snap),
+		box-shadow var(--ts-gallery-hover-duration) var(--ts-gallery-hover-ease);
+}
+
+.ts-gallery--sortable > .ts-ui-sortable__item--dragging {
+	z-index: 50;
+	cursor: grabbing;
+	box-shadow:
+		0 12px 32px -8px color-mix(in srgb, var(--ts-this-bg) 60%, transparent),
+		var(--ts-gallery-focus-ring);
+}
+
+
+/* ─── §9  RESPONSIVE — container queries first, viewport fallback ─────── */
+/*
+   Container queries let the gallery respond to its own width, not the
+   viewport — so a sidebar gallery and a full-width gallery rebreak
+   independently. Viewport @media is fallback for older browsers.
+*/
+
+@container ts-gallery (max-width: 900px) {
+	.ts-gallery > .half,
+	.ts-gallery > .ts-gallery__item--half,
+	.ts-gallery > .responsive-half.responsive-half,
+	.ts-gallery > .ts-gallery__item--responsive-half.ts-gallery__item--responsive-half {
+		width: 66.666%;
+	}
+	.ts-gallery > .quarter,
+	.ts-gallery > .ts-gallery__item--quarter {
+		width: 33.333%;
+	}
+}
+
+@container ts-gallery (max-width: 600px) {
+	.ts-gallery > li.ts-gallery > li,
+	.ts-gallery > li,
+	.ts-gallery > .ts-gallery__item {
+		width: 50%;
+		height: var(--ts-gallery-row-h);
+	}
+}
+
+@container ts-gallery (max-width: 400px) {
+	.ts-gallery > li,
+	.ts-gallery > .ts-gallery__item {
+		width: 100%;
+		float: none;
+	}
+}
+
+/* Viewport fallback for browsers without container query support */
+@supports not (container-type: inline-size) {
+	@media (max-width: 900px) {
+		.ts-gallery > .half,
+		.ts-gallery > .ts-gallery__item--half,
+		.ts-gallery > .responsive-half,
+		.ts-gallery > .ts-gallery__item--responsive-half { width: 66.666%; }
+		.ts-gallery > .quarter,
+		.ts-gallery > .ts-gallery__item--quarter { width: 33.333%; }
+	}
+	@media (max-width: 600px) {
+		.ts-gallery > li,
+		.ts-gallery > .ts-gallery__item {
+			width: 50%;
+			height: var(--ts-gallery-row-h);
+		}
+	}
+	@media (max-width: 400px) {
+		.ts-gallery > li,
+		.ts-gallery > .ts-gallery__item {
+			width: 100%;
+			float: none;
+		}
+	}
+}
+
+
+/* ─── §10  LIGHTBOX  ·  .ts-gallery-lightbox ──────────────────────────── */
+/*
+   Namespaced .ts-gallery-lightbox so it does NOT collide with #ts-lightbox
+   (the Three.js phantom-gallery lightbox). Token-styled, generic.
+*/
+
+.ts-gallery-lightbox {
+	--ts-this-bg: var(--ts-bg-0);
+	--ts-glb-overlay: color-mix(in srgb, var(--ts-this-bg) 88%, transparent);
+	--ts-glb-control-size: 2.75rem;
+	--ts-glb-pad: var(--ts-sp-4);
+
+	position: fixed;
+	inset: 0;
+	z-index: 9000;
+	display: none;
+	background: var(--ts-glb-overlay);
+	backdrop-filter: blur(14px) saturate(1.1);
+	-webkit-backdrop-filter: blur(14px) saturate(1.1);
+	opacity: 0;
+	transition: opacity var(--ts-dur-base) var(--ts-ease-out);
+}
+
+.ts-gallery-lightbox--open {
+	display: flex;
+	opacity: 1;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: var(--ts-glb-pad);
+}
+
+.ts-gallery-lightbox__stage {
+	position: relative;
+	flex: 1 1 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-height: 0;
+}
+
+.ts-gallery-lightbox__img {
+	max-width: 100%;
+	max-height: calc(100vh - 8rem);
+	object-fit: contain;
+	border-radius: var(--ts-radius-sm);
+	background: var(--ts-this-bg);
+	box-shadow: 0 24px 64px -12px color-mix(in srgb, var(--ts-this-bg) 70%, transparent);
+	opacity: 0;
+	transform: scale(0.96);
+	transition:
+		opacity var(--ts-dur-base) var(--ts-ease-out),
+		transform var(--ts-dur-slow) var(--ts-ease-spring);
+}
+
+.ts-gallery-lightbox__img--loaded {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.ts-gallery-lightbox__caption {
+	flex: 0 0 auto;
+	padding: var(--ts-sp-4) 0 0;
+	color: var(--ts-text-secondary);
+	font-size: var(--ts-fs-sm, 0.85rem);
+	text-align: center;
+	max-width: 60ch;
+}
+
+.ts-gallery-lightbox__btn {
+	position: absolute;
+	z-index: 1;
+	width: var(--ts-glb-control-size);
+	height: var(--ts-glb-control-size);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: color-mix(in srgb, var(--ts-this-bg) 60%, transparent);
+	border: 1px solid var(--ts-this-bg-border);
+	border-radius: 50%;
+	color: var(--ts-text-primary);
+	cursor: pointer;
+	transition:
+		background var(--ts-dur-fast) var(--ts-ease-out),
+		transform var(--ts-dur-fast) var(--ts-ease-out);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+}
+
+.ts-gallery-lightbox__btn:hover {
+	background: var(--ts-this-bg-hover);
+	transform: scale(1.06);
+}
+
+.ts-gallery-lightbox__btn:focus-visible {
+	outline: none;
+	box-shadow: var(--ts-gallery-focus-ring);
+}
+
+.ts-gallery-lightbox__btn--close { top: var(--ts-glb-pad); right: var(--ts-glb-pad); }
+.ts-gallery-lightbox__btn--prev  { left: var(--ts-glb-pad); top: 50%; transform: translateY(-50%); }
+.ts-gallery-lightbox__btn--next  { right: var(--ts-glb-pad); top: 50%; transform: translateY(-50%); }
+
+.ts-gallery-lightbox__btn--prev:hover { transform: translateY(-50%) scale(1.06); }
+.ts-gallery-lightbox__btn--next:hover { transform: translateY(-50%) scale(1.06); }
+
+.ts-gallery-lightbox__btn svg {
+	width: 1.1rem;
+	height: 1.1rem;
+	stroke: currentColor;
+	fill: none;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.ts-gallery-lightbox__counter {
+	position: absolute;
+	top: var(--ts-glb-pad);
+	left: 50%;
+	transform: translateX(-50%);
+	padding: var(--ts-sp-2) var(--ts-sp-3);
+	background: color-mix(in srgb, var(--ts-this-bg) 60%, transparent);
+	border: 1px solid var(--ts-this-bg-border);
+	border-radius: var(--ts-radius-full, 999px);
+	color: var(--ts-text-secondary);
+	font-size: 0.75rem;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.04em;
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+}
+
+/* Body lock when lightbox open — prevents scroll bleed */
+body.ts-gallery-lightbox-open {
+	overflow: hidden;
+}
+
+
+/* ─── §11  REDUCED MOTION ─────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+	.ts-gallery > li,
+	.ts-gallery > .ts-gallery__item,
+	.ts-gallery__media,
+	.ts-gallery__overlay,
+	.ts-gallery__caption,
+	.ts-gallery-lightbox,
+	.ts-gallery-lightbox__img,
+	.ts-gallery-lightbox__btn {
+		transition: none;
+	}
+	.ts-gallery__skeleton {
+		animation: none;
+	}
+	.ts-gallery > li:hover .ts-gallery__media,
+	.ts-gallery > .ts-gallery__item:hover .ts-gallery__media {
+		transform: none;
+	}
+}

@@ -1,0 +1,980 @@
+/* ═══════════════════════════════════════════════════════════════════════
+	§7  UTILITIES
+	═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── §7a  Spacing Utilities ────────────────────────────────────────── */
+
+.ts-mt-0 {
+	margin-top: 0;
+}
+
+.ts-mt-1 {
+	margin-top: var(--ts-sp-1);
+}
+
+.ts-mt-2 {
+	margin-top: var(--ts-sp-2);
+}
+
+.ts-mt-3 {
+	margin-top: var(--ts-sp-3);
+}
+
+.ts-mt-4 {
+	margin-top: var(--ts-sp-4);
+}
+
+.ts-mt-5 {
+	margin-top: var(--ts-sp-5);
+}
+
+.ts-mt-6 {
+	margin-top: var(--ts-sp-6);
+}
+
+.ts-mt-7 {
+	margin-top: var(--ts-sp-7);
+}
+
+.ts-mt-8 {
+	margin-top: var(--ts-sp-8);
+}
+
+.ts-mt-9 {
+	margin-top: var(--ts-sp-9);
+}
+
+.ts-mt-10 {
+	margin-top: var(--ts-sp-10);
+}
+
+.ts-mt-11 {
+	margin-top: var(--ts-sp-11);
+}
+
+.ts-mt-12 {
+	margin-top: var(--ts-sp-12);
+}
+
+.ts-mt-13 {
+	margin-top: var(--ts-sp-13);
+}
+
+.ts-mt-14 {
+	margin-top: var(--ts-sp-14);
+}
+
+.ts-mt-15 {
+	margin-top: var(--ts-sp-15);
+}
+
+.ts-mt-16 {
+	margin-top: var(--ts-sp-16);
+}
+
+.ts-mt-17 {
+	margin-top: var(--ts-sp-17);
+}
+
+.ts-mt-18 {
+	margin-top: var(--ts-sp-18);
+}
+
+.ts-mt-19 {
+	margin-top: var(--ts-sp-19);
+}
+
+.ts-mt-20 {
+	margin-top: var(--ts-sp-20);
+}
+
+.ts-mb-0 {
+	margin-bottom: 0;
+}
+
+.ts-mb-1 {
+	margin-bottom: var(--ts-sp-1);
+}
+
+.ts-mb-2 {
+	margin-bottom: var(--ts-sp-2);
+}
+
+.ts-mb-3 {
+	margin-bottom: var(--ts-sp-3);
+}
+
+.ts-mb-4 {
+	margin-bottom: var(--ts-sp-4);
+}
+
+.ts-mb-5 {
+	margin-bottom: var(--ts-sp-5);
+}
+
+.ts-mb-6 {
+	margin-bottom: var(--ts-sp-6);
+}
+
+.ts-mb-7 {
+	margin-bottom: var(--ts-sp-7);
+}
+
+.ts-mb-8 {
+	margin-bottom: var(--ts-sp-8);
+}
+
+.ts-mb-9 {
+	margin-bottom: var(--ts-sp-9);
+}
+
+.ts-mb-10 {
+	margin-bottom: var(--ts-sp-10);
+}
+
+.ts-mb-11 {
+	margin-bottom: var(--ts-sp-11);
+}
+
+.ts-mb-12 {
+	margin-bottom: var(--ts-sp-12);
+}
+
+.ts-mb-13 {
+	margin-bottom: var(--ts-sp-13);
+}
+
+.ts-mb-14 {
+	margin-bottom: var(--ts-sp-14);
+}
+
+.ts-mb-15 {
+	margin-bottom: var(--ts-sp-15);
+}
+
+.ts-mb-16 {
+	margin-bottom: var(--ts-sp-16);
+}
+
+.ts-mb-17 {
+	margin-bottom: var(--ts-sp-17);
+}
+
+.ts-mb-18 {
+	margin-bottom: var(--ts-sp-18);
+}
+
+.ts-mb-19 {
+	margin-bottom: var(--ts-sp-19);
+}
+
+.ts-mb-20 {
+	margin-bottom: var(--ts-sp-20);
+}
+
+.ts-p-0 {
+	padding: 0;
+}
+
+.ts-p-1 {
+	padding: var(--ts-sp-1);
+}
+
+.ts-p-2 {
+	padding: var(--ts-sp-2);
+}
+
+.ts-p-3 {
+	padding: var(--ts-sp-3);
+}
+
+.ts-p-4 {
+	padding: var(--ts-sp-4);
+}
+
+.ts-p-5 {
+	padding: var(--ts-sp-5);
+}
+
+.ts-p-6 {
+	padding: var(--ts-sp-6);
+}
+
+.ts-p-7 {
+	padding: var(--ts-sp-7);
+}
+
+.ts-p-8 {
+	padding: var(--ts-sp-8);
+}
+
+.ts-p-9 {
+	padding: var(--ts-sp-9);
+}
+
+.ts-p-10 {
+	padding: var(--ts-sp-10);
+}
+
+.ts-p-11 {
+	padding: var(--ts-sp-11);
+}
+
+.ts-p-12 {
+	padding: var(--ts-sp-12);
+}
+
+.ts-p-13 {
+	padding: var(--ts-sp-13);
+}
+
+.ts-p-14 {
+	padding: var(--ts-sp-14);
+}
+
+.ts-p-15 {
+	padding: var(--ts-sp-15);
+}
+
+.ts-p-16 {
+	padding: var(--ts-sp-16);
+}
+
+.ts-p-17 {
+	padding: var(--ts-sp-17);
+}
+
+.ts-p-18 {
+	padding: var(--ts-sp-18);
+}
+
+.ts-p-19 {
+	padding: var(--ts-sp-19);
+}
+
+.ts-p-20 {
+	padding: var(--ts-sp-20);
+}
+
+.ts-pt-0 {
+	padding-top: 0;
+}
+
+.ts-pt-1 {
+	padding-top: var(--ts-sp-1);
+}
+
+.ts-pt-2 {
+	padding-top: var(--ts-sp-2);
+}
+
+.ts-pt-3 {
+	padding-top: var(--ts-sp-3);
+}
+
+.ts-pt-4 {
+	padding-top: var(--ts-sp-4);
+}
+
+.ts-pt-5 {
+	padding-top: var(--ts-sp-5);
+}
+
+.ts-pt-6 {
+	padding-top: var(--ts-sp-6);
+}
+
+.ts-pt-7 {
+	padding-top: var(--ts-sp-7);
+}
+
+.ts-pt-8 {
+	padding-top: var(--ts-sp-8);
+}
+
+.ts-pt-9 {
+	padding-top: var(--ts-sp-9);
+}
+
+.ts-pt-10 {
+	padding-top: var(--ts-sp-10);
+}
+
+.ts-pt-11 {
+	padding-top: var(--ts-sp-11);
+}
+
+.ts-pt-12 {
+	padding-top: var(--ts-sp-12);
+}
+
+.ts-pt-13 {
+	padding-top: var(--ts-sp-13);
+}
+
+.ts-pt-14 {
+	padding-top: var(--ts-sp-14);
+}
+
+.ts-pt-15 {
+	padding-top: var(--ts-sp-15);
+}
+
+.ts-pt-16 {
+	padding-top: var(--ts-sp-16);
+}
+
+.ts-pt-17 {
+	padding-top: var(--ts-sp-17);
+}
+
+.ts-pt-18 {
+	padding-top: var(--ts-sp-18);
+}
+
+.ts-pt-19 {
+	padding-top: var(--ts-sp-19);
+}
+
+.ts-pt-20 {
+	padding-top: var(--ts-sp-20);
+}
+
+.ts-pb-0 {
+	padding-bottom: 0;
+}
+
+.ts-pb-1 {
+	padding-bottom: var(--ts-sp-1);
+}
+
+.ts-pb-2 {
+	padding-bottom: var(--ts-sp-2);
+}
+
+.ts-pb-3 {
+	padding-bottom: var(--ts-sp-3);
+}
+
+.ts-pb-4 {
+	padding-bottom: var(--ts-sp-4);
+}
+
+.ts-pb-5 {
+	padding-bottom: var(--ts-sp-5);
+}
+
+.ts-pb-6 {
+	padding-bottom: var(--ts-sp-6);
+}
+
+.ts-pb-7 {
+	padding-bottom: var(--ts-sp-7);
+}
+
+.ts-pb-8 {
+	padding-bottom: var(--ts-sp-8);
+}
+
+.ts-pb-9 {
+	padding-bottom: var(--ts-sp-9);
+}
+
+.ts-pb-10 {
+	padding-bottom: var(--ts-sp-10);
+}
+
+.ts-pb-11 {
+	padding-bottom: var(--ts-sp-11);
+}
+
+.ts-pb-12 {
+	padding-bottom: var(--ts-sp-12);
+}
+
+.ts-pb-13 {
+	padding-bottom: var(--ts-sp-13);
+}
+
+.ts-pb-14 {
+	padding-bottom: var(--ts-sp-14);
+}
+
+.ts-pb-15 {
+	padding-bottom: var(--ts-sp-15);
+}
+
+.ts-pb-16 {
+	padding-bottom: var(--ts-sp-16);
+}
+
+.ts-pb-17 {
+	padding-bottom: var(--ts-sp-17);
+}
+
+.ts-pb-18 {
+	padding-bottom: var(--ts-sp-18);
+}
+
+.ts-pb-19 {
+	padding-bottom: var(--ts-sp-19);
+}
+
+.ts-pb-20 {
+	padding-bottom: var(--ts-sp-20);
+}
+
+.ts-pr-0 {
+	padding-right: 0;
+}
+
+.ts-pr-1 {
+	padding-right: var(--ts-sp-1);
+}
+
+.ts-pr-2 {
+	padding-right: var(--ts-sp-2);
+}
+
+.ts-pr-3 {
+	padding-right: var(--ts-sp-3);
+}
+
+.ts-pr-4 {
+	padding-right: var(--ts-sp-4);
+}
+
+.ts-pr-5 {
+	padding-right: var(--ts-sp-5);
+}
+
+.ts-pr-6 {
+	padding-right: var(--ts-sp-6);
+}
+
+.ts-pr-7 {
+	padding-right: var(--ts-sp-7);
+}
+
+.ts-pr-8 {
+	padding-right: var(--ts-sp-8);
+}
+
+.ts-pr-9 {
+	padding-right: var(--ts-sp-9);
+}
+
+.ts-pr-10 {
+	padding-right: var(--ts-sp-10);
+}
+
+.ts-pr-11 {
+	padding-right: var(--ts-sp-11);
+}
+
+.ts-pr-12 {
+	padding-right: var(--ts-sp-12);
+}
+
+.ts-pr-13 {
+	padding-right: var(--ts-sp-13);
+}
+
+.ts-pr-14 {
+	padding-right: var(--ts-sp-14);
+}
+
+.ts-pr-15 {
+	padding-right: var(--ts-sp-15);
+}
+
+.ts-pr-16 {
+	padding-right: var(--ts-sp-16);
+}
+
+.ts-pr-17 {
+	padding-right: var(--ts-sp-17);
+}
+
+.ts-pr-18 {
+	padding-right: var(--ts-sp-18);
+}
+
+.ts-pr-19 {
+	padding-right: var(--ts-sp-19);
+}
+
+.ts-pr-20 {
+	padding-right: var(--ts-sp-20);
+}
+
+.ts-pl-0 {
+	padding-left: 0;
+}
+
+.ts-pl-1 {
+	padding-left: var(--ts-sp-1);
+}
+
+.ts-pl-2 {
+	padding-left: var(--ts-sp-2);
+}
+
+.ts-pl-3 {
+	padding-left: var(--ts-sp-3);
+}
+
+.ts-pl-4 {
+	padding-left: var(--ts-sp-4);
+}
+
+.ts-pl-5 {
+	padding-left: var(--ts-sp-5);
+}
+
+.ts-pl-6 {
+	padding-left: var(--ts-sp-6);
+}
+
+.ts-pl-7 {
+	padding-left: var(--ts-sp-7);
+}
+
+.ts-pl-8 {
+	padding-left: var(--ts-sp-8);
+}
+
+.ts-pl-9 {
+	padding-left: var(--ts-sp-9);
+}
+
+.ts-pl-10 {
+	padding-left: var(--ts-sp-10);
+}
+
+.ts-pl-11 {
+	padding-left: var(--ts-sp-11);
+}
+
+.ts-pl-12 {
+	padding-left: var(--ts-sp-12);
+}
+
+.ts-pl-13 {
+	padding-left: var(--ts-sp-13);
+}
+
+.ts-pl-14 {
+	padding-left: var(--ts-sp-14);
+}
+
+.ts-pl-15 {
+	padding-left: var(--ts-sp-15);
+}
+
+.ts-pl-16 {
+	padding-left: var(--ts-sp-16);
+}
+
+.ts-pl-17 {
+	padding-left: var(--ts-sp-17);
+}
+
+.ts-pl-18 {
+	padding-left: var(--ts-sp-18);
+}
+
+.ts-pl-19 {
+	padding-left: var(--ts-sp-19);
+}
+
+.ts-pl-20 {
+	padding-left: var(--ts-sp-20);
+}
+
+.ts-px-0 {
+	padding-inline: 0;
+}
+
+.ts-px-1 {
+	padding-inline: var(--ts-sp-1);
+}
+
+.ts-px-2 {
+	padding-inline: var(--ts-sp-2);
+}
+
+.ts-px-3 {
+	padding-inline: var(--ts-sp-3);
+}
+
+.ts-px-4 {
+	padding-inline: var(--ts-sp-4);
+}
+
+.ts-px-5 {
+	padding-inline: var(--ts-sp-5);
+}
+
+.ts-px-6 {
+	padding-inline: var(--ts-sp-6);
+}
+
+.ts-px-7 {
+	padding-inline: var(--ts-sp-7);
+}
+
+.ts-px-8 {
+	padding-inline: var(--ts-sp-8);
+}
+
+.ts-px-9 {
+	padding-inline: var(--ts-sp-9);
+}
+
+.ts-px-10 {
+	padding-inline: var(--ts-sp-10);
+}
+
+.ts-px-11 {
+	padding-inline: var(--ts-sp-11);
+}
+
+.ts-px-12 {
+	padding-inline: var(--ts-sp-12);
+}
+
+.ts-px-13 {
+	padding-inline: var(--ts-sp-13);
+}
+
+.ts-px-14 {
+	padding-inline: var(--ts-sp-14);
+}
+
+.ts-px-15 {
+	padding-inline: var(--ts-sp-15);
+}
+
+.ts-px-16 {
+	padding-inline: var(--ts-sp-16);
+}
+
+.ts-px-17 {
+	padding-inline: var(--ts-sp-17);
+}
+
+.ts-px-18 {
+	padding-inline: var(--ts-sp-18);
+}
+
+.ts-px-19 {
+	padding-inline: var(--ts-sp-19);
+}
+
+.ts-px-20 {
+	padding-inline: var(--ts-sp-20);
+}
+
+.ts-py-0 {
+	padding-block: 0;
+}
+
+.ts-py-1 {
+	padding-block: var(--ts-sp-1);
+}
+
+.ts-py-2 {
+	padding-block: var(--ts-sp-2);
+}
+
+.ts-py-3 {
+	padding-block: var(--ts-sp-3);
+}
+
+.ts-py-4 {
+	padding-block: var(--ts-sp-4);
+}
+
+.ts-py-5 {
+	padding-block: var(--ts-sp-5);
+}
+
+.ts-py-6 {
+	padding-block: var(--ts-sp-6);
+}
+
+.ts-py-7 {
+	padding-block: var(--ts-sp-7);
+}
+
+.ts-py-8 {
+	padding-block: var(--ts-sp-8);
+}
+
+.ts-py-9 {
+	padding-block: var(--ts-sp-9);
+}
+
+.ts-py-10 {
+	padding-block: var(--ts-sp-10);
+}
+
+.ts-py-11 {
+	padding-block: var(--ts-sp-11);
+}
+
+.ts-py-12 {
+	padding-block: var(--ts-sp-12);
+}
+
+.ts-py-13 {
+	padding-block: var(--ts-sp-13);
+}
+
+.ts-py-14 {
+	padding-block: var(--ts-sp-14);
+}
+
+.ts-py-15 {
+	padding-block: var(--ts-sp-15);
+}
+
+.ts-py-16 {
+	padding-block: var(--ts-sp-16);
+}
+
+.ts-py-17 {
+	padding-block: var(--ts-sp-17);
+}
+
+.ts-py-18 {
+	padding-block: var(--ts-sp-18);
+}
+
+.ts-py-19 {
+	padding-block: var(--ts-sp-19);
+}
+
+.ts-py-20 {
+	padding-block: var(--ts-sp-20);
+}
+
+.ts-mx-auto {
+	margin-inline: auto;
+}
+
+.ts-ml-auto {
+	margin-left: auto;
+}
+
+.ts-mr-auto {
+	margin-right: auto;
+}
+
+/* Max-width utilities */
+.ts-max-w-sm {
+	max-width: var(--ts-container-sm);
+}
+
+.ts-max-w-md {
+	max-width: var(--ts-container-md);
+}
+
+.ts-max-w-lg {
+	max-width: var(--ts-container-lg);
+}
+
+.ts-max-w-xl {
+	max-width: var(--ts-container-xl);
+}
+
+.ts-max-w-none {
+	max-width: none;
+}
+
+.ts-max-w-prose {
+	max-width: 640px;
+}
+
+.ts-max-w-120 {
+	max-width: 120px;
+}
+
+.ts-max-w-560 {
+	max-width: 560px;
+}
+
+.ts-max-w-600 {
+	max-width: 600px;
+}
+
+.ts-max-w-900 {
+	max-width: 900px;
+}
+
+/* Gap overrides */
+.ts-gap-1 {
+	gap: var(--ts-sp-1);
+}
+
+.ts-gap-2 {
+	gap: var(--ts-sp-2);
+}
+
+.ts-gap-3 {
+	gap: var(--ts-sp-3);
+}
+
+.ts-gap-4 {
+	gap: var(--ts-sp-4);
+}
+
+.ts-gap-5 {
+	gap: var(--ts-sp-5);
+}
+
+.ts-gap-6 {
+	gap: var(--ts-sp-6);
+}
+
+.ts-gap-8 {
+	gap: var(--ts-sp-8);
+}
+
+/* Flex utilities */
+.ts-flex-1 {
+	flex: 1;
+}
+
+.ts-flex-row {
+	display: flex;
+	flex-direction: row;
+}
+
+.ts-flex-col {
+	display: flex;
+	flex-direction: column;
+}
+
+.ts-flex-wrap {
+	flex-wrap: wrap;
+}
+
+.ts-items-center {
+	align-items: center;
+}
+
+.ts-items-start {
+	align-items: flex-start;
+}
+
+.ts-justify-center {
+	justify-content: center;
+}
+
+.ts-justify-between {
+	justify-content: space-between;
+}
+
+.ts-w-fit {
+	width: fit-content;
+}
+
+.ts-h-full {
+	height: 100%;
+}
+
+.ts-cursor-pointer {
+	cursor: pointer;
+}
+
+
+/* ─── §7b  Display / Visibility ─────────────────────────────────────── */
+
+.ts-hidden {
+	visibility: hidden !important;
+	display: none;
+}
+
+.ts-visible {
+	visibility: visible !important;
+	opacity: 1 !important;
+}
+
+.ts-visible:not(.ts-tilt, :hover) {
+	transform: revert !important;
+}
+
+.ts-invisible {
+	visibility: hidden;
+}
+
+.ts-sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* ─── §7c  Text Utilities ───────────────────────────────────────────── */
+
+.ts-truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ts-line-clamp-2 {
+	display: -webkit-box;
+	line-clamp: 2;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+/* ─── §7d  Border Utilities ─────────────────────────────────────────── */
+
+.ts-border {
+	border: 1px solid var(--ts-border-0);
+}
+
+.ts-border-t {
+	border-top: 1px solid var(--ts-border-0);
+}
+
+.ts-border-b {
+	border-bottom: 1px solid var(--ts-border-0);
+}
+
+.ts-border-accent {
+	border-color: var(--ts-accent-border);
+}
+
+.ts-rounded {
+	border-radius: var(--ts-radius-md) !important;
+}
+
+.ts-rounded-full {
+	border-radius: var(--ts-radius-full) !important;
+}
+
+/* ─── §7e  Interactive / Cursor ─────────────────────────────────────── */
+
+.ts-cursor-pointer {
+	cursor: pointer;
+}
+
+.ts-select-none {
+	user-select: none !important;
+}
+
+.ts-no-events {
+	pointer-events: none !important;
+}
+

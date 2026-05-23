@@ -1,0 +1,491 @@
+/* ─── §6o  TOAST NOTIFICATIONS ──────────────────────────────────────── */
+
+.ts-toast-container {
+	position: fixed;
+	bottom: var(--ts-sp-5);
+	right: var(--ts-sp-5);
+	z-index: var(--ts-z-toast);
+	/* Offset when offcanvas panel is open */
+	transition: right var(--ts-dur-med) var(--ts-ease-out);
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-2);
+	pointer-events: none;
+}
+
+.ts-toast {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--ts-sp-3);
+	padding: var(--ts-sp-4) var(--ts-sp-5);
+	background: var(--ts-bg-3);
+	border: 1px solid var(--ts-border-1);
+	border-left: var(--ts-index-bar-height) solid var(--ts-accent);
+	border-radius: var(--ts-radius-md);
+	box-shadow: var(--ts-shadow-3);
+	min-width: 280px;
+	max-width: 380px;
+	pointer-events: all;
+	animation: ts-toast-in var(--ts-dur-slow) var(--ts-ease-out) both;
+}
+
+@keyframes ts-toast-in {
+	from {
+		opacity: 0;
+		transform: translateX(20px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+.ts-toast--success {
+	border-left-color: var(--ts-success);
+}
+
+.ts-toast--warning {
+	border-left-color: var(--ts-warning);
+}
+
+.ts-toast--error {
+	border-left-color: var(--ts-danger);
+}
+
+.ts-toast--info {
+	border-left-color: var(--ts-accent-alt);
+}
+
+.ts-toast__icon {
+	font-size: var(--ts-fs-base-val);
+	flex-shrink: 0;
+	margin-top: 1px;
+}
+
+.ts-toast__body {
+	flex: 1;
+}
+
+.ts-toast__title {
+	font-size: var(--ts-fs-md);
+	font-weight: 700;
+	color: var(--ts-text-primary);
+}
+
+.ts-toast__msg {
+	font-size: var(--ts-fs-sm);
+	color: var(--ts-text-muted);
+	margin-top: 2px;
+}
+
+
+
+
+
+
+/* fro here  is placed the actual toast used on the final version of  the topolskion showcase, the previous code was the old versin of toast and is kept as utilkkitary only  this si the real toast in use */
+
+
+
+
+
+/* ── Toast (enhanced) ──────────────────────────────────────────── */
+
+
+/* #CRAZY_FIX_RULES 
+REFACTOR NOTES AND MUST FIX: 
+- the toast needs  colnfirmation buttons and be sitewide auto-implemented  when toolskin is enabled . no need to set it on a mnanula cvall. thos shopuld replace with js the default alerts and confirmations with itneractiver themed elements. 
+1- The toast is now set as a one-style   persistent design i improived.  the covnersdion on light asnd dark mode was problematic on legibility.  biut its really   patched.  we need a more consistewnt and  páttern general based designable  implementation wirh the glassy mode,  and other positioning settupts with classesd.  and now the progressbar animation stiopped working.  also, the class with the alert adn error and info mdoes should apply ther accent color to the gradient on the  progressbar tyo make it more coherent.  and also, on the sidebar when the toast are bieng called, the layout is noit the same as it should be, the  ui of the toast lacks title and it looks broken. pleAS EIMPLEMENT IT SOLIDLY.  
+2- her ei tokenized all the parameters i could to get the bets design posible on this componenty  mnake this same process sive been doing on all the components following the sdame pattern */
+:root .ts-ui-toast-display,
+:root .ts-ui-toast-display *,
+:root .ts-ui-toast-stack,
+:root .ts-ui-toast-stack * {
+	--ts-toast-border: var(--ts-this-bg-border);
+	/* --ts-toast-border: color-mix(in srgb, var(--ts-this-bg-border-0), var(--ts-on-surface-dim) var(--ts-this-border-mix)); */
+	--ts-toast-bg: color-mix(in srgb, var(--ts-this-bg), var(--ts-on-surface-dim) var(--ts-this-bg-mix));
+	--ts-this-bg-mix: 2%;
+	--ts-this-border-mix: 20%;
+	--ts-toast-blur: 4px;
+	--ts-toast-shadow: var(--ts-shadow-1);
+	--ts-this-bg: var(--ts-bg-0-t);
+	--ts-this-bg: var(--ts-bg-0);
+	--ts-toast-fs: var(--ts-fs-xs);
+	/* Font side for msg (base font size)*/
+	--ts-toast-title-fs: calc(var(--ts-toast-fs)*1.1);
+	/* Font side for title (slightly bigger)*/
+	--ts-toast-icon-fs: var(--ts-fs-md);
+	--ts-toast-icon-fs: calc(var(--ts-toast-fs)*1.01);
+	/* Font side for icon (slightly bigger but can be the same)*/
+	--ts-toast-icon-size-2: calc(var(--ts-toast-icon-fs)*1.5);
+	--ts-toast-icon-size: calc(var(--ts-toast-icon-fs)*1.75);
+	/* Dimensions of the icon  for width and size and paddign scaling props */
+
+	--ts-toast-text: var(--ts-text-primary);
+	--ts-toast-text-2: var(--ts-text-secondary);
+	--ts-toast-text-3: var(--ts-text-secondary-dim-2);
+	--ts-toast-accent: var(--ts-accent);
+	--ts-toast-rad: var(--ts-card-radius);
+	/*--ts-toast-pad: var(--ts-sp-6);*/
+	--ts-toast-pad-y: calc(var(--ts-toast-fs)*1.6);
+	--ts-toast-pad-x: calc(var(--ts-toast-pad-y)*1.3);
+	--ts-toast-pad: calc(var(--ts-toast-fs)*2);
+	--ts-toast-gap: var(--ts-sp-3);
+
+	--ts-toast-gap: calc(var(--ts-toast-pad-y)*.5);
+
+	--ts-toast-anim: ts-ui-toast-in 0.35s var(--ts-ease-out) both;
+
+	--ts-toast-offset-pos: var(--ts-sp-5);
+	--ts-toast-duration: 4s;
+	/* Source of truth for auto-dismiss + progress-bar runtime. Override via :root, .ts-ui-toast-stack, or inline --ts-toast-duration on the toast element. JS reads this via getComputedStyle at dispatch. */
+	--ts-toast-min-w: clamp(220px, 50vw, 18rem);
+	--ts-toast-max-w: min(var(--ts-toast-min-w), calc(100vw - 32px));
+	--ts-toast-track-h: 7px;
+	--ts-toast-track-bg: linear-gradient(90deg, var(--ts-toast-accent), color-mix(in srgb, var(--ts-toast-accent), #fff 10%), var(--ts-toast-accent));
+}
+
+
+.ts-ui-toast-stack .ts-ui-toast {
+	pointer-events: auto;
+}
+
+
+
+@keyframes ts-ui-toast-in {
+	from {
+		opacity: 0;
+		transform: translateX(var(--ts-toast-offset-pos)) translateZ(0);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0) translateZ(0);
+	}
+}
+
+
+
+@keyframes ts-ui-toast-out {
+	to {
+		opacity: 0;
+		transform: translateX(calc(var(--ts-toast-offset-pos)*1)) translateZ(0);
+	}
+}
+
+
+
+.ts-ui-toast-stack {
+	position: fixed;
+	bottom: var(--ts-toast-offset-pos);
+	right: var(--ts-toast-offset-pos);
+	z-index: 100000;
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-toast-gap);
+	min-width: var(--ts-toast-min-w);
+	max-width: var(--ts-toast-max-w);
+	pointer-events: none;
+	width: var(--ts-toast-min-w);
+
+}
+
+/*.ts-ui-toast-display {
+	position: fixed;
+	bottom: var(--ts-toast-offset-pos);
+	right: var(--ts-toast-offset-pos);
+	z-index: 100000;
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-toast-gap);
+	width: var(--ts-toast-min-w);
+	min-width: var(--ts-toast-min-w);
+	max-width: var(--ts-toast-max-w);
+	pointer-events: none;
+}
+body:has(.ts-oce-panel.ts-oce--open) .ts-ui-toast-display  {
+	right: calc(var(--ts-oce-width) + var(--ts-sp-5));
+}*/
+.ts-ui-toast__row {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--ts-toast-gap);
+	padding: var(--ts-toast-pad-y) var(--ts-toast-pad-x);
+	margin-top: calc(var(--ts-toast-track-h)*-1);
+
+}
+
+
+.ts-ui-toast {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--ts-toast-rad);
+	border: 1px solid var(--ts-toast-border);
+	background: var(--ts-toast-bg);
+	backdrop-filter: blur(var(--ts-toast-blur)) saturate(3.5);
+	/* @refactor:backdrop-critical */
+	/* @refactor:glass-dependent */
+	/* @refactor:needs-solid-fallback */
+	/* @refactor:token-dependency */
+	box-shadow: var(--ts-toast-shadow);
+	--ts-toast-accent: var(--ts-accent);
+	animation: ts-ui-toast-in 0.35s var(--ts-ease-out) both;
+	/* CRITICAL REFACTORING: THIS IS THE MAIN NAVIGATION.  rgeardless the glass enabling the component like this both should share thew ame seting and both   should have its owntoggling  backdrop glass  setup with the  opacity glass backdrop effects pairing.  fallback is plain surface backgroun dwith no alpha. currently it has legibility issues ecause of  the alpha but backdrop works good. it snot customizable */
+
+	font-size: var(--ts-toast-fs);
+	user-select: none;
+
+}
+
+/* #CRAZY_FIX_RULES: juts fixed the reveal in and out animation, but is precarious... needs better suppoort.  */
+
+.ts-ui-toast--in,
+.ts-ui-toast.ts-ui-toast--in {
+	animation: ts-ui-toast-in 0.45s var(--ts-ease-out) both;
+}
+
+.ts-ui-toast--out,
+.ts-ui-toast.ts-ui-toast--out {
+	animation: ts-ui-toast-out 0.5s var(--ts-ease-out) .2s both;
+}
+
+.ts-ui-toast-stack .ts-ui-toast {
+	pointer-events: auto;
+}
+
+.ts-ui-toast__title {
+	font-weight: 600;
+	font-size: var(--ts-toast-title-fs);
+	color: var(--ts-toast-text);
+}
+
+/* #CRAZY_FIX_RULES: !!!STILL PENDING ONREFACTOR. ISSUE:
+the component itself  needs support for button rows and actions.  using the same button component, not custom ones. so inside .ts-ui-toast__body  append and create a conditional block  that holds  as a row flex two buttons  t-btn--sm or ts-btn--xs(create it if it doenst exists, is ust scaling down). two buttons available, one primary other outline. no icons. for confirm actions.  the flexbox ro must be wrap, so the buttons  collapses if responsive requires on component container width. or button text size width length. te actions should be  submittable and effective like the confirm system defaut  andnon UI breaking. the toasts should replace alerts with a gplobal function and this other replacement should be used on  speciic cases to replace the confirm to avoid using the default system notification   warn with buttons.*/
+
+.ts-ui-toast:not(.default) .ts-ui-toast__msg {
+	font-size: 96%;
+	color: var(--ts-toast-text-2);
+	margin-top: 0;
+	line-height: 1.45;
+	margin-top: calc(var(--ts-toast-track-h)*.35);
+	margin-bottom: calc(var(--ts-toast-track-h)*.75);
+	user-select: text;
+}
+
+.ts-ui-toast.default .ts-ui-toast__msg {
+	font-size: 96%;
+	color: var(--ts-toast-text-2);
+	margin-top: 0;
+	line-height: 1.45;
+	margin-top: calc(var(--ts-toast-track-h)*.25);
+	margin-bottom: calc(var(--ts-toast-track-h)*.75);
+	padding-block: calc(var(--ts-toast-track-h)*.25);
+	user-select: text;
+}
+
+.ts-ui-toast .ts-ui-toast__close {
+	flex-shrink: 0;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	padding: calc(var(--ts-toast-icon-fs)*.1);
+	border-radius: calc(var(--ts-toast-rad)*.5);
+	aspect-ratio: 1;
+	width: var(--ts-toast-icon-size);
+	height: var(--ts-toast-icon-size);
+	font-size: var(--ts-toast-icon-fs);
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	color: var(--ts-toast-text-2);
+
+}
+
+.ts-ui-toast__close:hover {
+	background: color-mix(in srgb, var(--ts-bg-2-t), var(--ts-toast-text) 8%);
+	color: var(--ts-toast-text);
+}
+
+
+.ts-ui-toast__row:has(.ts-ui-toast__icon) {
+
+	padding-left: 0;
+}
+
+
+
+.ts-ui-toast__body {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	align-items: flex-start;
+	flex-direction: column;
+	flex-wrap: nowrap;
+}
+
+/* #CRAZY_FIX_RULES:  OWNER FIX UPDATE:
+ the track bar animatin now works fluently, and also has a color system functional wit transitions on gradients.  */
+
+.ts-ui-toast.default .ts-ui-toast__track {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: var(--ts-toast-track-h);
+	background-color: var(--ts-this-bg-border);
+	background-image: var(--ts-toast-track-bg);
+	--ts-toast-current-accent: var(--ts-accent);
+
+	background-repeat: no-repeat;
+	background-origin: left center;
+	background-position-x: 0%;
+	background-size: 0%;
+	border-radius: 0;
+	outline: 1px solid var(--ts-toast-border);
+	transition:
+		background-color 300ms ease,
+		background-size 300ms ease,
+		color 300ms ease,
+		--ts-toast-accent 300ms ease allow-discrete,
+		--ts-toast-current-accent 300ms ease allow-discrete,
+		--ts-accent 300ms ease;
+}
+
+/* Base track — resting state. No background-size declaration here;
+   the animation owns the fill behavior entirely. */
+.ts-ui-toast:not(.default) .ts-ui-toast__track {
+	position: absolute;
+	/* the toast now has a better original design where the track bar is spaced  elegantly*/
+	left: var(--ts-toast-track-h);
+	right: var(--ts-toast-track-h);
+	bottom: var(--ts-toast-track-h);
+	height: var(--ts-toast-track-h);
+	background-color: var(--ts-this-bg-border);
+	background-image: var(--ts-toast-track-bg);
+	--ts-toast-current-accent: var(--ts-accent);
+
+	background-repeat: no-repeat;
+	background-origin: left center;
+	background-position-x: 0%;
+	background-size: 0%;
+	/* resting fill */
+	border-radius: 15px;
+	outline: 1px solid var(--ts-toast-border);
+	transition:
+		background-color 300ms ease,
+		background-size 300ms ease,
+		color 300ms ease,
+		--ts-toast-accent 300ms ease allow-discrete,
+		--ts-toast-current-accent 300ms ease allow-discrete,
+		--ts-accent 300ms ease;
+}
+
+/* Animation is added by JS via the --animate class. Keyframes alone drive background-size; no !important needed. */
+.ts-ui-toast .ts-ui-toast__track--animate,
+.ts-ui-toast:has(.ts-ui-toast__track--animate) .ts-ui-toast__icon {
+	animation: ts-ui-toast-load var(--ts-toast-duration) var(--ts-ease-in-slow) forwards;
+}
+
+
+/* Static demo specimen — pause animation until hover */
+.ts-ui-toast-display .ts-ui-toast__track--animate,
+.ts-ui-toast-display .ts-ui-toast:has(.ts-ui-toast__track--animate) .ts-ui-toast__icon {
+	animation: none;
+}
+
+.ts-ui-toast-display .ts-ui-toast:hover .ts-ui-toast__track--animate,
+.ts-ui-toast-display .ts-ui-toast:has(.ts-ui-toast__track--animate):hover .ts-ui-toast__icon {
+	animation: ts-ui-toast-load var(--ts-toast-duration) var(--ts-ease-in-slow) forwards;
+}
+
+.ts-ui-toast .ts-ui-toast__icon {
+	font-size: var(--ts-toast-icon-size-2);
+	margin-top: 0px;
+	color: var(--ts-toast-current-accent);
+	margin-left: var(--ts-toast-gap);
+	margin-right: var(--ts-toast-gap);
+	height: 100%;
+	transition: color 300ms;
+}
+
+
+/* #CRAZY_FIX_RULES */
+/* this was the only way i could find to make a vertical separator minimal style to  design the toast. without breaking it. is a    subtile  vertical line with opacoty thats eparates the  icon from the  msg content. the problem is that i had to make a lot of calc  styles to  achieve the resutl  and thats not ideal. the toast needs to be reimplemented with a proper ui layout row and columns and better flexible design pattern  to hold many differetn  layout and designs using toolskin design system.  and be able to gold a row of buttons. is impossible to debugf or desighn this asset becaseiuye it dismisses and removes form the dom. i have almost no mock to use.  */
+.ts-ui-toast .ts-ui-toast__icon:after,
+.ts-ui-toast.default .ts-ui-toast__icon:after {
+	content: "";
+	position: absolute;
+	top: 0;
+	margin-left: calc(var(--ts-toast-gap)*.85);
+	background: var(--ts-toast-border);
+	width: 1px;
+	bottom: calc(var(--ts-toast-track-h)*1 + 1px);
+	z-index: -1;
+
+}
+
+.ts-ui-toast:not(.default) .ts-ui-toast__icon:after {
+
+	bottom: calc(var(--ts-toast-track-h)*2 + 1px);
+	z-index: -1;
+
+}
+
+/* OWNER FIXES: i managed to make possible the animation work and also assign dynamic  coloring to the gradient of the progressbar usign the color properlty and 2 sub delegation tokens for the object states. this is the only wy to animate background image based gradients... this is certaintly a discovery to add to the records... until now background images werree not animatable. adn nw using the color properlty and the accent token subtokenized, the background gradient aimates perfectly on hover or animation states.
+in th trac element, the --ts-toast-accent uses a  partial mid value for the variants of toast to hold the currentcolor value from each variant instead o f using direct tokens, as the tokens are not animatable. and currenColor and color properties are. 
+
+--ts-toast-accent: var(--ts-toast-current-accent);
+--ts-toast-current-accent: currentcolor;
+ */
+.ts-ui-toast-stack,
+.ts-ui-toast-display {
+
+	.ts-ui-toast,
+	.ts-ui-toast .ts-ui-toast__track,
+	.ts-ui-toast .ts-ui-toast__icon {
+		--ts-toast-accent: var(--ts-toast-current-accent);
+		--ts-toast-current-accent: currentcolor;
+		color: var(--ts-accent);
+
+	}
+
+	.ts-ui-toast--success,
+	.ts-ui-toast--success .ts-ui-toast__track,
+	.ts-ui-toast--success .ts-ui-toast__icon {
+		color: var(--ts-success);
+	}
+
+	.ts-ui-toast--warning,
+	.ts-ui-toast--warning .ts-ui-toast__track,
+	.ts-ui-toast--warning .ts-ui-toast__icon {
+		color: var(--ts-warning);
+	}
+
+	.ts-ui-toast--error,
+	.ts-ui-toast--error .ts-ui-toast__track,
+	.ts-ui-toast--error .ts-ui-toast__icon {
+		color: var(--ts-danger);
+	}
+
+	.ts-ui-toast--info,
+	.ts-ui-toast--info .ts-ui-toast__track,
+	.ts-ui-toast--info .ts-ui-toast__icon {
+		color: var(--ts-accent-alt);
+	}
+}
+
+
+@keyframes ts-ui-toast-load {
+	from {
+		background-size: 0%;
+
+
+	}
+
+	to {
+		background-size: 100%;
+		color: var(--ts-accent);
+		--ts-icon-pulse: 1.3;
+	}
+}

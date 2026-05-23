@@ -1,0 +1,89 @@
+/* ─── §8e  Framework Configuration Utilities ─────────────────────────── */
+
+/* Disable noise/grain globally or per-element */
+.ts-no-grain,
+:root.ts-no-grain .ts-grain {
+	background-image: none !important;
+}
+
+.ts-no-grain::before,
+:root.ts-no-grain .ts-grain::before {
+	display: none !important;
+}
+
+/* Elastic/Brutalist fullwidth layout */
+.ts-layout-elastic {
+	max-width: none !important;
+	width: 100% !important;
+	padding-inline: 0 !important;
+}
+
+.ts-layout-elastic .ts-container {
+	max-width: 100% !important;
+	padding-inline: var(--ts-sp-8);
+}
+
+/* Content-focused layout (narrower) */
+.ts-layout-content .ts-container {
+	max-width: var(--ts-content-max, 900px) !important;
+}
+
+/* Fullpage snap scrolling mode */
+:root.ts-fullpage {
+	scroll-snap-type: y mandatory;
+	scroll-behavior: smooth;
+}
+
+:root.ts-fullpage .ts-section,
+:root.ts-fullpage .ts-hero {
+	min-height: 100vh;
+	scroll-snap-align: start;
+	scroll-snap-stop: always;
+}
+
+/* Locomotive Scroll container */
+[data-scroll-container]:not(.ts-grain) {
+	will-change: transform;
+}
+
+[data-scroll] {
+	will-change: transform, opacity;
+}
+
+/* CRITICAL: Prevent Locomotive from breaking layouts */
+/* Don't apply transforms to layout-critical elements.
+	NOTE: .ts-fade-up and .ts-fade-in are EXCLUDED — they need their
+	transforms for scroll reveal animations to work correctly. */
+section.ts-grain[data-scroll],
+.ts-hero.ts-grain[data-scroll],
+.ts-section.ts-grain[data-scroll],
+.ts-grain[data-scroll],
+.ts-section-divider[data-scroll],
+.ts-container[data-scroll] {
+	transform: none !important;
+	will-change: auto !important;
+}
+
+/* Reveal animations MUST keep their transforms even with [data-scroll].
+	The transition handles the animation; Locomotive should not override. */
+.ts-fade-up[data-scroll],
+.ts-fade-in[data-scroll],
+.ts-fade-left[data-scroll],
+.ts-fade-right[data-scroll],
+.ts-zoom-in[data-scroll],
+.ts-zoom-out[data-scroll],
+.ts-slide-up[data-scroll] {
+	will-change: transform, opacity;
+}
+
+/* Only allow transforms on specifically tagged parallax elements */
+[data-scroll][data-ts-parallax="true"] {
+	transform: initial;
+	will-change: transform, opacity;
+}
+
+/* Allow transforms on inner elements that aren't animated */
+.ts-grain [data-scroll]:not(.ts-fade-up):not(.ts-fade-in):not(.ts-fade-left):not(.ts-fade-right) {
+	transform: initial;
+	will-change: transform, opacity;
+}

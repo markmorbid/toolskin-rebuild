@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toolskin UI Kit Lab (vanilla JS)</title>
+  <!-- Google Fonts — render-blocking (critical for body text) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <!-- Other CDN assets loaded dynamically by toolskin-assets.js -->
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  </noscript>
+    <link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css" />
+  <script src="https://satsea.io/toolskin-showcase/assets/js/toolskin-assets.js" defer></script>
+  <script src="https://satsea.io/toolskin-showcase/assets/js/toolskin.js" defer></script>
+  <script src="https://satsea.io/toolskin-showcase/assets/js/toolskin-uikit.js" defer></script>
+   <!-- Toolskin System (local — render-critical) -->
+    <script>
+      document.documentElement.classList.add('ts-preloader-lock');
+      window.__TOOLSKIN_CONFIG__ = {
+        cursor: { mode: 'simple', follower: true, easing: 0.42, followerEasing: 0.12 },
+        reveal: { enabled: false, useGSAP: false, stagger: 0.05, rootMargin: '0px 0px -40px 0px' },
+        smoothScroll: { enabled: false, duration: 1.2 },
+      };
+      
+    </script>
+  <style>
+    body { font-family: var(--ts-font-body, 'Space Grotesk', system-ui, sans-serif); }
+    .lab-section--wide { max-width: none; }
+    .lab-hero {
+      margin-bottom: var(--ts-sp-10);
+      padding: var(--ts-sp-8);
+      border-radius: var(--ts-radius-lg);
+      background: var(--ts-bg-1);
+      border: 1px solid var(--ts-border-1);
+    }
+    .lab-hero h1 { margin: 0 0 var(--ts-sp-2); font-size: var(--ts-fs-3xl); }
+    .lab-hero p { margin: 0; color: var(--ts-text-secondary); font-size: var(--ts-fs-sm); max-width: 62ch; }
+    .lab-section {
+      margin-bottom: var(--ts-sp-10);
+      padding: var(--ts-sp-6);
+      border-radius: var(--ts-radius-lg);
+      background: var(--ts-bg-0);
+      border: 1px solid var(--ts-border-1);
+    }
+    .lab-section h2 {
+      margin: 0 0 var(--ts-sp-4);
+      font-size: var(--ts-fs-lg);
+      color: var(--ts-text-primary);
+      border-bottom: 1px solid var(--ts-border-1);
+      padding-bottom: var(--ts-sp-2);
+    }
+    .lab-stack .lab-section { margin-bottom: 0; }
+    .lab-field-label { display: block; margin-bottom: var(--ts-sp-1); }
+    .lab-note { font-size: var(--ts-fs-xs); color: var(--ts-text-muted); margin-top: var(--ts-sp-3); }
+    .ts-ui-demo-panel {
+      width: 220px;
+      min-height: 120px;
+      padding: var(--ts-sp-3);
+      background: var(--ts-bg-2);
+      border: 1px dashed var(--ts-border-strong);
+      border-radius: var(--ts-radius-md);
+      font-size: var(--ts-fs-xs);
+      color: var(--ts-text-secondary);
+    }
+    /* Masonry lab: match index showcase (flip cards fill cells) */
+    .lab-masonry-hero-bg {
+      background: linear-gradient(135deg, var(--ts-accent-dim), var(--ts-bg-2));
+    }
+    .lab-masonry-hero-text {
+      font-size: var(--ts-fs-2xl);
+      font-weight: 700;
+    }
+    .lab-masonry-flip.ts-masonry-lab .ts-masonry-item {
+      min-height: 0;
+    }
+    .lab-masonry-flip .ts-flip-card {
+      flex: 1;
+      width: 100%;
+      min-height: 280px;
+    }
+    .lab-masonry-flip .ts-flip-card__inner {
+      min-height: 280px;
+    }
+    .lab-masonry-compact .ts-caption {
+      font-size: var(--ts-fs-2xs);
+    }
+    .lab-masonry-stack {
+      display: flex;
+      flex-direction: column;
+      gap: var(--ts-sp-10);
+    }
+    .lab-masonry-panel {
+      padding: var(--ts-sp-4);
+      border-radius: var(--ts-radius-md);
+      border: 1px solid color-mix(in srgb, var(--ts-border-1), transparent 25%);
+      background: color-mix(in srgb, var(--ts-bg-1), transparent 20%);
+    }
+    .lab-masonry-section-title {
+      margin: 0 0 var(--ts-sp-2);
+      font-size: var(--ts-fs-md);
+      font-weight: 600;
+      color: var(--ts-text-primary);
+    }
+    .lab-masonry-section-lead {
+      margin: 0 0 var(--ts-sp-4);
+      font-size: var(--ts-fs-xs);
+      color: var(--ts-text-muted);
+      max-width: 72ch;
+    }
+    /*NNOTE: the classes names and variants must be kept previously analyzing the  index.html and the labs and ba interfaces already existent qhere masonty has been used and analyzing ponderaating which classes has been used. the idea is to keep ts-masonry-lab as legacy base classnaME after cleanup. and aDDING EXTRA CLASSES TO EACH VARIANT AND FEATURE, NOT ISOLATING EVERY ONE. SO THE COMPONENT INHERITS PROPERTIES. . WE GOT TO WIPE OFF ALL REDUDNANT AND UNUSED COMPONENT MASONRY FROM THE SYSTEM AND MAKE USABLE ASSETS FROM THIS, AS EFFICIENT AND INHERITABLE. AND SAHREABLE WITH OTHER LAYOU  COMPONENT THAT CAN HOLD    */
+
+/* Grid Lanes — see https://webkit.org/blog/17660/introducing-css-grid-lanes/
+this version must be removed because is not compatible with some browsers. BUT GOT SOME  PROGRESSES AS RECORDS. 
+IS ONLY ON LABS SHOWCASE.  REPLACE QWITR THE NEW ONE. this one has been replaced with the  ts-ui-masonry--gallery class type and the image type gallery holder.  but it will be overrided with the new   version.
+  * Uses display:grid-lanes only when @supports (display: grid-lanes) matches.
+  * Many Chrome stable builds do not match → fallback block below. Some Chromium forks
+  * (e.g. Brave) or flags may enable grid-lanes, so layout can differ from Chrome. */
+.ts-ui-masonry--lanes {
+  --ts-ui-masonry-lane-min: 14rem;
+  --ts-ui-photo-aspect: 4 / 3;
+  --ts-ui-masonry-item-flex-grow: 1;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.ts-ui-masonry--lanes .ts-ui-masonry__item {
+  margin-bottom: 0;
+}
+
+/* Photo tiles: box + absolute img + object-fit cover (grid-lanes + flex fallback) */
+.ts-ui-masonry--lanes .ts-ui-masonry__item--photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--ts-radius-md);
+  border: 1px solid color-mix(in srgb, var(--ts-border-1), transparent 35%);
+  background: var(--ts-bg-1);
+  aspect-ratio: var(--ts-ui-photo-aspect, 4 / 3);
+}
+
+.ts-ui-masonry--lanes .ts-ui-masonry__item--photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@supports (display: grid-lanes) {
+  .ts-ui-masonry--lanes {
+    display: grid-lanes;
+    grid-template-columns: repeat(auto-fill, minmax(var(--ts-ui-masonry-lane-min, 14rem), 1fr));
+    gap: var(--ts-ui-masonry-gap, var(--ts-sp-4));
+  }
+
+  .ts-ui-masonry--lanes .ts-ui-masonry__item--photo {
+    min-height: 0;
+  }
+}
+
+/* No grid-lanes: flex-wrap + flexible flex-grow per tile (--ts-ui-masonry-item-flex-grow) */
+@supports not (display: grid-lanes) {
+  .ts-ui-masonry--lanes {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: stretch;
+    gap: var(--ts-ui-masonry-gap, var(--ts-sp-4));
+  }
+
+  .ts-ui-masonry--lanes .ts-ui-masonry__item {
+    box-sizing: border-box;
+  }
+
+  .ts-ui-masonry--lanes .ts-ui-masonry__item--photo {
+    flex: var(--ts-ui-masonry-item-flex-grow, 1) 1 var(--ts-ui-masonry-lane-min, 14rem);
+    min-width: min(100%, var(--ts-ui-masonry-lane-min, 14rem));
+    max-width: 100%;
+  }
+
+  .ts-ui-masonry--lanes .ts-ui-masonry__item:not(.ts-ui-masonry__item--photo) {
+    flex: 1 1 var(--ts-ui-masonry-lane-min, 14rem);
+    min-width: min(100%, var(--ts-ui-masonry-lane-min, 14rem));
+  }
+}
+
+
+
+/*this is the most accurate grid gallery implemented and the one submitted to migrate the image  and interactive featurtes*/
+
+
+    .ts-ui-masonry--gallery .ts-ui-masonry__item {
+      margin-bottom: 0;
+    }
+
+    /* image tiles: box + absolute img + object-fit cover (grid-gallery + flex fallback) */
+    .ts-ui-masonry--gallery .ts-ui-masonry__item--image {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--ts-radius-md);
+      border: 1px solid color-mix(in srgb, var(--ts-border-1), transparent 35%);
+      background: var(--ts-bg-1);
+      aspect-ratio: var(--ts-ui-image-aspect, 4 / 3);
+      --ts-ui-image-aspect: 1!important;
+    }
+
+    .ts-ui-masonry--gallery .ts-ui-masonry__item--image img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    } 
+
+
+  .ts-ui-masonry--gallery {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: stretch;
+    gap: var(--ts-ui-masonry-gap, var(--ts-sp-4));
+
+    
+    --ts-ui-masonry-column-size: 9rem;
+    --ts-ui-masonry-column-max-w: clamp(calc(var(--ts-ui-masonry-column-size)*.65), var(--ts-ui-masonry-column-size), calc(var(--ts-ui-masonry-column-size)*1.5));
+    --ts-ui-masonry-column-max-w: clamp(calc(var(--ts-ui-masonry-column-size)*2 ), 100% ,50%);
+
+    --ts-ui-masonry-column-width: min(var(--ts-ui-masonry-column-size), var(--ts-ui-masonry-column-max-w));
+
+    --ts-ui-masonry-gap: var(--ts-sp-3);
+
+    --ts-ui-image-aspect: 1!important;
+    --ts-ui-masonry-gal-min: var(--ts-ui-masonry-column-width)!important;
+    --ts-ui-masonry-item-flex-grow: 1!important;
+
+  }
+
+  .ts-ui-masonry--gallery .ts-ui-masonry__item {
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--ts-radius-md);
+    border: 1px solid var(--ts-this-bg-border);
+    background: var(--ts-this-bg);
+    
+    flex: var(--ts-ui-masonry-item-flex-grow) 1 
+        var(--ts-ui-masonry-gal-min);
+    min-width: min(var(--ts-ui-masonry-column-max-w), var(--ts-ui-masonry-gal-min));
+    max-width:var(--ts-ui-masonry-column-max-w);
+    aspect-ratio: var(--ts-ui-image-aspect)!important;
+    --ts-ui-masonry-item-flex-grow: 1!important;
+    --ts-this-bg: var(--ts-bg-1);
+  
+  }
+  .ts-ui-masonry--gallery .ts-ui-masonry__item:not(.ts-ui-masonry__item--image,:has(img)) {
+      flex: var(--ts-ui-masonry-item-flex-grow) 1 var(--ts-ui-masonry-gal-min);
+      min-width: min(100%, var(--ts-ui-masonry-gal-min));
+  }
+  .ts-ui-masonry--gallery .ts-ui-masonry__item:has(img) > img,
+  .ts-ui-masonry--gallery .ts-ui-masonry__item--image img {
+    position: absolute!important;
+    inset: 0!important;
+    width: 100%!important;
+    height: 100%!important;
+    object-fit: cover!important;
+    display: block;
+  }
+  .ts-ui-masonry--gallery > img,
+  .ts-ui-masonry--gallery .ts-ui-masonry__item--image,
+  .ts-ui-masonry--gallery .ts-ui-masonry__item:has(img){
+    flex: var(--ts-ui-masonry-item-flex-grow) 1 
+      var(--ts-ui-masonry-gal-min);
+    min-width: min(var(--ts-ui-masonry-column-max-w), var(--ts-ui-masonry-gal-min));
+    max-width: var(--ts-ui-masonry-column-max-w);
+  }
+
+  
+/* Explicit uniform grid (multi-column everywhere; not “packed” masonry) */
+.ts-ui-masonry--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--ts-ui-masonry-lane-min, 12rem), 1fr));
+  gap: var(--ts-ui-masonry-gap, var(--ts-sp-4));
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.ts-ui-masonry--grid .ts-ui-masonry__item {
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+/*#CRAZY_FIX_RULES */
+
+
+/*REFACTOR NOTES: tis is one of the most fristrating aseset and siystem we got on the design system. is totally unpredictable and diffficult to manage. unreliable and   impossible to maintain. this element needs to be either to be removed  or refactored. as there's no sue for a layout masonry that is not a real masonry. so we may  delet this feature for good. and use  flexbox  layouts and grid  bootstrapping systems properly built with dynamic automatic layout  smart systems., not abusing on classes. only content and general  grid and calc   container-layout-columns based design low media queries and block smart design capable of   aming good layout excell without using hard grids that breaks over resizing and breaks content.  this masorny doesnrt even serve for image gallery... they are impossbile to addapt anywgere.  the ionly place is  good and is  cool how it looks is on the marquee section where i randomly managed to make the main marquee display screen horizontally... but fd¿dont knwo how.   i need to be capable of that without doing random guess.  and not using this kind of element for that putpose. 
+masonry shoudl be other thing and maybe we dont need something like this here. we do need a simple automatic grid   smart system. either using an isotope like system, or a flex based  css column based system.  grid with clamp anfdd automated  column suystems and few javascript or somethign smart and  super usbale and lightweight. not absolute positiong or anuthing unreliable.  something modern and solid. i think flexbox is the best    way to choos. as is the best way of desigining layouts that can be iminal or  resturcutresdd. via rows and columns.  */
+
+/* ─── §4d.1  MASONRY GRID SYSTEM ────────────────────────────────────── */
+
+/* 
+  * Responsive Masonry Grid
+  * Uses CSS Grid with auto-fill for true responsive behavior
+  * Columns adjust based on viewport with min/max constraints
+  */
+
+.ts-masonry-lab {
+  /* Grid configuration */
+  --ts-masonry-min-col: 200px;
+  /* Minimum column width */
+  --ts-masonry-row-h: 180px;
+  /* Base row height */
+  --ts-masonry-gap: var(--ts-sp-4);
+  /* Gap between items */
+  --ts-masonry-cols: auto-fill;
+  /* auto-fill or auto-fit */
+
+  display: grid !important;
+  grid-template-columns: repeat(var(--ts-masonry-cols),
+      minmax(var(--ts-masonry-min-col), 1fr));
+  grid-auto-rows: var(--ts-masonry-row-h);
+  /*  grid-auto-flow: dense;                 fill holes left by row/column spans */
+  gap: var(--ts-masonry-gap);
+  align-items: stretch;
+  justify-items: stretch;
+}
+
+.ts-masonry-lab {
+  --ts-masonry-min-col: clamp(300px, 16rem, 780px);
+  --ts-masonry-row-h: 16rem;
+  --ts-masonry-gap: var(--ts-sp-4);
+  --ts-masonry-cols: auto-fill;
+  --ts-masonry-cols: auto-fit;
+  display: grid !important;
+  grid-template-columns: repeat(var(--ts-masonry-cols),
+      minmax(var(--ts-masonry-min-col), 1fr));
+  grid-auto-rows: var(--ts-masonry-row-h);
+  gap: var(--ts-masonry-gap);
+  align-items: stretch;
+  justify-items: stretch;
+  align-content: stretch;
+  grid-auto-flow: dense;
+}
+
+/* Masonry item base */
+.ts-masonry-item {
+  display: flex;
+  /* text-align: center; */
+  min-height: var(--ts-masonry-row-h);
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-content: stretch;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.ts-masonry-item > .ts-masonry-item-text {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.ts-masonry-item-text {
+  text-transform: uppercase;
+  color: var(--ts-text-muted);
+}
+
+/* Spanning modifiers - Smart responsive behavior */
+
+/* Tall: 2 rows */
+.ts-masonry--tall {
+  grid-row: span 2;
+}
+
+/* Wide: 2 columns (but respects grid) */
+.ts-masonry--wide {
+  grid-column: span 2;
+}
+
+/* Tall Full: 3 rows (prominent vertical) */
+.ts-masonry--tall-full {
+  grid-row: span 3;
+}
+
+/* Wide Full: 3+ columns (takes more horizontal space) */
+.ts-masonry--wide-full {
+  grid-column: 1 / -1;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+.ts-masonry--wide-full:has(.ts-marquee) {
+margin-block: var(--ts-sp-6);
+}
+/* Extra tall: 4 rows (hero vertical) */
+.ts-masonry--xtall {
+  grid-row: span 4;
+}
+
+/* Extra wide: 4+ columns (hero horizontal) */
+.ts-masonry--xwide {
+  grid-column: span 4;
+}
+
+/* Large: Both wide and tall (2x2 block) */
+.ts-masonry--large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+/* Hero: Maximum size (3x3+ block) */
+.ts-masonry--hero {
+  grid-column: span 3;
+  grid-row: span 3;
+  order: -1;
+}
+
+/* Responsive breakpoints for masonry */
+@media (max-width: 1400px) {
+  .ts-masonry-lab {
+    --ts-masonry-min-col: clamp(200px, 15rem, 800px);
+  }
+
+  .ts-masonry--wide-full,
+  .ts-masonry--xwide {
+    grid-column: span 2;
+  }
+
+  .ts-masonry--hero {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 1024px) {
+  .ts-masonry-lab {
+    --ts-masonry-min-col: clamp(260px, 15rem, 760px);
+  }
+
+  .ts-masonry--wide-full {
+    grid-column: span 2;
+  }
+
+  .ts-masonry--xwide,
+  .ts-masonry--hero {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .ts-masonry-lab {
+    --ts-masonry-min-col: 6rem;
+    --ts-masonry-row-h: auto;
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: stretch;
+  }
+
+  .ts-masonry--wide,
+  .ts-masonry--wide-full,
+  .ts-masonry--xwide {
+    grid-column: span 2;
+  }
+
+  .ts-masonry--hero {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .ts-masonry-lab {
+    --ts-masonry-min-col: 120px;
+    --ts-masonry-row-h: 120px;
+  }
+
+  .ts-masonry-lab {
+    --ts-masonry-min-col: 15rem;
+    --ts-masonry-row-h: 9rem;
+    --ts-masonry-cols: 1 !important;
+    grid-template-columns: 1fr;
+    grid-auto-flow: unset;
+    display: flex !important;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+  }
+
+  /* All wide items become single column on mobile */
+  .ts-masonry--wide,
+  .ts-masonry--wide-full,
+  .ts-masonry--xwide,
+  .ts-masonry--hero {
+    grid-column: span 1;
+  }
+
+  /* Keep tall items but reduce span */
+  .ts-masonry--tall-full,
+  .ts-masonry--xtall {
+    grid-row: span 2;
+  }
+}
+
+/* Masonry variants for different use cases */
+
+/* Compact masonry (smaller gaps, more items) */
+.ts-masonry--compact {
+  --ts-masonry-min-col: 150px;
+  --ts-masonry-row-h: 150px;
+  --ts-masonry-gap: var(--ts-sp-2);
+}
+
+.ts-masonry--compact {
+  --ts-masonry-min-col: 12rem;
+  --ts-masonry-row-h: 15rem;
+  --ts-masonry-gap: var(--ts-sp-2);
+  /* grid-auto-flow: row dense; */
+  /* grid-auto-rows: 1fr 1fr; */
+  /* --ts-masonry-cols: 4; */
+}
+
+/* Loose masonry (larger gaps, more breathing room) */
+.ts-masonry--loose {
+  --ts-masonry-gap: var(--ts-sp-6);
+}
+
+/* Square cells (equal width/height ratio) */
+.ts-masonry--square {
+  --ts-masonry-row-h: var(--ts-masonry-min-col);
+}
+
+/* Auto-fit variant (fills available space) */
+.ts-masonry--fit {
+  --ts-masonry-cols: auto-fit;
+}
+
+/* ── Masonry v2 ────── */
+.ts-ui-masonry--v2 {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  /* Narrower default column min → more columns in typical side-by-side grids */
+  column-width: var(--ts-ui-masonry-column-width, min(200px, 100%));
+  column-gap: var(--ts-ui-masonry-gap, var(--ts-sp-4));
+  column-fill: balance;
+}
+
+.ts-ui-masonry--v2.ts-ui-masonry--dense {
+  --ts-ui-masonry-column-width: min(160px, 100%);
+  --ts-ui-masonry-gap: var(--ts-sp-3);
+}
+
+.ts-ui-masonry__item {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  break-inside: avoid;
+  margin-bottom: var(--ts-ui-masonry-gap, var(--ts-sp-4));
+}
+
+.ts-ui-masonry__item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.ts-ui-masonry__item--flush {
+  padding: 0 !important;
+  margin-left: 0;
+  margin-right: 0;
+  overflow: visible;
+}
+
+.ts-ui-masonry__item .ts-flip-card {
+  margin: 0;
+}
+
+.ts-ui-masonry__item .ts-flip-card__inner {
+  min-height: 0;
+}
+
+/* Grid Lanes — see https://webkit.org/blog/17660/introducing-css-grid-lanes/
+  * Uses display:grid-lanes only when @supports (display: grid-lanes) matches.
+  * Many Chrome stable builds do not match → fallback block below. Some Chromium forks
+  * (e.g. Brave) or flags may enable grid-lanes, so layout can differ from Chrome. */
+.ts-ui-masonry--lanes {
+  --ts-ui-masonry-lane-min: 14rem;
+  --ts-ui-photo-aspect: 4 / 3;
+  --ts-ui-masonry-item-flex-grow: 1;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.ts-ui-masonry--lanes .ts-ui-masonry__item {
+  margin-bottom: 0;
+}
+
+/* Photo tiles: box + absolute img + object-fit cover (grid-lanes + flex fallback) */
+.ts-ui-masonry--lanes .ts-ui-masonry__item--photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--ts-radius-md);
+  border: 1px solid color-mix(in srgb, var(--ts-border-1), transparent 35%);
+  background: var(--ts-bg-1);
+  aspect-ratio: var(--ts-ui-photo-aspect, 4 / 3);
+}
+
+.ts-ui-masonry--lanes .ts-ui-masonry__item--photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@supports (display: grid-lanes) {
+  .ts-ui-masonry--lanes {
+    display: grid-lanes;
+    grid-template-columns: repeat(auto-fill, minmax(var(--ts-ui-masonry-lane-min, 14rem), 1fr));
+    gap: var(--ts-ui-masonry-gap, var(--ts-sp-4));
+  }
+
+  .ts-ui-masonry--lanes .ts-ui-masonry__item--photo {
+    min-height: 0;
+  }
+}
+
+/* No grid-lanes: flex-wrap + flexible flex-grow per tile (--ts-ui-masonry-item-flex-grow) */
+@supports not (display: grid-lanes) {
+  .ts-ui-masonry--lanes {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: stretch;
+    gap: var(--ts-ui-masonry-gap, var(--ts-sp-4));
+  }
+
+  .ts-ui-masonry--lanes .ts-ui-masonry__item {
+    box-sizing: border-box;
+  }
+
+  .ts-ui-masonry--lanes .ts-ui-masonry__item--photo {
+    flex: var(--ts-ui-masonry-item-flex-grow, 1) 1 var(--ts-ui-masonry-lane-min, 14rem);
+    min-width: min(100%, var(--ts-ui-masonry-lane-min, 14rem));
+    max-width: 100%;
+  }
+
+  .ts-ui-masonry--lanes .ts-ui-masonry__item:not(.ts-ui-masonry__item--photo) {
+    flex: 1 1 var(--ts-ui-masonry-lane-min, 14rem);
+    min-width: min(100%, var(--ts-ui-masonry-lane-min, 14rem));
+  }
+}
+
+/* Explicit uniform grid (multi-column everywhere; not “packed” masonry) */
+.ts-ui-masonry--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--ts-ui-masonry-lane-min, 12rem), 1fr));
+  gap: var(--ts-ui-masonry-gap, var(--ts-sp-4));
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.ts-ui-masonry--grid .ts-ui-masonry__item {
+  margin-bottom: 0;
+  min-width: 0;
+}
+  </style>
+</head>
+<body class="ts-bg-body">
+  <!-- <nav class="ts-nav-fixed">
+    <div class="ts-topbar__logo">
+      TOOL<em>SKIN</em>
+      <span>UI Kit Lab v1.0</span>
+    </div>
+
+    <div class="ts-nav-fixed__links ts-nav-truncate" id="ts-primary-menu">
+      <a href="#top">Top</a>
+      <a href="#toast">Toast</a>
+      <a href="#accordion">Accordion</a>
+      <a href="#select">Select</a>
+      <a href="#spinner">Spinner</a>
+      <a href="#tooltips">Tooltips</a>
+      <a href="#drag-resize">Drag & Resize</a>
+      <a href="#sortable">Sortable</a>
+      <a href="#controls">Controls</a>
+      <a href="#masonry">Masonry</a>
+      <a href="#api">API</a>
+    </div>
+    <div id="navbar-collapse" class="ts-nav-more">
+      <button class="ts-more-trigger">•••</button>
+      <div id="navbar-extend" class="ts-nav-dropdown"></div>
+    </div>
+   <label class=" theme-toggle theme-toggle--force-motion theme-toggle--toggled" data-theme-toggle title="Toggle theme">
+          <input type="checkbox" />
+          <span class="theme-toggle-sr">Toggle theme</span>
+          <svg xmlns="http://www.w3.org/2000/svg"  width="1em" height="1em" fill="currentColor" class="theme-toggle__expand" viewBox="0 0 32 32">
+            <clipPath id="theme-toggle__expand__cutout">
+              <path d="M0-11h25a1 1 0 0017 13v30H0Z" />
+            </clipPath>
+            <g clip-path="url(#theme-toggle__expand__cutout)">
+              <circle cx="16" cy="16" r="8.4" />
+              <path d="M18.3 3.2c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3S14.7.9 16 .9s2.3 1 2.3 2.3zm-4.6 25.6c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3-1 2.3-2.3 2.3-2.3-1-2.3-2.3zm15.1-10.5c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zM3.2 13.7c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3S.9 17.3.9 16s1-2.3 2.3-2.3zm5.8-7C9 7.9 7.9 9 6.7 9S4.4 8 4.4 6.7s1-2.3 2.3-2.3S9 5.4 9 6.7zm16.3 21c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm2.4-21c0 1.3-1 2.3-2.3 2.3S23 7.9 23 6.7s1-2.3 2.3-2.3 2.4 1 2.4 2.3zM6.7 23C8 23 9 24 9 25.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z" />
+            </g>
+          </svg>
+        </label>
+  </nav> -->
+  <aside class="ts-h-full ts-items-stretch ts-justify-center ts-sidebar-menu ts-ui-panel">
+        <div class="ts-mb-3 ts-p-4 ts-topbar__logo">
+           <div class="ts-logo-brand">Tool<em>skin</em></div>
+            <span class="ts-logo-sub">Wireframes Lab</span>
+        </div>
+         <nav class="ts-sidenav ts-p-0">
+            <span class="ts-sidenav__group-label">Main</span>
+            <a class="ts-nav__item ts-nav__item--active" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-house"></span> Dashboard</a>
+            <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-chart-line"></span> Analytics</a>
+            <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-folder"></span> Projects</a>
+            <span class="ts-sidenav__group-label">Settings</span>
+            <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-palette"></span> Appearance</a>
+            <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-chart-line"></span> Analytics</a>
+            <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-shield"></span> Security</a>
+            <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-folder"></span> Projects</a>
+          </nav>
+          <div class="ts-sidenav__btn-row">
+            <a href="generator/" class="ts-nav-link ts-btn ts-btn--outline" data-icon="ion:options-outline">Banner UI</a>
+            <a href="surface-lab.html" class="ts-nav-link ts-btn ts-btn--primary" data-icon="ion:color-palette-outline">Surfaces Lab</a>
+          </div>
+      
+          <label class="theme-toggle theme-toggle--force-motion theme-toggle--toggled" data-theme-toggle aria-label="Dark/Light Mode" data-tooltip="Switch Dark/Light Mode" data-tooltip-pos="bottom">
+            <input type="checkbox" /> <span class="theme-toggle-sr">Switch Dark/Light Mode</span> 
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="theme-toggle__expand ts-icon ts-btn-icon" viewBox="0 0 32 32" style="pointer-events: none;"> <clipPath id="theme-toggle__expand__cutout"> <path d="M0-11h25a1 1 0 0017 13v30H0Z" /> </clipPath> <g clip-path="url(#theme-toggle__expand__cutout)"> <circle cx="16" cy="16" r="8.4" /> <path d="M18.3 3.2c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3S14.7.9 16 .9s2.3 1 2.3 2.3zm-4.6 25.6c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3-1 2.3-2.3 2.3-2.3-1-2.3-2.3zm15.1-10.5c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zM3.2 13.7c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3S.9 17.3.9 16s1-2.3 2.3-2.3zm5.8-7C9 7.9 7.9 9 6.7 9S4.4 8 4.4 6.7s1-2.3 2.3-2.3S9 5.4 9 6.7zm16.3 21c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm2.4-21c0 1.3-1 2.3-2.3 2.3S23 7.9 23 6.7s1-2.3 2.3-2.3 2.4 1 2.4 2.3zM6.7 23C8 23 9 24 9 25.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z" /> </g> 
+            </svg>
+          </label>
+
+          <div class="ts-ui-select" data-ts-ui-select-placeholder="Select nav Style" id="ts-topnav-selector">
+            <select class="ts-ui-select__native">
+              <option value="default" data-icon="fa-solid fa-bolt">Default</option>
+              <option value="auto-icons" data-icon="fa-solid fa-icons">Auto-Icons</option>
+              <option value="spaced" data-icon="fa-solid fa-expand">Spaced</option>
+              <option value="icons" data-icon="fa-solid fa-image">Icons-Only</option>
+              <option value="mobile" data-icon="fa-solid fa-window-maximize">Mobile-Only</option>
+              <option value="sidebar" data-icon="fa-solid fa-xmark" disabled>Sidebar (soon)</option>
+            </select>
+          </div>
+    </aside>
+  <div class="lab-wrap ts-container" style="max-width: min(1200px, 100%); margin: 0 auto; padding: calc(var(--ts-sp-10) + var(--ts-topbar-h)) var(--ts-sp-4) var(--ts-sp-20);">
+    <header class="lab-hero">
+      <h1>Toolskin UI Kit Lab</h1>
+      <p>
+        Vanilla-only components in <code>assets/js/toolskin-uikit.js</code>; UI Kit styles are merged into <code>assets/css/toolskin.css</code>.
+        No jQuery. Prefix <code>ts-ui-*</code> and API <code>window.ToolskinUIKit</code>.
+        Reference widgets mirror the jQuery UI showcase patterns (accordion, spinner, sortable, etc.) without external UI libraries.
+      </p>
+      <p class="lab-note" style="margin-top: var(--ts-sp-3);">
+        <a href="index.html" class="ts-btn ts-btn--secondary ts-btn--sm"><i class="fa-solid fa-arrow-left"></i> Main showcase</a>
+      </p>
+    </header>
+
+    <div class="lab-stack ts-flex ts-flex-col ts-gap-10">
+    <section class="lab-section" id="toast">
+      <h2>Toast (UIKit)</h2>
+      <p class="ts-text-secondary ts-fs-sm" style="margin:0 0 var(--ts-sp-3);">Rich stack + progress strip. Core <code>Toolskin.toast</code> still available from <code>toolskin.js</code>.</p>
+      <div class="ts-flex ts-flex-wrap ts-gap-4 ts-items-start">
+        <button type="button" class="ts-btn ts-btn--sm" id="lab-toast-success">Success</button>
+        <button type="button" class="ts-btn ts-btn--sm" id="lab-toast-warn">Warning</button>
+        <button type="button" class="ts-btn ts-btn--sm" id="lab-toast-err">Error</button>
+        <button type="button" class="ts-btn ts-btn--sm" id="lab-toast-core">Core ToolskinToast</button>
+      </div>
+    </section>
+
+    <section class="lab-section" id="accordion">
+      <h2>Accordion</h2>
+      <p class="ts-text-secondary ts-fs-sm ts-mb-4">
+        <strong>Exclusive (default):</strong> omit <code>data-ts-ui-accordion-multiple</code> — opening one section closes others.
+        <strong>Multiple:</strong> set <code>data-ts-ui-accordion-multiple</code>. Icons: <code>data-icon</code> (Font Awesome classes) on the header.
+        Aliases: root may use <code class="ts-code">.ts-accordion</code> + <code class="ts-code">data-ts-accordion-*</code> (mirrored to <code class="ts-code">ts-ui-*</code> in JS).
+      </p>
+      <div class="ts-grid ts-grid--2 ts-gap-6 ts-mb-8">
+        <div class="ts-grid-col" style="min-width:0;">
+          <p class="ts-fs-xs ts-text-muted ts-mb-2">Joined · multiple open</p>
+          <div class="ts-ui-accordion" data-ts-ui-accordion-multiple>
+            <div class="ts-ui-accordion__item">
+              <button type="button" class="ts-ui-accordion__header" aria-expanded="true" data-icon="fa-solid fa-layer-group"><span class="ts-ui-accordion__label">Section A</span></button>
+              <div class="ts-ui-accordion__panel">First panel — raw HTML content.</div>
+            </div>
+            <div class="ts-ui-accordion__item">
+              <button type="button" class="ts-ui-accordion__header" aria-expanded="false" data-icon="fa-solid fa-sliders"><span class="ts-ui-accordion__label">Section B</span></button>
+              <div class="ts-ui-accordion__panel" hidden>Second panel hidden by default.</div>
+            </div>
+          </div>
+        </div>
+        <div class="ts-grid-col" style="min-width:0;">
+          <p class="ts-fs-xs ts-text-muted ts-mb-2">Joined · exclusive (single open)</p>
+          <div class="ts-ui-accordion">
+            <div class="ts-ui-accordion__item">
+              <button type="button" class="ts-ui-accordion__header" aria-expanded="true" data-icon="fa-solid fa-star"><span class="ts-ui-accordion__label">Only one</span></button>
+              <div class="ts-ui-accordion__panel">Opening another header closes this one.</div>
+            </div>
+            <div class="ts-ui-accordion__item">
+              <button type="button" class="ts-ui-accordion__header" aria-expanded="false" data-icon="fa-regular fa-folder"><span class="ts-ui-accordion__label">Second</span></button>
+              <div class="ts-ui-accordion__panel" hidden>Content.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ts-grid ts-grid--2 ts-gap-6 ts-mb-8">
+        <div class="ts-grid-col" style="min-width:0;">
+          <p class="ts-fs-xs ts-text-muted ts-mb-2">Separated cards · CSS plus/minus toggle</p>
+          <div class="ts-ui-accordion ts-ui-accordion--separated ts-ui-accordion--toggle-plus" style="--ts-ui-accordion-toggle-radius: var(--ts-radius-full);">
+            <div class="ts-ui-accordion__item">
+              <button type="button" class="ts-ui-accordion__header" aria-expanded="true" data-icon="fa-solid fa-bolt"><span class="ts-ui-accordion__label">Alpha</span></button>
+              <div class="ts-ui-accordion__panel">Plus/minus uses <code>--ts-ui-accordion-toggle-stroke</code> (default 2px).</div>
+            </div>
+            <div class="ts-ui-accordion__item">
+              <button type="button" class="ts-ui-accordion__header" aria-expanded="false" data-icon="fa-solid fa-image"><span class="ts-ui-accordion__label">Beta</span></button>
+              <div class="ts-ui-accordion__panel" hidden>More content.</div>
+            </div>
+          </div>
+        </div>
+        <div class="ts-grid-col" style="min-width:0;">
+          <p class="ts-fs-xs ts-text-muted ts-mb-2">Alias root <code>.ts-accordion</code></p>
+          <div class="ts-accordion ts-ui-accordion--separated" data-ts-accordion-multiple="">
+            <div class="ts-accordion__item">
+              <button type="button" class="ts-accordion__header" aria-expanded="true"><span class="ts-accordion__label">Alias item</span></button>
+              <div class="ts-accordion__panel">Normalized to <code>ts-ui-accordion__*</code> classes on init.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="ts-fs-xs ts-text-muted ts-mb-2">Schema-built (see script): <code>ToolskinUIKit.AccordionFromSchema</code></p>
+      <div id="lab-accordion-schema" class="ts-mb-4"></div>
+      <p class="ts-group-title-label ts-mb-2">Column groups (modal-style section labels)</p>
+      <div class="ts-form-column-group ts-mb-8">
+        <div class="ts-form-column">
+          <span class="ts-group-title-label">Left column</span>
+          <div class="ts-ui-accordion ts-ui-accordion--separated">
+            <div class="ts-ui-accordion__item">
+              <button type="button" class="ts-ui-accordion__header" aria-expanded="true" data-icon="fa-solid fa-sliders"><span class="ts-ui-accordion__label">Tuning</span></button>
+              <div class="ts-ui-accordion__panel">Nested accordion beside a second column — same tokens as Studio modals.</div>
+            </div>
+            <div class="ts-ui-accordion__item">
+              <button type="button" class="ts-ui-accordion__header" aria-expanded="false" data-icon="fa-regular fa-folder"><span class="ts-ui-accordion__label">Files</span></button>
+              <div class="ts-ui-accordion__panel" hidden>More settings.</div>
+            </div>
+          </div>
+        </div>
+        <div class="ts-form-column">
+          <span class="ts-group-title-label">Right column</span>
+          <div class="ts-ui-accordion ts-ui-accordion--separated">
+            <div class="ts-ui-accordion__item">
+              <button type="button" class="ts-ui-accordion__header" aria-expanded="true" data-icon="fa-solid fa-bolt"><span class="ts-ui-accordion__label">Actions</span></button>
+              <div class="ts-ui-accordion__panel">Icons sit with the title; toggle stays on the right.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lab-section" id="select">
+      <h2>Select (search + icons)</h2>
+      <p class="ts-text-secondary ts-fs-sm ts-mb-4">Dropdown starts closed; <code>[hidden]</code> is respected. <code>data-ts-ui-scrollbar-moz</code> opts into Mozilla scrollbar colors <strong>only when the page runs in Firefox</strong> (Chromium keeps pure <code>::-webkit-scrollbar</code> styling).</p>
+      <div class="ts-flex ts-flex-wrap ts-gap-4 ts-items-end">
+        <div>
+          <span class="ts-fs-xs ts-text-muted lab-field-label">With search</span>
+          <div class="ts-ui-select" data-ts-ui-scrollbar-moz="">
+            <select class="ts-ui-select__native ts-ui-select">
+              <option value="one" data-icon="fa-solid fa-star">Alpha</option>
+              <option value="two" data-icon="fa-solid fa-bolt" selected>Beta</option>
+              <option value="three" data-icon="fa-solid fa-heart">Gamma</option>
+              <option value="four" data-icon="fa-regular fa-folder">Delta long label example</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <span class="ts-fs-xs ts-text-muted lab-field-label">No search</span>
+          <div class="ts-ui-select" data-ts-ui-select-search="false">
+            <select class="ts-ui-select__native ts-ui-select">
+              <option value="a">Compact</option>
+              <option value="b" selected>Medium</option>
+              <option value="c">Wide option label for overflow test</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <span class="ts-fs-xs ts-text-muted lab-field-label">Compact width</span>
+          <div class="ts-ui-select" style="min-width: 160px; max-width: 200px;">
+            <select class="ts-ui-select__native ts-ui-select">
+              <option value="1">One</option>
+              <option value="2" selected>Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <p class="lab-note">Options use <code>data-icon</code> with Font Awesome classes (same pattern as Toolskin icons).</p>
+    </section>
+
+    <section class="lab-section" id="spinner">
+      <h2>Spinner &amp; number inputs</h2>
+      <p class="ts-text-secondary ts-fs-sm" style="margin:0 0 var(--ts-sp-3);">YSS-style layout: value on the left, stacked chevrons on the right (<code>.ts-ui-spinner__controls</code>). Auto-enhance wraps bare <code>type="number"</code> the same way after <code>ToolskinUIKit.init</code>.</p>
+      <div class="ts-flex ts-flex-wrap ts-gap-4 ts-items-end">
+        <div>
+          <span class="ts-fs-xs ts-text-muted" style="display:block;margin-bottom:var(--ts-sp-1);">UIKit spinner</span>
+          <div class="ts-ui-spinner" style="min-width: 9rem;">
+            <input type="number" min="0" max="99" step="1" value="10" />
+            <div class="ts-ui-spinner__controls">
+              <button type="button" class="ts-ui-spinner__inc" aria-label="Increase"><i class="fa-solid fa-chevron-up"></i></button>
+              <button type="button" class="ts-ui-spinner__dec" aria-label="Decrease"><i class="fa-solid fa-chevron-down"></i></button>
+            </div>
+          </div>
+          <p class="lab-note" style="margin-top:var(--ts-sp-3);">Standalone <code>&lt;input type="number"&gt;</code> (outside <code>.ts-ui-spinner</code>) is auto-wrapped:</p>
+          <div style="margin-top:var(--ts-sp-3); width:100%;">
+            <input type="number" min="0" max="100" value="42" aria-label="Demo number" />
+          </div>
+        </div>
+        <div>
+          <span class="ts-fs-xs ts-text-muted" style="display:block;margin-bottom:var(--ts-sp-1);">Interval (demo)</span>
+          <div style="display:flex;flex-direction:column;gap:var(--ts-sp-2);">
+            <label class="ts-fs-xs ts-text-muted" for="lab-hours">Hours</label>
+            <div class="ts-ui-spinner">
+              <input id="lab-hours" type="number" min="0" max="24" value="2" />
+              <div class="ts-ui-spinner__controls">
+                <button type="button" class="ts-ui-spinner__inc" aria-label="Increase"><i class="fa-solid fa-chevron-up"></i></button>
+                <button type="button" class="ts-ui-spinner__dec" aria-label="Decrease"><i class="fa-solid fa-chevron-down"></i></button>
+              </div>
+            </div>
+            <label class="ts-fs-xs ts-text-muted" for="lab-mins">Minutes</label>
+            <div class="ts-ui-spinner">
+              <input id="lab-mins" type="number" min="0" max="59" step="1" value="0" />
+              <div class="ts-ui-spinner__controls">
+                <button type="button" class="ts-ui-spinner__inc" aria-label="Increase"><i class="fa-solid fa-chevron-up"></i></button>
+                <button type="button" class="ts-ui-spinner__dec" aria-label="Decrease"><i class="fa-solid fa-chevron-down"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </section>
+
+    <section class="lab-section" id="tooltips">
+      <h2>Tooltips (<code>Toolskin.initTooltips</code>)</h2>
+      <p class="ts-text-secondary ts-fs-sm" style="margin:0 0 var(--ts-sp-3);">Uses <code>data-tooltip</code> on elements in this page. Hide delay default is now <strong>0</strong>; leaving a child of the trigger no longer clears the tooltip incorrectly.</p>
+      <div class="ts-flex ts-flex-wrap ts-gap-4 ts-items-start">
+        <button type="button" class="ts-btn ts-btn--secondary ts-btn--sm" data-tooltip="Short hint on the button">Hover me</button>
+        <span class="ts-badge ts-badge--accent" data-tooltip="Badge tooltips work too">Badge</span>
+        <a href="#" class="ts-link" onclick="return false;" data-tooltip="Multi-word tooltip with wrapping for longer help text.">Longer link</a>
+      </div>
+    </section>
+
+    <section class="lab-section" id="drag-resize">
+      <h2>Draggable &amp; Resizable</h2>
+      <p class="ts-text-secondary ts-fs-sm" style="margin:0 0 var(--ts-sp-3);">
+        Draggable: <code>data-ts-ui-draggable-bounds="parent"</code> + <code>data-ts-ui-draggable-padding</code> keep the box inside the padded area.
+        <code>data-ts-ui-draggable-overlap="avoid"</code> nudges away from sibling draggables after drop.
+      </p>
+      <div class="ts-flex ts-flex-wrap ts-gap-4 ts-items-start">
+        <div class="ts-ui-draggable-bounds">
+          <div
+            class="ts-ui-draggable ts-ui-demo-panel"
+            data-ts-ui-draggable-bounds="parent"
+            data-ts-ui-draggable-padding="8"
+            data-ts-ui-draggable-overlap="avoid"
+            style="display:inline-block;width:min(100%,200px);"
+          >
+            <strong>Bounded A</strong><br />Stays inside dashed area; avoids overlap with B.
+          </div>
+          <div
+            class="ts-ui-draggable ts-ui-demo-panel"
+            data-ts-ui-draggable-bounds="parent"
+            data-ts-ui-draggable-padding="8"
+            data-ts-ui-draggable-overlap="avoid"
+            style="display:inline-block;width:min(100%,200px);margin-top:var(--ts-sp-2);"
+          >
+            <strong>Bounded B</strong><br />Pointer + translate; siblings nudge on release.
+          </div>
+        </div>
+        <div class="ts-ui-resizable ts-ui-demo-panel" style="width:200px;height:140px;">
+          Resize from corner
+          <div class="ts-ui-resizable__handle" title="Resize"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lab-section" id="sortable">
+      <h2>Sortable list</h2>
+      <p class="ts-fs-sm ts-text-secondary" style="margin:0 0 var(--ts-sp-3);">Handle-only: only the grip starts a drag; the row uses <code>cursor: default</code>. Full-row: drag anywhere on the item (<code>cursor: grab</code>). Optional <code>data-ts-ui-sort-drag=".selector"</code> limits drag start to a sub-region (e.g. title bar).</p>
+      <p class="ts-fs-xs ts-text-muted" style="margin:0 0 var(--ts-sp-2);">A — Handle only</p>
+      <ul class="ts-ui-sortable" data-ts-ui-sort-handle-only>
+        <li class="ts-ui-sortable__item"><span class="ts-ui-sortable__handle" ><i class="fa-solid fa-arrows-up-down"></i></span> Item 1</li>
+        <li class="ts-ui-sortable__item"><span class="ts-ui-sortable__handle" ><i class="fa-solid fa-arrows-up-down"></i></span> Item 2</li>
+        <li class="ts-ui-sortable__item"><span class="ts-ui-sortable__handle" ><i class="fa-solid fa-arrows-up-down"></i></span> Item 3</li>
+      </ul>
+      <p class="ts-fs-xs ts-text-muted" style="margin:var(--ts-sp-4) 0 var(--ts-sp-2);">B — Whole row draggable</p>
+      <ul class="ts-ui-sortable">
+        <li class="ts-ui-sortable__item">Row A — drag anywhere</li>
+        <li class="ts-ui-sortable__item">Row B — drag anywhere</li>
+        <li class="ts-ui-sortable__item">Row C — drag anywhere</li>
+      </ul>
+      <p class="ts-fs-xs ts-text-muted" style="margin:var(--ts-sp-4) 0 var(--ts-sp-2);">C — Drag handle = title strip only</p>
+      <ul class="ts-ui-sortable" data-ts-ui-sort-drag=".ts-ui-sortable__title">
+        <li class="ts-ui-sortable__item">
+          <span class="ts-ui-sortable__title" style="display:block;padding:2px 0;font-weight:600;cursor:grab;"><i class="fa-solid fa-grip-lines" style="opacity:0.6;margin-right:6px;"></i>Title drag zone</span>
+          <span class="ts-fs-xs ts-text-muted">Body text does not start a drag.</span>
+        </li>
+        <li class="ts-ui-sortable__item">
+          <span class="ts-ui-sortable__title" style="display:block;padding:2px 0;font-weight:600;cursor:grab;"><i class="fa-solid fa-grip-lines" style="opacity:0.6;margin-right:6px;"></i>Second card</span>
+          <span class="ts-fs-xs ts-text-muted">Try dragging from here ↑</span>
+        </li>
+        <li class="ts-ui-sortable__item">
+          <span class="ts-ui-sortable__title" style="display:block;padding:2px 0;font-weight:600;cursor:grab;"><i class="fa-solid fa-grip-lines" style="opacity:0.6;margin-right:6px;"></i>Third item</span>
+          <span class="ts-fs-xs ts-text-muted">Same drag pattern — title strip only.</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="lab-section lab-section--wide" id="controls">
+      <h2>Checkbox &amp; Radio (<code>ts-*</code> + <code>ts-ui-*</code>)</h2>
+      <p class="ts-text-secondary ts-fs-sm ts-mb-4">
+        <code>:root</code> sets <code>--ts-ui-control-size</code> / <code>--ts-ui-control-mark-inset</code> so inputs stay sized even without a wrapper. Wrappers <code>.ts-checkbox</code> / <code>.ts-radio</code> add <code>--md|lg|xl</code> (md is the smallest documented size). Rows: <code>.ts-ui-control-row</code> or <code>.ts-checkbox-group</code>.
+        Radio: <code>.ts-radio-group</code> = flush container, row padding via <code>--ts-ui-radio-group-item-py</code> / <code>--ts-ui-radio-group-item-px</code>; compact = <code>.ts-radio-group--compact</code> or <code>.ts-radio-group.compact</code> (single pane, dividers), outer inset <code>--ts-ui-radio-group-compact-padding</code> (default <code>0</code>).
+      </p>
+      <div class="ts-ui-field-group ts-mb-8">
+        <p class="ts-fs-xs ts-text-muted ts-mb-2">Inline (ts-ui-control)</p>
+        <label class="ts-ui-control ts-ui-control--checkbox" style="--ts-ui-control-size: 1.25rem;">
+          <input type="checkbox" checked />
+          <span class="ts-ui-control__label">Notify by email (<code>--ts-ui-control-size</code> override)</span>
+        </label>
+        <div class="ts-flex ts-flex-wrap ts-gap-4 ts-items-center">
+          <label class="ts-checkbox ts-checkbox--md">
+            <input type="checkbox" checked />
+            <span class="ts-ui-control__label">ts-checkbox--md</span>
+          </label>
+          <label class="ts-checkbox ts-checkbox--lg">
+            <input type="checkbox" />
+            <span class="ts-ui-control__label">ts-checkbox--lg</span>
+          </label>
+          <label class="ts-checkbox ts-checkbox--xl">
+            <input type="checkbox" />
+            <span class="ts-ui-control__label">ts-checkbox--xl</span>
+          </label>
+        </div>
+        <div class="ts-flex ts-flex-wrap ts-gap-4">
+          <label class="ts-ui-control ts-ui-control--radio">
+            <input type="radio" name="lab-radio-a" checked />
+            <span class="ts-ui-control__label">Radio A</span>
+          </label>
+          <label class="ts-radio ts-radio--md">
+            <input type="radio" name="lab-radio-a" />
+            <span class="ts-ui-control__label">ts-radio--md</span>
+          </label>
+        </div>
+        <label class="ts-ui-control-row">
+          <input type="checkbox" />
+          <span class="ts-ui-control__label">Whole row is clickable — bare <code>input</code> inherits <code>:root</code> size tokens.</span>
+        </label>
+      </div>
+      <div class="ts-flex ts-flex-wrap ts-gap-4 ts-mb-8">
+        <label class="ts-control-chip ts-checkbox ts-checkbox--md">
+          <input type="checkbox" />
+          <span class="ts-ui-control__label">Chip + checkbox</span>
+        </label>
+        <label class="ts-control-chip ts-control-surface--accent-gradient ts-checkbox ts-checkbox--md">
+          <input type="checkbox" />
+          <span class="ts-ui-control__label">Accent gradient surface</span>
+        </label>
+        <label class="ts-control-chip ts-control-surface--glass ts-checkbox ts-checkbox--md">
+          <input type="checkbox" />
+          <span class="ts-ui-control__label">Glass</span>
+        </label>
+      </div>
+      <div class="ts-form-column-group ts-mb-8">
+        <div class="ts-form-column">
+          <span class="ts-group-title-label">Checkbox list (Studio-style)</span>
+          <div class="ts-checkbox-group">
+            <div class="ts-checkbox-container">
+              <label class="ts-checkbox ts-checkbox--md">
+                <input type="checkbox" id="lab-cb-embed" />
+                <span class="ts-ui-control__label">Allow embedding</span>
+              </label>
+            </div>
+            <div class="ts-checkbox-container">
+              <label class="ts-checkbox ts-checkbox--md">
+                <input type="checkbox" id="lab-cb-likes" />
+                <span class="ts-ui-control__label">Show how many viewers like this video</span>
+              </label>
+            </div>
+            <div class="ts-checkbox-container">
+              <label class="ts-checkbox ts-checkbox--md">
+                <input type="checkbox" id="lab-cb-feed" />
+                <span class="ts-ui-control__label">Publish to subscriptions feed and notify subscribers</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="ts-form-column">
+          <span class="ts-group-title-label">Radio · compact (<code>ts-radio-group--compact</code>)</span>
+          <div class="ts-radio-group ts-radio-group--compact" role="radiogroup" aria-label="Visibility" style="--ts-ui-radio-group-compact-padding: 0;">
+            <label class="ts-radio-item ts-radio ts-radio--md">
+              <input type="radio" name="lab-vis" value="pr" />
+              <span>Private</span>
+            </label>
+            <label class="ts-radio-item ts-radio ts-radio--md">
+              <input type="radio" name="lab-vis" value="un" checked />
+              <span>Unlisted</span>
+            </label>
+            <label class="ts-radio-item ts-radio ts-radio--md">
+              <input type="radio" name="lab-vis" value="pub" />
+              <span>Public</span>
+            </label>
+          </div>
+          <span class="ts-group-title-label ts-mt-4">Radio · normal (flush list)</span>
+          <div class="ts-radio-group" role="radiogroup" aria-label="Sort" style="--ts-ui-radio-group-item-py: var(--ts-sp-2); --ts-ui-radio-group-item-px: var(--ts-sp-3);">
+            <label class="ts-radio-item ts-radio ts-radio--md">
+              <input type="radio" name="lab-sort" value="top" checked />
+              <span>Top</span>
+            </label>
+            <label class="ts-radio-item ts-radio ts-radio--md">
+              <input type="radio" name="lab-sort" value="new" />
+              <span>Newest</span>
+            </label>
+            <label class="ts-radio-item ts-radio ts-radio--md">
+              <input type="radio" name="lab-sort" value="comments" />
+              <span>Comments</span>
+            </label>
+          </div>
+          <p class="ts-fs-xs ts-text-muted ts-mt-2">Alias: <code>class="ts-radio-group compact"</code> = same as <code>--compact</code>.</p>
+        </div>
+        <div class="ts-form-column ts-control-surface--light ts-p-4" style="border-radius: var(--ts-radius-md);">
+          <span class="ts-group-title-label">Light panel (readable on dark chrome)</span>
+          <label class="ts-checkbox ts-checkbox--md">
+            <input type="checkbox" />
+            <span class="ts-ui-control__label">Label uses dark foreground on this surface</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section class="lab-section" id="table">
+      <h2>Data table (sticky header, sort, bulk actions)</h2>
+      <p class="ts-text-secondary ts-fs-sm ts-mb-4">
+        Sort: <code>data-sort-key</code> on <code>&lt;th&gt;</code>; <code>data-value</code> on cells when needed. Modifiers: <code>ts-ui-table--striped</code>, <code>ts-ui-table--grid</code>. Optional <code>ts-ui-scrollbar--moz</code> on the scroll container: Mozilla scrollbar tokens apply <strong>only in Firefox</strong> (<code>html.ts-env-moz</code>).
+      </p>
+      <div class="ts-ui-table-bulk-wrap">
+        <div class="ts-ui-table-scroll ts-ui-scrollbar--moz">
+          <table class="ts-table ts-ui-table--sortable ts-ui-table--bulk ts-ui-table--striped ts-ui-table--grid">
+            <thead>
+              <tr>
+                <th class="ts-ui-checkbox-cell" scope="col">
+                  <input type="checkbox" class="ts-ui-table__select-all" aria-label="Select all rows" />
+                </th>
+                <th data-sort-key="id" scope="col">ID</th>
+                <th data-sort-key="title" scope="col">Title</th>
+                <th data-sort-key="status" scope="col">Status</th>
+                <th data-sort-key="qty" scope="col">Qty</th>
+                <th data-sort-key="price" scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                <td data-value="104">104</td>
+                <td>Neon skyline study</td>
+                <td data-value="pending"><span class="ts-badge ts-badge--warning">Pending</span></td>
+                <td data-value="3">3</td>
+                <td data-value="12.5">12.50</td>
+              </tr>
+              <tr>
+                <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                <td data-value="12">12</td>
+                <td>Forest path render</td>
+                <td data-value="ok"><span class="ts-badge ts-badge--success">OK</span></td>
+                <td data-value="1">1</td>
+                <td data-value="4.5">4.50</td>
+              </tr>
+              <tr>
+                <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                <td data-value="502">502</td>
+                <td>Product hero still (wide label truncation demo)</td>
+                <td data-value="pending"><span class="ts-badge ts-badge--warning">Pending</span></td>
+                <td data-value="10">10</td>
+                <td data-value="22">22.00</td>
+              </tr>
+              <tr>
+                <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                <td data-value="88">88</td>
+                <td>Character sheet v3</td>
+                <td data-value="failed"><span class="ts-badge ts-badge--danger">Failed</span></td>
+                <td data-value="0">0</td>
+                <td data-value="0">0.00</td>
+              </tr>
+              <tr>
+                <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                <td data-value="240">240</td>
+                <td>Abstract shapes pack</td>
+                <td data-value="ok"><span class="ts-badge ts-badge--success">OK</span></td>
+                <td data-value="6">6</td>
+                <td data-value="9.99">9.99</td>
+              </tr>
+              <tr>
+                <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                <td data-value="33">33</td>
+                <td>Low-poly vehicle</td>
+                <td data-value="pending"><span class="ts-badge ts-badge--warning">Pending</span></td>
+                <td data-value="2">2</td>
+                <td data-value="18">18.00</td>
+              </tr>
+              <tr>
+                <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                <td data-value="401">401</td>
+                <td>Studio lighting test</td>
+                <td data-value="ok"><span class="ts-badge ts-badge--success">OK</span></td>
+                <td data-value="4">4</td>
+                <td data-value="7.25">7.25</td>
+              </tr>
+              <tr>
+                <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                <td data-value="77">77</td>
+                <td>Texture atlas cleanup</td>
+                <td data-value="pending"><span class="ts-badge ts-badge--warning">Pending</span></td>
+                <td data-value="8">8</td>
+                <td data-value="15.5">15.50</td>
+              </tr>
+              <tr>
+                <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                <td data-value="900">900</td>
+                <td>Batch export queue</td>
+                <td data-value="ok"><span class="ts-badge ts-badge--success">OK</span></td>
+                <td data-value="50">50</td>
+                <td data-value="120">120.00</td>
+              </tr>
+              <tr>
+                <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                <td data-value="5">5</td>
+                <td>Icon set refresh</td>
+                <td data-value="failed"><span class="ts-badge ts-badge--danger">Failed</span></td>
+                <td data-value="1">1</td>
+                <td data-value="3">3.00</td>
+              </tr>
+              <tr>
+                <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                <td data-value="1200">1200</td>
+                <td>Long-tail asset name for scroll and ellipsis behavior in the prompt column</td>
+                <td data-value="pending"><span class="ts-badge ts-badge--warning">Pending</span></td>
+                <td data-value="11">11</td>
+                <td data-value="44.44">44.44</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ts-ui-bulk-bar" hidden>
+          <span class="ts-ui-bulk-bar__count">0 selected</span>
+          <div class="ts-ui-bulk-bar__actions">
+            <button type="button" class="ts-btn ts-btn--secondary ts-btn--sm"><i class="fa-solid fa-download"></i> Download</button>
+            <button type="button" class="ts-btn ts-btn--secondary ts-btn--sm"><i class="fa-solid fa-copy"></i> Duplicate check</button>
+            <button type="button" class="ts-btn ts-btn--danger ts-btn--sm"><i class="fa-solid fa-trash"></i> Delete</button>
+            <button type="button" class="ts-btn ts-btn--primary ts-btn--sm"><i class="fa-solid fa-rotate"></i> Regenerate</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lab-section lab-section--wide" id="masonry">
+      <h2>Masonry (core + UI Kit)</h2>
+      <p class="ts-text-secondary ts-fs-sm ts-mb-4">
+        <strong><code>.ts-masonry</code></strong> uses a dense-packed grid (<code>grid-auto-flow: dense</code>) so multi-cell items do not leave large empty holes. Same modifiers as <a href="index.html#marquee-documentation" class="ts-link">index.html</a>.
+        <strong><code>.ts-ui-masonry--grid</code></strong> is a uniform auto-fill tile grid.
+        <strong><code>.ts-ui-masonry--lanes</code></strong>: with <code>grid-lanes</code> you get lane packing where supported; otherwise a <strong>flex-wrap</strong> layout with <code>.ts-ui-masonry__item--photo</code>, per-tile <code>--ts-ui-photo-aspect</code>, <code>--ts-ui-masonry-item-flex-grow</code>, and <code>object-fit: cover</code>.
+      </p>
+
+      <div class="lab-masonry-stack">
+      <div>
+      <h3 class="lab-masonry-section-title">Core masonry (<code>.ts-masonry</code>)</h3>
+      <p class="lab-masonry-section-lead">Dense row flow fills gaps from <code>span</code> modifiers. Tune with <code>--ts-masonry-min-col</code>, <code>--ts-masonry-row-h</code>, <code>--ts-masonry-gap</code>.</p>
+      <div class="ts-masonry">
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">Item 1</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item ts-masonry--tall">
+          <span class="ts-caption ts-masonry-item-text">Tall<br>Item 2</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">Item 3</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item ts-masonry--wide">
+          <span class="ts-caption ts-masonry-item-text">Wide Item 4</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">Item 5</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item ts-masonry--large">
+          <span class="ts-caption ts-masonry-item-text">Large<br>Item 6<br>(2×2)</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">Item 7</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item ts-masonry--tall-full">
+          <span class="ts-caption ts-masonry-item-text">Tall<br>Full<br>Item 8</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">Item 9</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item ts-masonry--wide-full">
+          <span class="ts-caption ts-masonry-item-text">Wide Full Item 10</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">Item 11</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">Item 12</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item ts-masonry--hero lab-masonry-hero-bg">
+          <span class="ts-caption ts-masonry-item-text lab-masonry-hero-text">Hero<br>Item 13<br>(3×3)</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">Item 14</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">Item 15</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item ts-masonry--wide">
+          <span class="ts-caption ts-masonry-item-text">Wide Item 16</span>
+        </div>
+      </div>
+      </div>
+
+      <div>
+      <h3 class="lab-masonry-section-title">Compact (<code>.ts-masonry--compact</code>)</h3>
+      <p class="lab-masonry-section-lead">Smaller gaps and row height; same dense grid. Shown inside a padded panel for clarity.</p>
+      <div class="lab-masonry-panel">
+      <div class="ts-masonry-lab ts-masonry--compact lab-masonry-compact">
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">1</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item ts-masonry--tall">
+          <span class="ts-caption ts-masonry-item-text">2</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">3</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item ts-masonry--wide">
+          <span class="ts-caption ts-masonry-item-text">4</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">5</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">6</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item ts-masonry--large">
+          <span class="ts-caption ts-masonry-item-text">7</span>
+        </div>
+        <div class="ts-surface-2 ts-rounded ts-border ts-masonry-item">
+          <span class="ts-caption ts-masonry-item-text">8</span>
+        </div>
+      </div>
+      </div>
+      </div>
+
+      <div>
+      <h3 class="lab-masonry-section-title">3D flip cards (<code>.ts-masonry</code>)</h3>
+      <p class="lab-masonry-section-lead">Three equal-height cells (<code>ts-masonry--tall</code> × 3) so the row reads as one band; hover each card.</p>
+      <div class="ts-masonry-lab lab-masonry-flip" style="--ts-masonry-min-col: min(240px, 100%);">
+        <div class="ts-masonry-item ts-masonry--tall">
+          <div class="ts-flip-card ts-flip-card--depth-sm">
+            <div class="ts-flip-card__inner">
+              <div class="ts-flip-card__front">
+                <div class="ts-label">01</div>
+                <div class="ts-h2 ts-text-accent">DYNAMICS</div>
+                <p class="ts-caption">Hover to inspect</p>
+              </div>
+              <div class="ts-flip-card__back">
+                <div class="ts-h3">Precision Logic</div>
+                <p class="ts-text-secondary ts-caption">Micro-feedback loops.</p>
+                <button type="button" class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ts-masonry-item ts-masonry--tall">
+          <div class="ts-flip-card ts-flip-card--depth-sm">
+            <div class="ts-flip-card__inner">
+              <div class="ts-flip-card__front">
+                <div class="ts-label">02</div>
+                <div class="ts-h2 ts-text-accent">VISUALS</div>
+                <p class="ts-caption">Hover to inspect</p>
+              </div>
+              <div class="ts-flip-card__back">
+                <div class="ts-h3">Aesthetic Depth</div>
+                <p class="ts-text-secondary ts-caption">Layered composition.</p>
+                <button type="button" class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ts-masonry-item ts-masonry--tall">
+          <div class="ts-flip-card ts-flip-card--depth-sm">
+            <div class="ts-flip-card__inner">
+              <div class="ts-flip-card__front">
+                <div class="ts-label">03</div>
+                <div class="ts-h2 ts-text-accent">SPEED</div>
+                <p class="ts-caption">Hover to inspect</p>
+              </div>
+              <div class="ts-flip-card__back">
+                <div class="ts-h3">Runtime Flux</div>
+                <p class="ts-text-secondary ts-caption">Minimal footprint.</p>
+                <button type="button" class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div>
+      <h3 class="lab-masonry-section-title">UIKit uniform grid (<code>.ts-ui-masonry--grid</code>)</h3>
+      <p class="lab-masonry-section-lead">Equal tiles; no span modifiers.</p>
+      <div class="ts-ui-masonry--grid" style="--ts-ui-masonry-lane-min: 12rem;">
+        <div class="ts-ui-masonry__item ts-panel ts-p-4"><span class="ts-badge ts-badge--accent">A</span><p class="ts-fs-sm ts-mt-2">Tile one</p></div>
+        <div class="ts-ui-masonry__item ts-panel ts-p-4"><span class="ts-badge ts-badge--success">B</span><p class="ts-fs-sm ts-mt-2">Tile two</p></div>
+        <div class="ts-ui-masonry__item ts-panel ts-p-4"><span class="ts-badge ts-badge--warning">C</span><p class="ts-fs-sm ts-mt-2">Tile three</p></div>
+        <div class="ts-ui-masonry__item ts-panel ts-p-4"><span class="ts-badge">D</span><p class="ts-fs-sm ts-mt-2">Tile four</p></div>
+        <div class="ts-ui-masonry__item ts-panel ts-p-4"><span class="ts-badge">E</span><p class="ts-fs-sm ts-mt-2">Tile five</p></div>
+        <div class="ts-ui-masonry__item ts-panel ts-p-4"><span class="ts-badge">F</span><p class="ts-fs-sm ts-mt-2">Tile six</p></div>
+      </div>
+      </div>
+
+      <div>
+      <h3 class="lab-masonry-section-title">Grid lanes (<code>.ts-ui-masonry--lanes</code>) + photo tiles</h3>
+      <p id="lab-grid-lanes-cap" class="lab-masonry-section-lead" style="margin-bottom:var(--ts-sp-2);" aria-live="polite"></p>
+      <p class="lab-masonry-section-lead">Use <code>.ts-ui-masonry__item--photo</code> on the wrapper. Set <code style="font-size:0.85em;">--ts-ui-photo-aspect</code> and optional <code style="font-size:0.85em;">--ts-ui-masonry-item-flex-grow</code> per tile (flex fallback). Images are <code>object-fit: cover</code>. With <code>grid-lanes</code>, see the <a href="https://webkit.org/demos/grid3/photos/" class="ts-link" target="_blank" rel="noopener">WebKit photos demo</a>.</p>
+      <div class="ts-ui-masonry--lanes" style="--ts-ui-masonry-lane-min: 10rem; --ts-ui-masonry-gap: var(--ts-sp-3);">
+        <div class="ts-ui-masonry__item ts-ui-masonry__item--flush ts-ui-masonry__item--photo" style="--ts-ui-photo-aspect: 3 / 4; --ts-ui-masonry-item-flex-grow: 1.1;"><img src="https://picsum.photos/seed/labl1/320/420" alt="" loading="lazy" decoding="async" /></div>
+        <div class="ts-ui-masonry__item ts-ui-masonry__item--flush ts-ui-masonry__item--photo" style="--ts-ui-photo-aspect: 16 / 9; --ts-ui-masonry-item-flex-grow: 1.35;"><img src="https://picsum.photos/seed/labl2/480/280" alt="" loading="lazy" decoding="async" /></div>
+        <div class="ts-ui-masonry__item ts-ui-masonry__item--flush ts-ui-masonry__item--photo" style="--ts-ui-photo-aspect: 1 / 1;"><img src="https://picsum.photos/seed/labl3/360/360" alt="" loading="lazy" decoding="async" /></div>
+        <div class="ts-ui-masonry__item ts-ui-masonry__item--flush ts-ui-masonry__item--photo" style="--ts-ui-photo-aspect: 2 / 3; --ts-ui-masonry-item-flex-grow: 0.85;"><img src="https://picsum.photos/seed/labl4/280/400" alt="" loading="lazy" decoding="async" /></div>
+        <div class="ts-ui-masonry__item ts-ui-masonry__item--flush ts-ui-masonry__item--photo" style="--ts-ui-photo-aspect: 4 / 3;"><img src="https://picsum.photos/seed/labl5/400/300" alt="" loading="lazy" decoding="async" /></div>
+        <div class="ts-ui-masonry__item ts-ui-masonry__item--flush ts-ui-masonry__item--photo" style="--ts-ui-photo-aspect: 3 / 5; --ts-ui-masonry-item-flex-grow: 1.2;"><img src="https://picsum.photos/seed/labl6/340/440" alt="" loading="lazy" decoding="async" /></div>
+      </div>
+      </div>
+      </div>
+    </section>
+
+    <section class="lab-section" id="api">
+      <h2>API</h2>
+      <pre class="ts-code" style="font-size:11px;overflow:auto;padding:var(--ts-sp-3);background:var(--ts-bg-1);border-radius:var(--ts-radius-md);">ToolskinUIKit.init(document); // auto on DOMContentLoaded
+ToolskinUIKit.Toast.show('Saved', { type: 'success', title: 'Done' });
+ToolskinUIKit.Draggable(el, { handle: '.my-handle' });
+ToolskinUIKit.EnhanceNumberInput(inputEl);
+ToolskinUIKit.TableBulk(wrapEl);
+ToolskinUIKit.AccordionFromSchema(containerEl, {
+  multiple: true,
+  layout: 'separated',
+  toggle: 'plus',
+  items: [
+    { title: 'One', html: '&lt;p&gt;Rich HTML&lt;/p&gt;', icon: 'fa-solid fa-star', open: true },
+    { title: 'Two', html: '…', open: false }
+  ]
+});</pre>
+    </section>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var cap = document.getElementById('lab-grid-lanes-cap');
+      if (cap && typeof CSS !== 'undefined' && CSS.supports) {
+        var lanesOn = CSS.supports('display', 'grid-lanes');
+        cap.textContent = lanesOn
+          ? 'This session: CSS.supports(display, grid-lanes) is true — lane packing may apply (some Chromium builds differ from Chrome stable).'
+          : 'This session: CSS.supports(display, grid-lanes) is false — flex-wrap photo layout is active (aspect-ratio tiles + object-fit: cover).';
+      }
+      if (window.Toolskin && typeof Toolskin.initTooltips === 'function') {
+        Toolskin.initTooltips({
+          enabled: true,
+          scopeSelector: '.lab-wrap',
+          showDelay: 25,
+          hideDelay: 0,
+          animMs: 70,
+        });
+      }
+      document.getElementById('lab-toast-success').addEventListener('click', function () {
+        ToolskinUIKit.Toast.show('Profile updated successfully.', { type: 'success', title: 'Saved' });
+      });
+      document.getElementById('lab-toast-warn').addEventListener('click', function () {
+        ToolskinUIKit.Toast.show('Check your network settings.', { type: 'warning', title: 'Warning' });
+      });
+      document.getElementById('lab-toast-err').addEventListener('click', function () {
+        ToolskinUIKit.Toast.show('Could not complete the request.', { type: 'error', title: 'Error' });
+      });
+      document.getElementById('lab-toast-core').addEventListener('click', function () {
+        if (window.Toolskin && Toolskin.showToast) {
+          Toolskin.showToast('Core toast module', { type: 'info', title: 'Toolskin' });
+        }
+      });
+      var schemaHost = document.getElementById('lab-accordion-schema');
+      if (schemaHost && window.ToolskinUIKit && typeof ToolskinUIKit.AccordionFromSchema === 'function') {
+        ToolskinUIKit.AccordionFromSchema(schemaHost, {
+          multiple: true,
+          layout: 'separated',
+          toggle: 'plus',
+          items: [
+            {
+              title: 'Schema A',
+              html: '<p class="ts-fs-sm ts-text-secondary">Built with <code>ToolskinUIKit.AccordionFromSchema</code> (multiple + separated + plus toggle).</p>',
+              icon: 'fa-solid fa-wand-magic-sparkles',
+              open: true,
+            },
+            {
+              title: 'Schema B',
+              html: '<p class="ts-fs-sm ts-text-secondary">Second item stays in sync with keyboard and ARIA.</p>',
+              icon: 'fa-regular fa-file-lines',
+              open: false,
+            },
+          ],
+        });
+      }
+    });
+  </script>
+</body>
+</html>

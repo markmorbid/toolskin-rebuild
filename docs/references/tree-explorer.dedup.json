@@ -1,0 +1,285 @@
+{
+  "generated_at": "2026-05-22T18:16:16",
+  "root": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references",
+  "summary": {
+    "duplicate_groups": 13,
+    "redundant_files": 13,
+    "wasted_bytes": 428466,
+    "wasted_mb": 0.41
+  },
+  "groups": [
+    {
+      "sha1": "e02661f7828235c1d82b9c84da829f79750045e2",
+      "size": 137842,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\generator\\assets\\js\\ts-offcanvas-editor.js",
+          "name": "ts-offcanvas-editor.js",
+          "url": "generator/assets/js/ts-offcanvas-editor.js",
+          "size": 137842,
+          "mtime": 1778696370
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\toolskin-assets-js\\ts-offcanvas-editor.js",
+          "name": "ts-offcanvas-editor.js",
+          "url": "toolskin-assets-js/ts-offcanvas-editor.js",
+          "size": 137842,
+          "mtime": 1778696370
+        }
+      ]
+    },
+    {
+      "sha1": "1a7f1950e23bd99231a09e995d87b05e7db852c5",
+      "size": 83913,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\treemap-module\\tools\\build_tree_full_html-interactive.py",
+          "name": "build_tree_full_html-interactive.py",
+          "url": "treemap-module/tools/build_tree_full_html-interactive.py",
+          "size": 83913,
+          "mtime": 1779484504
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\build_tree_full_html-interactive.py",
+          "name": "build_tree_full_html-interactive.py",
+          "url": "build_tree_full_html-interactive.py",
+          "size": 83913,
+          "mtime": 1779484504
+        }
+      ]
+    },
+    {
+      "sha1": "ada77c35bbd141f03e1912b366264c8ff1bfc692",
+      "size": 75041,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\generator\\assets\\js\\toolskin.bannerGenerator.js",
+          "name": "toolskin.bannerGenerator.js",
+          "url": "generator/assets/js/toolskin.bannerGenerator.js",
+          "size": 75041,
+          "mtime": 1777933546
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\toolskin-assets-js\\toolskin.bannerGenerator.js",
+          "name": "toolskin.bannerGenerator.js",
+          "url": "toolskin-assets-js/toolskin.bannerGenerator.js",
+          "size": 75041,
+          "mtime": 1777933546
+        }
+      ]
+    },
+    {
+      "sha1": "c5c8c30b9cf951c437e4601e046b4bdcaa80fef0",
+      "size": 45644,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\generator\\assets\\js\\toolskin-uikit.js",
+          "name": "toolskin-uikit.js",
+          "url": "generator/assets/js/toolskin-uikit.js",
+          "size": 45644,
+          "mtime": 1777933546
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\toolskin-assets-js\\toolskin-uikit.js",
+          "name": "toolskin-uikit.js",
+          "url": "toolskin-assets-js/toolskin-uikit.js",
+          "size": 45644,
+          "mtime": 1777933546
+        }
+      ]
+    },
+    {
+      "sha1": "05df899232524133403bb4837737b19b2fd225cc",
+      "size": 22880,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\generator\\assets\\js\\ts-gradient-canvas.js",
+          "name": "ts-gradient-canvas.js",
+          "url": "generator/assets/js/ts-gradient-canvas.js",
+          "size": 22880,
+          "mtime": 1777933546
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\toolskin-assets-js\\ts-gradient-canvas.js",
+          "name": "ts-gradient-canvas.js",
+          "url": "toolskin-assets-js/ts-gradient-canvas.js",
+          "size": 22880,
+          "mtime": 1777933546
+        }
+      ]
+    },
+    {
+      "sha1": "6214cab7d90430c4bef0cf99e12668005748b01b",
+      "size": 14846,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\generator\\assets\\js\\toolskin-assets.js",
+          "name": "toolskin-assets.js",
+          "url": "generator/assets/js/toolskin-assets.js",
+          "size": 14846,
+          "mtime": 1777933546
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\toolskin-assets-js\\toolskin-assets.js",
+          "name": "toolskin-assets.js",
+          "url": "toolskin-assets-js/toolskin-assets.js",
+          "size": 14846,
+          "mtime": 1777933546
+        }
+      ]
+    },
+    {
+      "sha1": "52cc9a5910d2b351400dde2ba566f1976700b863",
+      "size": 14746,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\_components-docs\\SKILL.harmonic-pitchdeck.md",
+          "name": "SKILL.harmonic-pitchdeck.md",
+          "url": "_components-docs/SKILL.harmonic-pitchdeck.md",
+          "size": 14746,
+          "mtime": 1779214248
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\pitchdeck\\md-files\\SKILL.harmonic-pitchdeck.md",
+          "name": "SKILL.harmonic-pitchdeck.md",
+          "url": "pitchdeck/md-files/SKILL.harmonic-pitchdeck.md",
+          "size": 14746,
+          "mtime": 1778581147
+        }
+      ]
+    },
+    {
+      "sha1": "143daf63a387d5f0526f293c9a3890b0781b8cd4",
+      "size": 9773,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\_components-docs\\Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "name": "Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "url": "_components-docs/Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "size": 9773,
+          "mtime": 1779214257
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\pitchdeck\\md-files\\Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "name": "Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "url": "pitchdeck/md-files/Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "size": 9773,
+          "mtime": 1778581144
+        }
+      ]
+    },
+    {
+      "sha1": "c4b7ac1c599dd7d27048cb604a58b373717d1269",
+      "size": 8498,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\treemap-module\\tools\\build-asset-map.js",
+          "name": "build-asset-map.js",
+          "url": "treemap-module/tools/build-asset-map.js",
+          "size": 8498,
+          "mtime": 1778136010
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\build-asset-map.js",
+          "name": "build-asset-map.js",
+          "url": "build-asset-map.js",
+          "size": 8498,
+          "mtime": 1778136010
+        }
+      ]
+    },
+    {
+      "sha1": "b85e32552ca1c4049b66f3d72b59332dbf027550",
+      "size": 7941,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\_components-docs\\agent-teams\\AGENT_CONTEXT.md",
+          "name": "AGENT_CONTEXT.md",
+          "url": "_components-docs/agent-teams/AGENT_CONTEXT.md",
+          "size": 7941,
+          "mtime": 1779298534
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\_components-docs\\token-validation\\AGENT_CONTEXT.md",
+          "name": "AGENT_CONTEXT.md",
+          "url": "_components-docs/token-validation/AGENT_CONTEXT.md",
+          "size": 7941,
+          "mtime": 1779298534
+        }
+      ]
+    },
+    {
+      "sha1": "9b64b213390a4683042131935b5fda4eda45c2d1",
+      "size": 3775,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\_broke\\symbols.svg",
+          "name": "symbols.svg",
+          "url": "branding/logos/_broke/symbols.svg",
+          "size": 3775,
+          "mtime": 1778017913
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\symbols.svg",
+          "name": "symbols.svg",
+          "url": "branding/logos/symbols.svg",
+          "size": 3775,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "f5d5bfa3b6ab6147e8636b6bc6983ca1269f4343",
+      "size": 3147,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\_broke\\icon-legacy.svg",
+          "name": "icon-legacy.svg",
+          "url": "branding/logos/_broke/icon-legacy.svg",
+          "size": 3147,
+          "mtime": 1777831611
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\icon-legacy.svg",
+          "name": "icon-legacy.svg",
+          "url": "branding/logos/icon-legacy.svg",
+          "size": 3147,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "1d59bda719d43f72c08a057ad213fc5ab6ebbe9a",
+      "size": 420,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\_broke\\toolskin-icon.svg",
+          "name": "toolskin-icon.svg",
+          "url": "branding/logos/_broke/toolskin-icon.svg",
+          "size": 420,
+          "mtime": 1777831611
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\toolskin-icon.svg",
+          "name": "toolskin-icon.svg",
+          "url": "branding/logos/toolskin-icon.svg",
+          "size": 420,
+          "mtime": 1777831611
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1392 @@
+
+/* ─── §6b  CARDS ────────── */
+
+.ts-card {
+	--ts-this-bg: var(--ts-bg-1);
+	/* §6d NEW-B16: Layer 1 — consume --ts-nest-radius / --ts-nest-pad.
+	   At root level these equal the canonical card tokens (set via @property
+	   initial-value). Nested cards override them via Layer 2 below. */
+	background: var(--ts-card-bg);
+	border: 1px solid var(--ts-card-border);
+	border-radius: var(--ts-nest-radius, var(--ts-card-radius));
+	padding: var(--ts-nest-pad, var(--ts-card-pad));
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-card-gap);
+	position: relative;
+	transition: border-color var(--ts-dur-base) var(--ts-ease-out), box-shadow var(--ts-dur-base) var(--ts-ease-out), transform var(--ts-dur-base) var(--ts-ease-out);
+}
+
+.ts-card.gradient {
+	background: var(--ts-card-bg);
+	border: 1px solid var(--ts-card-border);
+	border-radius: var(--ts-card-radius);
+	padding: var(--ts-card-pad) !important;
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-card-gap);
+	position: relative;
+	overflow: hidden;
+	transition: border-color var(--ts-dur-base) var(--ts-ease-out),
+		box-shadow var(--ts-dur-base) var(--ts-ease-out),
+		transform var(--ts-dur-base) var(--ts-ease-out) !important;
+	--ts-card-bg: linear-gradient(180deg,
+			var(--ts-bg-2) 0%,
+			var(--ts-bg-1) 100%);
+	/* mask: linear-gradient(0deg, rgb(0 0 0 / 48%) 0%, rgb(0 0 0) 45%); */
+	opacity: 1;
+	--ts-card-pad: var(--ts-sp-8);
+	/* box-shadow: rgba(0, 0, 0, 0.05) 0px 0.796192px 2.38858px -0.625px,
+			rgba(0, 0, 0, 0.05) 0px 2.41451px 7.24352px -1.25px,
+			rgba(0, 0, 0, 0.05) 0px 6.38265px 19.148px -1.875px,
+			rgba(0, 0, 0, 0.05) 0px 20px 60px -2.5px; */
+}
+
+.gradient .ts-input,
+.gradient .ts-select,
+.gradient .ts-input-group,
+.gradient button {
+	--ts-input-bg: var(--ts-bg-2-t);
+}
+
+.ts-card.ts-row {
+	flex-direction: row;
+	gap: var(--ts-sp-2);
+}
+
+.ts-dashboard,
+.ts-dashboard * {
+	--ts-dashboard-pad: 0;
+	--ts-dashboard-gap: var(--ts-sp-3);
+	--ts-dashboard-card-pad: var(--ts-sp-6);
+	--ts-dashboard-card-gap: calc(var(--ts-dashboard-card-pad)*.45);
+	--ts-dashboard-header-pad: var(--ts-sp-1) var(--ts-sp-2) var(--ts-sp-1) var(--ts-sp-4);
+	--ts-dashboard-sidenav-pad: calc(var(--ts-dashboard-gap)*.85);
+	--ts-dashboard-body-pad: calc(var(--ts-dashboard-card-pad)*.8);
+	--ts-dashboard-body-gap: calc(var(--ts-dashboard-gap)*.8);
+}
+
+.ts-dashboard {
+	padding: 0;
+	overflow: hidden;
+	min-height: 320px;
+	display: grid;
+	grid-template-columns: 180px 1fr;
+	grid-template-rows: var(--ts-btn-h) 1fr;
+	/* border-radius: 0; */
+	/* border: none; */
+	box-shadow: none;
+	gap: 0;
+	align-items: stretch;
+	align-content: stretch;
+	justify-items: stretch;
+
+
+}
+
+.ts-dashboard .ts-card.ts-row {
+	gap: var(--ts-dashboard-pad);
+}
+
+.ts-dashboard .ts-sidenav {
+	background: var(--ts-bg-1);
+	border-right: 1px solid var(--ts-border-0);
+	padding: var(--ts-dashboard-sidenav-pad);
+	position: relative;
+}
+
+.ts-dashboard .ts-card-body {
+	padding: var(--ts-dashboard-body-pad);
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-dashboard-body-gap);
+	flex: 1;
+	overflow: hidden;
+}
+
+.ts-dashboard .ts-card-body .ts-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: var(--ts-dashboard-gap);
+}
+
+.ts-dashboard .ts-card-body .ts-card {
+	gap: var(--ts-dashboard-card-gap);
+	background-color: var(--ts-card-bg-2);
+
+	padding: var(--ts-dashboard-card-pad);
+}
+
+.ts-card-header {
+	grid-column: 1/-1;
+	background: var(--ts-bg-1);
+	border-bottom: 1px solid var(--ts-border-1);
+	display: flex;
+	padding: var(--ts-dashboard-header-pad);
+	gap: var(--ts-dashboard-gap);
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: nowrap;
+	flex-direction: row;
+}
+
+.flat.ts-card-header.ts-panel__header-actions {
+	padding: 0 0 0 var(--ts-sp-3);
+}
+
+.flat.ts-card-header.ts-panel__header-actions .ts-btn--icon {
+	border-radius: 0;
+	border: 0px solid var(--_btn-border);
+	border-block-width: 0;
+	border-left-width: 1px;
+	--_btn-border: var(--ts-border-1);
+	background: transparent;
+	outline: none;
+	box-shadow: none;
+	color: var(--ts-accent);
+}
+
+.ts-card-header__actions {
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	gap: var(--ts-dashboard-body-gap);
+	position: relative;
+}
+
+.ts-logo-text {
+	font-weight: 900;
+	font-size: 0.75rem;
+	letter-spacing: 0.1em;
+	font-family: var(--ts-font-display);
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+}
+
+.ts-dashboard .ts-card-header .ts-logo-text {
+	font-weight: 700;
+	font-size: 140%;
+	letter-spacing: 0.1em;
+	font-family: var(--ts-font-display);
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	line-height: 1rem;
+	padding-inline: .3rem;
+	margin: 0;
+}
+
+.ts-dashboard .ts-card>.ts-h2 {
+	font-size: var(--ts-fs-h1);
+	margin: 0;
+
+}
+
+.ts-dashboard .ts-card>.ts-label {
+	margin: 0;
+
+}
+
+.ts-card--interactive:not(.ts-tilt) {
+	transform-style: preserve-3d;
+	overflow: visible !important;
+	background: var(--ts-this-bg);
+	--ts-this-bg: var(--ts-bg-1);
+	transition: transform var(--ts-dur-base) ease var(--ts-card-transform-delay),
+		background var(--ts-dur-base) ease,
+		box-shadow var(--ts-dur-base) ease,
+		color var(--ts-dur-base) ease,
+		outline-color var(--ts-dur-base) ease,
+		border-color var(--ts-dur-base) ease;
+	--shadow-sides-perc: 20%;
+	--shadow-w-perc: calc(100% - var(--shadow-sides-perc)*2);
+	--shadow-h: 30px;
+	--shadow-opacity: 60%;
+	--shadow-opacity-hover: 80%;
+	--shadow-blur: calc(var(--shadow-h)*.5);
+	--shadow-blur-hover: calc(var(--shadow-h)*.6);
+	--shadow-offset: calc(var(--shadow-h)*-.75);
+	--shadow-offset-hover: calc(var(--shadow-h)*-1);
+	--ts-card-transform-delay: .24s;
+	--ts-shadow-color: black;
+	--ts-card-effect-hover: var(--ts-shadow-accent-sm);
+	padding: var(--ts-card-pad);
+}
+
+.ts-card--interactive:not(.ts-tilt):after {
+	content: "";
+	display: block;
+	position: absolute;
+	inset: -1px;
+	background-image: var(--ts-this-bg-grad-4);
+	border-radius: inherit;
+	z-index: -1;
+	pointer-events: all;
+	opacity: 0;
+	transition: opacity var(--ts-dur-base) ease;
+
+}
+
+.ts-card--interactive:not(.ts-tilt):hover:after {
+
+	opacity: 1;
+
+}
+
+.ts-card--interactive:not(.ts-tilt):hover {
+	border-color: var(--ts-this-bg-focus-outline);
+
+	transform: translateZ(0) translateY(calc((var(--shadow-h)*2 + var(--shadow-offset-hover) - 1px)*-.1)) !important;
+	--ts-this-bg: var(--ts-accent-dim-6);
+	background-color: var(--ts-bg-1);
+	/*background-image: var(--ts-this-bg-grad-4);*/
+	--ts-text-primary: var(--ts-accent);
+	--ts-text-secondary: var(--ts-accent);
+	--ts-text-primary-dim-2: var(--ts-accent);
+	z-index: 2009 !important;
+	box-shadow: var(--ts-card-effect-hover);
+
+}
+
+.ts-card--interactive:not(.ts-tilt):before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: auto;
+	left: var(--shadow-sides-perc);
+	right: var(--shadow-sides-perc);
+	bottom: var(--shadow-offset);
+	transform: rotateX(60deg) translateZ(0px);
+	transform-style: preserve-3d;
+	width: auto;
+	transform-origin: center;
+	translate: 0 0 var(--shadow-offset);
+	filter: blur(var(--shadow-blur));
+	height: var(--shadow-h);
+	background-color: color-mix(in srgb, var(--ts-shadow-color), transparent var(--shadow-opacity));
+
+	border-radius: 100%;
+	z-index: 0;
+
+	pointer-events: all;
+	--ts-card-transform-delay: .24s;
+
+	transition: transform var(--ts-dur-base) ease var(--ts-card-transform-delay),
+		translate var(--ts-dur-base) ease var(--ts-card-transform-delay),
+		background-color var(--ts-dur-base) ease,
+		filter var(--ts-dur-base) ease var(--ts-card-transform-delay),
+		--shadow-blur var(--ts-dur-base) ease,
+		--shadow-opacity var(--ts-dur-base) ease,
+		--shadow-offset var(--ts-dur-base) ease var(--ts-card-transform-delay);
+	/*transition: transform var(--ts-dur-base) ease var(--ts-card-transform-delay),
+			translate var(--ts-dur-base) ease var(--ts-card-transform-delay),
+			background-color var(--ts-dur-base) ease,
+			filter var(--ts-dur-base) ease var(--ts-card-transform-delay),
+			--shadow-blur var(--ts-dur-base) ease,
+			--shadow-opacity var(--ts-dur-base) ease,
+			--shadow-offset var(--ts-dur-base) ease;*/
+}
+
+.ts-card--interactive:not(.ts-tilt):hover:before {
+
+	--shadow-blur: var(--shadow-blur-hover);
+	--shadow-offset: var(--shadow-offset-hover);
+	--shadow-opacity: var(--shadow-opacity-hover);
+
+}
+
+@property --shadow-blur {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 0px;
+}
+
+@property --shadow-offset {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 0px;
+}
+
+@property --shadow-opacity {
+	syntax: "<percentage>";
+	inherits: true;
+	initial-value: 0%;
+}
+
+.ts-card--accent {
+	border-color: var(--ts-accent-border);
+	background: linear-gradient(145deg, var(--ts-bg-2) 0%, var(--ts-accent-dim-2) 100%);
+}
+
+.ts-card--accent:hover {
+	border-color: var(--ts-accent);
+	box-shadow: var(--ts-shadow-accent);
+}
+
+.ts-card--featured {
+	border-width: 0px;
+	outline-width: 1px;
+	outline-style: solid;
+	outline-offset: 0px;
+	border-color: var(--ts-this-bg-border);
+	outline-color: var(--ts-this-bg-border);
+	box-shadow: var(--ts-shadow-accent);
+	background-color: var(--ts-this-bg-dim-2);
+	background-image: linear-gradient(var(--ts-this-bg-grad-angle), var(--ts-this-bg-dim-2) -10%, var(--ts-this-bg-active) 100%);
+	position: relative;
+	transition: var(--ts-btn-base-transitions) !important;
+
+	--ts-this-bg: var(--ts-bg-3-t);
+	--ts-this-bg-active: var(--ts-accent-dim);
+	--ts-this-bg-grad-angle: 145deg;
+}
+
+.ts-card--featured:hover {
+	border-color: var(--ts-accent-bright-2);
+	outline-color: var(--ts-accent-bright-2);
+	background-color: var(--ts-this-bg-active);
+	--ts-this-bg-grad-angle: -145deg;
+	--ts-text-primary: var(--ts-accent-dark);
+	--ts-text-primary-dim-2: var(--ts-accent-dark-2);
+	box-shadow: var(--ts-accent-shadow-glow), var(--ts-shadow-accent-lg);
+	z-index: 200;
+	--ts-this-bg: var(--ts-bg-2);
+	--ts-this-bg-active: color-mix(in srgb, var(--ts-accent), var(--ts-this-bg) 70%);
+}
+
+.ts-card--glass {
+	background: var(--ts-this-bg-dim-4);
+	border-color: var(--ts-this-bg-border-0);
+	outline-color: var(--ts-this-bg-border-0);
+	--ts-this-bg: var(--ts-card-bg);
+	backdrop-filter: blur(var(--ts-backdrop-blur));
+	-webkit-backdrop-filter: blur(var(--ts-backdrop-blur));
+	/* @refactor:backdrop-critical */
+	/* @refactor:token-dependency */
+
+	--ts-backdrop-blur: 8px;
+}
+
+/* Card elements */
+.ts-card__header {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-sp-3);
+	margin-bottom: var(--ts-sp-1);
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.ts-card__title {
+	font-size: var(--ts-fs-lg);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: var(--ts-letter-spacing-wider);
+	color: var(--ts-text-primary);
+	line-height: var(--ts-line-height-normal);
+	display: flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	margin-bottom: 0;
+}
+
+.ts-card__title i,
+.ts-card__title .ts-icon,
+.ts-card__title ion-icon {
+	color: var(--ts-accent);
+	font-size: var(--ts-btn-icon-size);
+	line-height: 0.85;
+
+}
+
+.ts-card__body {
+	flex: 1;
+	color: var(--ts-text-primary-dim-2);
+	line-height: var(--ts-line-height-relaxed);
+	/* font-size: 95%; */
+	font-weight: 400;
+	letter-spacing: var(--ts-letter-spacing-normal);
+}
+
+.ts-card__footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ts-sp-3);
+	padding-top: var(--ts-sp-3);
+	border-top: 1px solid var(--ts-border-0);
+}
+
+/* Accent side-bar decoration */
+.ts-card--accent-bar::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: calc(var(--ts-radius-md)*.4);
+	background: var(--ts-accent-grad);
+	border-radius: var(--ts-radius-md) 0 0 var(--ts-radius-md);
+}
+
+.ts-card--accent-bar {
+	border-bottom-left-radius: calc(var(--ts-radius-md)*.4) !important;
+	border-top-left-radius: calc(var(--ts-radius-md)*.4) !important;
+}
+
+/* ─── §6b.2  Card sub-elements (landing / showcase pages) ─────────── */
+
+.ts-card__header .ts-card__icon {
+	max-width: var(--ts-icon, 2rem);
+	max-height: var(--ts-icon, 2rem);
+	border-radius: var(--ts-radius-md);
+	object-fit: cover;
+	flex-shrink: 0;
+}
+
+.ts-card__version {
+	color: var(--ts-text-secondary);
+	font-size: 80%;
+	font-weight: var(--ts-font-weight-black);
+	margin-left: auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 6px 10px;
+	letter-spacing: 0.08em;
+	border-radius: var(--ts-radius-full);
+	max-width: fit-content;
+	outline: 1px solid;
+	outline-offset: -1px;
+	border-color: rgba(from currentColor r g b / 0.5);
+	outline-color: rgba(from currentColor r g b / 0.25);
+	background: rgba(from currentColor r g b / 0.12) !important;
+}
+
+.ts-flip-card .ts-card__version {
+	margin: 0;
+}
+
+/* Title modifier — larger, sentence-case for landing/index cards */
+.ts-card__title--lg {
+	font-size: var(--ts-fs-h4);
+	text-transform: uppercase;
+	letter-spacing: var(--ts-letter-spacing-eyebrow);
+	color: var(--ts-text-primary);
+	font-weight: var(--ts-font-weight-bold);
+	line-height: 2rem;
+	margin: 0;
+	margin-top: auto;
+}
+
+/* Links list at bottom of a card (no border-top, auto-pushed to end) */
+.ts-card__links:not(.horizontal) {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-2);
+	/* margin-top: auto; */
+}
+
+
+.ts-card .ts-card__links,
+.ts-flip-card .ts-card__links,
+.ts-swipe-card .ts-card__links {
+	display: flex;
+	flex-direction: row;
+	gap: var(--ts-sp-2);
+	margin-top: var(--ts-sp-2);
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	flex: 1 1 100%;
+	align-content: center;
+	max-height: fit-content;
+	transform-style: preserve-3d;
+	width: 100%;
+	flex-wrap: wrap;
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+
+	.ts-card__link,
+	.ts-card-link {
+		flex: 1 1;
+		white-space: nowrap;
+		max-height: var(--ts-btn-h);
+	}
+}
+
+.ts-card .ts-card__links.horizontal,
+.ts-flip-card .ts-card__links.horizontal,
+.ts-swipe-card .ts-card__links.horizontal {
+	flex-direction: row;
+	flex: 1 1;
+	flex-wrap: wrap;
+	width: 100%;
+	align-content: center;
+	align-items: center;
+	max-height: fit-content;
+
+	.ts-card__link,
+	.ts-card-link {
+		flex: 1 1 48% !important;
+		max-height: calc(var(--ts-btn-h)*1);
+		min-height: calc(var(--ts-btn-h)*1);
+		white-space: nowrap;
+	}
+}
+
+/* Individual card link — subtle outlined row */
+.ts-card-link:not(.ts-btn) {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	padding: var(--ts-sp-3) var(--ts-sp-3);
+	border-radius: var(--ts-radius-base);
+	color: var(--ts-text-primary);
+	text-decoration: none;
+	font-size: var(--ts-fs-md);
+	font-weight: var(--ts-font-weight-medium);
+	transition: background var(--ts-dur-base) var(--ts-ease-out),
+		color var(--ts-dur-base) var(--ts-ease-out);
+	outline: 1px solid rgba(from currentColor r g b / 0.08);
+	outline-offset: -1px;
+	background: rgba(from currentColor r g b / 0.05);
+
+	.ts-icon,
+	ion-icon {
+		font-size: 130%;
+		color: var(--ts-text-muted);
+		flex-shrink: 0;
+	}
+}
+
+
+
+.ts-card-link__meta {
+	color: var(--ts-text-muted);
+	margin-left: auto;
+	font-size: 75%;
+	line-height: 1.2;
+	font-weight: var(--ts-font-weight-normal);
+	/* min-height: 100%; */
+	overflow: hidden;
+	/* max-width: 30%; */
+	display: -webkit-box;
+	line-clamp: 2;
+	-webkit-line-clamp: 2;
+	text-overflow: ellipsis;
+	-webkit-box-orient: vertical;
+	white-space: break-spaces;
+	text-align: right;
+	flex: 0 1 auto;
+}
+
+.ts-card:hover .ts-card-link:not(.ts-btn),
+.ts-card-link:not(.ts-btn):hover {
+	background: rgba(from currentColor r g b / 0.15);
+	outline-color: rgba(from currentColor r g b / 0.6);
+}
+
+.ts-card:hover .ts-card-link:not(.ts-btn) .ts-card-link__meta,
+.ts-card:hover .ts-card-link:not(.ts-btn) ion-icon,
+.ts-card-link:not(.ts-btn):hover .ts-card-link__meta,
+.ts-card-link:not(.ts-btn):hover ion-icon {
+	color: var(--ts-text-accent);
+}
+
+
+/* ───
+§6q — Universal 3D Flip Cards
+Allows any card to become a flip card via the `.ts-flip-card` class.
+
+!!!!
+OWNER REFACTOR FIXES:
+
+This component has been refactored and fully tokenized. No further changes have been required in this area so far.
+
+This section demonstrates a clear, step-by-step refactoring process:
+- Defining tokens
+- Applying and distributing them across the component
+- Minimizing CSS declarations by relying primarily on token values
+- Driving all states and variants through tokens instead of hardcoded rules
+
+This serves as a reference implementation for systematic refactoring within the design system.
+
+
+the html on the showcase must be  the same as the flipcards but with swipe change.
+add the .ts-card class to all th e flip and swipe conventions please.
+
+
+<div class="ts-grid ts-grid--3">
+    <div class="ts-swipe-card">
+      <div class="ts-swipe-card__inner">
+        <div class="ts-swipe-card__front">
+          <div class="ts-label">01</div>
+          <div class="ts-h2 ts-text-accent">DYNAMICS</div>
+          <p class="ts-caption">Hover to inspect</p>
+        </div>
+        <div class="ts-swipe-card__back">
+          <div class="ts-h3">Precision Logic</div>
+          <p class="ts-text-secondary ts-caption">Calculated interactions with micro-feedback loops.</p>
+          <button class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+        </div>
+      </div>
+    </div>
+    <div class="ts-swipe-card">
+      <div class="ts-swipe-card__inner">
+        <div class="ts-swipe-card__front">
+          <div class="ts-label">02</div>
+          <div class="ts-h2 ts-text-accent">VISUALS</div>
+          <p class="ts-caption">Hover to inspect</p>
+        </div>
+        <div class="ts-swipe-card__back">
+          <div class="ts-h3">Aesthetic Depth</div>
+          <p class="ts-text-secondary ts-caption">Multi-layer SVG noise grain architecture.</p>
+          <button class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+        </div>
+      </div>
+    </div>
+    <div class="ts-swipe-card">
+      <div class="ts-swipe-card__inner">
+        <div class="ts-swipe-card__front">
+          <div class="ts-label">03</div>
+          <div class="ts-h2 ts-text-accent">SPEED</div>
+          <p class="ts-caption">Hover to inspect</p>
+        </div>
+        <div class="ts-swipe-card__back">
+          <div class="ts-h3">Runtime Flux</div>
+          <p class="ts-text-secondary ts-caption">Zero external dependencies. Minimal footprint.</p>
+          <button class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+        </div>
+      </div>
+    </div>
+  </div>
+──────────────────────────────────────────────
+
+
+
+*/
+.ts-flip-card {
+	--ts-flip-perspective: 1400px;
+	--ts-flip-duration: 0.6s;
+	--ts-flip-easing: var(--ts-ease-in-out);
+	--ts-flip-depth: 0px;
+	perspective: var(--ts-flip-perspective);
+	height: var(--ts-flip-card-h);
+	position: relative;
+	--ts-flip-card-h: 320px;
+	--ts-flip-card-pad: var(--ts-sp-8);
+	--ts-flip-card-gap: calc(var(--ts-flip-card-pad) * 0.5);
+	--ts-flip-border-w: 1px;
+	--ts-flip-card-radius: var(--ts-radius-lg);
+	--ts-flip-bg-front: var(--ts-bg-1-t);
+	--ts-flip-bg-back: var(--ts-bg-2-t);
+	--ts-flip-bg: var(--ts-this-bg);
+	--ts-flip-bg-color: var(--ts-this-bg-dim-4);
+	--ts-flip-bg-grad: var(--ts-this-bg-grad-3);
+	--ts-flip-bg-grad-hover: var(--ts-this-bg-grad-2);
+	--ts-flip-bg-grad-back: linear-gradient(135deg, var(--ts-flip-bg-back), var(--ts-accent-dim-2));
+	--ts-flip-border: var(--ts-this-bg-border);
+	--ts-flip-bg-hover: var(--ts-this-bg);
+	--ts-flip-border-hover: var(--ts-this-bg-border);
+}
+
+/* Universal structure: works with any card */
+.ts-card.ts-flip-card {
+	height: auto;
+	min-height: var(--ts-flip-card-h);
+}
+
+.ts-swipe-card .ts-btn.ts-btn--sm,
+.ts-flip-card .ts-btn.ts-btn--sm,
+.ts-card .ts-btn.ts-btn--sm {
+	/* --ts-btn-h-ratio: 1; */
+	outline: 1px solid var(--ts-this-bg-border);
+	outline-offset: -1px;
+	border: none !important;
+	box-shadow: none !important;
+	transform-box: border-box;
+}
+
+.ts-swipe-card .ts-btn,
+.ts-flip-card .ts-btn {
+	outline: 1px solid var(--ts-this-bg-border);
+	outline-offset: -1px;
+	border: none !important;
+	box-shadow: none !important;
+	transform-box: border-box;
+    --ts-btn-h-ratio: .9;
+    --ts-btn-fs-ratio: 0.24;
+	--ts-btn-pad-y-ratio: 1.2;
+}
+
+.ts-flip-card__inner {
+
+	position: relative;
+	width: 100%;
+	height: 100%;
+	transform-style: preserve-3d;
+	transition: transform var(--ts-flip-duration) var(--ts-flip-easing);
+}
+
+.ts-flip-card:hover .ts-flip-card__inner,
+.ts-flip-card.ts-flip-card--flipped .ts-flip-card__inner {
+	transform: rotateY(180deg);
+}
+
+/* REFACTOR NOTES: aDDED A 3D DROP SHADOW THAT WORKS PERFECT.  need to enable it with a class and  ADD PARAMETERS TO CONTROL IT */
+/* #CRAZY_FIX_RULES - MAKE THIS  useful class applicable on  a specific  helper clas for the cards and use them on a showcase  example*/
+
+.ts-flip-card .ts-flip-card__inner:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: auto;
+	left: 20%;
+	right: 20%;
+	bottom: -20px;
+	-webkit-transform: rotateX(-60deg);
+	transform: translateZ(0) rotateX(90deg);
+	transform-style: preserve-3d;
+	width: 60%;
+	transform-origin: center;
+	translate: 0 15px 0;
+
+	filter: blur(50px);
+	height: 40px;
+	background: #000000c4;
+	z-index: -2;
+}
+
+/* Vertical flip variant */
+.ts-flip-card--vertical:hover .ts-flip-card__inner,
+.ts-flip-card--vertical.ts-flip-card--flipped .ts-flip-card__inner {
+	transform: rotateX(180deg);
+}
+
+/* Card face structure - works with any card content */
+.ts-card-face,
+.ts-flip-card__front,
+.ts-flip-card__back {
+	position: absolute;
+	inset: 0;
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	border-radius: var(--ts-flip-card-radius);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: var(--ts-flip-card-pad);
+	text-align: center;
+	gap: var(--ts-flip-card-gap);
+	transform-style: preserve-3d;
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0);
+}
+
+/* Legacy support: .ts-flip-card__front/back still work */
+.ts-flip-card__front,
+.ts-card_inner.ts-card__front {
+	background-image: var(--ts-flip-bg-grad);
+	outline: 1px solid var(--ts-flip-border);
+	--ts-flip-bg: var(--ts-flip-bg-front);
+	background-color: var(--ts-flip-bg-color);
+
+}
+
+.ts-flip-card__back,
+.ts-card_inner.ts-card__back {
+	--ts-flip-bg: var(--ts-flip-bg-back);
+
+	background-color: var(--ts-flip-bg-color);
+
+	background-image: var(--ts-flip-bg-grad-back);
+	outline: 1px solid var(--ts-accent-border);
+	transform: rotateY(180deg);
+	pointer-events: none;
+}
+
+/* Vertical flip: rotate on X-axis */
+.ts-flip-card--vertical .ts-flip-card__back,
+.ts-flip-card--vertical .ts-card-face.ts-card-back {
+	transform: rotateX(180deg);
+}
+
+/* Depth variants */
+.ts-flip-card--depth-sm {
+	--ts-flip-perspective: 800px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ts-flip-card--depth-md {
+	--ts-flip-perspective: 1200px;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.ts-flip-card--depth-lg {
+	--ts-flip-perspective: 2000px;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Inner 3D index system - enables depth layering with --ts-z */
+.ts-flip-card--indexed .ts-flip-card__front>*,
+.ts-flip-card--indexed .ts-flip-card__back>*,
+.ts-flip-card--indexed .ts-card-face>* {
+	transform: translate3d(0, 0, var(--ts-z, 0px));
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+}
+
+/* When indexed is NOT active, use default depth */
+.ts-flip-card:not(.ts-flip-card--indexed) .ts-flip-card__front>*,
+.ts-flip-card:not(.ts-flip-card--indexed) .ts-flip-card__back>*:not(.ts-btn *),
+.ts-flip-card:not(.ts-flip-card--indexed) .ts-card-face>* {
+	transform: translate3d(0, 0, 80px);
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	-webkit-font-smoothing: subpixel-antialiased;
+	-moz-osx-font-smoothing: auto;
+	filter: none;
+}
+
+/* When flipped: disable front clicks, enable back clicks */
+.ts-flip-card:hover .ts-flip-card__front,
+.ts-flip-card:hover .ts-card-face.ts-card-front,
+.ts-flip-card.ts-flip-card--flipped .ts-flip-card__front,
+.ts-flip-card.ts-flip-card--flipped .ts-card-face.ts-card-front {
+	pointer-events: none;
+}
+
+.ts-flip-card:hover .ts-flip-card__back,
+.ts-flip-card:hover .ts-card-face.ts-card-back,
+.ts-flip-card.ts-flip-card--flipped .ts-flip-card__back,
+.ts-flip-card.ts-flip-card--flipped .ts-card-face.ts-card-back {
+	pointer-events: auto;
+}
+
+/* ─── §6q.2  SWIPE CARD VARIANT (Non-3D) ────────────────────────────────── */
+/* Slides content instead of flipping (no 3D transforms) */
+
+.ts-swipe-card {
+	--ts-swipe-duration: var(--ts-dur-slow, 300ms);
+	--ts-swipe-easing: var(--ts-panel-ease-in);
+	--ts-swipe-offset: calc(100% + var(--ts-swipe-border-w));
+	border: var(--ts-swipe-border-w) solid var(--ts-border-2);
+	outline-offset: 0px;
+	position: relative;
+	overflow: hidden;
+	height: var(--ts-swipe-card-h);
+	border-radius: var(--ts-swipe-card-radius);
+	--ts-swipe-card-h: 320px;
+	--ts-swipe-card-pad: var(--ts-sp-8);
+	--ts-swipe-card-gap: calc(var(--ts-swipe-card-pad) * 0.5);
+	--ts-swipe-border-w: 1px;
+	--ts-swipe-card-radius: var(--ts-radius-lg);
+	--ts-swipe-bg-front: var(--ts-bg-2);
+	--ts-swipe-bg-back: var(--ts-bg-3);
+	--ts-swipe-bg: var(--ts-this-bg);
+	--ts-swipe-bg-color: var(--ts-this-bg-dim);
+	--ts-swipe-bg-grad: var(--ts-this-bg-grad);
+	--ts-swipe-bg-grad-hover: var(--ts-this-bg-grad-2);
+	--ts-swipe-bg-grad-back: linear-gradient(135deg, var(--ts-swipe-bg-back), var(--ts-accent-dim));
+	--ts-swipe-border: var(--ts-this-bg-border);
+	--ts-swipe-bg-hover: var(--ts-this-bg);
+	--ts-swipe-border-hover: var(--ts-this-bg-border-hover);
+}
+
+.ts-card.ts-swipe-card,
+.ts-swipe-card {
+	height: auto;
+	min-height: var(--ts-swipe-card-h);
+	gap: var(--ts-swipe-card-gap);
+}
+
+.ts-portfolio-grid .ts-caption,
+.ts-swipe-card .ts-caption,
+.ts-flip-card .ts-caption {
+	font-size: var(--ts-fs-caption);
+	line-height: var(--ts-line-height-loose);
+	/* color: var(--ts-text-primary-dim-2); */
+	text-transform: none;
+	 letter-spacing: var(--ts-letter-spacing-normal); 
+}
+
+.ts-portfolio-grid .ts-card__icon,
+.ts-portfolio-grid .ts-portfolio-icon,
+.ts-portfolio-icon {
+	margin-block: 0 !important;
+	width: var(--ts-icon, 2rem);
+	height: var(--ts-icon, 2rem);
+	border-radius: var(--ts-radius-md);
+	object-fit: cover;
+	flex-shrink: 0;
+	font-size: var(--ts-icon, 140%) !important;
+}
+
+.ts-portfolio-grid .ts-portfolio-icon:not(img) {
+	background-color: var(--ts-this-bg-dim-6) !important;
+	color: var(--ts-accent);
+	border: none !important;
+	outline-offset: -1px;
+	background: var(--ts-badge-bg-mix) !important;
+	outline: 1px solid var(--ts-badge-border-mix) !important;
+	--ts-this-bg: var(--ts-text-muted);
+	--ts-badge-border-mix: color-mix(in srgb, var(--ts-text-muted), transparent 70%);
+	--ts-badge-bg-mix: color-mix(in srgb, var(--ts-this-bg), transparent 82%);
+	--ts-text-muted: color-mix(in srgb, currentcolor, var(--ts-text-primary) 40%) !important;
+}
+
+.ts-portfolio-grid .ts-card .ts-badge,
+.ts-portfolio-grid .ts-swipe-card .ts-badge,
+.ts-portfolio-grid .ts-flip-card .ts-badge {
+	gap: var(--ts-sp-1);
+	padding: var(--ts-sp-1) var(--ts-sp-3);
+	color: var(--ts-accent);
+
+	background: var(--ts-badge-bg-mix) !important;
+	outline: 1px solid var(--ts-badge-border-mix) !important;
+	border: none !important;
+	--ts-this-bg: var(--ts-text-muted);
+	--ts-badge-border-mix: color-mix(in srgb, var(--ts-text-muted), transparent 70%);
+	--ts-badge-bg-mix: color-mix(in srgb, var(--ts-this-bg), transparent 85%);
+	--ts-text-muted: color-mix(in srgb, currentcolor, var(--ts-text-primary) 40%) !important;
+}
+
+.ts-swipe-card__front,
+.ts-swipe-card__back {
+	position: absolute;
+	inset: 0;
+	transition: transform var(--ts-swipe-duration) var(--ts-swipe-easing);
+	display: flex;
+	flex-direction: column;
+	padding: var(--ts-swipe-card-pad);
+	align-content: center;
+	justify-content: center;
+	background-color: var(--ts-swipe-bg);
+	gap: var(--ts-swipe-card-gap);
+
+}
+
+.ts-swipe-card__front,
+.ts-swipe-card__inner.ts-swipe-card__front {
+	--ts-swipe-bg: var(--ts-swipe-bg-front);
+
+	transform: translateX(0);
+}
+
+.ts-swipe-card__back,
+.ts-swipe-card__inner.ts-swipe-card__back {
+	--ts-swipe-bg: var(--ts-swipe-bg-back);
+	background-image: var(--ts-swipe-bg-grad-back);
+	/* outline: var(--ts-swipe-border-w) solid var(--ts-accent-border); */
+	transform: translateX(var(--ts-swipe-offset));
+}
+
+/* Horizontal swipe (default) */
+.ts-swipe-card:hover .ts-swipe-card__front,
+.ts-swipe-card:hover .ts-swipe-card__inner.ts-swipe-card__front,
+.ts-swipe-card.ts-swipe-card--swiped .ts-swipe-card__front,
+.ts-swipe-card.ts-swipe-card--swiped .ts-swipe-card__inner.ts-swipe-card__front {
+	transform: translateX(calc(var(--ts-swipe-offset)*-1));
+}
+
+.ts-swipe-card:hover .ts-swipe-card__back,
+.ts-swipe-card:hover .ts-swipe-card__inner.ts-swipe-card__back,
+.ts-swipe-card.ts-swipe-card--swiped .ts-swipe-card__back,
+.ts-swipe-card.ts-swipe-card--swiped .ts-swipe-card__inner.ts-swipe-card__back {
+	transform: translateX(0);
+}
+
+/* Vertical swipe variant */
+.ts-swipe-card--vertical .ts-swipe-card__back,
+.ts-swipe-card--vertical .ts-swipe-card__inner.ts-swipe-card__back {
+	transform: translateY(var(--ts-swipe-offset));
+}
+
+.ts-swipe-card--vertical:hover .ts-swipe-card__front,
+.ts-swipe-card--vertical:hover .ts-swipe-card__inner.ts-swipe-card__front,
+.ts-swipe-card--vertical.ts-swipe-card--swiped .ts-swipe-card__front,
+.ts-swipe-card--vertical.ts-swipe-card--swiped .ts-swipe-card__inner.ts-swipe-card__front {
+	transform: translateY(calc(-1 * var(--ts-swipe-offset)));
+}
+
+.ts-swipe-card--vertical:hover .ts-swipe-card__back,
+.ts-swipe-card--vertical:hover .ts-swipe-card__inner.ts-swipe-card__back,
+.ts-swipe-card--vertical.ts-swipe-card--swiped .ts-swipe-card__back,
+.ts-swipe-card--vertical.ts-swipe-card--swiped .ts-swipe-card__inner.ts-swipe-card__back {
+	transform: translateY(0);
+}
+
+/* END OF UPDATED REFACTORED SWIPE AND  FLIP CARDS TOKENIZED.  */
+
+/* ─── §6r  PRICING CARDS ────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────
+	TS — TEXT SHADOW ENGINE (FULL + FIXED)
+	✔ Token-driven (text-shadow: var(--ts-shadow))
+	✔ A/B color system preserved
+	✔ Font-scale aware (1em based)
+	✔ No invalid CSS / no compose / no inherit
+	✔ Safe color pipeline (no fragile oklch(from))
+	───────────────────────────────────────────── */
+
+:root {
+
+	/* ───────────── INPUTS (A/B SYSTEM) ───────────── */
+
+	--ts-shadow-color-a: currentColor;
+	--ts-shadow-color-b: color-mix(in srgb, var(--ts-this-bg-dark), var(--ts-shadow-color-a) 78%);
+
+	/* ───────────── FONT-AWARE SCALING ───────────── */
+
+	--ts-shadow-scale-factor: 0.16;
+	--ts-shadow-depth: calc(1em * var(--ts-shadow-scale-factor));
+
+	/* Steps + direction */
+	--ts-shadow-steps: 15;
+	--ts-shadow-angle-x: 1;
+	--ts-shadow-angle-y: 1;
+
+	--ts-shadow-step: calc(var(--ts-shadow-depth) / var(--ts-shadow-steps));
+
+	/* ───────────── COLOR PIPELINE (STABLE) ───────────── */
+
+	/* base mix (A vs B) */
+	--ts-shadow-color-base: color-mix(in srgb,
+			var(--ts-shadow-color-a) 75%,
+			var(--ts-shadow-color-b));
+
+	/* contrast bias (SAFE fallback version) */
+	--ts-shadow-contrast-strength: 0.23;
+
+	/* simulate contrast shift using mix instead of oklch(from) */
+	--ts-shadow-color: color-mix(in srgb,
+			var(--ts-shadow-color-base),
+			black calc(var(--ts-shadow-contrast-strength) * 180%));
+
+	/* soft tail */
+	--ts-shadow-soft-accent: color-mix(in srgb,
+			var(--ts-shadow-color),
+			transparent 50%);
+	--ts-shadow-soft: color-mix(in srgb,
+			rgb(0 0 0 / 18%),
+			transparent 28%);
+
+	/* ───────────── FINAL TOKEN (DROP-IN) ───────────── */
+
+	--ts-shadow:
+		calc(var(--ts-shadow-step) * 1 * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-step) * 1 * var(--ts-shadow-angle-y)) 0 var(--ts-shadow-color),
+
+		calc(var(--ts-shadow-step) * 2 * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-step) * 2 * var(--ts-shadow-angle-y)) 0 var(--ts-shadow-color),
+
+		calc(var(--ts-shadow-step) * 3 * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-step) * 3 * var(--ts-shadow-angle-y)) 0 var(--ts-shadow-color),
+
+		calc(var(--ts-shadow-step) * 4 * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-step) * 4 * var(--ts-shadow-angle-y)) 0 var(--ts-shadow-color),
+
+		calc(var(--ts-shadow-step) * 5 * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-step) * 5 * var(--ts-shadow-angle-y)) 0 var(--ts-shadow-color),
+
+		calc(var(--ts-shadow-step) * 6 * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-step) * 6 * var(--ts-shadow-angle-y)) 0 var(--ts-shadow-color),
+
+		/* soft tail */
+		calc(var(--ts-shadow-depth) * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-depth) * var(--ts-shadow-angle-y)) calc(var(--ts-shadow-depth) * 0.6) var(--ts-shadow-soft);
+
+	/* ───────────── PRESETS ───────────── */
+
+	/* depth */
+	--ts-shadow-depth-xs: 0.02;
+	--ts-shadow-depth-sm: 0.035;
+	--ts-shadow-depth-md: 0.05;
+	--ts-shadow-depth-lg: 0.075;
+	--ts-shadow-depth-xl: 0.1;
+
+	/* steps */
+	--ts-shadow-steps-low: 4;
+	--ts-shadow-steps-mid: 6;
+	--ts-shadow-steps-high: 10;
+
+	/* contrast */
+	--ts-shadow-contrast-soft: 0.1;
+	--ts-shadow-contrast-normal: 0.18;
+	--ts-shadow-contrast-strong: 0.28;
+}
+
+
+/* ─────────────────────────────
+	UTILITIES (OPTIONAL BUT WORKING)
+	───────────────────────────── */
+
+/* depth */
+.ts-shadow-xs {
+	--ts-shadow-scale-factor: var(--ts-shadow-depth-xs);
+}
+
+.ts-shadow-sm {
+	--ts-shadow-scale-factor: var(--ts-shadow-depth-sm);
+}
+
+.ts-shadow-md {
+	--ts-shadow-scale-factor: var(--ts-shadow-depth-md);
+}
+
+.ts-shadow-lg {
+	--ts-shadow-scale-factor: var(--ts-shadow-depth-lg);
+}
+
+.ts-shadow-xl {
+	--ts-shadow-scale-factor: var(--ts-shadow-depth-xl);
+}
+
+/* step density */
+.ts-shadow-low {
+	--ts-shadow-steps: var(--ts-shadow-steps-low);
+}
+
+.ts-shadow-mid {
+	--ts-shadow-steps: var(--ts-shadow-steps-mid);
+}
+
+.ts-shadow-high {
+	--ts-shadow-steps: var(--ts-shadow-steps-high);
+}
+
+/* direction */
+.ts-shadow-br {
+	--ts-shadow-angle-x: 1;
+	--ts-shadow-angle-y: 1;
+}
+
+.ts-shadow-bl {
+	--ts-shadow-angle-x: -1;
+	--ts-shadow-angle-y: 1;
+}
+
+.ts-shadow-tr {
+	--ts-shadow-angle-x: 1;
+	--ts-shadow-angle-y: -1;
+}
+
+.ts-shadow-tl {
+	--ts-shadow-angle-x: -1;
+	--ts-shadow-angle-y: -1;
+}
+
+/* contrast */
+.ts-shadow-soft {
+	--ts-shadow-contrast-strength: var(--ts-shadow-contrast-soft);
+}
+
+.ts-shadow-normal {
+	--ts-shadow-contrast-strength: var(--ts-shadow-contrast-normal);
+}
+
+.ts-shadow-strong {
+	--ts-shadow-contrast-strength: var(--ts-shadow-contrast-strong);
+}
+
+/* context */
+.ts-shadow-accent {
+	--ts-shadow-color-a: var(--ts-accent-bright-2);
+}
+
+.ts-shadow-surface {
+	--ts-shadow-color-a: var(--ts-text-primary);
+}
+
+
+/* ─────────────────────────────
+	COMPONENT USAGE (YOUR PATTERN)
+	───────────────────────────── */
+
+.ts-pricing-card__price {
+
+	/* APPLY TOKEN */
+	text-shadow: var(--ts-shadow);
+	color: var(--ts-accent-bright);
+	/* your overrides */
+	--ts-shadow-color-a: var(--ts-accent-bright);
+	--ts-shadow-color-b: var(--ts-this-bg-dark);
+
+	--ts-shadow-scale-factor: var(--ts-shadow-depth-md);
+	--ts-shadow-steps: var(--ts-shadow-steps-low);
+
+}
+
+.ts-pricing-card {
+
+
+	border: 1px solid var(--ts-this-bg-border);
+	border-radius: var(--ts-radius-lg);
+	padding: var(--ts-sp-8) var(--ts-sp-6);
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-4);
+	position: relative;
+	overflow: hidden;
+	transition: transform var(--ts-dur-base) var(--ts-ease-out),
+		border-color var(--ts-dur-base) var(--ts-ease-out),
+		box-shadow var(--ts-dur-base) var(--ts-ease-out);
+	background: var(--ts-card-bg);
+	border-color: var(--ts-this-bg-border);
+	outline-color: var(--ts-this-bg-border);
+	transition: var(--ts-card-transitions) !important;
+	color: var(--ts-card-color);
+
+	--ts-this-bg: var(--ts-bg-2);
+	--ts-card-bg: var(--ts-this-bg-grad-4);
+
+}
+
+
+.ts-pricing-card--featured {
+	border-color: var(--ts-accent);
+	box-shadow: var(--ts-shadow-accent-lg);
+	background: linear-gradient(145deg, var(--ts-bg-3) 0%,
+			color-mix(in srgb, var(--ts-accent), transparent 90%) 100%);
+}
+
+.ts-pricing-card--featured:hover,
+.ts-pricing-card:hover {
+	transform: translateY(-4px) !important;
+	box-shadow: var(--ts-shadow-accent-lg) !important;
+	border: 1px solid var(--ts-accent-border-hover);
+}
+
+.ts-pricing-card__recommend {
+	position: absolute;
+	top: var(--ts-sp-3);
+	right: var(--ts-sp-3);
+	background: var(--ts-this-bg-grad-2);
+	font-size: var(--ts-fs-sm);
+	font-weight: 300;
+	letter-spacing: 0.01rem;
+	text-transform: uppercase;
+	padding: var(--ts-sp-2) var(--ts-sp-4);
+	border-radius: var(--ts-radius-full);
+	line-height: 0.9rem;
+	color: var(--ts-on-accent);
+	border: 1px solid var(--ts-this-bg-border);
+	--ts-this-bg: var(--ts-accent-bright);
+}
+
+.ts-pricing-card__price {
+
+	font-family: var(--ts-font-display);
+	font-size: clamp(2.5rem, 5vw, 3.5rem);
+	font-size: var(--ts-fs-display-md);
+	font-weight: var(--ts-font-weight-bold);
+	line-height: 2rem;
+	letter-spacing: -0.04rem;
+	position: relative;
+
+}
+
+.ts-pricing-card__price sup {
+	font-size: var(--ts-fs-h3);
+	font-weight: 700;
+	vertical-align: top;
+	margin-top: 0.5em;
+}
+
+.ts-pricing-card__price sup {
+	font-weight: 500;
+	vertical-align: top;
+	margin-top: 0.5rem;
+	display: inline-flex;
+	margin-right: 0.2rem;
+	/* position: absolute; */
+	left: -0.8rem;
+	/* color: var(--ts-text-muted); */
+	/* margin: 0; */
+}
+
+.ts-pricing-card__features {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-3);
+	flex: 1;
+	margin-block: var(--ts-sp-3);
+	/* font-size: var(--ts-fs-h5); */
+}
+
+.ts-pricing-card__feature {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	font-size: inherit;
+	color: var(--ts-text-secondary);
+}
+
+.ts-pricing-card__feature i {
+	color: var(--ts-success);
+	color: var(--ts-accent-dark-2);
+	font-size: 130% !important;
+	flex-shrink: 0;
+}
+
+.ts-pricing-card__feature i.fa-check:before {
+	content: "\f058";
+	font-weight: 900;
+	font-family: var(--ts-fontawesome-family);
+	font-style: normal;
+
+}
+
+
+/* ─── §6s  TESTIMONIAL BLOCK ────────────────────────────────────────── */
+
+.ts-testimonial {
+	position: relative;
+	padding: var(--ts-sp-8) var(--ts-sp-6) var(--ts-sp-8) calc(var(--ts-sp-6) + var(--ts-sp-4));
+	background: var(--ts-bg-2);
+	border: 1px solid var(--ts-border-0);
+	border-left: var(--ts-index-bar-height) solid var(--ts-accent);
+	border-radius: 0 var(--ts-radius-md) var(--ts-radius-md) 0;
+}
+
+.ts-testimonial blockquote {
+	font-size: clamp(1rem, 2vw, 1rem);
+	font-style: italic;
+	color: var(--ts-text-primary);
+	line-height: var(--ts-line-height-relaxed);
+	margin-bottom: var(--ts-sp-5);
+	text-wrap-style: pretty;
+	display: flex;
+	flex-direction: row;
+	gap: var(--ts-sp-2);
+	flex-wrap: nowrap;
+	align-items: center;
+	margin-left: calc((var(--ts-sp-6) + var(--ts-sp-3)) * -1);
+}
+
+.ts-testimonial blockquote::before {
+	content: "\201C";
+	font-size: 4em;
+	line-height: 0;
+	vertical-align: -0.3em;
+	color: var(--ts-accent);
+	margin-right: var(--ts-sp-3);
+	display: inline-flex;
+	width: var(--ts-sp-5);
+}
+
+.ts-testimonial__author-name {
+	font-weight: 700;
+	color: var(--ts-accent);
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-size: var(--ts-fs-lg);
+}
+
+.ts-testimonial__author-role {
+	color: var(--ts-text-muted);
+	font-size: var(--ts-fs-md);
+}

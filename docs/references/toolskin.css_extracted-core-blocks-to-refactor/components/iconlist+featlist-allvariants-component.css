@@ -1,0 +1,671 @@
+/* ═══════════════════════════════════════════════════════════════════════
+	§6c  FEATURE LIST + LIST COMPONENT  —  v2 (token-driven, ts-this-bg)
+	═══════════════════════════════════════════════════════════════════════
+	Replaces the entire previous §6c block.
+
+	Architecture:
+	  LAYER 1  Tokens declared ONCE in a component-scoped root block.
+	  Scope = subtrees of .ts-list and .ts-feat-list only.
+	  No leakage to global :root *.
+
+	  LAYER 2  Element rules consume tokens. Variants override TOKENS only,
+	  never redeclare properties.
+
+	Surface model:
+	  - Background only on variants that need it (ts-feat-cards, big-icon box).
+	  - Default items are transparent.
+	  - All surfaces routed through --ts-this-bg derivatives:
+	bg gradient	 → --ts-this-bg-grad-2	  (variant only)
+	border	→ --ts-this-bg-border	  (unified everywhere)
+	hover bg	 → --ts-this-bg-hover	(only where surface exists)
+	hover border	→ --ts-this-bg-border-hover
+	accent hover	→ --ts-accent-dim + --ts-accent-border (.hover-accent)
+
+	Typography model:
+	  - All text inherits ONE color  (--ts-feat-text)
+	  - All icons inherit ONE color  (--ts-feat-icon-color → accent)
+	  - Title elements are an EXCEPTION: h2-h6, .ts-feat-item__title, strong
+	 receive --ts-feat-title-color and --ts-feat-title-fs.
+
+	Sizing model:
+	  - One base × one multiplier × clamp() = icon size for every variant.
+	  - Variants override ONLY --ts-feat-icon-mult.
+	  - Spacing is a derivative chain — change --ts-feat-pad-base, all rescales.
+
+	Layout model:
+	  - Auto-fit grid with no media queries.
+	  - Single column when item width exceeds container (intrinsic responsive).
+	  - .list class forces single column explicitly.
+	═══════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────
+LAYER 1  —  COMPONENT-SCOPED TOKEN DECLARATIONS
+These variables exist ONLY inside .ts-list and .ts-feat-list subtrees.
+Move out to wider scope if you find other components consuming them.
+───────────────────────────────────────────────────────────────────── */
+:root .ts-list,
+:root .ts-list *,
+:root .ts-feat-list,
+:root .ts-feat-list *,
+:root .ts-list *:after,
+:root .ts-feat-list *:before {
+
+	/* === ICON SIZE — clamp(min, base × multiplier, max) ============== */
+	/* Single base value, one active multiplier, hard min/max bounds. */
+	--ts-feat-icon-base: var(--ts-btn-icon, var(--ts-icon, 45px));
+
+	/* Hard bounds — global floor/ceiling for any variant */
+	--ts-feat-icon-min: 13px;
+	--ts-feat-icon-max: 50px;
+
+	/* Multipliers — variants pick which one becomes active */
+	--ts-feat-mult-xs: 0.35;
+	/* ≈ 18px → inline glyph (basic) */
+	--ts-feat-mult-sm: 0.8;
+	/* ≈ 32px → small box 				*/
+	--ts-feat-mult-md: 0.9;
+	/* ≈ 43px → default boxed icons 	*/
+	--ts-feat-mult-lg: 1.10;
+	/* ≈ 50px → big icon variants	 	*/
+	--ts-feat-mult-xl: 1.25;
+	/* ≈ 63px → hero / oversized	 	*/
+
+	/* Active multiplier — DEFAULT is xs (basic inline). Variants override. */
+	--ts-feat-icon-mult: var(--ts-feat-mult-xs);
+
+	/* The computed, clamped icon size — every icon reads this */
+	--ts-feat-icon-size: clamp(var(--ts-feat-icon-min),
+			calc(var(--ts-feat-icon-base) * var(--ts-feat-icon-mult)),
+			var(--ts-feat-icon-max));
+
+	/* === SPACING — derivative chain from one base ==================== */
+
+	/* Override --ts-feat-pad-base on a container to rescale everything. */
+	--ts-feat-pad-base: var(--ts-sp-5);
+	--ts-feat-icon-pad: calc(var(--ts-feat-pad-base) * 0.98);
+	--ts-feat-icon-gap: calc(var(--ts-feat-icon-pad) * 0.75);
+	--ts-feat-item-pad: calc(var(--ts-feat-icon-pad) * 0.75);
+	--ts-feat-item-gap: calc(var(--ts-feat-item-pad) * 0.5);
+
+	/* === GRID auto-fit (no media queries) ============================ */
+	--ts-feat-col-min: 200px;
+	/* per-column floor before stack */
+
+	/* === TYPOGRAPHY ================================================== */
+	--ts-feat-fs-base: var(--ts-fs-body-sm, var(--ts-fs-md));
+	--ts-feat-fs-scale: .9;
+	/* SMALL HANDLER TO MANAGE EASILY THE FONT SCALING TOKENIZATION IN THE  INDIVIDUAL SCOPES WITHOUT REPLACING THE REFERERED TOKEN. */
+	--ts-feat-fs: calc(var(--ts-feat-fs-base)* var(--ts-feat-fs-scale));
+	--ts-feat-title-fs: var(--ts-fs-body, var(--ts-fs-lg));
+	--ts-feat-title-weight: 600;
+	--ts-feat-line-height: calc(var(--ts-feat-fs)*1.25);
+
+	/* === RADIUS ====================================================== */
+	--ts-feat-radius: var(--ts-radius-sm);
+
+	/* === SURFACE — single source via ts-this-bg derivatives ========== */
+	/* Items are transparent by default. Variants opt in to a surface.	 */
+	--ts-feat-surface: var(--ts-this-bg-surface, var(--ts-bg-2));
+	--ts-feat-bg: transparent;
+	--ts-feat-bg-color: var(--ts-this-bg-dim);
+	--ts-feat-bg-grad: var(--ts-this-bg-grad);
+	--ts-feat-bg-grad-hover: var(--ts-this-bg-grad-2);
+	--ts-feat-border: var(--ts-this-bg-border);
+
+	/* === COLOR — unified across all variants ========================= */
+	--ts-feat-icon-color: var(--ts-accent);
+	--ts-feat-text: var(--ts-text-primary-dim-2);
+	--ts-feat-title-color: var(--ts-text-primary);
+
+	/* === HOVER (only meaningful where a surface exists) ============== */
+	--ts-feat-bg-hover: var(--ts-this-bg);
+	--ts-feat-border-hover: var(--ts-this-bg-border-hover);
+
+	/* === HOVER variant — accent tint (.hover-accent) ================= */
+	--ts-feat-bg-hover-accent: var(--ts-accent-bright);
+	--ts-feat-border-hover-accent: var(--ts-accent-border);
+	--ts-feat-icon-hover-accent: var(--ts-text-accent);
+	--ts-feat-text-hover-accent: var(--ts-text-accent);
+
+	/* === TRANSITION ================================================== */
+	--ts-feat-transition: opacity 300ms ease,
+		background-color 300ms ease,
+		background-image 300ms ease,
+		outline-color 300ms ease,
+		border-color 300ms ease,
+		color 300ms ease;
+	/* === CUSTOM THIS-BG COLOR CALCULATIONS- ADJNUST AS NEEDED ================================================== */
+	--ts-this-bg-border: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc));
+	--ts-mix-perc: 10%;
+	--ts-this-bg-grad-bright-pct: 6%;
+	--ts-this-bg-grad-dark-pct: 7%;
+
+	--ts-feat-bg-hover: var(--ts-this-bg-focus);
+	--ts-feat-border-hover: var(--ts-this-bg-border-hover);
+	/* === HOVER variant — accent tint (.hover-accent) ================= */
+	--ts-feat-bg-hover-accent: var(--ts-accent-dim);
+	--ts-feat-border-hover-accent: var(--ts-accent-border);
+	--ts-feat-icon-hover-accent: var(--ts-text-accent);
+	--ts-feat-text-hover-accent: var(--ts-text-accent);
+	/* === TRANSITION ================================================== */
+	--ts-feat-transition: opacity 300ms ease, background-color 300ms ease, background-image 300ms ease, outline-color 300ms ease, border-color 300ms ease, color 300ms ease;
+	/* === CUSTOM THIS-BG COLOR CALCULATIONS- ADJNUST AS NEEDED ================================================== */
+	--ts-this-bg-border: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary-dim-2) var(--ts-mix-perc));
+	--ts-mix-perc: 7%;
+	--ts-this-bg-grad-bright-pct: 6%;
+	--ts-this-bg-grad-dark-pct: 7%;
+	--ts-this-bg-border-hover: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc));
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+	LAYER 2  —  ELEMENT RULES  (consume tokens only)
+	═══════════════════════════════════════════════════════════════════════ */
+
+
+/* ─── ul.ts-list — primary chevron / checklist bullet list
+
+/* ─── OWNER NOTES: GENERIC LIST VARIANT
+
+This variant is intended as a general-purpose component.
+
+It is structurally different from the main component:
+- Uses a simple `<ul>` list
+- Relies on pseudo-elements (e.g. ::before) for icons (e.g. Font Awesome check-circle or equivalent)
+- Does not share the same DOM architecture as the primary div-based component
+
+However, it shares the same classes and token system.
+
+Constraints:
+- Do NOT refactor or align this variant with the main component structure
+- Do NOT introduce additional complexity that would compromise its simplicity or usability
+
+Purpose:
+A lightweight, automatic styling wrapper for lists that should work out-of-the-box when content is created or formatted.
+
+This is a core utility pattern and must remain stable and predictable.
+
+*/
+
+ul.ts-list {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	font-size: var(--ts-feat-fs);
+	color: var(--ts-feat-text);
+	font-family: var(--ts-font-mono);
+	gap: var(--ts-feat-item-gap);
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	flex-wrap: nowrap;
+	line-height: 2;
+
+
+}
+
+ul.ts-list>li {
+	font-size: inherit;
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	gap: var(--ts-feat-item-gap);
+	/*
+REFACTOR NOTE: @ts-list-refactor
+
+Each `<li>` element should be assigned a dedicated class, e.g. `.ts-list-item`
+(verify no naming conflicts before implementation).
+
+Layout requirements:
+- Use `display: inline-flex` at the `<li>` level
+- This element must handle all visual styling:
+  - Color
+  - Typography
+  - Spacing
+  - Sizing
+- All values should be applied via tokens (either inherited or locally defined)
+
+Content structure requirement:
+- All inner content must be wrapped in a mandatory span:
+  `.ts-list-item-content` (see related notes)
+
+Rationale:
+- Inline-flex introduces spacing/gap behavior that interferes with raw text rendering
+- Without a wrapper, inline semantic elements (`<strong>`, `<code>`, etc.) become difficult to control
+- Mixed content (text + markup) requires isolation from the flex container to render correctly
+
+Implementation note (JS core):
+- The wrapping logic must be applied automatically to all list item contents
+- This pattern should be reusable across other components that require flexible layouts with rich inner content
+
+Goal:
+Ensure consistent rendering of semantic and formatted content inside list items without layout side effects.
+
+Refer to: @ts-list-refactor
+*/
+}
+
+ul.ts-list>li>*:not(.ts-icon, i.fa, .fa-solid, .fa-regular, .fa-brands, ion-icon) {
+	font: inherit;
+	display: contents;
+	/* ─── OWNER FIX NOTES: LIST ITEM CONTENT ISOLATION
+
+This is a partial fix targeting the inner content of `<li>` elements in formatted icon lists.
+
+Purpose:
+- Prevent unintended flex wrapping of child elements
+- Avoid inherited layout and formatting issues affecting nested tags within the `<li>`
+
+REFACTOR NOTE:
+In the core JS implementation, beyond automatic list detection and enhancement:
+
+- All inner content of each `<li>` should be automatically wrapped in:
+  `.ts-list-item-content`
+
+Benefits:
+- Isolates content from the parent flex container
+- Ensures consistent layout behavior regardless of nested markup
+- Provides a stable, explicit selector for styling
+
+This wrapper is required for a robust and predictable list component architecture.
+
+*/
+
+}
+
+ul.ts-list li::before {
+	font-family: var(--ts-fontawesome-family);
+	font-weight: 900;
+	content: "\f054";
+	/* chevron-right */
+	color: var(--ts-feat-icon-color);
+	font-size: 150%;
+	margin-right: var(--ts-feat-item-gap);
+
+}
+
+ul.ts-list.ts-checklist li::before {
+	content: "\f058";
+	/* circle-check */
+}
+
+
+/* ─── .ts-feat-list — base auto-fit grid (no media queries) ────────── */
+.ts-feat-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit,
+			minmax(min(100%, var(--ts-feat-col-min)), 1fr));
+	gap: var(--ts-feat-item-gap);
+	margin: 0 0 var(--ts-feat-item-gap) 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* No bottom margin when last */
+.ts-feat-list:last-child,
+.ts-feat-list:only-of-type:last-child {
+	margin-bottom: 0;
+}
+
+/* Forced single-column variant */
+.ts-feat-list.list {
+	grid-template-columns: 1fr;
+	gap: var(--ts-feat-item-gap);
+}
+
+/* Wider auto-fit (250px floor) */
+.ts-feat-list.ts-feat-list--auto {
+	--ts-feat-col-min: 250px;
+}
+
+
+/* ─── .ts-feat-item — base item (transparent, inline icon) ─────────── */
+.ts-feat-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	flex-wrap: nowrap;
+	gap: var(--ts-feat-icon-gap);
+	padding: var(--ts-feat-item-pad) 0;
+	border-radius: var(--ts-feat-radius);
+	background-color: var(--ts-feat-bg);
+	/* ornwer note: this token provides the direct  --ts-this-bg value, or the transparent initial state foir list items. it can be used to  force a  color surface token.*/
+
+	border: 1px solid var(--ts-feat-bg);
+	font-size: var(--ts-feat-fs);
+	color: var(--ts-feat-text);
+	line-height: var(--ts-feat-line-height);
+	transition: var(--ts-feat-transition);
+	min-width: 0;
+	position: relative;
+	overflow: hidden;
+}
+
+/* Icon — unified color + clamped size, applies to every glyph type */
+.ts-feat-item>i,
+.ts-feat-item>.ts-icon,
+.ts-feat-item>ion-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	color: var(--ts-feat-icon-color);
+	font-size: var(--ts-feat-icon-size);
+	transition: var(--ts-feat-transition);
+	overflow: hidden;
+	position: relative;
+	box-sizing: content-box;
+	/* OWNER NOTES: content box is neccesary here so the icon sizes properly with the padding nad the icon size without shrinking. keep it.  */
+
+}
+
+/* Text content — every non-icon span inherits unified text color */
+.ts-feat-item>span:not(.ts-icon) {
+	flex: 1 1 auto;
+	min-width: 0;
+	font-size: var(--ts-feat-fs);
+	color: var(--ts-feat-text);
+	font-weight: 500;
+	line-height: var(--ts-feat-line-height);
+	position: relative;
+
+}
+
+/* Title-element exception — h2-h6, .ts-feat-item__title, strong inside item
+	get distinct typography. Other text inside same item keeps --ts-feat-text. */
+.ts-feat-item :is(h2, h3, h4, h5, h6, .ts-feat-item__title, strong) {
+	font-size: var(--ts-feat-title-fs);
+	font-weight: var(--ts-feat-title-weight);
+	color: var(--ts-feat-title-color);
+	line-height: 1.25;
+	margin: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   VARIANT — .ts-feat-icon-big
+
+   Icon is rendered as a square tile using surface + border tokens.
+   The parent item remains transparent — only the icon tile carries background styling.
+
+   OWNER NOTE:
+   Background styling has been intentionally decoupled:
+   - Background color is separated from background image
+   - This enables independent control of gradients vs. base surface styling
+
+   Gradient handling:
+   - Must be controlled via a global enabling mechanism (class or theme mode)
+   - Should NOT be active by default
+   - Allows gradients to be layered without interfering with base component styles
+
+   This pattern ensures better composability and avoids conflicts between
+   static surfaces and dynamic background effects.
+
+	═══════════════════════════════════════════════════════════════════════ */
+
+.ts-feat-list.ts-feat-icon-big {
+	--ts-feat-icon-mult: var(--ts-feat-mult-lg);
+}
+
+/* Stacked single-column big-icon list */
+.ts-feat-list.ts-feat-icon-big.list,
+.ts-feat-icon-big.list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-feat-item-gap);
+}
+
+/* The icon-tile rendering — surface only here */
+.ts-feat-icon-big .ts-feat-item>i,
+.ts-feat-icon-big .ts-feat-item>.ts-icon,
+.ts-feat-icon-big .ts-feat-item>ion-icon {
+	/* --ts-this-bg: var(--ts-feat-surface); */
+	flex: 0 0 var(--ts-feat-icon-size);
+	min-width: var(--ts-feat-icon-size);
+	min-height: var(--ts-feat-icon-size);
+	aspect-ratio: 1;
+	padding: var(--ts-feat-icon-pad);
+	border-radius: var(--ts-feat-radius);
+	background-color: var(--ts-feat-bg);
+	outline: 1px solid var(--ts-feat-border);
+	outline-offset: -1px;
+	/*
+	OWNER NOTE: deprecated
+	The previous font-size scaling was removed because it caused excessive icon shrinkage.
+	The current rendering provides better visual balance without additional scaling.
+	*/
+	box-sizing: content-box;
+	outline-color: var(--ts-feat-border);
+}
+
+/* Big-icon body text — slightly larger than basic */
+.ts-feat-icon-big .ts-feat-item>span:not(.ts-icon) {
+	font-size: var(--ts-feat-fs);
+	font-weight: 400;
+}
+
+/* Big-icon items stay transparent — kill any inherited padding */
+.ts-feat-icon-big .ts-feat-item {
+	--ts-feat-bg: transparent;
+	background-color: var(--ts-feat-bg);
+
+	border-color: var(--ts-feat-bg);
+	padding-block: var(--ts-feat-item-pad);
+}
+
+.ts-feat-list.ts-feat-icon-big.list .ts-feat-item>span {
+
+	padding-block: var(--ts-feat-icon-pad);
+}
+
+.ts-feat-list.ts-feat-icon-big.list .ts-feat-item,
+.ts-feat-icon-big.ts-feat-list:not(.list) .ts-feat-item {
+	padding: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+	VARIANT  —  .ts-feat-cards
+	Each item is a surface card: icon column (with right divider) + body.
+	═══════════════════════════════════════════════════════════════════════ */
+
+.ts-feat-list.ts-feat-cards {
+	--ts-feat-icon-mult: var(--ts-feat-mult-sm);
+	gap: var(--ts-feat-item-gap);
+}
+
+.ts-feat-cards .ts-feat-item {
+	/* --ts-this-bg: var(--ts-feat-surface); */
+	background-color: var(--ts-feat-bg-color);
+	border-color: var(--ts-feat-border);
+	border: 1px solid var(--ts-feat-border);
+	padding: 0 var(--ts-feat-icon-pad) 0 0;
+	min-height: calc(var(--ts-feat-pad-base) * 3);
+	transition: var(--ts-feat-transition);
+}
+
+/* Cards icon — left column with right divider, no own bg */
+.ts-feat-cards .ts-feat-item>i,
+.ts-feat-cards .ts-feat-item>.ts-icon,
+.ts-feat-cards .ts-feat-item>ion-icon {
+
+	flex: 0 0 calc(var(--ts-feat-icon-size)*1);
+	align-self: stretch;
+	padding-inline: calc(var(--ts-feat-icon-pad) * 1);
+	border-right: 1px solid var(--ts-feat-border);
+}
+
+/* Cards body padding lives on the text span (vertical breathing room) */
+.ts-feat-cards .ts-feat-item>span:not(.ts-icon) {
+	padding-block: var(--ts-feat-item-pad);
+	line-height: 1.2;
+}
+
+/* Cards in list mode — single column */
+.ts-feat-list.ts-feat-cards.list {
+	grid-template-columns: 1fr;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   OWNER REFACTOR FIX:
+
+   Hover behavior has been affected by the background refactor.
+   The background image has been delegated to a `::after` pseudo-element
+   to enable smooth transitions on hover.
+
+   This implementation is intentional and must be preserved.
+   Do NOT revert or override this behavior.
+
+   HOVER STATES:
+   - Applied only to elements with a defined surface (e.g. cards, big-icon tiles)
+   - Ensures consistent hover affordance without affecting transparent items
+
+   This approach enables layered transitions while keeping base styles stable.
+
+	═══════════════════════════════════════════════════════════════════════ */
+
+/* Cards — full item hover */
+.ts-feat-cards .ts-feat-item:hover {
+	--ts-feat-bg: var(--ts-feat-bg-hover);
+	--ts-feat-border: var(--ts-feat-border-hover);
+}
+
+.ts-feat-cards .ts-feat-item:hover>i,
+.ts-feat-cards .ts-feat-item:hover>.ts-icon,
+.ts-feat-cards .ts-feat-item:hover>ion-icon {
+	--ts-feat-border: var(--ts-feat-border-hover);
+	--ts-feat-bg: var(--ts-feat-bg-hover);
+
+}
+
+/* Big icon — only the tile hovers */
+.ts-feat-icon-big .ts-feat-item:hover>i,
+.ts-feat-icon-big .ts-feat-item:hover>.ts-icon,
+.ts-feat-icon-big .ts-feat-item:hover>ion-icon {
+	--ts-feat-bg: var(--ts-feat-bg-hover);
+	--ts-feat-border: var(--ts-feat-border-hover);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+	VARIANT  —  .hover-accent
+	Accent-tinted hover background. Applies to cards items and big-icon tiles.
+	═══════════════════════════════════════════════════════════════════════ */
+
+
+
+.ts-feat-cards:not(.ts-feat-icon-big) .ts-feat-item>span,
+.ts-feat-icon-big .ts-feat-item>.ts-icon,
+.ts-feat-icon-big .ts-feat-item>.ts-icon * {
+
+	z-index: 1;
+
+}
+
+.ts-feat-cards .ts-feat-item:after,
+.ts-feat-icon-big .ts-feat-item>.ts-icon:after {
+	content: "";
+	position: absolute;
+	inset: 0px;
+	z-index: 0;
+	/*transition: opacity 300ms ease,
+			background 300ms ease,
+			background-image 300ms ease allow-discrete,
+			outline-color 300ms ease,
+			border-color 300ms ease,
+			color 300ms ease;*/
+	background-image: var(--ts-feat-bg-grad);
+	transition: var(--ts-feat-transition);
+	--ts-feat-bg-grad: var(--ts-feat-bg-grad-hover);
+	opacity: 0;
+	pointer-events: none;
+
+}
+
+.ts-feat-icon-big .ts-feat-item>.ts-icon:after {
+	border-radius: inherit;
+	inset: 2px !important;
+
+}
+
+.ts-feat-cards:not(.ts-feat-icon-big) .ts-feat-item:hover:after,
+.ts-feat-icon-big .ts-feat-item:hover>.ts-icon:after {
+
+	opacity: 1;
+}
+
+/*	OWNER NOTE. check what i did with the background  styling. i separated backgroudn color from image becuse i need to separat those properties in roder to be able to   set the gradient styling from the rest of the  default  styling. 
+	 gradient global enablign will be delegated to a general class and theme mode.  should not be enabled by default*/
+.ts-lush-mode,
+.ts-gradient-ui,
+[data-ts-mode="lush"],
+[data-ts-mode="ts-gradtient-ui"] {
+
+	/* ─── REFACTOR NOTE: GLOBAL BACKGROUND IMAGE SYSTEM
+
+This section will contain all styles related to background image handling.
+
+The goal is to implement a global, token-driven image system that can be enabled across any component—not limited to a specific use case.
+
+Key principles:
+- Centralized control via global enabler (root or HTML-level attributes)
+- Consistent behavior across all components that support background images
+- Token-based configuration for image properties (position, size, overlay, blending, etc.)
+- Minimal per-component declarations; rely on shared system logic
+
+Implementation approach:
+- Define global selectors and/or root-scope attributes to enable/disable image behavior
+- Ensure compatibility with existing surface, background, and state token systems
+- Allow components to inherit image behavior without additional custom styling
+
+This should be treated as a foundational system layer for all image-enabled components.
+
+*/
+	.ts-feat-cards:not(.ts-feat-icon-big) .ts-feat-item,
+	.ts-feat-icon-big .ts-feat-item>.ts-icon {
+
+
+		transition: var(--ts-feat-transition);
+		background-image: var(--ts-feat-bg-grad);
+
+
+	}
+}
+
+/* Cards — accent hover */
+.ts-feat-cards .ts-feat-item.hover-accent:hover {
+	--ts-this-bg: var(--ts-accent-dim-2);
+	--ts-feat-bg: var(--ts-feat-bg-hover-accent);
+	--ts-feat-border: var(--ts-feat-border-hover-accent);
+	--ts-feat-text: var(--ts-feat-text-hover-accent);
+}
+
+.ts-feat-cards .ts-feat-item.hover-accent:hover>i,
+.ts-feat-cards .ts-feat-item.hover-accent:hover>.ts-icon,
+.ts-feat-cards .ts-feat-item.hover-accent:hover>ion-icon {
+	--ts-feat-icon-color: var(--ts-feat-icon-hover-accent);
+	--ts-feat-border: var(--ts-feat-border-hover-accent);
+}
+
+.ts-feat-cards .ts-feat-item.hover-accent:hover>span:not(.ts-icon) {
+	--ts-feat-text: var(--ts-feat-text-hover-accent);
+}
+
+/* Big icon — accent hover on the tile */
+.ts-feat-icon-big .ts-feat-item.hover-accent:hover>i,
+.ts-feat-icon-big .ts-feat-item.hover-accent:hover>.ts-icon,
+.ts-feat-icon-big .ts-feat-item.hover-accent:hover>ion-icon {
+	--ts-feat-bg: var(--ts-feat-bg-hover-accent);
+	--ts-feat-border: var(--ts-feat-border-hover-accent);
+	--ts-feat-icon-color: var(--ts-feat-icon-hover-accent);
+
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+	END  —  §6c FEATURE LIST + LIST COMPONENT
+	═══════════════════════════════════════════════════════════════════════ */

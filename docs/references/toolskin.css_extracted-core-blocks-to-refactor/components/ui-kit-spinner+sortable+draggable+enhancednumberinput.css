@@ -1,0 +1,517 @@
+
+/* ── Spinner (input + stacked chevrons on the right, YSS-style) ─── */
+.ts-ui-spinner {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: stretch;
+	min-width: 7rem;
+	max-width: 100%;
+	border-radius: var(--ts-radius-md);
+	border: 1px solid var(--ts-border-1);
+	overflow: hidden;
+	background: var(--ts-bg-1);
+}
+
+.ts-ui-spinner input[type='number'] {
+	flex: 1;
+	min-width: 2.5rem;
+	width: auto;
+	border: none;
+	text-align: center;
+	background: transparent;
+	color: var(--ts-text-primary);
+	font-size: var(--ts-fs-sm);
+	-moz-appearance: textfield;
+	appearance: textfield;
+	-webkit-appearance: textfield;
+}
+
+.ts-ui-spinner input::-webkit-outer-spin-button,
+.ts-ui-spinner input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	margin: 0;
+}
+
+.ts-ui-spinner__controls {
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	border-left: 1px solid var(--ts-border-1);
+	min-width: 2rem;
+}
+
+.ts-ui-spinner__dec,
+.ts-ui-spinner__inc {
+	flex: 1;
+	min-height: 1.25rem;
+	border: none;
+	background: var(--ts-bg-2);
+	color: var(--ts-text-primary);
+	cursor: pointer;
+	font-size: 0.65rem;
+	line-height: 1;
+	padding: 0 0.4rem;
+	transition: background var(--ts-dur-fast);
+}
+
+.ts-ui-spinner__dec:hover,
+.ts-ui-spinner__inc:hover {
+	background: var(--ts-bg-3);
+}
+
+.ts-ui-spinner__dec+.ts-ui-spinner__inc,
+.ts-ui-spinner__inc+.ts-ui-spinner__dec {
+	border-top: 1px solid var(--ts-border-1);
+}
+
+/* ── Draggable / Resizable ───────────────────────────────────────── */
+.ts-ui-draggable--dragging {
+	z-index: 3000;
+	box-shadow: var(--ts-shadow-3);
+}
+
+.ts-ui-resizable {
+	position: relative;
+	min-width: 160px;
+	min-height: 100px;
+	resize: none;
+}
+
+.ts-ui-resizable__handle {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 18px;
+	height: 18px;
+	cursor: nwse-resize;
+	background: linear-gradient(135deg,
+			transparent 50%, var(--ts-text-muted) 50%, var(--ts-text-muted) 60%,
+			transparent 60%);
+	opacity: 0.5;
+}
+
+.ts-ui-resizable__handle:hover {
+	opacity: 1;
+}
+
+/* ── Sortable ───────── */
+
+/* ── Tokens ──
+	Naming: --ts-ui-sortable-{part}-{property}
+	Parts: item, handle, title, drag, placeholder */
+
+:root {
+
+	/* ─ Core dimensions ─ */
+	--ts-ui-sortable-item-h: 50px;
+	--ts-ui-sortable-item-pad-x: calc(var(--ts-ui-sortable-item-h) * .5);
+	--ts-ui-sortable-item-pad-y: calc(var(--ts-ui-sortable-item-pad-x) * .78);
+	--ts-ui-sortable-item-pad: var(--ts-ui-sortable-item-pad-y) var(--ts-ui-sortable-item-pad-x);
+	--ts-ui-sortable-item-gap: calc(var(--ts-ui-sortable-item-pad-y) * .54);
+	--ts-ui-sortable-item-rad: var(--ts-input-radius);
+	--ts-ui-sortable-item-spacing: calc(var(--ts-ui-sortable-item-gap) * .7);
+
+	/* ─ Typography ─ */
+	--ts-ui-sortable-item-fs: calc(var(--ts-ui-sortable-item-h) * .24444);
+
+	/* ─ Handle ─ */
+	--ts-ui-sortable-handle-icon: calc(var(--ts-ui-sortable-item-fs) * 1.4);
+	--ts-ui-sortable-border: var(--ts-this-bg-border);
+	--ts-ui-sortable-border-active: var(--ts-this-bg-focus-outline);
+	--ts-this-bg-border-hover: var(--ts-ui-sortable-border-active);
+	--ts-ui-sortable-bg-hover: var(--ts-bg-4);
+
+	--ts-ui-sortable-handle-bg: var(--ts-bg-3);
+	--ts-ui-sortable-card-bg: var(--ts-bg-2);
+
+	/* ─ Displacement animation ─ */
+	--ts-ui-sortable-displace-duration: 200ms;
+	--ts-ui-sortable-displace-ease: cubic-bezier(0.2, 0, 0, 1);
+
+}
+
+/* ── List reset ── */
+.ts-ui-sortable {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	user-select: none;
+	position: relative;
+}
+
+/* ── Sortable Item ──
+	States: idle → hover → active (mousedown) → dragging (in flight)
+	Uses --ts-this-bg cascade for theme-adaptive backgrounds. */
+.ts-ui-sortable .ts-ui-sortable__item,
+.ts-ui-sortable__item {
+	display: flex !important;
+	align-items: center !important;
+	gap: var(--ts-ui-sortable-item-gap) !important;
+	padding: var(--ts-ui-sortable-item-pad);
+	margin-top: var(--ts-ui-sortable-item-spacing);
+	margin-bottom: 0;
+	border: 1px solid var(--ts-this-bg-border);
+
+	border-radius: var(--ts-ui-sortable-item-rad) !important;
+	background: var(--ts-this-bg-dim-4) !important;
+	color: var(--ts-text-secondary) !important;
+	cursor: n-resize;
+	max-height: var(--ts-ui-sortable-item-h) !important;
+	--ts-input-h: 50px !important;
+	--ts-input-pad-x: var(--ts-ui-sortable-item-pad) !important;
+	--ts-this-bg: var(--ts-ui-sortable-handle-bg);
+	transition-property: margin, background-color, border-color, box-shadow, transform, color;
+	transition-duration: 0.15s;
+	transition-timing-function: var(--ts-ease-out);
+
+}
+
+/* ─ First child: kill top margin to prevent gap doubling ─ */
+.ts-ui-sortable>.ts-ui-sortable__item:first-child,
+.ts-ui-sortable>.ts-ui-sortable__placeholder:first-child {
+	margin-top: 0;
+}
+
+/* ─ Displacement transition on siblings while sorting is active ─
+	JS adds .ts-ui-sortable--sorting to the container on pointerdown.
+	transform is the primary FLIP vehicle (GPU-composited, no reflow). */
+.ts-ui-sortable--sorting>.ts-ui-sortable__item,
+.ts-ui-sortable--sorting>.ts-ui-sortable__placeholder {
+	transition-property: transform, margin, background-color, border-color, box-shadow, color, max-height, min-height, padding;
+	transition-duration: var(--ts-ui-sortable-displace-duration);
+	transition-timing-function: var(--ts-ui-sortable-displace-ease);
+	will-change: transform, border-color, padding;
+}
+
+/* Hover: brighten + subtle border highlight */
+.ts-ui-sortable .ts-ui-sortable__item:hover {
+	background: var(--ts-this-bg-dim-2) !important;
+	border-color: var(--ts-this-bg-border-hover) !important;
+	color: var(--ts-text-primary) !important;
+	box-shadow: var(--ts-shadow-1) !important;
+	--ts-this-bg: var(--ts-bg-4);
+	--ts-ui-sortable-border-active: var(--ts-accent) !important;
+}
+
+/* Active (mousedown): accent border flash — signals "I'm grabbed" */
+.ts-ui-sortable .ts-ui-sortable__item:active {
+	background: var(--ts-this-bg-dim) !important;
+	border-color: var(--ts-accent-border) !important;
+	box-shadow: 0 0 0 1px var(--ts-accent-border) !important;
+	transform: scale(0.99) !important;
+	--ts-ui-sortable-border-active: var(--ts-accent) !important;
+
+}
+
+/* ── Handle-only mode ── */
+.ts-ui-sortable[data-ts-ui-sort-handle-only] .ts-ui-sortable__item {
+	cursor: default;
+}
+
+.ts-ui-sortable[data-ts-ui-sort-handle-only] .ts-ui-sortable__item:hover {
+	background: var(--ts-this-bg) !important;
+	border-color: var(--ts-this-bg-border-hover);
+	box-shadow: none;
+	color: var(--ts-text-secondary);
+
+}
+
+.ts-ui-sortable[data-ts-ui-sort-handle-only] .ts-ui-sortable__item:has(.ts-ui-sortable__handle:hover) {
+	background: var(--ts-this-bg-dim-3) !important;
+	border-color: var(--ts-accent) !important;
+	box-shadow: none;
+	color: var(--ts-accent-bright);
+	--ts-this-bg: var(--ts-accent-dim);
+
+}
+
+/* ── Handle (shared base) ── */
+.ts-ui-sortable__item .ts-ui-sortable__handle {
+	cursor: n-resize;
+	flex-shrink: 0;
+	flex: 0 1 var(--ts-ui-sortable-item-h);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--ts-ui-sortable-item-h);
+	height: var(--ts-ui-sortable-item-h);
+	max-height: var(--ts-ui-sortable-item-h);
+	max-width: var(--ts-ui-sortable-item-h);
+	min-width: var(--ts-ui-sortable-item-h);
+	min-height: var(--ts-ui-sortable-item-h);
+	border-right: 1px solid var(--ts-ui-sortable-border);
+	margin-right: calc(var(--ts-ui-sortable-item-pad-x) * .3) !important;
+	color: color-mix(in srgb, var(--ts-accent), var(--ts-text-muted) 35%);
+	font-size: var(--ts-ui-sortable-handle-icon);
+	padding: calc(var(--ts-ui-sortable-item-pad-y) * .75);
+	box-sizing: border-box;
+	margin-block: calc(var(--ts-ui-sortable-item-pad-x) * -1);
+	margin-left: calc(var(--ts-ui-sortable-item-pad-x) * -1);
+	transition: background 0.15s ease, color 0.15s ease, border-color 300ms ease;
+	border-radius: var(--ts-ui-sortable-item-rad) 0 0 var(--ts-ui-sortable-item-rad) !important;
+
+}
+
+/* Handle hover: accent tint signals "drag from here" */
+.ts-ui-sortable .ts-ui-sortable__item:has(.ts-ui-sortable__handle):hover .ts-ui-sortable__handle {
+	background: color-mix(in srgb, var(--ts-this-bg-dim-2), transparent 30%);
+	color: var(--ts-accent-bright-2);
+	--ts-this-bg: var(--ts-accent-dim);
+	--ts-ui-sortable-border-active: var(--ts-accent) !important;
+	--ts-ui-sortable-border: var(--ts-this-bg-border) !important;
+
+
+}
+
+.ts-ui-sortable .ts-ui-sortable__item:has(.ts-ui-sortable__handle) .ts-ui-sortable__handle:hover {
+	background: var(--ts-this-bg-dim-2);
+	color: var(--ts-on-accent);
+	--ts-this-bg: var(--ts-accent);
+
+
+}
+
+/* ── Dragging state: visual lift ── */
+.ts-ui-sortable__item--dragging {
+	opacity: 1 !important;
+	cursor: grabbing !important;
+	display: flex !important;
+	align-items: center;
+	gap: var(--ts-ui-sortable-item-gap);
+	padding: var(--ts-ui-sortable-item-pad);
+	border: 1px solid var(--ts-accent) !important;
+	border-radius: var(--ts-ui-sortable-item-rad);
+	background: var(--ts-this-bg) !important;
+	color: var(--ts-text-primary) !important;
+	box-shadow: var(--ts-shadow-3), 0 0 0 1px var(--ts-accent-border),
+		0 0 24px color-mix(in srgb, var(--ts-accent), transparent 80%);
+	transform: scale(1.02), translateZ(0);
+	transition: transform 100ms linear !important;
+	will-change: transform;
+	z-index: 200;
+}
+
+/* Source: fully collapsed via CSS — JS no longer needs inline style overrides */
+.ts-ui-sortable__item.ts-ui-sortable__item--source,
+.ts-ui-sortable__item--source {
+	pointer-events: none !important;
+	opacity: 0 !important;
+	height: 0 !important;
+	min-height: 0 !important;
+	max-height: 0 !important;
+	overflow: hidden !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+	border: none !important;
+}
+
+/* Ghost clone: visual lift with accent glow */
+.ts-ui-sortable__ghost {
+	opacity: 1;
+	cursor: n-resize;
+	box-shadow: var(--ts-shadow-3), 0 0 24px color-mix(in srgb, var(--ts-accent-dim-3), transparent 35%);
+	border-color: var(--ts-accent) !important;
+	transform: scale(1.01);
+	padding: var(--ts-ui-sortable-item-pad);
+
+	border-radius: var(--ts-ui-sortable-item-rad) !important;
+
+	background: var(--ts-this-bg-grad) !important;
+
+	--ts-ui-sortable-item-h: 58px;
+	--ts-ui-sortable-title-icon: color-mix(in srgb, currentColor, transparent 80%);
+	--ts-ui-sortable-title-icon-hov: var(--ts-accent-bright);
+
+
+	--ts-this-bg: var(--ts-ui-sortable-card-bg);
+
+}
+
+/* Drop target placeholder: dashed accent outline */
+.ts-ui-sortable__placeholder {
+	box-sizing: border-box;
+	margin-top: var(--ts-ui-sortable-item-spacing);
+	border: 2px dashed color-mix(in srgb, var(--ts-accent), transparent 30%);
+	border-radius: var(--ts-ui-sortable-item-rad);
+	background: color-mix(in srgb, var(--ts-accent), transparent 72%);
+	pointer-events: none;
+	min-height: var(--ts-ui-sortable-item-h);
+	transition: height var(--ts-ui-sortable-displace-duration) var(--ts-ui-sortable-displace-ease),
+		top var(--ts-ui-sortable-displace-duration) var(--ts-ui-sortable-displace-ease),
+		bottom var(--ts-ui-sortable-displace-duration) var(--ts-ui-sortable-displace-ease),
+		transform var(--ts-ui-sortable-displace-duration) var(--ts-ui-sortable-displace-ease),
+		margin var(--ts-ui-sortable-displace-duration) var(--ts-ui-sortable-displace-ease);
+}
+
+/* ── Title strip ── */
+.ts-ui-sortable .ts-ui-sortable__item:has(.ts-ui-sortable__title) {
+	--ts-ui-sortable-item-pad-l: calc(var(--ts-ui-sortable-item-pad-x)* 1.5);
+	--ts-ui-sortable-handle-icon: calc(var(--ts-ui-sortable-item-h) * .32);
+
+	--ts-ui-sortable-item-pad-x: calc(var(--ts-ui-sortable-item-h) * .15);
+	--ts-ui-sortable-item-pad: var(--ts-ui-sortable-item-pad-x) var(--ts-ui-sortable-item-pad-x) var(--ts-ui-sortable-item-pad-x) var(--ts-ui-sortable-item-pad-x);
+	cursor: default !important;
+	padding: var(--ts-ui-sortable-item-pad);
+	min-height: var(--ts-ui-sortable-item-h);
+}
+
+.ts-ui-sortable .ts-ui-sortable__item:has(.ts-ui-sortable__title) .ts-ui-sortable__title {
+	flex: 0 1 calc(100% + var(--ts-ui-sortable-item-h)*1 - var(--ts-ui-sortable-item-gap)*2);
+	flex: 0 1;
+	max-height: unset;
+	gap: var(--ts-input-gap);
+	min-height: unset;
+	display: flex !important;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	cursor: n-resize !important;
+	padding: var(--ts-ui-sortable-item-pad) !important;
+	background: transparent;
+	cursor: n-resize !important;
+
+	margin-block: calc(var(--ts-ui-sortable-item-pad-x) * -1);
+	margin-right: auto !important;
+	white-space: nowrap;
+	transition: color 0.15s ease;
+	border: 1px solid transparent;
+	border-radius: var(--ts-ui-sortable-item-rad);
+	transition-property: transform, margin, background-color, border-color, box-shadow, color, max-height, min-height, padding;
+	transition-duration: var(--ts-ui-sortable-displace-duration);
+	transition-timing-function: var(--ts-ui-sortable-displace-ease);
+	will-change: transform, border-color, padding;
+
+}
+
+.ts-ui-sortable .ts-ui-sortable__item:hover .ts-ui-sortable__title {
+	color: var(--ts-accent);
+
+	border-style: dashed;
+	border-color: currentColor;
+
+	background: var(--ts-this-bg-dim-2);
+	--ts-this-bg: transparent;
+	box-shadow: 0 0 8px color-mix(in srgb, currentColor, transparent 98%);
+	cursor: n-resize;
+
+}
+
+.ts-ui-sortable .ts-ui-sortable__item:hover .ts-ui-sortable__title:hover {
+	color: var(--ts-on-accent);
+	--ts-this-bg: var(--ts-accent);
+	border-style: solid;
+	box-shadow: 0 0 12px 1px color-mix(in srgb, var(--ts-accent), transparent 38%) !important;
+	border-color: var(--ts-ui-sortable-border-active);
+
+	--ts-accent-bright: var(--ts-on-accent);
+
+}
+
+.ts-ui-sortable .ts-ui-sortable__item:hover .ts-ui-sortable__title:hover i,
+.ts-ui-sortable .ts-ui-sortable__item:has(.ts-ui-sortable__title:hover) {
+	--ts-this-bg-border: var(--ts-accent);
+	--ts-accent-bright: var(--ts-on-accent);
+
+}
+
+.ts-ui-sortable .ts-ui-sortable__item .ts-ui-sortable__title i {
+	flex-shrink: 0;
+	flex: 0 1 var(--ts-ui-sortable-handle-icon);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--ts-ui-sortable-handle-icon);
+	height: var(--ts-ui-sortable-handle-icon);
+	max-height: var(--ts-ui-sortable-handle-icon);
+	max-width: var(--ts-ui-sortable-handle-icon);
+	min-width: var(--ts-ui-sortable-handle-icon);
+	min-height: var(--ts-ui-sortable-handle-icon);
+	color: var(--ts-accent-bright);
+	font-size: calc(var(--ts-ui-sortable-handle-icon));
+
+	padding: calc(var(--ts-ui-sortable-item-pad-x) * 1.5);
+	box-sizing: border-box;
+	margin-block: calc(var(--ts-ui-sortable-item-pad-x) * -1);
+	margin-inline: calc(var(--ts-ui-sortable-item-pad-x) * -.35);
+}
+
+.ts-ui-sortable .ts-ui-sortable__item .ts-ui-sortable__title+span {
+	font-size: 80% !important;
+	/* min-height: 100%; */
+	overflow: hidden;
+	width: 50%;
+	display: -webkit-box;
+	line-clamp: 2;
+	-webkit-line-clamp: 2;
+	text-overflow: ellipsis;
+	-webkit-box-orient: vertical;
+	white-space: break-spaces;
+	text-align: right;
+}
+
+/* ── Number input auto-wrap (chevrons) ─────────────────────────── */
+.ts-ui-number-input-wrapper {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: stretch;
+	min-width: 7rem;
+	max-width: 100%;
+	position: relative;
+	border-radius: var(--ts-radius-md);
+	border: 1px solid var(--ts-border-1);
+	overflow: hidden;
+	background: var(--ts-bg-1);
+}
+
+.ts-ui-number-input-wrapper input[type='number'] {
+	flex: 1;
+	min-width: 2.5rem;
+	width: auto;
+	border: none;
+	text-align: center;
+	background: transparent;
+	color: var(--ts-text-primary);
+	font-size: var(--ts-fs-sm);
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
+
+.ts-ui-number-input-wrapper input::-webkit-outer-spin-button,
+.ts-ui-number-input-wrapper input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	appearance: none;
+	margin: 0;
+}
+
+.ts-ui-number-input-controls {
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	border-left: 1px solid var(--ts-border-1);
+	min-width: 2rem;
+}
+
+.ts-ui-number-btn {
+	flex: 1;
+	min-height: 1.25rem;
+	padding: 0 0.4rem;
+	border: none;
+	background: var(--ts-bg-2);
+	color: var(--ts-text-primary);
+	cursor: pointer;
+	font-size: 0.65rem;
+	line-height: 1;
+	transition: background var(--ts-dur-fast);
+}
+
+.ts-ui-number-btn:hover {
+	background: var(--ts-bg-3);
+}
+
+.ts-ui-number-btn+.ts-ui-number-btn {
+	border-top: 1px solid var(--ts-border-1);
+}

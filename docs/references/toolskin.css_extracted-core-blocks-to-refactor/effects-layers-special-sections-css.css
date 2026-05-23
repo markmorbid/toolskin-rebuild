@@ -1,0 +1,494 @@
+/* ═══════════════════════════════════════════════════════════════════════
+	§8  EFFECTS & ANIMATIONS
+	═══════════════════════════════════════════════════════════════════════ */
+
+
+/* ─── §8b  Scroll Reveal Animations (Safe, Smooth, Auto-Applied) ────── */
+
+/* Base reveal classes - hidden until visible */
+.ts-reveal,
+.ts-fade-in,
+.ts-fade-up,
+.ts-fade-left,
+.ts-fade-right,
+.ts-zoom-in,
+.ts-zoom-out,
+.ts-slide-up,
+.ts-slide-left,
+.ts-slide-right,
+.ts-flip-up,
+.ts-bounce-in {
+	opacity: 0;
+	transition: opacity var(--ts-dur-slower) var(--ts-ease-out),
+		transform var(--ts-dur-slower) var(--ts-ease-out);
+	transition-delay: 0.4s;
+}
+
+/* Fade In - Simple opacity */
+.ts-fade-in {
+	opacity: 0;
+}
+
+.ts-fade-in.ts-visible {
+	opacity: 1;
+}
+
+.ts-reveal.ts-visible,
+.ts-fade-in.ts-visible,
+.ts-fade-up.ts-visible,
+.ts-fade-left.ts-visible,
+.ts-fade-right.ts-visible,
+.ts-zoom-in.ts-visible,
+.ts-zoom-out.ts-visible,
+.ts-slide-up.ts-visible,
+.ts-slide-left.ts-visible,
+.ts-slide-right.ts-visible,
+.ts-flip-up.ts-visible,
+.ts-bounce-in.ts-visible {
+	opacity: 1;
+}
+
+/* Fade Up - Classic reveal from bottom */
+.ts-fade-up {
+	opacity: 0;
+	transform: translateY(40px);
+}
+
+.ts-fade-up.ts-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Fade Left - From right side */
+.ts-fade-left {
+	opacity: 0;
+	transform: translateX(40px);
+}
+
+.ts-fade-left.ts-visible {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* Fade Right - From left side */
+.ts-fade-right {
+	opacity: 0;
+	transform: translateX(-40px);
+}
+
+.ts-fade-right.ts-visible {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* Zoom In - Scale up */
+.ts-zoom-in {
+	opacity: 0;
+	transform: scale(0.85);
+}
+
+.ts-zoom-in.ts-visible {
+	opacity: 1;
+	transform: scale(1);
+}
+
+/* Zoom Out - Scale down */
+.ts-zoom-out {
+	opacity: 0;
+	transform: scale(1.15);
+}
+
+.ts-zoom-out.ts-visible {
+	opacity: 1;
+	transform: scale(1);
+}
+
+/* Slide Up - Larger movement */
+.ts-slide-up {
+	opacity: 0;
+	transform: translateY(80px);
+}
+
+.ts-slide-up.ts-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Slide Left - Larger horizontal */
+.ts-slide-left {
+	opacity: 0;
+	transform: translateX(80px);
+}
+
+.ts-slide-left.ts-visible {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* Slide Right - Larger horizontal */
+.ts-slide-right {
+	opacity: 0;
+	transform: translateX(-80px);
+}
+
+.ts-slide-right.ts-visible {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* Flip Up - 3D flip */
+.ts-flip-up {
+	opacity: 0;
+	transform: perspective(600px) rotateX(-15deg);
+	transform-origin: center bottom;
+}
+
+.ts-flip-up.ts-visible {
+	opacity: 1;
+	transform: perspective(600px) rotateX(0deg);
+}
+
+/* Bounce In - Spring effect */
+.ts-bounce-in {
+	opacity: 0;
+	transform: scale(0.3);
+	transition: opacity var(--ts-dur-slower) var(--ts-ease-out),
+		transform var(--ts-dur-slower) var(--ts-ease-spring);
+}
+
+.ts-bounce-in.ts-visible {
+	opacity: 1;
+	transform: scale(1);
+}
+
+/* Generic reveal class */
+.ts-reveal {
+	opacity: 0;
+	transform: translateY(30px);
+}
+
+.ts-reveal.ts-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Stagger delays for sequential animations */
+.ts-delay-1 {
+	transition-delay: 100ms;
+}
+
+.ts-delay-2 {
+	transition-delay: 200ms;
+}
+
+.ts-delay-3 {
+	transition-delay: 300ms;
+}
+
+.ts-delay-4 {
+	transition-delay: 400ms;
+}
+
+.ts-delay-5 {
+	transition-delay: 500ms;
+}
+
+.ts-delay-6 {
+	transition-delay: 600ms;
+}
+
+/* Speed variants */
+.ts-reveal-fast,
+.ts-reveal-fast.ts-visible {
+	transition-duration: var(--ts-dur-fast);
+}
+
+.ts-reveal-slow,
+.ts-reveal-slow.ts-visible {
+	transition-duration: 800ms;
+}
+
+.ts-reveal-slower,
+.ts-reveal-slower.ts-visible {
+	transition-duration: 1200ms;
+}
+
+/* ============================================================
+   E. EFFECT TOKENS — glow, noise, shimmer, scanline, grain
+   ============================================================ */
+:root {
+	--ts-glow-accent:
+		0 0 20px color-mix(in srgb, var(--ts-accent) 50%, transparent),
+		0 0 60px color-mix(in srgb, var(--ts-accent) 25%, transparent);
+	--ts-glow-success:
+		0 0 20px color-mix(in srgb, var(--ts-success) 50%, transparent),
+		0 0 60px color-mix(in srgb, var(--ts-success) 25%, transparent);
+	--ts-glow-danger:
+		0 0 20px color-mix(in srgb, var(--ts-danger) 50%, transparent),
+		0 0 60px color-mix(in srgb, var(--ts-danger) 25%, transparent);
+	--ts-glow-info:
+		0 0 20px color-mix(in srgb, var(--ts-info) 50%, transparent),
+		0 0 60px color-mix(in srgb, var(--ts-info) 25%, transparent);
+
+	--ts-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+	--ts-easing-emph: cubic-bezier(0.2, 0.8, 0.2, 1);
+	--ts-easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+	--ts-dur-fast: 120ms;
+	--ts-dur-base: 220ms;
+	--ts-dur-slow: 420ms;
+}
+
+.ts-glow {
+	box-shadow: var(--ts-glow-accent);
+}
+
+.ts-glow-success {
+	box-shadow: var(--ts-glow-success);
+}
+
+.ts-glow-danger {
+	box-shadow: var(--ts-glow-danger);
+}
+
+.ts-glow-info {
+	box-shadow: var(--ts-glow-info);
+}
+
+/* Shimmer — for skeleton loaders and highlights */
+@keyframes ts-shimmer {
+	0% {
+		background-position: -200% 0;
+	}
+
+	100% {
+		background-position: 200% 0;
+	}
+}
+
+.ts-shimmer {
+	background: linear-gradient(90deg,
+			transparent 0%,
+			color-mix(in srgb, var(--ts-text-primary) 8%, transparent) 50%,
+			transparent 100%),
+		var(--ts-bg-1);
+	background-size: 200% 100%;
+	animation: ts-shimmer 1.6s linear infinite;
+	border-radius: var(--ts-radius-base);
+}
+
+/* Scanline — for game/tech UIs */
+.ts-scanline {
+	position: relative;
+}
+
+.ts-scanline::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: repeating-linear-gradient(0deg,
+			rgba(0, 0, 0, 0.18) 0 1px,
+			transparent 1px 3px);
+	border-radius: inherit;
+	mix-blend-mode: multiply;
+}
+
+/* Marquee shimmer (for hero headlines) */
+@keyframes ts-headline-sweep {
+	0% {
+		background-position: 0% 50%;
+	}
+
+	100% {
+		background-position: 200% 50%;
+	}
+}
+
+.ts-headline-sweep {
+	background: linear-gradient(90deg,
+			var(--ts-text-primary) 0%,
+			var(--ts-accent) 30%,
+			var(--ts-text-primary) 60%,
+			var(--ts-accent) 90%,
+			var(--ts-text-primary) 100%);
+	background-size: 200% 100%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: ts-headline-sweep 6s linear infinite;
+}
+
+/* ============================================================
+   FOCUS RING — accessibility
+   ============================================================ */
+:where(button, a, input, textarea, select, [tabindex]):focus-visible {
+	outline: 2px solid var(--ts-accent);
+	outline-offset: 2px;
+	border-radius: inherit;
+}
+
+/* ============================================================
+   PREFERS-REDUCED-MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+
+	.ts-shimmer,
+	.ts-headline-sweep {
+		animation: none;
+	}
+}
+/* Reduced motion support */
+/* REFACTOR NOTE: Commented this annoying   restirction. we need another way of making this, oit locks functional elements and interactions severally, depending on the suer system preferences and it's not a desired  behaviour, it sa hardcoded blocking result. */
+
+/* REFACTOR NOTE: disbaled this featued  while on development process. is annoyuind and should be enabled  manually by user. it affects */
+/*@media (prefers-reduced-motion: reduce) {
+
+				.ts-reveal,
+				.ts-fade-in,
+				.ts-fade-up,
+				.ts-fade-left,
+				.ts-fade-right,
+				.ts-zoom-in,
+				.ts-zoom-out,
+				.ts-slide-up,
+				.ts-slide-left,
+				.ts-slide-right,
+				.ts-flip-up,
+				.ts-bounce-in {
+					opacity: 1 !important;
+					transform: none !important;
+					transition: none !important;
+				}
+			}*/
+
+/* ─── §8c  Shimmer / Skeleton ───────────────────────────────────────── */
+
+.ts-skeleton {
+	background: linear-gradient(90deg, var(--ts-bg-2) 25%, var(--ts-bg-3) 37%, var(--ts-bg-2) 63%);
+	background-size: 400% 100%;
+	animation: ts-shimmer 1.4s ease infinite;
+	border-radius: var(--ts-radius-sm);
+}
+
+@keyframes ts-shimmer {
+	0% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+/* ─── §8e  Framework Configuration Utilities ─────────────────────────── */
+
+/* Disable noise/grain globally or per-element */
+.ts-no-grain,
+:root.ts-no-grain .ts-grain {
+	background-image: none !important;
+}
+
+.ts-no-grain::before,
+:root.ts-no-grain .ts-grain::before {
+	display: none !important;
+}
+
+
+
+/* Locomotive Scroll container */
+[data-scroll-container]:not(.ts-grain) {
+	will-change: transform;
+}
+
+[data-scroll] {
+	will-change: transform, opacity;
+}
+
+/* CRITICAL: Prevent Locomotive from breaking layouts */
+/* Don't apply transforms to layout-critical elements.
+	NOTE: .ts-fade-up and .ts-fade-in are EXCLUDED — they need their
+	transforms for scroll reveal animations to work correctly. */
+section.ts-grain[data-scroll],
+.ts-hero.ts-grain[data-scroll],
+.ts-section.ts-grain[data-scroll],
+.ts-grain[data-scroll],
+.ts-section-divider[data-scroll],
+.ts-container[data-scroll] {
+	transform: none !important;
+	will-change: auto !important;
+}
+
+/* Reveal animations MUST keep their transforms even with [data-scroll].
+	The transition handles the animation; Locomotive should not override. */
+.ts-fade-up[data-scroll],
+.ts-fade-in[data-scroll],
+.ts-fade-left[data-scroll],
+.ts-fade-right[data-scroll],
+.ts-zoom-in[data-scroll],
+.ts-zoom-out[data-scroll],
+.ts-slide-up[data-scroll] {
+	will-change: transform, opacity;
+}
+
+/* Only allow transforms on specifically tagged parallax elements */
+[data-scroll][data-ts-parallax="true"] {
+	transform: initial;
+	will-change: transform, opacity;
+}
+
+/* Allow transforms on inner elements that aren't animated */
+.ts-grain [data-scroll]:not(.ts-fade-up):not(.ts-fade-in):not(.ts-fade-left):not(.ts-fade-right) {
+	transform: initial;
+	will-change: transform, opacity;
+}
+
+
+
+
+/* ─── §6d  CSS SCROLL-DRIVEN PARALLAX ────────────────────────────────────── */
+/* Pure CSS parallax using animation-timeline: view() */
+
+@supports (animation-timeline: view()) {
+	[data-ts-parallax] {
+		position: relative;
+		overflow: clip;
+	}
+
+	[data-ts-parallax]>[data-ts-parallax-bg] {
+		position: absolute;
+		inset: 0;
+		animation: ts-parallax-shift linear;
+		animation-timeline: view();
+		animation-range: entry 0% exit 100%;
+	}
+
+	@keyframes ts-parallax-shift {
+		from {
+			transform: translateY(var(--ts-parallax-from, -10%));
+		}
+
+		to {
+			transform: translateY(var(--ts-parallax-to, 10%));
+		}
+	}
+}
+
+/* Disable parallax for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	[data-ts-parallax]>[data-ts-parallax-bg] {
+		animation: none;
+		transform: none;
+	}
+}
+
+/* ─── §6e  VIEWPORT PAUSED UTILITY ────────────────────────────────────── */
+/* Applied by ToolskinViewportManager when elements are off-screen */
+
+.ts-viewport-paused {
+	animation-play-state: paused !important;
+}
+
+.ts-viewport-paused .ts-marquee-text-text {
+	animation-play-state: paused !important;
+}
+

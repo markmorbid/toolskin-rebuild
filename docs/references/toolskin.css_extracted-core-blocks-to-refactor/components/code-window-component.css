@@ -1,0 +1,274 @@
+/*Imported Code Window Component*/
+
+.ts-code-window {
+    box-sizing: border-box;
+    border: 1px solid var(--ts-card-border);
+    background: var(--ts-card-bg) none repeat scroll 0% 0% / auto padding-box border-box;
+    border-radius: var(--ts-input-radius, var(--ts-card-radius), var(--ts-radius-sm));
+    overflow: hidden;
+    font-family: var(--ts-font-mono);
+    --ts-card-border: var(--ts-border-1);
+    --ts-card-bg: var(--ts-bg-1-t);
+    --ts-card-bg-2: var(--ts-bg-2-t);
+    --ts-card-header-text-fs: calc(var(--ts-card-fs)*1.01);
+    --ts-card-code-fs: calc(var(--ts-card-fs, 1em)*1);
+    font-size: var(--ts-card-code-fs);
+}
+
+.ts-code-window .ts-code-copy {
+	height: auto !important;
+	border: none !important;
+	outline: none !important;
+	border-radius: 0 !important;
+	padding: 8px !important;
+	display: grid !important;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	place-content: center;
+	align-items: center;
+	pointer-events: all !important;
+	background: transparent !important;
+	letter-spacing: 0;
+	/* font-size: var(--ts-btn-icon) !important; */
+	font-weight: 400;
+	font-family: var(--ts-font-body);
+	line-height: 1lh !important;
+	gap: 0px;
+	margin: 0;
+	justify-content: center;
+	white-space: nowrap !important;
+	color: var(--ts-text-secondary);
+	transition-property: color, background-color, box-shadow, border-color;
+	vertical-align: middle !important;
+	appearance: none !important;
+	cursor: pointer !important;
+	right: 0 !important;
+	background-color: var(--ts-this-bg-dim-4) !important;
+	top: 0 !important;
+	position: absolute !important;
+	bottom: 0 !important;
+	left: auto !important;
+	box-sizing: border-box;
+	width: auto;
+	border-left: 1px solid var(--ts-card-border) !important;
+	overflow: hidden;
+	transform: none !important;
+	margin: 0 !important;
+	aspect-ratio: 1;
+	min-height:100%;
+}
+
+.ts-code-window .ts-code-copy svg {
+	display: block;
+	width: 100%;
+	min-width: unset;
+	fill: currentColor;
+	pointer-events: none !important;
+}
+
+.ts-code-header {
+	position: relative !important;
+}
+
+.ts-code-header {
+	box-sizing: border-box;
+	border-width: 0px 0px 1px;
+	border-style: solid;
+	border-color: var(--ts-card-border);
+	background: var(--ts-card-bg-2) none repeat scroll 0% 0% / auto padding-box border-box;
+	padding: 10px 18px;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	border-bottom: 1px solid var(--ts-card-border);
+	font-size: var(--ts-card-header-text-fs);
+}
+
+.ts-code-dotbtn {
+	background-color: var(--ts-card-border);
+	box-sizing: border-box;
+	border-width: 0px;
+	border-style: solid;
+	border-color: var(--ts-card-border);
+	width: 10px;
+	height: 10px;
+	border-radius: 100px;
+}
+
+.ts-code-dotbtn.red {
+	background-color: rgb(239, 68, 68);
+	border-color: rgb(229, 231, 235);
+}
+
+.ts-code-dotbtn.yellow {
+	background-color: rgb(234, 179, 8);
+	border-color: rgb(229, 231, 235);
+}
+
+.ts-code-dotbtn.green {
+	background-color: rgb(34, 197, 94);
+	border-color: rgb(229, 231, 235);
+}
+
+.ts-code-dotbtn {
+	background-color: var(--ts-card-border);
+	box-sizing: border-box;
+	border-width: 1px;
+	border-style: solid;
+	border-color: var(--ts-card-border);
+	width: var(--ts-code-dotsize);
+	height: var(--ts-code-dotsize);
+	border-radius: var(--ts-code-dot-radius);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: var(--ts-code-dotsize);
+	height: var(--ts-code-dotsize);
+	background-color: var(--ts-code-dot-color-yellow) !important;
+	border-color: var(--ts-code-dot-border-color) !important;
+	border-radius: var(--ts-code-dot-radius);
+	position: relative;
+	margin-left: calc(var(--ts-code-dotsize)*.75);
+	margin-right: calc(var(--ts-code-dotsize)*.75);
+	left: calc(var(--ts-code-dotsize)*-.1);
+	--ts-code-dotsize: 12px;
+	--ts-code-dot-border-color: var(--ts-card-border);
+	--ts-code-dot-radius: 100px;
+	--ts-code-dot-color-red: #ef4444;
+	--ts-code-dot-color-green: #22c55e;
+	--ts-code-dot-color-yellow: #eab308;
+}
+
+.ts-code-dotbtn:nth-child(2),
+.ts-code-dotbtn:nth-child(3),
+.ts-code-dotbtn:not(:first-child) {
+	display: none !important;
+}
+
+.ts-code-dotbtn::before,
+.ts-code-dotbtn::after {
+	content: "";
+	position: absolute;
+	box-sizing: border-box;
+	border-width: 1px;
+	border-style: solid;
+	width: var(--ts-code-dotsize);
+	height: var(--ts-code-dotsize);
+	border-radius: var(--ts-code-dot-radius);
+	border-color: var(--ts-code-dot-border-color) !important;
+}
+
+.ts-code-dotbtn::before {
+	/* The first dot (e.g., red) */
+	background-color: var(--ts-code-dot-color-red);
+	right: calc(25% + var(--ts-code-dotsize));
+	/* Position to the left of the main dot */
+}
+
+.ts-code-dotbtn::after {
+	/* The third dot (e.g., green) */
+	background-color: var(--ts-code-dot-color-green);
+	left: calc(25% + var(--ts-code-dotsize));
+	/* Position to the left of the main dot */
+}
+
+.ts-code-label {
+	color: var(--ts-text-primary-dim-2);
+	margin-left: var(--ts-card-gap);
+	font-size: 98%;
+	font-weight: var(--ts-font-weight-normal);
+	flex: 1;
+}
+
+.ts-code-copy {
+	width: 28px;
+	height: 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--ts-card-border);
+	background: var(--ts-card-bg-2);
+	border-radius: var(--ts-radius-sm);
+	color: var(--ts-text-secondary);
+	cursor: pointer;
+	transition: all 0.2s;
+	flex-shrink: 0;
+	margin-left: auto;
+	position: relative;
+}
+
+.ts-code-copy:hover {
+	background: var(--ts-card-bg) !important;
+	color: var(--ts-text-primary);
+}
+
+.ts-code-copy:active {
+	transform: scale(0.95);
+}
+
+.ts-code-copy i {
+	font-size: 15px;
+}
+
+/* Copy tooltip */
+.ts-code-copy::after {
+	content: "Copied!";
+	position: absolute;
+	top: -32px;
+	right: 0;
+	background: var(--ts-bg-3);
+	color: var(--ts-text-primary);
+	padding: 4px 8px;
+	border-radius: var(--ts-radius-sm);
+	font-size: var(--ts-fs-xs);
+	white-space: nowrap;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s;
+	border: 1px solid var(--ts-border-1);
+	z-index: 10;
+}
+
+.ts-code-copy.copied::after {
+	opacity: 1;
+}
+
+.ts-code-content {
+	/* color: var(--ts-text-primary); */
+	line-height: 1.7;
+	font-size: 1em;
+	padding: var(--ts-sp-6);
+	overflow-x: auto;
+	box-sizing: border-box;
+	--ts-this-bg: var(--ts-bg-0);
+	font-family: var(--ts-font-mono);
+	background: var(--ts-this-bg-dim-3);
+}
+
+.ts-code-content pre {
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	white-space: pre-wrap;
+	tab-size: 2;
+	-moz-tab-size: 2;
+	font-family: var(--ts-font-mono);
+	font-size: 1em;
+}
+
+.ts-code-content code {
+	display: block;
+	/* color: inherit; */
+	background: transparent;
+	border: none;
+	padding: 0;
+	font-family: inherit;
+	font-size: inherit;
+	white-space: pre-line;
+	overflow-x: auto;
+	tab-size: 2;
+}

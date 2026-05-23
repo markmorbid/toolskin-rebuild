@@ -1,0 +1,137 @@
+
+/* ─── §8a  Hero Section ─── */
+
+.ts-hero {
+	/* Account for fixed header elements (topbar + optional promo banner) */
+	--_ts-hero-offset: var(--ts-topbar-h);
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding-top: calc(var(--_ts-hero-offset) + var(--ts-sp-14));
+	padding-bottom: var(--ts-sp-14);
+	padding-inline: var(--ts-container-pad);
+	position: relative;
+	overflow: hidden;
+	background-color: var(--ts-bg-0);
+	/* Opaque fallback — ensures blend modes work */
+	padding-bottom: var(--ts-sp-14);
+}
+
+/* When promo banner is visible, double the offset (banner + nav both use --ts-topbar-h) */
+body:has(.ts-promo-banner:not(.ts-dismissed)) .ts-hero {
+	--_ts-hero-offset: calc((var(--ts-topbar-h) + var(--ts-promo-banner-h) + var(--ts-sp-14)));
+	padding-top: var(--_ts-hero-offset) !important;
+	padding-bottom: var(--ts-sp-14);
+}
+
+.ts-container.ts-flex-row.ts-fullwidth {
+	max-width: unset;
+	flex-wrap: wrap;
+}
+
+.ts-container.ts-flex-row:has(.ts-hero-content) {
+	gap: var(--ts-sp-8);
+	flex-wrap: wrap;
+}
+
+/* REFACTOR NOTES:
+
+Here I added a necessary variant for the hero section, and likely for any content-based section such as parallax or CTA blocks.
+
+We need to handle variants and tokens intelligently so that, with just a single class, all inner elements automatically arrange themselves correctly:
+
+1. The block should be properly structured and responsive by default, without requiring additional setup.
+
+2. These options—and other layout variants—should be easily configurable within the hero editor section in the ts-oce-panel. We should also enable layered animations for different parts of the hero content. Currently, only a single block animation exists, which is too limited. The hero is a primary asset and needs more flexibility.
+
+3. There is currently no way to control button presence, quantity, or individual styles.
+
+4. The hero (or any featured fullscreen section) should include an option for a “next section” animated arrow at the bottom, indicating that the user can scroll or navigate further.
+
+5. We already added support in core toolskin.js for scrollspy and tracking user scroll state. It correctly applies classes and attributes to the main HTML scope. This should be leveraged to apply dynamic styles to the main navigation.
+
+Refer to @implementation_note#3.
+
+*/
+/* #CRAZY_FIX_RULES */
+.ts-hero.ts-hero-centered .ts-hero-content.ts-flex-col {
+	flex: 1 1 auto;
+	display: flex;
+	position: relative;
+	padding: 0;
+	box-sizing: border-box;
+	width: clamp(400px, 90vw, 720px);
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--ts-sp-2);
+
+}
+
+canvas {
+	min-width: 100%;
+	min-height: 100%;
+	object-fit: cover;
+}
+
+.ts-hero-image {
+	flex: 1 1;
+	display: flex;
+	position: relative;
+	padding: 0 var(--ts-sp-8);
+	box-sizing: border-box;
+	min-width: 30%;
+	width: clamp(285px, 90vw, 200px);
+}
+
+.ts-hero-content.ts-flex-col {
+	flex: 1 1 auto;
+	display: flex;
+	position: relative;
+	padding: 0;
+	box-sizing: border-box;
+	width: clamp(400px, 90vw, 620px);
+}
+
+.ts-hero__badge {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	padding: var(--ts-sp-2) var(--ts-sp-4);
+	background: var(--ts-accent-dim-2);
+	border: 1px solid var(--ts-accent-bright);
+	border-radius: var(--ts-radius-full);
+	font-size: var(--ts-fs-xs);
+	font-weight: 400;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--ts-accent-bright);
+	width: fit-content;
+	margin-bottom: var(--ts-sp-5);
+}
+
+[data-theme="light"] .ts-hero__badge {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	padding: var(--ts-sp-2) var(--ts-sp-4);
+	background: var(--ts-accent-dim-3);
+	border: 1px solid var(--ts-accent-dark);
+	border-radius: var(--ts-radius-full);
+	font-size: var(--ts-fs-xs);
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--ts-accent-dark);
+	width: fit-content;
+	margin-bottom: var(--ts-sp-5);
+	color: var(--ts-accent-dark-2);
+}
+
+.ts-hero__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ts-sp-4);
+	margin-top: var(--ts-sp-8);
+}

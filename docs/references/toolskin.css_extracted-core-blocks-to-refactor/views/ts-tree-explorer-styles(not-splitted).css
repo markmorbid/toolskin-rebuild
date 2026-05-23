@@ -1,0 +1,2369 @@
+
+
+/* ===================================================================
+     TOOLSKIN . FILE TREE EXPLORER
+     A token-driven tree view built entirely on the Toolskin design
+     system. Every gap, pad, border, colour, surface and type size is a
+     derivative declared once on the main scope: .ts-tree-explorer
+     -------------------------------------------------------------------
+     To re-tune the whole component, change ONE value:
+       --ts-tree-row-h      -> rescales rows, pads, gaps, indent, type, icons
+       --ts-this-bg         -> re-derives every surface, border & state
+       --ts-accent-h/s/l    -> re-themes every accent (Toolskin engine)
+     Light / dark is free: every value resolves through Toolskin tokens,
+     so [data-theme="light"] adapts the whole tree with zero extra CSS.
+     =================================================================== */
+
+
+
+/* FAILED @refactor-note:tree-token-cascade-2026-05-16
+   Removed `:root [class*="ts-tree"] *` selector that explicitly
+   reset all tokens on every descendant. Tokens now inherit normally
+   from .ts-tree-explorer scope, which is what custom property
+   semantics intend. The previous explicit-on-descendant pattern
+   was masking the density attribute response (parent's density
+   rule wrote correct value but the `*` rule re-wrote it on every
+   child, neutralizing the effect).
+
+   Lesson for future tree-component work: prefer parent-scoped
+   token declarations + natural inheritance over universal
+   descendant token resets. 
+
+
+@owner-fix:tree-token-cascade-2026-05-16
+
+PARTIAL REVERT + STABILIZATION
+
+Re-enabled `:root [class*="ts-tree"]` scope alias.
+
+Reason:
+Removing this rule broke token propagation across the tree system.
+Tokens were not reaching dependent classes/components because this
+selector was intentionally acting as a distribution layer, not just
+a reset.
+
+This architecture does NOT rely purely on passive inheritance.
+It requires scoped propagation for tokens to reach all consumers.
+
+Do NOT remove this again.
+
+
+WHAT WENT WRONG
+
+The previous change assumed that removing the universal descendant
+reset would allow correct inheritance.
+
+That assumption is invalid in this system:
+- Token flow is not purely hierarchical
+- Some components depend on explicit scoped propagation
+- Removing this layer caused silent downstream failure
+
+
+ADDITIONAL FIXES
+
+- Fixed density cycle behavior
+- Moved density override lower in cascade
+- Applied `!important` due to insufficient specificity in original position
+
+
+CRITICAL NOTE
+
+Several core cascade rules were removed without verifying:
+- token reachability
+- specificity resolution
+- dependency coverage
+
+This caused a system-wide regression.
+
+Rules were recovered and re-integrated manually.
+
+
+DIRECTIVE
+
+Do NOT refactor or remove foundational cascade rules without:
+1. Full token propagation verification
+2. Cascade + specificity validation
+3. Safe rollback snapshot
+
+
+SUMMARY
+
+- Token delivery was broken → now restored
+- System stabilized
+- This rule is REQUIRED, not redundant
+
+Do not remove without a full cascade audit.
+
+
+*/
+:root :is(.ts-tree-explorer, .ts-tree),
+:root [class*="ts-tree"] {
+
+       --ts-accent: var(--ts-accent-tree)!important;
+
+
+    /* -- Tier 3: derivative geometry. ONE base drives the entire tree. -- */
+    --ts-tree-row-h: 2.5rem;
+    --ts-tree-row-gap:  0px;                                  /* opt-in spacing between siblings; connector bridges any value */
+    --ts-tree-pad-x:    calc(var(--ts-tree-row-h) * 0.30);
+    --ts-tree-pad-y:    calc(var(--ts-tree-row-h) * 0.20);    /* declared (not applied) so consumers can pad rows if they need to */
+    --ts-tree-gap:      calc(var(--ts-tree-row-h) * 0.30);
+    --ts-tree-indent:   calc(var(--ts-tree-row-h) * 0.85);
+
+
+    --ts-tree-fs: 			clamp(0.7em, calc(var(--ts-tree-row-h) * 0.5), 1em);
+    --ts-tree-icon: 		calc(var(--ts-tree-fs) * 1.25);
+    --ts-tree-twist: 		calc(var(--ts-tree-row-h) * 0.42);
+    --ts-tree-radius: 	var(--ts-radius-xs, 4px);
+
+    /* -- Tier 3: connector ornament - text-map style straight guides. -- */
+    --ts-tree-guide:		color-mix(in srgb, var(--ts-text-secondary) 40%, transparent);
+    --ts-tree-guide-active:		var(--ts-accent);
+    --ts-tree-guide-w:	max(1px, calc(var(--ts-tree-row-h) * 0.014));
+	
+    --ts-tree-guide-radius:		0;  		
+    /* 0 = classic ├── └── ; non-zero only honoured by the [data-tree-variant="curved"] block */
+
+    /* -- Tier 3: semantic colour roles (all reference Tier 1/2 tokens). */
+    /* Folder icons:
+         The cascade variable --ts-tree-folder-color starts as accent at the
+         top of the tree and is overridden to secondary at depth >= 3
+         (children-of-children-of-children). Hover / selected / expanded
+         then lifts it back to accent. Files default to secondary. */
+    --ts-tree-folder-icon:    var(--ts-accent);
+    --ts-tree-folder-color:   var(--ts-tree-folder-icon);
+    --ts-tree-file-icon:      var(--ts-text-secondary);
+    --ts-tree-icon-scale-file: 0.82;                          
+	/* file icons are visually heavier than the solid folder; trim them */
+    --ts-tree-label:          var(--ts-text-secondary);
+    --ts-tree-label-folder: var(--ts-text-primary);
+    --ts-tree-label-hover: var(--ts-text-accent);
+
+
+
+    --ts-tree-label-rest-op:  0.7;                            /* dim labels at rest; full opacity on hover/active/selected */
+    --ts-tree-meta:           var(--ts-text-muted);
+	--ts-tree-row-bg: color-mix(in srgb, var(--ts-this-bg), transparent 65%);
+    --ts-tree-row-hover:      color-mix(in srgb, var(--ts-bg-2), transparent 65%);   /* subtle bg-2 wash */
+    --ts-tree-row-hover:      var(--ts-this-bg-dim-3);  
+    --ts-tree-row-focus:      color-mix(in srgb, var(--ts-accent) 6%, transparent);
+    --ts-tree-row-active:     color-mix(in srgb, var(--ts-accent) 9%, transparent);  /* selected, dimmed per spec */
+    --ts-tree-row-active-bar: var(--ts-accent);
+    --ts-tree-mark-bg:        color-mix(in srgb, var(--ts-accent) 28%, transparent);
+    --ts-tree-mark-fg:        var(--ts-text-primary);
+
+    /* -- Tier 3: motion. Swapped (not !important-ed) for reduced motion. */
+    --ts-tree-dur:  var(--ts-dur-fast, 160ms);
+    --ts-tree-ease: var(--ts-ease-out, linear);
+
+    /* -- elastic layout: width clamp + fluid gutters. ----------------- */
+    --ts-tree-max:    100dvw;
+    --ts-tree-gutter: clamp(var(--ts-sp-4, 16px), 5vw, var(--ts-sp-12, 48px));
+
+--ts-tree-actionbar-h: 60px;
+     --ts-topbar-constrain: calc(var(--ts-topbar-h) - var(--ts-topbar-pad-y)*1);
+
+}
+
+/* ===================================================================
+     MAIN SCOPE - every component token is declared here, exactly once.
+     Children only ever *consume* these tokens (Toolskin two-layer rule).
+     =================================================================== */
+  .ts-tree-explorer {
+      /* -- Tier 2: surface. Set the system token; derivatives auto-resolve. */
+      --ts-this-bg: var(--ts-bg-0);
+      width: 100%;
+      max-width: var(--ts-tree-max);
+      min-height: 60dvh;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      background-image: var(--ts-this-bg-grad);
+      background: var(--ts-this-bg-dim);
+      border-inline: var(--ts-tree-guide-w) solid var(--ts-this-bg-border);
+      color: var(--ts-tree-label);
+      font-size: var(--ts-tree-fs);
+      position: relative;
+      height: 100dvh;
+      flex: 1;
+      max-height: calc(100dvh - var(--ts-tree-actionbar-h) - var(--ts-topbar-h));
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      align-items: stretch;
+	  /* modified the dom o make possible  the stikcy tookbar inside the   exoplorer and movedthe section with nfooutsidethe cotnianer for proper dom  usage.
+	  the height is calculated but we need to sovle the scrollingaccuracy usbailty.  and scrol snap´ping.  */
+  }
+
+  /* =================================================================
+     ALTERNATE THEME: "curved" — the iteration-1 design preserved.
+     Add  data-tree-variant="curved"  to the .ts-tree-explorer root.
+     Brings back rounded-L elbows, tight rows, twist on the left,
+     full-opacity labels and an 78rem reading width.
+     ================================================================= */
+  .ts-tree-explorer[data-tree-variant="curved"] {
+    --ts-tree-row-h:        2rem;
+    --ts-tree-guide-radius: calc(var(--ts-tree-indent) * 0.42);
+    --ts-tree-max:          78rem;
+    --ts-tree-label-rest-op: 1;
+    --ts-tree-guide:        color-mix(in srgb, var(--ts-text-muted) 55%, transparent);
+    --ts-tree-radius:       var(--ts-radius-sm, 6px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ts-tree-explorer { --ts-tree-dur: 1ms; }
+  }
+
+  /* ---- top bar: sticky, glassy, faint accent wash ---- */
+  .ts-tree-explorer__bar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--ts-sp-3, 12px);
+    padding: var(--ts-sp-3, 12px) var(--ts-tree-gutter);
+    background:
+      radial-gradient(140% 200% at 0% 0%,
+        color-mix(in srgb, var(--ts-accent) 9%, transparent), transparent 55%),
+      color-mix(in srgb, var(--ts-this-bg) 80%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    border-bottom: 1px solid var(--ts-this-bg-border);
+  }
+
+  .ts-tree-explorer__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--ts-sp-3);
+    margin-right: auto;
+
+    min-width: 0;
+  }
+
+  .ts-tree-explorer__brand-mark {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: var(--ts-tree-icon-size);
+    /* height: var(--ts-tree-icon-size); */
+    border-radius: var(--ts-tree-radius);
+    background: var(--ts-this-bg-dim-7);
+    color: var(--ts-this-color-bright);
+    font-size: 1.1em;
+    --ts-this-bg: currentColor;
+    aspect-ratio: 1;
+    max-width: var(--ts-topbar-constrain);
+    --ts-tree-icon-size: calc(var(--ts-tree-row-h) * 1.3);
+    border: 1px solid var(--ts-this-bg-dim-6);
+
+  }
+
+  .ts-tree-explorer__brand-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    font-size: var(--ts-header-logo-fs);
+    text-size-adjust: var(--ts-header-logo-fs-adjust);
+    gap: var(--ts-sp-2);
+
+
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+
+  }
+
+  .ts-tree-explorer__title {
+    font-family: var(--ts-font-display);
+    font-weight: 700;
+    font-size: 1em;
+    letter-spacing: 0;
+    color: var(--ts-text-primary);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 0 1 auto;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    font-size-adjust: var(--ts-header-logo-fs-adjust);
+
+
+  }
+
+  .ts-tree-explorer__path {
+    font-family: var(--ts-font-mono);
+    font-size: .7em;
+    color: var(--ts-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 25dvw;
+    line-height: 1;
+  }
+
+  .ts-tree-explorer__tools {
+    display: flex;
+    align-items: center;
+    gap: var(--ts-sp-2, 8px);
+  }
+  .ts-tree-explorer__search { 
+	  width: clamp(9rem, 22vw, 17rem); 
+		}
+
+  .ts-tree-explorer__stats {
+    width: 100%;
+    display: flex;
+    gap: var(--ts-sp-4, 16px);
+    font-family: var(--ts-font-mono);
+    font-size: 0.68rem;
+    color: var(--ts-text-muted);
+    word-spacing: 3px;
+
+  }
+  .ts-tree-explorer__stats b {
+    font-weight: 700;
+    color: var(--ts-text-accent);
+
+  }
+  .ts-tree-explorer__stats  span {
+    font-weight: 600;
+    color: var(--ts-text-secondary);
+
+  }
+  .ts-tree-explorer__actionbar-stats.table {
+    color: var(--ts-text-secondary);
+	  display: flex;
+	  white-space: nowrap;
+    gap: 5px;
+	  flex-wrap: wrap;
+		line-height: 1;
+	  flex: 1  1 100%;
+
+	  & *{
+		  flex:0 1;
+			  white-space: nowrap;
+		display: flex;
+				  margin-right: auto;
+
+	  }
+	  b{
+		  margin-right: auto;
+		  order: 2;
+		  		  flex:0 1 auto;
+text-align: left;
+	  }
+  }
+  /* ---- body / scroll region.  Top padding clears the sticky header so the
+     first row never tucks under it when scrolled to top. ---- */
+  .ts-tree-explorer__body {
+    flex: 1;
+    padding: var(--ts-sp-10, 32px) var(--ts-tree-gutter) var(--ts-sp-10, 40px)  var(--ts-sp-10, 32px);
+    overflow-x: auto;
+    scroll-padding-top: calc(var(--ts-tree-row-h) * 2);
+	  scrollbar-width: none!important;
+
+  }
+.ts-tree-explorer.tree--scroll .ts-tree-explorer__body {
+    overflow-y: auto;
+    scrollbar-width: revert!important;
+}
+  .ts-tree-explorer.boxed .ts-tree-explorer__body {
+    flex: 1;
+    padding: var(--ts-sp-8, 32px) var(--ts-tree-gutter) var(--ts-sp-10, 40px);
+    padding: var(--ts-sp-5, 32px) calc(var(--ts-tree-gutter)*.3) var(--ts-sp-5, 32px) var(--ts-sp-5, 32px);
+    margin: calc(var(--ts-tree-gutter)*.5);
+    overflow-x: auto;
+    scroll-padding-top: calc(var(--ts-tree-row-h) * 2);
+    scrollbar-width: revert!important;
+	  border-radius: var(--ts-tree-radius);
+	  background: var(--ts-this-bg-dim-2);
+	  border: 1px solid var(--ts-this-bg-border);
+
+  }
+body:has(.ts-nav-fixed,.ts-topbar.fixed):not(:has(.ts-section.ts-hero,.ts-mobile-menu)) > *.hide-section {
+    padding-top: calc(var(--ts-topbar-h, 80px))!important;
+}
+.ts-tree-explorer.tree--scroll .ts-tree-explorer__body {
+    grid-row: 1;
+    grid-column: 1;
+    min-width: 0;
+}
+  /* ===================================================================
+     THE TREE
+     =================================================================== */
+  .ts-tree { display: block; }
+  .ts-tree__node { position: relative; display: block; }
+
+  .ts-tree__children {
+    padding-left: var(--ts-tree-indent);
+    display: flex;
+    flex-direction: column;
+    gap: var(--ts-tree-row-gap);
+  }
+  .ts-tree__children[hidden] { display: none; }
+
+  /* the root node sits a touch more prominent than its descendants */
+  .ts-tree > .ts-tree__node > .ts-tree__row .ts-tree__label {
+    color: var(--ts-text-primary);
+    font-weight: 600;
+    font-size: calc(var(--ts-tree-fs) * 1.05);
+    opacity: 1;
+  }
+
+  /* ---- the row: the single interactive line ---- */
+  .ts-tree__row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--ts-tree-gap);
+    height: var(--ts-tree-row-h)!important;
+    padding-inline: var(--ts-tree-pad-x);
+    /* Round only the right corners so the inset accent bar on the left
+       stays a flush, full-height stripe. */
+    border-radius: 0 var(--ts-tree-radius) var(--ts-tree-radius) 0;
+    color: var(--ts-tree-label);
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background-color var(--ts-tree-dur) var(--ts-tree-ease),
+      color var(--ts-tree-dur) var(--ts-tree-ease);
+    background-color: var(--ts-tree-row-bg);
+	  --ts-this-bg: var(--ts-bg-1);
+  }
+	.ts-tree__row:not(:hover,:active,:focus,:focus-within) {
+   --ts-tree-row-bg: transparent; 
+  }
+  /* state map:
+       :hover                 → transient hover wash
+       :focus-visible         → ACTIVE (keyboard cursor) — outline + soft accent fill
+       [aria-selected="true"] → SELECTED (committed pick) — accent fill + inset bar
+     active+selected → both visual layers stack (outline AND inset bar).
+  */
+  .ts-tree__row:hover {
+    --ts-tree-row-bg: var(--ts-tree-row-hover);
+    color: var(--ts-tree-label-hover);
+  }
+  .ts-tree__row:focus-visible {
+    outline: 2px dashed color-mix(in srgb, var(--ts-accent) 70%, transparent);
+    outline-offset: -2px;
+    --ts-tree-row-bg: var(--ts-tree-row-focus);
+    --ts-tree-label: var(--ts-tree-label-hover);
+  }
+  .ts-tree__node[aria-selected="true"] > .ts-tree__row {
+    background: var(--ts-tree-row-active);
+    --ts-tree-label: var(--ts-tree-label-hover);
+    box-shadow: inset 2px 0 0 0 var(--ts-tree-row-active-bar);
+  }
+
+  /* ---- twist (disclosure chevron) — moves to far right, fades in on interaction ---- */
+  .ts-tree__twist {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: var(--ts-tree-twist);
+    height: var(--ts-tree-twist);
+    order: 9;                                       /* push to end of flex order */
+    margin-left: auto;                              /* and right-align */
+    color: var(--ts-text-muted);
+    font-size: calc(var(--ts-tree-fs) * 0.78);
+    opacity: 0;
+    transition:
+      transform var(--ts-tree-dur) var(--ts-tree-ease),
+      opacity var(--ts-tree-dur) var(--ts-tree-ease),
+      color var(--ts-tree-dur) var(--ts-tree-ease);
+  }
+  .ts-tree__twist--leaf { visibility: hidden; }
+  .ts-tree__row:hover .ts-tree__twist,
+  .ts-tree__row:focus-visible .ts-tree__twist,
+  .ts-tree__node[aria-selected="true"] > .ts-tree__row .ts-tree__twist { opacity: 1; }
+
+  .ts-tree__node[aria-expanded="true"] > .ts-tree__row > .ts-tree__twist {
+    transform: rotate(90deg);
+    color: var(--ts-accent);
+  }
+
+  /* ---- icon ---- */
+  /* File icons are visually heavier than the solid folder (regular outline
+     glyphs and brand badges spread wider for the same nominal size), so we
+     scale them down a touch for balance. */
+  .ts-tree__icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: var(--ts-tree-icon);
+    height: var(--ts-tree-icon);
+    font-size: var(--ts-tree-icon);
+    color: var(--ts-tree-file-icon);
+    transition: color var(--ts-tree-dur) var(--ts-tree-ease);
+  }
+  .ts-tree__node--file > .ts-tree__row > .ts-tree__icon {
+    font-size: calc(var(--ts-tree-icon) * var(--ts-tree-icon-scale-file));
+  }
+  /* Folders use the cascade variable --ts-tree-folder-color: accent at the
+     top, secondary at depth >= 3, lifted to accent on hover/select/expand. */
+  .ts-tree__node--folder > .ts-tree__row > .ts-tree__icon {
+    color: var(--ts-tree-folder-color);
+  }
+  /* Depth >= 3: any folder under three nested .ts-tree__children groups
+     gets the secondary fold tint at rest. Active states still win below. */
+  .ts-tree__children .ts-tree__children .ts-tree__children {
+    --ts-tree-folder-color: var(--ts-text-secondary);
+  }
+  /* Hover / selected / expanded lift the icon back to accent. */
+  .ts-tree__node--folder > .ts-tree__row:hover > .ts-tree__icon,
+  .ts-tree__node--folder[aria-selected="true"] > .ts-tree__row > .ts-tree__icon,
+  .ts-tree__node--folder[aria-expanded="true"] > .ts-tree__row > .ts-tree__icon {
+    color: var(--ts-tree-folder-icon);
+  }
+
+  /* ---- label ---- */
+  /* Direct colour roles (no opacity overlay — opacity dims hurt legibility
+     in light mode where secondary text is already a low-contrast value).
+     Files inherit the row's --ts-tree-label, folders override to primary. */
+  .ts-tree__label {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--ts-tree-label);
+    font-size: var(--ts-tree-fs);
+    line-height: 1.45;
+    transition: color var(--ts-tree-dur) var(--ts-tree-ease);
+  }
+  .ts-tree__node--folder > .ts-tree__row > .ts-tree__label {
+    color: var(--ts-tree-label-folder);
+    font-weight: 500;
+  }
+  /* Hover / focus / selected lift labels to primary (NEVER to accent for
+     files — accent on links was hijacking link colour in both themes). */
+  .ts-tree__row:hover .ts-tree__label,
+  .ts-tree__row:focus-visible .ts-tree__label,
+  .ts-tree__node[aria-selected="true"] > .ts-tree__row .ts-tree__label {
+    color: var(--ts-tree-label-hover);
+  }
+  a.ts-tree__label {
+    color: inherit;
+    text-decoration: none;
+  }
+  a.ts-tree__label::after { content: ""; position: absolute; inset: 0; }
+
+  /* ---- meta (twin counter badges: folders + files; revealed on interaction) ---- */
+  .ts-tree__meta {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: calc(var(--ts-tree-gap) * 0.4);
+    font-family: var(--ts-font-mono);
+    font-size: calc(var(--ts-tree-fs) * 0.78);
+    color: var(--ts-tree-meta);
+    opacity: 0;
+    transition: opacity var(--ts-tree-dur) var(--ts-tree-ease);
+  }
+  .ts-tree__row:hover .ts-tree__meta,
+  .ts-tree__row:focus-visible .ts-tree__meta,
+  .ts-tree__node[aria-selected="true"] > .ts-tree__row .ts-tree__meta { opacity: 1; }
+  .ts-tree__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0.42em 0.65em;                /* proper top + bottom breathing room */
+    border-radius: var(--ts-radius-xs, 3px);
+    background: color-mix(in srgb, var(--ts-this-bg-bright) 65%, transparent);
+    border: 1px solid var(--ts-this-bg-border);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+  }
+  .ts-tree__badge i { font-size: 0.82em; opacity: 0.75; }
+  .ts-tree__badge--folders i { color: var(--ts-accent); opacity: 0.95; }
+
+  /* ===================================================================
+     CONNECTOR ORNAMENT — bulletproof, fully token-driven.
+       ::before  → vertical line in the indent gutter.
+                   Default: top→bottom of node, extended by --ts-tree-row-gap
+                   so the line bridges any inter-sibling spacing.
+                   :last-child override: stops at row vertical center,
+                   producing the └── terminator.
+       ::after   → horizontal stub at row vertical center (the elbow's
+                   `── ` part, meeting the vertical line).
+     Geometry depends only on tokens — row-h can grow / shrink / get
+     vertical gap and the connectors remain coherent because each piece
+     is anchored to the same row-h and row-gap values.
+     =================================================================== */
+  .ts-tree__children > .ts-tree__node::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--ts-tree-indent) * -0.5);
+    top: 0;
+    bottom: calc(var(--ts-tree-row-gap) * -1);
+    width: var(--ts-tree-guide-w);
+    background: var(--ts-tree-guide);
+    pointer-events: none;
+  }
+  .ts-tree__children > .ts-tree__node:last-child::before {
+    bottom: auto;
+    height: calc(var(--ts-tree-row-h) / 2);
+  }
+  .ts-tree__children > .ts-tree__node::after {
+    content: "";
+    position: absolute;
+    left: calc(var(--ts-tree-indent) * -0.5);
+    top: calc(var(--ts-tree-row-h) / 2);
+    width: calc(var(--ts-tree-indent) * 0.5);
+    height: var(--ts-tree-guide-w);
+    background: var(--ts-tree-guide);
+    pointer-events: none;
+  }
+  /* The hovered / selected node lights its own elbow with the accent. */
+  .ts-tree__node:has(> .ts-tree__row:hover)::before,
+  .ts-tree__node:has(> .ts-tree__row:hover)::after,
+  .ts-tree__node[aria-selected="true"]::before,
+  .ts-tree__node[aria-selected="true"]::after {
+    background: var(--ts-tree-guide-active);
+  }
+
+  /* =================================================================
+     CONNECTOR — "curved" variant override (rounded-L corner box).
+     Switches the model from two straight lines to a single corner box
+     with border-left + border-bottom + border-radius (the iteration-1
+     design). Only active when data-tree-variant="curved" is set.
+     ================================================================= */
+  .ts-tree-explorer[data-tree-variant="curved"] .ts-tree__children > .ts-tree__node::before {
+    bottom: auto;
+    width: calc(var(--ts-tree-indent) * 0.5);
+    height: calc(var(--ts-tree-row-h) / 2);
+    background: transparent;
+    border-left: var(--ts-tree-guide-w) solid var(--ts-tree-guide);
+    border-bottom: var(--ts-tree-guide-w) solid var(--ts-tree-guide);
+    border-bottom-left-radius: var(--ts-tree-guide-radius);
+  }
+  .ts-tree-explorer[data-tree-variant="curved"] .ts-tree__children > .ts-tree__node:last-child::before {
+    height: calc(var(--ts-tree-row-h) / 2);
+  }
+  .ts-tree-explorer[data-tree-variant="curved"] .ts-tree__children > .ts-tree__node::after {
+    /* re-purpose ::after as the vertical continuation for non-last */
+    top: 0;
+    bottom: 0;
+    width: var(--ts-tree-guide-w);
+    height: auto;
+    background: var(--ts-tree-guide);
+  }
+  .ts-tree-explorer[data-tree-variant="curved"] .ts-tree__children > .ts-tree__node:last-child::after {
+    content: none;
+  }
+  .ts-tree-explorer[data-tree-variant="curved"] .ts-tree__twist {
+    order: 0;
+    margin-left: calc(var(--ts-tree-twist) * -0.15);
+    opacity: 1;
+  }
+  .ts-tree-explorer[data-tree-variant="curved"] .ts-tree__meta { opacity: 1; }
+
+  /* ---- search highlight ---- */
+  .ts-tree mark {
+    background: var(--ts-tree-mark-bg);
+    color: var(--ts-tree-mark-fg);
+    border-radius: var(--ts-radius-xs, 3px);
+    padding-inline: 0.18em;
+  }
+  .ts-tree__node[hidden] { display: none; }
+
+  /* ---- empty state ---- */
+  .ts-tree-explorer__empty {
+    display: grid;
+    place-items: center;
+    gap: var(--ts-sp-2, 8px);
+    padding: var(--ts-sp-16, 64px) var(--ts-sp-4, 16px);
+    text-align: center;
+    color: var(--ts-text-muted);
+    font-family: var(--ts-font-mono);
+    font-size: 0.78rem;
+  }
+  .ts-tree-explorer__empty i { font-size: 1.7rem; opacity: 0.5; }
+  .ts-tree-explorer__empty[hidden] { display: none; }
+
+  /* ===================================================================
+     INTRO SECTION  ·  ts-tree-explorer__intro
+     Two-column on wide viewports (docs + ts-code-window), collapsing
+     to a single column under 960px. All padding and spacing are clamps
+     so the section breathes elastically without breakpoints.
+     =================================================================== */
+ .ts-tree-explorer__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: clamp(var(--ts-sp-6, 24px), 5vw, var(--ts-sp-10, 40px));
+    align-items: center;
+    padding: clamp(var(--ts-sp-10, 32px), 8dvw, var(--ts-container-pad)) var(--ts-tree-gutter);
+    border-bottom: 1px solid var(--ts-this-bg-border);
+    min-height: unset!important;
+    background-color: var(--ts-this-bg);
+    /* --ts-this-bg: var(--ts-main-surface-bg); */
+    background-image: var(--ts-bg-grid-pattern);
+  }
+  .ts-tree-explorer__intro-eyebrow {
+    display: inline-block;
+    margin-bottom: var(--ts-sp-4);
+    font-family: var(--ts-font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ts-accent);
+  }
+  .ts-tree-explorer__intro-title {
+    margin: 0 0 var(--ts-sp-3, 12px);
+    font-family: var(--ts-font-display);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ts-text-primary);
+  }
+  .ts-tree-explorer__intro-lead {
+    margin: 0 0 var(--ts-sp-5, 20px);
+    max-width: 70ch;
+    font-size: clamp(0.9rem, 1vw, 1em);
+    line-height: 1.55;
+    color: var(--ts-text-secondary);
+  }
+  /* Bullets handled by Toolskin's .ts-list — we only tune spacing + colour
+     of inline <b> highlights inside list items. No bullet markers drawn
+     by us so .ts-list's own bullet styling wins. */
+  .ts-tree-explorer__intro-bullets,   
+.ts-tree-explorer__intro-bullets.ts-list {
+    margin: 0;
+    color: var(--ts-text-secondary);
+
+	  	--ts-feat-icon-gap: calc(var(--ts-feat-icon-pad) * 0.75);
+	--ts-feat-item-pad: calc(var(--ts-feat-icon-gap) * 1.5);
+	--ts-feat-item-gap: calc(var(--ts-feat-item-pad) * 0.5);
+  }
+  .ts-tree-explorer__intro-bullets li,  .ts-tree-explorer__intro-bullets.ts-list li { 
+	  line-height: inherit; 
+									  
+	  flex-wrap: nowrap;
+  }
+  .ts-tree-explorer__intro-bullets b {
+    color: var(--ts-text-primary);
+    font-weight: 600;
+  }
+  .ts-tree-explorer__intro-code .ts-code-window {
+    /* let it grow naturally inside its column; the existing Toolskin
+       .ts-code-window styles handle dot-buttons, header and pre/code */
+  }
+  .ts-tree-explorer__intro-code pre {
+    margin: 0;
+    overflow: auto;
+    font-family: var(--ts-font-mono);
+    font-size: 1em;
+    line-height: 1lh;
+  }
+
+  @media (max-width: 960px) {
+    /* minmax(0, 1fr), NOT plain 1fr — plain 1fr resolves to
+       minmax(auto, 1fr) which respects each child's min-content
+       width, so a wide <pre> inside the code window forces the
+       column to overflow the viewport. minmax(0, ...) lets the
+       column shrink below content size and the pre's own overflow:
+       auto handles the horizontal scroll. */
+    .ts-tree-explorer__intro { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /* ===================================================================
+     ACTION TOPBAR  ·  ts-tree-explorer__actionbar
+     Flex row above the tree: pre-title + stats on the left, action
+     buttons / dropdown on the right.
+     =================================================================== */
+  .ts-tree-explorer__actionbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--ts-sp-3, 12px);
+    padding: var(--ts-sp-3, 12px) var(--ts-tree-gutter);
+    border-block: 1px solid var(--ts-this-bg-border);
+    background: var(--ts-this-bg);
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    align-self: flex-start;
+    height: var(--ts-tree-actionbar-h);
+    min-height: var(--ts-tree-actionbar-h);
+    flex: 1;
+    max-height: fit-content;
+    --ts-this-bg: var(--ts-bg-1);
+  }
+  /* Action-bar title + actions share a width budget (--_max-w ≈ 2
+     chip-sizes) so neither can bully the chip strip out of the row.
+     They differ in wrap behaviour:
+       - title  → flex-wrap: wrap so eyebrow lands on row 1 and the
+         "409 folders · 2012 files" stats land on row 2. Title can
+         SHRINK on wide viewports (flex: 0 1 auto + min-width: 0) so
+         it doesn't reserve --_max-w when the chips strip and actions
+         can fit the row natively — owner rule: "when fullscreen on
+         desktop make [the title] shrink so the other elements take
+         place, avoiding that giant empty space on the right".
+       - actions → flex-wrap: nowrap so the three icon buttons (filter
+         trigger, export, more) stay on a single horizontal line.
+         `margin-inline-start: auto` pins actions to the right edge
+         regardless of how much space the chips strip claims.
+     The chip strip uses max-content with a cap in the
+     @taxonomy_chips_strip block (no longer flex: 1) so the strip
+     doesn't manufacture empty space beyond its last chip. */
+  .ts-tree-explorer__actionbar-title,
+  .ts-tree-explorer__actionbar-actions {
+    --_max-w: calc(var(--ts-chip-size, var(--ts-btn-h) * 1) * 2);
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    line-height: 1;
+    font-size: 0.78em;
+    min-width: min-content;
+    flex-wrap: nowrap;
+    flex-direction: row;
+  }
+  .ts-tree-explorer__actionbar-title {
+    /* Title sizes to its content (BROWSING + stats line), padded on
+       both sides. Cap a bit above the 2-chip-size budget so a
+       longer stats line ("409 folders · 2012 files") doesn't clip
+       at desktop. flex-shrink: 0 so narrow viewports shrink the
+       chips strip (which has internal scroll) rather than squeezing
+       the title text. */
+    flex: 0 0;
+    width: auto;
+    max-width: 120px;
+    padding-inline-start: var(--ts-sp-4, 16px);
+    padding-inline-end: var(--ts-sp-4, 16px);
+    align-items: baseline;
+    align-content: stretch;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ts-tree-explorer__actionbar-actions {
+    flex: 0 0 auto;
+    max-width: var(--_max-w);
+    /* Actions sit immediately after the (now max-content-capped)
+       chips strip — NO margin-inline-start: auto. Pushing actions
+       to the right edge would re-create the "giant empty space on
+       the right" owner flagged. Extra row width sits to the right
+       of actions instead. */
+    padding-inline-end: var(--ts-sp-4, 16px);
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+  }
+
+  /* When the chips strip is hidden (data-overflow="trigger"), the
+     title and actions touch with no breathing room — that's the
+     "utterly horrifying" mobile state owner flagged. Add a visual
+     separator: title gets an inline-end border + padding, and
+     actions get a little extra padding on the inside edge. */
+  .ts-tree-explorer__actionbar[data-overflow="trigger"] .ts-tree-explorer__actionbar-title {
+    border-inline-end: 1px solid var(--ts-this-bg-border);
+    padding-inline-end: var(--ts-sp-4, 16px);
+  }
+  .ts-tree-explorer__actionbar[data-overflow="trigger"] .ts-tree-explorer__actionbar-actions {
+    padding-inline-start: var(--ts-sp-3, 12px);
+  }
+
+  /* ─── ROW 2: actionbar unified baseline ───────────────────────────
+     Inconsistencies resolved:
+       H        32px buttons   vs  58px chip strip container
+       R        7px  buttons   vs  0   chip strip container
+     Buttons get a scoped token; chip strip container takes only the
+     radius envelope so its rounded edge matches the row baseline.
+     Chips INSIDE stay locked to the @taxonomy_chips_strip docstring
+     (height calc, gradient mask, scroll behaviour, !important flags).
+     Border/BG/FS/Pad-x differences across action buttons and the chip
+     strip are intentional variants (chip strip surface, Export-with-
+     text vs icon-only width) and stay per owner's exception list. */
+  .ts-tree-explorer__actionbar {
+    --ts-tree-action-menu-h: 32px;
+    --ts-tree-action-menu-radius: var(--ts-btn-radius);
+  }
+  #ts-action-export,
+  #ts-action-more,
+  #ts-action-filter-overflow {
+    height: var(--ts-tree-action-menu-h);
+    border-radius: var(--ts-tree-action-menu-radius);
+  }
+  #ts-taxonomy {
+    /* Container envelope only — chip strip's own height stays
+       canonical (--ts-tree-actionbar-h - 2px = 58px) per the
+       @taxonomy_chips_strip docstring. We only normalise the radius
+       so its corners read as part of the same row baseline as the
+       buttons. */
+    border-radius: var(--ts-tree-action-menu-radius);
+  }
+
+  .ts-tree-explorer__actionbar-eyebrow {
+    font-family: var(--ts-font-mono);
+    font-size: 1em;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ts-text-secondary);
+    flex: 1 1 100%;
+    line-height: 1lh;
+    margin-bottom: -2px;
+    margin-right: auto;
+  }
+  .ts-tree-explorer__actionbar-stats {
+    font-family: var(--ts-font-mono);
+    font-size: 0.78rem;
+    color: var(--ts-text-secondary);
+    /* Keep "<b>409</b> folders · <b>2012</b> files" inline. Without
+       this the · separator falls onto its own line when the title's
+       max-width clamp kicks in. */
+    white-space: nowrap;
+  }
+  .ts-tree-explorer__actionbar-stats b {
+    font-weight: 600;
+    color: var(--ts-accent);
+  }
+
+  /* nav search width fits the input-group naturally inside the topbar
+  .ts-tree-explorer__search-group {
+  flex: 0 1 clamp(0px, 12rem, var(--ts-btn-h));
+  } */
+
+
+
+  /* ---- footer ---- */
+
+.ts-tree-explorer.tree--scroll .ts-tree-explorer__foot {
+    grid-row: 2;
+    grid-column: 1 / -1;
+	  align-items: center;
+	  align-content: center;
+}
+  .ts-tree-explorer__foot {
+    background: var(--ts-this-bg-dark);
+    --ts-this-bg-grad-dark-pct: 3%;
+
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--ts-sp-3, 12px);
+    padding: var(--ts-sp-4) var(--ts-tree-gutter);
+    border-top: 1px solid var(--ts-border-2);
+    font-family: var(--ts-font-mono);
+    font-size: 0.9em;
+    color: var(--ts-text-muted);
+
+    span {
+        font-size: 1em;
+        line-height: 1em;
+
+        >kbd {
+            font-family: var(--ts-font-mono);
+            background: var(--ts-this-bg-bright);
+            border: 1px solid var(--ts-this-bg-border);
+            border-radius: var(--ts-radius-4xs, 5px);
+            padding: 0.7em 0.8em;
+            color: var(--ts-text-secondary);
+            line-height: 1;
+            display: inline-flex;
+            font-size: 1em;
+            margin-inline: 2px;
+            height: 2.5em;
+            max-height: 2.5em;
+            min-width: 2.5em;
+            line-height: 1lh;
+            place-content: center;
+            align-self: center;
+
+        }
+
+
+        &:has(kbd) {
+            flex: 0 1 auto;
+        }
+
+        &:not(:has(kbd)) {
+
+            flex: 1 1 auto;
+
+        }
+    }
+
+
+
+  }
+ 
+  /* ---- small screens ---- */
+  @media (max-width: 640px) {
+    .ts-tree-explorer__brand {
+        width: auto;
+        /* max-width: var(--ts-nav-btn-h); */
+        /* overflow: hidden; */
+        flex: 0 1 var(--ts-nav-btn-h);
+        max-height: var(--ts-topbar-constrain);
+        text-overflow: ellipsis;
+        /* flex-wrap: wrap; */
+        font-size: 84%;
+    }
+
+    .ts-tree-explorer__search {
+        width: 100%;
+        order: 3;
+    }
+
+    .ts-tree-explorer__tools {
+        width: 100%;
+    }
+  }
+body:has(.ts-nav-fixed,.ts-topbar.fixed):not(:has(.ts-section.ts-hero,.ts-mobile-menu)) > section:not(.ts-hero,.hide-section):first-of-type {
+    padding-top: calc(var(--ts-topbar-h, 80px) + var(--ts-container-pad, var(--ts-sp-8)))!important;
+}
+
+/*
+# Toolskin Tree Component — Refinement Brief
+
+## Known issues in the current CSS (fix during merge)
+
+- **Duplicate `.ts-tree__meta` blocks** with conflicting `position`, `right`, `background`, and `border-radius` values. Consolidate into a single canonical rule — use the second block's positioning (`position: absolute; right: 35px`) as the base, drop the conflicting first block.
+- **Typo:** `--ts-tree-itemm-h` (double `m`). Rename to `--ts-tree-item-h` throughout.
+- **Typo:** `maxheight` (one word) in the `.ts-tree__children > .ts-tree__node::before` rule. Should be `max-height`.
+
+---
+
+## Primary goal: classic straight-line connectors
+
+Switch the connector style from curved to straight to match the classic `├── └──` tree look:
+
+- Set `--ts-tree-guide-radius: 0` → no rounded elbows
+- Make `--ts-tree-guide` slightly darker for better clarity
+- Keep lines thin but a touch more visible — small bump to `--ts-tree-guide-w` if needed
+- Target visual: sharp 90° joints, no smoothing, structural/technical feel rather than soft/organic
+
+Context: dark mode, compact density (tighter rows + tighter indentation).
+
+Everything else can stay as-is for now — curved connectors are the main readability issue. A variant with those settings should land very close to the reference.
+
+---
+
+## Additional issues
+
+### 1. Header + search bar
+- Replace the current header with the **fixed `topnav` component**.
+- Replace the existing (ugly) search bar with a Toolskin UI Kit pattern — pick whichever works better:
+  - **Input-group** with an inline icon, OR
+  - **`ts-ui-select`** with smart keyword/category filtering, dropdown populated dynamically with general categories, using the component's native search.
+- Use `ts-btn ts-btn--icon` with icon injection for all buttons.
+- Theme toggle: use the same one as the homepage or the banner generator (animated-label style or button style — both work).
+
+### 2. Restore child-element counters as twin badges
+Bring the per-row counter back, but as **two small horizontal badges** with inline icons:
+- **Folder count** (folder icon + number)
+- **File count** (file icon + number)
+
+The expand arrow should only appear on **hover, selected, or active** state. There's currently no active state — add one, and make it visually distinct from the selected state. When a folder is open, swap to the **open-folder icon** (already wired up in CSS, replacing the chat icon).
+
+### 3. Three-dot row action menu
+Add a three-dot dropdown menu per row with whatever row-level actions are feasible — depending on what the component can support.
+
+### 4. Layout: navbar overlap + intro section
+The first treemap row overlaps the header. Add top padding, and insert a component intro section after the navbar:
+- Title + short description
+- Two-column layout: docs on one side, a **`ts-code-window`** showing usage on the other
+
+### 5. Bulletproof connectors + standalone reusability
+When `--ts-tree-item-h` or row height grows, the connector lines break and leave gaps because they don't adapt. Merge my CSS but rewrite the connector logic so it's **bulletproof and fully adaptive** to any row height or indent.
+
+Also: make the component near-standalone so it can be used **outside the treemap context**. List all use cases (TOC, sitemap, settings outline, nav menu, etc.) and provide example layouts/designs for each.
+
+### 6. Automatic file-type icon assignment
+The current icon usage is great. Automate icon assignment by file extension in CSS or JS so users don't have to set anything per node.
+
+### 7. Export to multiple formats
+Make the tree exportable to **CSV, PDF, MD, JSON, and plain HTML** (the HTML export should render with no JS dependency for the viewer).
+
+Right now this only works on desktop via Python, which average users can't run. How can we integrate this into the design system as a **reusable client-side asset**?
+
+### 8. Action topbar above the tree
+Add a small action topbar above the treemap:
+- Flex row, `justify-between`
+- Short pre-title on one side
+- On the other side: a dropdown of action buttons, a select with options, OR a three-dot menu — whichever fits the available actions best
+
+---
+
+## Open question — enriched metadata + dedup
+
+After the initial scrape, is it possible to do a **second pass** over the mapped filenames to extract extra details (filename, date created, date modified, etc.), then run a **deduper** using those values + path + filename for basic matching — and export the result so an AI agent can review the full filtering?*/
+
+.ts-btn-group {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    align-items: stretch;
+    isolation: isolate;
+}
+.ts-btn-group > .ts-btn {
+    border-radius: 0;
+    position: relative;
+    min-height: unset;
+
+}
+
+.ts-btn-group > .ts-btn:first-child {
+    border-top-left-radius: var(--ts-btn-radius, var(--ts-radius-sm, 6px));
+    border-bottom-left-radius: var(--ts-btn-radius, var(--ts-radius-sm, 6px));
+}
+.ts-btn-group > .ts-btn:last-child {
+    border-top-right-radius: var(--ts-btn-radius, var(--ts-radius-sm, 6px));
+    border-bottom-right-radius: var(--ts-btn-radius, var(--ts-radius-sm, 6px));
+}
+.ts-btn-group > .ts-btn + .ts-btn {
+    margin-left: -1px;
+}
+#ts-topbar:not(:has(.ts-nav-fixed__links)) > * {
+    flex-shrink: 0;
+}
+
+#ts-topbar  .ts-input-group:has(input:focus,input:hover) {
+	   
+	--ts-this-bg: var(--ts-bg-2-t);
+--ts-navlink-input-color: var(--ts-text-primary);
+	}
+#ts-topbar .ts-input-group .ts-input {
+	 padding-left: calc(var(--ts-btn-h)*1 - var(--ts-btn-pad-y)*1);
+	    padding-right: var(--ts-btn-pad-y);
+	    height: revert-rule;
+	    max-height: var(--ts-btn-h);
+	    min-height: unset;
+    background: transparent!important;
+}
+#ts-topbar .ts-tree-explorer__search-group,
+#ts-topbar  .ts-input-group {
+    flex: 0 1 calc(var(--ts-btn-h)*1)!important;
+    min-width: auto;
+    max-width: min-content!important;
+    min-height:  var(--ts-btn-h);
+    max-height:  var(--ts-btn-h);
+    background: var(--ts-input-bg)!important;
+    border-color: var(--ts-input-border)!important;
+    outline-color: var(--ts-input-border)!important;
+    --ts-this-bg: var(--ts-bg-0);
+    --ts-input-bg: var(--ts-this-bg-dim-2);
+    --ts-input-border: var(--ts-this-bg-border-hover)!important;
+    --ts-input-radius: var(--ts-btn-radius);
+}
+
+/* @search_expandable — opt-in variant for an icon-only collapsed
+   search input that releases its width budget ON FOCUS ONLY.
+   Layered ON TOP of the base #ts-topbar .ts-input-group constraints
+   above (which keep the wrapper at icon-button size by default). The
+   .expandable class scopes this behaviour to the tree-explorer's
+   search; the base .ts-input-group elsewhere stays untouched.
+
+   Owner rule (revised): expansion fires on input:focus only — NOT
+   on :hover. Hovering an icon-only field that grows under the cursor
+   creates noisy mouse-over expansions; focus is the deliberate
+   interaction we want to gate on. */
+#ts-topbar .ts-input-group.expandable:has(input:focus),
+#ts-topbar .ts-tree-explorer__search-group:has(input:focus) {
+    flex: 0 1 clamp(12rem, 22vw, 18rem) !important;
+    max-width: clamp(12rem, 22vw, 18rem) !important;
+    transition: flex-basis var(--ts-dur-base, 200ms) var(--ts-ease-out, ease),
+                max-width var(--ts-dur-base, 200ms) var(--ts-ease-out, ease);
+}
+#ts-topbar .ts-input-group.expandable {
+    transition: flex-basis var(--ts-dur-base, 200ms) var(--ts-ease-out, ease),
+                max-width var(--ts-dur-base, 200ms) var(--ts-ease-out, ease);
+}
+
+
+/* @ts-topbar_tree_scope — structural block, must remain intact.
+   Single source for button + input sizing inside the tree-explorer
+   topbar. Owner's rules:
+     - .ts-btn uses min-height: var(--ts-btn-h) (NOT height:100% /
+       auto / aspect-ratio — those caused stretching regressions).
+     - .ts-input-group: padding:0, position:relative, the inner
+       .ts-input absorbs the padding instead, .ts-icon is absolutely
+       positioned (centered when collapsed via the :not(:has(focus))
+       rule), ::after pseudo is disabled.
+     - .ts-input-group:not(:has(input:focus)) keeps the input in
+       icon-only collapsed state (icon centered, field-sizing: fixed).
+     - .ts-input-group:has(input:focus) releases the input
+       (field-sizing: content + aspect-ratio: unset). */
+#ts-topbar:has([class*="ts-tree"]){
+.ts-btn {
+   --ts-btn-h: var(--ts-nav-btn-h);
+	min-height: var(--ts-btn-h);
+  background: var(--_btn-bg)!important;
+  border-color: var(--_btn-border)!important;
+  --_btn-bg: var(--ts-this-bg)!important;
+  --ts-this-bg: var(--ts-bg-0);
+  --_btn-border: var(--ts-this-bg-border-hover);
+
+
+
+	.ts-icon, > i{
+		font-size: 120%;
+			pointer-events: none;
+
+		}
+
+}
+.ts-btn::hover {
+	--_btn-bg: var(--ts-this-bg-grad)!important;
+
+}
+	.ts-btn.ts-btn--primary,
+	.ts-btn.is-active:hover,
+	.ts-btn.is-active {
+
+	--ts-this-bg: var(--ts-accent);
+		--_btn--color: var(--ts-on-accent)!important;
+
+		>i{
+			color: var(--_btn--color)!important;
+
+		}
+	}
+	 .ts-input-group{
+		padding: 0!important;
+		 position: relative;
+
+		 .ts-input {
+			    padding-left: calc(var(--ts-btn-h)*1 - var(--ts-btn-pad-y)*1);
+			    padding-right: var(--ts-btn-pad-y)!important;
+			    height: revert-rule;
+			    max-height: 100%;
+			    min-height: unset;
+				 background: transparent!important;
+				field-sizing: fixed;
+
+
+			}
+		 .ts-icon{
+			 pointer-events: none;
+			position: absolute;
+			top: 50%;
+			max-height: 1em;
+			line-height: 1lh;
+			transform: translatey(-50%);
+		 }
+
+		 &::after{
+			 display: none!important;
+		 }
+
+	}
+
+
+	 .ts-input-group:not(:has(input:focus)) {
+	--ts-this-bg: var(--ts-bg-1);
+
+		 .ts-input {
+
+			field-sizing: fixed;
+
+
+		}
+		.ts-icon{
+			left: 50%;
+			right: 50%;
+
+
+		}
+
+	}
+
+	  .ts-tree-explorer__search-group:has(input:focus),
+	.ts-input-group:has(input:focus)  {
+	   	--ts-this-bg: var(--ts-bg-3);
+--ts-navlink-input-color: var(--ts-text-primary);
+--ts-this-bg-border: var(--ts-this-bg-border-focus);
+		.ts-input {
+		    field-sizing: content;
+		aspect-ratio: unset;
+		}
+
+	}
+}
+
+ /* =================================================================
+     HEIGHT VARIANTS
+       .tree--scroll  (DEFAULT) — explorer is sized to the viewport
+                                  minus the sticky topnav and the action
+                                  bar that live above it; the body
+                                  scrolls internally so those bars stay
+                                  pinned.
+       .tree--static  (LEGACY)  — explorer grows naturally; the whole
+                                  page scrolls. Use for embeds or for
+                                  contexts where an internal scroll
+                                  region is unwanted.
+     ================================================================= */
+  .ts-tree-explorer.tree--scroll {
+    height: 100dvh;
+    max-height: calc(100dvh
+                     - var(--ts-topbar-h, 60px)
+                     - var(--ts-tree-actionbar-h, 3.25rem));
+    overflow: hidden;
+  }
+  .ts-tree-explorer.tree--scroll .ts-tree-explorer__body {
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  .ts-tree-explorer.tree--static {
+    height: auto;
+    max-height: none;
+    min-height: 60dvh;
+    overflow: visible;
+  }
+  .ts-tree-explorer.tree--static .ts-tree-explorer__body {
+    overflow-y: visible;
+  }
+
+  /* =================================================================
+     LAYOUT CONSTRAINT — topnav stays a single non-wrapping flex row.
+     Overflow is acceptable; wrapping is not.
+     ================================================================= */
+  #ts-topbar:has(#ts-tree-search) {
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+  #ts-topbar:has(#ts-tree-search) > * { flex-shrink: 0; }
+
+  /* @refactor-note:topbar-unification-2026-05-16
+     Future global refactor — truncate JS scope:
+
+     The ToolskinDynamicNav class in assets/js/toolskin.js (around
+     line 3818) queries primaryNav.querySelectorAll('a') only. The
+     tree-explorer's topbar uses <button> elements, so the truncate
+     is currently invisible to them and per-viewport overrides have
+     been layered on as a workaround.
+
+     Two paths to fix globally (deferred — not this session):
+
+       Path A (preferred — simpler):
+         Convert the tree-explorer topbar's <button> elements to
+         <a role="button" href="#"> with preventDefault click handlers.
+         The canonical truncate then picks them up automatically and
+         the per-viewport overrides can be removed.
+         Estimated: 5-10 min of HTML + JS adjustment.
+
+       Path B (more invasive):
+         Extend _formatMenuItem in toolskin.js to also handle <button>
+         elements. Touches global JS, requires testing across every
+         other instance that uses primary-nav truncate.
+
+     Why deferred: current task is CSS unification only. Markup/JS
+     change is a different category of risk that needs its own
+     focused session. */
+
+  /* ─── ROW 1: topbar unified baseline ──────────────────────────────
+     H / border / bg / fs / icon-fs / pad-x are already consistent
+     across the five standalone elements (47px, dark, 9.67px, 11.6px,
+     0/0). The only inconsistency is BORDER-RADIUS:
+       Info, Density       → 4.92px  (fallback to --ts-radius-xs)
+       Expand              → 6.96px  (via --ts-btn-radius)
+       Search wrapper      → 0       (inherited from .ts-nav-fixed__links)
+       Collapse            → 0/0/7/7 (segmented-control seam — KEEP, it's
+                                      an intentional .ts-btn-group variant)
+     Unify the four standalone elements on --ts-btn-radius (7px).
+     No new scoped tokens — the global one fits. */
+  #ts-tree-search.ts-input-group,
+  #ts-info-toggle,
+  #ts-density,
+  #ts-topbar:has(#ts-tree-search) .ts-btn-group,
+  #ts-topbar:has(#ts-tree-search) .theme-toggle {
+    border-radius: var(--ts-btn-radius);
+    height: calc(var(--ts-topbar-h) - var(--ts-topbar-pad-y) * 1) !important;
+    min-height: calc(var(--ts-topbar-h) - var(--ts-topbar-pad-y) * 1) !important;
+    max-height: calc(var(--ts-topbar-h) - var(--ts-topbar-pad-y) * 1) !important;
+  }
+  /* Search input width — targets the existing .ts-input-group component
+     from the design system; no bespoke wrapper class needed. A clamped
+     fixed width keeps the search readable but stops it from bullying
+     the rest of the topnav into a full-width strip. */
+  /* The .ts-input-group inside #ts-topbar uses the base design-system
+     sizing — no extra width/flex overrides. Owner rule: "the input
+     group should never have any extra flex 1 1 0, or max width or
+     min width or anything — it's working right without any extra
+     media query." */
+
+  /* The canonical mobile pattern (assets/css/toolskin.css line 14262)
+     hides .ts-nav-fixed__links below 868px because it expects a burger
+     menu to take over. Tree-explorer's primary menu holds action
+     controls (search, info, expand/collapse, density) that belong
+     inline at every viewport — override the hide rule. */
+  @media (max-width: 868px) {
+    #ts-topbar:has(#ts-tree-search) #ts-primary-menu.ts-nav-fixed__links { display: flex !important; }
+  }
+
+  /* =================================================================
+     RESPONSIVE  ·  below 600px the topnav and action-bar shed width.
+       - brand text + path collapse so only the brand icon ships;
+       - primary menu justifies flex-start so the leftmost toolbar
+         button stays visible when content overflows the .ts-nav-
+         truncate clip region;
+       - Export label hides so the icon-only Export button claims
+         less of the actionbar's --_max-w budget;
+       - the search input itself stays inline using the .expandable
+         opt-in variant — it sits collapsed as an icon-only square at
+         all viewports and releases its width on hover/focus.
+     ================================================================= */
+  @media (max-width: 600px) {
+    /* Pack the topnav at small viewports: shrink the brand to the
+       icon-only first slot (the path text is too long to read inline
+       on this width and the section header below restates the page
+       identity); justify primary at flex-start so the leftmost
+       toolbar button stays visible when content overflows.
+       The owner's truncate pattern would normally move overflow into
+       the navbar-extend dropdown via ToolskinDynamicNav, but that
+       helper only manages <a> children — the tree-explorer's primary
+       holds <button>s and we don't want to convert them. Until a
+       button-aware truncate ships, flex-start + the overflow:hidden
+       on .ts-nav-truncate keeps the leftmost (primary) controls
+       readable and clips any rightmost overflow.
+       The search input itself uses the .expandable opt-in variant —
+       see #ts-topbar .ts-input-group.expandable rule near line 32970. */
+    #ts-topbar .ts-tree-explorer__brand-text { display: none; }
+    #ts-topbar:has(#ts-tree-search) #ts-primary-menu.ts-nav-fixed__links {
+      justify-content: flex-start;
+    }
+
+    /* Hide the Export text label so the icon-only button claims less
+       of the actionbar's --_max-w budget; accessible name preserved
+       via the visually-hidden .ts-btn-text span. */
+    .ts-tree-explorer__actionbar-actions .ts-btn:not(.ts-btn--icon) .ts-btn-text {
+      position: absolute;
+      width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0);
+      white-space: nowrap; border: 0;
+    }
+  }
+
+  /* =================================================================
+     SEGMENTED CONTROL  ·  .ts-btn-group
+       Reusable horizontal group: shared seam, no inner radius, outer
+       corners keep their radius, mutually exclusive active state via
+       aria-pressed="true" or .is-active.
+     ================================================================= */
+  .ts-btn-group {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    align-items: stretch;
+    isolation: isolate;
+  }
+  .ts-btn-group > .ts-btn {
+    border-radius: 0;
+    position: relative;
+  }
+  .ts-btn-group > .ts-btn:first-child {
+    border-top-left-radius:    var(--ts-btn-radius, var(--ts-radius-sm, 6px));
+    border-bottom-left-radius: var(--ts-btn-radius, var(--ts-radius-sm, 6px));
+  }
+  .ts-btn-group > .ts-btn:last-child {
+    border-top-right-radius:    var(--ts-btn-radius, var(--ts-radius-sm, 6px));
+    border-bottom-right-radius: var(--ts-btn-radius, var(--ts-radius-sm, 6px));
+  }
+  .ts-btn-group > .ts-btn + .ts-btn { margin-left: -1px; }
+  .ts-btn-group > .ts-btn.is-active,
+  .ts-btn-group > .ts-btn[aria-pressed="true"] {
+    background: var(--ts-this-bg-hover,
+                    color-mix(in srgb, var(--ts-accent) 10%, transparent));
+    color: var(--ts-text-primary);
+    z-index: 1;
+  }
+  .ts-btn-group > .ts-btn:focus-visible { z-index: 2; }
+
+  /* Action bar reports its height token so .tree--scroll's calc works. */
+  .ts-tree-explorer__actionbar { min-height: var(--ts-tree-actionbar-h); }
+
+  /* Action-bar stays a single non-wrapping row at any width. The
+     chip strip sits between title + actions and is the elastic claimant
+     (flex: 1 1 var(--_chips-max-w) in @taxonomy_chips_strip). Title and
+     actions are width-budgeted by --_max-w on their own selector above. */
+  .ts-tree-explorer__actionbar { flex-wrap: nowrap; }
+
+  .ts-btn-text { display: inline-block; line-height: 1; }
+  .ts-btn--icon > .ts-btn-text { /* visually hidden but readable to AT */
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+
+  /* FLAT-LIST view — activated by taxonomy filter (and reusable for any
+     "search-results" surface). Hides folder rows + connector ornament,
+     collapses indentation so files render as a flat list. */
+  .ts-tree.ts-tree--flat .ts-tree__children { padding-left: 0; }
+  .ts-tree.ts-tree--flat .ts-tree__node--folder > .ts-tree__row { display: none; }
+  .ts-tree.ts-tree--flat .ts-tree__children > .ts-tree__node::before,
+  .ts-tree.ts-tree--flat .ts-tree__children > .ts-tree__node::after { display: none; }
+  .ts-tree.ts-tree--flat .ts-tree__node--file > .ts-tree__row .ts-tree__twist { display: none; }
+
+  /* Scroll-snap on the showcase column — when the page scrolls, snap to
+     intro / action bar / explorer boundaries so the user lands focused
+     on the explorer view rather than mid-section (user's refactor note). */
+  html { scroll-snap-type: y proximity; }
+  .ts-tree-explorer__intro,
+  .ts-tree-explorer__actionbar,
+  .ts-tree-explorer.tree--scroll { scroll-snap-align: start; }
+  /* ITER 5 ADDITIONS (preview sidebar grid + popover internals) and the
+     FLAT-LIST view live below near line 33425. An earlier duplicate
+     copy of those rules used to sit here too; removed 2026-05-17.
+     Search "@taxonomy_chips_strip" for the chips strip itself. */
+  .ts-tree-explorer__preview-frame iframe {
+    width: 100%; height: 100%;
+    border: 0;
+    background: var(--ts-bg-body);
+  }
+  .ts-tree-explorer__preview-fallback {
+    position: absolute; inset: 0;
+    display: grid; place-items: center; gap: var(--ts-sp-2, 8px);
+    padding: var(--ts-sp-4, 16px);
+    text-align: center;
+    color: var(--ts-text-muted);
+    font-family: var(--ts-font-mono);
+    font-size: 0.78rem;
+  }
+  .ts-tree-explorer__preview-fallback[hidden] { display: none; }
+  .ts-tree-explorer__preview-fallback i { font-size: 1.6rem; opacity: 0.55; }
+  .ts-tree-explorer__preview-meta {
+    padding: var(--ts-sp-2, 8px) var(--ts-sp-3, 12px);
+    border-top: 1px solid var(--ts-this-bg-border);
+    font-family: var(--ts-font-mono);
+    font-size: 0.7rem;
+    color: var(--ts-text-muted);
+    background: var(--ts-this-bg);
+  }
+
+ 
+  /* =================================================================
+     ITER 9 — perf + bug fixes (override toolskin.css for this page).
+       • Drop tree transitions (no anim on hover/select/expand).
+       • Neutralise the :has(> .ts-tree__row:hover) connector accent —
+         it re-evaluates across the whole tree on every pointer move,
+         which is the main cause of the sluggishness reported here.
+         Selection-state accent still works via [aria-selected].
+       • content-visibility: auto lets the browser skip rendering
+         offscreen subtrees in long, expanded trees.
+     ================================================================= */
+  .ts-tree__row,
+  .ts-tree__label,
+  .ts-tree__icon,
+  .ts-tree__twist,
+  .ts-tree__meta { transition: none !important; }
+
+  .ts-tree__node:has(> .ts-tree__row:hover)::before,
+  .ts-tree__node:has(> .ts-tree__row:hover)::after {
+    background: var(--ts-tree-guide) !important;
+    border-color: var(--ts-tree-guide) !important;
+  }
+
+  .ts-tree__children {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 var(--ts-tree-row-h);
+  }
+
+  /* Intro toggle — section animates to height:0 when the topnav info
+     button adds .hide-section. Generic class; reusable elsewhere. */
+  .ts-tree-explorer__intro {
+    overflow: hidden;
+    transition: max-height 220ms ease, padding 220ms ease, border-color 220ms ease;
+    max-height: 2000px;                /* large enough to fit content */
+  }
+  .ts-tree-explorer__intro.hide-section {
+    /* !important needed to defeat the inline style="max-height: fit-content"
+       the owner placed on the section. Scoped to this state class only. */
+    max-height: 0 !important;
+    padding-block: 0 !important;
+    border-bottom-color: transparent !important;
+  }
+#ts-topbar:not(:has(.ts-nav-fixed__links)) .theme-toggle {
+	margin-left: 0!important;
+  border-left-width: 1px!important;
+}
+
+  /* Action bar reports its height token so .tree--scroll's calc works. */
+  .ts-tree-explorer__actionbar { min-height: var(--ts-tree-actionbar-h); 
+	border-color: var(--ts-this-bg-border-hover)!important;
+
+							   }
+  /* =================================================================
+     ITERATION 4 ADDITIONS (migrate to toolskin.css when ready):
+       • .ts-btn-text         — consistent text wrapper inside buttons
+       • Taxonomy chip strip  — live filter list in the action bar
+       • .ts-tree--flat       — flat-list view used by taxonomy + search
+       • Scroll-snap on the showcase column (intro/action/explorer)
+     ================================================================= */
+
+  .ts-btn-text { display: inline-block; line-height: 1; }
+  .ts-btn--icon > .ts-btn-text { /* visually hidden but readable to AT */
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+
+  /* Taxonomy filter strip — uses the design-system .ts-chips container
+     and .ts-chip items from toolskin.css. The only thing layered in
+     OWNER CODE FIXES> here i customized  and improved the cotnainer of  the chisl adn actionsbar. here is action-bar layout safety so the strip CAN NOT push the
+     Export / row-actions siblings out of view at any width. */
+  .ts-tree-explorer__actionbar { flex-wrap: nowrap; }
+
+
+  /* FLAT-LIST view — activated by taxonomy filter (and reusable for any
+     "search-results" surface). Hides folder rows + connector ornament,
+     collapses indentation so files render as a flat list. */
+
+  .ts-tree.ts-tree--flat .ts-tree__children { padding-left: 0; }
+  .ts-tree.ts-tree--flat .ts-tree__node--folder > .ts-tree__row { display: none; }
+  .ts-tree.ts-tree--flat .ts-tree__children > .ts-tree__node::before,
+  .ts-tree.ts-tree--flat .ts-tree__children > .ts-tree__node::after { display: none; }
+  .ts-tree.ts-tree--flat .ts-tree__node--file > .ts-tree__row .ts-tree__twist { display: none; }
+
+  /* Scroll-snap on the showcase column — when the page scrolls, snap to
+     intro / action bar / explorer boundaries so the user lands focused
+     on the explorer view rather than mid-section (user's refactor note). */
+  html:has(.ts-tree-explorer) { scroll-snap-type: y proximity; }
+  .ts-tree-explorer__intro,
+  .ts-tree-explorer__actionbar,
+  .ts-tree-explorer.tree--scroll { 
+	  scroll-snap-align: start; 
+  }
+  /* Height constraint for .tree--scroll — caps the explorer at the
+     viewport minus the topbar + action bar so its internal grid (body
+     + preview + footer) gets a known box to fill. Kept separate from
+     the grid declaration below so the height rule is easy to find
+     when retuning the topbar/action-bar token math. */
+  .ts-tree-explorer.tree--scroll {
+    height: 100dvh;
+    max-height: calc(100dvh
+                     - var(--ts-topbar-h, 60px)
+                     - var(--ts-tree-actionbar-h, 3.25rem));
+    overflow: hidden;
+  }
+
+  /* =================================================================
+     ITER 5 ADDITIONS
+       • Preview sidebar (grid sibling of <main> inside the explorer)
+       • Three-dot row action menu (popover, positioned by JS)
+       • Export menu (popover, positioned by JS)
+     ================================================================= */
+
+  /* Explorer becomes a grid when .tree--scroll: one column normally,
+     two columns when data-preview-visible="true". The body owns its own
+     overflow; the preview owns its own overflow. Footer spans all cols. */
+  .ts-tree-explorer.tree--scroll {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+  .ts-tree-explorer.tree--scroll[data-preview-visible="true"] {
+    grid-template-columns: minmax(0, 1fr) clamp(280px, 38vw, 560px);
+  }
+  .ts-tree-explorer.tree--scroll .ts-tree-explorer__body {
+    grid-row: 1; grid-column: 1; min-width: 0;
+  }
+  .ts-tree-explorer.tree--scroll .ts-tree-explorer__preview {
+    grid-row: 1; grid-column: 2;
+    min-width: 0;
+    overflow: hidden;
+    border-left: 1px solid var(--ts-this-bg-border);
+    background: var(--ts-this-bg);
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+  .ts-tree-explorer.tree--scroll[data-preview-visible="false"]
+    .ts-tree-explorer__preview { display: none; }
+  .ts-tree-explorer.tree--scroll .ts-tree-explorer__foot {
+    grid-row: 2; grid-column: 1 / -1;
+  }
+
+  /* Mobile: collapse the explorer's 2-column grid to a vertical stack.
+     At <=600px the preview's clamp(280px,...) min would force the tree
+     column to about 60-100px (unreadable). Body lives on row 1, preview
+     drops to row 2 when open, footer slides to row 3. The intro's own
+     2-column docs+code grid already collapses to a single column at
+     <=960px via the .ts-tree-explorer__intro media query (see line ~32675). */
+  @media (max-width: 600px) {
+    .ts-tree-explorer.tree--scroll[data-preview-visible="true"] {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto;
+    }
+    .ts-tree-explorer.tree--scroll[data-preview-visible="true"]
+      .ts-tree-explorer__preview {
+      grid-row: 2; grid-column: 1;
+      border-left: 0;
+      border-top: 1px solid var(--ts-this-bg-border);
+    }
+    .ts-tree-explorer.tree--scroll[data-preview-visible="true"]
+      .ts-tree-explorer__foot {
+      grid-row: 3;
+    }
+    /* Tighten intro padding so the section can shrink alongside the
+       tree column instead of pinning the page at the clamp's outer
+       value. */
+    .ts-tree-explorer__intro {
+      padding: clamp(var(--ts-sp-5, 20px), 8dvw, var(--ts-sp-8, 32px)) var(--ts-sp-4, 16px);
+    }
+  }
+
+  /* Preview sidebar internals --------------------------------------- */
+  .ts-tree-explorer__preview-header {
+    display: flex;
+    align-items: center;
+    gap: var(--ts-sp-2, 8px);
+    padding: var(--ts-sp-2, 8px) var(--ts-sp-3, 12px);
+    border-bottom: 1px solid var(--ts-this-bg-border);
+    background: var(--ts-this-bg-bright);
+  }
+  .ts-tree-explorer__preview-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-family: var(--ts-font-mono);
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--ts-text-primary);
+  }
+  .ts-tree-explorer__preview-frame {
+    position: relative;
+    min-height: 0;
+    background: var(--ts-bg-body, #0c0d0f);
+    overflow: hidden;
+  }
+  .ts-tree-explorer__preview-frame iframe {
+    width: 100%; height: 100%;
+    border: 0;
+    background: var(--ts-bg-body);
+  }
+  .ts-tree-explorer__preview-fallback {
+    position: absolute; inset: 0;
+    display: grid; place-items: center; gap: var(--ts-sp-2, 8px);
+    padding: var(--ts-sp-4, 16px);
+    text-align: center;
+    color: var(--ts-text-muted);
+    font-family: var(--ts-font-mono);
+    font-size: 0.78rem;
+  }
+  .ts-tree-explorer__preview-fallback[hidden] { display: none; }
+  .ts-tree-explorer__preview-fallback i { font-size: 1.6rem; opacity: 0.55; }
+  .ts-tree-explorer__preview-meta {
+    padding: var(--ts-sp-2, 8px) var(--ts-sp-3, 12px);
+    border-top: 1px solid var(--ts-this-bg-border);
+    font-family: var(--ts-font-mono);
+    font-size: 0.7rem;
+    color: var(--ts-text-muted);
+    background: var(--ts-this-bg);
+  }
+
+
+  body:has(.ts-tree-explorer){
+
+	   /* Popover menus (row actions + export)  ORIGINAL VERSION (OVERRDIED, GENWERAte a  claSS VARIANT WITH THIS BLOCK      and  remove duplciated   declarations  usign a core rule and then applyign the tokenized parameters on each variant. below are the instructions for the current   canonical compoonent designed.,  this one will noi be staged will be just adjusted to be a proper designed alternative along with the requiested.) ----------------------------- */
+  .ts-tree-popover {
+    position: fixed;
+    z-index: 1000;
+    min-width: 220px;
+    padding: var(--ts-sp-1, 4px);
+    background: var(--ts-this-bg-bright);
+    border: 1px solid var(--ts-this-bg-border);
+    border-radius: var(--ts-radius-sm, 6px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    font-family: var(--ts-font-body);
+
+
+
+	    .ts-tree-popover__item {
+		    display: flex;
+		    align-items: center;
+		    gap: var(--ts-sp-2, 8px);
+		    width: 100%;
+		    padding: 0.45em 0.7em;
+		    background: transparent;
+		    border: 0;
+		    border-radius: var(--ts-radius-xs, 4px);
+		    color: var(--ts-text-secondary);
+		    font-size: 0.82rem;
+		    line-height: 1.2;
+		    text-align: left;
+		    cursor: pointer;
+		    transition: background var(--ts-dur-fast, 160ms) ease,
+		                color var(--ts-dur-fast, 160ms) ease;
+		  }
+		  .ts-tree-popover__item:hover,
+		  .ts-tree-popover__item:focus-visible {
+		    background: var(--ts-this-bg-hover);
+		    color: var(--ts-text-primary);
+		    outline: none;
+		  }
+		  .ts-tree-popover__item:disabled {
+		    opacity: 0.4;
+		    cursor: not-allowed;
+		  }
+		  .ts-tree-popover__item i {
+		    width: 1.1em;
+		    text-align: center;
+		    color: var(--ts-text-muted);
+		  }
+		  .ts-tree-popover__item:hover i { color: var(--ts-accent); }
+		  .ts-tree-popover__sep {
+		    margin: var(--ts-sp-1, 4px) 0;
+		    border-top: 1px solid var(--ts-this-bg-border);
+		  }
+  }
+  .ts-tree-popover[hidden] { display: none; }
+
+/* END OF THE OLD VERISON TO  TURN INTO A VARIANT. */
+/* 
+NOTE — This block represents a sample tokenization pass for the main variant.
+
+All styles have now been moved into `toolskin.css`, which simplifies the system
+and makes iteration easier. The current design is close to the intended result.
+
+IMPORTANT:
+- Do NOT delete the previous block.
+- It serves as the legacy version of the popup panel (pre-tokenization).
+
+Purpose of this structure:
+1. Preserve the original implementation as a reference baseline.
+2. Define a core version using attributes + tokens.
+3. Build variants by overriding token values only (not structural rules).
+
+Architecture approach:
+- Each class defines a scoped, nested ruleset.
+- Variants inherit shared structural properties.
+- Differences between variants are controlled exclusively through token values.
+- This ensures consistency, composability, and predictable overrides.
+
+In short:
+Core = structure + tokens
+Variants = token overrides only
+*/
+	  
+/* NOTE — VARIANT WORK PENDING (see step 4):
+Current state is one new variant. The rule directly below should be
+wired to a conditional modifier class that toggles
+border-bottom-width 0 -> 1px for the bulleted variant.*/
+
+	  
+.ts-tree-popover {
+   position: fixed;
+   z-index: 1000;
+   min-width: var(--ts-popover-w);
+   padding: 0;
+   background: var(--ts-popover-bg);
+   border: 1px solid var(--ts-popover-border);
+   border-color: var(--ts-popover-border);
+   --ts-popover-rad: var(--ts-radius-sm, 6px);
+   --ts-popover-border: var(--ts-border-2);
+   --ts-popover-bg: var(--ts-this-bg-dim);
+   --ts-popover-bg-surface: var(--ts-bg-0);
+   --ts-popover-bg-surface-alt: var(--ts-bg-1);
+   --ts-popover-color: var(--ts-text-secondary);
+   --ts-popover-icon: var(--ts-text-muted);
+
+   --ts-popover-active: var(--ts-text-accent);
+   --ts-popover-w: 220px;
+   --ts-popover-item-bg: var(--ts-this-bg-dim);
+   --ts-popover-item-pad: var(--ts-sp-4) var(--ts-sp-3);
+
+   --ts-popover-fs: .85em;
+   --ts-popover-lh: 1rem;
+
+   box-shadow: var(--ts-shadow-2);
+   font-family: var(--ts-font-mono);
+   --ts-this-bg: var(--ts-popover-bg-surface);     /*NOTE: hardforced, eliminate per step 3*/
+   backdrop-filter: blur(var(--ts-backdrop-blur-2));
+	overflow: hidden;
+	 color: var(--ts-popover-color);
+   font-size: var(--ts-popover-fs);
+   line-height: var(--ts-popover-lh);
+
+
+
+
+	  .ts-tree-popover__item{
+		  font-size: inherit;
+		  line-height: inherit;
+		  color: inherit;
+		  border-color: inherit;
+		  border-radius: 0;
+		   gap: var(--ts-sp-2);
+		   width: 100%;
+		   border: 0px solid var(--ts-popover-border);
+		   text-align: left;
+
+		   cursor: pointer;
+			display: flex;
+		   align-items: center;
+			 transition: background var(--ts-dur-fast, 160ms) ease,
+			   color var(--ts-dur-fast, 160ms) ease;
+			padding: var(--ts-popover-item-pad);
+	  }
+
+	   .ts-tree-popover__item:not(:last-child, :has(+ .ts-tree-popover__sep)){
+		   border-bottom-width: 1px;
+	   }
+
+	   .ts-tree-popover[hidden] { display: none; }
+
+
+	   .ts-tree-popover__item:hover,
+	   .ts-tree-popover__item:focus-visible {
+		--ts-this-bg: var(--ts-popover-bg-surface);
+			background: var(--ts-popover-item-bg);
+
+		   --ts-popover-color: var(--ts-text-primary);
+		   outline: none;
+	   }
+
+	   .ts-tree-popover__item:disabled {
+		   opacity: 0.4;
+		   cursor: not-allowed;
+	   }
+
+	   .ts-tree-popover__item i {
+		   width: 1.1em;
+		   text-align: center;
+		   --ts-popover-color: var(--ts-popover-icon);
+	   }
+
+	   .ts-tree-popover__item:hover i { 
+		   --ts-popover-icon: var(--ts-popover-active); 
+	   }
+
+	   .ts-tree-popover__sep {
+		   margin: var(--ts-sp-0, 0px) 0;
+		   --ts-sp-0: 0px;                   /*NOTE: hardforced, eliminate per step 3*/
+		   border-top: 1px dashed var(--ts-popover-border);
+	   }
+   }
+/* @taxonomy_chips_strip — KEEP design output identical; refactor structure only
+   ------------------------------------------------------------------------------
+   THIS IS A PERSONALIZED, PERFECTED DESIGN. Visual output must remain pixel-
+   identical. Only improve token usage, scoping, and reusability — do not
+   redesign.
+
+   KEY STYLE FACTORS TO PRESERVE (must survive any refactor):
+   - Border-inline frame + bordered surface using `--ts-this-bg-border`.
+   - Horizontal flex strip, `flex-wrap: nowrap`, `min-width: 0`, single-row.
+   - Height locked to `calc(var(--ts-tree-actionbar-h) - 2px)` so the strip
+     aligns to the action-bar row without overflowing it.
+   - The two edge-fade gradients (left/right) that signal scrollable content:
+       * `--_grad_dark` = color-mix of `--ts-this-bg-dark-2` + 30% transparent
+       * `--_grad_bg`   = color-mix of `--ts-this-bg-dark-1` + 90% transparent
+       * Fade width tokenized via `--_-grad-w` (currently 25px)
+       * `--ts-this-bg-grad-dark-pct: 2%` — global dark-variant intensity knob.
+         This is a well-built global token that scales the `--ts-this-bg-dark-*`
+         family in both light and dark mode without spawning new rules or
+         variant tokens. KEEP IT — do not refactor away as "unused"; its
+         effect lands through the global dark-variant pipeline, not through
+         a direct reference in this rule.
+     These are the visual cue that the strip is scrollable. Do not remove.
+   - `--ts-this-bg: var(--ts-bg-1)` surface re-scoping so children inherit the
+     correct contextual background.
+   - Width-priority: `flex: 1 1 var(--_chips-max-w)` so the strip claims the
+     row's available space ahead of its siblings.
+   - `--_chips-max-w: calc(100% - (var(--ts-chip-size, var(--ts-btn-h)*2)*1))`
+     The fallback math is intentional. `--ts-chip-size` is defined on other
+     scopes but not on this one — for this strip, the fallback expression
+     `var(--ts-btn-h)*2` evaluates to the equivalent value. Leave the
+     expression as written. Do not "simplify" the `*1`, do not collapse the
+     fallback, do not pull `--ts-chip-size` onto this scope.
+
+   COLOR USAGE — WHY THESE TOKENS:
+   - `--ts-this-bg-dark`     → base surface, one step darker than the action
+                                bar to recess the strip visually.
+   - `--ts-this-bg-dark-1/2` → gradient stops; -1 is the near-transparent
+                                interior, -2 is the opaque edge fade. Mixed
+                                with `transparent` so the fade reads against
+                                whatever the parent surface is (no hardcoded
+                                color baked in).
+   - `--ts-this-bg-border`   → frame matches every other tokenized container
+                                in the system; do not swap for a literal.
+   - `--ts-this-bg: var(--ts-bg-1)` → re-scopes the surface context so chip
+                                children resolve their own `--ts-this-*` tokens
+                                against the right background tier.
+
+   ------------------------------------------------------------------------------
+   REFACTOR REQUIREMENTS
+   ------------------------------------------------------------------------------
+
+   1. SCOPED ROOT TOKEN SETUP (chips variant)
+      Wrap the chip-level overrides on this component into a scoped root token
+      block — same pattern used in every other asset-layer refactor. The
+      chips here must INHERIT the original `.ts-chips` tokens and only swap
+      the values that this variant changes (height, padding, gap, surface
+      context). No new unique selectors per chip; the variant is a token
+      swap on the existing `.ts-chips` base.
+
+      Goal: stop fighting `.ts-chips` styling with overrides. Make this
+      instance a tokenized variant of `.ts-chips`, not a re-style of it.
+
+   2. HORIZONTAL SCROLL — REPLACE THE CURRENT METHOD
+      The native `overflow-x: auto` here is not intuitively scrollable — the
+      content truncates without inviting interaction. Solve with either:
+        a. A better CSS-only method (scroll-driven affordance, scroll buttons
+           pinned to the gradient edges, or pointer-drag scrolling), OR
+        b. A small JS module that wires drag-to-scroll + edge buttons.
+      Whatever method is chosen, expose it as a GLOBAL reusable asset —
+      e.g. `.ts-scrollstrip` or `.ts-actionbar-scroll` — usable by any
+      "scrollable navigation / filter bar / nested-action row" elsewhere in
+      the system. This component then composes that asset, it does not
+      redefine the behavior.
+
+   3. TRUNCATION DROPDOWN (accessibility companion)
+      `toolskin.js` already ships a truncation-dropdown helper. Wire it into
+      this strip so a "more filters" / overflow trigger appears beside the
+      scrollable region. Users who cannot or do not want to scroll get a
+      dropdown surfacing the truncated chips. The trigger should be a
+      tokenized icon button matching the action-bar's icon-button size.
+
+   4. ROW SIBLING SHRINK / COLLAPSE PRIORITY
+      This strip needs WIDTH PRIORITY over the other two siblings on its
+      row. Add media queries (or container queries — preferred if the row
+      is a CQ context) so that as the row narrows:
+        - Sibling buttons collapse to icon-only mode.
+        - Any sibling container shrinks, yielding horizontal space.
+        - This strip retains its `flex: 1 1 var(--_chips-max-w)` claim and
+          grows into the freed space.
+      The shrink behavior on siblings must be implemented via existing
+      icon-button + collapse tokens, not new one-off rules on this component.
+
+   5. CHIP STYLING INHERITANCE
+      The chips inside this strip must inherit every token and state style
+      from the base `.ts-chips` chip rules. The current customization fights
+      that inheritance. After the scoped root token setup in #1, the chip
+      children should style themselves automatically — no per-chip overrides
+      inside this selector.
+
+   ------------------------------------------------------------------------------
+   GUARDRAILS — !important CLEANUP + DEDUP PROCEDURE
+   ------------------------------------------------------------------------------
+   - Visual output is locked. If a refactor changes the rendered result,
+     revert the refactor.
+   - No new unique selectors per use case. Token-driven, few classes,
+     using the scoped-root pattern shown in this block.
+
+   - Both `!important` declarations on the gradient/background are present
+     ONLY because base `.ts-chips` rules in toolskin.css currently win, and
+     because the HTML still drops head-level styles. The cleanup order is:
+         a. Remove the migrated CSS from the HTML <head> first.
+         b. Dedupe redundant `.ts-chips` rules inside toolskin.css so this
+            instance's declarations land naturally in the cascade and no
+            longer need `!important`.
+         c. Only then remove the `!important` flags here.
+     Do not skip steps or reorder them.
+
+   - VISUAL PARITY PROTOCOL (required, no exceptions):
+       1. Snapshot the rendered output BEFORE any change — full strip in
+          both light and dark mode, both empty and populated states,
+          scrolled and unscrolled. Save snapshots in `_bu\` with a clear
+          timestamp + label.
+       2. Implement the refactor.
+       3. Snapshot again under the exact same conditions.
+       4. Diff the before/after snapshots pixel-by-pixel. If anything
+          changed — gradient softness, fade width, chip alignment, border
+          color, height, anything — fix and re-snapshot until parity is
+          confirmed.
+       5. Only commit once the final diff is clean.
+*/
+#ts-taxonomy.ts-chips {
+	-webkit-mask-image:  none!important;
+	mask-image: none!important;
+	border-inline: 1px solid var(--ts-this-bg-border);
+	display: flex;
+	align-items: stretch;
+	justify-content: flex-start;
+	max-height: calc(var(--ts-tree-actionbar-h) - 2px);
+	padding: var(--ts-sp-3);
+	border-color: var(--ts-this-bg-border);
+	background-color: var(--ts-this-bg-dark-1);
+	--ts-this-bg-grad-dark-pct: 13%;
+	background-image: linear-gradient(to right,var(--_grad_dark) 0, 
+	var(--_grad_bg) var(--_-grad-w), 
+	var(--_grad_bg) calc(100% - var(--_-grad-w)), 
+	var(--_grad_dark) 100%);
+	--_-grad-w: 20px;
+	--_grad_bg: color-mix(in srgb,var(--ts-this-bg-dim), transparent 50%);
+	--_grad_dark: color-mix(in srgb,var(--ts-this-bg-dark), #00000000 15%);
+	min-height: unset;
+	height: calc(var(--ts-tree-actionbar-h) - 2px);
+	flex: 1 1 var(--_chips-max-w);
+	flex-wrap: nowrap;
+	min-width: 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+	scrollbar-width: none;
+	scroll-snap-type: inline;
+	-webkit-overflow-scrolling: touch;
+	touch-action: pan-y;
+	--_chips-max-w: calc(100% - (var(--ts-chip-size, var(--ts-btn-h)*2)*1));
+	--ts-chip-border:  color-mix(in srgb, currentcolor, transparent 80%);
+	--ts-chip-border-active:  color-mix(in srgb, currentcolor 30%, var(--ts-text-primary-dim) 80%);
+	border-radius: 0;
+	}
+     
+	  
+  #ts-taxonomy.ts-chips > .ts-chip {
+	  scroll-snap-align: start; 
+		--ts-chip-bg: var(--ts-this-bg-dim);
+	  border-color: var(--ts-chip-border);
+	  
+		&:first-child{
+			margin-left: 1em;
+		}
+	  &:last-child{
+			margin-right: 1em;
+		}
+
+	  small {
+	    margin-left: -0.04rem;
+	    margin-right: -0.05em;
+	    opacity: .9;
+	    font-size: .8em;
+	    font-variant-numeric: tabular-nums;
+	    letter-spacing: 0.005rem;
+	    display: inline-flex;
+	    align-self: center;
+	    align-items: center;
+	    align-content: center;
+	    flex-wrap: nowrap;
+	    justify-content: center;
+	    font-weight: 700;
+  
+		  &:before, &:after{
+			  display: inherit;
+			  line-height: .8em;
+				align-self: center;
+			  align-items: center;
+		  align-content: center;
+			  font-size: .8em;
+	
+		  }
+	
+		  &:before{
+			  content: "[";
+		  }
+		   &:after{
+			  content: "]";
+		  }
+	  }
+
+	  &[aria-selected="true"]  {
+	--ts-this-bg: var(--ts-accent-border-hover);
+	--ts-chip-border: var(--ts-chip-border-active);
+	 --ts-chip-bg: var(--ts-chip-active-bg);
+	  	color: var(--ts-chip-color-active);
+    --ts-chip-color: var(--ts-on-accent);
+
+	  small {
+		  opacity: 1;
+		 }
+  }
+
+	  &.ts-chip:not([aria-selected="true"]) {
+    --ts-this-bg: var(--ts-bg-0);
+    background: var(--ts-chip-bg);
+    border-color: var(--ts-chip-border);
+	color: var(--ts-chip-color);
+    --ts-chip-color: var(--ts-text-secondary);
+
+  }
+	  
+  }
+ 
+
+  /* Idle chip color — toolskin.css line 7567 paints non-active chips
+     with --ts-accent-bright AND reassigns --ts-this-bg to accent (which
+     made the border derive from accent and read loud). Override both:
+     reset --ts-this-bg to the page surface so its derivatives are
+     muted, then pin color/background/border to neutral tokens. The
+     active state still wins via the [aria-selected="true"] rule. */
+  #ts-taxonomy.ts-chips > .ts-chip:not([aria-selected="true"]) {
+    --ts-this-bg: var(--ts-bg-0);
+    background: var(--ts-chip-bg);
+    border-color: color-mix(in srgb, var(--ts-text-muted) 35%, transparent);
+	color: var(--ts-chip-color);
+    --ts-chip-color: var(--ts-text-muted);
+
+  }
+  #ts-taxonomy.ts-chips > .ts-chip:not([aria-selected="true"]):hover {
+     --ts-chip-color: var(--ts-text-primary);
+     --ts-chip-bg: var(--ts-chip-bg-hover);
+    border-color: color-mix(in srgb, var(--ts-text-muted) 55%, transparent);
+  }
+
+  /* The .ts-btn--icon rule sets `display: flex`, which beats the
+     browser default `[hidden] { display: none }` rule. Restore the
+     hidden semantic with explicit !important so the JS can use the
+     stock `el.hidden = true` setter. */
+  #ts-action-filter-overflow[hidden] { display: none !important; }
+
+  /* When the filter overflow trigger is the active surface (data-overflow
+     ="trigger" applied by JS), hide the chips strip entirely. Both
+     surfaces showing at once produces a confusing half-clipped chip
+     beside the icon — owner's UX rule: one or the other, never both. */
+  .ts-tree-explorer__actionbar[data-overflow="trigger"] #ts-taxonomy.ts-chips {
+    display: none;
+  }
+
+  /* @taxonomy_chips_strip — TRUNCATION DROPDOWN companion (docstring §3).
+     When the chip strip is too narrow to show the filters inline, the
+     #ts-action-filter-overflow trigger surfaces them through this popover.
+     Visual contract: reuse the .ts-tree-popover skin already used by the
+     row menu + export menu so the three popovers look like one family.
+     Each item is a menuitemradio with a label + count <small>, matching
+     the inline chip's "LABEL [count]" shape via the same bracket pseudo-
+     elements. Active filter is communicated with aria-checked="true"
+     (mirrors the chip's aria-selected). */
+  .ts-tree-popover--overflow {
+    min-width: 14rem;
+    max-height: min(60dvh, 28rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  .ts-tree-popover--overflow .ts-tree-popover__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ts-sp-3);
+    font-family: var(--ts-font-mono, inherit);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .ts-tree-popover--overflow .ts-tree-popover__item small {
+    font-family: var(--ts-font-mono, inherit);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    font-size: 0.85em;
+    opacity: 0.7;
+  }
+  .ts-tree-popover--overflow .ts-tree-popover__item small::before { content: "["; }
+  .ts-tree-popover--overflow .ts-tree-popover__item small::after  { content: "]"; }
+  .ts-tree-popover--overflow .ts-tree-popover__item[aria-checked="true"] {
+    --ts-popover-bg: var(--ts-this-bg-bright);
+    --ts-popover-color: var(--ts-text-primary);
+    color: var(--ts-text-primary);
+    background: var(--ts-this-bg-bright);
+  }
+  .ts-tree-popover--overflow .ts-tree-popover__item[aria-checked="true"] small { opacity: 1; }
+
+  /* @taxonomy_chips_strip — width-mode override (owner directive
+     2026-05-17). The protected block above uses `flex: 1 1
+     var(--_chips-max-w)` so the strip claims the row's available
+     space. Owner's latest rule:
+       "the filters should have max-content width there sticked to
+        the max amount of buttons and a max standard value if the
+        buttons are more than the expected, but avoiding that giant
+        empty space on the right."
+     Translation: strip sizes to its content; cap at a sensible
+     maximum so a future huge taxonomy can't run off the page; let
+     actions sit immediately after the last chip instead of leaving
+     a vacuum between the strip and the actions group.
+     Override is a separate rule so the protected block stays intact
+     and an audit trail is preserved. */
+  #ts-taxonomy.ts-chips {
+    flex: 0 1 max-content;
+    /* Cap at 16 chip-sizes — fits the current 14-chip taxonomy with
+       room to breathe; bigger taxonomies (rare) scroll inside the
+       capped strip with the built-in mask-image fade hint. */
+    max-width: min(100%, calc(var(--ts-chip-size, var(--ts-btn-h) * 2) * 16));
+  }
+
+  /* =================================================================
+     ITER 9 — perf + bug fixes (override toolskin.css for this page).
+       • Drop tree transitions (no anim on hover/select/expand).
+       • Neutralise the :has(> .ts-tree__row:hover) connector accent —
+         it re-evaluates across the whole tree on every pointer move,
+         which is the main cause of the sluggishness reported here.
+         Selection-state accent still works via [aria-selected].
+       • content-visibility: auto lets the browser skip rendering
+         offscreen subtrees in long, expanded trees.
+     ================================================================= */
+  .ts-tree__row,
+  .ts-tree__label,
+  .ts-tree__icon,
+  .ts-tree__twist,
+  .ts-tree__meta { transition: none !important; }
+
+  .ts-tree__node:has(> .ts-tree__row:hover)::before,
+  .ts-tree__node:has(> .ts-tree__row:hover)::after {
+    background: var(--ts-tree-guide) !important;
+    border-color: var(--ts-tree-guide) !important;
+  }
+
+  .ts-tree__children {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 var(--ts-tree-row-h);
+  }
+.ts-tree-explorer__intro.hide-section {
+    max-height: 0 !important;
+    padding-block: 0 !important;
+    border-bottom-color: transparent !important;
+    min-height: 0!important;
+    border-bottom-width: 0;
+}
+
+/* Note: the .ts-tree-explorer__actionbar-title/actions width budget
+   (--_max-w + flex/wrap rules) was moved up to live beside its
+   eyebrow + stats siblings near line 32702 so the cascade reads in
+   one place instead of being split across the file. */
+
+.ts-tree-explorer__preview-header {
+    display: flex;
+    align-items: stretch;
+    gap: var(--ts-sp-2, 8px);
+    padding: 0;
+    border-bottom: 1px solid var(--ts-this-bg-border);
+    background: var(--ts-this-bg-dark-1);
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    height: var(--ts-btn-h);
+    overflow: hidden;
+}
+.ts-tree-explorer__preview-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-family: var(--ts-font-mono);
+    font-size: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--ts-text-secondary);
+    display: -webkit-box;
+    padding: 0 0 0 var(--ts-sp-3);
+    place-content: center;
+    align-items: center;
+    align-self: center;
+    line-height: 1.3;
+    font-weight: 300;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    vertical-align: middle;
+}
+.ts-tree-explorer__preview-header .ts-btn{
+	aspect-ratio: unset;
+	height: 100%;
+	border-radius: 0;
+	border-block: none;
+	border-right: none;
+	font-size: 1em;
+	border-color: var(--ts-this-bg-border);
+	min-width: var(--ts-btn-h)!important;
+	
+}
+	  
+  /* Density variants - proof of the derivative system: one token, the
+     whole component rescales (geometry AND connectors stay coherent). */
+  .ts-tree-explorer[data-density="compact"],
+	  .ts-tree-explorer[data-density="compact"] .ts-tree__row{ 
+	  --ts-tree-row-h: 1.75rem; 
+	  
+  }
+  .ts-tree-explorer[data-density="cozy"],  
+	  .ts-tree-explorer[data-density="cozy"] .ts-tree__row   {
+	  --ts-tree-row-h: 3.1rem; 
+  }
+
+}

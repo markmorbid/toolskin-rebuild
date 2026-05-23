@@ -1,0 +1,392 @@
+
+/* ─── §11.1  SVG Crosshair Cursor (native, adaptive color) ────────────
+	Lightweight 1px "+" cursor. No element, no JS, just a `cursor:` URL.
+	Filled rects (not strokes) avoid AA halos at sub-pixel positions.
+	Idle 21×21, hover 31×31 with accent.
+
+	@todo @cursor-tag:hairline-only — when standalone hairline mode lands,
+		body.has-ts-cursor.cursor--hairline-only should suppress
+		.custom-cursor rendering entirely and rely solely on §11.1.
+	@todo @cursor-tag:tokenize-controls — colors and sizes are inlined in
+		the data-URL strings. Lift into tokens once we figure out a
+		reasonable encoding (CSS doesn't allow var() inside data URLs;
+		options: build the SVG via JS once, or ship size/color presets
+		via class modifiers like .cursor--size-sm / .cursor--accent-warn).
+	──────────────────────────────────────────────────────────────────── */
+
+/* Default crosshair — 21×21
+	:where(*) ensures children inherit the crosshair even when they have
+	cursor:pointer — zero specificity so hover accent rules still override. */
+body.has-ts-cursor,
+body.has-ts-cursor :where(*) {
+	cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21"><rect x="10" y="0" width="1" height="21" fill="rgba(255,255,255,0.85)"/><rect x="0" y="10" width="21" height="1" fill="rgba(255,255,255,0.85)"/></svg>') 10 10,
+		crosshair;
+}
+
+/* Light theme — dark crosshair 21×21 */
+[data-theme="light"] body.has-ts-cursor,
+[data-theme="light"] body.has-ts-cursor :where(*) {
+	cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21"><rect x="10" y="0" width="1" height="21" fill="rgba(0,0,0,0.65)"/><rect x="0" y="10" width="21" height="1" fill="rgba(0,0,0,0.65)"/></svg>') 10 10,
+		crosshair;
+}
+
+/* Hover: accent crosshair — 31×31 (physically larger lines) */
+body.has-ts-cursor a:hover,
+body.has-ts-cursor button:hover,
+body.has-ts-cursor .ts-btn:hover,
+body.has-ts-cursor [role="button"]:hover,
+body.has-ts-cursor input:hover,
+body.has-ts-cursor select:hover,
+body.has-ts-cursor textarea:hover,
+body.has-ts-cursor [data-cursor]:hover {
+	cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 31 31"><rect x="15" y="0" width="1" height="31" fill="rgba(255,100,50,1)"/><rect x="0" y="15" width="31" height="1" fill="rgba(255,100,50,1)"/></svg>') 15 15,
+		pointer;
+}
+
+/* Light theme hover: accent crosshair — 31×31
+		Same accent as dark; orange reads on both backgrounds. */
+[data-theme="light"] body.has-ts-cursor a:hover,
+[data-theme="light"] body.has-ts-cursor button:hover,
+[data-theme="light"] body.has-ts-cursor .ts-btn:hover,
+[data-theme="light"] body.has-ts-cursor [role="button"]:hover,
+[data-theme="light"] body.has-ts-cursor input:hover,
+[data-theme="light"] body.has-ts-cursor select:hover,
+[data-theme="light"] body.has-ts-cursor textarea:hover,
+[data-theme="light"] body.has-ts-cursor [data-cursor]:hover {
+	cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 31 31"><rect x="15" y="0" width="1" height="31" fill="rgba(255,100,50,1)"/><rect x="0" y="15" width="31" height="1" fill="rgba(255,100,50,1)"/></svg>') 15 15,
+		pointer;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+		§11.2  CUSTOM CURSOR ELEMENT
+		───────────────────────────────────────────────────────────────────────
+		A real DOM element follows the pointer. JS owns position (lerp on rAF);
+		CSS owns appearance, hover state, and the discrete transitions on
+		properties that change rarely (size, opacity, color).
+	
+		PERFORMANCE CONTRACT (do not violate):
+		  • CSS NEVER transitions `transform` or `translate` on this element.
+			Position is driven by JS at 60Hz; layering a CSS transition on
+			top creates a feedback loop that never settles.
+		  • JS lerp must stop its rAF when the cursor settles within ~0.1px
+			of the target. Idle cursor = zero per-frame work.
+		  • `will-change: transform` reserves a GPU layer to keep paints off
+			the main thread. Applied once on parent, NOT also on ::before.
+		  • `contain: layout paint` isolates this element's repaints from
+			the document — cheap and high-leverage.
+	
+		@todo @cursor-tag:perf-audit — verify in DevTools Performance panel
+			that idle cursor produces 0 paints/frame and 0 rAF callbacks.
+		═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── Base cursor (shared by SIMPLE + TOOLTIP modes) ────────────────── */
+.custom-cursor {
+	/* --follower-transform: translate3d(0px, 0px, 0); */
+	--cursor-offset: 50% + var(--ts-cursor-size);
+	--cursor-offset-n: calc(var(--cursor-offset)*-1);
+	--ts-z-cursor: var(--ts-z-offcanvas-panel);
+	--ts-cursor-transition-dur: .3s;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: var(--ts-cursor-size);
+	height: var(--ts-cursor-size);
+	box-sizing: content-box;
+	background-color: var(--ts-cursor-color, var(--ts-accent));
+	border: none;
+	outline: 1px solid transparent;
+	outline-offset: -1px;
+	border-radius: calc(var(--ts-cursor-size) * 2);
+	pointer-events: none;
+	z-index: var(--ts-z-cursor);
+
+	/* @perf — JS writes `transform` every frame. Do NOT put `transform`
+			in the transition list below. */
+	transform: translate(-50%, -50%) translateZ(0);
+	transform-origin: center;
+	translate: var(--cursor-offset-n) var(--cursor-offset);
+
+	/* @perf-history: mix-blend-mode: difference removed — extremely
+			expensive GPU compositing every frame. Opacity-based contrast
+			via filter:invert in light mode is also costly (see @todo below)
+			but only applies in idle state. */
+	/* mix-blend-mode: difference; */
+
+	/* Only properties that change rarely (hover state in/out, theme swap)
+			belong in this transition list. Transform/translate are JS-owned. */
+	transition: width var(--ts-cursor-transition-dur) var(--ts-ease-out),
+		height var(--ts-cursor-transition-dur) var(--ts-ease-out),
+		opacity var(--ts-cursor-transition-dur) ease,
+		background-color var(--ts-cursor-transition-dur) ease,
+		outline-color var(--ts-cursor-transition-dur) ease;
+	will-change: transform;
+	/* @perf — paint isolation. The cursor's repaints don't invalidate
+			the document below it. */
+	contain: layout;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* @todo @cursor-tag:isolation — `isolation: isolate` removed; we
+			already have z-index, the new stacking context was redundant. */
+}
+
+/* @todo @cursor-tag:light-theme-cost — `filter: invert(100%)` triggers
+		a separate composite layer and a paint per state change. Replace
+		with a token swap: define --ts-cursor-color light/dark per theme,
+		delete the filter rules. Same visual, fraction of the cost. */
+
+[data-theme="light"] .custom-cursor:not(.active) {
+	filter: invert(100%);
+}
+
+[data-theme="light"] .custom-cursor:not(.active)::before {
+	filter: invert(100%);
+}
+
+.custom-cursor:not(.active) {
+	mix-blend-mode: difference;
+
+}
+
+.custom-cursor:not(.active)::before {
+	mix-blend-mode: difference;
+
+}
+
+/* ─── Follower (::before) ──────────────────────────────────────────────
+		Soft-trail dot. Optional; opt out with `.cursor--no-follower`.
+		Position driven by --follower-transform (JS lerp).
+		──────────────────────────────────────────────────────────────────── */
+.custom-cursor::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: calc(var(--ts-cursor-size) / 1.53);
+	height: calc(var(--ts-cursor-size) / 1.53);
+	background-color: var(--ts-cursor-color, var(--ts-accent));
+	border: none;
+	border-radius: calc(var(--ts-cursor-size) * 2);
+	pointer-events: none;
+
+	/* Two translates split across `translate` (centering, static) and
+			`transform` (JS-driven lerp). Cleaner than chaining two translates
+			inside one transform. */
+	translate: -50% -50%;
+	transform: var(--follower-transform, translate3d(0, 0, 0));
+	transform-origin: center;
+
+	opacity: 0.58;
+
+	/* @perf — Transform is updated every frame by JS lerp. CSS
+			transitioning it too creates a feedback loop: JS sets new target,
+			CSS interpolates, JS sets newer target before CSS finishes,
+			repeat forever. Easing is JS-side (the lerp factor IS the easing).
+			CSS only transitions the visual properties that change on
+			hover/active state, not per-frame. */
+	transition:
+		width var(--ts-cursor-follower-dur) ease,
+		height var(--ts-cursor-follower-dur) ease,
+		opacity var(--ts-cursor-follower-dur) ease,
+		background-color var(--ts-cursor-follower-dur) ease;
+
+	/* @perf — only one will-change layer needed for the cursor.
+			The parent already owns the GPU layer; ::before composites
+			within it. Removed from here. */
+}
+
+/* No-follower opt-out */
+.custom-cursor.cursor--no-follower::before {
+	display: none;
+	transition: none !important;
+}
+
+
+/* ─── §11.2.A  SIMPLE MODE (.cursor--simple) ──────────────────────────
+		Circle at center. Filled idle, outlined on hover. Optional follower.
+		No label, no arrow, no smart positioning.
+		──────────────────────────────────────────────────────────────────── */
+.custom-cursor.cursor--simple.active {
+	width: calc(var(--ts-cursor-size) * var(--ts-cursor-grow));
+	height: calc(var(--ts-cursor-size) * var(--ts-cursor-grow));
+	background: transparent;
+	outline-color: var(--ts-cursor-color, var(--ts-accent));
+	mix-blend-mode: normal;
+	translate: var(--cursor-offset) var(--cursor-offset-n);
+}
+
+/* Follower fades out on active in simple mode */
+.custom-cursor.cursor--simple.active::before {
+	opacity: 0;
+}
+
+
+/* ─── §11.2.B  TOOLTIP MODE (.cursor--tooltip) ────────────────────────
+		Full-featured: label, directional arrow, smart positioning.
+		Follower collapses (width/height 0) on active so the label dominates.
+		──────────────────────────────────────────────────────────────────── */
+.custom-cursor.cursor--tooltip.active {
+	width: calc(var(--ts-cursor-size) * var(--ts-cursor-grow));
+	height: calc(var(--ts-cursor-size) * var(--ts-cursor-grow));
+	background: transparent;
+	outline-color: var(--ts-cursor-color, var(--ts-accent));
+	mix-blend-mode: normal;
+	opacity: 1;
+	/* translate: -50% 0; */
+}
+
+.custom-cursor.cursor--tooltip.active[data-pointer-direction="up"] {
+	translate: -50% 0;
+}
+
+.custom-cursor.cursor--tooltip.active[data-pointer-direction="down"] {
+	translate: -50% -60%;
+}
+
+.custom-cursor.cursor--tooltip.active::before {
+	width: 0;
+	height: 0;
+	background: transparent;
+	background-color: var(--ts-cursor-color, var(--ts-accent));
+	opacity: 0;
+}
+
+
+/* ─── §11.2.C  Pointer arrow (::after) — tooltip mode only ──────────── */
+.custom-cursor.cursor--tooltip::after {
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-left: var(--ts-cursor-arrow-size) solid transparent;
+	border-right: var(--ts-cursor-arrow-size) solid transparent;
+	opacity: 0;
+	transition: opacity 0.3s ease,
+		transform 0.3s ease;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.custom-cursor.cursor--tooltip.active[data-pointer-direction="up"]::after {
+	border-bottom: calc((var(--ts-cursor-arrow-size) - 0px) * 1.5) solid var(--ts-cursor-color, var(--ts-accent));
+	top: calc((var(--ts-cursor-arrow-size) - 2px) * -1);
+	left: 50%;
+	transform: translate(-50%, -50%);
+	opacity: 1;
+}
+
+.custom-cursor.cursor--tooltip.active[data-pointer-direction="down"]::after {
+	border-top: calc((var(--ts-cursor-arrow-size) - 0px) * 1.5) solid var(--ts-cursor-color, var(--ts-accent));
+	bottom: calc((var(--ts-cursor-arrow-size) - 2px) * -1);
+	left: 50%;
+	transform: translate(-50%, 50%);
+	opacity: 1;
+}
+
+
+/* ─── §11.2.D  Inner helper element ─────────────────────────────────── */
+.custom-cursor .cursor-inner {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: inherit;
+	pointer-events: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+/* ─── §11.2.E  Label (tooltip mode only) ────────────────────────────── */
+.custom-cursor .cursor-label {
+	color: var(--ts-on-accent);
+	font-size: round(calc(var(--ts-cursor-size) / 2), 10px);
+	font-weight: 700;
+	text-transform: uppercase;
+	background: var(--ts-on-surface-muted);
+	padding: var(--ts-sp-2) var(--ts-sp-4);
+	border-radius: var(--ts-radius-full);
+
+	position: absolute;
+	inset: 3px;
+	white-space: nowrap;
+	justify-content: center;
+	align-items: center;
+	display: none;
+	opacity: 0;
+	scale: 0;
+
+	transition: opacity 0.5s, scale 0.5s .23s allow-discrete, display 0.5s allow-discrete;
+	border-radius: calc(var(--ts-cursor-size) * 2);
+	pointer-events: none;
+}
+
+.custom-cursor.active .cursor-label {
+	opacity: 1;
+	scale: 1;
+	display: flex;
+
+	@starting-style {
+		opacity: 0;
+		scale: 0;
+	}
+}
+
+/* Empty label shows crosshair lines — visual fallback for unlabeled active state */
+.custom-cursor.active .cursor-label:empty::before {
+	transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.custom-cursor.active .cursor-label:empty::after,
+.custom-cursor.active .cursor-label:empty::before {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 1px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: var(--ts-accent);
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+		@todo §11.3  SHAPE REGISTRY (next refactor pass)
+		───────────────────────────────────────────────────────────────────────
+		Planned modifier classes — currently NOT IMPLEMENTED. Documenting
+		intent so the next pass has a contract to work against.
+	
+		  .cursor--shape-circle    (default)
+		  .cursor--shape-hairline  — pure crosshair, no circle, no follower;
+									 the SVG cursor from §11.1 plus optional
+									 grow-on-hover behavior driven by JS
+		  .cursor--shape-text      — minimalist I-beam for text contexts
+		  .cursor--shape-resize-h  — horizontal resize hint
+		  .cursor--shape-resize-v  — vertical resize hint
+		  .cursor--shape-resize-d  — diagonal resize hint
+		  .cursor--shape-grab      — open hand
+		  .cursor--shape-grabbing  — closed hand
+	
+		All shapes share the §11.2 base contract: JS lerp drives position,
+		CSS handles appearance and active-state transitions. Adding a new
+		shape = adding modifier-scoped rules; the engine doesn't change.
+	
+		@cursor-tag:auto-init — JS auto-applies shape based on `[data-cursor-shape]`
+		on the hovered element. Falls back to default on elements without it.
+	
+		@cursor-tag:tokenize-controls — final token surface (proposal):
+		  --ts-cursor-size                base size of the circle / SVG
+		  --ts-cursor-grow                hover-state scale factor
+		  --ts-cursor-color               primary fill / stroke
+		  --ts-cursor-color-light         light-theme override
+		  --ts-cursor-transition-dur      hover state transition
+		  --ts-cursor-follower-dur        follower state transition
+		  --ts-cursor-arrow-size          tooltip arrow base
+		  --ts-cursor-hairline-size       SVG idle width/height
+		  --ts-cursor-hairline-grow-size  SVG hover width/height
+		  --ts-cursor-hairline-stroke     SVG line thickness
+		  --ts-cursor-shape               (informational; shape is class-driven)
+		═══════════════════════════════════════════════════════════════════════ */

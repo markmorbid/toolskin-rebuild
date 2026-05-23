@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ts-gallery · Toolskin Design System — first draft</title>
+
+<!-- Toolskin core (sibling copy, so the demo runs offline / on file://) -->
+<link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css">
+
+<!-- component  already integrated in toolskin  core css file  (drop-in in toolskin.css main branch cannonical css stylesheet  no isolation needed only keepiong  demo classes form header.) -->
+<!-- <link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/ts-gallery.css"> -->
+<script src="https://satsea.io/toolskin-showcase/assets/js/toolskin.js" defer></script>
+ <script>
+      document.documentElement.classList.add('ts-preloader-lock');
+     window.__TOOLSKIN_CONFIG__ = {
+        cursor: { mode: 'simple', follower: true, easing: 0.42, followerEasing: 0.12 },
+        reveal: { enabled: true, useGSAP: false, stagger: 0.05, rootMargin: '0px 0px -40px 0px' },
+        smoothScroll: { enabled: false, duration: 1.2 },
+      };
+      // Font-gate: reveal preloader text only after the two fonts it uses are loaded.
+      // Uses document.fonts.load() for specific families (resolves fast, doesn't wait for FA).
+      Promise.all([
+        document.fonts.load('600 1em "Space Grotesk"'),
+        document.fonts.load('400 1em "JetBrains Mono"')
+      ]).then(function () {
+        document.documentElement.classList.add('ts-fonts-ready');
+      });
+    </script>
+<style>
+	/* ── Demo-page-only chrome (NOT part of the component) ─────────────── */
+	body { padding: var(--ts-sp-8) 0; background: var(--ts-bg-body); }
+	.demo-wrap { max-width: 1280px; margin: 0 auto; padding: 0 var(--ts-sp-6); }
+	.demo-section { margin-bottom: var(--ts-sp-14); }
+	.demo-h1 {
+		font-size: clamp(1.75rem, 4vw, 2.6rem);
+		font-weight: 600;
+		letter-spacing: -0.02em;
+		color: var(--ts-text-primary);
+		margin: 0 0 var(--ts-sp-2);
+	}
+	.demo-lede {
+		color: var(--ts-text-secondary);
+		max-width: 60ch;
+		font-size: 1.05rem;
+		line-height: 1.55;
+		margin: 0 0 var(--ts-sp-8);
+	}
+	.demo-h2 {
+		font-size: 1.25rem;
+		font-weight: 500;
+		color: var(--ts-text-primary);
+		margin: 0 0 var(--ts-sp-1);
+		display: flex;
+		align-items: center;
+		gap: var(--ts-sp-3);
+	}
+	.demo-h2 small {
+		font-weight: 400;
+		font-size: 0.7rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ts-accent);
+		padding: 2px var(--ts-sp-2);
+		border: 1px solid color-mix(in srgb, var(--ts-accent) 35%, transparent);
+		border-radius: var(--ts-radius-full, 999px);
+	}
+	.demo-note {
+		color: var(--ts-text-muted);
+		font-size: 0.85rem;
+		margin: 0 0 var(--ts-sp-4);
+		max-width: 70ch;
+	}
+	.demo-controls {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--ts-sp-2);
+		margin: 0 0 var(--ts-sp-4);
+	}
+	.demo-btn {
+		appearance: none;
+		background: var(--ts-bg-2);
+		color: var(--ts-text-primary);
+		border: 1px solid var(--ts-bg-3);
+		border-radius: var(--ts-radius-sm);
+		padding: var(--ts-sp-2) var(--ts-sp-3);
+		font-size: 0.85rem;
+		cursor: pointer;
+		transition: background 180ms, border-color 180ms;
+	}
+	.demo-btn:hover { background: var(--ts-bg-3); border-color: var(--ts-accent); }
+
+	.ts-gallery-lightbox__stage {
+  overflow: hidden;
+  position: relative;
+}
+
+.ts-gallery-lightbox__stage img {
+  transform-origin: center center;
+  cursor: inherit;
+}
+</style>
+</head>
+<body>
+
+<main class="demo-wrap" id="ts-main">
+
+	<header class="demo-section">
+		<h1 class="demo-h1">ts-gallery · first draft</h1>
+		<p class="demo-lede">
+			Asymmetric image grid built on the float-and-percentage method —
+			authored layouts (quarter / half / two-third / full / double-height) instead of
+			auto-flow flex. Sibling to <code>.ts-masonry</code>; not a replacement.
+			Lazy-loaded, skeleton-shimmered, lightbox-ready, token-driven end to end.
+		</p>
+	</header>
+
+
+	<!-- ════════════════════════════════════════════════════════════════════
+		§1  PORTFOLIO VARIANT — the original concept, ported to Toolskin
+		Identical class grammar to the reference: full / two-third / half /
+		third / quarter + double-height / float-right / responsive-half
+	═══════════════════════════════════════════════════════════════════════ -->
+
+	<section class="demo-section">
+		<h2 class="demo-h2">Portfolio layout <small>asymmetric · float-based</small></h2>
+		<p class="demo-note">
+			Mirrors the original CSS-only portfolio grid. Each <code>&lt;li&gt;</code>
+			carries size classes; JS only hydrates lazy-loading + lightbox.
+			Resize the window — the gallery rebreaks via container queries.
+		</p>
+
+		<ul class="ts-gallery" data-ts-gallery>
+			<li class="quarter double-height" data-src="https://picsum.photos/seed/ts-01/800/1200" data-caption="Northbound · 04:12"></li>
+			<li class="quarter responsive-half" data-src="https://picsum.photos/seed/ts-02/600/600" data-caption="Concrete drift"></li>
+			<li class="half"                    data-src="https://picsum.photos/seed/ts-03/1200/600" data-caption="Wide horizon"></li>
+
+			<li class="half"                    data-src="https://picsum.photos/seed/ts-04/1200/600" data-caption="Studio, golden hour"></li>
+			<li class="quarter"                 data-src="https://picsum.photos/seed/ts-05/600/600" data-caption="Field notes"></li>
+
+			<!-- second block — float-right pivot -->
+			<li class="quarter double-height float-right" data-src="https://picsum.photos/seed/ts-06/800/1200" data-caption="Mast"></li>
+			<li class="half"                    data-src="https://picsum.photos/seed/ts-07/1200/600" data-caption="Low tide"></li>
+			<li class="quarter responsive-half" data-src="https://picsum.photos/seed/ts-08/600/600" data-caption="Tracer"></li>
+
+			<li class="quarter"                 data-src="https://picsum.photos/seed/ts-09/600/600" data-caption="Quiet hours"></li>
+			<li class="half"                    data-src="https://picsum.photos/seed/ts-10/1200/600" data-caption="Drift"></li>
+
+			<li class="full"                    data-src="https://picsum.photos/seed/ts-11/2400/600" data-caption="Panorama"></li>
+
+			<li class="two-third"               data-src="https://picsum.photos/seed/ts-12/1600/600" data-caption="Two thirds"></li>
+			<li class="third"                   data-src="https://picsum.photos/seed/ts-13/800/600" data-caption="Counterweight"></li>
+		</ul>
+	</section>
+
+
+	<!-- ════════════════════════════════════════════════════════════════════
+		§2  UNIFORM VARIANT — square tiles, programmatic build
+		Built from a JS array, no markup authored. Best for sortable.
+	═══════════════════════════════════════════════════════════════════════ -->
+
+	<section class="demo-section">
+		<h2 class="demo-h2">Uniform grid <small>programmatic · sortable-friendly</small></h2>
+		<p class="demo-note">
+			Built from a JS array via <code>ToolskinUIKit.Gallery.create()</code>.
+			All tiles are square; works smoothly with sortable mode (FLIP-friendly).
+		</p>
+		<div class="demo-controls">
+			<button class="demo-btn" id="add-img">+ Add image</button>
+			<button class="demo-btn" id="shuffle-img">Shuffle</button>
+		</div>
+		<div id="uniform-mount"></div>
+	</section>
+
+
+	<!-- ════════════════════════════════════════════════════════════════════
+		§3  SORTABLE — opt-in via data-ts-gallery-sortable
+	═══════════════════════════════════════════════════════════════════════ -->
+
+	<section class="demo-section">
+		<h2 class="demo-h2">Sortable gallery <small>drag to reorder</small></h2>
+		<p class="demo-note">
+			Adding <code>data-ts-gallery-sortable</code> auto-wires the existing
+			<code>ToolskinUIKit.Sortable</code> engine. Pair with the uniform
+			variant for smooth FLIP reordering — float layouts don't reflow cleanly
+			in 2D under drag.
+		</p>
+
+		<ul class="ts-gallery ts-gallery--uniform" data-ts-gallery data-ts-gallery-sortable>
+			<li data-src="https://picsum.photos/seed/srt-01/600/600" data-caption="Drag me"></li>
+			<li data-src="https://picsum.photos/seed/srt-02/600/600" data-caption="Or me"></li>
+			<li data-src="https://picsum.photos/seed/srt-03/600/600" data-caption="Reorder"></li>
+			<li data-src="https://picsum.photos/seed/srt-04/600/600" data-caption="Anywhere"></li>
+			<li data-src="https://picsum.photos/seed/srt-05/600/600" data-caption="It works"></li>
+			<li data-src="https://picsum.photos/seed/srt-06/600/600" data-caption="Try it"></li>
+			<li data-src="https://picsum.photos/seed/srt-07/600/600" data-caption="Smooth"></li>
+			<li data-src="https://picsum.photos/seed/srt-08/600/600" data-caption="FLIP"></li>
+		</ul>
+	</section>
+
+</main>
+
+
+<!-- New component JS -->
+<script src="https://satsea.io/toolskin-showcase/assets/js/ts-gallery.js" defer></script>
+
+<!-- Demo-page-only logic (uniform gallery seed + controls) -->
+<script defer>
+	document.addEventListener('DOMContentLoaded', () => {
+		const mount = document.getElementById('uniform-mount');
+		const seed = (i) => `https://picsum.photos/seed/uni-${i}/600/600`;
+		const initial = Array.from({ length: 12 }, (_, i) => ({
+			src: seed(i + 1),
+			caption: 'Tile ' + (i + 1)
+		}));
+
+		const ul = ToolskinUIKit.Gallery.create(mount, {
+			variant: 'uniform',
+			images: initial
+		});
+
+		let counter = 12;
+		document.getElementById('add-img').addEventListener('click', () => {
+			counter++;
+			ToolskinUIKit.Gallery.append(ul, {
+				src: seed(counter),
+				caption: 'Tile ' + counter
+			});
+		});
+
+		document.getElementById('shuffle-img').addEventListener('click', () => {
+			const kids = Array.from(ul.children);
+			kids.sort(() => Math.random() - 0.5).forEach((k) => ul.appendChild(k));
+		});
+	});
+
+</script>
+<script>
+(function () {
+  function initZoomStage(stage) {
+    if (!stage || stage.__zoomBound) return;
+    stage.__zoomBound = true;
+
+    const img = stage.querySelector('img');
+    if (!img) return;
+
+    let scale = 1;
+    let tx = 0;
+    let ty = 0;
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+
+    const MIN = 1;
+    const MAX = 4;
+
+    // prevent default drag ghost image
+    img.draggable = false;
+
+    function apply() {
+      img.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+    }
+
+    function reset() {
+      scale = 1;
+      tx = 0;
+      ty = 0;
+      apply();
+      stage.style.cursor = 'zoom-in';
+    }
+
+    function clamp() {
+      const rect = stage.getBoundingClientRect();
+      const w = img.naturalWidth * scale;
+      const h = img.naturalHeight * scale;
+
+      const maxX = Math.max(0, (w - rect.width) / 2);
+      const maxY = Math.max(0, (h - rect.height) / 2);
+
+      tx = Math.min(maxX, Math.max(-maxX, tx));
+      ty = Math.min(maxY, Math.max(-maxY, ty));
+    }
+
+    // CLICK → toggle zoom
+    stage.addEventListener('click', (e) => {
+      if (scale === 1) {
+        scale = 2.5;
+        stage.style.cursor = 'grab';
+      } else {
+        reset();
+        return;
+      }
+      apply();
+    });
+
+    // WHEEL → smooth zoom
+    stage.addEventListener('wheel', (e) => {
+      e.preventDefault();
+
+      const delta = -e.deltaY * 0.001;
+      let newScale = scale + delta;
+
+      newScale = Math.min(MAX, Math.max(MIN, newScale));
+
+      if (newScale === scale) return;
+
+      scale = newScale;
+
+      clamp();
+      apply();
+
+      stage.style.cursor = scale > 1 ? 'grab' : 'zoom-in';
+    }, { passive: false });
+
+    // DRAG → pan
+    stage.addEventListener('mousedown', (e) => {
+      if (scale === 1) return;
+
+      dragging = true;
+      startX = e.clientX - tx;
+      startY = e.clientY - ty;
+
+      stage.style.cursor = 'grabbing';
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+
+      tx = e.clientX - startX;
+      ty = e.clientY - startY;
+
+      clamp();
+      apply();
+    });
+
+    window.addEventListener('mouseup', () => {
+      dragging = false;
+      if (scale > 1) stage.style.cursor = 'grab';
+    });
+
+    // RESET when image changes
+    const observer = new MutationObserver(() => {
+      reset();
+    });
+
+    observer.observe(stage, { childList: true });
+
+    // initial state
+    img.style.willChange = 'transform';
+    img.style.transition = 'transform 0.1s ease-out';
+    reset();
+  }
+
+  // AUTO BIND (works with your gallery script)
+  function scan() {
+    document
+      .querySelectorAll('.ts-gallery-lightbox__stage')
+      .forEach(initZoomStage);
+  }
+
+  // initial + dynamic
+  document.addEventListener('DOMContentLoaded', scan);
+
+  const globalObserver = new MutationObserver(scan);
+  globalObserver.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,674 @@
+/* ════════════════════════════════════════════════════════════════════
+ * TS CUBE PORTFOLIO  —  EXTRACTED HEADER STYLES  (PENDING INTEGRATION)
+ * ════════════════════════════════════════════════════════════════════
+ *
+ * STATUS
+ * ──────────────────────────────────────────────────────────────────
+ * These styles are extracted from the cube-portfolio source. They
+ * are pending: filtering, tokenization, updating, and seamless
+ * adaptation INTO the core CSS — preserving the current visual
+ * snapshot while avoiding the creation of new classes and reusing
+ * the existing Toolskin base.
+ *
+ * Keep ONLY what does not already exist in core for displaying or
+ * rendering. Diff the unique properties during the refactor and
+ * fold them into existing components / variants.
+ *
+ * Alternatively, this file may stay isolated UNTIL integration is
+ * complete — but the final cube-portfolio component MUST NOT ship
+ * with its own dedicated CSS sheet.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * GLOBAL POLICY  (read before editing)
+ * ────────────────────────────────────────────────────────────────────
+ * - Keep ONLY elements that are irreplaceable and do not match any
+ *   existing pattern in the core.
+ * - The rest can be assembled in the HTML using existing core
+ *   classes / variants.
+ * - Creating new classes for things that share properties with
+ *   existing components conflicts with general product deployment.
+ * - Rely ONLY on the core CSS, the asset-based system, and its
+ *   filebase. Do NOT generate new elements for things that share
+ *   properties with what already exists.
+ * - Same applies to tokens: replace ad-hoc values with the current
+ *   production tokens wherever possible.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * PER-ELEMENT INTEGRATION PLAN
+ * ────────────────────────────────────────────────────────────────────
+ *
+ *  1. RULERS
+ *     The ruler elements are mostly built in JS — VERY FEW CSS
+ *     elements are needed. Those few must persist.
+ *     → Use surface tokens, NOT hardcoded colors, so that
+ *       light-theme switching remains valid.
+ *
+ *  2. BACKGROUND BIG-LETTER DESIGN
+ *     Add as another variant on the core design base.
+ *     → Needs integration, tokenization, and adaptability.
+ *
+ *  3. SWIPE / WIPE NAVIGATION
+ *     Integration is already noted in the isolated JS file (which
+ *     also needs splitting).
+ *     → The styling and handling must be economized and minimized,
+ *       while keeping the same rendering / display capability.
+ *
+ *  4. SIDEBAR  ⚠ NAMING CONFLICT
+ *     The class `ts-sidebar` already exists in core. It must be
+ *     REPLACED, not re-scoped — across JS, HTML, and CSS.
+ *     Do NOT keep it: it will break everything.
+ *
+ *  5. MOVING / SLIDING MENU ITEMS
+ *     Should not be a problem to refactor using existing Toolskin
+ *     tokens, classes, and styles. NO new classes should be
+ *     created for this — variants only, if needed.
+ *     The actual COMPONENT is the sliding sidebar. Only the items
+ *     and their interactions will carry rules. Optimize as much as
+ *     possible and avoid creating new classes where elements
+ *     visually share properties. Same for tokens — replace with
+ *     current production tokens where possible.
+ *     This scope is for display purposes only.
+ *
+ *  6. LOADER
+ *     Must be unified with the system's `ts-preloader`:
+ *       - Share styles, DOM, and CSS via aliases / class pending.
+ *       - Add the remaining DOM elements needed to match.
+ *     The JS must remain as it is — it is fit for loading the
+ *     currently deployed assets.
+ *
+ *  7. 3D INTERACTIVE CUBE  (still experimental)
+ *     Works and is usable, but it must become dynamic: able to
+ *     load elements from a gallery source (posts, a folder, or a
+ *     JSON feed) and to bind menu entries to cube tiles
+ *     dynamically through hooks, while remaining a separate asset.
+ *
+ *  8. COMPONENT PAIRING  (ts-cube-gallery + ts-slide-menu)
+ *     - `ts-cube-gallery` is an integratable component on its own.
+ *     - `ts-slide-menu` (pending rename) is a standalone asset
+ *       with hooks for the cube and any other navigation /
+ *       gallery system. Both need integration.
+ *
+ * ════════════════════════════════════════════════════════════════════ */
+
+
+/* ── THEME TOKENS  (locals only — DO NOT promote, see policy above) ── */
+:root {
+  --ts-accent-h: 18;
+  --ts-accent-s: 100%;
+  --ts-accent-l: 52%;
+  --ts-bg-body: #080809;
+  --ts-bg-0: #0b0b0d;
+  --ts-bg-1: #101012;
+  --ts-bg-2: #16161a;
+  --ts-bg-3: #1d1d22;
+  --ts-bg-4: #252529;
+  --ts-font-display: 'Syne', system-ui, sans-serif;
+  --ts-font-body: 'Space Grotesk', system-ui, sans-serif;
+  --ts-font-mono: 'JetBrains Mono', monospace;
+  --sw: 250px;
+  /* sidebar width  */
+  --rsz: 25px;
+  /* ruler size     */
+  --nh: 45px;
+  /* nav height     */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--ts-bg-body);
+  color: var(--ts-text-primary);
+  font-family: var(--ts-font-body);
+}
+
+/* ── CURSOR ──  (currently disabled — see commented block) */
+/*#tsc {
+    position:fixed; z-index:9999; pointer-events:none;
+    width:8px; height:8px; border-radius:50%;
+    background:#fff; mix-blend-mode:difference;
+    transform:translate(-50%,-50%);
+    transition:width .2s cubic-bezier(.16,1,.3,1), height .2s cubic-bezier(.16,1,.3,1);
+    will-change:left,top;
+  }
+  #tsc.big { width:38px; height:38px; }
+  */
+
+/* ── LOADER ──
+ * INTEGRATION: must be unified with system `ts-preloader`. See
+ * point 6 of the per-element plan above. */
+#ts-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 8000;
+  background: var(--ts-bg-body);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  transition: opacity .65s, visibility .65s;
+}
+
+#ts-loader.out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#ts-loader-track {
+  width: 180px;
+  height: 1px;
+  background: rgba(255, 255, 255, .07);
+  position: relative;
+  overflow: hidden;
+}
+
+#ts-loader-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--ts-accent);
+  width: 0%;
+  transition: none;
+}
+
+#ts-loader-num {
+  font-family: var(--ts-font-mono);
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: rgba(255, 255, 255, .3);
+}
+
+/* ── RULERS ──
+ * Legacy DOM-based ruler. Superseded by the SVG ruler below
+ * (`.ts-grid-rules*`). Few CSS elements only — these MUST persist
+ * during integration. Replace `rgba(255,255,255,.05)` borders with
+ * surface tokens to keep light-theme switching valid. */
+#ts-rt {
+  position: fixed;
+  top: 0;
+  left: var(--rsz);
+  right: 0;
+  height: var(--rsz);
+  z-index: 500;
+  pointer-events: none;
+  border-bottom: 1px solid rgba(255, 255, 255, .05);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.rstk {
+  flex: 1;
+  height: 4px;
+  border-left: 1px solid rgba(255, 255, 255, .05);
+  position: relative;
+}
+
+.rstk.m {
+  height: 9px;
+}
+
+.rstk.m::before {
+  content: attr(data-v);
+  position: absolute;
+  bottom: 11px;
+  left: 2px;
+  font-size: 7px;
+  font-family: var(--ts-font-mono);
+  color: rgba(255, 255, 255, .2);
+  white-space: nowrap;
+}
+
+#ts-rl {
+  position: fixed;
+  top: var(--rsz);
+  left: 0;
+  bottom: 0;
+  width: var(--rsz);
+  z-index: 500;
+  pointer-events: none;
+  border-right: 1px solid rgba(255, 255, 255, .05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.rsvtk {
+  flex: 1;
+  border-top: 1px solid rgba(255, 255, 255, .05);
+}
+
+/* ── TOPBAR ──
+ * Likely fully replaceable by an existing core nav variant. Audit
+ * before keeping any rule here. */
+#ts-topbar {
+  position: fixed;
+  top: var(--rsz);
+  left: var(--rsz);
+  right: 0;
+  height: var(--nh);
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, .05);
+  background: color-mix(in srgb, var(--ts-bg-body) 88%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.ts-dims {
+  font-family: var(--ts-font-mono);
+  font-size: 10px;
+  color: rgba(255, 255, 255, .22);
+  letter-spacing: .05em;
+}
+
+.ts-nav {
+  display: flex;
+  list-style: none;
+  gap: 0;
+}
+
+.ts-nav a {
+  font-size: 11px;
+  color: rgba(255, 255, 255, .5);
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.ts-nav a:hover {
+  color: var(--ts-accent);
+}
+
+.ts-nav li:not(:last-child) a::after {
+  content: ',\00a0';
+  color: rgba(255, 255, 255, .18);
+}
+
+.ts-avail {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ts-font-mono);
+  font-size: 10px;
+  color: rgba(255, 255, 255, .28);
+  letter-spacing: .1em;
+}
+
+.ts-avail-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ts-accent);
+  animation: tspulse 2s ease-in-out infinite;
+}
+
+@keyframes tspulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1)
+  }
+
+  50% {
+    opacity: .3;
+    transform: scale(.6)
+  }
+}
+
+/* ── MAIN SHELL ── */
+#ts-shell {
+  position: fixed;
+  top: calc(var(--rsz) + var(--nh));
+  left: var(--rsz);
+  right: 0;
+  bottom: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── HERO ── */
+#ts-hero {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* WebGL canvas fills hero */
+#ts-cv {
+  position: absolute;
+  inset: 0;
+  /*  width:100%!important;
+    height:100%!important;
+    pointer-events:none; */
+  z-index: 1;
+  display: block;
+}
+
+/* TS giant letters
+ * INTEGRATION: promote as a variant on the core design base —
+ * "background big-letter" treatment. Tokenize the color and the
+ * size clamp. See point 2 of the per-element plan above. */
+#ts-letters {
+  position: absolute;
+  bottom: -0.07em;
+  left: -0.01em;
+  font-family: var(--ts-font-display);
+  font-size: clamp(160px, 28vw, 430px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: var(--ts-accent);
+  user-select: none;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(var(--rsz));
+}
+
+/* Bottom metas */
+#ts-meta-bl {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.ts-mname {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.ts-mrole {
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, .3);
+}
+
+#ts-meta-bc {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  z-index: 10;
+  transform: translateX(-50%) translateY(10px);
+  text-align: center;
+  opacity: 0;
+}
+
+.ts-missue {
+  font-family: var(--ts-font-mono);
+  font-size: 10px;
+  color: rgba(255, 255, 255, .25);
+  letter-spacing: .1em;
+  line-height: 1.9;
+}
+
+/* ── SIDEBAR ──  ⚠ NAMING CONFLICT
+ * `#ts-sidebar` collides with an existing core component named the
+ * same way. Must be REPLACED (not re-scoped) across JS, HTML, and
+ * CSS during integration. Do NOT keep this ID — it will break
+ * everything. See point 4 of the per-element plan above. */
+#ts-sidebar {
+  width: var(--sw);
+  flex-shrink: 0;
+  border-left: 1px solid rgba(255, 255, 255, .05);
+  position: relative;
+  overflow: hidden;
+}
+
+#ts-mt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  will-change: transform;
+}
+
+/* Sliding menu items (.ts-wl)
+ * INTEGRATION: refactor onto existing Toolskin tokens / classes.
+ * No new classes should be created — variants only, if needed.
+ * The COMPONENT is the sliding sidebar; only items and their
+ * interactions carry rules here. See point 5 of the plan above. */
+.ts-wl {
+  display: block;
+  padding: 11px 22px;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: .01em;
+  color: rgba(255, 255, 255, .45);
+  border-bottom: 1px solid rgba(255, 255, 255, .05);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  /* wave-reveal */
+  opacity: 0;
+  transform: translateY(12px) skewY(1.5deg);
+  transition: color .22s, padding-left .3s cubic-bezier(.16, 1, .3, 1);
+}
+
+.ts-wl.revealed {
+  opacity: 1;
+  transform: translateY(0) skewY(0);
+}
+
+.ts-wl::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: var(--ts-accent-dim, rgba(255, 84, 10, .08));
+  transition: width .3s cubic-bezier(.16, 1, .3, 1);
+}
+
+/* Only ONE item is active — the directly hovered one */
+.ts-wl.is-active {
+  color: var(--ts-accent) !important;
+  padding-left: 30px !important;
+  font-weight: 500;
+}
+
+.ts-wl.is-active::before {
+  width: 100%;
+}
+
+.ts-wl.is-dimmed {
+  color: rgba(255, 255, 255, .13) !important;
+}
+
+.ts-wl.is-dimmed::before {
+  width: 0;
+}
+
+/* ── PAGE WIPE ──
+ * INTEGRATION: economize and minimize the styling/handling while
+ * preserving rendering parity. See point 3 of the plan above. */
+#ts-wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 7000;
+  background: var(--ts-bg-0);
+  pointer-events: none;
+  transform: scaleY(0);
+  transform-origin: bottom;
+}
+
+/* ── DETAIL PAGE ── */
+#ts-detail {
+  position: fixed;
+  inset: 0;
+  z-index: 6000;
+  background: var(--ts-bg-0);
+  transform: translateY(100%);
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+  overflow-y: auto;
+}
+
+#ts-detail.open {
+  pointer-events: all;
+}
+
+#ts-dback {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, .05);
+  background: var(--ts-bg-0);
+  font-size: 10px;
+  letter-spacing: .15em;
+  font-family: var(--ts-font-mono);
+  color: rgba(255, 255, 255, .38);
+  transition: color .2s;
+}
+
+#ts-dback:hover {
+  color: var(--ts-accent);
+}
+
+#ts-dbody {
+  padding: 60px 80px 100px;
+  flex: 1;
+}
+
+.ts-dol {
+  font-size: 9px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ts-accent);
+  margin-bottom: 20px;
+  display: block;
+  font-family: var(--ts-font-mono);
+}
+
+.ts-dtitle {
+  font-family: var(--ts-font-display);
+  font-size: clamp(40px, 5.5vw, 84px);
+  font-weight: 900;
+  letter-spacing: -.05em;
+  line-height: .93;
+  margin-bottom: 26px;
+}
+
+.ts-dtitle em {
+  color: var(--ts-accent);
+  font-style: normal;
+}
+
+.ts-ddesc {
+  font-size: 14px;
+  line-height: 1.75;
+  font-weight: 300;
+  color: rgba(255, 255, 255, .42);
+  max-width: 500px;
+}
+
+.ts-dmeta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin: 44px 0;
+}
+
+.ts-dmetablock {
+  padding: var(--rsz);
+  border: 1px solid rgba(255, 255, 255, .06);
+}
+
+.ts-dmetalabel {
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .25);
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--ts-font-mono);
+}
+
+.ts-dmetaval {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.ts-dimgs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3px;
+}
+
+.ts-dimgs img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── SVG RULERS  (current implementation)
+ * Promote to a Toolskin core component. Document in the codebase
+ * showcase docs as one of the flagship innovations of the system.
+ * Replace stroke / fill rgba values with surface tokens before
+ * promotion, to keep light-theme switching valid. */
+.ts-grid-rules {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font-size: 10px;
+  font-family: monospace;
+}
+
+.ts-grid-rules__horizontal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: var(--rsz);
+  height: var(--rsz);
+  max-height: var(--rsz);
+}
+
+.ts-grid-rules__vertical {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: var(--rsz);
+  width: var(--rsz);
+  max-width: var(--rsz);
+}
+
+.ts-grid-rules-line {
+  stroke: rgba(255, 255, 255, 0.4);
+  shape-rendering: crispEdges;
+}
+
+.ts-grid-rules-text {
+  fill: rgba(255, 255, 255, 0.6);
+  font-size: 8px;
+  dominant-baseline: text-after-edge;
+  font-weight: 300;
+  text-anchor: middle;
+  line-height: 1em;
+  font-variation-settings: "wdth" 100, "wght" 800, "opsz" 30;
+  letter-spacing: .02em;
+}

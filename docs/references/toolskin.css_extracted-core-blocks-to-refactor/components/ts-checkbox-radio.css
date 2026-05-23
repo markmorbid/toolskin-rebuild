@@ -1,0 +1,804 @@
+/* ── !!!!! @ts-inputs-refactor-dedupe #START_DEDUPE Checkbox / Radio /INPUTS ─ */
+
+/* REFACTOR NOTES:
+
+This block was moved from ~line 6500 to this location, where the same selectors
+are redefined with updated rules.
+
+Task:
+- Merge both instances of these selectors into a single, unified implementation
+- Preserve all currently visible production variants (do not remove or break any variant)
+
+Constraints:
+- Use the markers `#START_DEDUPE` and `#END_DEDUPE` to identify and lock the migrated block and the @ tag @ts-inputs-refactor-dedupe for global tagging and referral
+- Avoid duplications while maintaining full feature parity
+
+Refactor requirements:
+- Tokenize component properties to improve consistency and scalability
+- Eliminate redundant declarations by consolidating shared logic
+- Ensure all variants continue to function as expected after the merge
+- refer from the refalted block using the @ts-inputs-refactor-dedupe link
+
+Goal:
+A clean, deduplicated, token-driven implementation that replaces both legacy and updated blocks without regressions.
+
+*/
+
+/* Checkbox / Radio */
+.ts-checkbox-row {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-sp-3);
+	cursor: pointer;
+	user-select: none;
+}
+
+.ts-checkbox-row input[type="checkbox"],
+.ts-checkbox-row input[type="radio"] {
+	accent-color: var(--ts-accent);
+	width: 15px;
+	height: 15px;
+	cursor: pointer;
+}
+
+.ts-checkbox-row label {
+	font-size: var(--ts-fs-md);
+	color: var(--ts-text-secondary);
+	cursor: pointer;
+}
+
+/* ── Checkbox / Radio (pure CSS, native input; label = hit target) ─ */
+.ts-field-group {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-3);
+}
+
+.ts-table--bulk {
+	--ts-checkbox-size: 1rem;
+	--ts-checkbox-mark-inset: 22%;
+}
+
+.ts-checkbox {
+	--ts-checkbox-size: 1.125rem;
+	--ts-checkbox-mark-inset: 22%;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	cursor: pointer;
+	user-select: none;
+	color: var(--ts-text-primary);
+	font-size: var(--ts-fs-sm);
+	border-radius: var(--ts-radius-xss, 3px) !important;
+
+}
+
+.ts-control--checkbox input[type="checkbox"],
+.ts-control--radio input[type="radio"],
+.ts-checkbox-row input[type="checkbox"],
+.ts-checkbox-row input[type="radio"],
+.ts-checkbox input[type="checkbox"],
+.ts-radio input[type="radio"],
+.ts-table--bulk input[type="checkbox"] {
+	-webkit-appearance: none;
+	appearance: none;
+	margin: 0;
+	flex-shrink: 0;
+	box-sizing: border-box;
+	width: var(--ts-checkbox-size);
+	height: var(--ts-checkbox-size);
+	border: none;
+	outline: 1px solid var(--ts-this-bg-border);
+	outline-offset: -1px;
+	border-radius: 3px;
+	background-color: var(--ts-bg-2);
+	position: relative;
+	cursor: pointer;
+	transition: border-color var(--ts-dur-fast),
+		box-shadow var(--ts-dur-fast),
+		background var(--ts-dur-fast);
+	color: var(--ts-bg-0);
+	--ts-this-bg: var(--ts-bg-3);
+	background: var(--ts-this-bg-dim-4);
+}
+
+.ts-checkbox-row input[type="checkbox"],
+.ts-checkbox-row input[type="radio"] {
+	accent-color: var(--ts-accent);
+	width: var(--ts-checkbox-size);
+	height: var(--ts-checkbox-size);
+	cursor: pointer;
+}
+
+.ts-control--radio input[type="radio"],
+.ts-checkbox-row input[type="radio"],
+.ts-radio input[type="radio"] {
+	border-radius: 50%;
+}
+
+.ts-control--checkbox input[type="checkbox"]::before,
+.ts-checkbox-row input[type="checkbox"]::before,
+.ts-checkbox input[type="checkbox"]::before,
+.ts-table--bulk input[type="checkbox"]::before {
+	content: "";
+	position: absolute;
+	inset: var(--ts-checkbox-mark-inset, 22%);
+	transform: scale(0);
+	transform-origin: center;
+	transition: transform 0.28s var(--ts-ease-out);
+	background-color: color-mix(in srgb, var(--ts-bg-0), var(--ts-text-primary) 88%);
+	clip-path: var(--ts-ui-control-checkbox-mark);
+	background-color: currentColor;
+	color: inherit;
+	color: white;
+	mix-blend-mode: color-dodge;
+	/* text-shadow: 2px 5px 7px black; */
+}
+
+.ts-control--checkbox input[type="checkbox"]:checked,
+.ts-checkbox-row input[type="checkbox"]:checked,
+.ts-checkbox input[type="checkbox"]:checked,
+.ts-table--bulk input[type="checkbox"]:checked {
+	--ts-accent-border: color-mix(in srgb, var(--ts-accent), var(--ts-text-primary) 18%);
+	border-color: var(--ts-accent-border);
+	background: linear-gradient(-136deg, var(--ts-accent),
+			color-mix(in srgb, var(--ts-accent), #000000 17%), var(--ts-accent));
+	box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ts-text-primary), transparent 78%);
+}
+
+.ts-control--checkbox input[type="checkbox"]:checked,
+.ts-checkbox-row input[type="checkbox"]:checked,
+.ts-checkbox input[type="checkbox"]:checked,
+.ts-table--bulk input[type="checkbox"]:checked {
+	border-color: var(--ts-accent-border);
+	outline: 1px solid var(--ts-accent-border);
+	/* box-shadow: none; */
+	background-color: var(--ts-accent);
+	background-image: var(--ts-accent-glow-bg-2);
+	--ts-accent-border: color-mix(in srgb, var(--ts-accent), var(--ts-bg-2-t) 40%);
+	--ts-accent: revert;
+	outline-offset: -1px;
+}
+
+.ts-control--checkbox input[type="checkbox"]:checked::before,
+.ts-checkbox-row input[type="checkbox"]:checked::before,
+.ts-checkbox input[type="checkbox"]:checked::before,
+.ts-table--bulk input[type="checkbox"]:checked::before {
+	transform: scale(1);
+	background-color: currentColor;
+}
+
+.ts-control--radio input[type="radio"]::before,
+.ts-checkbox-row input[type="radio"]::before,
+.ts-radio input[type="radio"]::before {
+	content: "";
+	position: absolute;
+	inset: var(--ts-checkbox-mark-inset, 22%);
+	border-radius: 50%;
+	transform: scale(0);
+	transition: transform 0.28s var(--ts-ease-out);
+	background: linear-gradient(to top left,
+			color-mix(in srgb, var(--ts-accent), var(--ts-text-primary) 47%),
+			color-mix(in srgb, var(--ts-accent), var(--ts-text-primary) 8%), var(--ts-accent));
+	box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ts-text-primary), transparent 55%);
+}
+
+.ts-control--radio input[type="radio"]:checked,
+.ts-checkbox-row input[type="radio"]:checked,
+.ts-radio input[type="radio"]:checked {
+	--ts-accent-border: color-mix(in srgb, var(--ts-accent), var(--ts-text-primary) 22%);
+	border-color: var(--ts-accent-border);
+	background: color-mix(in srgb, var(--ts-bg-1), var(--ts-accent) 12%);
+	box-shadow: 0 0 0 1px color-mix(in srgb, var(--ts-accent), transparent 55%);
+}
+
+.ts-control--radio input[type="radio"]:checked::before,
+.ts-checkbox-row input[type="radio"]:checked::before,
+.ts-radio input[type="radio"]:checked::before {
+	transform: scale(1);
+}
+
+.ts-checkbox input:focus-visible,
+.ts-checkbox-row input:focus-visible,
+.ts-checkbox input:focus-visible,
+.ts-radio input:focus-visible,
+.ts-table--bulk input[type="checkbox"]:focus-visible {
+	outline: 2px solid var(--ts-accent);
+	outline-offset: 2px;
+}
+
+.ts-checkbox__label {
+	line-height: 1.45;
+}
+
+/* Clickable row / block that toggles nested checkbox */
+
+.ts-checkbox-row {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--size) / 1.2);
+	padding: var(--size) calc(var(--size) * 1.2);
+	border-radius: var(--ts-radius-sm);
+	border: 1px solid color-mix(in srgb, currentColor, transparent 95%);
+	border-color: color-mix(in srgb, currentColor, transparent 87%);
+	background-color: var(--ts-bg-3);
+	background-color: color-mix(in srgb, currentColor, transparent 96%);
+	cursor: pointer;
+	transition: background var(--ts-dur-fast),
+		border-color var(--ts-dur-fast);
+	font-size: var(--size);
+	color: var(--ts-text-secondary);
+	flex-wrap: nowrap;
+	--size: var(--ts-fs-md);
+	--ts-checkbox-size: calc(var(--size) * 1.7);
+	transition: background-color var(--ts-dur-fast) ease,
+		color var(--ts-dur-fast) ease,
+		border-color var(--ts-dur-fast) ease;
+}
+
+.ts-checkbox-row:hover {
+	color: var(--ts-text-tertiary);
+}
+
+.ts-checkbox-row input:first-of-type {
+	margin-inline-end: 0;
+}
+
+/* ts-* wrappers (alias API; inputs use --ts-checkbox-* from ancestors) */
+.ts-checkbox,
+.ts-radio {
+	--ts-checkbox-size: 1.125rem;
+	--ts-checkbox-mark-inset: 22%;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	cursor: pointer;
+	user-select: none;
+	color: var(--ts-text-primary);
+	font-size: var(--ts-fs-sm);
+}
+
+/* Size presets (md = default scale; no “sm” — too small for touch targets) */
+.ts-checkbox--md,
+.ts-radio--md {
+	--ts-checkbox-size: 1.125rem;
+	--ts-checkbox-mark-inset: 22%;
+}
+
+.ts-checkbox--lg,
+.ts-radio--lg {
+	--ts-checkbox-size: 1.375rem;
+	--ts-checkbox-mark-inset: 26%;
+}
+
+.ts-checkbox--xl,
+.ts-radio--xl {
+	--ts-checkbox-size: 1.625rem;
+	--ts-checkbox-mark-inset: 28%;
+}
+
+/* Form columns + list groups (YSS modal parity, Toolskin tokens) */
+.ts-form-column-group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ts-sp-4);
+	align-items: flex-start;
+}
+
+.ts-form-column {
+	flex: 1 1 min(280px, 100%);
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-3);
+}
+
+.ts-group-title-label,
+.ts-group-title-label {
+	display: block;
+	margin: 0 0 var(--ts-sp-2);
+	font-size: var(--ts-fs-sm);
+	font-weight: 600;
+	color: var(--ts-text-secondary);
+}
+
+.ts-checkbox-group,
+.ts-checkbox-group {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-2);
+	margin-top: 0;
+}
+
+.ts-checkbox-container,
+.ts-checkbox-container {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--ts-sp-2);
+	padding: var(--ts-sp-2) var(--ts-sp-3);
+	border: 1px solid var(--ts-border-1);
+	border-radius: var(--ts-radius-md);
+	background: var(--ts-bg-1);
+	cursor: pointer;
+	transition: background var(--ts-dur-fast) var(--ts-ease-out),
+		border-color var(--ts-dur-fast) var(--ts-ease-out),
+		color var(--ts-dur-fast) var(--ts-ease-out);
+}
+
+.ts-checkbox-container:hover,
+.ts-checkbox-container:hover {
+	border-color: var(--ts-border-0);
+	background: var(--ts-bg-2);
+}
+
+.ts-checkbox-container .ts-checkbox,
+.ts-checkbox-container .ts-control--checkbox,
+.ts-checkbox-container .ts-checkbox,
+.ts-checkbox-container .ts-control--checkbox {
+	align-items: flex-start;
+	width: 100%;
+}
+
+/* Radio lists: default = flush container, padded rows; compact = single pane + dividers */
+.ts-radio-group,
+.ts-radio-group {
+	--ts-radio-group-item-py: var(--ts-sp-2);
+	--ts-radio-group-item-px: var(--ts-sp-3);
+	--ts-radio-group-compact-padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.ts-radio-group--compact,
+.ts-radio-group--compact,
+.ts-radio-group.compact,
+.ts-radio-group.compact {
+	gap: 0;
+	padding: var(--ts-radio-group-compact-padding);
+	border: 1px solid var(--ts-border-1);
+	border-radius: var(--ts-radius-md);
+	background: var(--ts-bg-1);
+}
+
+.ts-radio-item,
+.ts-radio-item {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+	padding: var(--ts-radio-group-item-py) var(--ts-radio-group-item-px);
+	cursor: pointer;
+	font-size: var(--ts-fs-sm);
+	color: var(--ts-text-primary);
+	transition: background var(--ts-dur-fast),
+		color var(--ts-dur-fast);
+}
+
+.ts-radio-group--compact .ts-radio-item:not(:last-child),
+.ts-radio-group--compact .ts-radio-item:not(:last-child),
+.ts-radio-group--compact .ts-radio-item:not(:last-child),
+.ts-radio-group--compact .ts-radio-item:not(:last-child),
+.ts-radio-group.compact .ts-radio-item:not(:last-child),
+.ts-radio-group.compact .ts-radio-item:not(:last-child),
+.ts-radio-group.compact .ts-radio-item:not(:last-child),
+.ts-radio-group.compact .ts-radio-item:not(:last-child) {
+	border-bottom: 1px solid var(--ts-border-1);
+}
+
+/* ── #END_DEDUPE PLEASE Checkbox / Radio /INPUTS ─ */
+
+
+/* ── Checkbox / Radio (pure CSS, native input; label = hit target) ─ */
+.ts-ui-field-group {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-3);
+}
+
+.ts-ui-table--bulk {
+	--ts-ui-control-size: 1rem;
+	--ts-ui-control-mark-inset: 22%;
+}
+
+.ts-ui-control {
+	--ts-ui-control-size: 1.125rem;
+	--ts-ui-control-mark-inset: 22%;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	cursor: pointer;
+	user-select: none;
+	color: var(--ts-text-primary);
+	font-size: var(--ts-fs-sm);
+}
+
+.ts-ui-control--checkbox input[type='checkbox'],
+.ts-ui-control--radio input[type='radio'],
+.ts-ui-control-row input[type='checkbox'],
+.ts-ui-control-row input[type='radio'],
+.ts-checkbox input[type='checkbox'],
+.ts-radio input[type='radio'],
+.ts-ui-table--bulk input[type='checkbox'] {
+	-webkit-appearance: none;
+	appearance: none;
+	margin: 0;
+	flex-shrink: 0;
+	box-sizing: border-box;
+	width: var(--ts-ui-control-size, 1.125rem);
+	height: var(--ts-ui-control-size, 1.125rem);
+	border: 0px solid var(--ts-this-bg-border-hover);
+	outline: 1px solid var(--ts-this-bg-border-hover);
+	outline-offset: -1px;
+	border-radius: 4px;
+	/*background-image: var(--ts-this-bg-grad-2);*/
+	background: var(--ts-this-bg-dim);
+	position: relative;
+	cursor: pointer;
+	transition: border-color var(--ts-dur-fast),
+		outline-color var(--ts-dur-fast),
+		box-shadow var(--ts-dur-fast),
+		background-color var(--ts-dur-fast);
+	--ts-this-bg: var(--ts-bg-2-t);
+	color: var(--ts-text-primary);
+}
+
+.ts-ui-control--checkbox input[type='checkbox']:hover,
+.ts-ui-control--radio input[type='radio']:hover,
+.ts-ui-control-row input[type='checkbox']:hover,
+.ts-ui-control-row input[type='radio']:hover,
+.ts-checkbox input[type='checkbox']:hover,
+.ts-radio input[type='radio']:hover,
+.ts-ui-table--bulk input[type='checkbox']:hover,
+.ts-ui-control--checkbox input[type='checkbox']:focus,
+.ts-ui-control--radio input[type='radio']:focus,
+.ts-ui-control-row input[type='checkbox']:focus,
+.ts-ui-control-row input[type='radio']:focus,
+.ts-checkbox input[type='checkbox']:focus,
+.ts-radio input[type='radio']:focus,
+.ts-ui-table--bulk input[type='checkbox']:focus {
+	border-color: var(--ts-this-bg-border-active);
+	outline-color: var(--ts-this-bg-border-active);
+	--ts-this-bg: var(--ts-bg-4-t);
+
+}
+
+.ts-ui-control--radio input[type='radio'],
+.ts-ui-control-row input[type='radio'],
+.ts-radio input[type='radio'] {
+	border-radius: var(--ts-radius-full);
+}
+
+.ts-ui-control--checkbox input[type='checkbox']::before,
+.ts-ui-control-row input[type='checkbox']::before,
+.ts-checkbox input[type='checkbox']::before,
+.ts-ui-table--bulk input[type='checkbox']::before {
+	content: '';
+	position: absolute;
+	inset: var(--ts-ui-control-mark-inset, 20%);
+	transform: scale(0);
+	transform-origin: center;
+	transition: transform 0.28s var(--ts-ease-out);
+	background-color: color-mix(in srgb, var(--ts-bg-0), currentcolor 88%);
+	clip-path: var(--ts-ui-control-checkbox-mark);
+
+}
+
+.ts-ui-control--checkbox input[type='checkbox']:checked,
+.ts-ui-control-row input[type='checkbox']:checked,
+.ts-checkbox input[type='checkbox']:checked,
+.ts-ui-table--bulk input[type='checkbox']:checked {
+	--ts-ui-accent-border: color-mix(in srgb, var(--ts-accent), #ffffff 18%);
+	border-color: var(--ts-accent-border);
+	outline-color: var(--ts-accent-border);
+	background-color: var(--ts-accent);
+	background-image: var(--ts-accent-grad);
+}
+
+.ts-ui-control--radio input[type='radio']::before,
+.ts-ui-control-row input[type='radio']::before,
+.ts-radio input[type='radio']::before {
+	content: '';
+	position: absolute;
+	inset: var(--ts-ui-control-mark-inset, 22%);
+	border-radius: 50%;
+	transform: scale(0);
+	transition: transform 0.28s var(--ts-ease-out);
+	background: linear-gradient(to top left,
+			color-mix(in srgb, var(--ts-accent), #ffffff 47%),
+			color-mix(in srgb, var(--ts-accent), #ffffff 8%), var(--ts-accent));
+
+}
+
+.ts-ui-control--radio input[type='radio']:checked,
+.ts-ui-control-row input[type='radio']:checked,
+.ts-radio input[type='radio']:checked {
+	--ts-ui-accent-border: color-mix(in srgb, var(--ts-accent), #ffffff 22%);
+	border-color: var(--ts-ui-accent-border);
+	background: color-mix(in srgb, var(--ts-bg-1), var(--ts-accent) 12%);
+
+}
+
+.ts-ui-control--radio input[type='radio']:checked::before,
+.ts-ui-control-row input[type='radio']:checked::before,
+.ts-radio input[type='radio']:checked::before {
+	transform: scale(1);
+}
+
+.ts-ui-control--checkbox input[type='checkbox']::before,
+.ts-ui-control-row input[type='checkbox']::before,
+.ts-checkbox input[type='checkbox']::before,
+.ts-ui-table--bulk input[type='checkbox']::before {
+	content: '';
+	position: absolute;
+	inset: var(--ts-ui-control-mark-inset, 22%);
+	transform: scale(0);
+	transform-origin: center;
+	transition: transform 0.28s var(--ts-ease-out);
+	background-color: color-mix(in srgb, var(--ts-bg-0), var(--ts-on-accent) 88%);
+	clip-path: var(--ts-ui-control-checkbox-mark);
+
+}
+
+.ts-ui-control--checkbox input[type='checkbox']:checked::before,
+.ts-ui-control-row input[type='checkbox']:checked::before,
+.ts-checkbox input[type='checkbox']:checked::before,
+.ts-ui-table--bulk input[type='checkbox']:checked::before {
+	transform: scale(1);
+}
+
+.ts-ui-control input:focus-visible,
+.ts-ui-control-row input:focus-visible,
+.ts-checkbox input:focus-visible,
+.ts-radio input:focus-visible,
+.ts-ui-table--bulk input[type='checkbox']:focus-visible {
+	outline: 1px solid var(--ts-accent);
+	outline-offset: -1px;
+}
+
+.ts-ui-control__label {
+	line-height: 1.45;
+}
+
+
+/* Clickable row / block that toggles nested checkbox */
+.ts-ui-control-row {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-sp-3);
+	padding: var(--ts-sp-3) var(--ts-sp-4);
+	border-radius: var(--ts-radius-md);
+	border: 1px solid var(--ts-border-1);
+	background: var(--ts-bg-1);
+	cursor: pointer;
+	transition: background var(--ts-dur-fast), border-color var(--ts-dur-fast);
+}
+
+.ts-ui-control-row:hover {
+	background: var(--ts-bg-2);
+	border-color: var(--ts-border-0);
+}
+
+.ts-ui-control-row input:first-of-type {
+	margin-inline-end: 0;
+}
+
+/* ts-* wrappers (alias API; inputs use --ts-ui-control-* from ancestors) */
+.ts-checkbox,
+.ts-radio {
+	--ts-ui-control-size: 1.125rem;
+	--ts-ui-control-mark-inset: 22%;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	cursor: pointer;
+	user-select: none;
+	color: var(--ts-text-primary);
+	font-size: var(--ts-fs-sm);
+}
+
+/* Size presets (md = default scale; no “sm” — too small for touch targets) */
+.ts-checkbox--md,
+.ts-radio--md {
+	--ts-ui-control-size: 1.125rem;
+	--ts-ui-control-mark-inset: 22%;
+}
+
+.ts-checkbox--lg,
+.ts-radio--lg {
+	--ts-ui-control-size: 1.375rem;
+	--ts-ui-control-mark-inset: 26%;
+}
+
+.ts-checkbox--xl,
+.ts-radio--xl {
+	--ts-ui-control-size: 1.625rem;
+	--ts-ui-control-mark-inset: 28%;
+}
+
+/* Form columns + list groups (YSS modal parity, Toolskin tokens) */
+.ts-form-column-group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ts-sp-4);
+	align-items: flex-start;
+}
+
+.ts-form-column {
+	flex: 1 1 min(280px, 100%);
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-3);
+}
+
+.ts-group-title-label,
+.ts-ui-group-title-label {
+	display: block;
+	margin: 0 0 var(--ts-sp-2);
+	font-size: var(--ts-fs-sm);
+	font-weight: 600;
+	color: var(--ts-text-secondary);
+}
+
+.ts-checkbox-group,
+.ts-ui-checkbox-group {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-2);
+	margin-top: 0;
+}
+
+.ts-checkbox-container,
+.ts-ui-checkbox-container {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--ts-sp-2);
+	padding: var(--ts-sp-2) var(--ts-sp-3);
+	border: 1px solid var(--ts-border-1);
+	border-radius: var(--ts-radius-md);
+	background: var(--ts-bg-1);
+	cursor: pointer;
+	transition: background var(--ts-dur-fast) var(--ts-ease-out),
+		border-color var(--ts-dur-fast) var(--ts-ease-out),
+		color var(--ts-dur-fast) var(--ts-ease-out);
+}
+
+.ts-checkbox-container:hover,
+.ts-ui-checkbox-container:hover {
+	border-color: var(--ts-border-strong);
+	background: var(--ts-bg-2);
+}
+
+.ts-checkbox-container .ts-checkbox,
+.ts-checkbox-container .ts-ui-control--checkbox,
+.ts-ui-checkbox-container .ts-checkbox,
+.ts-ui-checkbox-container .ts-ui-control--checkbox {
+	align-items: flex-start;
+	width: 100%;
+}
+
+/* Radio lists: default = flush container, padded rows; compact = single pane + dividers */
+.ts-radio-group,
+.ts-ui-radio-group {
+	--ts-ui-radio-group-item-py: var(--ts-sp-2);
+	--ts-ui-radio-group-item-px: var(--ts-sp-3);
+	--ts-ui-radio-group-compact-padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.ts-radio-group--compact,
+.ts-ui-radio-group--compact,
+.ts-radio-group.compact,
+.ts-ui-radio-group.compact {
+	gap: 0;
+	padding: var(--ts-ui-radio-group-compact-padding);
+	border: 1px solid var(--ts-border-1);
+	border-radius: var(--ts-radius-md);
+	background: var(--ts-bg-1);
+}
+
+.ts-radio-item,
+.ts-ui-radio-item {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+	padding: var(--ts-ui-radio-group-item-py) var(--ts-ui-radio-group-item-px);
+	cursor: pointer;
+	font-size: var(--ts-fs-sm);
+	color: var(--ts-text-primary);
+	transition: background var(--ts-dur-fast), color var(--ts-dur-fast);
+}
+
+.ts-radio-group--compact .ts-radio-item:not(:last-child),
+.ts-radio-group--compact .ts-ui-radio-item:not(:last-child),
+.ts-ui-radio-group--compact .ts-radio-item:not(:last-child),
+.ts-ui-radio-group--compact .ts-ui-radio-item:not(:last-child),
+.ts-radio-group.compact .ts-radio-item:not(:last-child),
+.ts-radio-group.compact .ts-ui-radio-item:not(:last-child),
+.ts-ui-radio-group.compact .ts-radio-item:not(:last-child),
+.ts-ui-radio-group.compact .ts-ui-radio-item:not(:last-child) {
+	border-bottom: 1px solid var(--ts-border-1);
+}
+
+.ts-control-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	padding: var(--ts-sp-2) var(--ts-sp-3);
+	border-radius: var(--ts-radius-full);
+	border: 1px solid color-mix(in srgb, var(--ts-accent), transparent 55%);
+	background: color-mix(in srgb, var(--ts-bg-2), transparent 20%);
+	cursor: pointer;
+	transition: border-color var(--ts-dur-fast),
+		background var(--ts-dur-fast);
+}
+
+.ts-control-chip:hover {
+	border-color: color-mix(in srgb, var(--ts-accent), transparent 25%);
+	background: color-mix(in srgb, var(--ts-accent), transparent 92%);
+}
+
+/* Surface variants (gradients on container only; marks stay readable) */
+.ts-control-surface--glass {
+	background: color-mix(in srgb, var(--ts-bg-1), transparent 35%);
+	backdrop-filter: blur(10px);
+	border-color: color-mix(in srgb, var(--ts-border-1), transparent 25%);
+	/* @refactor:backdrop-critical */
+	/* @refactor:glass-dependent */
+	/* @refactor:needs-solid-fallback */
+	/* @refactor:token-dependency */
+}
+
+.ts-control-surface--accent-gradient {
+	border-color: color-mix(in srgb, var(--ts-accent), transparent 40%);
+	background: linear-gradient(145deg,
+			color-mix(in srgb, var(--ts-accent), transparent 88%),
+			color-mix(in srgb, var(--ts-bg-2), transparent 15%),
+			color-mix(in srgb, var(--ts-accent), transparent 92%));
+}
+
+.ts-control-surface--accent-gradient .ts-ui-control__label,
+.ts-control-surface--accent-gradient .ts-checkbox,
+.ts-control-surface--accent-gradient .ts-radio {
+	color: var(--ts-text-primary);
+}
+
+/* Light panel: strong border + dark text so it works on dark page chrome */
+.ts-control-surface--light {
+	background: color-mix(in srgb, #ffffff, var(--ts-bg-2) 12%);
+	border: 1px solid color-mix(in srgb, var(--ts-border-strong), var(--ts-bg-0) 35%);
+	color: color-mix(in srgb, var(--ts-bg-0), #000000 8%);
+}
+
+.ts-control-surface--light .ts-group-title-label,
+.ts-control-surface--light .ts-ui-group-title-label {
+	color: color-mix(in srgb, var(--ts-bg-0), var(--ts-text-secondary) 25%);
+}
+
+.ts-control-surface--light .ts-ui-control__label,
+.ts-control-surface--light .ts-checkbox,
+.ts-control-surface--light .ts-radio,
+.ts-control-surface--light .ts-checkbox-container,
+.ts-control-surface--light .ts-radio-item {
+	color: color-mix(in srgb, var(--ts-bg-0), #1a1a1a 6%);
+}
