@@ -1,294 +1,244 @@
-# Expert Designer v6 — Integration Handoff for Session 3.x Agents
+# Expert Designer · v7 — Integration Handoff
 
-> **For Gerald 2.0 + Agent A + any sub-agent on Toolskin Session 3.x.**
-> Read this first, before touching anything in `expert-designer/`.
-> This skill landed during/after your last commit and was authored
-> without knowledge of every active Session 3.x ruling — alignment
-> notes below.
+> **For agents / teammates picking up this pack.**
+> Read this once. Then operate from `SKILL.md` and `README.md`.
 
 ---
 
-## TL;DR (90 seconds)
+## What this is (90 seconds)
 
-A new skill ships at `expert-designer/` that replaces v5's essay form
-with a deterministic decision protocol for any Toolskin visual output.
+A self-contained, portable, system-enforcing **design intelligence layer**
+for Toolskin. Drops into any project. Activates first for any visual task.
+Refuses to improvise — assembles only from approved patterns.
 
-It is **complementary** to your refactor work, not in conflict with it.
-Three small alignment edits will reconcile it with active RULINGs
-(see §3 below) and then it can carry the agent-facing decision protocol
-while your refactor owns the runtime CSS engine.
-
-Structure:
 ```
-expert-designer/
-├── SKILL.md                          ← agent entry point, ~330 lines, decision-tree-driven
-├── references/
-│   ├── 01-foundation.md              ← color engine + surfaces (cites generate-colors.js)
-│   ├── 02-typography.md              ← 1.200 ladder, font pairings, hierarchy
-│   ├── 03-layout-and-spacing.md      ← 8pt grid, container budgets, layout primitives
-│   ├── 04-cards-and-containers.md    ← 10 copy-paste card recipes
-│   ├── 05-awwwards-patterns.md       ← 10 hero/section patterns from awwwards canon
-│   └── 06-component-recipes.md       ← btn/input/badge/chip/nav/footer/modal/toast
-├── scripts/
-│   ├── generate-colors.js            ← VERBATIM copy of tools/color-engine — see §3.4
-│   ├── audit-design.mjs              ← NEW: lints HTML for system compliance, scores 0-100
-│   ├── health-check.sh               ← skill structure verification
-│   └── scaffold-component.sh         ← drops a working recipe HTML into cwd
-├── templates/
-│   ├── tokens.css                    ← cascade-layered tokens contract
-│   └── seed-page.html                ← clean Toolskin starter
-└── showcase.html                     ← live themeable demonstration
+expert-designer/                ← drop this folder anywhere
+├── SKILL.md                    AUTHORITATIVE entry point (priority 100, design-only)
+├── ANTI-DEFAULT-PROTOCOL.md    Forcing function — prevents centered-stack slop
+├── README.md                   File tree + portability contract
+├── HANDOFF.md                  This file
+├── Expert Designer Pack.html   Single-file viewer (open in any browser)
+├── showcase.html               Live themeable demo
+├── references/                 (6) — lookup, ≤ 2 per task
+├── starters/                   (6) — approved patterns, FILL their SLOT markers
+├── scripts/                    (5) — audit-boring, audit-design, generators
+└── templates/                  (2) — tokens.css + seed-page.html
 ```
 
 ---
 
-## 1 · What this skill is FOR
+## v7 changes from v6 (what's new)
 
-**It's the agent-facing decision protocol.** When a sub-agent gets a
-visual task ("build a landing page", "design this card", "what font?"),
-they open `SKILL.md` and walk the decision trees. Every choice
-resolves to a token, a number, or a named recipe.
+### A. The skill is now AUTHORITATIVE design-only
+- `priority: 100` in the frontmatter — this skill activates FIRST for any
+  design / visual / layout / styling task.
+- DOES NOT build, code, refactor. Hands off to other skills for implementation.
+- REFUSES to improvise. Will escalate if no approved pattern fits.
 
-It is NOT:
-- A runtime CSS engine (your `assets/css/next/system/` is)
-- A new design system (Toolskin is the one design system)
-- A replacement for `generate-colors.js` (it embeds a copy and points at it)
-- A replacement for the surface preset catalog (it points at the JSON)
+### B. Mandatory flow with two-gate verification
+```
+0. Read ANTI-DEFAULT-PROTOCOL.md (every time)
+1. Classify task → pick starter (one of six)
+2. Write 6-line manifesto BEFORE any HTML
+3. Fill starter SLOT markers with real content (do NOT redesign)
+4. Run `node scripts/audit-boring.mjs <file>`    — exits 1 on slop
+5. Run `node scripts/audit-design.mjs <file>`    — exits 1 on rule violations
+6. Manual checklist. Ship.
+```
 
-Think of it as: **the rulebook agents read; the runtime CSS is the law it enforces.**
+### C. Self-contained portability
+- All internal paths are **relative** within the folder
+- Move `expert-designer/` to any location, every internal link still works
+- Only external dependencies are public CDNs (fonts, FontAwesome, Pack viewer libs)
+- Nothing depends on project-root path
+- `Expert Designer Pack.html` now lives INSIDE `expert-designer/` (not at project root)
+
+### D. Pack iframe containment
+- iframe-rendered previews are `sandbox="allow-scripts"` — no top-nav, no popups,
+  no form submit, no same-origin escape
+- Anchor clicks inside previews are intercepted (preventDefault)
+- Stylesheets referenced by the previewed file are **inlined into the srcdoc**
+  so paths resolve correctly within the sandbox
+
+### E. Structural rule
+- NO HTML files at project root. Everything modular under `expert-designer/`.
+- Folder is a complete design pack, not a loose collection.
+
+### F. The boring-detector (`audit-boring.mjs`)
+New script that rejects rule-compliant slop. Hard failures (exit 1):
+- No asymmetric grid anywhere (`5fr 7fr` or similar)
+- No multi-column grid (12-col bento or `auto-fit ≥ 280px`)
+- Every section centered
+- No varied grid-column spans (bento must have ≥3 distinct spans)
+- No oversized element (no font-size ≥ 56px or ≥ 6vw)
+- Only one background surface used
+- Fewer than 3 unique padding values
+
+Conviction score 0–100. < 60 → restart with a different starter.
+
+### G. The starter library — six approved patterns
+| Starter | Use when | Marketing? | Editorial? |
+|---|---|---|---|
+| `01-centered-hero.html` | Single dev-tool launch | ✓ | — |
+| `02-magazine-split.html` | Publication / long-form | — | ✓ |
+| `03-asymmetric-hero.html` ★ | **Marketing default** | ✓ | — |
+| `04-oversized-type.html` | Brutalist / poster | ✓ | ✓ |
+| `05-bento-landing.html` ★ | **Product default** | ✓ | — |
+| `06-magazine-toc.html` | Portfolio / index | — | ✓ |
+
+Every starter renders as a complete demo when opened raw. The agent's job
+is **fill the SLOTs**, not redesign the layout.
+
+### H. The `.ts-icon` system (Font Awesome compatible)
+Added to `templates/tokens.css`. Wrapper sized independently from glyph.
+Variants: `--accent`, `--solid`, `--ghost`, `--muted`, `--success`, `--danger`,
+sizes xs/sm/md/lg/xl.
+```html
+<span class="ts-icon ts-icon--md ts-icon--accent">
+  <i class="fa-solid fa-bolt"></i>
+</span>
+```
+
+### I. Surface containment law (Satoshi's rule)
+Surfaces apply to:
+- Cards (padding + radius + border), OR
+- Full-width sections (edge-to-edge)
+
+NEVER to contained sections. A contained section with bg-1 reads as a
+"floating colored square" inside the body. Make it full-bleed + inner container.
+
+### J. Auto-harmony section pattern (`.ts-flow`)
+`<main class="ts-flow">` — direct child `<section>`s alternate body / bg-1
+surfaces automatically via `:nth-of-type`, with a hairline border between
+adjacent sections. No manual surface assignment per-section needed.
 
 ---
 
-## 2 · Integration points (where Session 3.x work plugs in)
-
-| Session 3.x deliverable | Where it appears in this skill |
-|---|---|
-| RULING 7 constants table | `references/01-foundation.md` §6 (APCA gate) — currently quotes 75/45/25 floors. **Will need update once RULING 7 lands** with the exact apcach Lc 15/30 + culori ΔL constants from the surfaces re-grounding. |
-| `system/nesting.css` | Recipes in `references/04-cards-and-containers.md` should cite `--ts-radius-nest-reduction` once it exists. Currently they say "padding ≥ gap" — that rule still holds and is depth-agnostic. |
-| `system/text.css` + `system/accent.css` | `references/02-typography.md` and `references/01-foundation.md` should reference these once they ship, replacing the current inline tokens table with links. |
-| Extended surfaces.css (dim-5/6, grad-2/3/4) | `references/01-foundation.md` §2.2 currently documents the 6-level surface ladder. **Add dim-5/6 + grad variants once landed.** |
-| `.impeccable.md` rules | The skill's own constants (13px base, sp stops at 16, etc.) should be updated to match (see §3 below) so impeccable audits don't flag the skill's own showcase. |
-
----
-
-## 3 · Alignment edits required (HALT items if you adopt as-is)
-
-This skill was authored against a generic best-practice baseline. Three
-constants diverge from your active RULINGs and must be reconciled before
-the skill is presented to a sub-agent.
-
-### 3.1 RULING 3 — base font size (13px, not 16px)
-
-- `expert-designer/templates/tokens.css` line ~36: `--ts-fs-base: 16px;` → change to **`13px`**
-- `expert-designer/SKILL.md` §3.2 (Type — the 1.200 modular ladder, anchored at 16px) → re-anchor to 13px and regenerate the step-size table:
-  - At 13px base × 1.2: step 0 = 13, step 1 = 15.6, step 2 = 18.72, step 3 = 22.46, step 4 = 26.95, step 5 = 32.34, step 6 = 38.81, step 7 = 46.57, step 8 = 55.89, step 9 = 67.06
-- `expert-designer/references/02-typography.md` §1 — re-anchor every value
-- `expert-designer/references/02-typography.md` §9 anti-patterns — change "caption floor is 13px" wording since 13px is now BODY, not a floor
-- `expert-designer/.impeccable.md` reference: the `.impeccable.md` rule "Base font: 13px (intentional tool-system density — RULING 3)" must already exclude the showcase from being flagged. Add the showcase path explicitly if needed.
-
-### 3.2 RULING 5 — spacing stops at sp-16
-
-- `expert-designer/templates/tokens.css` lines ~119-121: remove `--ts-sp-20`, `--ts-sp-24`, `--ts-sp-32`
-- `expert-designer/SKILL.md` §3.3 — drop sp-20/24/32 rows from the spacing scale table
-- `expert-designer/references/03-layout-and-spacing.md` §1 — drop sp-20/24/32, adjust section-padding `clamp()` to top out at sp-16 (64px) or rely on fluid tokens (`--ts-section-pad: clamp(4rem, 8vw, 9rem)` is still valid because it's not on the sp-scale)
-- `expert-designer/references/04-cards-and-containers.md` — every recipe using sp-20+ rewrite to use `--ts-section-pad` or fluid clamp
-- `expert-designer/references/06-component-recipes.md` Footer recipe — replace sp-16/sp-24 usages
-
-### 3.3 RULING 1 — surfaces are curated, not derived
-
-The skill already states this correctly in `references/01-foundation.md` §2 and §8. **No edit needed.** It also lists the 10 preset IDs verbatim from the generator. Good.
-
-### 3.4 RULING 7 — apcach-bake constants
-
-`expert-designer/scripts/generate-colors.js` is a **verbatim copy** of your existing `tools/color-engine/generate-colors.js`. Once Agent A's Session 3.x update lands (apcach Lc 15/30 + culori ΔL for sub-floor + grad-angle allowlist), re-copy the file:
+## Path integrity audit
 
 ```bash
-cp tools/color-engine/generate-colors.js expert-designer/scripts/generate-colors.js
+# From the project root:
+grep -rn 'href="/\|src="/\|url(/' expert-designer/   # should find NOTHING
+grep -rn '/expert-designer/'      expert-designer/   # should find NOTHING
 ```
 
-The skill points users at it (`node scripts/generate-colors.js`), so it'll automatically inherit the new behavior.
-
-### 3.5 RULING 9 — re-anchor first, consume second
-
-This pattern is **already followed implicitly** by all skill recipes
-(every recipe defines its own component tokens before consuming primitives).
-But not called out explicitly. Add a note in
-`expert-designer/references/06-component-recipes.md` §10 ("The component
-cohesion test"): _"Component CSS must re-anchor system tokens to local
-`--ts-{component}-*` knobs before consuming. Two-line idiom."_
+Everything in this folder uses **relative paths** (`../templates/tokens.css`
+from `starters/*.html`, `templates/tokens.css` from `showcase.html`, etc.).
+The only example absolute path is in a documentation code snippet
+(`references/06-component-recipes.md`'s nav example) — that's intentional doc.
 
 ---
 
-## 4 · What the skill GIVES Session 3.x agents (the upside)
+## How another agent operates this pack
 
-### 4.1 Sub-agents become instantly productive on visual tasks
+### To consume the skill (typical task)
+```bash
+# 1. Read the skill
+cat expert-designer/SKILL.md
+cat expert-designer/ANTI-DEFAULT-PROTOCOL.md
 
-The old expert-designer (v5) was 225 lines of essay. Sub-agents read it
-and still asked "but what font?" / "but what padding?". v6 has named
-decision trees for every common question. Sample from §4.2:
+# 2. Pick a starter, copy it as your work file
+cp expert-designer/starters/03-asymmetric-hero.html my-page.html
 
+# 3. Fill the SLOT markers with real content
+$EDITOR my-page.html
+
+# 4. Audit BOTH gates
+node expert-designer/scripts/audit-boring.mjs my-page.html
+node expert-designer/scripts/audit-design.mjs my-page.html
+
+# 5. If both pass: ship.
+#    If either fails: re-read the error, fix, re-audit.
+#    If audit-boring keeps failing: pick a different starter.
 ```
-"Which type step for this element?"
-Hero h1, single screen ........ step 7-9
-Section title h2 .............. step 5-6
-Card title h3 ................. step 3
-Subheading / lead ............. step 1
-Body ......................... step 0
-Caption / meta ............... step -1
-Overline / badge ............. step -2 UPPERCASE +0.08em
+
+### To review someone else's design
+```bash
+node expert-designer/scripts/audit-boring.mjs their-page.html
+node expert-designer/scripts/audit-design.mjs their-page.html
 ```
 
-No more "what looks right." Look it up.
+If both exit 0, the design respects the system. Manual checklist in SKILL.md §9.
 
-### 4.2 Lintable design output
+### To extend the system (new starter)
+1. Owner approval required.
+2. New starter goes in `expert-designer/starters/NN-name.html`.
+3. Update `SKILL.md` §2 task classifier table.
+4. Update `audit-boring.mjs` if the new starter introduces a layout primitive
+   the linter doesn't yet know about.
+5. Update `README.md` file tree.
 
-`scripts/audit-design.mjs` is a real linter. Run it on any HTML:
+---
+
+## Alignment with Toolskin Session 3.x rulings (still active from v6 handoff)
+
+These were flagged in v6's HANDOFF and remain unresolved at the skill level.
+The skill v7 left them intentionally so an integration agent can apply them
+when the Session 3.x refactor lands its constants:
+
+### RULING 3 — base font size
+- `templates/tokens.css` currently anchors at `--ts-fs-base: 16px`
+- If your project ruled 13px, regenerate the ladder values
+- Update `SKILL.md` §5.2 and `references/02-typography.md`
+
+### RULING 5 — spacing stops at sp-16
+- `templates/tokens.css` currently has sp-20/24/32
+- If your project caps at sp-16, drop those tokens
+- Update `SKILL.md` §5.3 and `references/03-layout-and-spacing.md`
+
+### RULING 7 — apcach constants in `generate-colors.js`
+- Re-copy from `tools/color-engine/generate-colors.js` when Session 3.x
+  updates the apcach Lc / culori ΔL constants
+- The skill points users at `scripts/generate-colors.js`, so it inherits
+  whatever's there
+
+These are reconciliation tasks, not blockers — the skill works as-is and
+the rulings are mechanical text edits when applied.
+
+---
+
+## What v7 explicitly does NOT cover
+
+So you know where to escalate or invoke a different skill:
+
+- **Framework integration** (React, Vue, Svelte, Astro) — implementation skill
+- **Animation beyond CSS transitions** — animation skill
+- **Backend / data fetching / state management** — out of scope
+- **Real content writing past placeholder SLOTs** — content skill
+- **Accessibility audits beyond `:focus-visible`** — a11y skill
+- **WordPress/Enfold theme code** — only the token bridge is documented
+  (`references/01-foundation.md` §7); shortcode/PHP belongs in a WP skill
+
+---
+
+## Quick verify the pack is healthy
 
 ```bash
-node expert-designer/scripts/audit-design.mjs path/to/page.html
+bash expert-designer/scripts/health-check.sh
 ```
 
-Catches:
-- Hardcoded hex outside `:root` (HARD fail)
-- `!important` (HARD fail)
-- Unsafe `1fr` grids without `minmax(0, …)` (HARD fail)
-- Banned default fonts as PRIMARY pick (HARD fail)
-- `100vh` (should be `100dvh`) (HARD fail)
-- Off-ladder font-size px values (SOFT warning)
-- Off-grid spacing px values (SOFT warning)
-- `:hover` without paired `:focus-visible` (SOFT warning)
-- > 2 font families loaded (SOFT warning)
-
-Outputs a 0-100 score and grade letter. Exits 1 on hard failures
-→ wire into CI to gate PRs.
-
-**Note:** after the RULING 3 / RULING 5 alignment edits, update the
-linter's `LADDER_PX` and `SP` arrays accordingly so the audit doesn't
-flag your own correct values.
-
-### 4.3 Card / container recipes that don't break
-
-`references/04-cards-and-containers.md` has 10 production recipes with
-explicit anatomy, dimensions, states, and pitfalls. The "padding ≥ gap"
-rhythm rule is enforced. Every recipe uses `grid-template-rows: auto 1fr auto`
-for footer pinning. This addresses the user's stated pain — cards/divs/
-containers that "kept breaking under long content."
-
-### 4.4 Awwwards patterns with the ONE move
-
-`references/05-awwwards-patterns.md` distills 10 hero/section patterns
-from awwwards SOTD canon. For each, it names the single move that makes
-it work (e.g. centered hero = "headline is the entire visual hierarchy;
-everything else < 25% of its weight"). Sub-agents stop inventing.
-
-### 4.5 The showcase is a working reference
-
-`expert-designer/showcase.html` renders:
-- The type ladder at every step
-- Surface swatches for the active preset
-- Live HSL accent sliders (drag to retheme the whole page)
-- Theme toggle (dark/light)
-- Live card recipes (stat / feature / pricing / quote)
-- Bento composition demo
-- The 6-step agent workflow
-
-Open it once you've done the alignment edits — it's the proof the
-system is coherent end-to-end.
+Should report all files present + no `!important` declarations in skill CSS.
 
 ---
 
-## 5 · Recommended integration sequence
+## The one-file deliverable
 
-For the agent who picks this up:
+`expert-designer/Expert Designer Pack.html` — single HTML file embedding
+every source. Open in any browser. Browse, copy individual files, download
+the whole pack as zip with one click. Self-contained: needs no install, no
+server, no project-root path.
 
-**Phase A · Reconcile (30 min)**
-1. Apply §3.1 RULING 3 edits to `tokens.css`, `SKILL.md`, `02-typography.md`
-2. Apply §3.2 RULING 5 edits to `tokens.css`, `SKILL.md`, `03-layout-and-spacing.md`, `04-cards-and-containers.md`, `06-component-recipes.md`
-3. Apply §3.5 RULING 9 callout to `06-component-recipes.md`
-4. Re-open `showcase.html` — verify it still renders cleanly under the new constants
-5. Commit: `chore(skill): align expert-designer v6 with active RULINGs 3/5/9`
-
-**Phase B · Integrate (after Session 3.x Step 3 lands)**
-1. Once `system/nesting.css` ships: add nest-reduction tokens to `references/04-cards-and-containers.md` recipes
-2. Once `system/text.css` + `system/accent.css` ship: replace inline tokens table in `references/02-typography.md` and `references/01-foundation.md` with references to the system files
-3. Once `surfaces.css` extends (dim-5/6, grad-2/3/4): update `references/01-foundation.md` §2.2
-4. Re-copy `generate-colors.js` to pick up RULING 7 constants
-5. Update `audit-design.mjs` `LADDER_PX` array if any new fluid sizes land
-6. Commit: `feat(skill): integrate Session 3.x system files into expert-designer references`
-
-**Phase C · Promote**
-1. Add `expert-designer/SKILL.md` to `.claude/skills/` index
-2. Wire `audit-design.mjs` into pre-commit hook alongside `pre-commit.sh`
-3. Add a CLAUDE.md pointer: "For any visual task, start at expert-designer/SKILL.md"
+Hand this file to:
+- Designers reviewing the system
+- Stakeholders needing a self-contained snapshot
+- Other agents that need offline access to the pack
 
 ---
 
-## 6 · Where the skill points to your repo
+## Done
 
-Once integrated, the skill's references will cite these paths (some already do, some need updating in Phase B):
+Skill is v7. Self-contained. Portable. Two audit gates. Six approved patterns.
+Authoritative for any design task.
 
-```
-generate-colors.js               → tools/color-engine/generate-colors.js
-nesting.css                      → assets/css/next/system/nesting.css   (Session 3.x)
-text.css                         → assets/css/next/system/text.css      (Session 3.x)
-accent.css                       → assets/css/next/system/accent.css    (Session 3.x)
-surfaces.css                     → assets/css/next/system/surfaces.css
-colors.css (generated)           → assets/css/next/primitives/colors.css
-surface-presets-catalog.json     → docs/references/surface-presets-catalog.json
-APCA contrast report             → docs/handoffs/colors-contrast-report.md
-ts-surface.css (raw extracted)   → docs/references/toolskin.css_extracted-core-blocks-to-refactor/ts-surface.css
-```
-
-The agent doing Phase B should replace `expert-designer/templates/tokens.css`
-with a single `@import` of the real system files once they're stable —
-no need to duplicate the contract once the source of truth is solid.
-
----
-
-## 7 · Things the skill explicitly DOES NOT cover
-
-So Session 3.x agents know where to NOT look here:
-
-- **Runtime apcach derivation (Path-A)** — out of scope, the skill assumes the build-time engine handles this
-- **WordPress / Enfold ALB shortcodes** — briefly noted in `01-foundation.md` §7 (bridge mapping only), not full Enfold reference
-- **Animation library choices** (Motion, GSAP, etc.) — the skill recommends CSS-only and orchestrated page loads; deeper motion work is its own skill
-- **3D / WebGL** — explicitly out of scope; the skill cites where awwwards uses Three.js but doesn't teach it
-- **Figma plugin / token sync** — generator pipeline is documented; Figma bridge is its own concern
-
----
-
-## 8 · One thing Gerald 2.0 should know
-
-The skill's `showcase.html` was authored to be visually striking
-(it's the deliverable the user can open right now to see the system
-work). It uses Instrument Serif for one italic word in the hero —
-this is intentional, NOT a system-wide font addition. If the
-audit pipeline flags "too many fonts loaded" for the showcase, that's
-a false positive — showcase is reference material, not production page.
-Add to `.impeccable.md`:
-
-```
-- showcase.html may load up to 3 fonts (Space Grotesk + JetBrains Mono + Instrument Serif)
-  for typographic demonstration. Production pages stay at 2.
-```
-
----
-
-## Done. Hand off summary for the next agent
-
-**Status:** Skill landed and works. `done` returned clean. Verifier
-caught a reduced-motion bug in the showcase reveal animation; fixed.
-
-**Blockers:** None for this skill. Three reconciliation edits queued
-in §3 above — small, mechanical, ~30 min for one agent.
-
-**Risk:** If a sub-agent reads the skill BEFORE the §3 edits land,
-they'll generate output with `--ts-fs-base: 16px` and sp-20+ tokens
-that don't exist in your system. Apply §3 edits FIRST or temporarily
-flag the skill as `status: alignment-pending` in any registry.
-
-**Win:** Sub-agents now have a real decision tree for visual tasks
-instead of 225 lines of "be world-class." Combined with `audit-design.mjs`
-in CI, the system becomes self-enforcing.
-
-— authored by claude (anthropic) · ready for Session 3.x integration
+If something breaks: run `bash scripts/health-check.sh` first. Then re-read
+`SKILL.md` §11 (escalation criteria). Then ping the owner.

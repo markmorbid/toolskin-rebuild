@@ -13,9 +13,7 @@
 
 @layer reset {
   *, *::before, *::after { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; 
-            color-scheme: dark;
-}
+  html, body { margin: 0; padding: 0; }
   body { min-height: 100dvh; }
   img, svg, video, picture { display: block; max-width: 100%; }
   button, input, select, textarea { font: inherit; color: inherit; }
@@ -55,21 +53,21 @@
     --ts-font-body:    'Space Grotesk', system-ui, sans-serif;
     --ts-font-mono:    'JetBrains Mono', ui-monospace, monospace;
 
-    --ts-fs-base: 13px;     /* RULING 3 — Toolskin tool-system density */
+    --ts-fs-base: 16px;
     --ts-fs-ratio: 1.2;
 
-    --ts-fs--2: calc(var(--ts-fs-base) / var(--ts-fs-ratio) / var(--ts-fs-ratio));  /* 9.03 */
-    --ts-fs--1: calc(var(--ts-fs-base) / var(--ts-fs-ratio));                       /* 10.83 */
-    --ts-fs-0:  var(--ts-fs-base);                                                   /* 13.00 */
-    --ts-fs-1:  calc(var(--ts-fs-base) * var(--ts-fs-ratio));                       /* 15.60 */
-    --ts-fs-2:  calc(var(--ts-fs-1)    * var(--ts-fs-ratio));                       /* 18.72 */
-    --ts-fs-3:  calc(var(--ts-fs-2)    * var(--ts-fs-ratio));                       /* 22.46 */
-    --ts-fs-4:  calc(var(--ts-fs-3)    * var(--ts-fs-ratio));                       /* 26.95 */
-    --ts-fs-5:  calc(var(--ts-fs-4)    * var(--ts-fs-ratio));                       /* 32.34 */
-    --ts-fs-6:  calc(var(--ts-fs-5)    * var(--ts-fs-ratio));                       /* 38.81 */
-    --ts-fs-7:  calc(var(--ts-fs-6)    * var(--ts-fs-ratio));                       /* 46.57 */
-    --ts-fs-8:  calc(var(--ts-fs-7)    * var(--ts-fs-ratio));                       /* 55.89 */
-    --ts-fs-9:  calc(var(--ts-fs-8)    * var(--ts-fs-ratio));                       /* 67.06 */
+    --ts-fs--2: calc(var(--ts-fs-base) / var(--ts-fs-ratio) / var(--ts-fs-ratio));  /* 11.11 */
+    --ts-fs--1: calc(var(--ts-fs-base) / var(--ts-fs-ratio));                       /* 13.33 */
+    --ts-fs-0:  var(--ts-fs-base);                                                   /* 16.00 */
+    --ts-fs-1:  calc(var(--ts-fs-base) * var(--ts-fs-ratio));                       /* 19.20 */
+    --ts-fs-2:  calc(var(--ts-fs-1)    * var(--ts-fs-ratio));                       /* 23.04 */
+    --ts-fs-3:  calc(var(--ts-fs-2)    * var(--ts-fs-ratio));                       /* 27.65 */
+    --ts-fs-4:  calc(var(--ts-fs-3)    * var(--ts-fs-ratio));                       /* 33.18 */
+    --ts-fs-5:  calc(var(--ts-fs-4)    * var(--ts-fs-ratio));                       /* 39.81 */
+    --ts-fs-6:  calc(var(--ts-fs-5)    * var(--ts-fs-ratio));                       /* 47.78 */
+    --ts-fs-7:  calc(var(--ts-fs-6)    * var(--ts-fs-ratio));                       /* 57.33 */
+    --ts-fs-8:  calc(var(--ts-fs-7)    * var(--ts-fs-ratio));                       /* 68.80 */
+    --ts-fs-9:  calc(var(--ts-fs-8)    * var(--ts-fs-ratio));                       /* 82.55 */
 
     --ts-fs-micro:   var(--ts-fs--2);
     --ts-fs-caption: var(--ts-fs--1);
@@ -107,8 +105,8 @@
     --ts-sp-1:  4px;  --ts-sp-2:  8px;  --ts-sp-3: 12px; --ts-sp-4: 16px;
     --ts-sp-5: 20px;  --ts-sp-6: 24px;  --ts-sp-8: 32px; --ts-sp-10: 40px;
     --ts-sp-12: 48px; --ts-sp-16: 64px;
-    /* RULING 5 — scale stops at sp-16. Larger spacing comes from
-       --ts-section-pad / --ts-section-gap (fluid clamp), not fixed steps. */
+    /* RULING 5: scale stops at --ts-sp-16. sp-20/24/32 DROPPED.
+       For large gaps use fluid --ts-section-pad/--ts-section-gap (clamp). */
 
     --ts-section-pad:   clamp(4rem, 8vw, 9rem);
     --ts-section-gap:   clamp(4rem, 8vw, 9rem);
@@ -199,8 +197,6 @@
     font-feature-settings: "kern", "liga", "calt";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color-scheme: dark;
-
   }
 
   h1, .ts-h1 { font-family: var(--ts-font-display); font-size: var(--ts-fs-h1); line-height: var(--ts-lh-headline); letter-spacing: var(--ts-tracking-tight); font-weight: var(--ts-fw-bold); text-wrap: balance; }
@@ -325,6 +321,49 @@
   .ts-btn--xl  { height: 60px; padding-inline: var(--ts-sp-8); font-size: var(--ts-fs-lead); }
   .ts-btn--full { width: 100%; }
   .ts-btn--pill { border-radius: var(--ts-radius-full); padding-inline: var(--ts-sp-6); }
+
+  /* ── Icon system (Font Awesome compatible) ──
+   * Wrapper sized independently from the glyph via --ts-icon-size.
+   * The icon inside sits at ~45% of the wrapper for perfect optical centering.
+   * USAGE
+   *   <span class="ts-icon ts-icon--md ts-icon--accent">
+   *     <i class="fa-solid fa-bolt"></i>
+   *   </span>
+   */
+  .ts-icon {
+    display: inline-grid;
+    place-items: center;
+    width: var(--ts-icon-size, 40px);
+    height: var(--ts-icon-size, 40px);
+    border-radius: var(--ts-radius-sm);
+    background: var(--ts-icon-bg, transparent);
+    color: var(--ts-icon-color, var(--ts-text-primary));
+    font-size: calc(var(--ts-icon-size, 40px) * 0.45);
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .ts-icon > * { font-size: inherit; line-height: 1; display: block; }
+  .ts-icon--xs { --ts-icon-size: 20px; }
+  .ts-icon--sm { --ts-icon-size: 28px; }
+  .ts-icon--md { --ts-icon-size: 40px; }
+  .ts-icon--lg { --ts-icon-size: 56px; }
+  .ts-icon--xl { --ts-icon-size: 80px; }
+  .ts-icon--accent  { --ts-icon-bg: color-mix(in srgb, var(--ts-accent), transparent 70%); --ts-icon-color: var(--ts-accent); }
+  .ts-icon--solid   { --ts-icon-bg: var(--ts-accent); --ts-icon-color: var(--ts-on-accent); }
+  .ts-icon--ghost   { --ts-icon-bg: var(--ts-bg-3);  --ts-icon-color: var(--ts-text-primary); }
+  .ts-icon--muted   { --ts-icon-bg: transparent;    --ts-icon-color: var(--ts-text-muted); }
+  .ts-icon--success { --ts-icon-bg: color-mix(in srgb, var(--ts-success), transparent 85%); --ts-icon-color: var(--ts-success); }
+  .ts-icon--danger  { --ts-icon-bg: color-mix(in srgb, var(--ts-danger),  transparent 85%); --ts-icon-color: var(--ts-danger); }
+  .ts-icon--round   { border-radius: var(--ts-radius-full); }
+
+  /* ── Section surface alternation (the "auto-harmony" pattern) ──
+   * Sections within .ts-flow alternate surfaces via :nth-of-type.
+   * Adjacent sections get a hairline border so the transition reads even
+   * when both surfaces are subtle. No manual surface assignment needed.
+   */
+  .ts-flow > section:nth-of-type(odd)  { background: var(--ts-bg-body); }
+  .ts-flow > section:nth-of-type(even) { background: var(--ts-bg-1); }
+  .ts-flow > section + section { border-top: 1px solid var(--ts-border-0); }
 
   /* ── Badge ── */
   .ts-badge {

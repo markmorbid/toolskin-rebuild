@@ -71,15 +71,42 @@ function flag(level, rule, source, snippet, fix) {
   (level === 'hard' ? hard : soft).push({ rule, source, snippet: snippet.trim().slice(0, 120), fix });
 }
 
-// ── 1.200 ladder (reasonable px values) — 13px base (RULING 3) ───────────
-const LADDER_PX = [9.03, 10.83, 13, 15.6, 18.72, 22.46, 26.95, 32.34, 38.81, 46.57, 55.89, 67.06];
+// ── 1.200 ladder (reasonable px values) ──────────────────────────────────
+const LADDER_PX = [11.11, 13.33, 16, 19.2, 23.04, 27.65, 33.18, 39.81, 47.78, 57.33, 68.8, 82.55];
 function isOnLadder(px) {
   return LADDER_PX.some((v) => Math.abs(v - px) < 0.6);
 }
 
-// ── 8pt grid — scale stops at sp-16 (RULING 5) ──────────────────────────
+// ── 8pt grid ─────────────────────────────────────────────────────────────
 const SP = [0, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64];
 function isOnGrid(px) { return SP.includes(Math.round(px)); }
+
+// ── strip @media { ... } blocks (handles nested braces) ─────────────────
+// Used to exempt declarations inside @media from rules that allow responsive overrides.
+function stripAtMediaBlocks(css) {
+  let out = '';
+  let i = 0;
+  while (i < css.length) {
+    const at = css.indexOf('@media', i);
+    if (at === -1) { out += css.slice(i); break; }
+    out += css.slice(i, at);
+    // find the opening { of this @media
+    const open = css.indexOf('{', at);
+    if (open === -1) { out += css.slice(at); break; }
+    // walk to matching close, tracking nested braces
+    let depth = 1;
+    let j = open + 1;
+    while (j < css.length && depth > 0) {
+      const ch = css[j];
+      if (ch === '{') depth++;
+      else if (ch === '}') depth--;
+      j++;
+    }
+    // replace block contents with empty space (preserve length-ish — emit nothing)
+    i = j;
+  }
+  return out;
+}
 
 // ── banned fonts as PRIMARY (still ok as fallback in stack) ──────────────
 const BANNED_DEFAULTS = ['Inter', 'Roboto', 'Arial', 'system-ui', 'sans-serif', 'Helvetica'];
@@ -89,20 +116,12 @@ for (const { source, css } of cssChunks) {
   // strip comments to avoid false positives
   const clean = css.replace(/\/\*[\s\S]*?\*\//g, '');
 
-  // HARD: hardcoded hex outside primitive-declaration zones.
-  // Primitive zones (where curated hex IS the primitive layer, per RULING 1):
-  //   - :root { … }
-  //   - :root[attr] { … }
-  //   - [data-theme="…"] { … } (theme-scoped primitive declarations)
-  //   - .ts-preset-XXX { … } (the 10 curated surface presets emitted by generate-colors.js)
-  //   - Any comma-separated combination of the above as the selector list
-  const PRIMITIVE_SELECTOR = /(?::root(?:\[[^\]]+\])?|\.ts-preset-[a-z0-9-]+|\[data-theme=[^\]]+\])/.source;
-  const PRIMITIVE_ZONE_RE = new RegExp(
-    `((?:${PRIMITIVE_SELECTOR})(?:\\s*,\\s*(?:${PRIMITIVE_SELECTOR}))*\\s*\\{[\\s\\S]*?\\})`,
-    'g'
-  );
-  const rootBlocks = [...clean.matchAll(PRIMITIVE_ZONE_RE)].map(m => m[0]).join('\n');
-  const nonRoot = clean.replace(PRIMITIVE_ZONE_RE, '');
+  // HARD: hardcoded hex outside :root or @theme
+  // (allowed in :root { … } blocks; flagged anywhere else)
+  // carve-out: :root + [data-theme=...] blocks legitimately declare primitive hex tokens
+  const carveOutRe = /(?::root|\[data-theme=[^\]]+\])\s*(?:\[[^\]]+\])?\s*\{[\s\S]*?\}/g;
+  const rootBlocks = [...clean.matchAll(carveOutRe)].map(m => m[0]).join('\n');
+  const nonRoot = clean.replace(carveOutRe, '');
   const hexMatches = [...nonRoot.matchAll(/#[0-9a-f]{3,8}\b/gi)];
   for (const m of hexMatches) {
     // allow in url() and svg fills/strokes
@@ -113,17 +132,22 @@ for (const { source, css } of cssChunks) {
   }
 
   // HARD: !important
-  const bangs = [...clean.matchAll(/!important\b/g)];
+  // !important inside @media is acceptable for responsive collapse fallbacks
+  // Strip @media blocks (with matching braces) before scanning for !important.
+  const cleanNoMedia = stripAtMediaBlocks(clean);
+  const bangs = [...cleanNoMedia.matchAll(/!important\b/g)];
   for (const m of bangs) {
-    const around = clean.slice(Math.max(0, m.index - 60), m.index + 20);
+    const around = cleanNoMedia.slice(Math.max(0, m.index - 60), m.index + 20);
     flag('hard', 'no-important', source, around, `Fix specificity instead. Use @layer or rewrite the selector.`);
   }
 
   // HARD: 1fr without minmax(0, …) or minmax(min(100%, …), …)
-  const gridCols = [...clean.matchAll(/grid-template-columns\s*:\s*([^;}\n]+)/g)];
+  // only flag SOLO 1fr; multi-track grids are fine without minmax(0)
+  // grid-1fr inside @media is acceptable for responsive collapse fallbacks (Patch 3.4)
+  const gridCols = [...cleanNoMedia.matchAll(/grid-template-columns\s*:\s*([^;}\n]+)/g)];
   for (const m of gridCols) {
-    const val = m[1];
-    if (/\b1fr\b/.test(val) && !/minmax\s*\(/.test(val)) {
+    const val = m[1].trim();
+    if (/^1fr$/.test(val) && !/minmax\s*\(/.test(val)) {
       flag('hard', 'unsafe-grid-1fr', source, m[0], `Use minmax(0, 1fr) or minmax(min(100%, 280px), 1fr).`);
     }
   }

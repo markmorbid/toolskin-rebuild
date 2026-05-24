@@ -35,9 +35,7 @@
   --ts-text-primary: #0f1012; --ts-text-secondary: #404347; --ts-text-muted: #5f6266;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; min-height: 100dvh;
-          color-scheme: dark;
- }
+html, body { margin: 0; padding: 0; min-height: 100dvh; }
 body {
   font-family: 'Space Grotesk', system-ui, sans-serif;
   font-size: 16px; line-height: 1.5;
@@ -881,7 +879,7 @@ APCA contrast report             → docs/handoffs/colors-contrast-report.md
 ts-surface.css (raw extracted)   → docs/references/toolskin.css_extracted-core-blocks-to-refactor/ts-surface.css
 ```
 
-The agent doing Phase B should replace `templates/tokens.css`
+The agent doing Phase B should replace `expert-designer/templates/tokens.css`
 with a single `@import` of the real system files once they're stable —
 no need to duplicate the contract once the source of truth is solid.
 
@@ -4341,7 +4339,7 @@ echo "→ open in browser, then iterate."
 echo "→ verify with: node ${SKILL_DIR}/scripts/audit-design.mjs $OUT"
 
 </script>
-<script type="text/plain" data-pack-file data-path="templates/tokens.css" data-lang="css" data-bytes="18278">
+<script type="text/plain" data-pack-file data-path="expert-designer/templates/tokens.css" data-lang="css" data-bytes="18278">
 /* ============================================================================
  * tokens.css — Toolskin design tokens for expert-designer v6
  * ----------------------------------------------------------------------------
@@ -4448,8 +4446,8 @@ echo "→ verify with: node ${SKILL_DIR}/scripts/audit-design.mjs $OUT"
     --ts-sp-base: 4px;
     --ts-sp-1:  4px;  --ts-sp-2:  8px;  --ts-sp-3: 12px; --ts-sp-4: 16px;
     --ts-sp-5: 20px;  --ts-sp-6: 24px;  --ts-sp-8: 32px; --ts-sp-10: 40px;
-    --ts-sp-12: 48px; --ts-sp-16: 64px; --ts-sp-20: 80px; --ts-sp-24: 96px;
-    --ts-sp-32: 128px;
+    --ts-sp-12: 48px; --ts-sp-16: 64px;
+    /* RULING 5: scale stops at --ts-sp-16. For larger gaps use --ts-section-pad. */
 
     --ts-section-pad:   clamp(4rem, 8vw, 9rem);
     --ts-section-gap:   clamp(4rem, 8vw, 9rem);
@@ -4768,7 +4766,7 @@ echo "→ verify with: node ${SKILL_DIR}/scripts/audit-design.mjs $OUT"
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400..700&display=swap">
 
   <!-- Tokens (sibling file) -->
-  <link rel="stylesheet" href="templates/tokens.css">
+  <link rel="stylesheet" href="tokens.css">
 
   <style>
     /* Page-specific styles (build on top of tokens, don't override) */
@@ -4900,9 +4898,7 @@ echo "→ verify with: node ${SKILL_DIR}/scripts/audit-design.mjs $OUT"
        Showcase-only styles. Builds on tokens.css. No overrides.
        ────────────────────────────────────────────────────────────── */
 
-    body { overflow-x: hidden;
-          color-scheme: dark;
- }
+    body { overflow-x: hidden; }
 
     /* ── TOPBAR ─────────────────────────────────────────────────── */
     .topbar {
@@ -4979,7 +4975,7 @@ echo "→ verify with: node ${SKILL_DIR}/scripts/audit-design.mjs $OUT"
     .hero__grid {
       display: grid;
       grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-      gap: clamp(var(--ts-sp-8), 6vw, var(--ts-sp-20));
+      gap: clamp(var(--ts-sp-8), 6vw, var(--ts-section-pad));
       align-items: end;
     }
     @media (max-width: 960px) {
@@ -5413,7 +5409,7 @@ echo "→ verify with: node ${SKILL_DIR}/scripts/audit-design.mjs $OUT"
       border-top: 1px solid var(--ts-border-1);
       padding: var(--ts-sp-16) 0 var(--ts-sp-8);
       background: var(--ts-bg-1);
-      margin-top: var(--ts-sp-24);
+      margin-top: var(--ts-section-pad);
     }
     .footer__grid {
       display: grid;
@@ -5698,8 +5694,8 @@ echo "→ verify with: node ${SKILL_DIR}/scripts/audit-design.mjs $OUT"
         <div class="rhythm__row"><span class="rhythm__token">--ts-sp-8</span><span class="rhythm__bar" style="width: 32px;"></span><span class="rhythm__px">32 px</span></div>
         <div class="rhythm__row"><span class="rhythm__token">--ts-sp-12</span><span class="rhythm__bar" style="width: 48px;"></span><span class="rhythm__px">48 px</span></div>
         <div class="rhythm__row"><span class="rhythm__token">--ts-sp-16</span><span class="rhythm__bar" style="width: 64px;"></span><span class="rhythm__px">64 px</span></div>
-        <div class="rhythm__row"><span class="rhythm__token">--ts-sp-24</span><span class="rhythm__bar" style="width: 96px;"></span><span class="rhythm__px">96 px</span></div>
-        <div class="rhythm__row"><span class="rhythm__token">--ts-sp-32</span><span class="rhythm__bar" style="width: 128px;"></span><span class="rhythm__px">128 px</span></div>
+        <!-- RULING 5: scale stops at sp-16. For larger gaps use fluid --ts-section-pad (clamp 64→144px). -->
+        <div class="rhythm__row"><span class="rhythm__token">--ts-section-pad</span><span class="rhythm__bar" style="width: 144px;"></span><span class="rhythm__px">fluid 64→144 px</span></div>
       </div>
 
       <div style="margin-top: var(--ts-sp-16); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: var(--ts-sp-6);">
@@ -6189,8 +6185,30 @@ function renderFile(path) {
     marked.setOptions({ gfm: true, breaks: false });
     body = '<div class="md">' + marked.parse(f.content) + '</div>';
   } else if (f.lang === 'html' && f.path.indexOf('showcase.html') >= 0) {
-    const srcdoc = f.content.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-    body = '<div style="margin-bottom: 24px;"><iframe srcdoc="' + srcdoc + '" style="width: 100%; height: 80dvh; border: 1px solid var(--ts-border-1); border-radius: 10px; background: var(--ts-bg-1);"></iframe></div>';
+    // Inline any local CSS dependencies into the iframe srcdoc.
+    // Relative paths can't resolve inside srcdoc (no base URL), so we splice
+    // the actual CSS content in place of <link rel="stylesheet" href="...">.
+    let inlined = f.content;
+    const linkRe = /<link\s+rel=["']stylesheet["']\s+href=["']([^"']+)["'][^>]*>/gi;
+    inlined = inlined.replace(linkRe, function (m, href) {
+      if (/^https?:/.test(href)) return m;                 // CDN — keep as-is
+      // resolve relative to the file's own folder
+      const baseDir = f.path.replace(/[^/]+$/, '');         // e.g. ""
+      const resolved = (baseDir + href).replace(/[^/]+\/\.\.\//g, '');
+      const cssFile = FILES.filter(function (x) { return x.path === resolved; })[0];
+      if (!cssFile) return m;                              // no local match — keep link
+      return '<style data-inlined-from="' + resolved + '">' + cssFile.content + '</style>';
+    });
+
+    // Inject a small link-interceptor so anchor clicks don't try to navigate
+    // anywhere (kept self-contained per user spec).
+    const intercept = '<script>document.addEventListener("click",function(e){var a=e.target.closest("a");if(a&&a.getAttribute("href")&&!a.target){e.preventDefault();}},true);</scr' + 'ipt>';
+    inlined = inlined.replace(/<\/body>/i, intercept + '</body>');
+
+    const srcdoc = inlined.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    // sandbox="allow-scripts" — scripts run, but no top-nav, no popups, no
+    // form submission, no same-origin escape. The preview is fully contained.
+    body = '<div style="margin-bottom: 24px;"><iframe srcdoc="' + srcdoc + '" sandbox="allow-scripts" style="width: 100%; height: 80dvh; border: 1px solid var(--ts-border-1); border-radius: 10px; background: var(--ts-bg-1);"></iframe></div>';
     body += '<details><summary style="cursor: pointer; padding: 12px; background: var(--ts-bg-1); border-radius: 8px; font-size: 13px;">View source</summary>';
     body += '<div class="source-view" style="margin-top: 12px;"><pre><code class="language-html">' + escapeHtml(f.content) + '</code></pre></div></details>';
   } else {

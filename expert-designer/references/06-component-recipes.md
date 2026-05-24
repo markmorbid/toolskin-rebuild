@@ -471,13 +471,6 @@ Live region for transient feedback.
 
 ## 10 · The component cohesion test
 
-> **RULING 9 — Two-line idiom (re-anchor first, consume second).**
-> Component CSS must re-anchor system tokens to local `--ts-{component}-*` knobs
-> **before** consuming. The component root sets `--ts-this-bg: var(--ts-{component}-bg)`
-> (and any other knobs), then descendants consume the derivative chain that
-> recomputes off the new anchor. Re-anchor first, consume second — never
-> override individual derived properties from outside.
-
 For any new component, verify it inherits the system:
 
 - [ ] Sizes draw from token scale (no `padding: 17px`).
@@ -490,5 +483,7 @@ For any new component, verify it inherits the system:
 - [ ] Accessible: labels, ARIA where needed, keyboard navigation works.
 - [ ] Component works in both default presets (dark + light).
 - [ ] Mobile width ≥ touch target (44px).
+- [ ] Re-anchor first, consume second (RULING 9: set `--ts-this-bg`
+      BEFORE consuming any `--ts-this-bg-*` derivative).
 
-10/10 = component joins the library. < 10/10 = fix before merging.
+11/11 = component joins the library. < 11/11 = fix before merging.

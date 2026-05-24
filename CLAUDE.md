@@ -1,5 +1,46 @@
 # Toolskin Rebuild — Project Conventions
 
+## DESIGN LAW — READ THIS FIRST FOR ANY VISUAL TASK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+You have access to `expert-designer/` in this project.
+For ANY visual / UI / layout / styling / component / page / hero task:
+
+1. `cat expert-designer/SKILL.md`
+2. `cat expert-designer/ANTI-DEFAULT-PROTOCOL.md`
+3. Classify the task → pick ONE starter from `expert-designer/starters/`
+4. Write the 6-line manifesto (SKILL.md §4) BEFORE any HTML
+5. Copy the starter, fill its SLOT markers — DO NOT redesign the layout
+6. Run: `node expert-designer/scripts/audit-boring.mjs <file>`
+7. Run: `node expert-designer/scripts/audit-design.mjs <file>`
+8. Both must exit 0 before declaring done.
+
+If audit-boring rejects: pick a different starter, restart.
+Do not invent layouts. Do not center-stack.
+Do not improvise outside the six approved patterns.
+
+Exclusion: `expert-designer/Expert Designer Pack.html` is documentation
+of the design law (the v7 reference showcase), not a visual deliverable.
+The pre-commit dual-audit gate skips it; the 6 starters + showcase.html
+remain gated and prove the system's internal self-consistency.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## BRANCH CONVENTION (Design + Code separation)
+
+`design/<feature>`  ← Claude Design produces HTML artifacts here.
+                       Output: HTML that passes both audit gates.
+                       Must pass `audit-boring.mjs` + `audit-design.mjs`
+                       before PR.
+
+`feat/<feature>`    ← Claude Code branches from `design/<feature>`.
+                       Translates HTML → system tokens + components.
+                       NEVER redesigns. If layout doesn't translate:
+                       escalate. The HTML artifact IS the spec. Code
+                       re-implements it.
+
+Design merges into `feat/*` via PR. Not the other way.
+Every PR touching visual files includes the 6-line manifesto in the
+description.
+
 ## Session start — FIRST ACTION, every session (binding)
 
 Before any task work, run the cold-resume routine (Pattern 18 — Session Continuity Protocol):

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Selected works · 2024–2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400..700&display=swap">
+  <link rel="stylesheet" href="../templates/tokens.css">
+  <style>
+    .pagehead {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(32px, 5vw, 96px);
+      align-items: end;                  /* TITLE & DESCRIPTION ALIGN AT BASELINE */
+      padding-block: clamp(80px, 12vh, 160px) clamp(32px, 4vw, 48px);
+      border-bottom: 1px solid var(--ts-border-2);
+    }
+    @media (max-width: 768px) { .pagehead { grid-template-columns: 1fr; align-items: start; } }
+
+    .pagehead__title {
+      font-family: var(--ts-font-display);
+      font-size: clamp(56px, 10vw, 144px);
+      line-height: 0.9;
+      letter-spacing: -0.045em;
+      font-weight: 700;
+      margin: 0;
+      text-transform: uppercase;
+    }
+    .pagehead__title em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--ts-accent);
+      text-transform: none;
+      letter-spacing: -0.02em;
+    }
+    .pagehead__side { display: grid; gap: 16px; padding-bottom: 16px; }
+    .pagehead__side p { color: var(--ts-text-secondary); max-width: 40ch; margin: 0; font-size: 18px; line-height: 1.5; }
+    .pagehead__meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ts-text-muted);
+    }
+
+    .toc { padding-block: 24px 96px; }
+    .toc__item {
+      display: grid;
+      grid-template-columns: 80px minmax(0, 5fr) minmax(0, 3fr) 80px;
+      gap: 32px;
+      align-items: baseline;
+      padding: clamp(24px, 3vw, 40px) 0;
+      border-bottom: 1px solid var(--ts-border-1);
+      text-decoration: none;
+      color: inherit;
+      transition: padding 200ms cubic-bezier(0.16,1,0.3,1), background 200ms cubic-bezier(0.16,1,0.3,1);
+    }
+    .toc__item:hover {
+      background: var(--ts-bg-1);
+      padding-inline: 16px;
+    }
+    .toc__item:hover .toc__title { color: var(--ts-accent); }
+    @media (max-width: 768px) {
+      .toc__item { grid-template-columns: 40px 1fr auto; gap: 16px; }
+      .toc__item .toc__meta { display: none; }
+    }
+
+    .toc__num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--ts-text-muted);
+      font-feature-settings: "tnum" 1;
+    }
+    .toc__title {
+      font-family: var(--ts-font-display);
+      font-size: clamp(28px, 3.5vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      font-weight: 600;
+      margin: 0;
+      text-wrap: balance;
+      transition: color 200ms;
+    }
+    .toc__meta {
+      color: var(--ts-text-secondary);
+      font-size: 14px;
+      max-width: 28ch;
+    }
+    .toc__arrow {
+      font-size: 24px;
+      color: var(--ts-text-muted);
+      text-align: right;
+      transition: transform 200ms, color 200ms;
+    }
+    .toc__item:hover .toc__arrow { transform: translateX(4px); color: var(--ts-accent); }
+  </style>
+</head>
+<body>
+
+  <div class="ts-container" style="max-width: var(--ts-container-xl);">
+
+    <!-- ═══ PAGE HEAD · asymmetric, title baseline-aligned with description ═══ -->
+    <header class="pagehead">
+      <h1 class="pagehead__title">
+        <!-- FILL: page title. ONE word can use em italic. Default: 1-2 words, UPPERCASE. -->
+        Featured<br>
+        <em>works</em>
+      </h1>
+      <aside class="pagehead__side">
+        <div class="pagehead__meta">
+          SELECTED · 2024 — 2026
+        </div>
+        <p>
+          <!-- FILL: page description, 2 sentences. -->
+          One sentence framing what this list is. One sentence on scope or selection criteria.
+        </p>
+      </aside>
+    </header>
+
+    <!-- ═══ TOC · vertical list with monospace numbering ═══════════ -->
+    <main class="toc">
+      <!-- Each item: a, num, title, meta, arrow. 4-12 items. -->
+
+      <a class="toc__item" href="#">
+        <span class="toc__num">/ 01</span>
+        <h2 class="toc__title">A working title</h2>
+        <span class="toc__meta">Brand · 2026</span>
+        <span class="toc__arrow">→</span>
+      </a>
+
+      <a class="toc__item" href="#">
+        <span class="toc__num">/ 02</span>
+        <h2 class="toc__title">A working title</h2>
+        <span class="toc__meta">/ LABEL</span>
+        <span class="toc__arrow">→</span>
+      </a>
+
+      <a class="toc__item" href="#">
+        <span class="toc__num">/ 03</span>
+        <h2 class="toc__title">A working title</h2>
+        <span class="toc__meta">/ LABEL</span>
+        <span class="toc__arrow">→</span>
+      </a>
+
+      <a class="toc__item" href="#">
+        <span class="toc__num">/ 04</span>
+        <h2 class="toc__title">A working title</h2>
+        <span class="toc__meta">/ LABEL</span>
+        <span class="toc__arrow">→</span>
+      </a>
+
+      <a class="toc__item" href="#">
+        <span class="toc__num">/ 05</span>
+        <h2 class="toc__title">A working title</h2>
+        <span class="toc__meta">/ LABEL</span>
+        <span class="toc__arrow">→</span>
+      </a>
+
+      <a class="toc__item" href="#">
+        <span class="toc__num">/ 06</span>
+        <h2 class="toc__title">A working title</h2>
+        <span class="toc__meta">/ LABEL</span>
+        <span class="toc__arrow">→</span>
+      </a>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

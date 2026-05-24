@@ -69,6 +69,14 @@ else
   skip "Check #14 visual-audit gate — no sandbox block staged."
 fi
 
+# Expert Designer dual-audit gate — both must exit 0 on staged .html files
+# Exclusion: 'Expert Designer Pack.html' is the v7 documentation showcase
+# (audit source code appears as styled display content; would always false-positive)
+for f in $(git diff --cached --name-only --diff-filter=ACM | grep '\.html$' | grep -v 'Expert Designer Pack.html'); do
+  node expert-designer/scripts/audit-boring.mjs "$f" || exit 1
+  node expert-designer/scripts/audit-design.mjs "$f" || exit 1
+done
+
 if [ "$fail" -ne 0 ]; then
   echo "Toolskin pre-commit: FAILED. Fix the issues above. If a failure is intentional, surface to the owner before overriding."
   exit 1

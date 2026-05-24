@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Toolskin — Starter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400..700&display=swap">
+  <link rel="stylesheet" href="../templates/tokens.css">
+  <style>
+    .hero {
+      padding-block: clamp(96px, 16vh, 192px);
+      text-align: center;
+      position: relative;
+      isolation: isolate;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; z-index: -1;
+      background: radial-gradient(ellipse 50% 60% at 50% 30%, var(--ts-accent-dim) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      background: var(--ts-bg-2);
+      border: 1px solid var(--ts-border-1);
+      border-radius: 9999px;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--ts-text-secondary);
+      margin-bottom: 32px;
+    }
+    .hero__badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--ts-accent);
+      box-shadow: 0 0 8px var(--ts-accent);
+    }
+    .hero__title {
+      font-family: var(--ts-font-display);
+      font-size: clamp(56px, 8vw, 120px);
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+      font-weight: 700;
+      margin: 0 auto 24px;
+      max-width: 16ch;
+      text-wrap: balance;
+    }
+    .hero__title em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--ts-accent);
+    }
+    .hero__credits {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      color: var(--ts-text-secondary);
+      margin: 0 0 32px;
+      text-transform: uppercase;
+    }
+    .hero__actions {
+      display: inline-flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* Below-fold product viz (NOT centered — provides asymmetry against the centered hero) */
+    .viz {
+      max-width: var(--ts-container-xl);
+      margin: 64px auto 0;
+      padding-inline: 24px;
+    }
+    .viz__frame {
+      aspect-ratio: 16 / 9;
+      border-radius: var(--ts-radius-lg);
+      background: var(--ts-bg-1);
+      border: 1px solid var(--ts-border-1);
+      box-shadow: var(--ts-shadow-3);
+      position: relative;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="ts-container ts-container--md">
+      <span class="hero__badge">
+        v2.0 · live
+      </span>
+      <h1 class="hero__title">
+        <!-- FILL: hero headline. 2 lines max. ONE em italic word.
+             Pattern: declarative, specific, no question marks. -->
+        Build with <em>intent</em>,<br>not by accident.
+      </h1>
+      <p class="hero__credits">
+        <!-- FILL: credentials row, separated by · . Examples:
+             "#1 IN BENCHMARKS · BACKED BY YC · SOC2 TYPE II" -->
+        ONE · TWO · THREE
+      </p>
+      <div class="hero__actions">
+        <a class="ts-btn ts-btn--primary ts-btn--xl" href="#">
+          Start free trial
+        </a>
+        <a class="ts-btn ts-btn--outline ts-btn--xl" href="#">
+          Watch demo →
+        </a>
+      </div>
+    </div>
+
+    <div class="viz">
+      <div class="viz__frame">Placeholder</div>
+    </div>
+  </section>
+
+</body>
+</html>

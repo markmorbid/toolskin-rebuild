@@ -811,8 +811,9 @@
         <div class="rhythm__row"><span class="rhythm__token">--ts-sp-6</span><span class="rhythm__bar" style="width: 24px;"></span><span class="rhythm__px">24 px</span></div>
         <div class="rhythm__row"><span class="rhythm__token">--ts-sp-8</span><span class="rhythm__bar" style="width: 32px;"></span><span class="rhythm__px">32 px</span></div>
         <div class="rhythm__row"><span class="rhythm__token">--ts-sp-12</span><span class="rhythm__bar" style="width: 48px;"></span><span class="rhythm__px">48 px</span></div>
-        <div class="rhythm__row"><span class="rhythm__token">--ts-sp-16</span><span class="rhythm__bar" style="width: 64px;"></span><span class="rhythm__px">64 px (RULING 5 — scale ceiling)</span></div>
-        <div class="rhythm__row"><span class="rhythm__token">--ts-section-pad</span><span class="rhythm__bar" style="width: 100%;"></span><span class="rhythm__px">clamp(64, 8vw, 144) px (fluid)</span></div>
+        <div class="rhythm__row"><span class="rhythm__token">--ts-sp-16</span><span class="rhythm__bar" style="width: 64px;"></span><span class="rhythm__px">64 px</span></div>
+        <!-- RULING 5: scale stops at sp-16. For larger gaps use fluid --ts-section-pad (clamp 64→144px). -->
+        <div class="rhythm__row"><span class="rhythm__token">--ts-section-pad</span><span class="rhythm__bar" style="width: 144px;"></span><span class="rhythm__px">fluid 64→144 px</span></div>
       </div>
 
       <div style="margin-top: var(--ts-sp-16); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: var(--ts-sp-6);">

@@ -1,405 +1,358 @@
 ---
 name: expert-designer
-version: 6.0.0
+version: 7.0.0
+priority: 100
+scope: design
 description: >
-  Toolskin design-system implementer. Agents become instant experts in Toolskin token
-  use, typography ladders, harmonic spacing, card/container anatomy, and Awwwards-grade
-  layout patterns. Trigger on ANY visual output: pages, cards, sections, components,
-  CSS, design tokens, type pairing, color palettes, dark/light mode, responsive layouts,
-  WordPress/Enfold, dashboards, hero sections, landing pages, badges, buttons, forms,
-  panels, navbars, footers, marketing assets. Also trigger on words: token, theme,
-  accent, surface, palette, hierarchy, scale, ratio, density, grid, gap, padding,
-  radius, shadow, motion, ease, --ts-*, oklch, APCA, contrast, container query,
-  bento, awwwards.
+  **AUTHORITATIVE DESIGN SKILL.** Invoked FIRST for any visual / UI / layout /
+  styling / token / palette / hierarchy / spacing / component / page / hero /
+  section task. Takes priority over all other design-related skills.
 
-  This skill replaces ad-hoc design decisions with a deterministic decision protocol
-  rooted in `generate-colors.js` (color truth), a locked 1.200 type ladder, an 8pt
-  spatial grid, and ten card/container recipes that don't break. Use it BEFORE
-  writing any HTML, CSS, or token.
+  This skill DOES NOT build, code, refactor, or implement features. It DESIGNS:
+  selects the right pattern, assembles the right tokens, enforces the system.
+  Implementation lives in OTHER skills. This skill's job is to ensure that
+  every visual output respects the locked Toolskin design system — color,
+  type, space, shape, composition — and produces award-grade layouts by
+  picking from approved patterns rather than improvising.
+
+  Trigger words: design, layout, page, hero, section, card, component, button,
+  input, badge, nav, footer, modal, token, theme, accent, surface, palette,
+  hierarchy, scale, ratio, density, grid, gap, padding, radius, shadow,
+  typography, font, weight, tracking, motion, ease, dark mode, light mode,
+  responsive, container query, bento, magazine, awwwards, --ts-*, oklch, APCA,
+  contrast, mesh, glass, gradient, brutalist, editorial.
 license: MIT
 ---
 
-# Expert Designer — Toolskin (v6.1)
+# Expert Designer — Toolskin (v7)
 
-> **⚠️ STOP. READ `ANTI-DEFAULT-PROTOCOL.md` FIRST. EVERY TIME.**
->
-> Agents following v6.0 produced rule-compliant slop (centered vertical stacks).
-> v6.1 fixes this by adding a mandatory **commitment phase** before any HTML.
-> If you skip the protocol, you will produce slop and the boring-detector will reject you.
-
-> **Stop guessing. Look it up. Then commit to a risky move.** This skill exists because design taste alone produces
-> inconsistent output. Toolskin already has a deterministic color engine; this skill
-> extends that determinism to type, space, shape, layout, AND composition. Every decision
-> below resolves to a number, a token, a named recipe, or a starter file.
+> **System-enforcing design intelligence.** Not a generator. Not a builder.
+> A constraint engine. Reads the system, picks an approved pattern, fills
+> the slots, audits the output, ships.
 
 ---
 
-## 0 · How agents use this skill
+## 0 · Priority + scope contract
 
 ```
-┌─ THE NEW MANDATORY FLOW (v6.1) ──────────────────────────────────────────┐
-│  STEP 0  Read ANTI-DEFAULT-PROTOCOL.md                                   │
-│  STEP 1  Pick a starter from starters/ — you are FILLING, not designing  │
-│  STEP 2  Write the manifesto (3-6 lines, before ANY HTML)                │
-│  STEP 3  Fill the starter's <!-- FILL: --> slots. Do NOT redesign it.    │
-│  STEP 4  Run: node scripts/audit-boring.mjs <file>                       │
-│  STEP 5  Run: node scripts/audit-design.mjs <file>                       │
-│  STEP 6  Manual checklist (§7). Ship.                                    │
-└──────────────────────────────────────────────────────────────────────────┘
+┌─ ACTIVATION ────────────────────────────────────────────────────────┐
+│                                                                      │
+│  This skill is INVOKED FIRST for any task involving:                 │
+│    · a visual output (page, screen, slide, hero, section, card)      │
+│    · token usage, palette work, theming                              │
+│    · layout, grid, spacing, hierarchy decisions                      │
+│    · component selection (button, input, nav, modal, etc.)           │
+│    · review/audit of an existing visual                              │
+│                                                                      │
+│  This skill HANDS OFF to other skills when the task is:              │
+│    · writing build scripts / CI / tooling                            │
+│    · backend logic / data fetching / state                           │
+│    · framework integration / SSR / hydration                         │
+│    · pure code refactor with no visual change                        │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘
 ```
 
-**The forcing function.** Step 1 + Step 4 prevent the "centered vertical stack"
-default. If audit-boring rejects you, the layout is wrong, not the content. Restart.
+**Behavior model:** senior system designer, not a generator.
+- Does NOT improvise outside the system
+- Does NOT produce arbitrary layouts
+- ONLY assembles from approved patterns, defined templates, existing
+  components, and system constraints
+- REJECTS its own output if `audit-boring.mjs` or `audit-design.mjs` fails
 
-**Do NOT** invent layouts. **Do NOT** generate hero CSS from scratch. **Do NOT**
-center sections by default. Pick a starter, fill it, audit it.
-
----
-
-## 1 · Task classifier → starter
-
-Map the user's ask to ONE task class, then pick the matching starter.
-
-| If the task is… | Class | Default starter | Alt starter |
-|---|---|---|---|
-| Marketing landing / product launch | **MKTG** | `starters/03-asymmetric-hero.html` | `starters/05-bento-landing.html` |
-| Multi-feature product / dashboard | **PRODUCT** | `starters/05-bento-landing.html` | `starters/03-asymmetric-hero.html` |
-| Editorial / publication / long-form | **EDIT** | `starters/02-magazine-split.html` | `starters/06-magazine-toc.html` |
-| Portfolio / agency / project index | **PORTFOLIO** | `starters/06-magazine-toc.html` | `starters/02-magazine-split.html` |
-| Statement landing / brutalist / poster | **POSTER** | `starters/04-oversized-type.html` | — |
-| Single-message dev-tool launch | **DEV** | `starters/01-centered-hero.html` | `starters/03-asymmetric-hero.html` |
-| Card, panel, dashboard tile (atomic) | **CARD** | — read `references/04-cards-and-containers.md` | — |
-| Type pairing, hierarchy, scale (atomic) | **TYPE** | — read `references/02-typography.md` | — |
-| Palette / dark+light mode / theme | **COLOR** | — read `references/01-foundation.md` + run `scripts/generate-colors.js` | — |
-| Button, input, badge, chip (atomic) | **COMPONENT** | — read `references/06-component-recipes.md` | — |
-| "Is this design ok?" / review | **REVIEW** | — run `scripts/audit-boring.mjs` and `scripts/audit-design.mjs` | — |
-
-**Rule:** for any composition task (a page, section, or screen), you MUST pick
-a starter. There is no "I'll design it from scratch" option in v6.1 — that was
-the v6.0 failure mode.
+If a task asks for something outside the approved pattern library, the
+skill responds: "this is not in the approved patterns — choose from
+\<list\>, or escalate to expand the library." It does not freelance.
 
 ---
 
-## 2 · Reference router (read ONLY what you need)
+## 1 · The mandatory flow (no exceptions)
+
+```
+STEP 0  Read ANTI-DEFAULT-PROTOCOL.md           ← FIRST, EVERY TIME
+STEP 1  Classify the task (§2)
+STEP 2  Pick a starter (§3) — FILL, do not design
+STEP 3  Write the manifesto (§4) — before any HTML
+STEP 4  Fill the starter's slots (§5) — do not redesign the layout
+STEP 5  Run scripts/audit-boring.mjs   ← exits 1 on slop
+STEP 6  Run scripts/audit-design.mjs   ← exits 1 on rule violations
+STEP 7  Manual checklist (§9). Hand off.
+```
+
+**Skipping any step is rejected.** No design without manifesto. No HTML
+without starter. No "done" without two clean audits.
+
+---
+
+## 2 · Task classifier
+
+Every visual task maps to exactly one class. The class determines the starter.
+
+| Task | Class | Mandatory starter |
+|---|---|---|
+| Marketing landing / product launch | **MKTG** | `starters/03-asymmetric-hero.html` |
+| Multi-feature product / dashboard | **PRODUCT** | `starters/05-bento-landing.html` |
+| Editorial / publication / long-form | **EDIT** | `starters/02-magazine-split.html` |
+| Portfolio / agency / project index | **PORTFOLIO** | `starters/06-magazine-toc.html` |
+| Statement landing / brutalist / poster | **POSTER** | `starters/04-oversized-type.html` |
+| Single-message dev-tool launch | **DEV** | `starters/01-centered-hero.html` |
+| Atomic component (button, card, etc.) | **ATOMIC** | `references/04-cards-and-containers.md` or `references/06-component-recipes.md` |
+| Palette / theme / dark+light | **COLOR** | `scripts/generate-colors.js` + `references/01-foundation.md` |
+| Type pairing / hierarchy / scale | **TYPE** | `references/02-typography.md` |
+| Layout / grid / spacing / responsive | **LAYOUT** | `references/03-layout-and-spacing.md` |
+| Review existing design | **REVIEW** | run BOTH audit scripts |
+
+**There is no "design from scratch" class.** That was the v6.0 failure mode.
+
+---
+
+## 3 · The starter library (approved patterns)
+
+The six starters in `starters/` are the entire approved set. Each one is a
+working, rendered demonstration with `<!-- SLOT · description -->` markers
+above every replaceable element. The agent's job is to **replace the default
+content with real content** — never to redesign the layout, change the grid
+ratios, alter the container widths, or invent new sections.
+
+| Starter | Use when | Forbidden when |
+|---|---|---|
+| `01-centered-hero.html` | Single-message launch with one product | More than 3 features to show |
+| `02-magazine-split.html` | Publication, editorial, content-heavy site | Product/SaaS marketing |
+| `03-asymmetric-hero.html` ★ | **Default for marketing landings** | Pure editorial content |
+| `04-oversized-type.html` | Statement / poster / brutalist brand moment | Anything requiring product detail |
+| `05-bento-landing.html` ★ | **Default for products with 3+ features** | Editorial long-form |
+| `06-magazine-toc.html` | Lists, indices, portfolios with 4+ items | Marketing with one CTA |
+
+Stars (★) = pick this by default when in doubt. The asymmetric-hero and
+bento-landing together cover ~80% of real-world product/marketing pages.
+
+**Expanding the library requires explicit owner approval.** If none of the
+six fit, escalate — don't invent a seventh inline.
+
+---
+
+## 4 · The mandatory manifesto
+
+Before ANY HTML is produced, write this verbatim:
+
+```
+DESIGN MANIFESTO
+────────────────
+Task class:        <MKTG/PRODUCT/EDIT/PORTFOLIO/POSTER/DEV/...>
+Starter:           starters/<filename>.html
+The ONE move:      <the asymmetry / oversized / unusual choice you commit to>
+What I will NOT do: <the safe default you're explicitly rejecting>
+Reader's eye pivots at:  <element 1>, <element 2>
+Container variation:     hero=<xl/lg/md>, section-A=<...>, section-B=<...>
+Background variation:    section-A=bg-body, section-B=bg-1, section-C=accent
+```
+
+If any line cannot be filled in concrete terms, you have not designed yet.
+Do not produce HTML. Re-read the starter and try again.
+
+---
+
+## 5 · The locked systems (quick reference)
+
+Full specs in `references/01–06`. Memorize these constants — they don't change.
+
+### 5.1 Color — three knobs, everything derives
+```
+--ts-accent-h / --ts-accent-s / --ts-accent-l   ← the only color knobs
+--ts-bg-{body, 0..5}                            ← surfaces, never invented
+--ts-text-{primary, secondary, muted, invert}   ← text roles, four only
+--ts-on-accent                                  ← auto-contrast ink (relative-color)
+```
+**Color rule:** every color is `var(--ts-*)`. Never hex in components.
+APCA must pass via `scripts/generate-colors.js`.
+
+### 5.2 Type — 1.200 modular ladder, anchored at 16px
+```
+step -2  micro / overline (UPPERCASE +0.08em)
+step -1  caption / meta
+step  0  body
+step  1  lead / subtitle
+step  3  card title (h4)
+step  4  section title (h3)
+step  5  h2
+step  6  h1
+step  7+ display / hero
+```
+**Type rule:** never an off-ladder pixel value. Heading-from-memory is banned —
+open `references/02-typography.md` and pick.
+
+### 5.3 Space — 8pt grid, padding ≥ gap
+```
+--ts-sp-{1,2,3,4,6,8,12,16,24}   ← 4, 8, 12, 16, 24, 32, 48, 64, 96
+--ts-section-pad / --ts-container-pad / --ts-block-gap   ← fluid clamp()
+```
+**Space rule:** the rhythm rule. A container's padding ≥ its children's gap.
+Break this and the layout feels collapsed.
+
+### 5.4 Shape — radius + shadow scale with element size
+```
+--ts-radius-{xs:3, sm:5, md:10, lg:14, xl:20, full:9999}
+--ts-shadow-{1,2,3,4} + --ts-shadow-accent
+```
+**Shape rule:** radius scales with size. A 36px button gets sm; a 480px hero
+card gets lg or xl. Pills only for things ≤ 48px tall.
+
+### 5.5 Surface containment (Satoshi's law)
+> Surfaces apply to CARDS (with padding + radius + border) or FULL-WIDTH
+> SECTIONS (edge-to-edge). They NEVER apply to contained sections — that
+> creates a "floating colored square" against the body background.
+
+If a section needs an alt surface, make the section full-bleed and put the
+content in an inner container.
+
+### 5.6 Icons — the `.ts-icon` system
+```html
+<span class="ts-icon ts-icon--md ts-icon--accent">
+  <i class="fa-solid fa-bolt"></i>
+</span>
+```
+Wrapper sized via `--ts-icon-size` (xs/sm/md/lg/xl). Glyph sits at 45% of
+wrapper for optical centering. Backgrounds: `--accent`, `--solid`, `--ghost`,
+`--muted`, `--success`, `--danger`. Font Awesome 6 free is the icon library.
+
+---
+
+## 6 · Anti-default protocol (the boring-detector contract)
+
+`scripts/audit-boring.mjs` rejects ANY output containing:
+
+1. No asymmetric grid (must have at least one `Nfr Mfr` with N≠M)
+2. No multi-column grid (must have `repeat(auto-fit, ...)` or `repeat(12, ...)` somewhere)
+3. Every section centered (max ONE centered section per page)
+4. No varied grid-column spans (bento must have ≥3 distinct spans)
+5. No font-size ≥ 56px or ≥ 6vw (must have ONE oversized element)
+6. Only one background color used (must vary surfaces across sections)
+7. Fewer than 3 unique padding values (rhythm collapse)
+
+A page that doesn't trip those gates is **by construction** not a centered
+vertical stack of identical cards.
+
+---
+
+## 7 · Token namespace (the `--ts-*` contract)
+
+Every custom property MUST carry the `--ts-*` prefix. No exceptions.
+
+```
+✓  --ts-accent-h        --ts-card-bg        --ts-fs-h1
+✗  --brand-primary      --color-bg-card     --spacing-md
+```
+
+Imported CSS (Enfold, WordPress, vendor) bridges TO Toolskin tokens through a
+one-way mapping. The bridge consumes; the Toolskin tokens are the source.
+
+---
+
+## 8 · Hard guardrails (rejection conditions)
+
+The skill REFUSES to produce output containing any of:
+
+| # | Violation | Replacement |
+|---|---|---|
+| 1 | Hardcoded `#hex` color in component CSS | `var(--ts-*)` |
+| 2 | `!important` declaration | Fix specificity or use `@layer` |
+| 3 | `1fr` grid without `minmax(0, …)` | `minmax(min(100%, 280px), 1fr)` |
+| 4 | Font picked from memory (Inter/Roboto/Arial as primary) | Pick from `references/02-typography.md` §2-§3 |
+| 5 | `100vh` on a container | `100dvh` |
+| 6 | White/black hardcoded on accent surface | `var(--ts-on-accent)` |
+| 7 | Off-ladder font-size pixel value | nearest `--ts-fs-*` token |
+| 8 | Off-grid padding pixel value | nearest `--ts-sp-*` token |
+| 9 | `:hover` without `:focus-visible` | both states required |
+| 10 | New layout invented outside the 6 starters | escalate, do not invent |
+| 11 | Surface on a contained section | make full-bleed + inner container |
+| 12 | Decorative element bleeding off-edge AND cropped | contain it, or make the crop deliberate |
+
+These rules are not suggestions. The audit scripts enforce them mechanically.
+
+---
+
+## 9 · Verification (the two-gate handoff)
+
+```bash
+node scripts/audit-boring.mjs <file.html>     # conviction ≥ 60 required
+node scripts/audit-design.mjs <file.html>     # zero HARD failures required
+```
+
+Both must pass. Then walk the manual checklist:
+
+- [ ] Manifesto is concrete (no vague "the ONE move").
+- [ ] Every color is `var(--ts-*)`.
+- [ ] Every spacing value is a `--ts-sp-*` token.
+- [ ] Every font-size is on the 1.200 ladder.
+- [ ] Hero has ONE oversized element (≥ 56px or ≥ 6vw).
+- [ ] At least one asymmetric grid (`5fr 7fr` or similar).
+- [ ] Surfaces alternate across sections (or all sections are full-bleed).
+- [ ] `:focus-visible` defined wherever `:hover` is.
+- [ ] Mobile viewport (360px) doesn't overflow.
+- [ ] Reduced-motion media query respected.
+
+Any "no" → reject, fix, re-audit.
+
+---
+
+## 10 · Reference router (read at most TWO per task)
 
 ```
 references/
-├── 01-foundation.md          ← Color engine, surfaces, APCA, ts- prefix rules
-├── 02-typography.md          ← The 1.200 ladder, pairings, line-heights, clamp recipes
-├── 03-layout-and-spacing.md  ← 8pt grid, container budgets, gap rhythm, container queries
-├── 04-cards-and-containers.md← 10 unbreakable card recipes (anatomy + grid + states)
-├── 05-awwwards-patterns.md   ← Hero, bento, asymmetric, magazine, dashboard patterns
-└── 06-component-recipes.md   ← Buttons, inputs, badges, navs, footers (CSS ready)
+├── 01-foundation.md          Color engine, surfaces, APCA, --ts-* contract
+├── 02-typography.md          1.200 ladder, font picks, hierarchy patterns
+├── 03-layout-and-spacing.md  8pt grid, container budgets, layout primitives
+├── 04-cards-and-containers.md  Ten card recipes (stat, feature, price, etc.)
+├── 05-awwwards-patterns.md     Ten section patterns, the ONE move per pattern
+└── 06-component-recipes.md     Buttons, inputs, badges, nav, footer, modal
 ```
 
-**Rule:** open at most TWO references per task. If you need three, you've misclassified.
+If a task needs THREE references, the task is misclassified. Re-classify.
 
 ---
 
-## 3 · The four locked systems
+## 11 · When to escalate vs. produce
 
-These are not suggestions. They are the constants of every Toolskin output.
+Produce immediately when:
+- Task class is clear AND a starter exists for it AND content fits the slots
 
-### 3.1 Color — `generate-colors.js` is the only source of truth
+Escalate to owner when:
+- Task asks for a pattern outside the six starters
+- Task requires a token type that doesn't exist (a fifth text role, etc.)
+- Audit-boring fails after re-trying a different starter
+- User explicitly requests a "wild" / off-system creative direction
 
-- **Surfaces & text:** never invent. Pull from one of 10 curated `TOOLSKIN_SURFACE_PRESETS`
-  (5 dark + 5 light). Default pair: `dark-practical-neutral-v1` + `light-practical-clean-v1`.
-- **Accent:** one HSL triple → everything derives. Change only `--ts-accent-h / -s / -l`.
-- **On-accent ink:** computed by relative-color formula
-  `oklch(from var(--ts-accent) clamp(0, (0.75 - l) * 999, 1) 0 0)`. Never hardcode white/black on accent.
-- **APCA gate:** primary ≥ Lc 75, secondary ≥ Lc 45, muted ≥ Lc 25 on `--ts-bg-body`.
-  Run `node scripts/generate-colors.js` — exit code 1 if any pair fails.
-- **NEVER** write a hex value into a component. NEVER use a `--ts-bg-*` to color text.
-
-Full color spec → **`references/01-foundation.md`**.
-
-### 3.2 Type — the 1.200 modular ladder, anchored at 16px
-
-```
---ts-fs-base : 16px       (1rem)
---ts-fs-ratio: 1.200      (minor third — the locked default)
-
-step  size      role                    line-height  letter-spacing
- -2   11.11px   micro / overline         1.4          +0.08em
- -1   13.33px   small / caption          1.45         +0.02em
-  0   16.00px   body                     1.5           0
-  1   19.20px   lead / subtitle          1.45          0
-  2   23.04px   h5                       1.35         -0.005em
-  3   27.65px   h4                       1.3          -0.01em
-  4   33.18px   h3                       1.25         -0.015em
-  5   39.81px   h2                       1.2          -0.02em
-  6   47.78px   h1                       1.15         -0.025em
-  7   57.33px   display sm               1.1          -0.03em
-  8   68.80px   display md               1.05         -0.035em
-  9   82.55px   display lg / hero        1.0          -0.04em
-```
-
-**Fluid form (use for steps ≥ 4):**
-```css
-font-size: clamp(<min>, <min>px + (<max>-<min>) * ((100vw - 480px) / (1280 - 480)), <max>);
-```
-Or simpler: `clamp(<min>, calc(<min>px + 2vw), <max>)` for hero text.
-
-**Pairing rule:** 1–2 families max. Heading from §2 of typography reference; body from §3.
-Mono only when there is real code/numbers on screen. **NEVER** use Inter / Roboto / Arial as a default — pick from `font-catalog.md`.
-
-Full type spec → **`references/02-typography.md`**.
-
-### 3.3 Space — the 8pt grid + 4pt sub-grid
-
-```
---ts-sp-base: 4px
---ts-sp-1  =  4px        ← hairline gap (badges, icon-text)
---ts-sp-2  =  8px        ← compact (input padding inline)
---ts-sp-3  = 12px        ← form rows, list items
---ts-sp-4  = 16px        ← default block padding, card inner gap
---ts-sp-5  = 20px        ← (rarely — only for input height = 50)
---ts-sp-6  = 24px        ← card padding (default), section header gap
---ts-sp-8  = 32px        ← section inner gap, card padding (spacious)
---ts-sp-10 = 40px        ← (rarely)
---ts-sp-12 = 48px        ← block-to-block on landing
---ts-sp-16 = 64px        ← section gap (mobile)
---ts-sp-20 = 80px        ← section gap (tablet)
---ts-sp-24 = 96px        ← section gap (desktop max)
-
---ts-section-pad: clamp(4rem, 8vw, 9rem)   (use this for <section> padding)
---ts-container-pad: clamp(1rem, 5vw, 4rem) (use this for left/right gutters)
-```
-
-**The rhythm rule:** padding of a container ≥ gap of its children. A card with
-`padding: 24px` has children gap ≤ 24px. Breaking this rule = visual collapse.
-
-**Container budget:** `--ts-container-lg: 1280px` (default), `xl: 1520px` (cinematic),
-`md: 960px` (article), `sm: 640px` (form). Never wider than `xl` for body content;
-full-bleed sections only for backgrounds/imagery.
-
-Full layout spec → **`references/03-layout-and-spacing.md`**.
-
-### 3.4 Shape — radius and shadow ladders
-
-```
---ts-radius-base: 10px      (one knob — change to retheme every corner)
---ts-radius-xs:    3px      (chips, badges)
---ts-radius-sm:    5px      (buttons, inputs)
---ts-radius-md:   10px      (cards default)
---ts-radius-lg:   14px      (panels, modals)
---ts-radius-xl:   20px      (featured / hero cards)
---ts-radius-full: 9999px    (pills, avatars)
-
---ts-shadow-1: subtle           (raised surfaces, no hover)
---ts-shadow-2: card             (cards default)
---ts-shadow-3: float            (dropdowns, popovers)
---ts-shadow-4: dramatic         (modals, hero CTA)
---ts-shadow-accent: accent glow (CTA only, sparingly)
-```
-
-**Rule:** radius scales with size. A 40px button gets `--ts-radius-sm`; a 320px-tall
-card gets `--ts-radius-lg`. Pills only for things smaller than 48px tall.
+Escalation is not failure. Inventing instead of escalating IS failure.
 
 ---
 
-## 4 · Decision trees (the anti-doubt protocol)
+## 12 · Working with other skills
 
-When in doubt, walk the tree. Do not deliberate — execute.
+| Other skill | Hand off when |
+|---|---|
+| Frontend implementation skill | After design is approved, to write framework code (React, Vue, etc.) |
+| Build / tooling skill | After visual artifact is done, to wire CI / pre-commit / lints |
+| Animation skill | When the design needs motion beyond CSS transitions |
+| Content / copy skill | When real content needs writing past placeholder slots |
+| Accessibility skill | When the design has interactive complexity beyond `:focus-visible` |
 
-### 4.1 "Which font for this project?"
-```
-Brand mood?
-├─ Editorial / luxury / long-form → Heading: Instrument Serif | Body: Source Serif 4
-├─ Tech / SaaS / dashboard       → Heading: Clash Display     | Body: Space Grotesk
-├─ Friendly / consumer / playful → Heading: Cabinet Grotesk   | Body: General Sans
-├─ Brutalist / editorial-poster  → Heading: Bricolage Grotesque| Body: Switzer
-├─ Default (no signal)           → Heading: Space Grotesk     | Body: Space Grotesk
-└─ Mono needed                   → JetBrains Mono (always)
-```
-
-### 4.2 "Which type step for this element?"
-```
-Hero h1, single screen ........ step 7-9 (clamp 48→80px)
-Section title h2 .............. step 5-6 (clamp 36→48px)
-Card title h3 ................. step 3   (28px)
-Subheading / lead ............. step 1   (19px)
-Body ......................... step 0   (16px)
-Caption / meta ............... step -1  (13px)
-Overline / badge ............. step -2 UPPERCASE +0.08em (11px)
-```
-
-### 4.3 "How much padding on this thing?"
-```
-Element width      Padding (inline / block)
-< 100px            sp-2  / sp-2   ( 8 /  8)
-100–240px          sp-3  / sp-3   (12 / 12)   ← buttons, chips
-240–480px          sp-4  / sp-4   (16 / 16)   ← inputs, small cards
-480–800px          sp-6  / sp-6   (24 / 24)   ← standard cards, modals
-> 800px            sp-8  / sp-8   (32 / 32)   ← hero cards, panels
-Full-bleed section sp-section/sp-section (clamp 4rem→9rem)
-```
-
-### 4.4 "Light or dark default?"
-```
-Tech / dev tools / dashboard / AI ........ dark-practical-neutral-v1
-Editorial / publication / luxury ........ light-practical-clean-v1
-Marketing landing (single hero) ........ dark + light tweak ready
-WordPress / Enfold ..................... dark-practical-neutral-v1
-```
-
-### 4.5 "Awwwards-grade — what's the ONE move that makes this great?"
-```
-Have a hero?     → ONE oversized type element + 90% whitespace
-Have a card grid?→ Break the symmetry: one card spans 2 (bento)
-Have a list?     → Negative letter-spacing on heads, +0.08em on overlines
-Have an image?   → Edge-to-edge crop OR floating with shadow-4; never half measures
-Have ≥3 colors?  → You have too many. Cut to accent + 1 neutral scale.
-```
-
-Full decision flow → **`references/06-decision-trees.md`** (if present).
+This skill OUTPUTS a designed HTML artifact. Other skills consume it.
 
 ---
 
-## 5 · The unbreakable layout primer
-
-Three patterns cover 90% of layouts. Memorize them.
-
-### 5.1 The auto-fit card grid (never breaks)
-```css
-.ts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap: var(--ts-sp-6);
-}
-```
-The `min(100%, 280px)` prevents single-column overflow on narrow screens.
-`minmax(0, 1fr)` (or this min() variant) is **mandatory** — `1fr` alone overflows on long content.
-
-### 5.2 The pinned-footer card (header-body-footer)
-```css
-.ts-card {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  min-height: 100%;
-  padding: var(--ts-sp-6);
-  gap: var(--ts-sp-4);
-  background: var(--ts-card-bg, var(--ts-bg-2));
-  border: 1px solid var(--ts-border-1);
-  border-radius: var(--ts-radius-md);
-}
-```
-Cards in the same row are equal height **only** with `align-items: stretch` (the grid default)
-AND every card uses this template. Mixed templates = jagged row.
-
-### 5.3 The editorial split (asymmetric, magazine-grade)
-```css
-.ts-split {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);   /* or 2fr 3fr */
-  gap: clamp(var(--ts-sp-6), 4vw, var(--ts-sp-16));
-  align-items: start;
-}
-@media (max-width: 768px) { .ts-split { grid-template-columns: 1fr; } }
-```
-Asymmetric ratios (2:3, 3:5, 5:7) read as designed; 50/50 reads as default.
-
-Full layout cookbook → **`references/03-layout-and-spacing.md`** §4.
-
----
-
-## 6 · Hard guardrails (NEVER, under any pressure)
-
-1. **NEVER hardcode a color.** Always `var(--ts-*)`. Use `generate-colors.js` to add new colors.
-2. **NEVER use `!important`** to fix integration. Fix specificity or use `@layer`.
-3. **NEVER nest `--ts-*` prefixes** with another (e.g. `--brand-ts-x`). The namespace is sacred.
-4. **NEVER pick a font from memory.** Open `references/02-typography.md` §2-§3.
-5. **NEVER use Inter / Roboto / Arial / system-ui** as a primary chosen font. They're fallbacks only.
-6. **NEVER skip the APCA gate.** If `generate-colors.js` exits 1, the palette is rejected.
-7. **NEVER use `1fr` without `minmax(0, …)`** in a grid that holds text or images.
-8. **NEVER use `vh`** on full-height containers — use `dvh` (mobile safe).
-9. **NEVER use raw `#hex` on accent ink.** Use the relative-color clamp formula.
-10. **NEVER write a number that isn't a token.** If it doesn't exist, add it to the system first.
-
----
-
-## 7 · Verification checklist (run before declaring done)
-
-```bash
-# 1. The Boring Detector — conviction check
-node scripts/audit-boring.mjs <file.html>
-# must score >= 60 (C); aim for 75+ (B); 90+ is award-grade
-
-# 2. Color contrast
-node scripts/generate-colors.js     # exit 0 required
-
-# 3. Design audit (lints HTML/CSS for system violations)
-node scripts/audit-design.mjs <file.html>
-
-# 4. Project health
-bash scripts/health-check.sh
-```
-
-**Manual checks** (the agent does these):
-- [ ] Every color comes from a `var(--ts-*)`.
-- [ ] No `!important` introduced.
-- [ ] All text on a surface meets APCA primary/secondary/muted bands.
-- [ ] Touch targets ≥ 44px (WCAG 2.2 AA `:focus-visible` visible).
-- [ ] Grid uses `minmax(0, ...)` or `minmax(min(100%, ...), 1fr)`.
-- [ ] Cards in the same row share the SAME recipe (§5.2).
-- [ ] Type scale stays on the 1.200 ladder (§3.2). No off-ladder px values.
-- [ ] Padding ≥ gap (the rhythm rule, §3.3).
-- [ ] Hero has one oversized element + 90% whitespace.
-- [ ] Reduced-motion media query respected.
-
-If any item fails: STOP, fix it, re-verify. Do not ship partial.
-
----
-
-## 8 · Working with the user
-
-When the user asks for something visual:
-
-1. **Classify** (§1). State the class in one short sentence.
-2. **Open** at most two references (§2). Do not invent.
-3. **Walk** the decision trees (§4) out loud — show the path you took.
-4. **Build** using the locked systems (§3) and primer (§5).
-5. **Verify** (§7).
-6. **Hand off** with: the class, the recipes used, the tokens introduced (none, ideally),
-   and the audit report.
-
-When the user says "make it more X" (bolder, softer, premium, playful):
-
-- Bolder    → step +1 on h1 + heavier weight (700→900) + tighter letter-spacing (-0.005em)
-- Softer    → step −1 on h1 + lighter weight (700→500) + +1 on line-height + radius +1 step
-- Premium   → cut color count, max whitespace, swap heading font to serif, slow motion (350ms)
-- Playful   → radius +2 steps, increase saturation `--ts-accent-s` by 10%, add ts-grain
-
-Do not invent new dials. The eight above cover it.
-
----
-
-## 9 · What this skill replaces
-
-This skill replaces and supersedes:
-- The 67 `typeui-haul/skills/*/SKILL.md` files (they were generic prompts, not tools).
-- The v5 `expert-designer/SKILL.md` (essay form, too long, no decision protocol).
-- Ad-hoc color, type, and spacing choices.
-
-It does NOT replace:
-- `generate-colors.js` — kept verbatim; this skill calls into it.
-- `toolskin.css` / `toolskin-extras.css` — the runtime token system.
-- The Toolskin Pitchdeck — that's content, not a skill.
-
----
-
-## 10 · Quick-start: building a new page right now
+## 13 · Quick-start recap
 
 ```
-1. node scripts/generate-colors.js                    (verify colors)
-2. cp templates/seed-page.html my-page.html           (clean Toolskin starter)
-3. Pick a hero pattern from references/05-awwwards-patterns.md §1
-4. Pick a card recipe from references/04-cards-and-containers.md
-5. Drop in real content (no lorem ipsum past first draft)
-6. node scripts/audit-design.mjs my-page.html         (lint)
-7. Manual checklist (§7)
-8. Ship.
+1. Read ANTI-DEFAULT-PROTOCOL.md (every time)
+2. Classify (§2) → pick starter (§3)
+3. Write manifesto (§4)
+4. Open starter, fill SLOT markers with real content
+5. node scripts/audit-boring.mjs <file>
+6. node scripts/audit-design.mjs <file>
+7. Manual checklist (§9)
+8. Ship
 ```
 
-Total time for a competent agent: 20–40 minutes for a landing page. If it's
-taking longer, you're inventing instead of looking up. Stop and re-read this file.
+Total time for a competent agent following this protocol: 20–40 minutes for
+a landing page. Taking longer means inventing instead of looking up — stop
+and re-read this file.

@@ -12,37 +12,37 @@ Major third (1.250) is too operatic for body-heavy UI; major second (1.125) is t
 subtle for hierarchy.
 
 ```css
---ts-fs-base: 13px;     /* RULING 3 — Toolskin tool-system density */
+--ts-fs-base: 16px;
 --ts-fs-ratio: 1.200;
 
---ts-fs--2: calc(var(--ts-fs-base) / var(--ts-fs-ratio) / var(--ts-fs-ratio)); /* 9.03px */
---ts-fs--1: calc(var(--ts-fs-base) / var(--ts-fs-ratio));                      /* 10.83px */
---ts-fs-0:  var(--ts-fs-base);                                                  /* 13.00px */
---ts-fs-1:  calc(var(--ts-fs-base) * var(--ts-fs-ratio));                      /* 15.60px */
---ts-fs-2:  calc(var(--ts-fs-1)    * var(--ts-fs-ratio));                      /* 18.72px */
---ts-fs-3:  calc(var(--ts-fs-2)    * var(--ts-fs-ratio));                      /* 22.46px */
---ts-fs-4:  calc(var(--ts-fs-3)    * var(--ts-fs-ratio));                      /* 26.95px */
---ts-fs-5:  calc(var(--ts-fs-4)    * var(--ts-fs-ratio));                      /* 32.34px */
---ts-fs-6:  calc(var(--ts-fs-5)    * var(--ts-fs-ratio));                      /* 38.81px */
---ts-fs-7:  calc(var(--ts-fs-6)    * var(--ts-fs-ratio));                      /* 46.57px */
---ts-fs-8:  calc(var(--ts-fs-7)    * var(--ts-fs-ratio));                      /* 55.89px */
---ts-fs-9:  calc(var(--ts-fs-8)    * var(--ts-fs-ratio));                      /* 67.06px */
+--ts-fs--2: calc(var(--ts-fs-base) / var(--ts-fs-ratio) / var(--ts-fs-ratio)); /* 11.11px */
+--ts-fs--1: calc(var(--ts-fs-base) / var(--ts-fs-ratio));                      /* 13.33px */
+--ts-fs-0:  var(--ts-fs-base);                                                  /* 16.00px */
+--ts-fs-1:  calc(var(--ts-fs-base) * var(--ts-fs-ratio));                      /* 19.20px */
+--ts-fs-2:  calc(var(--ts-fs-1)    * var(--ts-fs-ratio));                      /* 23.04px */
+--ts-fs-3:  calc(var(--ts-fs-2)    * var(--ts-fs-ratio));                      /* 27.65px */
+--ts-fs-4:  calc(var(--ts-fs-3)    * var(--ts-fs-ratio));                      /* 33.18px */
+--ts-fs-5:  calc(var(--ts-fs-4)    * var(--ts-fs-ratio));                      /* 39.81px */
+--ts-fs-6:  calc(var(--ts-fs-5)    * var(--ts-fs-ratio));                      /* 47.78px */
+--ts-fs-7:  calc(var(--ts-fs-6)    * var(--ts-fs-ratio));                      /* 57.33px */
+--ts-fs-8:  calc(var(--ts-fs-7)    * var(--ts-fs-ratio));                      /* 68.80px */
+--ts-fs-9:  calc(var(--ts-fs-8)    * var(--ts-fs-ratio));                      /* 82.55px */
 ```
 
 ### 1.1 Role mapping (use these, not raw steps)
 
 ```css
---ts-fs-micro:    var(--ts-fs--2);   /* 9px — overlines, legal */
---ts-fs-caption:  var(--ts-fs--1);   /* 11px — meta, helpers */
---ts-fs-body:     var(--ts-fs-0);    /* 13px — paragraph (RULING 3 — IS body, not a floor) */
---ts-fs-lead:     var(--ts-fs-1);    /* 16px — subtitle / intro */
---ts-fs-h5:       var(--ts-fs-2);    /* 19px */
---ts-fs-h4:       var(--ts-fs-3);    /* 22px */
---ts-fs-h3:       var(--ts-fs-4);    /* 27px */
---ts-fs-h2:       var(--ts-fs-5);    /* 32px */
---ts-fs-h1:       var(--ts-fs-6);    /* 39px */
---ts-fs-display:  clamp(var(--ts-fs-6), 4vw + 1rem, var(--ts-fs-8));  /* 39→56px */
---ts-fs-hero:     clamp(var(--ts-fs-7), 8vw + 1rem, var(--ts-fs-9));  /* 47→67px */
+--ts-fs-micro:    var(--ts-fs--2);   /* 11px — overlines, legal */
+--ts-fs-caption:  var(--ts-fs--1);   /* 13px — meta, helpers */
+--ts-fs-body:     var(--ts-fs-0);    /* 16px — paragraph */
+--ts-fs-lead:     var(--ts-fs-1);    /* 19px — subtitle / intro */
+--ts-fs-h5:       var(--ts-fs-2);    /* 23px */
+--ts-fs-h4:       var(--ts-fs-3);    /* 28px */
+--ts-fs-h3:       var(--ts-fs-4);    /* 33px */
+--ts-fs-h2:       var(--ts-fs-5);    /* 40px */
+--ts-fs-h1:       var(--ts-fs-6);    /* 48px */
+--ts-fs-display:  clamp(var(--ts-fs-6), 4vw + 1rem, var(--ts-fs-8));  /* 48→69px */
+--ts-fs-hero:     clamp(var(--ts-fs-7), 8vw + 1rem, var(--ts-fs-9));  /* 57→83px */
 ```
 
 ### 1.2 Line-height by role (the locked pairs)
@@ -115,8 +115,8 @@ not *choices*. Pick from above.
 | **Newsreader** | Magazine, blog | Google Fonts | Tall | 42 styles, screen-tuned |
 | **Lora** | Editorial body | Google Fonts | Medium | Calligraphic warmth |
 
-**Body rule:** 13px is body (step 0 — RULING 3, intentional Toolskin tool-system density).
-Step 1 (16px) on landing pages with sparse content. Below 13 only for `caption` / `micro` roles.
+**Body rule:** 16px minimum (step 0). 18px on landing pages with sparse content
+(step 1). Below 16 only for `caption` / `micro` roles.
 
 **Reading length:** body text gets `max-width: 65ch` (≈ 600px). Wider is faster
 to skim but harder to read. Use `max-width: 80ch` only for dashboards.
@@ -171,7 +171,7 @@ swap in. Maximum 2 families loaded at once.
 
 ```
 Is it the page hero (one screen, one element)?
-├─ YES → step 7-9 (--ts-fs-hero, clamp 47→67px)
+├─ YES → step 7-9 (--ts-fs-hero, clamp 57→83px)
 └─ NO  → continue
 
 Is it a section title (above an aside / below nav)?
@@ -183,15 +183,15 @@ Is it the title of a card / panel / list item?
 └─ NO  → continue
 
 Is it a subtitle / lead paragraph?
-├─ YES → step 1 (--ts-fs-lead, 16px)
+├─ YES → step 1 (--ts-fs-lead, 19px)
 └─ NO  → continue
 
 Is it the actual reading text?
-├─ YES → step 0 (--ts-fs-body, 13px)
+├─ YES → step 0 (--ts-fs-body, 16px)
 └─ NO  → continue
 
 Is it metadata, helper text, timestamp?
-├─ YES → step -1 (--ts-fs-caption, 11px)
+├─ YES → step -1 (--ts-fs-caption, 13px)
 └─ NO  → continue
 
 Is it an overline / category / kicker (UPPERCASE)?
@@ -204,29 +204,29 @@ Is it an overline / category / kicker (UPPERCASE)?
 
 ### 7.1 The classical (display + body)
 ```
-DISPLAY (step 8, 56px, weight 700, tracking -0.025em, lh 1.05)
+DISPLAY (step 8, 69px, weight 700, tracking -0.025em, lh 1.05)
 ↓ gap 24px
-Lead paragraph (step 1, 16px, weight 400, tracking 0, lh 1.45)
+Lead paragraph (step 1, 19px, weight 400, tracking 0, lh 1.45)
 ↓ gap 32px
 Two CTAs side-by-side
 ```
 
 ### 7.2 The editorial (overline + headline + body)
 ```
-OVERLINE (step -2, 9px, weight 600, UPPERCASE, tracking +0.08em, color: --ts-text-secondary)
+OVERLINE (step -2, 11px, weight 600, UPPERCASE, tracking +0.08em, color: --ts-text-secondary)
 ↓ gap 12px
-Headline (step 5, 32px, weight 600, tracking -0.02em, lh 1.15)
+Headline (step 5, 40px, weight 600, tracking -0.02em, lh 1.15)
 ↓ gap 20px
-Body (step 0, 13px, weight 400, lh 1.6, max-width 65ch)
+Body (step 0, 16px, weight 400, lh 1.6, max-width 65ch)
 ```
 
 ### 7.3 The dashboard (eyebrow + metric + delta)
 ```
-Eyebrow (step -1, 11px, weight 500, color: --ts-text-secondary)
+Eyebrow (step -1, 13px, weight 500, color: --ts-text-secondary)
 ↓ gap 8px
-Metric (step 5, 32px, weight 700, mono numerals, tracking -0.02em)
+Metric (step 5, 40px, weight 700, mono numerals, tracking -0.02em)
 ↓ gap 4px
-Delta (step -1, 11px, weight 500, color: success/danger)
+Delta (step -1, 13px, weight 500, color: success/danger)
 ```
 
 ---
@@ -256,7 +256,7 @@ element by 2× before touching anything else.
 - ❌ Bold + italic + underline on the same word.
 - ❌ All-caps body text (reduces reading speed 13–20%).
 - ❌ Justified text on the web (rivers — use `text-align: left`).
-- ❌ `font-size: 12px` for body text. **13px IS body (RULING 3), not a floor** — 13px is the chosen tool-system density. Drop below 13 only for `caption` / `micro` roles (11px / 9px).
+- ❌ `font-size: 12px` for anything a user must read (caption floor is 13px).
 - ❌ Sentence-case overlines (overlines are UPPERCASE).
 - ❌ Color as the ONLY hierarchy signal (also use size or weight).
 
@@ -270,7 +270,7 @@ element by 2× before touching anything else.
   --ts-font-body:    'Space Grotesk', system-ui, sans-serif;
   --ts-font-mono:    'JetBrains Mono', ui-monospace, monospace;
 
-  --ts-fs-base: 13px;     /* RULING 3 */
+  --ts-fs-base: 16px;
   --ts-fs-ratio: 1.2;
 }
 

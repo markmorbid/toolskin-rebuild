@@ -22,13 +22,13 @@ or margin resolves to a `--ts-sp-*` token. No raw px in your CSS.
 --ts-sp-8   = 32px        /* spacious card padding, dense section gap */
 --ts-sp-10  = 40px        /* rare */
 --ts-sp-12  = 48px        /* block-to-block on landings */
---ts-sp-16  = 64px        /* section gap (mobile / scale ceiling — RULING 5) */
+--ts-sp-16  = 64px        /* terminal stop — section gap (mobile) */
 ```
 
-> **RULING 5** — the fixed scale stops at `--ts-sp-16`. Anything larger
-> (section padding, between-section gaps) comes from the fluid tokens below
-> (`--ts-section-pad`, `--ts-section-gap`) — they are intentionally NOT on
-> the sp-scale because they are responsive clamps, not fixed steps.
+> **RULING 5:** the fixed scale stops at `--ts-sp-16`. The previous
+> `--ts-sp-20`, `--ts-sp-24`, `--ts-sp-32` rows are intentionally dropped.
+> For section-gap (tablet → desktop) and dramatic hero separation, use the
+> fluid tokens below — they top out at ~144px and respond to viewport.
 
 ### 1.1 Fluid spacing tokens (preferred for sections)
 
