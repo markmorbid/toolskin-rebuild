@@ -89,10 +89,20 @@ for (const { source, css } of cssChunks) {
   // strip comments to avoid false positives
   const clean = css.replace(/\/\*[\s\S]*?\*\//g, '');
 
-  // HARD: hardcoded hex outside :root or @theme
-  // (allowed in :root { … } blocks; flagged anywhere else)
-  const rootBlocks = [...clean.matchAll(/(:root\s*(?:\[[^\]]+\])?\s*\{[\s\S]*?\})/g)].map(m => m[0]).join('\n');
-  const nonRoot = clean.replace(/(:root\s*(?:\[[^\]]+\])?\s*\{[\s\S]*?\})/g, '');
+  // HARD: hardcoded hex outside primitive-declaration zones.
+  // Primitive zones (where curated hex IS the primitive layer, per RULING 1):
+  //   - :root { … }
+  //   - :root[attr] { … }
+  //   - [data-theme="…"] { … } (theme-scoped primitive declarations)
+  //   - .ts-preset-XXX { … } (the 10 curated surface presets emitted by generate-colors.js)
+  //   - Any comma-separated combination of the above as the selector list
+  const PRIMITIVE_SELECTOR = /(?::root(?:\[[^\]]+\])?|\.ts-preset-[a-z0-9-]+|\[data-theme=[^\]]+\])/.source;
+  const PRIMITIVE_ZONE_RE = new RegExp(
+    `((?:${PRIMITIVE_SELECTOR})(?:\\s*,\\s*(?:${PRIMITIVE_SELECTOR}))*\\s*\\{[\\s\\S]*?\\})`,
+    'g'
+  );
+  const rootBlocks = [...clean.matchAll(PRIMITIVE_ZONE_RE)].map(m => m[0]).join('\n');
+  const nonRoot = clean.replace(PRIMITIVE_ZONE_RE, '');
   const hexMatches = [...nonRoot.matchAll(/#[0-9a-f]{3,8}\b/gi)];
   for (const m of hexMatches) {
     // allow in url() and svg fills/strokes
