@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    html {
+      color-scheme: dark;
+
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Space+Grotesk:wght@300..700&display=swap');
+
+    body {
+      color: #e8e9ea;
+      font-family: 'Space Grotesk';
+      font-weight: bold;
+      line-height: 1.3;
+      padding: 5%;
+      background: #0d0d0d;
+      color-scheme: dark;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      margin: 2dvw;
+      max-width: 640px;
+      border: 1px solid #cccccc;
+    }
+
+    span {
+      display: block;
+      padding: 2dvw;
+      margin: 0;
+
+      p {
+        margin: 0;
+        line-height: 1.3;
+        display: block;
+
+        &:not(:last-child) {
+          margin-bottom: 1em;
+        }
+      }
+
+    }
+
+
+    .ts-lg {
+      p {
+        font-size: calc(2.5vw + 2.5vh + 2vmin);
+
+        text-transform: uppercase;
+      }
+
+    }
+
+    .ts-md {
+      p {
+        font-size: calc(1.2vw + 1.2vh + 2vmin);
+        line-height: 1.4;
+        font-weight: 500;
+
+        opacity: 0.7;
+      }
+
+    }
+
+    .ts-sm {
+      p {
+        font-size: calc(.7vw + .7vh + 1vmin);
+        line-height: 1.7;
+        font-weight: 300;
+
+        opacity: 0.57;
+
+      }
+
+    }
+  </style>
+  <script>
+  /* 
+  On the horizontal axis you have the ratio between 0 and 4, on the vertical axis you have the text area relative to the viewport area between 0 and 120%.
+  The green line is the ideal situation if you could just do `font-size: calc(10 * 1vw * 1vh)` and the text area is always 100% of the viewport area. Sadly you can’t do this.
+  The blue lines are poor attempts to match the green line as close as possible (`font-size: calc(5vw + 5vh)` and `font-size: 10vmin`) but they only match 100% for `ratio = 1`.
+  The red line is a combination of the two (`font-size: calc(4vw + 4vh + 2vmin)`) and is the best approach so far. This one even allows for tweaking of the actual numbers depending of what minimum and maximum ratio you want to support. In those examples all scalars add up to 10 and that is the magic number that depends on how much how much text you want to fit, line height and the area relative to the viewport you want to fill.*/
+    var Graph = (function (document, undefined) {
+      function Graph(width, height) {
+        this.canvas = document.createElement('canvas');
+        this.canvas.width = width;
+        this.canvas.height = height;
+
+        this.context = this.canvas.getContext('2d');
+
+        this.functions = [];
+        this.domain = { lo: -10, hi: 10, range: 20 };
+        this.codomain = { lo: -10, hi: 10, range: 20 };
+      }
+      Graph.prototype.setDomain = function (x1, x2) {
+        this.domain.lo = x1;
+        this.domain.hi = x2;
+        this.domain.range = x2 - x1;
+      }
+      Graph.prototype.setCodomain = function (y1, y2) {
+        this.codomain.lo = y1;
+        this.codomain.hi = y2;
+        this.codomain.range = y2 - y1;
+      }
+/**
+ * Adds a function definition to the graph, which can either be a
+ * literal function or an object with `function` defined, and
+ * optionally `color`, `thickness` and `step` defined too.
+ *
+ * @param  f literal function or function definition object with
+ *           optional parameters
+ * @return added function definition
+ */
+      Graph.prototype.addFunction = function (f, color) {
+        if (typeof f === 'function') {
+          f = {
+            function: f,
+            color: color
+          };
+        }
+        f.color = f.color || '#000';
+        f.thickness = f.thickness || 1;
+        f.step = f.step > 0 ? f.step : this.domain.range / this.canvas.width;
+        this.functions.push(f);
+        return f;
+      };
+      Graph.prototype.removeFunction = function (f) {
+        var i = this.functions.indexOf(f);
+        if (i !== -1)
+          this.functions.splice(i, 1);
+      };
+      Graph.prototype.draw = function () {
+        var canvas = this.canvas,
+          context = this.context;
+        // clear canvas
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        // draw axes
+        var zero = this.pointToCanvas({ x: 0, y: 0 });
+        context.beginPath();
+        context.moveTo(0, zero.y);
+        context.lineTo(canvas.width, zero.y);
+        context.moveTo(zero.x, 0);
+        context.lineTo(zero.x, canvas.height);
+        context.lineWidth = 1;
+        context.strokeStyle = '#000';
+        context.stroke();
+        // draw functions
+        for (var i = 0; i < this.functions.length; i++) {
+          var functionDefinition = this.functions[i];
+          f = functionDefinition.function,
+            x = this.domain.lo,
+            y = f(x),
+            pt = this.pointToCanvas({ x: x, y: y });
+          context.beginPath();
+          context.moveTo(pt.x, pt.y);
+          do {
+            x = x + functionDefinition.step;
+            y = f(x);
+            pt = this.pointToCanvas({ x: x, y: y });
+            context.lineTo(pt.x, pt.y);
+          } while (x < this.domain.hi);
+          context.lineWidth = functionDefinition.thickness;
+          context.strokeStyle = functionDefinition.color;
+          context.stroke();
+        }
+      };
+      Graph.prototype.pointToCanvas = function (pt) {
+        return {
+          x: (pt.x - this.domain.lo) * this.canvas.width / this.domain.range,
+          y: (this.codomain.hi - pt.y) * this.canvas.height / this.codomain.range
+        };
+      };
+      return Graph;
+    })(document);
+
+
+    // assumptions
+    // screen has 10k pixels
+    // for ratio = 1, font-size: 10vw fills the screen
+
+
+    // graphs
+    function ideal(ratio) {
+      // this would be perfect but you can't use
+      // multiplication in calc with 2 units
+      // calc(10 * 1vw * 1vh)
+      var vw = Math.sqrt(ratio),
+        vh = Math.sqrt(1 / ratio);
+
+      return Math.pow(10 * vw * vh, 2);
+    }
+
+    function onlyVmin(ratio) {
+      var vw = Math.sqrt(ratio),
+        vh = Math.sqrt(1 / ratio),
+        vmin = Math.min(vw, vh);
+
+      return Math.pow(10 * vmin, 2);
+    }
+
+    function vwAndVh(ratio) {
+      var vw = Math.sqrt(ratio),
+        vh = Math.sqrt(1 / ratio);
+
+      return Math.pow(5 * vw + 5 * vh, 2);
+    }
+
+    function all(ratio) {
+      var vw = Math.sqrt(ratio),
+        vh = Math.sqrt(1 / ratio),
+        vmin = Math.min(vw, vh);
+
+      return Math.pow(4 * vw + 4 * vh + 2 * vmin, 2);
+    }
+
+    // draw them to a canvas graph!
+    var graph = new Graph(640, 640);
+    graph.setDomain(0, 4);
+    graph.setCodomain(0, 120);
+    graph.addFunction(ideal, '#2ecc71');
+    graph.addFunction(onlyVmin, '#3498db');
+    graph.addFunction(vwAndVh, '#3498db');
+    graph.addFunction({
+      function: all,
+      thickness: 2,
+      color: '#c0392b'
+    });
+    graph.draw();
+
+    document.body.appendChild(graph.canvas);
+  </script>
+</head>
+
+<body>
+  
+  <span class="ts-lg"><p>Using calc in combination with vw and vh units for font-size to create text that always fills the viewport. No matter what ratio.</p>
+      
+    </span>
+  <span  class="ts-md">
+      <p>On the horizontal axis you have the ratio between 0 and 4, on the vertical axis you have the text area relative to the viewport area between 0 and 120%.</p>
+    
+    <p>The green line is the ideal situation if you could just do `font-size: calc(10 * 1vw * 1vh)` and the text area is always 100% of the viewport area. Sadly you can’t do this.</p>
+    
+    <p>The blue lines are poor attempts to match the green line as close as possible (`font-size: calc(5vw + 5vh)` and `font-size: 10vmin`) but they only match 100% for `ratio = 1`.</p>
+    
+    <p>The red line is a combination of the two (`font-size: calc(4vw + 4vh + 2vmin)`) and is the best approach so far. This one even allows for tweaking of the actual numbers depending of what minimum and maximum ratio you want to support.</p>
+    </span>
+
+  <span class="ts-sm">
+      <p>In those examples all scalars add up to 10 and that is the magic number that depends on how much how much text you want to fit, line height and the area relative to the viewport you want to fill.</p>
+    </span>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toolskin — Business Briefing (Consolidated)</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: #1a1a1a;
+    background: #f9f8f5;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  header {
+    border-top: 4px solid #1a1a1a;
+    padding-top: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  header h1 {
+    font-family: 'Courier New', monospace;
+    font-size: 1.6rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  header .subtitle {
+    font-size: 0.9rem;
+    color: #555;
+    font-style: italic;
+  }
+  .callout-note {
+    background: #fffbe6;
+    border-left: 3px solid #cca800;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+    color: #5a4a00;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Section headings */
+  h2 {
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    margin-top: 3rem;
+    margin-bottom: 0.4rem;
+  }
+  h2 span.num {
+    color: #bbb;
+    margin-right: 0.5em;
+  }
+  h2 + h3 {
+    margin-top: 0;
+  }
+  h3 {
+    font-family: Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.25rem;
+  }
+  h4 {
+    font-size: 0.95rem;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 1.5rem;
+    margin-bottom: 0.4rem;
+    color: #333;
+  }
+
+  section {
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin-bottom: 0.85rem;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0 1.5rem;
+    font-size: 0.88rem;
+  }
+  th {
+    background: #1a1a1a;
+    color: #fff;
+    text-align: left;
+    padding: 0.45rem 0.7rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  td {
+    padding: 0.45rem 0.7rem;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f3f2ee; }
+  tr.highlight td { background: #fffbe6; font-weight: bold; }
+
+  /* Lists */
+  ul, ol {
+    padding-left: 1.5rem;
+    margin-bottom: 0.85rem;
+  }
+  li { margin-bottom: 0.3rem; }
+
+  /* Blockquote */
+  blockquote {
+    border-left: 3px solid #1a1a1a;
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    font-style: italic;
+    color: #444;
+    background: #f0ede8;
+  }
+
+  /* Callout boxes */
+  .box {
+    border: 1px solid #ccc;
+    padding: 0.9rem 1rem;
+    margin: 1rem 0;
+    background: #fff;
+  }
+  .box.warn {
+    border-color: #c00;
+    background: #fff5f5;
+  }
+  .box.green {
+    border-color: #2a7a2a;
+    background: #f2fbf2;
+  }
+
+  /* Principle line */
+  .principle {
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem;
+    color: #888;
+    text-align: center;
+    margin: 1.5rem 0 0.5rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Tag */
+  .tag {
+    display: inline-block;
+    background: #1a1a1a;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    font-size: 0.72rem;
+    padding: 0.1em 0.5em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-right: 0.3em;
+  }
+  .tag.primary { background: #1a4a1a; }
+  .tag.defer { background: #666; }
+  .tag.amplifier { background: #444; }
+
+  /* Footer */
+  footer {
+    margin-top: 4rem;
+    border-top: 2px solid #1a1a1a;
+    padding-top: 1rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; }
+    h2 { page-break-after: avoid; }
+    table { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Toolskin — Business Briefing</h1>
+  <div class="subtitle">Q2 2026 · Co-founder review · Decision: Continue / Pivot / Shut down</div>
+  <div class="callout-note">
+    This document consolidates v1 (industry-baseline pitch) and v2 (solo-calibrated expansion) without duplication.
+    Where they differ on numbers, <strong>v2 figures are operative targets</strong>. v1 figures are noted as the theoretical ceiling.
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════ §01 -->
+<section>
+  <h2><span class="num">§01</span> The Product</h2>
+  <h3>What is Toolskin, in one minute.</h3>
+  <p>A single CSS file that turns any website, web app, or WordPress theme into a complete design system. Change one variable — the whole site re-themes. No build tools. No Node. No framework lock-in.</p>
+
+  <table>
+    <thead><tr><th>Audience</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Developers</strong></td><td>Token-driven CSS with derivative math. Change <code>--ts-accent-h</code>, the entire theme regenerates via <code>color-mix()</code> and <code>clamp()</code>. Drop one stylesheet, ship anywhere.</td></tr>
+      <tr><td><strong>Designers</strong></td><td>Figma variables that actually render in production. One token at the top, 240+ derived values cascade through every component automatically.</td></tr>
+      <tr><td><strong>Agencies</strong></td><td>50 unique client brands from one stylesheet. Token-swap delivery in days, not weeks.</td></tr>
+      <tr><td><strong>Non-technical buyers</strong></td><td>A free design engine any website can use to look professional. Premium features and bundled solutions are paid.</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Technical specs:</strong> 10,000+ lines of CSS · OKLCH auto-contrast · WCAG AA built in · Zero dependencies</p>
+</section>
+
+<!-- ═══════════════════════════════════ §02 -->
+<section>
+  <h2><span class="num">§02</span> Market Reality</h2>
+  <h3>The market changed in 2025. Plan accordingly.</h3>
+
+  <h4>What died</h4>
+  <p>Tailwind UI revenue collapsed 80%. 75% of their engineering team was laid off. Cause: AI generators (v0, Cursor, Lovable, Bolt) made one-time-purchase component libraries obsolete.</p>
+  <blockquote>"Tailwind is bigger than ever. Revenue is down 80%." — Adam Wathan, founder · GitHub, 2025</blockquote>
+
+  <h4>What still makes money in 2026</h4>
+  <ul>
+    <li>Enterprise contracts with SLA + support</li>
+    <li>Hosted services with recurring infrastructure</li>
+    <li>Education, certification, books</li>
+    <li>High-margin custom services</li>
+    <li>Niches AI doesn't serve (WordPress GUI users)</li>
+  </ul>
+
+  <div class="box">
+    <strong>Implication for Toolskin:</strong> Selling premium CSS components as a primary revenue model is structurally weaker than 18 months ago. The path is <strong>services first, productized later</strong>. Toolskin's value isn't the components — it's using them as a production engine to deliver client work faster than competitors.
+  </div>
+  <p style="font-size:0.82rem;color:#888;">Sources: Sacra · Contrary Research · Tailwind Labs founder statements · Yahoo Finance</p>
+</section>
+
+<!-- ═══════════════════════════════════ §03 -->
+<section>
+  <h2><span class="num">§03</span> Calibration (v2 reality check)</h2>
+  <h3>Calibrated to the actual starting position.</h3>
+
+  <table>
+    <thead><tr><th>Variable</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Team</td><td>Solo founder</td></tr>
+      <tr><td>Audience</td><td>~200 followers · No paid base</td></tr>
+      <tr><td>Portfolio</td><td>4 mockups + Claude Design experiments · No paid client work yet</td></tr>
+      <tr><td>Domain</td><td>toolskin.org</td></tr>
+      <tr><td>Key adjustment</td><td><strong>Conservative is now the base case</strong></td></tr>
+    </tbody>
+  </table>
+  <p>Funnel math is 5–10× harder until first delivered case study. Real conversion comes after month 1, not during it.</p>
+</section>
+
+<!-- ═══════════════════════════════════ §04 -->
+<section>
+  <h2><span class="num">§04</span> Strategy</h2>
+  <h3>Three revenue streams. Sequenced by speed.</h3>
+
+  <table>
+    <thead><tr><th>Stream</th><th>Timeline</th><th>What</th><th>Pricing</th><th>Margin</th><th>Cash Flow</th></tr></thead>
+    <tbody>
+      <tr class="highlight"><td><strong>1 · Services</strong></td><td>Days 1–30</td><td>Use Toolskin as production engine. Deliver landing pages, UI systems, brand sites.</td><td>$1,500–$8,000</td><td>70–85%</td><td>Immediate (50% deposit)</td></tr>
+      <tr><td><strong>2 · Premium Bundles</strong></td><td>Days 30–90</td><td>UI kits and themes built from real client work. Each bundle reusable across services.</td><td>$29–$149</td><td>95%+ after build</td><td>Slow ramp · Compounding</td></tr>
+      <tr><td><strong>3 · Productized SaaS</strong></td><td>Months 6+</td><td>Toolskin Pro for WordPress: theme + customizer + premium support.</td><td>$79/year</td><td>90%+ recurring</td><td>After product-market fit</td></tr>
+    </tbody>
+  </table>
+  <p class="principle">Stream 1 funds Stream 2 · Stream 2 validates Stream 3 · Don't chase 3 before 1 works</p>
+</section>
+
+<!-- ═══════════════════════════════════ §05 -->
+<section>
+  <h2><span class="num">§05</span> Audience Segments</h2>
+  <h3>7 segments. 2 primary. 1 amplifier. 4 deferred.</h3>
+  <p>Solo founder cannot pursue all segments simultaneously. Prioritization is mandatory.</p>
+
+  <table>
+    <thead><tr><th>#</th><th>Segment</th><th>Reachable/30d</th><th>Pays for</th><th>Channel</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td>01</td><td>Designers, no code</td><td>~150–400</td><td>Figma kits, templates</td><td>Behance, Twitter</td><td><span class="tag defer">Defer</span></td></tr>
+      <tr class="highlight"><td>02</td><td><strong>Vibecoder designers ★</strong></td><td>~80–300</td><td>Design system AI outputs</td><td>Twitter/X, Discord</td><td><span class="tag primary">Primary</span></td></tr>
+      <tr><td>03</td><td>Vibecoder devs (non-design)</td><td>~100–400</td><td>Make AI-UI look custom</td><td>Twitter, dev.to, HN</td><td><span class="tag defer">Secondary</span></td></tr>
+      <tr class="highlight"><td>04</td><td><strong>Frontend WP/CMS devs ★</strong></td><td>~80–250</td><td>Premium themes, builders</td><td>WP Slacks, /r/WordPress</td><td><span class="tag primary">Primary</span></td></tr>
+      <tr><td>05</td><td>Self-managed media runners</td><td>~50–200</td><td>Done-for-you tools</td><td>Instagram, TikTok</td><td><span class="tag defer">Defer</span></td></tr>
+      <tr><td>06</td><td>Autonomous SMB / web-naive</td><td>Hard to reach direct</td><td>"Get me a website"</td><td>Search ads, referrals</td><td><span class="tag defer">Defer</span></td></tr>
+      <tr><td>07</td><td>Awwwards-tier designers</td><td>~30–100</td><td>Don't pay · They amplify</td><td>Awwwards, Twitter</td><td><span class="tag amplifier">Amplifier</span></td></tr>
+    </tbody>
+  </table>
+  <div class="box green">
+    <strong>Combination logic:</strong> Vibecoder designers fund the brand → Frontend WP devs fund the cash flow → Awwwards crowd amplifies credibility. Three audiences, one stylesheet, zero overlap in pain points.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ §06 -->
+<section>
+  <h2><span class="num">§06</span> Funnel Math</h2>
+  <h3>The reach funnel, calibrated to solo / Day 0.</h3>
+
+  <table>
+    <thead><tr><th>Stage</th><th>Volume</th><th>Rate</th></tr></thead>
+    <tbody>
+      <tr><td>Quality outreach actions / month</td><td>80–120</td><td>Solo capacity</td></tr>
+      <tr><td>Replies received</td><td>3–6</td><td>3–5% reply rate · No infra</td></tr>
+      <tr><td>Calls booked</td><td>1–2</td><td>25–35% reply→call · No portfolio</td></tr>
+      <tr><td>Service contracts closed</td><td>0–1</td><td>15–25% call→close · Founder-rate pricing</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Industry baseline (with infra):</strong> 100 outreach → ~5 replies → ~2 calls → ~0.5 close</p>
+  <p><strong>Your starting point:</strong> 100 outreach → ~3–5 replies → ~1 call → ~0.1–0.2 close</p>
+  <div class="box warn">
+    <strong>Net result:</strong> 0–1 service contract from cold outreach in month 1. Real conversion comes after first delivered project (month 2+).
+  </div>
+  <p style="font-size:0.82rem;color:#888;">Sources: SalesHive 2025 · Instantly 2026</p>
+</section>
+
+<!-- ═══════════════════════════════════ §07 -->
+<section>
+  <h2><span class="num">§07</span> Revenue Scenarios</h2>
+  <h3>30-day scenarios with probability bands.</h3>
+
+  <h4>v2 Calibrated — Plan against Base</h4>
+  <table>
+    <thead><tr><th>Scenario</th><th>Prob.</th><th>Service Contracts</th><th>Bundle Sales</th><th>30-day Cumulative</th></tr></thead>
+    <tbody>
+      <tr><td>Floor</td><td>25%</td><td>0</td><td>0–10 @ $29</td><td>$0 – $300</td></tr>
+      <tr class="highlight"><td><strong>Base</strong></td><td><strong>50%</strong></td><td><strong>1 @ $1,500–3,000</strong></td><td><strong>10–30 @ $29–49</strong></td><td><strong>$1,800 – $4,000</strong></td></tr>
+      <tr><td>Stretch</td><td>20%</td><td>1–2 @ $2,500–5,000</td><td>30–60 @ avg $35</td><td>$4,000 – $9,000</td></tr>
+      <tr><td>Lucky*</td><td>5%</td><td>2–3 referrals close</td><td>HN/PH front page</td><td>$8,000 – $25,000</td></tr>
+    </tbody>
+  </table>
+  <p><strong>90-day projection (compounded):</strong> $8,000 – $35,000 cumulative<br>
+  <strong>12-month MRR target:</strong> $5,000 – $15,000 MRR (60% services · 30% bundles · 10% Toolskin Pro WP early subs)</p>
+  <p style="font-size:0.82rem;color:#888;">* Lucky is not a strategy. Plan against Base. Treat upside as gravy.</p>
+
+  <h4>v1 Industry Baseline (theoretical ceiling with existing audience)</h4>
+  <table>
+    <thead><tr><th>Scenario</th><th>Prob.</th><th>30-day Cumulative</th></tr></thead>
+    <tbody>
+      <tr><td>Conservative</td><td>40%</td><td>$1,500 – $4,000</td></tr>
+      <tr><td>Base case</td><td>45%</td><td>$5,000 – $12,000</td></tr>
+      <tr><td>Aggressive</td><td>15%</td><td>$15,000 – $25,000</td></tr>
+    </tbody>
+  </table>
+  <p><strong>v1 90-day projection:</strong> $15K–$50K cumulative · Comparables: solo Tailwind theme creators on Gumroad ($30–80K/year)</p>
+</section>
+
+<!-- ═══════════════════════════════════ §08 -->
+<section>
+  <h2><span class="num">§08</span> Service Catalog</h2>
+  <h3>What we sell. Day one.</h3>
+  <p>Market rate charged, delivered in half the time, 70% of every project reused as bundle source material.</p>
+
+  <table>
+    <thead><tr><th>Offer</th><th>Scope</th><th>Price</th><th>Days</th><th>Margin</th></tr></thead>
+    <tbody>
+      <tr class="highlight"><td><strong>Brand landing page</strong><br><em style="font-size:0.8rem;">Most popular · Highest velocity</em></td><td>Single-page site, 5–7 sections, custom-themed Toolskin, copy review, deploy</td><td>$1,500</td><td>3–5</td><td>85%</td></tr>
+      <tr><td>SaaS marketing site</td><td>5–10 pages, hero, features, pricing, docs structure, deploy</td><td>$3,500</td><td>7–10</td><td>80%</td></tr>
+      <tr><td>UI kit / design system</td><td>Custom Toolskin theme + token map + 20+ components, Figma optional</td><td>$5,000</td><td>10–14</td><td>75%</td></tr>
+      <tr><td>WordPress conversion</td><td>Re-skin existing WP theme with Toolskin tokens, full responsive</td><td>$2,500</td><td>5–7</td><td>82%</td></tr>
+      <tr><td>Brand identity + site combo</td><td>Logo direction, brand tokens, full site, design system handover</td><td>$8,000</td><td>14–21</td><td>70%</td></tr>
+    </tbody>
+  </table>
+  <p class="principle">Anchor offer: Brand landing page @ $1,500 · 7 sales = $10K · No new code per sale</p>
+  <p><strong>Speed advantage:</strong> Industry baseline for a $1,500 landing page: 5–10 working days. Using Toolskin: 3–5 days.</p>
+</section>
+
+<!-- ═══════════════════════════════════ §09 -->
+<section>
+  <h2><span class="num">§09</span> Workforce &amp; Capacity</h2>
+  <h3>Solo capacity. The hard math.</h3>
+  <p>Sustainable solo budget: <strong>45–55 hrs/week.</strong> After 12–16 weeks at this pace, burnout risk spikes hard.</p>
+
+  <table>
+    <thead><tr><th>Activity</th><th>Hours / Week</th><th>%</th></tr></thead>
+    <tbody>
+      <tr><td>Sales outreach + follow-up</td><td>10–12 hrs</td><td>22%</td></tr>
+      <tr><td>Content production (writing, video, posts)</td><td>10–14 hrs</td><td>26%</td></tr>
+      <tr class="highlight"><td>Service delivery (1 active project max)</td><td>15–25 hrs</td><td>36%</td></tr>
+      <tr><td>Build / product improvements</td><td>5–8 hrs</td><td>11%</td></tr>
+      <tr><td>Admin, support, comms</td><td>3–5 hrs</td><td>5%</td></tr>
+    </tbody>
+  </table>
+
+  <h4>What gets cut in month 1</h4>
+  <ul>
+    <li>Multi-channel content (Twitter/X only)</li>
+    <li>Paid ads</li>
+    <li>Active community building (Discord, forums)</li>
+    <li>More than 2 active projects simultaneously</li>
+    <li>Conferences, podcasts, partnerships</li>
+  </ul>
+
+  <h4>Hire thresholds — do not hire before; do not skip after</h4>
+  <table>
+    <thead><tr><th>MRR Threshold</th><th>Hire</th></tr></thead>
+    <tbody>
+      <tr><td>$3K MRR</td><td>VA part-time · $400–800/mo</td></tr>
+      <tr><td>$7K MRR</td><td>Designer/dev contractor · $1,500–3,000/mo</td></tr>
+      <tr><td>$15K MRR</td><td>Co-founder or full-time</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:0.85rem;color:#555;"><em>Stable for 2+ months = signal, not a single good week.</em></p>
+</section>
+
+<!-- ═══════════════════════════════════ §10 -->
+<section>
+  <h2><span class="num">§10</span> Portfolio &amp; Case Study Strategy</h2>
+  <h3>Mockups become credibility. Honestly.</h3>
+
+  <p><strong>Current assets:</strong> 4 mockups (Higgsfield, YouTube Studio, Suno, userscript toolpanes) + Claude Design experiments. None are paid client work.</p>
+  <p>These are reframable as design system explorations — which is honest, defensible, and resonates with the Awwwards-tier audience more than fake client logos.</p>
+
+  <h4>Each case study page contains</h4>
+  <ul>
+    <li>Hero — before/after screenshots</li>
+    <li>The problem (existing UI characterization)</li>
+    <li>The Toolskin solution (token map, how it was applied)</li>
+    <li>Technical detail (hours, tokens used)</li>
+    <li>Live demo — interactive token swap</li>
+    <li>Disclaimer: design exploration, not paid work</li>
+  </ul>
+
+  <div class="box">
+    <strong>The "founding customer" framing:</strong><br>
+    <em>"What I have is design system explorations on real-world UI surfaces. You'd be the first paid project — which means founding-customer pricing and direct access to me as the system's author."</em><br>
+    Use for first 3–5 service contracts. Drop once real delivered work exists.
+  </div>
+
+  <div class="box green">
+    <strong>Claude Design experiments pitch (Vibecoder Designer segment):</strong><br>
+    <em>"Here's what AI generates against Toolskin's token system. Notice how it stays on-brand even though no human styled these — because the tokens drive everything."</em><br>
+    Use the dev-ide demo and ops dashboard as Exhibit A in cold outreach.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ §11 -->
+<section>
+  <h2><span class="num">§11</span> Execution Plan</h2>
+  <h3>Week-by-week. First 30 days.</h3>
+
+  <table>
+    <thead><tr><th>Week</th><th>Actions</th><th>Revenue Range</th><th>Phase</th></tr></thead>
+    <tbody>
+      <tr><td><strong>W01</strong></td><td>Buy domain. Open-source repo. Site live with 4 case studies. Email 30 warm contacts. Research 50 prospects.</td><td>$0 – $200</td><td>Build</td></tr>
+      <tr><td><strong>W02</strong></td><td>50 first-touch DMs. ProductHunt launch. First call booked (target). First bundle live ($29).</td><td>$200 – $1.5K</td><td>Ship</td></tr>
+      <tr><td><strong>W03</strong></td><td>Deliver service contract #1. Show HN submission. 50 new outreach. 2nd bundle ($49).</td><td>$1K – $3K</td><td>Validate</td></tr>
+      <tr><td><strong>W04</strong></td><td>Long-form blog post. 50 follow-ups. 3rd bundle ($79). Public month-1 results thread.</td><td>$1.8K – $4K</td><td>Decide</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box warn">
+    <strong>Day 14 critical metric:</strong> At least 1 booked service call (not necessarily signed). If zero, audit copy/targeting before W3 — the script is wrong, not the market.
+  </div>
+  <p><strong>Outreach quality rule:</strong> Researched outreach = 3–8% reply rate. Generic outreach = 0.5–1.5%. 50 quality DMs &gt; 200 generic DMs.</p>
+</section>
+
+<!-- ═══════════════════════════════════ §12 -->
+<section>
+  <h2><span class="num">§12</span> Marketing Cadence</h2>
+  <h3>Weekly moves. Required. Not optional.</h3>
+
+  <h4>Twitter/X — primary channel</h4>
+  <ul>
+    <li>5 posts/week (token-swap demos, hot takes)</li>
+    <li>2 threads/week (technical, philosophy)</li>
+    <li>30 min/day engagement (no spam-pitches)</li>
+    <li>Goal: 200 → 1,000 followers by month 3</li>
+  </ul>
+
+  <h4>LinkedIn — WP segment</h4>
+  <ul>
+    <li>2 posts/week (case-study format)</li>
+    <li>10 connection requests/week</li>
+    <li>Engage WP Slack groups daily</li>
+  </ul>
+
+  <h4>Content publishing</h4>
+  <ul>
+    <li>1 blog post/week on toolskin.org/blog</li>
+    <li>1 video/week (&lt;90 sec, token-swap focus)</li>
+    <li>Cross-post to dev.to, Hashnode</li>
+  </ul>
+
+  <h4>Launch moments — one-time</h4>
+  <ul>
+    <li>W1 → Personal Twitter announcement</li>
+    <li>W2 → ProductHunt launch (Tue–Thu)</li>
+    <li>W3 → "Show HN" submission</li>
+    <li>W4 → First case study from delivery</li>
+  </ul>
+</section>
+
+<!-- ═══════════════════════════════════ §13 -->
+<section>
+  <h2><span class="num">§13</span> Product Roadmap</h2>
+  <h3>90 days. From open-source to revenue product.</h3>
+
+  <table>
+    <thead><tr><th>Phase</th><th>Free</th><th>Paid</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Month 01</strong></td><td>Open-source Toolskin v1.0. Showcase site. Documentation. ProductHunt launch.<br><em>Goal: 500 GitHub stars · 5,000 visitors</em></td><td>3 premium bundles ($29–79): SaaS landing kit, dashboard kit, marketing site kit. Via Gumroad / LemonSqueezy.</td></tr>
+      <tr><td><strong>Month 02</strong></td><td>"Built with Toolskin" gallery. First case studies. WordPress integration starter (free).</td><td>5 more bundles. First $149 mega-bundle. Affiliate program for designers.</td></tr>
+      <tr><td><strong>Month 03</strong></td><td>Refactor service learnings into reusable patterns. Begin Toolskin Pro for WordPress beta.</td><td>Toolskin Pro for WordPress · $79/year. Theme + customizer plugin + premium support.<br><em>Initial 50 customers = $3,950 ARR start.</em></td></tr>
+      <tr><td><strong>Month 04+</strong></td><td>—</td><td>Marketplace for 3rd-party creators (30% take rate). Toolskin Cloud (hosted brand-token storage). Enterprise tier ($5K+/yr). Education products.</td></tr>
+    </tbody>
+  </table>
+  <p class="principle">Free product is the funnel · Service revenue funds the runway · Pro WP = first scalable SKU</p>
+</section>
+
+<!-- ═══════════════════════════════════ §14 -->
+<section>
+  <h2><span class="num">§14</span> Defensibility</h2>
+  <h3>Why we win — and where we don't.</h3>
+
+  <table>
+    <thead><tr><th>Defensible ✓</th><th>Not Defensible ✗</th></tr></thead>
+    <tbody>
+      <tr><td>Token engine — derivative math, OKLCH, three-tier architecture. Hard to copy without rebuilding.</td><td>No network effects (CSS adoption isn't viral)</td></tr>
+      <tr><td>Brand voice — industrial-precision tone. Differentiates instantly from soft alternatives.</td><td>Low switching costs (CSS is easy to swap)</td></tr>
+      <tr><td>Founder credibility — established presence in WordPress automation tooling space.</td><td>No capital advantage (unfunded)</td></tr>
+      <tr><td>Speed advantage — Toolskin as production engine = 50% faster delivery.</td><td>No talent moat (anyone could rebuild this)</td></tr>
+      <tr><td>WordPress niche — AI generators don't serve GUI-driven WP users well.</td><td>AI eats the component market over time</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box">
+    <strong>The honest moat:</strong> Execution speed × brand-niche specificity. We don't out-engineer Tailwind. We don't out-fund Vercel. We out-ship them in WordPress and adjacent SMB markets they don't bother targeting.<br><br>
+    <em>"We don't need a moat to start. We need a moat by year 2–3 to keep going."</em>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ §15 -->
+<section>
+  <h2><span class="num">§15</span> Decision Gates / Kill-Switches</h2>
+  <h3>Pre-committed. Defined today.</h3>
+  <p>We define exit criteria up front so we don't sunk-cost our way into a 12-month money pit.</p>
+
+  <table>
+    <thead><tr><th>Date</th><th>Trigger</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Day 14</strong></td><td>No booked call</td><td>Audit copy/targeting before W3. Script is wrong, not the market. If still no traction by Day 21, kill service stream, go pure-product.</td></tr>
+      <tr class="highlight"><td><strong>Day 30</strong></td><td>Below $1.5K cumulative</td><td>Reset entire approach. Possible pivot to consulting-only or shut down service ambitions.</td></tr>
+      <tr><td><strong>Day 60</strong></td><td>Below $5K cumulative</td><td>No product-service fit at current execution capacity. Fund full-time hire or wind down to side-project.</td></tr>
+      <tr><td><strong>Day 90</strong></td><td>Below $8–15K cumulative</td><td>Toolskin remains alive as open-source. Service business shutters. Founder pivots to employment or consulting.</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Day 30 decision matrix</h4>
+  <table>
+    <thead><tr><th>Result</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr class="highlight"><td>$4K+</td><td>Accelerate</td></tr>
+      <tr><td>$1.5K – $4K</td><td>Continue (base)</td></tr>
+      <tr class="highlight" style="background:#fff5f5;"><td>Below $1.5K</td><td>Kill or restart</td></tr>
+    </tbody>
+  </table>
+  <p><em>Most failed founder partnerships fail because no one defined the exit criteria.</em></p>
+</section>
+
+<!-- ═══════════════════════════════════ §16 -->
+<section>
+  <h2><span class="num">§16</span> The Agreement</h2>
+  <h3>What we both sign up for.</h3>
+  <p><em>Numbers will be wrong. Partnerships fail when commitments aren't aligned, not when projections miss.</em></p>
+
+  <h4>From the Founder</h4>
+  <ul>
+    <li>50–100 quality outreach actions/week, logged</li>
+    <li>1 case study per delivered project</li>
+    <li>Weekly revenue + pipeline transparency</li>
+    <li>No vanity metrics — closed revenue only</li>
+    <li>Honor kill-switches without arguing</li>
+  </ul>
+
+  <h4>From the Partner</h4>
+  <ul>
+    <li>30 days patience while ramp builds</li>
+    <li>Honest weekly check-ins on metrics</li>
+    <li>Trust the data on Days 14, 30, 60, 90</li>
+    <li>Permission to say "kill it" if a switch trips</li>
+    <li>No pressure to inflate numbers</li>
+  </ul>
+
+  <h4>Checkpoint summary</h4>
+  <table>
+    <thead><tr><th>Checkpoint</th><th>Target</th><th>Below =</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Day 14</strong></td><td>1+ booked call OR audit script/targeting</td><td>Re-evaluate before W3 outreach</td></tr>
+      <tr><td><strong>Day 30</strong></td><td>$1.5K–4K cumulative</td><td>Decide together</td></tr>
+      <tr><td><strong>Day 90</strong></td><td>$8–15K cumulative OR clear path to $5K MRR</td><td>Wind down or restructure</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  Toolskin · Consolidated Business Brief · v1 + v2 · Q2 2026
+  &nbsp;·&nbsp; "Ship the framework. Keep the rest."
+  &nbsp;·&nbsp; "Slow is real. Real is defensible."
+</footer>
+
+</div>
+</body>
+</html>

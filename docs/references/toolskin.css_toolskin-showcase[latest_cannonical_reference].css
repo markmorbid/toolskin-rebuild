@@ -32236,7 +32236,14 @@ configuration model, consistent with the overall system approach. */
 		}
 	}
 }
+ .ts-gallery>li figure{
+	position: absolute!important;
+	inset: 0!important;
+	opacity: 1!important;
+	visibility: visible!important;
+	display: block!important;
 
+}
 
 /* ─── §10  LIGHTBOX  ·  .ts-gallery-lightbox ──────────────────────────── */
 /*
