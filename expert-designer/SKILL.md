@@ -19,46 +19,64 @@ description: >
 license: MIT
 ---
 
-# Expert Designer — Toolskin (v6)
+# Expert Designer — Toolskin (v6.1)
 
-> **Stop guessing. Look it up.** This skill exists because design taste alone produces
+> **⚠️ STOP. READ `ANTI-DEFAULT-PROTOCOL.md` FIRST. EVERY TIME.**
+>
+> Agents following v6.0 produced rule-compliant slop (centered vertical stacks).
+> v6.1 fixes this by adding a mandatory **commitment phase** before any HTML.
+> If you skip the protocol, you will produce slop and the boring-detector will reject you.
+
+> **Stop guessing. Look it up. Then commit to a risky move.** This skill exists because design taste alone produces
 > inconsistent output. Toolskin already has a deterministic color engine; this skill
-> extends that determinism to type, space, shape, and layout. Every decision below
-> resolves to a number, a token, or a named recipe.
+> extends that determinism to type, space, shape, layout, AND composition. Every decision
+> below resolves to a number, a token, a named recipe, or a starter file.
 
 ---
 
 ## 0 · How agents use this skill
 
 ```
-┌─ READ THIS FILE FIRST ────────────────────────────────────┐
-│  1. Identify the task class (§1)                          │
-│  2. Open the matching reference from the router (§2)      │
-│  3. Resolve every choice via the decision trees (§3)      │
-│  4. Run the verification checklist before completing (§7) │
-└───────────────────────────────────────────────────────────┘
+┌─ THE NEW MANDATORY FLOW (v6.1) ──────────────────────────────────────────┐
+│  STEP 0  Read ANTI-DEFAULT-PROTOCOL.md                                   │
+│  STEP 1  Pick a starter from starters/ — you are FILLING, not designing  │
+│  STEP 2  Write the manifesto (3-6 lines, before ANY HTML)                │
+│  STEP 3  Fill the starter's <!-- FILL: --> slots. Do NOT redesign it.    │
+│  STEP 4  Run: node scripts/audit-boring.mjs <file>                       │
+│  STEP 5  Run: node scripts/audit-design.mjs <file>                       │
+│  STEP 6  Manual checklist (§7). Ship.                                    │
+└──────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Do NOT** invent numbers, pick fonts from memory, write hex colors, or use
-`!important`. Every value must trace back to a `--ts-*` token, the generator,
-or a recipe in this skill.
+**The forcing function.** Step 1 + Step 4 prevent the "centered vertical stack"
+default. If audit-boring rejects you, the layout is wrong, not the content. Restart.
+
+**Do NOT** invent layouts. **Do NOT** generate hero CSS from scratch. **Do NOT**
+center sections by default. Pick a starter, fill it, audit it.
 
 ---
 
-## 1 · Task classifier
+## 1 · Task classifier → starter
 
-Map the user's ask to ONE task class. Each class has a fixed entry point.
+Map the user's ask to ONE task class, then pick the matching starter.
 
-| If the task is… | Class | Entry point |
-|---|---|---|
-| New page / hero / landing | **PAGE** | `references/05-awwwards-patterns.md` |
-| Card, panel, dashboard tile | **CARD** | `references/04-cards-and-containers.md` |
-| Type pairing, hierarchy, scale | **TYPE** | `references/02-typography.md` |
-| Palette / dark+light mode / theme | **COLOR** | `references/01-foundation.md` + `scripts/generate-colors.js` |
-| Grid, gap rhythm, responsive layout | **LAYOUT** | `references/03-layout-and-spacing.md` |
-| Button, input, badge, chip | **COMPONENT** | `references/06-component-recipes.md` |
-| WordPress/Enfold shortcodes | **ENFOLD** | Toolskin bridge in `references/01-foundation.md` §7 |
-| "Is this design ok?" / review | **REVIEW** | Run `scripts/audit-design.mjs` |
+| If the task is… | Class | Default starter | Alt starter |
+|---|---|---|---|
+| Marketing landing / product launch | **MKTG** | `starters/03-asymmetric-hero.html` | `starters/05-bento-landing.html` |
+| Multi-feature product / dashboard | **PRODUCT** | `starters/05-bento-landing.html` | `starters/03-asymmetric-hero.html` |
+| Editorial / publication / long-form | **EDIT** | `starters/02-magazine-split.html` | `starters/06-magazine-toc.html` |
+| Portfolio / agency / project index | **PORTFOLIO** | `starters/06-magazine-toc.html` | `starters/02-magazine-split.html` |
+| Statement landing / brutalist / poster | **POSTER** | `starters/04-oversized-type.html` | — |
+| Single-message dev-tool launch | **DEV** | `starters/01-centered-hero.html` | `starters/03-asymmetric-hero.html` |
+| Card, panel, dashboard tile (atomic) | **CARD** | — read `references/04-cards-and-containers.md` | — |
+| Type pairing, hierarchy, scale (atomic) | **TYPE** | — read `references/02-typography.md` | — |
+| Palette / dark+light mode / theme | **COLOR** | — read `references/01-foundation.md` + run `scripts/generate-colors.js` | — |
+| Button, input, badge, chip (atomic) | **COMPONENT** | — read `references/06-component-recipes.md` | — |
+| "Is this design ok?" / review | **REVIEW** | — run `scripts/audit-boring.mjs` and `scripts/audit-design.mjs` | — |
+
+**Rule:** for any composition task (a page, section, or screen), you MUST pick
+a starter. There is no "I'll design it from scratch" option in v6.1 — that was
+the v6.0 failure mode.
 
 ---
 
@@ -95,25 +113,25 @@ These are not suggestions. They are the constants of every Toolskin output.
 
 Full color spec → **`references/01-foundation.md`**.
 
-### 3.2 Type — the 1.200 modular ladder, anchored at 13px (RULING 3)
+### 3.2 Type — the 1.200 modular ladder, anchored at 16px
 
 ```
---ts-fs-base : 13px       (Toolskin tool-system density — RULING 3)
+--ts-fs-base : 16px       (1rem)
 --ts-fs-ratio: 1.200      (minor third — the locked default)
 
 step  size      role                    line-height  letter-spacing
- -2    9.03px   micro / overline         1.4          +0.08em
- -1   10.83px   small / caption          1.45         +0.02em
-  0   13.00px   body                     1.5           0
-  1   15.60px   lead / subtitle          1.45          0
-  2   18.72px   h5                       1.35         -0.005em
-  3   22.46px   h4                       1.3          -0.01em
-  4   26.95px   h3                       1.25         -0.015em
-  5   32.34px   h2                       1.2          -0.02em
-  6   38.81px   h1                       1.15         -0.025em
-  7   46.57px   display sm               1.1          -0.03em
-  8   55.89px   display md               1.05         -0.035em
-  9   67.06px   display lg / hero        1.0          -0.04em
+ -2   11.11px   micro / overline         1.4          +0.08em
+ -1   13.33px   small / caption          1.45         +0.02em
+  0   16.00px   body                     1.5           0
+  1   19.20px   lead / subtitle          1.45          0
+  2   23.04px   h5                       1.35         -0.005em
+  3   27.65px   h4                       1.3          -0.01em
+  4   33.18px   h3                       1.25         -0.015em
+  5   39.81px   h2                       1.2          -0.02em
+  6   47.78px   h1                       1.15         -0.025em
+  7   57.33px   display sm               1.1          -0.03em
+  8   68.80px   display md               1.05         -0.035em
+  9   82.55px   display lg / hero        1.0          -0.04em
 ```
 
 **Fluid form (use for steps ≥ 4):**
@@ -140,11 +158,11 @@ Full type spec → **`references/02-typography.md`**.
 --ts-sp-8  = 32px        ← section inner gap, card padding (spacious)
 --ts-sp-10 = 40px        ← (rarely)
 --ts-sp-12 = 48px        ← block-to-block on landing
---ts-sp-16 = 64px        ← section gap (mobile / scale ceiling — RULING 5)
+--ts-sp-16 = 64px        ← section gap (mobile)
+--ts-sp-20 = 80px        ← section gap (tablet)
+--ts-sp-24 = 96px        ← section gap (desktop max)
 
-# RULING 5 — fixed scale stops at sp-16. For larger gaps use the fluid tokens:
 --ts-section-pad: clamp(4rem, 8vw, 9rem)   (use this for <section> padding)
---ts-section-gap: clamp(4rem, 8vw, 9rem)   (use this for between-section gaps)
 --ts-container-pad: clamp(1rem, 5vw, 4rem) (use this for left/right gutters)
 ```
 
@@ -197,13 +215,13 @@ Brand mood?
 
 ### 4.2 "Which type step for this element?"
 ```
-Hero h1, single screen ........ step 7-9 (clamp 47→67px)
-Section title h2 .............. step 5-6 (clamp 32→39px)
-Card title h3 ................. step 3   (22px)
-Subheading / lead ............. step 1   (16px)
-Body ......................... step 0   (13px)
-Caption / meta ............... step -1  (11px)
-Overline / badge ............. step -2 UPPERCASE +0.08em (9px)
+Hero h1, single screen ........ step 7-9 (clamp 48→80px)
+Section title h2 .............. step 5-6 (clamp 36→48px)
+Card title h3 ................. step 3   (28px)
+Subheading / lead ............. step 1   (19px)
+Body ......................... step 0   (16px)
+Caption / meta ............... step -1  (13px)
+Overline / badge ............. step -2 UPPERCASE +0.08em (11px)
 ```
 
 ### 4.3 "How much padding on this thing?"
@@ -303,13 +321,17 @@ Full layout cookbook → **`references/03-layout-and-spacing.md`** §4.
 ## 7 · Verification checklist (run before declaring done)
 
 ```bash
-# 1. Color contrast
+# 1. The Boring Detector — conviction check
+node scripts/audit-boring.mjs <file.html>
+# must score >= 60 (C); aim for 75+ (B); 90+ is award-grade
+
+# 2. Color contrast
 node scripts/generate-colors.js     # exit 0 required
 
-# 2. Design audit (lints HTML/CSS for system violations)
+# 3. Design audit (lints HTML/CSS for system violations)
 node scripts/audit-design.mjs <file.html>
 
-# 3. Project health
+# 4. Project health
 bash scripts/health-check.sh
 ```
 
