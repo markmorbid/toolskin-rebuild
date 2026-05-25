@@ -1,0 +1,109 @@
+/* ============================================================================
+ * oklch-surface-system-PREVIOUS.css
+ * ----------------------------------------------------------------------------
+ * BACKUP / REFERENCE — the PREVIOUS design system's accent + surface tokens,
+ * fully converted to OKLCH by the owner.
+ *
+ * PURPOSE: agents read this to FIX the current broken dark-surface
+ * conversions. It is REFERENCE ONLY — do NOT merge directly (owner ruling:
+ * "Reference only — agents read it to fix the broken surfaces").
+ *
+ * THE KEY FIX this file demonstrates: --ts-this-bg-dark recesses toward
+ * oklch(0 0 0) (pure black), NOT toward the floor anchor. This solves the
+ * dark-surface degeneracy where dark == base on dark presets. The Architect
+ * council voice independently confirmed this exact approach.
+ *
+ * CONVERSION MAP (hardcoded literals → OKLCH):
+ *   #ffffff → oklch(1 0 0)      #000000 → oklch(0 0 0)
+ *   #1f1f2a → oklch(0.28 0.021 278)   #ff540a → oklch(0.675 0.22 38)
+ *   color-mix(in srgb, …) → color-mix(in oklch, …)
+ * ========================================================================== */
+
+/* ✅ ACCENT TOKENS — global inheritance for dynamic theming */
+--ts-accent-dim-0:        color-mix(in oklch, var(--ts-accent), transparent 60%);
+--ts-accent-dim:          color-mix(in oklch, var(--ts-accent), transparent 82%);
+--ts-accent-dim-2:        color-mix(in oklch, var(--ts-accent), transparent 92%);
+--ts-accent-dim-3:        color-mix(in oklch, var(--ts-accent), transparent 90%);
+--ts-accent-border:       color-mix(in oklch, var(--ts-accent), transparent 60%);
+
+/* Auto on-accent: threshold 0.75 (RULING 4) */
+--ts-on-accent:           oklch(from var(--ts-accent) clamp(0, (0.75 - l) * 999, 1) 0 0);
+--ts-on-accent-dim:       color-mix(in oklch, var(--ts-on-accent), transparent 80%);
+--ts-on-accent-dim-1:     color-mix(in oklch, var(--ts-on-accent), transparent 70%);
+--ts-on-accent-dim-2:     color-mix(in oklch, var(--ts-on-accent), transparent 50%);
+--ts-on-accent-dim-3:     color-mix(in oklch, var(--ts-on-accent), transparent 40%);
+--ts-accent-bright:       color-mix(in oklch, var(--ts-accent), oklch(1 0 0) 8%);
+--ts-accent-bright-2:     color-mix(in oklch, var(--ts-accent), oklch(1 0 0) 18%);
+--ts-accent-dark:         color-mix(in oklch, var(--ts-accent), oklch(0 0 0) 10%);
+--ts-accent-dark-2:       color-mix(in oklch, var(--ts-accent), oklch(0 0 0) 18%);
+--ts-accent-muted:        color-mix(in oklch, var(--ts-accent), var(--ts-bg-body) 46%);
+--ts-accent-border-hover: color-mix(in oklch, var(--ts-accent), transparent 40%);
+
+/* ✅ ACCENT GRADIENTS */
+--ts-accent-grad:         linear-gradient(to top left, var(--ts-accent-bright), var(--ts-accent-dark), var(--ts-accent));
+--ts-accent-grad-comp:    linear-gradient(136deg, var(--ts-accent-bright), var(--ts-accent-dark-2), var(--ts-accent-bright-2), var(--ts-accent-dark-2));
+--ts-accent-grad-flat:    linear-gradient(90deg, var(--ts-accent-bright), var(--ts-accent-dark));
+
+/* ─── SURFACE TOKENS ─── */
+--ts-this-bg:             var(--ts-bg-1, oklch(0.28 0.021 278));
+
+/* THE FIX — recess toward pure black, not toward floor */
+--ts-this-bg-bright:      color-mix(in oklch, var(--ts-this-bg), oklch(1 0 0) var(--ts-this-bg-grad-bright-pct, 6%));
+--ts-this-bg-bright-1:    color-mix(in oklch, var(--ts-this-bg), oklch(1 0 0) 4%);
+--ts-this-bg-bright-2:    color-mix(in oklch, var(--ts-this-bg), oklch(1 0 0) 8%);
+--ts-this-bg-bright-3:    color-mix(in oklch, var(--ts-this-bg), oklch(1 0 0) 14%);
+--ts-this-bg-dark:        color-mix(in oklch, var(--ts-this-bg), oklch(0 0 0) var(--ts-this-bg-grad-dark-pct, 14%));
+--ts-this-bg-dark-1:      color-mix(in oklch, var(--ts-this-bg), oklch(0 0 0) 2%);
+--ts-this-bg-dark-2:      color-mix(in oklch, var(--ts-this-bg), oklch(0 0 0) 12%);
+--ts-this-bg-muted:       color-mix(in oklch, var(--ts-this-bg), var(--ts-bg-body) 46%);
+
+--ts-this-bg-dim:         color-mix(in oklch, var(--ts-this-bg), transparent 12%);
+--ts-this-bg-dim-2:       color-mix(in oklch, var(--ts-this-bg), transparent 25%);
+--ts-this-bg-dim-3:       color-mix(in oklch, var(--ts-this-bg), transparent 50%);
+--ts-this-bg-dim-4:       color-mix(in oklch, var(--ts-this-bg), transparent 60%);
+--ts-this-bg-dim-5:       color-mix(in oklch, var(--ts-this-bg), transparent 70%);
+--ts-this-bg-dim-6:       color-mix(in oklch, var(--ts-this-bg), transparent 80%);
+--ts-this-bg-dim-7:       color-mix(in oklch, var(--ts-this-bg), transparent 90%);
+
+/* ─── GRADIENT CONTROL TOKENS ─── */
+--ts-this-bg-grad-angle:      136deg;
+--ts-this-bg-grad-angle-2:    114deg;
+--ts-this-bg-grad-bright-pct: 6%;
+--ts-this-bg-grad-dark-pct:   14%;
+--ts-this-bg-grad:    linear-gradient(var(--ts-this-bg-grad-angle), var(--ts-this-bg), var(--ts-this-bg-dark), var(--ts-this-bg));
+--ts-this-bg-grad-1:  linear-gradient(var(--ts-this-bg-grad-angle), var(--ts-this-bg-bright), var(--ts-this-bg-dark), var(--ts-this-bg));
+--ts-this-bg-grad-2:  linear-gradient(to top left, var(--ts-this-bg), var(--ts-this-bg-dark), var(--ts-this-bg));
+--ts-this-bg-grad-3:  linear-gradient(116deg, var(--ts-this-bg-bright), var(--ts-this-bg), var(--ts-this-bg-bright));
+
+/* ─── BORDER STATE TOKENS — single control knob --ts-mix-perc ─── */
+--ts-mix-perc:                10%;
+--ts-mix-perc-hover:          25%;
+--ts-mix-perc-active:         20%;
+--ts-mix-perc-disabled:       8%;
+--ts-this-bg-border:          color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc));
+--ts-this-bg-border-0:        color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) calc(var(--ts-mix-perc) * 0.5));
+--ts-this-bg-border-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary) var(--ts-mix-perc-hover));
+--ts-this-bg-border-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-accent, oklch(0.675 0.22 38)) var(--ts-mix-perc-active));
+--ts-this-bg-border-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-text-muted) var(--ts-mix-perc-disabled));
+--ts-this-bg-border-focus:    var(--ts-accent, oklch(0.675 0.22 38));
+
+/* --- HOVER, ACTIVE, FOCUS, DISABLED (automatic) --- */
+--ts-this-bg-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-text-primary-dim) 30%);
+--ts-this-bg-active:   color-mix(in oklch, var(--ts-this-bg), oklch(0 0 0) 15%);
+--ts-this-bg-focus:    color-mix(in oklch, var(--ts-this-bg), var(--ts-accent, oklch(0.675 0.22 38)) 20%);
+--ts-this-bg-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-text-muted) 60%);
+
+/* ─── AUTO TEXT-ON-SURFACE (OKLCH luminance pivot) ─── */
+--ts-on-surface-threshold: 0.5;
+--ts-on-surface:           oklch(from var(--ts-this-bg) clamp(0.05, (var(--ts-on-surface-threshold) - l) * 999, 0.95) 0 0);
+--ts-on-surface-dim:       color-mix(in oklch, var(--ts-on-surface), transparent 30%);
+--ts-on-surface-muted:     color-mix(in oklch, var(--ts-on-surface), oklch(0 0 0 / var(--ts-on-surface-threshold)) 95%);
+
+/* Text scale derivatives */
+--ts-text-primary-dim:    color-mix(in oklch, var(--ts-text-primary), transparent 70%);
+--ts-text-primary-dim-2:  color-mix(in oklch, var(--ts-text-primary), transparent 40%);
+--ts-text-secondary-dim:  color-mix(in oklch, var(--ts-text-secondary), transparent 70%);
+--ts-text-muted-dim:      color-mix(in oklch, var(--ts-text-muted), transparent 70%);
+--ts-text-accent:         color-mix(in oklch, var(--ts-accent), var(--ts-text-primary) 20%);
+--ts-text-accent-2:       color-mix(in oklch, var(--ts-accent), var(--ts-text-primary) 40%);
+--ts-text-accent-3:       color-mix(in oklch, var(--ts-accent), var(--ts-text-primary) 60%);
