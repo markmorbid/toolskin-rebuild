@@ -46,27 +46,31 @@ Take the time the scope requires. Rushed execution multiplies errors;
 it does not save time.
 
 ## B-9 — Backup before delete/overwrite of any owner WIP
-Before modifying or replacing any file with owner WIP (M status, or
-untracked-and-named), FIRST copy it to
-backups/<name>-pre-<reason>-<ISO-timestamp>.<ext> AND surface the backup
-path in the halt report. A git stash is a developer convenience, NOT a
-substitute for a discoverable timestamped backup. Stashing without an
-accompanying backups/ file = rollback = violation.
-ENFORCED by .claude/hooks/guard.mjs (PreToolUse) — the write is BLOCKED
-if a protected/dirty file has no fresh backup.
+Any time an agent is about to modify or replace a file that has owner WIP
+in the working tree (M-status, OR untracked-and-named, OR present in a
+git stash that resulted from a prior agent dispatch), it MUST first copy
+that file to `backups/<original-name>-pre-<reason>-<ISO-timestamp>.<ext>`
+AND surface the backup path to the owner in its halt report.
 
-## Enforcement is mechanical, not trust-based
-Prompts are suggestions; hooks are guarantees. The guard hook BLOCKS:
-B-9 violations, commits while pending-approval.flag exists, overwriting
-backups/, and destructive git (force-push, reset --hard, clean -f,
-stash drop, rm -rf). When the guard denies an action, do NOT try to
-work around it — the denial is the owner's rule enforcing itself.
+Git stash is a developer convenience. It is NOT a substitute for a
+discoverable timestamped backup. Stashing without an accompanying
+`backups/` file is a rollback (the owner cannot browse stash contents
+in their file explorer; the file looks killed) and a B-9 violation
+regardless of recoverability.
 
-## Approval-flag protocol (HALT made mechanical)
-When halting for owner review, WRITE pending-approval.flag with a
-one-line reason. The guard blocks all commits while it exists. After
-the owner explicitly approves, delete the flag, then commit. This makes
-"wait for owner approval" a mechanical guarantee, not a behavior to police.
+Use the SAME ISO-timestamp string for every backup written in a single
+commit, so they cluster visually in `ls backups/` output. The timestamp
+format is `yyyy-MM-ddTHH-mm-ssZ` (filesystem-safe — dashes, not colons).
+
+Surfacing in the halt report means: list every backup path in a
+dedicated "Backups created (B-9)" section, with byte-size and source.
+The owner must be able to read this section and immediately verify the
+backups exist by `ls backups/`.
+
+B-9 is binding from 2026-05-26 onward. The trigger event was the
+sub-agent stashing three files into stash@{0} during the Commit A
+dispatch without producing parallel backups/ copies — recoverable, but
+invisible to the owner, who reasonably concluded the files were killed.
 
 ## The design skill is the LAW, not a tool
 expert-designer is the core design authority. Compliance or rejection.
