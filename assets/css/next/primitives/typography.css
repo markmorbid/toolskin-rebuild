@@ -1,10 +1,16 @@
 /* ============================================================================
- * typography.css — Toolskin typography primitives  ·  Session 2
+ * typography.css — Toolskin typography primitives  ·  Session 2 + B1 rename
  * ----------------------------------------------------------------------------
  * Base font size 13px (RULING 3 — running toolskin.css:287; the dead `0.8rem`
  * declaration that preceded it is dropped). Harmonic ladder: body ratio 1.12,
  * display ratio 1.333. Weight ladder 300/400/500/600/700/900 — NO 800
  * (Space Grotesk ships 300–700; 900 used for black). Transcribed from §1d/§1d.2.
+ *
+ * Session 3.x B1 rewrite: token NAMES aligned to sandbox/00-design-reference
+ * vocabulary (--ts-fw-*, --ts-lh-*, --ts-tracking-*). Sandbox names win
+ * (Pragmatist council ruling). Values unchanged in the rename-only mappings;
+ * Q3 primitive rewrap (clamp width-awareness on the --ts-fs-{4xs..4xl} family)
+ * lands in Commit B.
  * ========================================================================== */
 
 :root {
@@ -13,30 +19,35 @@
   --ts-font-body: "Space Grotesk", system-ui, -apple-system, sans-serif;
   --ts-font-mono: "JetBrains Mono", "Fira Code", "Courier New", monospace;
 
-  /* — Weight ladder (no 800) — */
-  --ts-font-weight-thin: 300;
-  --ts-font-weight-normal: 400;
-  --ts-font-weight-medium: 500;
-  --ts-font-weight-semibold: 600;
-  --ts-font-weight-bold: 700;
-  --ts-font-weight-black: 900;
+  /* — Weight ladder (no 800) — renamed to --ts-fw-* per sandbox — */
+  --ts-fw-thin: 300;
+  --ts-fw-normal: 400;
+  --ts-fw-medium: 500;
+  --ts-fw-semibold: 600;
+  --ts-fw-bold: 700;
+  --ts-fw-black: 900;          /* extension beyond sandbox set */
 
-  /* — Line heights — */
-  --ts-line-height-none: 1;
-  --ts-line-height-display: 0.9;
-  --ts-line-height-tight: 1.1;
-  --ts-line-height-snug: 1.25;
-  --ts-line-height-normal: 1.4;
-  --ts-line-height-relaxed: 1.5;
-  --ts-line-height-loose: 1.625;
-  --ts-line-height-very-loose: 1.75;
+  /* — Line heights — renamed to --ts-lh-* per sandbox; sandbox adds `headline`. — */
+  --ts-lh-none: 1;
+  --ts-lh-display: 0.9;
+  --ts-lh-tight: 1.1;
+  --ts-lh-headline: 1.15;      /* sandbox addition (between tight and snug) */
+  --ts-lh-snug: 1.25;
+  --ts-lh-normal: 1.4;
+  --ts-lh-relaxed: 1.5;
+  --ts-lh-loose: 1.625;
+  --ts-lh-very-loose: 1.75;
 
-  /* — Letter spacing — */
-  --ts-letter-spacing-tight: -0.04em;
-  --ts-letter-spacing-normal: 0;
-  --ts-letter-spacing-wide: 0.08em;
-  --ts-letter-spacing-wider: 0.12em;
-  --ts-letter-spacing-eyebrow: 0.06em;
+  /* — Letter spacing — renamed to --ts-tracking-* per sandbox; sandbox adds
+   * tightest / tighter / snug. — */
+  --ts-tracking-tightest: -0.04em;
+  --ts-tracking-tighter:  -0.025em;
+  --ts-tracking-tight:    -0.015em;
+  --ts-tracking-normal:    0;
+  --ts-tracking-snug:     -0.005em;
+  --ts-tracking-wide:      0.02em;
+  --ts-tracking-wider:     0.08em;
+  --ts-tracking-eyebrow:   0.06em;   /* extension — role-fixed */
 
   /* — Eyebrow / overline — role-fixed primitive, sits outside the modular ladder — */
   --ts-fs-eyebrow: 9px;

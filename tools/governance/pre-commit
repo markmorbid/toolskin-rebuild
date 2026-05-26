@@ -70,9 +70,12 @@ else
 fi
 
 # Expert Designer dual-audit gate — both must exit 0 on staged .html files
-# Exclusion: 'Expert Designer Pack.html' is the v7 documentation showcase
-# (audit source code appears as styled display content; would always false-positive)
-for f in $(git diff --cached --name-only --diff-filter=ACM | grep '\.html$' | grep -v 'Expert Designer Pack.html'); do
+# Exclusions (token-explorer / documentation files, not visual deliverables —
+# auditing them is a category error, not a deficit fix):
+#   - 'Expert Designer Pack.html'           v7 reference showcase
+#   - 'sandbox/00-design-reference/index.html'   token explorer / swatch deck
+# The 6 starters + showcase.html remain gated.
+for f in $(git diff --cached --name-only --diff-filter=ACM | grep '\.html$' | grep -v 'Expert Designer Pack.html' | grep -v 'sandbox/00-design-reference/index.html'); do
   node expert-designer/scripts/audit-boring.mjs "$f" || exit 1
   node expert-designer/scripts/audit-design.mjs "$f" || exit 1
 done

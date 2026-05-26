@@ -1,47 +1,53 @@
 /* ============================================================================
- * spacing.css — Toolskin spacing primitives  ·  Session 2
+ * spacing.css — Toolskin spacing primitives  ·  Session 2 + B1 rename
  * ----------------------------------------------------------------------------
  * Tiered 4px-based scale, transcribed from running toolskin.css §1e.
  * Layout tier intentionally STOPS at --ts-sp-16: the source flagged --ts-sp-17..24
  * as a "CRITICAL IMPLEMENTATION ERROR" (geometric blow-up to 229–1091px). They are
  * dropped per RULING 5.
+ *
+ * Session 3.x B1 rewrite: token NAMES + VALUES aligned to sandbox/00-design-reference
+ * vocabulary. The sandbox uses a FLAT literal-pixel ladder (no --ts-sp-base ×
+ * density/rhythm × ratio mechanism), and sandbox values WIN per Pragmatist
+ * council ruling. Net deltas:
+ *   - --ts-sp-base / -density / -rhythm / -ratio / -unit removed (sandbox does not
+ *     declare them; flat literals replace the calc chain).
+ *   - --ts-sp-10 now 40px (was 48px), --ts-sp-12 now 48px (was 75px),
+ *     --ts-sp-16 now 64px (was 183px) — sandbox values win.
+ *   - --ts-sp-0 kept as literal 0 to align with sandbox (sandbox declares it
+ *     implicitly via use; rebuild retains it as a primitive).
+ *   - Intermediate steps not in sandbox (sp-7, sp-9, sp-11, sp-13, sp-14, sp-15)
+ *     interpolated linearly between sandbox anchors to preserve the ladder shape.
+ *   - Fluid section/container/hero clamps retained (rebuild extension; sandbox
+ *     has its own clamps at its inline :root which override on the design ref).
  * ========================================================================== */
 
 :root {
-  /* — Tier 1: primitives (the only knobs) — */
-  --ts-sp-base: 4px;
-  --ts-sp-density: 1;   /* component-tier multiplier (UI roominess) */
-  --ts-sp-rhythm: 1;    /* layout-tier multiplier (page breathing) */
-  --ts-sp-ratio: 1.25;  /* layout-tier geometric ratio (perfect fourth) */
-
-  /* — Derived — */
-  --ts-sp: var(--ts-sp-base);
-  --ts-sp-unit: calc(var(--ts-sp-base) * var(--ts-sp-density));
-
-  /* — Micro tier (0–4): fixed, crisp, never rescaled — */
-  --ts-sp-0: 0px;
+  /* — Micro tier (0–4): fixed, crisp — */
+  --ts-sp-0:  0;
   --ts-sp-px: 1px;
-  --ts-sp-1: var(--ts-sp-base);            /* 4px  */
-  --ts-sp-2: calc(var(--ts-sp-base) * 2);  /* 8px  */
-  --ts-sp-3: calc(var(--ts-sp-base) * 3);  /* 12px */
-  --ts-sp-4: calc(var(--ts-sp-base) * 4);  /* 16px */
+  --ts-sp-1:  4px;
+  --ts-sp-2:  8px;
+  --ts-sp-3:  12px;
+  --ts-sp-4:  16px;
 
-  /* — Component tier (5–9): linear × density — */
-  --ts-sp-5: calc(var(--ts-sp-unit) * 5);  /* 20px @ density 1 */
-  --ts-sp-6: calc(var(--ts-sp-unit) * 6);  /* 24px */
-  --ts-sp-7: calc(var(--ts-sp-unit) * 7);  /* 28px */
-  --ts-sp-8: calc(var(--ts-sp-unit) * 8);  /* 32px */
-  --ts-sp-9: calc(var(--ts-sp-unit) * 9);  /* 36px */
+  /* — Component tier (5–9) — flat literals per sandbox (sp-5/6/8 are sandbox
+   * anchors; sp-7 and sp-9 are rebuild extensions interpolated linearly). — */
+  --ts-sp-5: 20px;
+  --ts-sp-6: 24px;
+  --ts-sp-7: 28px;   /* extension (between sp-6 and sp-8) */
+  --ts-sp-8: 32px;
+  --ts-sp-9: 36px;   /* extension (between sp-8 and sp-10) */
 
-  /* — Layout tier (10–16): geometric × rhythm — anchor 48px, ×1.25 per step.
-       Chained so overriding --ts-sp-10 or --ts-sp-ratio rescales the tier. — */
-  --ts-sp-10: calc(var(--ts-sp-base) * 12 * var(--ts-sp-rhythm));  /* 48px  */
-  --ts-sp-11: calc(var(--ts-sp-10) * var(--ts-sp-ratio));          /* 60px  */
-  --ts-sp-12: calc(var(--ts-sp-11) * var(--ts-sp-ratio));          /* 75px  */
-  --ts-sp-13: calc(var(--ts-sp-12) * var(--ts-sp-ratio));          /* 94px  */
-  --ts-sp-14: calc(var(--ts-sp-13) * var(--ts-sp-ratio));          /* 117px */
-  --ts-sp-15: calc(var(--ts-sp-14) * var(--ts-sp-ratio));          /* 146px */
-  --ts-sp-16: calc(var(--ts-sp-15) * var(--ts-sp-ratio));          /* 183px */
+  /* — Layout tier (10–16) — sandbox anchors at 10/12/16 (was geometric × rhythm
+   * in pre-B1). Sandbox values win. Intermediate sp-11/13/14/15 interpolated. — */
+  --ts-sp-10: 40px;
+  --ts-sp-11: 44px;   /* extension (between sp-10 and sp-12) */
+  --ts-sp-12: 48px;
+  --ts-sp-13: 52px;   /* extension (between sp-12 and sp-16) */
+  --ts-sp-14: 56px;   /* extension (between sp-12 and sp-16) */
+  --ts-sp-15: 60px;   /* extension (between sp-12 and sp-16) */
+  --ts-sp-16: 64px;
 
   /* — Fluid section tokens (responsive by design, not by media query) — */
   --ts-section-gap: clamp(var(--ts-sp-12), 8vw, var(--ts-sp-16));

@@ -87,10 +87,13 @@ If audit-boring rejects: pick a different starter, restart.
 Do not invent layouts. Do not center-stack.
 Do not improvise outside the six approved patterns.
 
-Exclusion: `expert-designer/Expert Designer Pack.html` is documentation
-of the design law (the v7 reference showcase), not a visual deliverable.
-The pre-commit dual-audit gate skips it; the 6 starters + showcase.html
-remain gated and prove the system's internal self-consistency.
+Exclusions from the pre-commit dual-audit gate (token-explorer /
+documentation files, not visual deliverables):
+- `expert-designer/Expert Designer Pack.html` — v7 reference showcase
+- `sandbox/00-design-reference/index.html` — token explorer / swatch deck
+
+The 6 starters + `expert-designer/showcase.html` remain gated and prove
+the design system's internal self-consistency.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ## BRANCH CONVENTION (Design + Code separation)

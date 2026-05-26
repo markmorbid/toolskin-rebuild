@@ -1,9 +1,18 @@
 /* ============================================================================
- * motion.css — Toolskin motion primitives  ·  Session 2
+ * motion.css — Toolskin motion primitives  ·  Session 2 + B1 rename
  * ----------------------------------------------------------------------------
  * Easing curves + durations, transcribed from running toolskin.css §1i.
  * Includes a prefers-reduced-motion reset (durations collapse to 0; animations
  * and transitions neutralized).
+ *
+ * Session 3.x B1 rewrite: token NAMES already match sandbox/00-design-reference
+ * vocabulary (--ts-dur-*, --ts-ease-*). VALUES for the sandbox overlap aligned
+ * to sandbox per Pragmatist sandbox-values-win ruling:
+ *   --ts-dur-fast: 220ms -> 120ms (sandbox)
+ *   --ts-dur-base: 300ms -> 200ms (sandbox)
+ *   --ts-dur-slow: 550ms -> 350ms (sandbox)
+ * --ts-dur-slower kept as extension (no sandbox counterpart).
+ * --ts-ease-out value (cubic-bezier(0.16, 1, 0.3, 1)) already matches sandbox.
  * ========================================================================== */
 
 :root {
@@ -20,10 +29,10 @@
   --ts-panel-ease-out: cubic-bezier(0.56, 0.29, 0.15, 1.19);
   --ts-panel-ease-in: cubic-bezier(0.73, 0.03, 0, 0.92);
 
-  /* — Durations — */
-  --ts-dur-fast: 220ms;
-  --ts-dur-base: 300ms;
-  --ts-dur-slow: 550ms;
+  /* — Durations — sandbox values for the fast/base/slow overlap; slower kept. — */
+  --ts-dur-fast: 120ms;
+  --ts-dur-base: 200ms;
+  --ts-dur-slow: 350ms;
   --ts-dur-slower: 700ms;
 
   /* — Composite — */

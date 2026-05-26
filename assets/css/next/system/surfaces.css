@@ -48,7 +48,7 @@
   --ts-this-bg-grad-angle:      136deg;  /* gradient direction — top-left -> bottom-right */
   --ts-this-bg-grad-angle-2:    114deg;  /* alternate angle for a second gradient variant */
   --ts-this-bg-grad-bright-pct: 6%;      /* mix amount for the bright gradient stop */
-  --ts-this-bg-grad-dark-pct:   14%;     /* mix amount for the dark gradient stop */
+  --ts-this-bg-grad-dark-pct:   14%;     /* RULING 7 dark Lc ≥ 3.0 on all 10 presets */
 
   /* Border-contrast knobs. Tuned UP from the spec's 10/25/20/8 (§10.1) — at 10%
    * the base border was barely perceptible and unusable for real UI. These give
@@ -78,10 +78,14 @@
 /* ── DERIVATIVES — recomputed per element ──────────────────────────────────── */
 :where(:root, :root *) {
 
-  /* Subtractive variants — recess toward the (hue-locked) floor pole (spec §3.2) */
-  --ts-this-bg-dark:   color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-floor) var(--ts-this-bg-grad-dark-pct));
-  --ts-this-bg-dark-1: color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-floor) calc(var(--ts-this-bg-grad-dark-pct) * 0.15));
-  --ts-this-bg-dark-2: color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-floor) calc(var(--ts-this-bg-grad-dark-pct) * 0.85));
+  /* Subtractive variants — recess toward PURE BLACK pole (NOT --ts-tone-floor;
+     floor degenerates on dark presets where bg-1 sits near the floor itself).
+     oklch interpolation preserves source hue; engine-baked pct decides amount.
+     LOCK: oklch interpolation space is MANDATORY here. Switching to srgb
+     collapses bichromatic identity on every recession (VQ-7 dies). */
+  --ts-this-bg-dark:   color-mix(in oklch, var(--ts-this-bg), oklch(0 0 0) var(--ts-this-bg-grad-dark-pct));
+  --ts-this-bg-dark-1: color-mix(in oklch, var(--ts-this-bg), oklch(0 0 0) calc(var(--ts-this-bg-grad-dark-pct) * 0.15));
+  --ts-this-bg-dark-2: color-mix(in oklch, var(--ts-this-bg), oklch(0 0 0) calc(var(--ts-this-bg-grad-dark-pct) * 0.85));
 
   /* Transparent-mixed variants — see-through surfaces (spec §3.3) */
   --ts-this-bg-dim:   color-mix(in oklch, var(--ts-this-bg), transparent 12%);
@@ -94,7 +98,7 @@
 
   /* State variants — hover / active / focus / disabled (spec §3.5) */
   --ts-this-bg-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-contrast) 20%);
-  --ts-this-bg-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-floor)    15%);
+  --ts-this-bg-active:   color-mix(in oklch, var(--ts-this-bg), oklch(0 0 0)            15%);
   --ts-this-bg-focus:    color-mix(in oklch, var(--ts-this-bg), var(--ts-accent)        20%);  /* accent tint */
   --ts-this-bg-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-muted)    60%);
 
