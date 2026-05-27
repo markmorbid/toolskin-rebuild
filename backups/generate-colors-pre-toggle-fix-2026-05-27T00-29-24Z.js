@@ -262,10 +262,9 @@ ${presetBlock(DEFAULT_LIGHT, '  ')}
  */
 `;
 
-// :root prefix — owner's manual specificity fix; preserved through regeneration (Commit 2)
 for (const preset of ALL_PRESETS) {
   css += `\n/* ${preset.label}${preset.recommended ? '  (recommended default)' : ''} */\n`;
-  css += `:root.ts-preset-${preset.id} {\n${presetBlock(preset, '  ')}\n}\n`;
+  css += `.ts-preset-${preset.id} {\n${presetBlock(preset, '  ')}\n}\n`;
 }
 
 const colorsCssPath = path.join(REPO_ROOT, 'assets', 'css', 'next', 'primitives', 'colors.css');

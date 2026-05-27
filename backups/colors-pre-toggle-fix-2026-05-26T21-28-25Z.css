@@ -18,12 +18,9 @@
   --ts-on-accent: oklch(from var(--ts-accent) clamp(0, (0.75 - l) * 999, 1) 0 0);
 }
 
-/* ── Default surfaces + text — dark (dark-practical-neutral-v1) ──
- * :root prefix — owner's manual specificity fix; preserved through regeneration (Commit 2)
- * :not(button[data-theme]) — theme-toggle buttons must not inherit the theme they switch (Commit 2 toggle-fix)
- */
+/* ── Default surfaces + text — dark (dark-practical-neutral-v1) ── */
 :root,
-:root[data-theme="dark"]:not(button[data-theme]) {
+:root[data-theme="dark"] {
   --ts-bg-body: #0c0d0f;
   --ts-bg-body: oklch(15.88% 0.00454 264.44);
   --ts-bg-0: #111214;
@@ -46,11 +43,8 @@
   --ts-text-muted: oklch(54.16% 0.00812 268.49);
 }
 
-/* ── Default surfaces + text — light (light-practical-clean-v1) ──
- * :root prefix — owner's manual specificity fix; preserved through regeneration (Commit 2)
- * :not(button[data-theme]) — theme-toggle buttons must not inherit the theme they switch (Commit 2 toggle-fix)
- */
-:root[data-theme="light"]:not(button[data-theme]) {
+/* ── Default surfaces + text — light (light-practical-clean-v1) ── */
+:root[data-theme="light"] {
   --ts-bg-body: #f7f8f9;
   --ts-bg-body: oklch(97.87% 0.00171 247.84);
   --ts-bg-0: #ffffff;

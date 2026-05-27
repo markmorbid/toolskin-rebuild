@@ -239,20 +239,14 @@ ${dualEmit('ts-accent', BRAND_ACCENT, '  ')}
   --ts-on-accent: oklch(from var(--ts-accent) clamp(0, (${ON_ACCENT_THRESHOLD} - l) * 999, 1) 0 0);
 }
 
-/* ── Default surfaces + text — dark (${DEFAULT_DARK.id}) ──
- * :root prefix — owner's manual specificity fix; preserved through regeneration (Commit 2)
- * :not(button[data-theme]) — theme-toggle buttons must not inherit the theme they switch (Commit 2 toggle-fix)
- */
+/* ── Default surfaces + text — dark (${DEFAULT_DARK.id}) ── */
 :root,
-:root[data-theme="dark"]:not(button[data-theme]) {
+[data-theme="dark"] {
 ${presetBlock(DEFAULT_DARK, '  ')}
 }
 
-/* ── Default surfaces + text — light (${DEFAULT_LIGHT.id}) ──
- * :root prefix — owner's manual specificity fix; preserved through regeneration (Commit 2)
- * :not(button[data-theme]) — theme-toggle buttons must not inherit the theme they switch (Commit 2 toggle-fix)
- */
-:root[data-theme="light"]:not(button[data-theme]) {
+/* ── Default surfaces + text — light (${DEFAULT_LIGHT.id}) ── */
+[data-theme="light"] {
 ${presetBlock(DEFAULT_LIGHT, '  ')}
 }
 
@@ -262,10 +256,9 @@ ${presetBlock(DEFAULT_LIGHT, '  ')}
  */
 `;
 
-// :root prefix — owner's manual specificity fix; preserved through regeneration (Commit 2)
 for (const preset of ALL_PRESETS) {
   css += `\n/* ${preset.label}${preset.recommended ? '  (recommended default)' : ''} */\n`;
-  css += `:root.ts-preset-${preset.id} {\n${presetBlock(preset, '  ')}\n}\n`;
+  css += `.ts-preset-${preset.id} {\n${presetBlock(preset, '  ')}\n}\n`;
 }
 
 const colorsCssPath = path.join(REPO_ROOT, 'assets', 'css', 'next', 'primitives', 'colors.css');
