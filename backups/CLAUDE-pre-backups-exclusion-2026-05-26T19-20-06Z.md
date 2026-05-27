@@ -88,11 +88,9 @@ Do not invent layouts. Do not center-stack.
 Do not improvise outside the six approved patterns.
 
 Exclusions from the pre-commit dual-audit gate (token-explorer /
-documentation / archived files, not visual deliverables):
+documentation files, not visual deliverables):
 - `expert-designer/Expert Designer Pack.html` — v7 reference showcase
 - `sandbox/00-design-reference/index.html` — token explorer / swatch deck
-- `backups/**` — archived snapshots (B-9 backups; the rejected state is
-  the whole point of preserving them — auditing them is a category error)
 
 The 6 starters + `expert-designer/showcase.html` remain gated and prove
 the design system's internal self-consistency.

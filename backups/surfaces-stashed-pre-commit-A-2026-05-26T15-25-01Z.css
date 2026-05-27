@@ -1,0 +1,376 @@
+/* ============================================================================
+ * surfaces.css — Toolskin SYSTEM layer  ·  the --ts-this-bg-* derivative chain
+ * ----------------------------------------------------------------------------
+ * Tier 2 of the three-tier token architecture (primitives -> SYSTEM -> component).
+ * Spec: docs/handoffs/_rebuild-system-spec.md §3 (derivative chain) + §10 (knobs).
+ *
+ * A component sets ONE token — --ts-this-bg: var(--ts-bg-N) — on its root. Every
+ * derivative recomputes against it and the cascade propagates the chain inward
+ * to descendants (Rule 4 surface superposition).
+ *
+ * ── TWO BLOCKS, on purpose (correction to spec §3.1 / §6.2 / §10.2) ──────────
+ * INPUTS (--ts-this-bg + the §10 feel knobs) are declared at PLAIN :root, so
+ * they INHERIT. A parent — or :root, or a component setting one on itself —
+ * propagates to its whole subtree by normal custom-property inheritance.
+ * They must NOT live in :where(:root, :root *): a universal selector re-declares
+ * the property on every element, and a declared value always beats an inherited
+ * one — so an ancestor override could never reach a descendant.
+ * DERIVATIVES are declared in :where(:root, :root *) — they MUST re-resolve on
+ * every element against that element's own inherited inputs, and :where() keeps
+ * specificity at (0,0,0) so any component rule wins.
+ *
+ * ── HUE-LOCKED MIX ANCHORS (correction to spec §3.2 / §3.4 / §3.5 / §3.7) ────
+ * The spec mixes surfaces toward --ts-text-primary / --ts-text-muted / --ts-bg-body
+ * for the bright / hover / disabled / border / dark / active steps. None of those
+ * is a true neutral — each carries a hue (text inks ~271deg blue-violet, the body
+ * floor ~264deg) plus some chroma, so color-mix(in oklch) ROTATES the hue of any
+ * CHROMATIC surface: an accent border drifted to pink; an accent dark-step
+ * drifted to a darker pink instead of a darker orange.
+ * Fix: mix toward the --ts-tone-* anchors — those same colors with hue + chroma
+ * stripped (oklch(from … l 0 none) -> powerless hue). Each anchor keeps only the
+ * source's LIGHTNESS, which still flips by theme, so the contrast / recession
+ * step stays theme-correct while the surface keeps its own hue exactly.
+ * Only --ts-accent stays a real (hued) mix target — accent tint is intentional
+ * on the focus + active-border steps.
+ *
+ * Color discipline (Rule 15 / spec §3 preamble): every formula composes S1
+ * primitives via color-mix(in oklch, ...) — never `in srgb`, never a raw color
+ * value.  No !important anywhere (spec §13.3).
+ *
+ * @ts-deps: primitives/colors.css
+ * ========================================================================== */
+
+/* ── INPUTS — inheritable (plain :root, NOT universal) ─────────────────────── */
+:root {
+
+  /* Feel knobs (spec §10.1). Override once here — or on any ancestor / component
+   * scope — and the whole derivative chain absorbs the change automatically. */
+  --ts-this-bg-grad-angle:      136deg;  /* gradient direction — top-left -> bottom-right */
+  --ts-this-bg-grad-angle-2:    114deg;  /* alternate angle for a second gradient variant */
+  --ts-this-bg-grad-bright-pct: 6%;      /* mix amount for the bright gradient stop */
+  --ts-this-bg-grad-dark-pct:   10%;     /* mix amount for the dark gradient stop */
+
+  /* Border-contrast knobs. Tuned UP from the spec's 10/25/20/8 (§10.1) — at 10%
+   * the base border was barely perceptible and unusable for real UI. These give
+   * a clearly-visible resting edge with distinct hover / active states; the
+   * sandbox sliders fine-tune them live. Disabled stays low on purpose. */
+  --ts-mix-perc:          15%;  /* base border — clearly visible resting edge */
+  --ts-mix-perc-hover:    25%;  /* hover border — distinct state lift */
+  --ts-mix-perc-active:   34%;  /* active border (accent mix) — reads as engaged */
+  --ts-mix-perc-disabled: 10%;  /* disabled border — intentionally faint (low contrast = inactive) */
+
+  /* Hue-locked mix anchors — the LIGHTNESS of a key colour with hue + chroma
+   * stripped (hue: none -> powerless in color-mix). Mixing a chromatic surface
+   * toward one of these steps lightness WITHOUT rotating the surface's hue.
+   * Each anchor's lightness still flips with the theme, so steps stay
+   * theme-correct.  -contrast: toward the text-primary pole (raise / hover /
+   * border).  -muted: toward the muted-text pole (disabled).  -floor: toward
+   * the page-floor pole (dark recession / active). */
+  --ts-tone-contrast: oklch(from var(--ts-text-primary) l 0 none);
+  --ts-tone-muted:    oklch(from var(--ts-text-muted)   l 0 none);
+  --ts-tone-floor:    oklch(from var(--ts-bg-body)      l 0 none);
+
+  /* Surface input (spec §3.1). The component or a parent layout block sets this;
+   * the page floor defaults to bg-1 so a chainless element still resolves. */
+  --ts-this-bg: var(--ts-bg-1);
+
+/* @OWNER_FIX: Grid background system (tokenized)
+   - Keep defined at token level
+   - Expose via utility class (e.g., .bg-grid)
+
+   PURPOSE:
+   - Allow grid backgrounds to be applied anywhere via class
+   - Enable full customization through tokens:
+     size, spacing, line color, opacity
+
+   REQUIREMENTS:
+   - Tokens must be context-agnostic (usable in any rule/scope)
+   - No hardcoded values inside the class
+   - Ensure consistency with color/surface system
+
+   RESULT:
+   - Reusable, configurable grid system
+   - User can adjust grid parameters globally or locally via tokens
+
+    This element is designed to work alongside any surface color system.
+
+   - Applied via `background-image`, NOT `background-color`
+   - Allows coexistence with surface/background color tokens
+
+   RESULT:
+   - Both properties can be combined on the same element:
+     background-color → surface
+     background-image → overlay (e.g., grid, pattern)
+
+   REQUIREMENTS:
+   - Must not override or conflict with background-color
+   - Should remain visually composable across all surfaces
+     */
+    --ts-grid-scale: 1;
+  --ts-bg-grid-base: 2.5rem;
+  --ts-bg-grid-size: calc(var(--ts-bg-grid-base) * var(--ts-grid-scale, 1));
+  --ts-bg-grid-mix: 91%;
+  --ts-bg-grid-col1: var(--ts-text-primary);
+  --ts-bg-grid-col2: transparent;
+  --ts-bg-grid-line: color-mix(in srgb, var(--ts-bg-grid-col1), var(--ts-bg-grid-col2) var(--ts-bg-grid-mix));
+  --ts-bg-grid-pattern:
+    repeating-linear-gradient(0deg,
+      transparent,
+      transparent calc(var(--ts-bg-grid-size) - 1px),
+      var(--ts-bg-grid-line) var(--ts-bg-grid-size)),
+    repeating-linear-gradient(90deg,
+      transparent,
+      transparent calc(var(--ts-bg-grid-size) - 1px),
+      var(--ts-bg-grid-line) var(--ts-bg-grid-size));
+}
+
+/* ── DERIVATIVES — recomputed per element ──────────────────────────────────── */
+:where(:root, :root *) {
+
+  /* Subtractive variants — recess toward the (hue-locked) floor pole (spec §3.2) */
+  --ts-this-bg-dark:   color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-floor) var(--ts-this-bg-grad-dark-pct));
+  --ts-this-bg-dark-1: color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-floor) calc(var(--ts-this-bg-grad-dark-pct) * 0.5));
+  --ts-this-bg-dark-2: color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-floor) calc(var(--ts-this-bg-grad-dark-pct) * 0.85));
+
+  /* Transparent-mixed variants — see-through surfaces (spec §3.3) */
+  --ts-this-bg-dim:   color-mix(in oklch, var(--ts-this-bg), transparent 12%);
+  --ts-this-bg-dim-2: color-mix(in oklch, var(--ts-this-bg), transparent 25%);
+  --ts-this-bg-dim-3: color-mix(in oklch, var(--ts-this-bg), transparent 50%);
+  --ts-this-bg-dim-4: color-mix(in oklch, var(--ts-this-bg), transparent 60%);
+
+  /* Additive variant — raise toward the (hue-locked) contrast pole (spec §3.4) */
+  --ts-this-bg-bright: color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-contrast) var(--ts-this-bg-grad-bright-pct));
+
+  /* State variants — hover / active / focus / disabled (spec §3.5) */
+  --ts-this-bg-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-contrast) 20%);
+  --ts-this-bg-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-floor)    15%);
+  /*--ts-this-bg-focus:    color-mix(in oklch, var(--ts-this-bg), var(--ts-accent)        20%);   accent tint */
+  /* @OWNER_FIX:
+   Resolved purple artifact in OKLCH color mixing.
+
+   ROOT CAUSE:
+   - Neutral surface (bg) contained residual blue component
+   - Direct mixing with accent introduced unintended hue shift → purple
+
+   FIX:
+   - Replaced base with desaturated value for contrast token
+   - Reduced chroma (amplitude) to prevent saturation bleed
+   - Applied percentage-based mixing with accent for controlled blending
+
+   RESULT:
+   - Subtle, stable focus color derived from surface + accent
+   - No unintended hue shifts
+
+   FOLLOW-UP:
+   - Optionally re-wrap and dim final mix to avoid overly bright focus backgrounds
+   - If instability persists, remove accent-based background focus usage entirely */
+  --ts-this-bg-focus:    color-mix(in oklch, var(--ts-tone-contrast) 10%, var(--ts-this-bg-border-focus) 20%); 
+  --ts-this-bg-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-muted)    60%);
+
+  /* Borders — base + all 5 states (spec §3.7).
+   * Neutral steps use the hue-locked contrast/muted poles; active + focus stay
+   * accent by design. */
+  --ts-this-bg-border:          color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-contrast) var(--ts-mix-perc));
+  --ts-this-bg-border-0:        color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-contrast) calc(var(--ts-mix-perc) * 0.5));
+  --ts-this-bg-border-hover:    color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-contrast) var(--ts-mix-perc-hover));
+  --ts-this-bg-border-active:   color-mix(in oklch, var(--ts-this-bg), var(--ts-accent)        var(--ts-mix-perc-active));
+  --ts-this-bg-border-disabled: color-mix(in oklch, var(--ts-this-bg), var(--ts-tone-muted)    var(--ts-mix-perc-disabled));
+  --ts-this-bg-border-focus:    var(--ts-accent);
+  --ts-this-bg-focus-outline:   var(--ts-accent);
+
+  /* Gradients — three coherent states (spec §3.6). Every mix is hue-locked. */
+  --ts-this-bg-grad: linear-gradient(
+      var(--ts-this-bg-grad-angle),
+      var(--ts-this-bg-bright),
+      var(--ts-this-bg-dark),
+      var(--ts-this-bg)
+  );
+  --ts-this-bg-hover-grad: linear-gradient(
+      var(--ts-this-bg-grad-angle),
+      color-mix(in oklch, var(--ts-this-bg-bright), var(--ts-tone-contrast) 15%),
+      color-mix(in oklch, var(--ts-this-bg-dark),   var(--ts-tone-contrast) 8%),
+      var(--ts-this-bg-hover)
+  );
+  --ts-this-bg-active-grad: linear-gradient(
+      var(--ts-this-bg-grad-angle),
+      color-mix(in oklch, var(--ts-this-bg),      var(--ts-tone-floor) 8%),
+      color-mix(in oklch, var(--ts-this-bg-dark), var(--ts-tone-floor) 15%),
+      var(--ts-this-bg-active)
+  );
+
+
+
+}
+
+/* @OWNER_NOTE:
+   Experimental alternating surface system for sections and first-level containers.
+   - Avoids explicit background assignment when already defined
+   - Relies on contrast-based alternation between surfaces
+
+   STATUS:
+   - Draft implementation (visual validation only)
+   - Currently deployed in legacy showcase (toolskin.css)
+   - See: #MAIN_BG_SURFACE for base architecture and rules
+
+   ISSUES:
+   - Uses static surface values instead of computed contrast logic
+   - Nested cases (sections, cards, inputs) are inconsistent
+   - Non-color rules are mixed into color logic (must be separated)
+   - Dark background system is broken:
+     root clamp removes lower bound → dark == base surface
+   - Color presets (warm, cold, etc.) are not propagating to surfaces
+
+   ACTION:
+   - Rebuild using OKLCH-based contrast calculations (no static surfaces)
+   - Isolate color logic from layout/styling rules
+   - Define reusable, automated patterns for:
+     section alternation
+     nested containers (cards, inputs)
+   - Ensure behavior is theme-agnostic (no light/dark branching)
+   - Fix surface scaling/clamping in color architecture
+   - Validate preset propagation across surface scope */
+.ts-section {
+    padding-block: var(--ts-section-pad);
+    background-color: var(--ts-this-bg-dim-2);
+}
+
+.ts-section+.ts-section {
+  border-top: 1px solid var(--ts-this-bg-border);
+
+}
+.ts-section:nth-child(odd){
+--ts-this-bg: var(--ts-bg-0);
+ >*{
+  --ts-this-bg: var(--ts-bg-1);
+
+ }
+
+}
+.ts-section:nth-child(even){
+--ts-this-bg: var(--ts-bg-body);
+
+ >*{
+  --ts-this-bg: var(--ts-bg-1);
+
+ }
+}
+/* Alternating section backgrounds */
+.ts-section--alt {
+  --ts-this-bg: var(--ts-bg-1);
+  background-color: var(--ts-this-bg);
+}
+
+/* Second stripe — stronger separation (especially visible in light theme) */
+.ts-section--alt-2 {
+  --ts-this-bg: var(--ts-bg-2);
+  background-color: var(--ts-this-bg);
+  background-image: linear-gradient(180deg,
+      color-mix(in srgb, var(--ts-this-bg), var(--ts-accent) 2%) 0%, var(--ts-this-bg) 45%, var(--ts-this-bg) 100%);
+}
+
+.ts-section--dark {
+  --ts-this-bg: var(--ts-bg-body);
+  background-color: var(--ts-this-bg-dim);
+}
+
+/* Subtle surface gradients (token-only; no raw #fff / #000) */
+.ts-bg-grad-surface-0 {
+  --ts-this-bg: var(--ts-bg-0);
+
+  position: relative;
+  isolation: isolate;
+  background-image: linear-gradient(165deg, var(--ts-this-bg) 0%,
+      color-mix(in srgb, var(--ts-this-bg), var(--ts-accent) 3%) 48%, var(--ts-bg-body) 100%);
+}
+
+.ts-bg-grad-surface-2 {
+  --ts-this-bg: var(--ts-bg-2);
+
+  position: relative;
+  isolation: isolate;
+  background-image: radial-gradient(ellipse 120% 80% at 10% 0%,
+      color-mix(in srgb, var(--ts-this-bg), var(--ts-accent) 3.5%) 0%, var(--ts-this-bg-dark-1) 46%, var(--ts-bg-body) 100%);
+}
+
+/* Micro-grain on subtle gradients — reduces banding without animated grain cost */
+.ts-bg-grad-surface-0::after,
+.ts-bg-grad-surface-2::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: var(--ts-grain);
+  background-size: 320px 320px;
+  background-repeat: repeat;
+  background-attachment: scroll;
+}
+
+.ts-bg-grad-surface-0>*,
+.ts-bg-grad-surface-2>* {
+  position: relative;
+  z-index: 1;
+}
+
+.ts-bg-grad-surface-radial-soft {
+  background-image: radial-gradient(circle at 70% 20%,
+      color-mix(in srgb, var(--ts-bg-1), var(--ts-text-primary) 6%) 0%, var(--ts-bg-body) 55%);
+}
+
+/* Full accent band: locked foreground; inner content stays surface-free */
+.ts-section--accent-band {
+  --ts-accent-band-fg: var(--ts-on-accent);
+  --ts-accent-band-bg: var(--ts-this-bg-dark);
+  --ts-accent-band-muted: color-mix(in srgb, var(--ts-on-accent),
+      transparent 28%);
+  background-color: var(--ts-this-bg);
+  background-image: var(--ts-this-bg-grad);
+  color: var(--ts-accent-band-fg);
+  border-color: color-mix(in srgb, var(--ts-accent), var(--ts-bg-body) 25%);
+  border-color: var(--ts-this-bg-border);
+  --ts-this-bg: var(--ts-accent);
+
+
+  --ts-grain-opacity: 0.9;
+  --ts-grain-intensity: 0.9;
+  --ts-grain-base-frequency: 0.5;
+  --ts-grain-brightness: 70%;
+  --ts-grain-contrast: 190%;
+
+}
+
+.ts-section--accent-band .ts-section-divider,
+.ts-section--accent-band .ts-label,
+.ts-section--accent-band .ts-h2,
+.ts-section--accent-band .ts-h3,
+.ts-section--accent-band h2,
+.ts-section--accent-band h3 {
+  color: var(--ts-accent-band-fg) !important;
+}
+
+.ts-section--accent-band .ts-caption,
+.ts-section--accent-band .ts-text-secondary,
+.ts-section--accent-band p:not(.ts-btn):not([class*="ts-btn"]) {
+  color: var(--ts-accent-band-muted) !important;
+}
+
+.ts-section--accent-band .ts-card,
+.ts-section--accent-band .ts-panel {
+  background: color-mix(in srgb, var(--ts-on-accent),
+      transparent 92%) !important;
+  border-color: color-mix(in srgb, var(--ts-on-accent),
+      transparent 55%) !important;
+  color: var(--ts-accent-band-fg) !important;
+}
+
+.ts-section--accent-band .ts-card__title {
+  color: var(--ts-accent-band-fg) !important;
+}
+
+.ts-section--accent-band a:not(.ts-btn) {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: var(--ts-index-bar-height);
+}

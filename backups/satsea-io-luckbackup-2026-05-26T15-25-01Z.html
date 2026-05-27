@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en" data-theme="dark"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>00 · Toolskin Design Reference</title>
+  <meta name="description" content="Approved design language reproduced with system tokens only. The permanent visual target every Session 4+ sandbox is measured against.">
+
+  <!-- Real system files — load BEFORE local overrides (cascade order matters) -->
+
+  <link rel="stylesheet" href="../../../expert-designer/templates/tokens.css">
+
+  <link rel="stylesheet" href="../../assets/css/next/system/surfaces.css">
+  <link rel="stylesheet" href="../../assets/css/next/primitives/colors.css">
+
+
+  <!-- Single font, Toolskin canonical (Space Grotesk 300–700 per Wave 1.6 RULING) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Instrument+Serif:ital@0;1&amp;family=JetBrains+Mono:wght@400..700&amp;display=swap">
+
+  <style>
+    /* ============================================================================
+     * 00 · Design Reference sandbox — token cartel
+     * ----------------------------------------------------------------------------
+     * Loads the rebuild's REAL primitives/colors.css + system/surfaces.css.
+     * Declares the remaining --ts-* tokens (typography, spacing, radius, motion)
+     * inline at :root until system/text.css / system/spacing.css ship.
+     *
+     * All values are tokens; the audit linter at expert-designer/scripts/
+     * audit-design.mjs must pass HARD-clean against this file.
+     *
+     * RULING 3 — --ts-fs-base: 13px (Toolskin tool-system density).
+     * RULING 5 — spacing scale stops at --ts-sp-16; larger values fluid clamp.
+     * RULING 9 — every component sets --ts-this-bg before consuming derivatives.
+
+     * ========================================================================== */
+/* @OWNER_REVIEW:
+   This design does NOT comply with system standards or accepted design practices.
+
+   ISSUES:
+   - Does not follow any established starter patterns
+   - Ignores defined layout and composition rules
+   - Overuses vertically stacked layouts (not acceptable)
+   - Lacks grid-based structure and visual hierarchy
+   - No exploratory or engaging layout composition
+
+   CONSTRAINT:
+   - DO NOT delete this file (deletion = rollback, not acceptable)
+   - Section color alternation has already been fixed and must be preserved
+
+   ACTION:
+   - Fully evaluate and rebuild the design
+   - Re-align with starter patterns and system rules
+   - Replace stacked layouts with grid-based compositions
+   - Introduce structured, reusable layout patterns
+   - Improve visual hierarchy and exploration
+
+   REQUIREMENT:
+   - Study and apply patterns from starter examples and new system skills
+   - Ensure compliance with non-linear, grid-driven layout standards */
+
+/* @OWNER_DIRECTIVE:
+   All CSS and JS must be fully removed from HTML.
+   - No inline styles or scripts
+   - No embedded logic in markup
+
+   CLASS SYSTEM RULE:
+   - All classes must be reusable, system-driven patterns
+   - No disposable, temporary, or one-off classes
+   - Every class = a committed design asset
+
+   CLEANUP (MANDATORY BEFORE ANY PROGRESS):
+   - Audit all HTML files
+   - Remove stale, redundant, and conflicting classes
+   - Deduplicate overlapping rules
+   - Eliminate cascade conflicts and specificity issues
+
+   ENFORCEMENT:
+   - No further development allowed without cleanup
+   - Violations will cause breakage and system inconsistency
+   - Sandboxes are high-risk: do not propagate bad practices
+
+   SYSTEM PRINCIPLE:
+   - Every step must validate the design system effectiveness
+   - No “temporary fixes” or hidden technical debt
+   - Always unify, deduplicate, and optimize against core assets
+
+   ARCHITECTURE FLOW:
+   1. Apply Expert Designer v7 patterns
+   2. Validate in controlled sandbox usage
+   3. Confirm reusability and consistency
+   4. Then proceed with implementation roadmap
+
+   NOTE:
+   - Do not copy legacy system patterns blindly
+   - Legacy contains known bad practices that must not propagate
+   - Follow owner notes as source of truth for refactor priorities 
+
+   ALL THESE RULES MUST BE REMOVED AND     AFTER THAT THE DESIGN MUSYT   BE VISUALKLY EXACTLY THE SAME AS  BEFORE, COMAPRING  SCREENSHOTS BEFORE AND AFTER REMOVING THE CODE 
+   -- THE COVNENTIONS FOR THE CLASSES     ALLWATSY UST  BE THE SAME AS STATED:  TS. PREFIXZ FOR EVERYTHING WITH NO EXCEPTION. 
+
+   for the ssandob and inner testing of this sandbox preocedure   block by block , component by component,  scope by scope,  we weill  drop the  stules  and  work the dedupong and cleanup  directly on a  styleshewet  
+   "D:\Mis Documentos\Projects\Toolskin Framework\toolskin-rebuild\expert-designer\templates\starters-extraction.css"
+   thsi sheet is supposed to have exclusively  styles  n  tokesna dn  rtules   sued on  the sanboxes and we priorize  sharing components  acros all the views as  posible it can be,   mayching  ruels oroereties  and conertign or emrging  clases names that shares   similar proeprties  in  multi-selectro rules if nececsary, and nesting rules (scss) like specified on the document
+
+    the agent musy commit to thsi  documents to make sure the environment  is100%  usign the design system rules with no exception. 
+
+    "D:\Mis Documentos\Projects\Toolskin Framework\toolskin-rebuild\expert-designer\ANTI-DEFAULT-PROTOCOL.md"
+"D:\Mis Documentos\Projects\Toolskin Framework\toolskin-rebuild\expert-designer\HANDOFF.md"
+"D:\Mis Documentos\Projects\Toolskin Framework\toolskin-rebuild\expert-designer\README.md"
+"D:\Mis Documentos\Projects\Toolskin Framework\toolskin-rebuild\expert-designer\SKILL.md"
+
+*/
+    :root {
+      /* ── TYPOGRAPHY (RULING 3 — 13px × 1.200 ladder, will move to system/text.css) ── */
+      --ts-font-display: 'Space Grotesk', ui-sans-serif;
+      --ts-font-body:    'Space Grotesk', ui-sans-serif;
+      --ts-font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+      --ts-fs-base:  13px;
+      --ts-fs-ratio: 1.2;
+
+      --ts-fs--2: calc(var(--ts-fs-base) / var(--ts-fs-ratio) / var(--ts-fs-ratio));
+      --ts-fs--1: calc(var(--ts-fs-base) / var(--ts-fs-ratio));
+      --ts-fs-0:  var(--ts-fs-base);
+      --ts-fs-1:  calc(var(--ts-fs-base) * var(--ts-fs-ratio));
+      --ts-fs-2:  calc(var(--ts-fs-1)    * var(--ts-fs-ratio));
+      --ts-fs-3:  calc(var(--ts-fs-2)    * var(--ts-fs-ratio));
+      --ts-fs-4:  calc(var(--ts-fs-3)    * var(--ts-fs-ratio));
+      --ts-fs-5:  calc(var(--ts-fs-4)    * var(--ts-fs-ratio));
+      --ts-fs-6:  calc(var(--ts-fs-5)    * var(--ts-fs-ratio));
+      --ts-fs-7:  calc(var(--ts-fs-6)    * var(--ts-fs-ratio));
+      --ts-fs-8:  calc(var(--ts-fs-7)    * var(--ts-fs-ratio));
+      --ts-fs-9:  calc(var(--ts-fs-8)    * var(--ts-fs-ratio));
+
+      --ts-fs-micro:   var(--ts-fs--2);
+      --ts-fs-caption: var(--ts-fs--1);
+      --ts-fs-body:    var(--ts-fs-0);
+      --ts-fs-lead:    var(--ts-fs-1);
+      --ts-fs-h5:      var(--ts-fs-2);
+      --ts-fs-h4:      var(--ts-fs-3);
+      --ts-fs-h3:      var(--ts-fs-4);
+      --ts-fs-h2:      var(--ts-fs-5);
+      --ts-fs-h1:      var(--ts-fs-6);
+      --ts-fs-display: clamp(var(--ts-fs-6), 4vw + 1rem, var(--ts-fs-8));
+      --ts-fs-hero:    clamp(var(--ts-fs-7), 8vw + 1rem, var(--ts-fs-9));
+
+      --ts-lh-tight:    0.92;
+      --ts-lh-display:  1.05;
+      --ts-lh-headline: 1.15;
+      --ts-lh-snug:     1.3;
+      --ts-lh-normal:   1.5;
+
+      --ts-tracking-tightest: -0.04em;
+      --ts-tracking-tighter:  -0.025em;
+      --ts-tracking-tight:    -0.015em;
+      --ts-tracking-snug:     -0.005em;
+      --ts-tracking-wide:      0.02em;
+      --ts-tracking-wider:     0.08em;
+
+      --ts-fw-thin:     300;
+      --ts-fw-normal:   400;
+      --ts-fw-medium:   500;
+      --ts-fw-semibold: 600;
+      --ts-fw-bold:     700;
+
+      /* ── SPACING (RULING 5 — ceiling at sp-16) ── */
+      --ts-sp-1:  4px;
+      --ts-sp-2:  8px;
+      --ts-sp-3:  12px;
+      --ts-sp-4:  16px;
+      --ts-sp-5:  20px;
+      --ts-sp-6:  24px;
+      --ts-sp-8:  32px;
+      --ts-sp-10: 40px;
+      --ts-sp-12: 48px;
+      --ts-sp-16: 64px;
+
+      --ts-section-pad:   clamp(4rem, 8vw, 9rem);
+      --ts-container-pad: clamp(1rem, 5vw, 4rem);
+      --ts-container-lg:  1280px;
+
+      /* ── RADIUS (explicit ladder 4/6/8/10/16 + sharp + pill) ── */
+      --ts-radius-0:    0;
+      --ts-radius-4:    4px;
+      --ts-radius-6:    6px;
+      --ts-radius-8:    8px;
+      --ts-radius-10:  10px;
+      --ts-radius-16:  16px;
+      --ts-radius-full: 9999px;
+
+      /* ── MOTION ── */
+      --ts-dur-fast:   120ms;
+      --ts-dur-base:   200ms;
+      --ts-dur-slow:   350ms;
+      --ts-ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      min-height: 100dvh;
+      font-family: var(--ts-font-body);
+      font-size: var(--ts-fs-body);
+      line-height: var(--ts-lh-normal);
+      color: var(--ts-text-primary);
+      background: var(--ts-bg-body);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    h1, h2, h3, h4, h5, h6, p, ul, ol, figure { margin: 0; padding: 0; }
+    ul { list-style: none; }
+    img, svg { display: block; max-width: 100%; }
+    button { font: inherit; color: inherit; }
+
+    /* ── Layout primitives ── */
+    .ts-container {
+      max-width: var(--ts-container-lg);
+      margin-inline: auto;
+      padding-inline: var(--ts-container-pad);
+    }
+    .ts-section {
+      padding-block: var(--ts-section-pad);
+    }
+    .ts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), minmax(0, 1fr)));
+      gap: var(--ts-sp-6);
+    }
+
+    /* ── Topbar (theme + preset toggles) ── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: var(--ts-sp-6);
+      padding: var(--ts-sp-3) var(--ts-container-pad);
+      background: color-mix(in oklch, var(--ts-bg-body), transparent 18%);
+      border-bottom: 1px solid var(--ts-this-bg-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .topbar__brand {
+      font-size: var(--ts-fs-body);
+      font-weight: var(--ts-fw-semibold);
+      letter-spacing: var(--ts-tracking-tight);
+    }
+    .topbar__brand .topbar__brand-dim { color: var(--ts-text-muted); font-weight: var(--ts-fw-normal); margin-inline-start: var(--ts-sp-2); }
+    .topbar__controls {
+      display: flex;
+      gap: var(--ts-sp-2);
+      align-items: center;
+    }
+    .pick {
+      height: 32px;
+      padding: 0 var(--ts-sp-3);
+      background: var(--ts-this-bg-dim);
+      color: var(--ts-text-primary);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: var(--ts-radius-6);
+      font-size: var(--ts-fs-caption);
+      cursor: pointer;
+      transition: border-color var(--ts-dur-fast) var(--ts-ease-out),
+                  background var(--ts-dur-fast) var(--ts-ease-out);
+    }
+    .pick:hover { background: var(--ts-this-bg-hover); border-color: var(--ts-this-bg-border-hover); }
+    .pick:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; background: var(--ts-this-bg-hover); border-color: var(--ts-this-bg-border-hover); }
+    .pick[aria-pressed="true"] {
+      background: var(--ts-accent);
+      color: var(--ts-on-accent);
+      border-color: var(--ts-accent);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding-block: clamp(4rem, 12vw, 10rem) clamp(3rem, 8vw, 7rem);
+    }
+    .hero__eyebrow {
+      font-size: var(--ts-fs-caption);
+      text-transform: uppercase;
+      letter-spacing: var(--ts-tracking-wider);
+      font-weight: var(--ts-fw-semibold);
+      color: var(--ts-text-secondary);
+      margin-bottom: var(--ts-sp-4);
+    }
+    .hero__title {
+      font-size: var(--ts-fs-hero);
+      font-weight: var(--ts-fw-bold);
+      letter-spacing: var(--ts-tracking-tightest);
+      line-height: var(--ts-lh-tight);
+      max-width: 16ch;
+      text-wrap: balance;
+    }
+    .hero__title-accent { color: var(--ts-accent); }
+    .hero__lead {
+      margin-top: var(--ts-sp-6);
+      max-width: 60ch;
+      font-size: var(--ts-fs-lead);
+      color: var(--ts-text-secondary);
+      line-height: var(--ts-lh-normal);
+      text-wrap: pretty;
+    }
+    .hero__cta {
+      margin-top: var(--ts-sp-8);
+      display: flex;
+      gap: var(--ts-sp-3);
+      flex-wrap: wrap;
+    }
+
+    /* ── Button (atomic, RULING 9 — re-anchor first via component knob) ── */
+    .ts-btn {
+      --ts-btn-h: 44px;
+      --ts-btn-pad-x: var(--ts-sp-5);
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--ts-sp-2);
+      height: var(--ts-btn-h);
+      padding: 0 var(--ts-btn-pad-x);
+      font-family: inherit;
+      font-size: var(--ts-fs-caption);
+      font-weight: var(--ts-fw-semibold);
+      letter-spacing: var(--ts-tracking-wide);
+      line-height: 1;
+      border-radius: var(--ts-radius-6);
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--ts-text-primary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background var(--ts-dur-fast) var(--ts-ease-out),
+                  border-color var(--ts-dur-fast) var(--ts-ease-out),
+                  transform var(--ts-dur-fast) var(--ts-ease-out);
+    }
+    .ts-btn:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
+    .ts-btn:active { transform: translateY(1px); }
+
+    .ts-btn--primary { background: var(--ts-accent); color: var(--ts-on-accent); border-color: var(--ts-accent); }
+    .ts-btn--primary:hover { background: var(--ts-accent); border-color: var(--ts-accent); filter: brightness(1.08); }
+    .ts-btn--primary:focus-visible { outline-offset: 3px; }
+
+    .ts-btn--outline { color: var(--ts-text-primary); border-color: var(--ts-this-bg-border); }
+    .ts-btn--outline:hover { background: var(--ts-this-bg-hover); border-color: var(--ts-this-bg-border-hover); }
+    .ts-btn--outline:focus-visible { background: var(--ts-this-bg-hover); border-color: var(--ts-this-bg-border-hover); }
+
+    /* ── Section heading ── */
+    .section-head {
+      display: grid;
+      gap: var(--ts-sp-3);
+      margin-bottom: var(--ts-sp-12);
+      max-width: 60ch;
+    }
+    .section-head__overline {
+      font-size: var(--ts-fs-caption);
+      text-transform: uppercase;
+      letter-spacing: var(--ts-tracking-wider);
+      font-weight: var(--ts-fw-semibold);
+      color: var(--ts-text-secondary);
+    }
+    .section-head__title {
+      font-size: var(--ts-fs-h2);
+      font-weight: var(--ts-fw-semibold);
+      letter-spacing: var(--ts-tracking-tight);
+      line-height: var(--ts-lh-headline);
+    }
+    .section-head__lead {
+      color: var(--ts-text-secondary);
+      max-width: 60ch;
+    }
+
+    /* ── Type ladder ── */
+    .ladder {
+      display: grid;
+      gap: var(--ts-sp-4);
+      padding: var(--ts-sp-8);
+      background: var(--ts-this-bg-dim);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: var(--ts-radius-10);
+    }
+    .ladder__row {
+      display: grid;
+      grid-template-columns: minmax(0, 8ch) minmax(0, 12ch) minmax(0, 1fr);
+      align-items: baseline;
+      gap: var(--ts-sp-6);
+      padding-block: var(--ts-sp-2);
+      border-bottom: 1px solid var(--ts-this-bg-border-0, var(--ts-this-bg-border));
+    }
+    .ladder__row:last-child { border-bottom: 0; }
+    .ladder__step { font-family: var(--ts-font-mono); font-size: var(--ts-fs-caption); color: var(--ts-text-muted); }
+    .ladder__size { font-family: var(--ts-font-mono); font-size: var(--ts-fs-caption); color: var(--ts-text-secondary); }
+    .ladder__sample { font-weight: var(--ts-fw-semibold); letter-spacing: var(--ts-tracking-snug); line-height: var(--ts-lh-headline); color: var(--ts-text-primary); }
+
+    /* ── Surface swatches (the derivative chain on a single anchor) ── */
+   .surface-deck {
+        display: grid;
+        gap: var(--ts-sp-4);
+        grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+        grid-auto-rows: max-content;
+        grid-auto-columns: max-content;
+        grid-auto-flow: dense;
+        align-content: stretch;
+        justify-content: stretch;
+        align-items: stretch;
+        justify-items: stretch;
+    }
+    .surface-card {
+        --ts-this-bg: var(--ts-bg-1);
+        background: var(--ts-this-bg-dim-4);
+        border: 1px solid var(--ts-this-bg-border);
+        border-radius: var(--ts-radius-10);
+        padding: var(--ts-sp-6);
+        display: grid;
+        gap: var(--ts-sp-3);
+        transition: border-color var(--ts-dur-base) var(--ts-ease-out),
+                      transform var(--ts-dur-base) var(--ts-ease-out);
+    }
+    .surface-card:hover { border-color: var(--ts-this-bg-border-hover); transform: translateY(-2px); }
+    .surface-card:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; border-color: var(--ts-this-bg-border-hover); }
+    .surface-card__label {
+      font-family: var(--ts-font-mono);
+      font-size: var(--ts-fs-caption);
+      color: var(--ts-text-secondary);
+    }
+    .surface-card__swatch {
+      height: 100px;
+      border-radius: var(--ts-radius-4);
+      border: 1px solid var(--ts-this-bg-border);
+    }
+    .surface-card__name {
+      font-size: var(--ts-fs-body);
+      font-weight: var(--ts-fw-semibold);
+      letter-spacing: var(--ts-tracking-tight);
+    }
+    .surface-card__hint {
+      font-size: var(--ts-fs-caption);
+      color: var(--ts-text-muted);
+    }
+
+    /* Re-anchored sub-surfaces (Rule 4 — surface superposition demo) */
+    .sa-1 { --ts-this-bg: var(--ts-bg-1); }
+    .sa-2 { --ts-this-bg: var(--ts-bg-2); }
+    .sa-3 { --ts-this-bg: var(--ts-bg-3); }
+    .sa-4 { --ts-this-bg: var(--ts-bg-4); }
+    .sa-5 { --ts-this-bg: var(--ts-bg-5); }
+
+    .sw-bg     { background: var(--ts-this-bg); }
+    .sw-bright { background: var(--ts-this-bg-bright); }
+    .sw-dark   { background: var(--ts-this-bg-dark); }
+    .sw-hover  { background: var(--ts-this-bg-hover); }
+    .sw-active { background: var(--ts-this-bg-active); }
+    .sw-focus  { background: var(--ts-this-bg-focus); }
+
+    /* ── Card recipes ── */
+    .card-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), minmax(0, 1fr)));
+      gap: var(--ts-sp-6);
+    }
+    .ts-card {
+      --ts-this-bg: var(--ts-bg-2);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: var(--ts-sp-4);
+      padding: var(--ts-sp-6);
+      background: var(--ts-this-bg);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: var(--ts-radius-10);
+      color: var(--ts-text-primary);
+      transition: border-color var(--ts-dur-base) var(--ts-ease-out);
+    }
+    .ts-card:hover { border-color: var(--ts-this-bg-border-hover); }
+    .ts-card:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; border-color: var(--ts-this-bg-border-hover); }
+    .ts-card__eyebrow {
+      font-size: var(--ts-fs-caption);
+      font-weight: var(--ts-fw-medium);
+      text-transform: uppercase;
+      letter-spacing: var(--ts-tracking-wider);
+      color: var(--ts-text-secondary);
+    }
+    .ts-card__metric {
+      font-size: var(--ts-fs-h2);
+      font-weight: var(--ts-fw-bold);
+      line-height: var(--ts-lh-tight);
+      letter-spacing: var(--ts-tracking-tight);
+      font-feature-settings: "tnum" 1, "lnum" 1;
+    }
+    .ts-card__delta { font-size: var(--ts-fs-caption); color: var(--ts-text-muted); }
+    .ts-card__title {
+      font-size: var(--ts-fs-h4);
+      font-weight: var(--ts-fw-semibold);
+      letter-spacing: var(--ts-tracking-tight);
+      line-height: var(--ts-lh-snug);
+    }
+    .ts-card__body {
+      color: var(--ts-text-secondary);
+      max-width: 40ch;
+    }
+    .ts-card__icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      background: var(--ts-this-bg-bright);
+      color: var(--ts-accent);
+      border-radius: var(--ts-radius-6);
+      border: 1px solid var(--ts-this-bg-border);
+      font-weight: var(--ts-fw-bold);
+    }
+
+    /* ── Re-anchoring demo (Rule 4 + RULING 9 two-line idiom) ── */
+    .nest-wrap {
+      --ts-this-bg: var(--ts-bg-1);
+      background: var(--ts-this-bg);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: var(--ts-radius-16);
+      padding: var(--ts-sp-8);
+      display: grid;
+      gap: var(--ts-sp-6);
+    }
+    .nest-wrap__inner {
+      --ts-this-bg: var(--ts-bg-3);
+      background: var(--ts-this-bg);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: var(--ts-radius-10);
+      padding: var(--ts-sp-6);
+      display: grid;
+      gap: var(--ts-sp-3);
+    }
+    .nest-wrap__inner-inner {
+      --ts-this-bg: var(--ts-bg-5);
+      background: var(--ts-this-bg);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: var(--ts-radius-8);
+      padding: var(--ts-sp-4);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      padding-block: var(--ts-sp-12);
+      border-top: 1px solid var(--ts-this-bg-border);
+      color: var(--ts-text-muted);
+      font-size: var(--ts-fs-caption);
+      text-align: center;
+    }
+    .footer a { color: var(--ts-text-secondary); text-decoration: underline; text-decoration-color: var(--ts-this-bg-border); text-underline-offset: 4px; }
+    .footer a:hover { color: var(--ts-text-primary); text-decoration-color: var(--ts-accent); }
+    .footer a:focus-visible { color: var(--ts-text-primary); outline: 2px solid var(--ts-accent); outline-offset: 2px; border-radius: var(--ts-radius-4); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms;
+        transition-duration: 0.01ms;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ───────────────── TOPBAR ───────────────── 
+  Owner note|>  as wel as most of the classe sused hwere, this compoentn shoudl be the ts-topbar or ts-nav-fixed-->
+  <header class="topbar">
+    <div class="topbar__brand">
+      Toolskin · Design Reference
+      <span class="topbar__brand-dim">sandbox 00 — approved visual target, tokenized</span>
+    </div>
+    <div class="topbar__controls" role="group" aria-label="Theme and preset controls">
+      <button type="button" class="pick" data-theme="dark" aria-pressed="true">Dark</button>
+      <button type="button" class="pick" data-theme="light" aria-pressed="false">Light</button>
+      <button type="button" class="pick" data-preset="default" aria-pressed="true">Default</button>
+      <button type="button" class="pick" data-preset="dark-warm-slate-v2" aria-pressed="false">Warm</button>
+      <button type="button" class="pick" data-preset="dark-blue-tinted-v3" aria-pressed="false">Blue</button>
+    </div>
+  </header>
+
+  <!-- ───────────────── HERO ───────────────── -->
+  <main>
+    <section class="ts-section">
+      <div class="ts-container">
+        <p class="hero__eyebrow">Toolskin · v1.0 reference</p>
+        <h1 class="hero__title">
+          The Toolskin <span class="hero__title-accent">design language.</span>
+        </h1>
+        <p class="hero__lead">
+          Every value here resolves to a token. Every surface re-anchors before consuming.
+          No invented numbers. No hand-tuned colors. The system is the design, and the design
+          is the system.
+        </p>
+        <div class="hero__cta">
+          <button type="button" class="ts-btn ts-btn--primary">Read the spec</button>
+          <button type="button" class="ts-btn ts-btn--outline">View tokens</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────── TYPE LADDER ───────────────── -->
+    <section class="ts-section">
+      <div class="ts-container">
+        <div class="section-head">
+          <p class="section-head__overline">Typography</p>
+          <h2 class="section-head__title">A locked 1.200 ladder anchored at 13&nbsp;px.</h2>
+          <p class="section-head__lead">
+            RULING 3: <code>--ts-fs-base: 13px</code>. Tool-system density. Twelve steps from
+            micro to hero — every heading on the page derives from one of these.
+          </p>
+        </div>
+
+        <div class="ladder">
+          <div class="ladder__row"><span class="ladder__step">step 9</span><span class="ladder__size">67 px</span><span class="ladder__sample" style="font-size: var(--ts-fs-9); line-height: var(--ts-lh-tight); letter-spacing: var(--ts-tracking-tightest);">Hero</span></div>
+          <div class="ladder__row"><span class="ladder__step">step 8</span><span class="ladder__size">56 px</span><span class="ladder__sample" style="font-size: var(--ts-fs-8); line-height: var(--ts-lh-display); letter-spacing: var(--ts-tracking-tighter);">Display</span></div>
+          <div class="ladder__row"><span class="ladder__step">step 7</span><span class="ladder__size">47 px</span><span class="ladder__sample" style="font-size: var(--ts-fs-7); line-height: var(--ts-lh-display); letter-spacing: var(--ts-tracking-tighter);">Display sm</span></div>
+          <div class="ladder__row"><span class="ladder__step">step 6</span><span class="ladder__size">39 px</span><span class="ladder__sample" style="font-size: var(--ts-fs-6); line-height: var(--ts-lh-headline); letter-spacing: var(--ts-tracking-tight);">Headline (h1)</span></div>
+          <div class="ladder__row"><span class="ladder__step">step 5</span><span class="ladder__size">32 px</span><span class="ladder__sample" style="font-size: var(--ts-fs-5); line-height: var(--ts-lh-headline); letter-spacing: var(--ts-tracking-tight);">Section (h2)</span></div>
+          <div class="ladder__row"><span class="ladder__step">step 4</span><span class="ladder__size">27 px</span><span class="ladder__sample" style="font-size: var(--ts-fs-4); line-height: var(--ts-lh-snug); letter-spacing: var(--ts-tracking-tight);">Subhead (h3)</span></div>
+          <div class="ladder__row"><span class="ladder__step">step 3</span><span class="ladder__size">22 px</span><span class="ladder__sample" style="font-size: var(--ts-fs-3); line-height: var(--ts-lh-snug); letter-spacing: var(--ts-tracking-snug);">Card title (h4)</span></div>
+          <div class="ladder__row"><span class="ladder__step">step 2</span><span class="ladder__size">19 px</span><span class="ladder__sample" style="font-size: var(--ts-fs-2); line-height: var(--ts-lh-snug);">List title (h5)</span></div>
+          <div class="ladder__row"><span class="ladder__step">step 1</span><span class="ladder__size">16 px</span><span class="ladder__sample" style="font-size: var(--ts-fs-1); line-height: var(--ts-lh-normal); font-weight: var(--ts-fw-normal);">Lead paragraph</span></div>
+          <div class="ladder__row"><span class="ladder__step">step 0</span><span class="ladder__size">13 px</span><span class="ladder__sample" style="font-size: var(--ts-fs-0); line-height: var(--ts-lh-normal); font-weight: var(--ts-fw-normal);">Body — RULING 3 IS body, not a floor.</span></div>
+          <div class="ladder__row"><span class="ladder__step">step -1</span><span class="ladder__size">11 px</span><span class="ladder__sample" style="font-size: var(--ts-fs--1); color: var(--ts-text-secondary); font-weight: var(--ts-fw-medium);">Caption / meta</span></div>
+          <div class="ladder__row"><span class="ladder__step">step -2</span><span class="ladder__size">9 px</span><span class="ladder__sample" style="font-size: var(--ts-fs--2); color: var(--ts-text-secondary); text-transform: uppercase; letter-spacing: var(--ts-tracking-wider); font-weight: var(--ts-fw-semibold);">Overline · micro</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────── SURFACE DECK (Rule 4 + RULING 9) ───────────────── -->
+    <section class="ts-section">
+      <div class="ts-container">
+        <div class="section-head">
+          <p class="section-head__overline">Surfaces</p>
+          <h2 class="section-head__title">Five surface anchors, one derivative chain.</h2>
+          <p class="section-head__lead">
+            Each card sets <code>--ts-this-bg</code> on its root (the two-line idiom, RULING 9 —
+            re-anchor first, consume second). Borders, hover states, dim variants all recompute
+            against the new anchor.
+          </p>
+        </div>
+
+        <div class="surface-deck ts-grid">
+          <article class="surface-card sa-1" tabindex="0">
+            <p class="surface-card__label">--ts-bg-1</p>
+            <div class="surface-card__swatch sw-bg"></div>
+            <p class="surface-card__name">Page floor</p>
+            <p class="surface-card__hint">Default <code>--ts-this-bg</code>.</p>
+          </article>
+          <article class="surface-card sa-2" tabindex="0">
+            <p class="surface-card__label">--ts-bg-2</p>
+            <div class="surface-card__swatch sw-bg"></div>
+            <p class="surface-card__name">Raised one step</p>
+            <p class="surface-card__hint">Cards, panels.</p>
+          </article>
+          <article class="surface-card sa-3" tabindex="0">
+            <p class="surface-card__label">--ts-bg-3</p>
+            <div class="surface-card__swatch sw-bg"></div>
+            <p class="surface-card__name">Raised two steps</p>
+            <p class="surface-card__hint">Inputs, controls.</p>
+          </article>
+          <article class="surface-card sa-4" tabindex="0">
+            <p class="surface-card__label">--ts-bg-4</p>
+            <div class="surface-card__swatch sw-bg"></div>
+            <p class="surface-card__name">Raised three steps</p>
+            <p class="surface-card__hint">Toolbar, sidebar.</p>
+          </article>
+          <article class="surface-card sa-5" tabindex="0">
+            <p class="surface-card__label">--ts-bg-5</p>
+            <div class="surface-card__swatch sw-bg"></div>
+            <p class="surface-card__name">Top of stack</p>
+            <p class="surface-card__hint">Floating UI.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────── DERIVATIVE STATES (on bg-2 anchor) ───────────────── -->
+    <section class="ts-section">
+      <div class="ts-container">
+        <div class="section-head">
+          <p class="section-head__overline">Derivative states</p>
+          <h2 class="section-head__title">One surface input. Six state outputs.</h2>
+          <p class="section-head__lead">
+            The <code>--ts-this-bg-*</code> chain in <code>surfaces.css</code> recomputes per
+            element. These swatches all sit on the <code>--ts-bg-2</code> anchor; the variants
+            are what the chain produces against it.
+          </p>
+        </div>
+
+        <div class="surface-deck">
+          <article class="surface-card sa-2" tabindex="0"><p class="surface-card__label">--ts-this-bg</p><div class="surface-card__swatch sw-bg"></div><p class="surface-card__name">base</p></article>
+          <article class="surface-card sa-2" tabindex="0"><p class="surface-card__label">--ts-this-bg-bright</p><div class="surface-card__swatch sw-bright"></div><p class="surface-card__name">raised</p></article>
+          <article class="surface-card sa-2" tabindex="0"><p class="surface-card__label">--ts-this-bg-dark</p><div class="surface-card__swatch sw-dark"></div><p class="surface-card__name">recessed</p></article>
+          <article class="surface-card sa-2" tabindex="0"><p class="surface-card__label">--ts-this-bg-hover</p><div class="surface-card__swatch sw-hover"></div><p class="surface-card__name">hover state</p></article>
+          <article class="surface-card sa-2" tabindex="0"><p class="surface-card__label">--ts-this-bg-active</p><div class="surface-card__swatch sw-active"></div><p class="surface-card__name">pressed</p></article>
+          <article class="surface-card sa-2" tabindex="0"><p class="surface-card__label">--ts-this-bg-focus</p><div class="surface-card__swatch sw-focus"></div><p class="surface-card__name">focus tint</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────── CARD RECIPES ───────────────── -->
+    <section class="ts-section">
+      <div class="ts-container">
+        <div class="section-head">
+          <p class="section-head__overline">Card recipes</p>
+          <h2 class="section-head__title">Stat, feature, action — three workhorses.</h2>
+          <p class="section-head__lead">
+            Same recipe shape, same token chain, different content density. Equal-height rows
+            via <code>grid-template-rows: auto 1fr auto</code> + <code>minmax(0, 1fr)</code> grid.
+          </p>
+        </div>
+
+        <div class="card-row">
+          <article class="ts-card">
+            <p class="ts-card__eyebrow">Monthly recurring revenue</p>
+            <p class="ts-card__metric">$248,400</p>
+            <p class="ts-card__delta">+12.4% vs last month</p>
+          </article>
+          <article class="ts-card">
+            <p class="ts-card__icon" aria-hidden="true">★</p>
+            <h3 class="ts-card__title">Surface superposition, by construction</h3>
+            <p class="ts-card__body">
+              Set one variable. The whole derivative chain follows. Cards inside cards inside
+              modals stay visually coherent without per-context overrides.
+            </p>
+          </article>
+          <article class="ts-card">
+            <div>
+              <h3 class="ts-card__title">Ready to ship faster?</h3>
+              <p class="ts-card__body">
+                Install the skill, open the showcase, build the page. The system enforces
+                itself — no off-ladder values, no rogue hex.
+              </p>
+            </div>
+            <button type="button" class="ts-btn ts-btn--primary">Start now</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────── NESTED RE-ANCHORING (Rule 4 demo) ───────────────── -->
+    <section class="ts-section">
+      <div class="ts-container">
+        <div class="section-head">
+          <p class="section-head__overline">Surface superposition</p>
+          <h2 class="section-head__title">Three nested surfaces. One rule each.</h2>
+          <p class="section-head__lead">
+            Each container sets <code>--ts-this-bg</code> on itself; descendants inherit the
+            re-anchored chain. No child needs to know its parent's surface — the cascade does
+            the work.
+          </p>
+        </div>
+
+        <div class="nest-wrap">
+          <h4 class="ts-card__title">Outer panel (bg-1)</h4>
+          <p class="ts-card__body">Borders, hover tints, dim fills all read against the floor.</p>
+          <div class="nest-wrap__inner">
+            <h4 class="ts-card__title">Inner panel (bg-3)</h4>
+            <p class="ts-card__body">Re-anchored once. The same component chain now computes against bg-3.</p>
+            <div class="nest-wrap__inner-inner">
+              <p class="ts-card__eyebrow">Innermost (bg-5)</p>
+              <p class="ts-card__body">Three layers deep, still visually coherent — no per-depth overrides.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer ts-container">
+      <p>Sandbox 00 · the permanent design reference. Audit-clean via <code>expert-designer/scripts/audit-design.mjs</code>.</p>
+    </footer>
+  </main>
+
+  <script>
+    // Theme toggle — purely cosmetic, no tracking, no analytics.
+    const html = document.documentElement;
+    const buttons = document.querySelectorAll('.pick');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (btn.hasAttribute('data-theme')) {
+          html.dataset.theme = btn.dataset.theme;
+          document.querySelectorAll('[data-theme]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.theme === btn.dataset.theme)));
+        } else if (btn.hasAttribute('data-preset')) {
+          // Remove any existing preset class; "default" means no class
+          html.className = '';
+          if (btn.dataset.preset !== 'default') {
+            html.classList.add('ts-preset-' + btn.dataset.preset);
+          }
+          document.querySelectorAll('[data-preset]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.preset === btn.dataset.preset)));
+        }
+      });
+    });
+  </script>
+
+
+</body></html>
