@@ -1,0 +1,437 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · ts-section — Page sectioning, surface alternation, accent bands
+   ───────────────────────────────────────────────────────────────────────────
+   Migrated from toolskin.css.frozen §4c (lines 2887-3211) onto the v2
+   `--ts-this-bg` engine. Wave 1 of Phase 2.
+
+   What changed vs the frozen spec
+   ───────────────────────────────
+     • Nested pattern (CSS-1): every variant, child rule, and state lives
+       INSIDE `.ts-section`. The frozen spec scattered .ts-section,
+       .ts-section--alt, .ts-section--alt-2, .ts-section--dark,
+       .ts-section--accent-band, .ts-section--glow, .ts-section--fullbleed
+       across hundreds of lines; they are now a single declarative block.
+
+     • `.ts-section--alt` REDESIGNED per `decisions/color-system.md` OPEN
+       ruling ("must become contrast-driven and theme-agnostic, with
+       automatic nesting handling"):
+         — Frozen behaviour: `--ts-this-bg: var(--ts-bg-1);` (static literal).
+         — New behaviour:
+             --ts-this-bg: color-mix(in oklab,
+                              var(--ts-bg-body),
+                              var(--ts-tone-contrast)
+                              var(--ts-this-bg-grad-bright-pct));
+           — A contrast-shifted push off the CANONICAL page surface
+             `--ts-bg-body`, using the SAME mix percentage the v2 engine
+             uses for `--ts-this-bg-bright`. So `.ts-section--alt` reads
+             "one engine-step brighter than body" on dark themes and
+             "one engine-step toward white off body" on light themes,
+             with no `[data-theme]` branching.
+           — Why mix off `--ts-bg-body` and not off the live
+             `--ts-this-bg`? Because the v2 engine declares
+             `--ts-this-bg-bright` as a `color-mix` of THIS element's
+             `--ts-this-bg`. Writing `--ts-this-bg: var(--ts-this-bg-bright)`
+             on the same element produces a CSS variable cycle —
+             detected at computed-value time, invalidated, silently
+             dropped (diagnosed against a live chrome-devtools probe
+             during Wave 1 verification). Mixing off the primitive
+             `--ts-bg-body` breaks the cycle while preserving the
+             theme-agnostic contrast-driven intent.
+         — Nesting note: matches frozen behaviour. Frozen
+           `.ts-section--alt { --ts-this-bg: var(--ts-bg-1) }` was
+           idempotent under nesting (alt inside alt was still alt).
+           This migration matches that. A "step further on every
+           level" model would need `@property`-registered chain or
+           container queries — flagged for a future Wave.
+
+     • `.ts-section--alt-2` redesigned the same way, one stop further:
+         — Frozen: `--ts-this-bg: var(--ts-bg-2);` + a static srgb mix.
+         — New:
+             --ts-this-bg: color-mix(in oklab,
+                              var(--ts-bg-body),
+                              var(--ts-tone-contrast)
+                              calc(var(--ts-this-bg-grad-bright-pct) * 1.6));
+           with an oklab accent-tinted wash via `--ts-grad-mix`
+           (replaces the frozen `linear-gradient(180deg, color-mix(in
+           srgb, ..., var(--ts-accent) 2%) …)`).
+
+     • `.ts-section--dark` redesigned as the DARK-direction alias:
+         — Frozen: `--ts-this-bg: var(--ts-bg-body);` then
+           `background-color: var(--ts-this-bg-dim);` (incoherent — dim is
+           transparency, not a darker surface).
+         — New:
+             --ts-this-bg: color-mix(in oklab,
+                              var(--ts-bg-body),
+                              var(--ts-tone-floor)
+                              var(--ts-this-bg-grad-dark-pct));
+           A floor-direction step off body using the engine's dark
+           mix percentage. Theme-aware via primitive cascade.
+
+     • `.ts-section--accent-band`:
+         — All `color-mix(in srgb, …)` calls DROPPED (RULE S3). The frozen
+           recipe used `color-mix(in srgb, var(--ts-on-accent), transparent 28%)`
+           to compute a muted-on-accent ink — replaced by an oklab
+           derivative declared on the band itself.
+         — All `!important` flags DROPPED. The nested pattern resolves
+           specificity without them.
+         — Re-anchor order fixed: `--ts-this-bg: var(--ts-accent)` declared
+           FIRST so that `--ts-this-bg-grad` and `--ts-this-bg-border`
+           resolve through the engine's accent path (Ruling R9).
+         — Border uses `--ts-this-bg-border` (the engine emits an
+           accent-context border) instead of an srgb mix with `--ts-bg-body`.
+
+     • `.ts-section--glow` / `.ts-section--glow-center`:
+         — Frozen referenced `--ts-accent-glow-bg-2/3` which are NOT
+           defined anywhere in the next/ primitives or v2 engine. Replaced
+           with v2 engine equivalents: `--ts-grad-accent-glow` (radial
+           accent halo) and `--ts-grad-accent-mesh` (multi-blob accent
+           wash). Both are oklab-safe.
+
+     • `.ts-section-divider`:
+         — Frozen used `currentColor` on the box pseudo-element. Replaced
+           with `var(--ts-accent)` for the box border — the frozen intent
+           was an accent-coloured square anyway (the rule that follows sets
+           `color: var(--ts-accent)`). Eliminates the S2/owner-BORDERS
+           non-inheritability footgun.
+         — `border-top: 1px dashed var(--ts-border-0)` (centred variant)
+           replaced with `var(--ts-this-bg-border-0)`.
+
+     • `[data-theme="light"] .ts-neon-accent` light-branch DROPPED — that
+       rule belonged to `.ts-neon-accent`, not `.ts-section`, and the
+       neon utility is not part of this migration's scope. Left for a
+       future utilities pass.
+
+   Load order (see ts-chip.css for the canonical chain):
+     primitives/colors → typography → spacing → radius → motion →
+     primitives/status-tints → system/toolskin-this-bg-v2 → components/.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1.  THE SECTION — nested pattern (CSS-1)
+       Every variant, child rule, and decoration lives inside this block.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-section {
+  /* ── INPUT KNOBS — the only place the section declares behavior tokens.
+        `--ts-section-block-pad` is the future-override hook: a parent layout
+        (e.g. a hero container) can set it locally to retune section padding
+        without touching .ts-section rules. The indirection is intentional. */
+  --ts-section-block-pad: var(--ts-section-pad);
+
+  /* ── DEFAULT SURFACE ANCHOR — section sits on the page body by default.
+        Variants below re-anchor `--ts-this-bg` to a CONTRAST DERIVATIVE
+        of the canonical page surface `--ts-bg-body`, NOT to a static
+        `--ts-bg-N` literal. The mix lives ONLY in the variant rules;
+        the base rule never references `--ts-this-bg-bright` etc on this
+        element (such a reference would create a CSS cycle through the
+        v2 engine's derivative chain and silently invalidate the
+        variant).
+
+        Theme-agnosticism: `--ts-bg-body` resolves through the
+        primitive cascade (dark, light, or any preset). Each variant
+        therefore computes the right contrast direction in every theme
+        without `[data-theme]` branching.
+
+        Nesting note: this migration matches frozen behaviour, where
+        nesting an alt inside an alt produced the SAME surface (the
+        frozen `.ts-section--alt { --ts-this-bg: var(--ts-bg-1) }` is
+        idempotent under nesting). Stronger "step further on every
+        nesting level" would require an `@property`-registered chain
+        or container queries — flagged for a future Wave. */
+  --ts-this-bg: var(--ts-bg-body);
+
+  padding-block: var(--ts-section-block-pad);
+  width: 100%;
+  position: relative;
+  background-color: var(--ts-this-bg);
+
+  /* ─── ADJACENT-SECTION SEPARATOR ─── */
+  /* Engine-derived hairline between consecutive sections.
+     Replaces the frozen `.ts-section + .ts-section { border-top: 1px solid
+     var(--ts-this-bg-border); }` companion rule by hoisting it inside the
+     nested block via &-syntax. */
+  & + & {
+    border-top: 1px solid var(--ts-this-bg-border);
+  }
+
+  /* ─── FULL-BLEED CONTAINER MODIFIER ─── */
+  &.ts-section--fullbleed > .ts-container {
+    max-width: none;
+    width: 100%;
+    padding-inline: clamp(1rem, 4.5vw, 3.5rem);
+  }
+
+  /* ─── ALT — CONTRAST-DRIVEN, THEME-AGNOSTIC (decisions/color-system.md) ───
+        Re-anchor toward the contrast pole of the INHERITED parent surface.
+
+        Why not `--ts-this-bg: var(--ts-this-bg-bright)`?
+        Because the v2 engine emits `--ts-this-bg-bright` via
+        `:where(:root, :root *)` as a `color-mix` of THIS element's
+        `--ts-this-bg`. Assigning the derivative back onto the same name
+        on the same element creates a circular reference — CSS resolves
+        the assignment to invalid and the variant silently fails (no
+        background, no border-color change). Diagnosed against a live
+        chrome-devtools probe during Wave 1 verification.
+
+        The fix: compute the contrast step INLINE from the inherited
+        `--ts-this-bg`. `--ts-this-bg-inherited` captures the parent's
+        live value (the engine has not yet derived a bright-of-bright
+        from it because no other rule has re-anchored), so we can mix
+        toward `--ts-tone-contrast` and assign the result to this
+        element's `--ts-this-bg` without the self-reference loop. The
+        engine then re-derives every other state token from the new
+        anchor. Nesting works because each nested alt re-runs the same
+        mix against its (already-shifted) parent surface. */
+  &.ts-section--alt {
+    /* Pattern 4 — Ruling R9: re-anchor FIRST. Derive from the primitive
+       --ts-bg-body (theme-aware via the primitive cascade), NOT from
+       --ts-this-bg on this element (which would self-cycle through the
+       engine's derivative chain). */
+    --ts-this-bg:
+      color-mix(in oklab,
+        var(--ts-bg-body),
+        var(--ts-tone-contrast) var(--ts-this-bg-grad-bright-pct));
+    /* Then consume. */
+    background-color: var(--ts-this-bg);
+  }
+
+  /* ─── ALT-2 — stronger contrast step + subtle accent-warm wash ─── */
+  &.ts-section--alt-2 {
+    --ts-this-bg:
+      color-mix(in oklab,
+        var(--ts-bg-body),
+        var(--ts-tone-contrast)
+        calc(var(--ts-this-bg-grad-bright-pct) * 1.6));
+    background-color: var(--ts-this-bg);
+    /* Oklab-safe accent-tinted top — replaces the frozen srgb 2% mix.
+       --ts-grad-mix is the v2 engine's brand-tinted surface gradient. */
+    background-image: var(--ts-grad-mix);
+  }
+
+  /* ─── DARK — floor-direction alias, contrast-driven ─── */
+  &.ts-section--dark {
+    --ts-this-bg:
+      color-mix(in oklab,
+        var(--ts-bg-body),
+        var(--ts-tone-floor) var(--ts-this-bg-grad-dark-pct));
+    background-color: var(--ts-this-bg);
+  }
+
+  /* ─── ACCENT-BAND — full accent paint with locked on-accent ink ───
+        The re-anchor MUST come before any consumption (Ruling R9), so the
+        engine derives borders / muted ink / hover surfaces from the live
+        accent rather than the body. */
+  &.ts-section--accent-band {
+    --ts-this-bg: var(--ts-accent);
+
+    /* Locally-scoped tokens used by the children below. Oklab-safe. */
+    --ts-accent-band-fg:    var(--ts-on-accent);
+    --ts-accent-band-bg:    var(--ts-this-bg-dark);
+    --ts-accent-band-muted: color-mix(in oklab, var(--ts-on-accent), transparent 28%);
+
+    background-color: var(--ts-this-bg);
+    background-image: var(--ts-grad-accent);
+    color: var(--ts-accent-band-fg);
+    border-color: var(--ts-this-bg-border);
+
+    /* Grain knobs preserved verbatim from frozen — they're meta-knobs read
+       by a (separate) grain utility. No effect when grain layer is absent. */
+    --ts-grain-opacity: 0.9;
+    --ts-grain-intensity: 0.9;
+    --ts-grain-base-frequency: 0.5;
+    --ts-grain-brightness: 70%;
+    --ts-grain-contrast: 190%;
+
+    /* Inner heading slots locked to on-accent ink. */
+    & .ts-section-divider,
+    & .ts-label,
+    & .ts-h2,
+    & .ts-h3,
+    & h2,
+    & h3 {
+      color: var(--ts-accent-band-fg);
+    }
+
+    /* Body copy in the muted-on-accent ink (NOT buttons). */
+    & .ts-caption,
+    & .ts-text-secondary,
+    & p:not(.ts-btn):not([class*="ts-btn"]) {
+      color: var(--ts-accent-band-muted);
+    }
+
+    /* Inner cards / panels — oklab transparency on on-accent. */
+    & .ts-card,
+    & .ts-panel {
+      background: color-mix(in oklab, var(--ts-on-accent), transparent 92%);
+      border-color: color-mix(in oklab, var(--ts-on-accent), transparent 55%);
+      color: var(--ts-accent-band-fg);
+    }
+
+    & .ts-card__title {
+      color: var(--ts-accent-band-fg);
+    }
+
+    & a:not(.ts-btn) {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: var(--ts-sp-1);
+    }
+
+    /* Inner buttons — recompose against the accent surface. The button
+       itself re-anchors its own --ts-this-bg, so the engine emits its
+       borders against that, not the band's accent. */
+    & .ts-btn,
+    & .ts-btn--secondary {
+      --ts-this-bg: color-mix(in oklab, var(--ts-accent-band-fg), transparent 28%);
+      background-image: var(--ts-grad-bg);
+
+      &:hover:not(:disabled) {
+        --ts-this-bg: color-mix(in oklab, var(--ts-accent-band-fg), transparent 68%);
+        border-color: var(--ts-this-bg-border-active);
+        color: var(--ts-accent-band-fg);
+      }
+    }
+
+    /* Band-scoped label — pill with engine-derived border. */
+    & .ts-label {
+      --ts-this-bg: color-mix(in oklab, var(--ts-accent-band-fg), transparent 68%);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--ts-sp-2);
+      padding: var(--ts-sp-2) var(--ts-sp-4);
+      background: var(--ts-this-bg-dim-4);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: var(--ts-radius-full);
+      font-size: var(--ts-fs-sm);
+      font-weight: 600;
+      letter-spacing: var(--ts-tracking-wider);
+      text-transform: uppercase;
+      color: var(--ts-on-accent);
+      width: fit-content;
+      margin-bottom: var(--ts-sp-5);
+    }
+
+    & .ts-container {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      gap: var(--ts-sp-3);
+      z-index: 1;
+      position: relative;
+    }
+
+    & .ts-text-center .ts-label {
+      margin-inline: auto;
+    }
+  }
+
+  /* ─── GLOW — accent halo top-right ───
+        Frozen referenced --ts-accent-glow-bg-2 (undefined in next/). Replaced
+        with the v2 engine's --ts-grad-accent-glow (radial accent halo). */
+  &.ts-section--glow {
+    background-image: var(--ts-grad-accent-glow);
+  }
+
+  /* ─── GLOW-CENTER — accent mesh wash ─── */
+  &.ts-section--glow-center {
+    background-image: var(--ts-grad-accent-mesh);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2.  TYPOGRAPHIC SECTION CHROME — title / eyebrow / label
+       Primitives extracted from toolskin.css.frozen lines 2120-2146.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.ts-section-title {
+  /* Frozen referenced --ts-fs-section-title (not declared in next/ primitives).
+     Falling back to --ts-fs-h2 — the rebuild's canonical section-headline size
+     per typography.css ladder. Flagged for primitives review. */
+  font-size: var(--ts-fs-h2);
+  font-weight: 700; /* R-OQ-B3 canonical ladder excludes 800; frozen 800 → 700 */
+  letter-spacing: var(--ts-tracking-tighter);
+  margin-bottom: var(--ts-sp-8);
+}
+
+.ts-section__eyebrow,
+.ts-section-label {
+  font-size: var(--ts-fs-eyebrow);
+  letter-spacing: var(--ts-tracking-eyebrow);
+  text-transform: uppercase;
+  font-family: var(--ts-font-mono);
+  color: var(--ts-text-muted);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   3.  SECTION DIVIDER — heading + trailing rule
+       Pseudo-element decoration, accent-bordered square + dashed line.
+       Migrated from toolskin.css.frozen lines 3711-3796.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-section-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--ts-sp-2);
+  margin-bottom: var(--ts-sp-8);
+  margin-top: var(--ts-sp-6);
+  clear: both;
+  flex: 1 1 100%;
+  width: 100%;
+
+  & h2,
+  & .ts-section-divider__title {
+    font-size: var(--ts-fs-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--ts-tracking-wider);
+    color: var(--ts-accent);
+    white-space: nowrap;
+    margin: 0;
+    padding: var(--ts-sp-3) var(--ts-sp-5);
+    border: 1px solid var(--ts-this-bg-border);
+  }
+
+  /* Asymmetric (default) variant — square box on the right of the heading,
+     dashed accent rule extending to the section edge. */
+  &:not(.centered)::after {
+    content: "";
+    flex: 1;
+    height: 0;
+    background: transparent;
+    border-top: 1px dashed var(--ts-accent);
+    order: 1;
+  }
+
+  &:not(.centered)::before {
+    content: "";
+    flex: 0 1 var(--ts-sp-8);
+    height: var(--ts-sp-8);
+    width: var(--ts-sp-8);
+    aspect-ratio: 1;
+    background: transparent;
+    /* Frozen used currentColor on this border — replaced with --ts-accent
+       (S2 / owner BORDERS). The next rule sets color: --ts-accent anyway,
+       so the intent is preserved without the inheritability footgun. */
+    border: 1px solid var(--ts-accent);
+    order: 2;
+    color: var(--ts-accent);
+  }
+
+  /* Centered variant — symmetric dashed rules either side of the heading. */
+  &.centered::before,
+  &.centered::after {
+    content: "";
+    flex: 1;
+    height: 0;
+    background: transparent;
+    border-top: 1px dashed var(--ts-this-bg-border-0);
+  }
+
+  /* Pill / rounded variant — applies to heading + leading box. */
+  &.rounded h2,
+  &.rounded .ts-section-divider__title,
+  &.rounded:not(.centered)::before {
+    border-radius: var(--ts-radius-full);
+  }
+}
