@@ -1,0 +1,292 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · ts-chip — Tag / Pill / Filter chip
+   ───────────────────────────────────────────────────────────────────────────
+   Migrated from toolskin.css.frozen §6g (lines 7489-7613) onto the v2
+   `--ts-this-bg` engine.
+
+   What changed vs the frozen spec
+   ───────────────────────────────
+     • Borders no longer depend on `--ts-accent-border` or local overrides.
+       They consume `--ts-this-bg-border*` derivatives the v2 engine emits
+       (text-derived through contrast pushes — RULE S2 / owner BORDERS @CRITICAL).
+     • All `color-mix(in srgb, …)` calls dropped. Mixes happen inside the engine
+       in `oklab`; the chip only consumes already-computed tokens.
+     • All `!important` declarations dropped. Specificity is solved by the
+       nested pattern (CSS-1).
+     • No local redeclaration of `--ts-this-bg-dim` / `--ts-this-bg-border-0`
+       (RULE S6) — let the engine emit them.
+     • The bizarre default-chip swap (`--ts-this-bg: var(--ts-accent);
+       --ts-accent: var(--ts-bg-3);` from line 7525-7530) is folded into the
+       nested block as a clean re-anchor: default chips read as an outlined
+       neutral tag with accent-tinted ink, but every derivative resolves
+       through the live `--ts-this-bg` rather than through a swapped accent.
+
+   Load order:
+     1. primitives/colors.css       (--ts-accent, --ts-on-accent, --ts-bg-*)
+     2. primitives/typography.css   (--ts-font-mono, --ts-fs-xs, --ts-tracking-wider)
+     3. primitives/spacing.css      (--ts-sp-*)
+     4. primitives/radius.css       (--ts-radius-sm)
+     5. primitives/motion.css       (--ts-dur-fast, --ts-ease-out)
+     6. system/toolskin-this-bg-v2.css   (the surface state engine)
+     7. components/ts-chip.css      (this file)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1.  STATUS + NAMED-COLOR PRIMITIVE FALLBACKS  +  AUTO-SURFACE-INK
+       Three groups of fallbacks live here in `:where(:root)` so the cascade
+       picks them up only when nothing else has set them. When Phase 1
+       emits real primitives at higher specificity, those will win.
+
+       Group A — engine-derivable state tints (oklch values mirror the
+       internal hues used by toolskin-this-bg-v2.css §3 lines 194-201):
+         --ts-success / --ts-warning / --ts-danger / --ts-info / --ts-accent-alt
+
+       Group B — CURATED named-color primitives. Frozen-fidelity migrations
+       of the legacy hex literals from toolskin.css.frozen §6i:
+         --ts-color-purple   ← was #c084fc  (h≈305)
+         --ts-color-cyan     ← was #67e8f9  (h≈207)
+       These are intentionally NOT engine derivatives — they must stay
+       stable regardless of the accent knob (a warm-orange accent must
+       never turn "purple" into "blue" via a +180° rotation, which is
+       what an --ts-accent-alt anchor would do).
+
+       Group C — auto-flip ink against the LOCAL surface. Same mechanism
+       as --ts-on-accent in primitives/colors.css line 18 (which uses
+       the RULING 4 threshold of 0.75 against the accent). Here we
+       recompute per element against --ts-this-bg, with a 0.65 cutoff
+       chosen to match the engine's bright/dark family split intent in
+       toolskin-this-bg-v2.css §2: the bright family pushes a surface
+       toward 1, the dark family toward 0, so 0.65 is the natural
+       midline above which ink should flip to black.
+       ts-btn_v3.1.css already declares this token on
+       :where(:root, :root *); this fallback ensures ts-chip.css is
+       self-sufficient when ts-btn is not loaded.
+   ───────────────────────────────────────────────────────────────────────── */
+:where(:root) {
+  /* Group A — engine-derivable state tints */
+  --ts-success:     oklch(70% 0.16 145);
+  --ts-warning:     oklch(80% 0.16  85);
+  --ts-danger:      oklch(62% 0.20  25);
+  --ts-info:        oklch(70% 0.13 235);
+  --ts-accent-alt:  oklch(from var(--ts-accent) l c calc(h + 180));
+
+  /* Group B — curated named-color primitives (frozen-fidelity, accent-stable) */
+  --ts-color-purple: oklch(74% 0.16 305);
+  --ts-color-cyan:   oklch(86% 0.10 207);
+}
+:where(:root, :root *) {
+  /* Group C — local-surface auto-ink. Recomputes per element against the
+     ambient --ts-this-bg, so a light surface gets dark ink and vice versa. */
+  --ts-on-surface-auto:
+    oklch(from var(--ts-this-bg, var(--ts-bg-body, #0c0d0f))
+          clamp(0, (0.65 - l) * 999, 1) 0 0);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2.  CHIPS CONTAINER
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ts-sp-1);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   3.  THE CHIP — nested pattern (CSS-1)
+       Every state, variant, and child lives inside this block.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-chip {
+  /* ── INPUT KNOBS — the only place the chip declares behavior tokens.
+        These can be overridden by a parent context (e.g. a toolbar) without
+        touching the chip rules. */
+  --ts-chip-pad-y:        var(--ts-sp-2);
+  --ts-chip-pad-x:        var(--ts-sp-3);
+  --ts-chip-gap:          var(--ts-sp-1);
+  --ts-chip-fs:           var(--ts-fs-xs);
+  --ts-chip-fw:           var(--ts-fw-bold, 700);
+  --ts-chip-tracking:     var(--ts-tracking-wider, 0.08em);
+  --ts-chip-radius:       var(--ts-radius-sm);
+  --ts-chip-border-w:     1px;
+
+  /* ── DEFAULT SURFACE ANCHOR — neutral chip reads as a quiet outlined tag.
+        Anchor `--ts-this-bg` to bg-3 so the engine's derivatives compose a
+        muted, ambient-relative chip. Variant classes below re-anchor. */
+  --ts-this-bg: var(--ts-bg-3);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ts-chip-gap);
+
+  padding-block:  var(--ts-chip-pad-y);
+  padding-inline: var(--ts-chip-pad-x);
+
+  font-family: inherit;
+  font-size: var(--ts-chip-fs);
+  font-weight: var(--ts-chip-fw);
+  letter-spacing: var(--ts-chip-tracking);
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+
+  border-radius: var(--ts-chip-radius);
+  border: var(--ts-chip-border-w) solid var(--ts-this-bg-border);
+
+  /* ── REST SURFACE + INK — consume engine derivatives only.
+        Background = dim of current surface.
+        Border    = text-derived border (RULE S2).
+        Ink       = accent (gives the frozen spec's "brand-bright" feel
+                    without the accent-swap hack). */
+  background-color: var(--ts-this-bg-dim);
+  color: var(--ts-accent);
+
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    background-color var(--ts-dur-fast) var(--ts-ease-out),
+    border-color     var(--ts-dur-fast) var(--ts-ease-out),
+    color            var(--ts-dur-fast) var(--ts-ease-out);
+
+  /* ─── CHILDREN ─── */
+
+  & .ts-icon,
+  & > i[class*="fa-"],
+  & > svg,
+  & > ion-icon {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width:  1em;
+    height: 1em;
+    font-size: inherit;
+    line-height: 1;
+    vertical-align: middle;
+    color: currentColor;
+  }
+
+  /* ─── STATES ─── */
+
+  &:hover {
+    background-color: var(--ts-this-bg-hover);
+    border-color:     var(--ts-this-bg-border-hover);
+    color:            var(--ts-this-bg-border-active);
+  }
+
+  &:focus-visible {
+    outline: var(--ts-chip-border-w) solid var(--ts-this-bg-focus-ring);
+    outline-offset: 2px;
+    border-color: var(--ts-this-bg-border-focus);
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    background-color: var(--ts-this-bg-disabled-dim);
+    border-color:     var(--ts-this-bg-border-disabled);
+    color:            color-mix(in oklab, currentColor, transparent 50%);
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  /* ─── VARIANTS — surface re-anchor + role-fitting ink. ─── */
+
+  &.ts-chip--accent {
+    --ts-this-bg: var(--ts-accent);
+    background-color: var(--ts-this-bg);
+    background-image: var(--ts-grad-accent);
+    color: var(--ts-on-accent);
+    border-color: var(--ts-this-bg-border);
+
+    &:hover {
+      background-color: var(--ts-this-bg-active);
+      background-image: var(--ts-grad-accent-glow);
+      color: var(--ts-on-accent);
+      border-color: var(--ts-this-bg-border-hover);
+    }
+  }
+
+  &.ts-chip--success {
+    --ts-this-bg: var(--ts-success);
+    background-color: var(--ts-this-bg-dim);
+    color: var(--ts-this-bg-border-active);
+    border-color: var(--ts-this-bg-border);
+
+    &:hover {
+      background-color: var(--ts-this-bg);
+      color: var(--ts-on-accent);
+      border-color: var(--ts-this-bg-border-active);
+    }
+  }
+
+  &.ts-chip--warning {
+    --ts-this-bg: var(--ts-warning);
+    background-color: var(--ts-this-bg-dim);
+    color: var(--ts-this-bg-border-active);
+    border-color: var(--ts-this-bg-border);
+
+    &:hover {
+      background-color: var(--ts-this-bg);
+      /* warning is a high-L hue → ink flips to dark via the engine's
+         --ts-on-surface-auto formula (declared in ts-btn_v3.1.css).
+         If that file is not loaded, currentColor stays on the border
+         token, which is still legible. */
+      color: var(--ts-on-surface-auto, var(--ts-on-accent));
+      border-color: var(--ts-this-bg-border-active);
+    }
+  }
+
+  &.ts-chip--danger {
+    --ts-this-bg: var(--ts-danger);
+    background-color: var(--ts-this-bg-dim);
+    color: var(--ts-this-bg-border-active);
+    border-color: var(--ts-this-bg-border);
+
+    &:hover {
+      background-color: var(--ts-this-bg);
+      color: var(--ts-on-accent);
+      border-color: var(--ts-this-bg-border-active);
+    }
+  }
+
+  /* ─── ACTIVE / SELECTED ─── */
+
+  &.ts-chip--active,
+  &[aria-selected="true"] {
+    --ts-this-bg: var(--ts-accent);
+    background-color: var(--ts-this-bg-dim);
+    background-image: var(--ts-grad-accent-glow);
+    border-color: var(--ts-this-bg-border-active);
+    color: var(--ts-this-bg-border-hover);
+
+    &:hover {
+      background-image: var(--ts-grad-accent-mesh);
+      border-color: var(--ts-this-bg-border-focus);
+      color: var(--ts-on-accent);
+    }
+  }
+
+  /* The accent-active combo: same anchor, but ink stays on-accent because
+     the surface is fully painted. */
+  &.ts-chip--accent.ts-chip--active {
+    background-color: var(--ts-this-bg);
+    background-image: var(--ts-grad-accent-mesh);
+    color: var(--ts-on-accent);
+    border-color: var(--ts-this-bg-border-active);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   4.  CONTEXT OVERRIDES — scoped re-anchoring, never duplication.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Inside an on-accent surface, the default-chip ink should flip to white/black
+   via the engine's auto-ink formula rather than staying on the accent. */
+.ts-on-accent .ts-chip:not(.ts-chip--accent, .ts-chip--success, .ts-chip--warning, .ts-chip--danger, .ts-chip--active) {
+  color: var(--ts-on-accent);
+  border-color: var(--ts-this-bg-border-hover);
+}
