@@ -91,6 +91,9 @@ Exclusions from the pre-commit dual-audit gate (token-explorer /
 documentation / archived files, not visual deliverables):
 - `expert-designer/Expert Designer Pack.html` — v7 reference showcase
 - `sandbox/00-design-reference/index.html` — token explorer / swatch deck
+- `sandbox/02-components/**` — Phase-2 per-block verification harnesses
+  (swatch/state-matrix demos for migrated components; same category as
+  00-design-reference — not marketing layouts)
 - `backups/**` — archived snapshots (B-9 backups; the rejected state is
   the whole point of preserving them — auditing them is a category error)
 
