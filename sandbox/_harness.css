@@ -1,0 +1,37 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · sandbox/_harness.css — PLACEHOLDER (Phase 2 I-2 deferred)
+   ───────────────────────────────────────────────────────────────────────────
+   Status: PLACEHOLDER. This file was created during Phase 2 prep commit I-2
+   to satisfy the owner global directive "All CSS and JS must come OUT of
+   HTML" by extracting the shared verification-harness scaffolding from
+   sandbox/02-components/ts-chip-badge.html into a shared stylesheet.
+
+   Why it is empty
+   ───────────────
+   The extraction worked for every selector EXCEPT body-element rules. On
+   file:// origin, Chrome refuses to apply rules targeting the body element
+   when they are loaded from a linked stylesheet (`<link rel="stylesheet">`),
+   while rules targeting other selectors in the same file apply normally.
+   Inline `<style>` body rules work. The full investigation is logged in
+   the I-2 abort commit message.
+
+   Without the body rules applying, the harness page rendered with no
+   background, no padding, and the page-default font — a visibly broken
+   verification harness, which the new working mode (01-WORKING-MODE.md
+   rule 4) treats as a failed phase.
+
+   When to revisit
+   ───────────────
+   Phase 4 (refactored showcase + assets) will serve sandbox pages via
+   HTTP, not file://. Re-attempt the extraction THEN: the body-rule
+   restriction is file://-specific and disappears on http://. The
+   inline <style> block in sandbox/02-components/ts-chip-badge.html
+   carries the canonical harness scaffold in the meantime.
+
+   For Wave 1+ component harnesses
+   ───────────────────────────────
+   Until Phase 4 lands an HTTP-served sandbox, every component harness
+   under sandbox/02-components/ should COPY the inline <style> block
+   from ts-chip-badge.html as a starting point. Yes, duplication. It's
+   contained to the sandbox/ folder and tracked here as a known debt.
+   ═══════════════════════════════════════════════════════════════════════════ */

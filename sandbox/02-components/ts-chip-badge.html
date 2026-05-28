@@ -24,7 +24,18 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Harness-only layout. NOT a component; this is a probe page.
-       All component styles live in the loaded .css files above. -->
+       All component styles live in the loaded .css files above.
+
+       I-2 EXTRACTION DEFERRED to Phase 4 (when sandbox is served via HTTP).
+       Phase 2 prep attempted to lift this block into sandbox/_harness.css
+       per the owner global directive "All CSS and JS must come OUT of
+       HTML". Discovered a Chrome quirk on file:// origin: rules targeting
+       the body element from a linked stylesheet do not apply, while rules
+       targeting non-body selectors from the same file do. Inline <style>
+       body rules work normally. Reverted to inline for the verification
+       harness; extraction will succeed once Phase 4 serves sandbox/ over
+       HTTP. See sandbox/_harness.css header for the full investigation
+       log and the canonical reference copy of these rules. -->
   <style>
     body {
       margin: 0;
