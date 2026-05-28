@@ -1,0 +1,555 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · ts-btn — Smart Button System  v3.1
+   ───────────────────────────────────────────────────────────────────────────
+   Consolidates the legacy ts-button.css onto the refactored Toolskin platform.
+
+     • Color   →  --ts-this-bg engine  (toolskin-this-bg-v2.css, oklab-safe)
+     • Surface →  3-way accent gradient on primary, FLAT on everything else
+     • Size    →  ONE unitless base; every dimension derives via ratios
+
+   Preserves the original ts-button recipe ("base = 45, h = size × 1, pad-x =
+   size × 0.45, pad-y = pad-x × 0.42, fs = size × 0.23, icon = fs × 1") while
+   moving the input tokens to :where(:root) so the cascade carries any
+   ancestor override down through the component (the bug the v3.0 cut hit).
+
+   Hover personality matches the original: accent ink against a darker surface
+   — not the bland "lift toward contrast" that was breaking the design relation
+   between the orange and the gray.
+
+   Load order:
+     1.  toolskin.css                (base tokens, accent engine)
+     2.  toolskin-this-bg-v2.css     (surface state engine)
+     3.  toolskin-gradients-v3.css   (optional — lush skins)
+     4.  ts-button.css               (this file)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   0.  ACCENT GRADIENT TOKENS + AUTO-CONTRAST INK
+       Both are fallbacks that mirror the host design system's pattern.
+       Live tokens on :root take precedence when the host defines them.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Auto-contrast ink. Same trick as --ts-on-accent: flip pure white/black
+   based on the surface's OKLCH lightness vs a 0.72 threshold.
+   Declared on :where(:root, :root *) so it recomputes against the LOCAL
+   --ts-this-bg on EVERY element — light parent → black ink, dark parent
+   → white ink, accent parent → black or white depending on lightness.
+   No light/dark mode switch needed; the math handles it. */
+:where(:root, :root *) {
+  --ts-on-surface-auto:
+    oklch(from var(--ts-this-bg, var(--ts-bg-body, #0c0d0f))
+          clamp(0, (0.72 - l) * 999, 1) 0 0);
+}
+
+:where(:root) {
+  --ts-accent-dark:   color-mix(in srgb, var(--ts-accent), #000 10%);
+  --ts-accent-bright: color-mix(in srgb, var(--ts-accent), #fff 8%);
+  --ts-accent-grad:   linear-gradient(
+    to top left,
+    var(--ts-accent-bright),
+    var(--ts-accent-dark),
+    var(--ts-accent)
+  );
+  --ts-accent-grad-hover: linear-gradient(
+    to top left,
+    color-mix(in srgb, var(--ts-accent-bright), #fff 4%),
+    var(--ts-accent),
+    var(--ts-accent-dark)
+  );
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1.  THE SIZING ENGINE — INPUT TOKENS  (zero-specificity, cascade-friendly)
+   ─────────────────────────────────────────────────────────────────────────
+   These are the system's "knobs". They live on :where(:root) so that ANY
+   ancestor (or :root itself via a tweak panel) can override them and the
+   cascade carries the new value down to every button.
+
+   Convention preserved from the original ts-button.css:
+     • --ts-btn-base is UNITLESS (a number, not px). The derivation chain
+       multiplies by `1px` so an integer slider can drive it directly.
+     • h        = size × h-ratio
+     • pad-x    = size × pad-x-ratio   (h × pad-x-ratio was the OLD form;
+                                         size × pad-x-ratio is harmonically
+                                         equivalent when h-ratio = 1)
+     • pad-y    = pad-x × pad-y-ratio  (vertical follows horizontal — keeps
+                                         the button rectangle's proportions
+                                         locked under any tuning)
+     • fs       = size × fs-ratio
+     • icon     = fs × icon-ratio
+
+   ☆ Do NOT redeclare these on .ts-btn — that pins the value at element
+     specificity and blocks cascade overrides from parents. Size variants
+     below override --ts-btn-scale / individual ratios on the button
+     itself, which is exactly what we want for one-off tuning.
+   ───────────────────────────────────────────────────────────────────────── */
+:where(:root) {
+  /* BASE — the one knob worth touching (unitless, the chain adds the `px`). */
+  --ts-btn-base:  45;
+  --ts-btn-scale: 1;
+
+  /* RATIOS — every dimension is a multiple of size or fs.
+     Tune one ratio to retune that property across all sizes; per-size
+     variants below override individual ratios when they need to. */
+  --ts-btn-h-ratio:        1;       /* h    = size × this              */
+  --ts-btn-pad-x-ratio:    0.45;    /* pad-x= size × this              */
+  --ts-btn-pad-y-ratio:    0.42;    /* pad-y= pad-x × this             */
+  --ts-btn-fs-ratio:       0.23;    /* fs   = size × this              */
+  --ts-btn-icon-ratio:     1;       /* icon = fs × this                */
+  --ts-btn-radius-ratio:   0.18;    /* radius= size × this             */
+  --ts-btn-gap-ratio:      0.18;    /* gap  = size × this              */
+  --ts-btn-counter-ratio:  1.7;     /* counter pill = fs × this        */
+  --ts-btn-border-ratio:   0.022;   /* border-w = size × this (≥1px)   */
+  --ts-btn-letter-ratio:   0.06;    /* letter-sp = fs × this (uppercase
+                                       buttons need real tracking)    */
+  --ts-btn-shadow-ratio:   0.45;    /* shadow blur = size × this       */
+
+  /* Motion — exposed as tokens too, so a parent can slow everything. */
+  --ts-btn-dur:    var(--ts-dur-fast, 140ms);
+  --ts-btn-ease:   var(--ts-ease-out, cubic-bezier(.22,.7,.2,1));
+  --ts-btn-weight: 600;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2.  THE BASE BUTTON
+       Layout via the ratios; color via the v2 engine. Default surface is
+       FLAT (no gradient). Primary and gradient skins layer image on top.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-btn {
+  /* ── DERIVED — computed from the inputs above. Defined here (not on :root)
+        because they MUST recompute whenever a size variant on this same
+        element overrides --ts-btn-scale or a ratio. Each calc() carries a
+        fallback so the component still works if the input layer is absent. */
+  --ts-btn-size:        calc(var(--ts-btn-base, 45)      * var(--ts-btn-scale, 1));
+  --ts-btn-h:           calc(var(--ts-btn-size)          * var(--ts-btn-h-ratio,      1)    * 1px);
+  --ts-btn-pad-x:       calc(var(--ts-btn-size)          * var(--ts-btn-pad-x-ratio,  0.45) * 1px);
+  --ts-btn-pad-y:       calc(var(--ts-btn-pad-x)         * var(--ts-btn-pad-y-ratio,  0.42));
+  --ts-btn-fs:          calc(var(--ts-btn-size)          * var(--ts-btn-fs-ratio,     0.23) * 1px);
+  --ts-btn-icon-size:   calc(var(--ts-btn-fs)            * var(--ts-btn-icon-ratio,   1));
+  --ts-btn-counter-size:calc(var(--ts-btn-fs)            * var(--ts-btn-counter-ratio,1.7));
+  --ts-btn-radius:      calc(var(--ts-btn-size)          * var(--ts-btn-radius-ratio, 0.18) * 1px);
+  --ts-btn-gap:         calc(var(--ts-btn-size)          * var(--ts-btn-gap-ratio,    0.18) * 1px);
+  --ts-btn-border-w:    max(1px, calc(var(--ts-btn-size) * var(--ts-btn-border-ratio, 0.022)* 1px));
+  --ts-btn-letter:      calc(var(--ts-btn-fs)            * var(--ts-btn-letter-ratio, 0.06));
+  --ts-btn-shadow-blur: calc(var(--ts-btn-size)          * var(--ts-btn-shadow-ratio, 0.45) * 1px);
+
+  /* DEFAULT SURFACE — ambient-relative + auto-flipping ink.
+     The button does NOT force --ts-bg-3. Instead it lifts the AMBIENT
+     --ts-this-bg by a small contrast push, so:
+       • dark parent  → button is a slightly lifted dark
+       • light parent → button is a slightly deepened light
+       • accent parent→ button is a slightly darker accent
+     Ink uses --ts-on-surface-auto so it auto-flips white/black against
+     whatever surface won. Variants below re-anchor explicitly. */
+  --ts-btn-surface:
+    color-mix(in oklab,
+      var(--ts-this-bg, var(--ts-bg-3, #2d3038)),
+      var(--ts-on-surface-auto) 8%);
+  --ts-btn-ink: var(--ts-on-surface, var(--ts-on-surface-auto));
+  --ts-btn-border:
+    color-mix(in oklab,
+      var(--ts-this-bg, var(--ts-bg-3, #2d3038)),
+      var(--ts-on-surface-auto) 18%);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ts-btn-gap);
+
+  /* Geometry — all ratio-derived. */
+  height:        var(--ts-btn-h);
+  padding-block: var(--ts-btn-pad-y);
+  padding-inline:var(--ts-btn-pad-x);
+  min-width:     var(--ts-btn-h);
+  border-radius: var(--ts-btn-radius);
+  border:        var(--ts-btn-border-w) solid var(--ts-btn-border);
+
+  /* Typography — inherits family, uppercase + tracking from the original. */
+  font-family:    inherit;
+  font-size:      var(--ts-btn-fs);
+  font-weight:    var(--ts-btn-weight);
+  letter-spacing: var(--ts-btn-letter);
+  line-height:    1;
+  text-transform: uppercase;
+  white-space:    nowrap;
+  text-decoration:none;
+
+  /* Surface + ink. Default: FLAT background (no gradient), ambient-relative. */
+  background-color: var(--ts-btn-surface);
+  background-image: none;
+  color: var(--ts-btn-ink);
+
+  cursor:      pointer;
+  user-select: none;
+  position:    relative;
+  isolation:   isolate;
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    background-color var(--ts-btn-dur) var(--ts-btn-ease),
+    background-image var(--ts-btn-dur) var(--ts-btn-ease),
+    border-color     var(--ts-btn-dur) var(--ts-btn-ease),
+    color            var(--ts-btn-dur) var(--ts-btn-ease),
+    box-shadow       var(--ts-btn-dur) var(--ts-btn-ease),
+    transform        var(--ts-btn-dur) var(--ts-btn-ease),
+    outline-color    var(--ts-btn-dur) var(--ts-btn-ease);
+
+  /* ── CHILDREN ── */
+
+  /* Text span — wrap every label in .ts-btn-text. The auto-wrapper JS in the
+     showcase enforces this at runtime; manual markup should follow suit so
+     icon-only toggles can hide just the text via `.ts-btn--icon`. */
+  & > .ts-btn-text,
+  & > .ts-btn__text {
+    line-height: 1;
+    display: inline-block;
+    font-size: inherit;
+    letter-spacing: inherit;
+  }
+
+  /* Icons — FontAwesome or any glyph via .ts-icon. Sized off the button fs. */
+  & .ts-icon,
+  & > i[class*="fa-"],
+  & > svg,
+  & > ion-icon {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width:  var(--ts-btn-icon-size);
+    height: var(--ts-btn-icon-size);
+    font-size: var(--ts-btn-icon-size);
+    line-height: 1;
+    vertical-align: middle;
+    color: currentColor;
+  }
+  & .ts-icon > i,
+  & .ts-icon > svg,
+  & .ts-icon > ion-icon {
+    font-size: inherit;
+    width:  1em;
+    height: 1em;
+    line-height: 1;
+  }
+
+  /* Counter pill — sized off button fs, never absolute. */
+  & .ts-btn__counter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--ts-btn-counter-size);
+    height:    var(--ts-btn-counter-size);
+    padding-inline: calc(var(--ts-btn-counter-size) * 0.3);
+    border-radius:  var(--ts-radius-pill, 999px);
+    background: color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-floor, oklch(0% 0 0)) 28%);
+    color: inherit;
+    font-size: calc(var(--ts-btn-fs) * 0.82);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+    border: var(--ts-btn-border-w) solid var(--ts-this-bg-border-0);
+    margin-inline-start: calc(var(--ts-btn-gap) * 0.2);
+  }
+
+  /* Spinner — same diameter as the icon for layout stability while loading. */
+  & .ts-btn__spinner {
+    width:  var(--ts-btn-icon-size);
+    height: var(--ts-btn-icon-size);
+    border-radius: 50%;
+    border: calc(var(--ts-btn-icon-size) * 0.13) solid
+            color-mix(in oklab, currentColor, transparent 70%);
+    border-top-color: currentColor;
+    animation: ts-btn-spin 0.7s linear infinite;
+    flex: none;
+  }
+
+  /* ─── STATES ──────────────────────────────────────────────────────────
+     The hover personality matches the original: ink flips to the brand
+     accent, the surface deepens. This gives the orange-on-gray relation
+     the user actually designed for — never a flat grey lift. */
+
+  &:hover:not(:disabled, [aria-disabled="true"], .is-loading) {
+    background-color: color-mix(in oklab, var(--ts-this-bg), var(--ts-on-surface-auto) 16%);
+    border-color:     color-mix(in oklab, var(--ts-btn-border),  var(--ts-accent) 35%);
+    color:            var(--ts-accent);
+  }
+
+  &:active:not(:disabled, [aria-disabled="true"], .is-loading) {
+    background-color: color-mix(in oklab, var(--ts-this-bg), var(--ts-on-surface-auto) 24%);
+    border-color:     color-mix(in oklab, var(--ts-btn-border),  var(--ts-accent) 50%);
+    transform: translateY(1px);
+  }
+
+  &:focus-visible {
+    background-color: color-mix(in oklab, var(--ts-this-bg), var(--ts-accent) 8%);
+    border-color:     var(--ts-accent);
+    color:            var(--ts-accent);
+    outline:          var(--ts-btn-border-w) solid color-mix(in oklab, var(--ts-accent), transparent 55%);
+    outline-offset:   calc(var(--ts-btn-border-w) * 1.5);
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    background-color: color-mix(in oklab, var(--ts-this-bg), var(--ts-on-surface-auto) 4%);
+    border-color:     color-mix(in oklab, var(--ts-btn-border),  transparent 50%);
+    color:            color-mix(in oklab, var(--ts-on-surface-auto), transparent 55%);
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.55;
+  }
+
+  &.is-loading {
+    cursor: progress;
+    pointer-events: none;
+  }
+}
+
+@keyframes ts-btn-spin { to { transform: rotate(360deg); } }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   3.  VARIANTS — surface re-anchor only.
+       PRIMARY carries the 3-way accent gradient (the original recipe).
+       Everything else is FLAT — no gradient by default.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.ts-btn--secondary { --ts-btn-surface: var(--ts-bg-2); }
+.ts-btn--tertiary  { --ts-btn-surface: var(--ts-bg-1); }
+.ts-btn--raised    { --ts-btn-surface: var(--ts-bg-4); }
+.ts-btn--floor     { --ts-btn-surface: var(--ts-bg-0); }
+
+/* PRIMARY — accent surface + the original 3-way gradient.
+   The gradient lives on background-image so the surface color underneath
+   stays the accent and the hover transition stays smooth. */
+.ts-btn--primary {
+  --ts-btn-surface: var(--ts-accent);
+  --ts-btn-ink:     var(--ts-on-accent);
+  background-color: var(--ts-accent);
+  background-image: var(--ts-accent-grad);
+  border-color:     color-mix(in srgb, var(--ts-btn-surface), #000 14%);
+  color: var(--ts-on-accent);
+  --ts-this-bg: var(--ts-btn-surface);
+
+}
+.ts-btn--primary:hover:not(:disabled, [aria-disabled="true"], .is-loading) {
+  background-color: var(--ts-accent);
+  background-image: var(--ts-accent-grad-hover);
+  border-color:     color-mix(in srgb, var(--ts-accent), #fff 6%);
+  color:            var(--ts-on-accent);
+  box-shadow:
+    0 0 0 var(--ts-btn-border-w) color-mix(in oklab, var(--ts-accent), transparent 65%),
+    0 calc(var(--ts-btn-size) * 0.18 * 1px) var(--ts-btn-shadow-blur)
+      calc(var(--ts-btn-size) * -0.14 * 1px) color-mix(in oklab, var(--ts-accent), transparent 40%);
+}
+.ts-btn--primary:active:not(:disabled, [aria-disabled="true"], .is-loading) {
+  background-image: linear-gradient(
+    to top left,
+    var(--ts-accent-dark),
+    var(--ts-accent),
+    var(--ts-accent-bright)
+  );
+  color: var(--ts-on-accent);
+}
+.ts-btn--primary:focus-visible { color: var(--ts-on-accent); }
+
+/* OUTLINE — transparent surface, auto-contrast border + ink. Stays visible
+   on dark, light, OR accent parents because both ink and border derive
+   from --ts-on-surface-auto (white on dark, black on light, etc.). */
+.ts-btn--outline {
+  --ts-btn-surface: transparent;
+  --ts-btn-border:  color-mix(in oklab, var(--ts-on-surface-auto), transparent 65%);
+  background-color: transparent;
+  background-image: none;
+  border-color: var(--ts-btn-border);
+  color: var(--ts-on-surface-auto);
+}
+.ts-btn--outline:hover:not(:disabled, [aria-disabled="true"], .is-loading) {
+  background-color: color-mix(in oklab, var(--ts-on-surface-auto), transparent 90%);
+  border-color: var(--ts-on-surface-auto);
+  color: var(--ts-on-surface-auto);
+}
+
+/* GHOST — invisible until interaction. Ink auto-flips against parent. */
+.ts-btn--ghost {
+  --ts-btn-surface: transparent;
+  --ts-btn-border:  transparent;
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  color: color-mix(in oklab, var(--ts-on-surface-auto), transparent 35%);
+}
+.ts-btn--ghost:hover:not(:disabled, [aria-disabled="true"], .is-loading) {
+  background-color: color-mix(in oklab, var(--ts-on-surface-auto), transparent 90%);
+  border-color: transparent;
+  color: var(--ts-accent);
+}
+
+/* SOFT — branded but quiet. Ambient-relative so it works on any surface. */
+.ts-btn--soft {
+  --ts-btn-surface: color-mix(in oklab, var(--ts-this-bg), var(--ts-accent) 14%);
+  background-color: var(--ts-btn-surface);
+  color: var(--ts-accent);
+  border-color: color-mix(in oklab, var(--ts-accent), transparent 70%);
+}
+.ts-btn--soft:hover:not(:disabled, [aria-disabled="true"], .is-loading) {
+  --ts-btn-surface: color-mix(in oklab, var(--ts-this-bg), var(--ts-accent) 22%);
+  background-color: var(--ts-btn-surface);
+  border-color: color-mix(in oklab, var(--ts-accent), transparent 45%);
+  color: var(--ts-accent);
+}
+
+/* ALT — the original 'alt' variant: cool accent (info-tinted). */
+.ts-btn--alt {
+  --ts-btn-surface: var(--ts-info, oklch(70% 0.13 235));
+  --ts-btn-ink:     var(--ts-on-info, #fff);
+  background-color: var(--ts-btn-surface);
+  color: var(--ts-btn-ink);
+  border-color: color-mix(in srgb, var(--ts-btn-surface), #000 14%);
+}
+.ts-btn--alt:hover:not(:disabled, [aria-disabled="true"], .is-loading) {
+  background-color: color-mix(in srgb, var(--ts-btn-surface), #fff 8%);
+  color: var(--ts-btn-ink);
+  border-color: color-mix(in srgb, var(--ts-btn-surface), #fff 16%);
+}
+
+/* SEMANTIC — surface = status, ink = on-status (engine handles contrast). */
+.ts-btn--success {
+  --ts-btn-surface: var(--ts-success);
+  --ts-btn-ink:     var(--ts-on-success);
+  background-color: var(--ts-btn-surface);
+  color: var(--ts-btn-ink);
+  border-color: color-mix(in srgb, var(--ts-btn-surface), #000 14%);
+}
+.ts-btn--success:hover:not(:disabled, [aria-disabled="true"], .is-loading) {
+  background-color: color-mix(in srgb, var(--ts-success), #fff 8%);
+  color: var(--ts-btn-ink);
+  border-color: color-mix(in srgb, var(--ts-success), #fff 16%);
+}
+
+.ts-btn--warning {
+  --ts-btn-surface: var(--ts-warning);
+  --ts-btn-ink:     var(--ts-on-warning);
+  background-color: var(--ts-btn-surface);
+  color: var(--ts-btn-ink);
+  border-color: color-mix(in srgb, var(--ts-btn-surface), #000 14%);
+}
+.ts-btn--warning:hover:not(:disabled, [aria-disabled="true"], .is-loading) {
+  background-color: color-mix(in srgb, var(--ts-warning), #fff 8%);
+  color: var(--ts-btn-ink);
+  border-color: color-mix(in srgb, var(--ts-warning), #fff 16%);
+}
+
+.ts-btn--danger {
+  --ts-btn-surface: var(--ts-danger);
+  --ts-btn-ink:     var(--ts-on-danger);
+  background-color: var(--ts-btn-surface);
+  color: var(--ts-btn-ink);
+  border-color: color-mix(in srgb, var(--ts-btn-surface), #000 14%);
+}
+.ts-btn--danger:hover:not(:disabled, [aria-disabled="true"], .is-loading) {
+  background-color: color-mix(in srgb, var(--ts-danger), #fff 8%);
+  color: var(--ts-btn-ink);
+  border-color: color-mix(in srgb, var(--ts-danger), #fff 16%);
+}
+
+.ts-btn--info {
+  --ts-btn-surface: var(--ts-info);
+  --ts-btn-ink:     var(--ts-on-info);
+  background-color: var(--ts-btn-surface);
+  color: var(--ts-btn-ink);
+  border-color: color-mix(in srgb, var(--ts-btn-surface), #000 14%);
+}
+.ts-btn--info:hover:not(:disabled, [aria-disabled="true"], .is-loading) {
+  background-color: color-mix(in srgb, var(--ts-info), #fff 8%);
+  color: var(--ts-btn-ink);
+  border-color: color-mix(in srgb, var(--ts-info), #fff 16%);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   4.  GRADIENT SKINS — OPT-IN. Default surface stays flat.
+       Reach for these when you want depth without changing variant logic.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-btn--grad        { background-image: var(--ts-grad-bg, none); }
+.ts-btn--grad-mesh   { background-image: var(--ts-grad-bg-mesh, none); }
+.ts-btn--grad-sheen  { background-image: var(--ts-grad-bg-sheen, none); }
+.ts-btn--grad-mix    { background-image: var(--ts-grad-mix, none); }
+
+/* "Lush mode" — flip a parent flag to skin every non-primary button. */
+.ts-lush .ts-btn:not(.ts-btn--primary, .ts-btn--ghost, .ts-btn--outline) {
+  background-image: var(--ts-grad-bg, none);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   5.  SIZE VARIANTS — adjust scale + (optionally) one or two ratios.
+       The original recipe verbatim: dampened heights on lg/xl so the visual
+       lift is less than the linear scale would suggest.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-btn--xs  { --ts-btn-scale: 0.72; --ts-btn-h-ratio: 0.92; --ts-btn-fs-ratio: 0.25; }
+.ts-btn--sm  { --ts-btn-scale: 0.84; --ts-btn-h-ratio: 0.9;  --ts-btn-fs-ratio: 0.24; }
+.ts-btn--md  { --ts-btn-scale: 1;                            --ts-btn-fs-ratio: 0.22; }
+.ts-btn--lg  { --ts-btn-scale: 1.3;  --ts-btn-h-ratio: 0.83; --ts-btn-fs-ratio: 0.2;  }
+.ts-btn--xl  { --ts-btn-scale: 1.45; --ts-btn-h-ratio: 0.89; --ts-btn-fs-ratio: 0.2;  }
+.ts-btn--xxl { --ts-btn-scale: 1.8;  --ts-btn-h-ratio: 0.86; --ts-btn-fs-ratio: 0.18; }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   6.  SHAPE & FOOTPRINT MODIFIERS
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Icon-only — hide the text span, square out. The auto-wrap JS ensures
+   every label is in .ts-btn-text, so this toggle "just works". */
+.ts-btn--icon {
+  width: var(--ts-btn-h);
+  min-width: var(--ts-btn-h);
+  padding-inline: 0;
+  padding-block:  0;
+  aspect-ratio: 1 / 1;
+  gap: 0;
+}
+.ts-btn--icon > .ts-btn-text,
+.ts-btn--icon > .ts-btn__text { display: none; }
+
+/* Pill — radius derives from height, not a literal. */
+.ts-btn--pill   { border-radius: calc(var(--ts-btn-h) * 0.5); }
+/* Square — radius = 0. */
+.ts-btn--square { --ts-btn-radius-ratio: 0; border-radius: 0; }
+/* Full width — fluid (kept verbatim from the original recipe). */
+.ts-btn--full   { width: 100%; }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   7.  BUTTON GROUP — siblings share an edge, retain individual states.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-btn-group {
+  display: inline-flex;
+  isolation: isolate;
+}
+.ts-btn-group > .ts-btn {
+  border-radius: 0;
+  margin-inline-start: calc(var(--ts-btn-border-w) * -1);
+}
+.ts-btn-group > .ts-btn:first-child {
+  margin-inline-start: 0;
+  border-start-start-radius: var(--ts-btn-radius);
+  border-end-start-radius:   var(--ts-btn-radius);
+}
+.ts-btn-group > .ts-btn:last-child {
+  border-start-end-radius: var(--ts-btn-radius);
+  border-end-end-radius:   var(--ts-btn-radius);
+}
+.ts-btn-group > .ts-btn:hover,
+.ts-btn-group > .ts-btn:focus-visible,
+.ts-btn-group > .ts-btn.is-active { z-index: 1; }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   8.  CONTEXT OVERRIDES — scoped re-anchoring, never duplication.
+   ───────────────────────────────────────────────────────────────────────── */
+/* Toolbar + on-accent contexts: lift the button surface away from the
+   parent toward whichever contrast color wins at that lightness. */
+.ts-toolbar  .ts-btn  { --ts-btn-surface: color-mix(in oklab, var(--ts-this-bg), var(--ts-on-surface-auto) 12%); }
+.ts-on-accent .ts-btn { --ts-btn-surface: color-mix(in oklab, var(--ts-this-bg), var(--ts-on-surface-auto) 16%); }
