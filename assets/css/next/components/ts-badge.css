@@ -18,7 +18,7 @@
          purple → --ts-color-purple  (curated frozen-fidelity, oklch 74%/0.16/305°)
          cyan   → --ts-color-cyan    (curated frozen-fidelity, oklch 86%/0.10/207°)
        `--ts-color-purple` and `--ts-color-cyan` are CURATED primitives
-       (declared in ts-chip.css §1 Group B). They are NOT engine derivatives
+       (declared in primitives/status-tints.css Group B). They are NOT engine derivatives
        like --ts-accent-alt, because a +180° hue rotation off a warm-orange
        accent (h≈38) lands at BLUE (h≈218), not purple — which would break
        frozen-spec fidelity. The named-color primitives stay stable
@@ -28,7 +28,9 @@
      • Local redeclarations of `--ts-this-bg-dim-5` and `--ts-this-bg-border-0`
        DROPPED (RULE S6) — let the engine emit them.
 
-   Load order: same as ts-chip.css.
+   Load order (see ts-chip.css header for the canonical list):
+     primitives/colors → typography → spacing → radius → motion →
+     primitives/status-tints → system/toolskin-this-bg-v2 → components/.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 
@@ -113,7 +115,7 @@
   /* Legacy color-named variants — migrated off raw hex with FROZEN-COLOR
      FIDELITY. Frozen spec had .ts-badge--purple #c084fc, .ts-badge--cyan
      #67e8f9. Both now resolve to CURATED primitives declared in
-     ts-chip.css §1 Group B — `--ts-color-purple` / `--ts-color-cyan` —
+     primitives/status-tints.css Group B — `--ts-color-purple` / `--ts-color-cyan` —
      not engine derivatives. The previous attempt routed purple through
      --ts-accent-alt (a +180° hue rotation), which landed at blue for a
      warm-orange accent. Curated primitives are accent-stable. */
@@ -130,7 +132,7 @@
        set `--ts-this-bg` to (a) the engine's --ts-danger state tint for
        red, and (b) the curated --ts-color-purple / --ts-color-cyan
        primitives for purple/cyan (frozen-fidelity, accent-stable; see
-       ts-chip.css §1 Group B for the primitive definitions).
+       primitives/status-tints.css Group B for the primitive definitions).
    ───────────────────────────────────────────────────────────────────────── */
 .ts-badge-color {
   /* Default anchor — danger as the "loud" baseline; modifiers below override. */

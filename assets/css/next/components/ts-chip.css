@@ -22,70 +22,27 @@
        through the live `--ts-this-bg` rather than through a swapped accent.
 
    Load order:
-     1. primitives/colors.css       (--ts-accent, --ts-on-accent, --ts-bg-*)
-     2. primitives/typography.css   (--ts-font-mono, --ts-fs-xs, --ts-tracking-wider)
-     3. primitives/spacing.css      (--ts-sp-*)
-     4. primitives/radius.css       (--ts-radius-sm)
-     5. primitives/motion.css       (--ts-dur-fast, --ts-ease-out)
-     6. system/toolskin-this-bg-v2.css   (the surface state engine)
-     7. components/ts-chip.css      (this file)
+     1. primitives/colors.css           (--ts-accent, --ts-on-accent, --ts-bg-*)
+     2. primitives/typography.css       (--ts-font-mono, --ts-fs-xs, --ts-tracking-wider)
+     3. primitives/spacing.css          (--ts-sp-*)
+     4. primitives/radius.css           (--ts-radius-sm)
+     5. primitives/motion.css           (--ts-dur-fast, --ts-ease-out)
+     6. primitives/status-tints.css     (--ts-success/warning/danger/info,
+                                          --ts-color-purple/cyan, --ts-accent-alt,
+                                          --ts-on-surface-auto)
+     7. system/toolskin-this-bg-v2.css  (the surface state engine)
+     8. components/ts-chip.css          (this file)
    ═══════════════════════════════════════════════════════════════════════════ */
 
 
-/* ─────────────────────────────────────────────────────────────────────────
-   1.  STATUS + NAMED-COLOR PRIMITIVE FALLBACKS  +  AUTO-SURFACE-INK
-       Three groups of fallbacks live here in `:where(:root)` so the cascade
-       picks them up only when nothing else has set them. When Phase 1
-       emits real primitives at higher specificity, those will win.
-
-       Group A — engine-derivable state tints (oklch values mirror the
-       internal hues used by toolskin-this-bg-v2.css §3 lines 194-201):
-         --ts-success / --ts-warning / --ts-danger / --ts-info / --ts-accent-alt
-
-       Group B — CURATED named-color primitives. Frozen-fidelity migrations
-       of the legacy hex literals from toolskin.css.frozen §6i:
-         --ts-color-purple   ← was #c084fc  (h≈305)
-         --ts-color-cyan     ← was #67e8f9  (h≈207)
-       These are intentionally NOT engine derivatives — they must stay
-       stable regardless of the accent knob (a warm-orange accent must
-       never turn "purple" into "blue" via a +180° rotation, which is
-       what an --ts-accent-alt anchor would do).
-
-       Group C — auto-flip ink against the LOCAL surface. Same mechanism
-       as --ts-on-accent in primitives/colors.css line 18 (which uses
-       the RULING 4 threshold of 0.75 against the accent). Here we
-       recompute per element against --ts-this-bg, with a 0.65 cutoff
-       chosen to match the engine's bright/dark family split intent in
-       toolskin-this-bg-v2.css §2: the bright family pushes a surface
-       toward 1, the dark family toward 0, so 0.65 is the natural
-       midline above which ink should flip to black.
-       ts-btn_v3.1.css already declares this token on
-       :where(:root, :root *); this fallback ensures ts-chip.css is
-       self-sufficient when ts-btn is not loaded.
-   ───────────────────────────────────────────────────────────────────────── */
-:where(:root) {
-  /* Group A — engine-derivable state tints */
-  --ts-success:     oklch(70% 0.16 145);
-  --ts-warning:     oklch(80% 0.16  85);
-  --ts-danger:      oklch(62% 0.20  25);
-  --ts-info:        oklch(70% 0.13 235);
-  --ts-accent-alt:  oklch(from var(--ts-accent) l c calc(h + 180));
-
-  /* Group B — curated named-color primitives (frozen-fidelity, accent-stable) */
-  --ts-color-purple: oklch(74% 0.16 305);
-  --ts-color-cyan:   oklch(86% 0.10 207);
-}
-:where(:root, :root *) {
-  /* Group C — local-surface auto-ink. Recomputes per element against the
-     ambient --ts-this-bg, so a light surface gets dark ink and vice versa. */
-  --ts-on-surface-auto:
-    oklch(from var(--ts-this-bg, var(--ts-bg-body, #0c0d0f))
-          clamp(0, (0.65 - l) * 999, 1) 0 0);
-}
+/* Status palette, curated named-color primitives, and the local-surface
+   auto-ink token used by this component live in
+   `primitives/status-tints.css` (lifted out of this file by Phase 2
+   prep commit I-1). This component consumes them; it does not own them. */
 
 
 /* ─────────────────────────────────────────────────────────────────────────
-   2.  CHIPS CONTAINER
+   1.  CHIPS CONTAINER
    ───────────────────────────────────────────────────────────────────────── */
 .ts-chips {
   display: flex;
@@ -95,7 +52,7 @@
 
 
 /* ─────────────────────────────────────────────────────────────────────────
-   3.  THE CHIP — nested pattern (CSS-1)
+   2.  THE CHIP — nested pattern (CSS-1)
        Every state, variant, and child lives inside this block.
    ───────────────────────────────────────────────────────────────────────── */
 .ts-chip {
@@ -281,7 +238,7 @@
 
 
 /* ─────────────────────────────────────────────────────────────────────────
-   4.  CONTEXT OVERRIDES — scoped re-anchoring, never duplication.
+   3.  CONTEXT OVERRIDES — scoped re-anchoring, never duplication.
    ───────────────────────────────────────────────────────────────────────── */
 
 /* Inside an on-accent surface, the default-chip ink should flip to white/black
