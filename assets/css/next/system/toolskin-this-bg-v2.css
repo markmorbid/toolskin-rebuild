@@ -40,6 +40,30 @@
 
 
 /* ─────────────────────────────────────────────────────────────────────────
+   OWNER ADDITION (Phase 2 W1-D1, 2026-05-28) — ENGINE SEED FOR --ts-this-bg
+   ─────────────────────────────────────────────────────────────────────────
+   The v2 engine emits every `--ts-this-bg-*` derivative via
+   `color-mix(in oklab, var(--ts-this-bg), …)`. Without a seed, the
+   derivatives evaluate against `var(--ts-this-bg)` = invalid and the
+   whole chain emits invalid color-mix values — broken backgrounds,
+   borders, and ink across every component.
+
+   This block seeds `--ts-this-bg` to the page-floor primitive
+   (`--ts-bg-body`) so the engine is self-sufficient. Components and
+   parent layout blocks override `--ts-this-bg` to re-anchor their
+   subtree's surface; the seed is only the FALLBACK when no ancestor
+   has done so.
+
+   This is an ADDITION, not a redesign of Claude Design's authored
+   engine. Original derivative formulas remain untouched.
+   ─────────────────────────────────────────────────────────────────────────
+*/
+:root {
+  --ts-this-bg: var(--ts-bg-body, #0c0d0f);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
    1.  TONE ANCHORS & MIX PERCENTAGES   (the parametric knobs)
    ───────────────────────────────────────────────────────────────────────── */
 :root {
