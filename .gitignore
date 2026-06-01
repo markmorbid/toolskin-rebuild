@@ -40,6 +40,28 @@ logs/
 # ── Claude Design Files (local Claude.ai project export) ───────
 docs/claude-design-files/
 
+# ── Tree-explorer generated outputs ────────────────────────────
+_tree-explorer/_treemap-output/
+toolskin-rebuild-tree.md
+toolskin-rebuild-tree.csv
+toolskin-rebuild-tree.html
+toolskin-rebuild-tree.json
+compress-tree.js
+compressed.json
+prefilter.js
+final-commit-set.json
+
+# ── Copy artifacts (editor duplicates) ─────────────────────────
+*- Copy.css
+*- Copy.html
+*- Copy.js
+
+# ── Scratch / session working files ────────────────────────────
+flex-type.html
+session5-system-fix/
+_portable-02-components/
+.claude/settings.local.json
+
 # ── Binary / generated assets ──────────────────────────────────
 *.png
 *.jpg
@@ -53,6 +75,7 @@ docs/claude-design-files/
 *.woff
 *.woff2
 *.napkin
+*.pdf
 
 # ── Specific oversize files kept on disk only ──────────────────
 docs/references/branding/uploads/screencapture-localhost-8002-2026-05-03-02_50_26.png
