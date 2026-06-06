@@ -1,0 +1,212 @@
+
+/* ── ToolskinTooltip (Toolskin.initTooltips) — YSS TooltipManager parity: placement + arrow + tokens ── */
+/* Tooltip: ALWAYS dark surface + light text regardless of page theme */
+#ts-tooltip-container.ts-tooltip {
+	--ts-tooltip-bg: var(--ts-this-bg);
+	--ts-this-bg: #1a1b1e;
+
+	--ts-this-bg: #0c0c0d;
+	/*--ts-tooltip-border: rgba(255, 255, 255, 0.08);*/
+	--ts-tooltip-border: var(--ts-this-bg-border);
+	--ts-tooltip-color: #e8e9eac9;
+	--ts-tooltip-font-size: var(--ts-fs-2xs, 0.7rem);
+	--ts-tooltip-font-size: 10px;
+	--ts-tooltip-arrow-size: 5px;
+	--ts-tooltip-duration: 120ms;
+	--ts-tooltip-border-radius: 5px;
+	--ts-tooltip-max-width: 200px;
+	--ts-tooltip-min-width: 40px;
+	--ts-tooltip-pad-y: var(--ts-sp-3);
+	--ts-tooltip-pad-x: calc(var(--ts-tooltip-pad-y)*1.1);
+	--ts-tooltip-padding: var(--ts-tooltip-pad-y) var(--ts-tooltip-pad-x);
+	--ts-tooltip-lh-factor: 1.45;
+	--ts-tooltip-line-height: calc(var(--ts-tooltip-font-size)*var(--ts-tooltip-lh-factor));
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 100000;
+	margin: 0;
+	padding: 0;
+	min-width: var(--ts-tooltip-min-width);
+	max-width: min(90vw, var(--ts-tooltip-max-width));
+	border-radius: var(--ts-tooltip-border-radius);
+	background: var(--ts-tooltip-bg);
+	border: 1px solid var(--ts-tooltip-border);
+	color: var(--ts-tooltip-color);
+	white-space: normal;
+	font-size: var(--ts-tooltip-font-size);
+	font-weight: 300;
+	line-height: vr(--ts-tooltip-line-height);
+	font-family: var(--ts-font-mono);
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none !important;
+	transition: opacity var(--ts-tooltip-duration) ease-out,
+		visibility 0s linear var(--ts-tooltip-duration);
+	will-change: opacity;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Light theme: force same dark tooltip */
+[data-theme="light"] #ts-tooltip-container.ts-tooltip,
+[data-ts-theme="light"] #ts-tooltip-container.ts-tooltip {
+	--ts-tooltip-bg: var(--ts-this-bg);
+	--ts-this-bg: #1a1b1e;
+	--ts-tooltip-border: var(--ts-this-bg-border);
+	--ts-tooltip-color: #e8e9eac9;
+	--ts-this-bg-border: color-mix(in srgb, var(--ts-this-bg), white 14%);
+}
+
+#ts-tooltip-container.ts-tooltip.ts-tooltip--visible {
+	opacity: 1;
+	visibility: visible;
+	transition: opacity var(--ts-tooltip-duration) ease-out,
+		visibility 0s;
+	pointer-events: none !important;
+}
+
+#ts-tooltip-content {
+	padding: var(--ts-tooltip-padding);
+	overflow-wrap: break-word;
+	position: relative;
+	z-index: 1;
+	line-height: var(--ts-tooltip-line-height);
+	max-inline-size: var(--ts-tooltip-max-width);
+	text-wrap-style: pretty;
+	pointer-events: none !important;
+}
+
+#ts-tooltip-arrow {
+	position: absolute;
+	width: calc(var(--ts-tooltip-arrow-size) * 2);
+	height: calc(var(--ts-tooltip-arrow-size) * 2);
+	overflow: hidden;
+	pointer-events: none;
+}
+
+#ts-tooltip-arrow::before {
+	content: "";
+	position: absolute;
+	width: calc(var(--ts-tooltip-arrow-size) * 2);
+	height: calc(var(--ts-tooltip-arrow-size) * 2);
+	background: var(--ts-tooltip-bg);
+	border: 1px solid var(--ts-tooltip-border);
+	transform: rotate(45deg);
+}
+
+/* Placement: arrow + alignment (JS sets .ts-placement-*) */
+#ts-tooltip-container.ts-tooltip.ts-placement-top {
+	text-align: center;
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-top #ts-tooltip-arrow {
+	/*bottom: calc(var(--ts-tooltip-arrow-size) * -2 + 1px);
+		height: calc(var(--ts-tooltip-arrow-size) * 2 + 1px);*/
+	bottom: calc(var(--ts-tooltip-arrow-size) * -1 + 0px);
+	height: calc(var(--ts-tooltip-arrow-size) * 1 + 0px);
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-top #ts-tooltip-arrow::before {
+	bottom: calc(50% + 1px);
+	right: calc(50%);
+	border-top: none;
+	border-right: none;
+	transform: translateX(50%) rotate(-45deg);
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-bottom {
+	text-align: center;
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-bottom #ts-tooltip-arrow {
+	/*top: calc(var(--ts-tooltip-arrow-size) * -2 + 1px);
+		height: calc(var(--ts-tooltip-arrow-size) * 2 + 1px);*/
+	top: calc(var(--ts-tooltip-arrow-size) * -1 + 0px);
+	height: calc(var(--ts-tooltip-arrow-size) * 1 + 0px);
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-bottom #ts-tooltip-arrow::before {
+	top: calc(50% + 2px);
+	top: calc(50% + 1px);
+	left: 50%;
+	border-right: none;
+	border-bottom: none;
+	transform: translateX(-50%) rotate(45deg);
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-bottom #ts-tooltip-content {
+	border: none;
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-left {
+	text-align: left;
+	text-wrap: pretty;
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-left #ts-tooltip-arrow {
+	right: calc(var(--ts-tooltip-arrow-size) * -1 + 0px);
+	width: calc(var(--ts-tooltip-arrow-size) * 1 + 0px);
+	z-index: 1;
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-left #ts-tooltip-arrow::before {
+	right: calc(50% + 0px);
+	top: 50%;
+	border-bottom: none;
+	border-left: none;
+	transform: translateY(-50%) rotate(45deg);
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-left #ts-tooltip-content {
+	border: none;
+	border-radius: 0;
+	text-align: left !important;
+	text-wrap: pretty;
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-right {
+	text-align: left;
+	text-wrap: pretty;
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-right #ts-tooltip-arrow {
+	/*left: calc(var(--ts-tooltip-arrow-size) * -2 + 1px);
+		width: calc(var(--ts-tooltip-arrow-size) * 2 + 1px);*/
+	left: calc(var(--ts-tooltip-arrow-size) * -1 + 0px);
+	width: calc(var(--ts-tooltip-arrow-size) * 1 + 0px);
+	z-index: 1;
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-right #ts-tooltip-arrow::before {
+	top: 50%;
+	left: calc(50% + 0px);
+	border-top: none;
+	border-right: none;
+	transform: translateY(-50%) rotate(45deg);
+}
+
+#ts-tooltip-container.ts-tooltip.ts-placement-right #ts-tooltip-content {
+	border: none;
+	border-radius: 0;
+}
+
+#ts-tooltip-content ul,
+#ts-tooltip-content ol {
+	margin: var(--ts-index-bar-height) 3px 20px;
+	padding: 0;
+	text-align: left;
+}
+
+#ts-tooltip-content li {
+	margin-bottom: 2px;
+}
+
+#ts-tooltip-content a {
+	color: var(--ts-accent);
+	text-decoration: none;
+}
+
+#ts-tooltip-content a:hover {
+	text-decoration: underline;
+	color: color-mix(in srgb, var(--ts-accent), #ffffff 18%);
+}

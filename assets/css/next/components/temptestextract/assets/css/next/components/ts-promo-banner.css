@@ -1,0 +1,348 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · ts-promo-banner.css — Dismissable top promo strip
+   Pairs with ts-nav-header.css. When present, pushes the fixed nav down via :has().
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --ts-promo-banner-h: 40px;
+  --ts-accent-dark: color-mix(in oklab, var(--ts-accent), black 22%);
+  --ts-accent-dim-0: color-mix(in oklab, var(--ts-accent), black 40%);
+}
+
+/* ── PROMO BANNER (dismissable top bar) ──────────────────── */
+.ts-promo-banner {
+	background: linear-gradient(135deg, var(--ts-accent), var(--ts-accent-dark));
+	padding: 0px 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--ts-sp-4);
+	position: relative;
+	z-index: 200;
+	max-height: var(--ts-promo-banner-h);
+	overflow: hidden;
+	transition: max-height 0.5s var(--ts-ease-in-out),
+		padding 0.5s var(--ts-ease-in-out),
+		opacity 0.35s var(--ts-ease-in-out);
+	padding-right: var(--ts-promo-banner-h);
+	flex-wrap: nowrap;
+	align-content: stretch;
+	/* position: sticky; */
+}
+
+.ts-promo-banner:not(.ts-dismissed) {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: calc(var(--ts-z-offcanvas) - 5);
+	max-height: var(--ts-promo-banner-h);
+	height: var(--ts-promo-banner-h);
+}
+
+.ts-promo-banner::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: repeating-linear-gradient(90deg,
+			rgba(255, 255, 255, 0.04) 0px,
+			rgba(255, 255, 255, 0.04) 1px,
+			transparent 1px,
+			transparent 40px);
+	pointer-events: none;
+}
+
+.ts-promo-banner.ts-dismissed {
+	max-height: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.ts-promo-banner__text {
+	font-family: var(--ts-font-body);
+	font-size: var(--ts-fs-body-sm);
+	font-weight: 400;
+	color: var(--ts-on-accent);
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.32);
+	letter-spacing: 0.02em;
+	display: flex;
+	gap: 10px;
+	flex-direction: row;
+	/* white-space: nowrap; */
+	flex-wrap: nowrap;
+	/* flex: 1 1 100%; */
+	line-height: 1.2;
+	max-width: 100%;
+	align-items: center;
+}
+
+.ts-promo-banner__text strong {
+	font-weight: 800;
+	text-transform: uppercase;
+	font-family: var(--ts-font-display);
+	font-size: 120%;
+}
+
+.ts-promo-banner__text strong:has(.ts-icon) {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.ts-promo-banner__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 3px;
+	padding: 8px 14px;
+	border-radius: var(--ts-radius-full);
+	background: rgba(0, 0, 0, 0.35);
+	color: #fff;
+	background: var(--ts-accent-dim-0);
+	color: var(--ts-on-accent);
+	font-weight: 500;
+	font-size: var(--ts-fs-2xs);
+	text-decoration: none;
+	border: none !important;
+	outline: none !important;
+	transition: var(--ts-btn-base-transitions);
+	white-space: nowrap;
+	flex: 0 1 auto;
+	box-shadow: none;
+	text-transform: uppercase !important;
+	line-height: 1.75;
+	letter-spacing: 0.05rem;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	--ts-accent: black;
+	transition-duration: var(--ts-dur-fast);
+}
+
+.ts-promo-banner__cta:hover {
+	background: var(--ts-on-accent);
+}
+
+.ts-promo-banner__close {
+	position: absolute;
+	right: var(--ts-sp-4);
+	top: 50%;
+	transform: translateY(-50%);
+	border: none;
+	background: var(--ts-accent-dim-0);
+	color: var(--ts-on-accent);
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 10px;
+	transition: all 0.2s;
+	aspect-ratio: 1;
+	z-index: 3;
+	--ts-accent: black;
+}
+
+.ts-promo-banner__close:hover {
+	background: var(--ts-on-accent);
+	color: var(--ts-accent);
+
+}
+
+
+/* #CRAZY_FIX_RULES */
+body:has(.ts-promo-banner:not(.ts-dismissed)) nav.ts-nav-fixed:not(.ts-nav--static) {
+	top: var(--ts-promo-banner-h);
+}
+
+
+
+/* Fixed header body offset */
+body:has(.ts-nav-fixed):has(.ts-promo-banner.ts-dismissed) #ts-main .ts-section:first-of-type {
+	padding-top: var(--ts-topbar-h);
+}
+
+body:has(.ts-nav-fixed):has(.ts-promo-banner:not(.ts-dismissed)) #ts-main .ts-section:first-of-type {
+	padding-top: var(--ts-promo-banner-h);
+	padding-top: calc((var(--ts-topbar-h) + var(--ts-promo-banner-h)));
+}
+
+/* Fixed header body offset */
+body:has(.ts-nav-fixed):has(.ts-promo-banner.ts-dismissed) #ts-main .ts-section:first-of-type {
+	margin-top: calc(var(--ts-topbar-h)* - 1);
+	margin-top: calc((var(--ts-topbar-h) + var(--ts-promo-banner-h))* - 1);
+
+}
+
+
+
+
+
+
+/* #CRAZY_FIX_RULES
+
+A complex media-query-based ruleset was introduced to stabilize a poorly structured banner in mobile scenarios.
+
+Current behavior:
+- The primary button switches to an overlay-style button on mobile
+- The banner is forced to avoid wrapping when the sidebar opens
+- Visual result is acceptable, but the implementation is fragile
+
+Problems:
+- Text wrapping logic is inconsistent and unpredictable
+- Layout behavior is tightly coupled to edge-case conditions (e.g. sidebar state)
+- Heavy reliance on ad hoc media queries instead of system-driven responsiveness
+- Low maintainability and poor scalability
+
+Required improvements:
+- Replace conditional layout hacks with pattern-based, token-driven layout logic
+- Use intrinsic layout techniques (flex/grid, min/max constraints, clamp) instead of forced no-wrap rules
+- Decouple banner behavior from external UI states (like sidebar open/close)
+- Define a reusable responsive pattern for "banner with action" components
+- Introduce tokenized rules for:
+  - Button placement (inline / stacked / overlay)
+  - Text wrapping thresholds
+  - Container constraints (max-width, safe areas, padding)
+
+Goal:
+A deterministic, system-driven banner behavior that adapts automatically across breakpoints without fragile overrides or special-case media queries.
+
+*/
+
+
+@media only screen and (max-width: 720px) {
+	:root {
+
+		--ts-promo-banner-h: calc(var(--ts-topbar-h)*.75);
+	}
+
+	.ts-promo-banner .ts-promo-banner__cta {
+		position: absolute;
+		top: 50%;
+		right: auto;
+		left: 50%;
+		bottom: auto;
+		transform: translate(-50%, -50%) scale(1.075) !important;
+		transform-origin: center center;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.ts-promo-banner {
+		padding-block: 12px;
+		padding-left: 8px;
+		padding-right: calc(var(--ts-promo-banner-h)*.79);
+		flex-wrap: nowrap;
+	}
+
+	.ts-promo-banner:hover .ts-promo-banner__cta {
+		z-index: 3;
+		pointer-events: all;
+		background: var(--ts-input-btn-bg-accent);
+		color: var(--ts-input-btn-bg-accent-color);
+		opacity: 1;
+	}
+
+	.ts-promo-banner .ts-promo-banner__cta:hover {
+		--ts-input-btn-bg-accent: var(--ts-on-accent);
+		--ts-input-btn-bg-accent-color: var(--ts-accent);
+	}
+
+	.ts-promo-banner__close {
+		right: 8px;
+	}
+
+	.ts-promo-banner:hover::before {
+		background: var(--ts-on-surface-muted);
+		z-index: 2;
+		opacity: 1;
+	}
+
+	.ts-promo-banner__text strong:has(.ts-icon) {
+		font-size: 0;
+		gap: 3px;
+
+	}
+
+	.ts-promo-banner__text strong:has(.ts-icon) .ts-icon {
+		font-size: var(--ts-fs-xl);
+
+
+	}
+
+	.ts-promo-banner__text strong:has(.ts-icon) {
+		font-size: 0;
+		gap: 0;
+		float: left;
+		line-height: 0;
+		display: inline-flex;
+		height: 100%;
+		width: calc(var(--ts-promo-banner-h)*.75);
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+	.ts-promo-banner__text strong:has(.ts-icon) .ts-icon {
+		font-size: var(--ts-fs-xl);
+		display: grid;
+		place-content: center;
+		width: 100%;
+		height: calc(var(--ts-promo-banner-h)*.75);
+		justify-content: center;
+	}
+
+	.ts-promo-banner__text {
+		/* max-width: 80%; */
+		/* font-size: var(--ts-fs-md); */
+		line-height: 1.1;
+	}
+
+}
+
+@media only screen and (max-width: 480px) {
+
+	.ts-promo-banner__text {
+		letter-spacing: 0;
+		/* flex: 1 1 100%; */
+		line-height: 1.1;
+		height: 100%;
+		font-size: var(--ts-fs-xs);
+		overflow: hidden !important;
+		text-overflow: ellipsis;
+		display: -webkit-inline-box !important;
+		line-clamp: 2;
+		-webkit-line-clamp: 2 !important;
+		-webkit-box-orient: vertical;
+		padding: 0 !important;
+		max-width: unset;
+	}
+
+	.ts-promo-banner__text strong:has(.ts-icon) .ts-icon {
+		font-size: var(--ts-fs-xl);
+		display: grid;
+		place-content: center;
+		width: 100%;
+		height: calc(var(--ts-promo-banner-h)*.75);
+		justify-content: center;
+	}
+
+	.ts-promo-banner__text strong:has(.ts-icon) {
+		font-size: 0;
+		gap: 0;
+		float: left;
+		line-height: 0;
+		display: inline-flex;
+		height: 100%;
+		width: calc(var(--ts-promo-banner-h)*.75);
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+
+}

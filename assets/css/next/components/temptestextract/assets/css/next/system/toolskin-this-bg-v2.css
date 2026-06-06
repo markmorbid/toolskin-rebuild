@@ -1,0 +1,296 @@
+@charset "UTF-8";
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN — `--ts-this-bg` ENGINE  v2 (OKLAB-safe, parametrized)
+   ───────────────────────────────────────────────────────────────────────────
+   What this fixes vs v1
+   ─────────────────────
+   v1 used `color-mix(in oklch, …)` for state colors. OKLCH interpolates
+   HUE along the shortest arc — so mixing a blue-tinted neutral surface
+   (hue ≈ 270°) with the orange accent (hue ≈ 40°) crossed via MAGENTA
+   (270 → 360 → 40), producing the purple `--ts-this-bg-focus` bug.
+
+   v2 switches every chromatic mix to `in oklab`. Oklab interpolates the
+   a/b axes in cartesian space, so the path between two colors never
+   "wraps the hue circle" — no purple cast, no surprise. Mixes with
+   black/white/transparent are identical to oklch (achromatic = no h),
+   so existing visuals don't shift.
+
+   What this adds
+   ──────────────
+   • Tone anchors  (--ts-tone-contrast | -floor | -muted | -accent-tint)
+   • Mix percentages (one place to tune intensity of every state)
+   • Full surface scale  (dim ×5, dark ×4, bright ×4, recessed, raised)
+   • Full state scale    (hover, active, pressed, focus, selected,
+                          disabled, dragging, success/danger tints)
+   • Full border scale   (3 weights × hover/active/focus/disabled)
+   • State-of-the-art gradient library
+       linear · radial · mesh · conic · sheen · glass · vignette
+     for every surface family: bg · accent · mix · card · input
+   • Every gradient is built from the same tokenized stops, so changing
+     `--ts-grad-angle` or `--ts-grad-mix-perc` retunes the whole system.
+
+   How to use
+   ──────────
+   Set `--ts-this-bg` on any element. Every variant below derives from it.
+   Override any single percentage / angle locally to retheme one subtree.
+
+       <section style="--ts-this-bg: var(--ts-bg-2);
+                       --ts-mix-perc-focus: 6%;
+                       --ts-grad-angle: 200deg;">
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   OWNER ADDITION (Phase 2 W1-D1, 2026-05-28) — ENGINE SEED FOR --ts-this-bg
+   ─────────────────────────────────────────────────────────────────────────
+   The v2 engine emits every `--ts-this-bg-*` derivative via
+   `color-mix(in oklab, var(--ts-this-bg), …)`. Without a seed, the
+   derivatives evaluate against `var(--ts-this-bg)` = invalid and the
+   whole chain emits invalid color-mix values — broken backgrounds,
+   borders, and ink across every component.
+
+   This block seeds `--ts-this-bg` to the page-floor primitive
+   (`--ts-bg-body`) so the engine is self-sufficient. Components and
+   parent layout blocks override `--ts-this-bg` to re-anchor their
+   subtree's surface; the seed is only the FALLBACK when no ancestor
+   has done so.
+
+   This is an ADDITION, not a redesign of Claude Design's authored
+   engine. Original derivative formulas remain untouched.
+   ─────────────────────────────────────────────────────────────────────────
+*/
+:root {
+  --ts-this-bg: var(--ts-bg-body, #0c0d0f);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1.  TONE ANCHORS & MIX PERCENTAGES   (the parametric knobs)
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Achromatic anchors — chroma is forced to 0 so they never inject hue. */
+  --ts-tone-contrast: oklch(100% 0 0);   /* push toward light  */
+  --ts-tone-floor:    oklch(0%   0 0);   /* push toward dark   */
+  --ts-tone-muted:    oklch(55%  0 0);   /* push toward gray   */
+  --ts-tone-floor: oklch(from var(--ts-tone-contrast) clamp(0, (0.75 - l) * 999, 1) 0 0);   
+  --ts-tone-contrast:    var(--ts-text-primary);  
+  /* Accent tint = a *desaturated, lightness-neutral* version of the accent.
+     Used when we want a hint of brand hue without dragging lightness or
+     pushing chroma too far on a neutral surface. */
+  --ts-tone-accent-tint:
+    oklch(from var(--ts-accent) 60% calc(c * 0.55) h);
+
+  /* ── Mix percentages — every state inherits from these. ────────────────
+     Tune one number, every derived surface follows. */
+  --ts-mix-perc:           14%;   /* default border weight              */
+  --ts-mix-perc-bd-hover:     25%;   /* boerder hover lift                         */
+  --ts-mix-perc-hover:     5%;   /* hover bg lift                         */
+  --ts-mix-perc-active:    32%;   /* active border / pressed depth      */
+  --ts-mix-perc-pressed:   18%;   /* pressed-into-surface depth         */
+  --ts-mix-perc-focus:      8%;   /* << low. focus is a TINT not a wash */
+  --ts-mix-perc-selected:  14%;
+  --ts-mix-perc-disabled:  60%;
+  --ts-mix-perc-drag:      12%;
+
+  /* Bg shade ramp — global feel of "raised" vs "recessed". */
+  --ts-this-bg-grad-bright-pct:  10%;
+  --ts-this-bg-grad-dark-pct:    16%;
+
+  /* Gradient axis controls — global default. Override per element. */
+  --ts-grad-angle:        136deg;
+  --ts-grad-angle-comp:   214deg;
+  --ts-grad-angle-flat:    90deg;
+
+  /* Mesh / radial anchor points (4 blobs spread around the box) */
+  --ts-grad-pos-1:  12% 18%;
+  --ts-grad-pos-2:  84% 22%;
+  --ts-grad-pos-3:  20% 88%;
+  --ts-grad-pos-4:  92% 78%;
+  --ts-grad-pos-center: 50% 38%;
+  --ts-grad-radius: 72%;
+
+  /* Stop positions — universal across linear families. */
+  --ts-grad-stop-1:   0%;
+  --ts-grad-stop-2:  50%;
+  --ts-grad-stop-3: 100%;
+
+  /* How much accent to fold into the "mix" gradient family.
+     Low number = subtle brand wash. */
+  --ts-grad-mix-perc:        18%;
+  --ts-grad-mix-perc-strong: 32%;
+
+  /* Glass / sheen alpha. Tune for thicker frosted look. */
+  --ts-grad-sheen-alpha:      8%;
+  --ts-grad-vignette-perc:   24%;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2.  --ts-this-bg DERIVATIVES — surfaces, dims, brights, darks
+   ───────────────────────────────────────────────────────────────────────── */
+:where(:root, :root *) {
+  /* ── DARK family — push toward floor. Achromatic → oklab == oklch. ──── */
+  --ts-this-bg-dark:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-floor) var(--ts-this-bg-grad-dark-pct));
+  --ts-this-bg-dark-1:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-floor) calc(var(--ts-this-bg-grad-dark-pct) * 0.15));
+  --ts-this-bg-dark-2:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-floor) calc(var(--ts-this-bg-grad-dark-pct) * 0.5));
+  --ts-this-bg-dark-3:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-floor) calc(var(--ts-this-bg-grad-dark-pct) * 0.85));
+  --ts-this-bg-recessed:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-floor) calc(var(--ts-this-bg-grad-dark-pct) * 1.4));
+
+  /* ── BRIGHT family — push toward contrast. ──────────────────────────── */
+  --ts-this-bg-bright:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-contrast) var(--ts-this-bg-grad-bright-pct));
+  --ts-this-bg-bright-1:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-contrast) calc(var(--ts-this-bg-grad-bright-pct) * 0.35));
+  --ts-this-bg-bright-2:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-contrast) calc(var(--ts-this-bg-grad-bright-pct) * 0.7));
+  --ts-this-bg-bright-3:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-contrast) calc(var(--ts-this-bg-grad-bright-pct) * 1.6));
+  --ts-this-bg-raised:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-contrast) calc(var(--ts-this-bg-grad-bright-pct) * 2.2));
+
+  /* ── DIM family — transparency on the surface. ──────────────────────── */
+  --ts-this-bg-dim:    color-mix(in oklab, var(--ts-this-bg), transparent 12%);
+  --ts-this-bg-dim-2:  color-mix(in oklab, var(--ts-this-bg), transparent 25%);
+  --ts-this-bg-dim-3:  color-mix(in oklab, var(--ts-this-bg), transparent 50%);
+  --ts-this-bg-dim-4:  color-mix(in oklab, var(--ts-this-bg), transparent 65%);
+  --ts-this-bg-dim-5:  color-mix(in oklab, var(--ts-this-bg), transparent 82%);
+  --ts-this-bg-dim-6:  color-mix(in oklab, var(--ts-this-bg), transparent 92%);
+
+  --ts-this-bg-muted:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-muted) 22%);
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     3.  STATES — every one uses OKLAB. Hue-stable on any base. ─────────
+     ───────────────────────────────────────────────────────────────────── */
+
+  /* HOVER — lift toward contrast. Achromatic, hue is preserved. */
+  --ts-this-bg-hover:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-contrast) var(--ts-mix-perc-hover));
+
+  /* ACTIVE — deepen toward floor. Achromatic. */
+  --ts-this-bg-active:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-floor) 15%);
+
+  /* PRESSED — slightly deeper, mimics "pushed into surface". */
+  --ts-this-bg-pressed:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-floor) var(--ts-mix-perc-pressed));
+
+  /* FOCUS — THE BUG FIX.
+     The old recipe `color-mix(in oklch, --ts-this-bg, --ts-accent 20%)`
+     produced purple because oklch hue interpolation wrapped through
+     magenta. Two layered fixes:
+       (1) Mix in OKLAB so no hue path is traversed.
+       (2) Tint via `--ts-tone-accent-tint` (a desaturated, lightness-
+           neutral accent). On a near-black neutral, this lands as a
+           gently brand-warmed surface — never purple.
+       (3) Cut percentage to 8%. Focus should *feel* tinted, not painted.
+     If you want a stronger wash, raise `--ts-mix-perc-focus`. */
+  --ts-this-bg-focus:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-accent-tint) var(--ts-mix-perc-focus));
+
+  /* Focus ring / outline — keep brand-true via the live accent. */
+  --ts-this-bg-focus-ring:
+    color-mix(in oklab, var(--ts-accent), transparent 55%);
+  --ts-this-bg-focus-outline: var(--ts-accent);
+
+  /* Focus + hover combined (keyboard user hovers a focused element) */
+  --ts-this-bg-focus-hover:
+    color-mix(in oklab, var(--ts-this-bg-focus), var(--ts-tone-contrast) calc(var(--ts-mix-perc-hover) * 0.6));
+
+  /* SELECTED — for list rows, chips, tabs. */
+  --ts-this-bg-selected:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-accent-tint) var(--ts-mix-perc-selected));
+
+  /* DISABLED — desaturate and dim. */
+  --ts-this-bg-disabled:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-muted) 28%);
+  --ts-this-bg-disabled-dim:
+    color-mix(in oklab, var(--ts-this-bg-disabled), transparent 30%);
+
+  /* DRAGGING — a lifted, slightly accented surface */
+  --ts-this-bg-dragging:
+    color-mix(in oklab, var(--ts-this-bg-bright), var(--ts-tone-accent-tint) var(--ts-mix-perc-drag));
+
+  /* Semantic state tints (success / danger / info) — same oklab pattern */
+  --ts-this-bg-success:
+    color-mix(in oklab, var(--ts-this-bg), oklch(70% 0.16 145) 10%);
+  --ts-this-bg-danger:
+    color-mix(in oklab, var(--ts-this-bg), oklch(62% 0.20  25) 10%);
+  --ts-this-bg-warning:
+    color-mix(in oklab, var(--ts-this-bg), oklch(80% 0.16  85) 10%);
+  --ts-this-bg-info:
+    color-mix(in oklab, var(--ts-this-bg), oklch(70% 0.13 235) 10%);
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     4.  BORDERS — three weights × every state ─────────────────────────
+     ───────────────────────────────────────────────────────────────────── */
+  --ts-this-bg-border-0:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-contrast) calc(var(--ts-mix-perc) * 0.5));
+  --ts-this-bg-border:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-contrast) var(--ts-mix-perc));
+  --ts-this-bg-border-2:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-contrast) calc(var(--ts-mix-perc) * 1.6));
+
+  --ts-this-bg-border-hover:
+    color-mix(in oklab, var(--ts-this-bg-hover), var(--ts-tone-contrast) var(--ts-mix-perc-bd-hover));
+  --ts-this-bg-border-active:
+    color-mix(in oklab, var(--ts-this-bg-border), var(--ts-accent) var(--ts-mix-perc-active));
+  --ts-this-bg-border-focus: var(--ts-accent);
+  --ts-this-bg-border-disabled:
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-muted) var(--ts-mix-perc-disabled));
+  --ts-this-bg-border-selected:
+    color-mix(in oklab, var(--ts-this-bg-border), var(--ts-tone-accent-tint) 40%);
+
+ --ts-this-color-bright: color-mix(in oklab,
+      var(--ts-text-accent),
+      var(--ts-on-accent) 12%);
+
+/* ─── GRADIENT CONTROL TOKENS ──────────────────────────────────────
+    Tune the gradient feel from one place. Override on any scope
+    to control the look across the entire subtree. */
+  --ts-this-bg-grad-angle: 136deg;
+  --ts-this-bg-grad-angle-2: 114deg;
+  --ts-this-bg-grad-bright-pct: 6%;
+  --ts-this-bg-grad-dark-pct: 14%;
+  --ts-this-bg-grad: linear-gradient(var(--ts-this-bg-grad-angle), var(--ts-this-bg), var(--ts-this-bg-dark), var(--ts-this-bg));
+  --ts-this-bg-grad-comp: linear-gradient(151deg, var(--ts-this-bg-bright), var(--ts-this-bg-dark), var(--ts-this-bg), var(--ts-this-bg-bright), var(--ts-this-bg-dark));
+  --ts-this-bg-grad-flat: linear-gradient(90deg, var(--ts-this-bg-bright), var(--ts-this-bg-dark));
+  --ts-this-bg-grad-1: linear-gradient(var(--ts-this-bg-grad-angle), var(--ts-this-bg-bright), var(--ts-this-bg-dark), var(--ts-this-bg));
+  --ts-this-bg-grad-2: linear-gradient(to top left, var(--ts-this-bg), var(--ts-this-bg-dark), var(--ts-this-bg));
+  --ts-this-bg-grad-3: linear-gradient(116deg, var(--ts-this-bg-bright), var(--ts-this-bg), var(--ts-this-bg-bright));
+  --ts-this-bg-grad-4: linear-gradient(var(--ts-this-bg-grad-angle), var(--ts-this-bg-focus), color-mix(in oklab, var(--ts-this-bg-bright-2), transparent 20%), color-mix(in oklab, var(--ts-this-bg-bright-3), transparent 20%));
+ 
+
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   6.  CONVENIENCE UTILITY CLASSES   (opt-in)
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-surface       { background: var(--ts-this-bg); color: var(--ts-text-primary); border: 1px solid var(--ts-this-bg-border); }
+.ts-surface-grad  { background: var(--ts-grad-bg); }
+.ts-surface-mesh  { background: var(--ts-grad-bg-mesh); }
+
+.ts-card-grad     { background: var(--ts-grad-card); border: 1px solid var(--ts-this-bg-border-0); }
+.ts-card-glass    { background: var(--ts-grad-card-glass); border: 1px solid var(--ts-this-bg-border); backdrop-filter: blur(8px); }
+
+.ts-accent-grad   { background: var(--ts-grad-accent); color: var(--ts-on-accent); }
+.ts-accent-mesh   { background: var(--ts-grad-accent-mesh); color: var(--ts-on-accent); }
+.ts-mix-grad      { background: var(--ts-grad-mix); }
+.ts-mix-mesh      { background: var(--ts-grad-mix-mesh); }
+
+.ts-input-grad    { background: var(--ts-grad-input); border: 1px solid var(--ts-this-bg-border); }
+.ts-input-grad:hover  { background: var(--ts-grad-input-hover); border-color: var(--ts-this-bg-border-hover); }
+.ts-input-grad:focus, .ts-input-grad.is-focus {
+  background: var(--ts-grad-input-focus);
+  border-color: var(--ts-this-bg-border-focus);
+  outline: 2px solid var(--ts-this-bg-focus-ring);
+  outline-offset: 1px;
+}

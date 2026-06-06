@@ -1,0 +1,40 @@
+@charset "UTF-8";
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · core/reset.css — L0 NORMALIZATION / RESET LAYER
+   ───────────────────────────────────────────────────────────────────────────
+   Phase 3 wiring · 2026-06-05 · Owner directive §8
+
+   STATUS: SCAFFOLD ONLY. Loads first in canonical order; establishes the
+   `@layer base` so reset rules sit below all component CSS in the cascade.
+
+   This file MUST stay minimal. No design decisions — owner approves the
+   reset scope (D-05) before any rules are added.
+
+   CONTRACT
+   ────────
+   • Loads BEFORE every primitive, system, and component CSS
+   • All rules wrapped in `@layer base { … }` so they lose to any unlayered
+     component rule (deliberate — components retain authorship priority)
+   • Houses ONLY universal resets — never component-specific normalisations
+   • box-sizing, default margins, focus-visible baseline, and minimal a11y
+     defaults are candidates. Owner picks scope.
+
+   NEVER ADD HERE
+   ──────────────
+   ✗ Component styling (use components/<file>.css)
+   ✗ Color tokens (use primitives/colors.css)
+   ✗ Type tokens (use primitives/type-v2.css)
+   ✗ Visual decisions of any kind
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer base {
+
+  /* TODO (D-05 · owner decision pending):
+     Choose reset scope from one of:
+       (a) Toolskin minimal (~20 lines: box-sizing, margins, focus-visible)
+       (b) Established library (modern-css-reset / destyle.css imported)
+       (c) Browser-defaults only (this file stays empty, layer-only)
+     Recommendation: (a) Toolskin minimal.
+     Owner approves before any rules land here. */
+
+}

@@ -1,0 +1,574 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · ts-accordion — Disclosure component (header / panel / variants)
+   ───────────────────────────────────────────────────────────────────────────
+   Migrated from toolskin.css.frozen §16-disclosure block (lines 17930-18351)
+   onto the v2 `--ts-this-bg` engine. Wave 2 of Phase 2.
+
+   Class-name reconciliation
+   ─────────────────────────
+   The frozen file declares two parallel families:
+     • `.ts-ui-accordion`        ← modern alias (used in dual-icon
+                                    and separated variant selectors)
+     • `.ts-accordion`           ← legacy alias (per frozen L17913
+                                    comment, "Aliases: .ts-accordion ↓
+                                    .ts-ui-accordion")
+   Per S4 (`.ts-*` class names preserved externally), BOTH stay live as
+   sibling selectors. `.ts-accordion` is the canonical name in this
+   migrated file; every rule includes the `.ts-ui-accordion` companion
+   so existing markup against either spelling continues to work.
+
+   Likewise BEM elements are double-listed:
+     `.ts-accordion__header,  .ts-ui-accordion__header`
+     `.ts-accordion__item,    .ts-ui-accordion__item`
+     `.ts-accordion__panel,   .ts-ui-accordion__panel`
+     `.ts-accordion__indicator, .ts-ui-accordion__indicator`
+     `.ts-accordion__icon,      .ts-ui-accordion__icon`
+     `.ts-accordion__header-main, .ts-ui-accordion__header-main`
+     `.ts-accordion__category-icon, .ts-ui-accordion__category-icon`
+     `.ts-accordion__category-sep,  .ts-ui-accordion__category-sep`
+
+   Variants follow the SAME dual-name rule:
+     `.ts-accordion--separated,  .ts-ui-accordion--separated`
+     `.ts-accordion--dual-icon,  .ts-ui-accordion--dual-icon`
+     `.ts-accordion--toggle-plus, .ts-ui-accordion--toggle-plus`
+
+   What changed vs the frozen spec
+   ───────────────────────────────
+     • Nested pattern (CSS-1): every header state, panel rule, icon
+       rule, and variant override lives INSIDE `.ts-accordion`. The
+       frozen spec scattered ~40 rules across L17930-L18351 (including
+       eight `!important` flags). They are now a single declarative
+       block.
+
+     • `!important` chains DROPPED (frozen L18036, 18038, 18062-18063,
+       18134, 18162-18163, 18330, 18332). The nested pattern resolves
+       specificity without them (CSS-1 / B-1 owner directive).
+
+     • `color-mix(in srgb, …)` calls DROPPED (RULE S3):
+         — frozen L18133 (category-icon border): `color-mix(in srgb,
+           var(--ts-ui-accordion-toggle-border), transparent 16%)`
+           → replaced with `--ts-this-bg-border-0` (engine derivative,
+           lighter border weight from the same surface anchor).
+         — frozen L18135 (category-icon ink): `color-mix(in srgb,
+           var(--ts-accent), var(--ts-text-muted) 35%)` → replaced with
+           an oklab derivative `color-mix(in oklab, var(--ts-accent),
+           var(--ts-text-muted) 35%)`.
+
+     • `revert-layer !important` cascade overrides in
+       `.ts-accordion__panel *` (frozen L18327-18336) DROPPED. The
+       nested pattern emits panel typography directly on `__panel`
+       and lets descendants inherit naturally. No `revert-layer`
+       gymnastics needed.
+
+     • Frozen-only tokens mapped to engine / primitives:
+         `--ts-input-h`              → primitive `--ts-sp-12, 48px`
+                                       (header min-height base)
+         `--ts-border-1`             → engine `--ts-this-bg-border`
+         `--ts-border-2`             → engine `--ts-this-bg-border-2`
+         `--ts-text-primary-dim-2`   → primitive `--ts-text-secondary`
+         `--ts-bg-2-t`               → engine anchor `--ts-this-bg`
+                                       (parent surface; no static
+                                       transparency surface needed)
+         `--ts-card-radius`          → primitive `--ts-radius-md`
+         `--ts-radius-constrained`   → primitive `--ts-radius-md`
+         `--ts-panel-border`         → engine `--ts-this-bg-border`
+
+     • Pattern 4 (R9) honored: `.ts-accordion` re-anchors
+       `--ts-this-bg: var(--ts-bg-2)` FIRST, then consumes engine
+       derivatives. Variants (`--separated`, `--dual-icon`) honor
+       this anchor without re-declaring surface literals.
+
+     • Header dimensions retained as the frozen file declared them
+       (50px min/height, half-height horizontal pad, 78% vertical
+       pad, etc.) so existing markup keeps its rhythm. They live as
+       component-scope custom properties in the nested block.
+
+     • Font weights: header 600 (default), dual-icon header 500.
+       Both within the canonical 6-step ladder (300/400/500/600/700/900).
+       NO 800.
+
+     • Indicator (plus → minus rotation) animation preserved verbatim
+       except: backgound-color (sic) typo from frozen L18261
+       corrected to `background-color`.
+
+   Load order (see ts-card.css header for the canonical list):
+     primitives/colors → typography → spacing → radius → motion →
+     primitives/status-tints → system/toolskin-this-bg-v2 →
+     system/toolskin-gradients-v3 → components/.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1.  THE ACCORDION — nested pattern (CSS-1)
+       Every state, variant, child, and pseudo-element lives in this block.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-accordion,
+.ts-ui-accordion {
+  /* ── INPUT KNOBS — derived dimensions for the whole component.
+        Override any one of these on a parent to retune the entire
+        accordion without touching the block rules. */
+  --ts-accordion-header-min-h:        50px;
+  --ts-accordion-header-pad-x:        calc(var(--ts-accordion-header-min-h) * 0.5);
+  --ts-accordion-header-pad-y:        calc(var(--ts-accordion-header-pad-x) * 0.78);
+  --ts-accordion-header-pad:          var(--ts-accordion-header-pad-y) var(--ts-accordion-header-pad-x);
+  --ts-accordion-header-gap:          calc(var(--ts-accordion-header-pad-y) * 0.54);
+
+  /* Panel + header font-size: derived from primitives. */
+  --ts-accordion-panel-fs:            var(--ts-fs-body-sm);
+  --ts-accordion-header-fs:           calc(var(--ts-accordion-panel-fs) * 1.1);
+  --ts-accordion-panel-lh:            calc(var(--ts-accordion-panel-fs) * 1.45);
+  --ts-accordion-panel-pad:           var(--ts-accordion-header-pad-x);
+
+  /* Spacing between items in --separated mode. */
+  --ts-accordion-gap:                 calc(var(--ts-accordion-header-gap) * 0.7);
+
+  /* Icon dimensions. */
+  --ts-accordion-icon-base:           var(--ts-accordion-header-fs);
+  --ts-accordion-icon-grow:           1.1;
+  --ts-accordion-icon-size:           calc(var(--ts-accordion-icon-base) * var(--ts-accordion-icon-grow));
+  --ts-accordion-category-icon-size:  calc(var(--ts-accordion-panel-fs) * 1.4);
+  --ts-accordion-category-gap:        calc(var(--ts-accordion-panel-fs) * 0.1);
+
+  /* Indicator (plus/minus) dimensions. */
+  --ts-accordion-toggle-btn-h:        1.25rem;
+  --ts-accordion-toggle-pad:          1px;
+  --ts-accordion-toggle-stroke:       1px;
+  --ts-accordion-toggle-stroke-l:     1rem;
+
+  /* Chevron dimensions (when --toggle-plus is NOT applied). */
+  --ts-accordion-chevron-size:        calc(var(--ts-accordion-icon-size) * 0.6);
+  --ts-accordion-chevron-offset:      calc((50% - var(--ts-accordion-chevron-size)) * 1);
+  --ts-accordion-chevron-offset-2:    calc((50% - var(--ts-accordion-chevron-size) * 0.5) * -1);
+  --ts-accordion-arrow-w:             var(--ts-accordion-toggle-stroke);
+
+  /* ── DEFAULT SURFACE ANCHOR — bg-2 reads as a slightly recessed
+        disclosure panel relative to body. Variants below can override. */
+  --ts-this-bg: var(--ts-bg-2);
+
+  /* Engine-derived surface roles (read from the LIVE --ts-this-bg). */
+  --ts-accordion-header-bg:           var(--ts-this-bg-dim);
+  --ts-accordion-header-bg-hover:     var(--ts-this-bg-dark-1);
+  --ts-accordion-header-bg-active:    var(--ts-this-bg-dark);
+
+  --ts-accordion-header-color:        var(--ts-text-secondary);
+  --ts-accordion-header-color-hover:  var(--ts-text-primary);
+  --ts-accordion-panel-bg:            var(--ts-this-bg);
+  --ts-accordion-panel-color:         var(--ts-text-secondary);
+
+  --ts-accordion-toggle-color:        var(--ts-accordion-panel-color);
+  --ts-accordion-toggle-color-hover:  var(--ts-accordion-header-color-hover);
+  --ts-accordion-toggle-bg:           transparent;
+  --ts-accordion-toggle-bg-hover:     transparent;
+  --ts-accordion-toggle-border:       var(--ts-this-bg-border);
+  --ts-accordion-toggle-rad:          var(--ts-radius-md);
+
+  --ts-accordion-arrow-color:         var(--ts-accordion-panel-color);
+  --ts-accordion-arrow-color-hover:   var(--ts-accent);
+
+  /* ── BASE LAYOUT — single rounded scrollable shell. */
+  border: 1px solid var(--ts-accordion-toggle-border);
+  border-radius: var(--ts-accordion-toggle-rad);
+  overflow: hidden;
+  background: var(--ts-accordion-panel-bg);
+
+  /* ═══════════════════════════════════════════════════════════════════
+     ITEMS
+     ═══════════════════════════════════════════════════════════════════ */
+
+  & .ts-accordion__item,
+  & .ts-ui-accordion__item {
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    border-color: var(--ts-accordion-toggle-border);
+  }
+
+  /* In stacked mode (default, not --separated), items beyond the first
+     get a top border so they read as a divided list. */
+  &:not(.ts-accordion--separated):not(.ts-ui-accordion--separated)
+    > .ts-accordion__item + .ts-accordion__item,
+  &:not(.ts-accordion--separated):not(.ts-ui-accordion--separated)
+    > .ts-ui-accordion__item + .ts-ui-accordion__item {
+    border-top: 1px solid var(--ts-accordion-toggle-border);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     HEADER — the clickable disclosure trigger
+     ═══════════════════════════════════════════════════════════════════ */
+
+  & .ts-accordion__header,
+  & .ts-ui-accordion__header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ts-accordion-header-gap);
+    min-height: var(--ts-accordion-header-min-h);
+    height: var(--ts-accordion-header-min-h);
+    padding: var(--ts-accordion-header-pad);
+    margin: 0;
+    border: none;
+    border-bottom: 1px solid transparent;
+    margin-bottom: -1px;
+    background: var(--ts-accordion-header-bg);
+    color: var(--ts-accordion-header-color);
+    font-size: var(--ts-accordion-header-fs);
+    font-weight: var(--ts-fw-semibold, 600);
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+    z-index: 9;
+    outline: none;
+    transition:
+      background var(--ts-dur-slow, 350ms) var(--ts-ease-out),
+      color      var(--ts-dur-slow, 350ms) var(--ts-ease-out),
+      border-color var(--ts-dur-base, 200ms) var(--ts-ease-out) .32s;
+
+    /* When no category icon is rendered, claw back the start padding so
+       text aligns with the panel block. */
+    &:not(:has(.ts-accordion__category-icon, .ts-ui-accordion__category-icon)) {
+      padding-left: var(--ts-accordion-header-pad-y);
+    }
+
+    /* Hover: lift the header surface, tighten the ink. */
+    &:hover {
+      background: var(--ts-accordion-header-bg-hover);
+      color: var(--ts-accordion-header-color-hover);
+    }
+
+    /* Expanded (aria-driven): bottom border returns so the panel reads
+       attached to the header. */
+    &[aria-expanded="true"] {
+      border-bottom-color: var(--ts-accordion-toggle-border);
+      transition:
+        background var(--ts-dur-slow, 350ms) var(--ts-ease-out),
+        color      var(--ts-dur-slow, 350ms) var(--ts-ease-out),
+        border-color var(--ts-dur-slow, 350ms) var(--ts-ease-out) .15s;
+    }
+
+    /* Legacy active-class modifier — same visual as aria-expanded. */
+    &.ts-accordion__header--active,
+    &.ts-ui-accordion__header--active {
+      background: var(--ts-accordion-header-bg-active);
+      color: var(--ts-accordion-toggle-color-hover);
+
+      & .ts-accordion__icon,
+      & .ts-ui-accordion__icon {
+        color: var(--ts-accordion-arrow-color-hover);
+      }
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     HEADER-MAIN — flex row for the leading icon + label
+     ═══════════════════════════════════════════════════════════════════ */
+
+  & .ts-accordion__header-main,
+  & .ts-ui-accordion__header-main {
+    display: flex;
+    align-items: center;
+    gap: var(--ts-accordion-header-gap);
+    min-width: 0;
+    flex: 1;
+  }
+
+  /* Leading inline icon (text-size). */
+  & .ts-accordion__icon,
+  & .ts-ui-accordion__icon {
+    flex-shrink: 0;
+    flex: 0 1 var(--ts-accordion-icon-size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ts-accordion-toggle-color);
+    position: relative;
+    margin-left: calc(var(--ts-accordion-header-gap) * -0.5);
+    font-size: var(--ts-accordion-icon-size);
+    width: var(--ts-accordion-icon-size);
+    height: var(--ts-accordion-icon-size);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     CHEVRON INDICATOR — the default `::after` arrow (when --toggle-plus
+     is NOT applied). Rotates 90° → 180° on expand.
+     ═══════════════════════════════════════════════════════════════════ */
+
+  &:not(.ts-accordion--toggle-plus):not(.ts-ui-accordion--toggle-plus)
+    .ts-accordion__header::after,
+  &:not(.ts-accordion--toggle-plus):not(.ts-ui-accordion--toggle-plus)
+    .ts-ui-accordion__header::after {
+    content: '';
+    position: absolute;
+    left: auto;
+    top: 50%;
+    right: calc(var(--ts-accordion-header-pad-x) * 1);
+    width: var(--ts-accordion-chevron-size);
+    max-width: var(--ts-accordion-chevron-size);
+    height: var(--ts-accordion-chevron-size);
+    max-height: var(--ts-accordion-chevron-size);
+    aspect-ratio: 1;
+    border-right: var(--ts-accordion-arrow-w) solid var(--ts-accordion-arrow-color);
+    border-bottom: var(--ts-accordion-arrow-w) solid var(--ts-accordion-arrow-color);
+    transform: translateY(var(--ts-accordion-chevron-offset)) rotate(45deg);
+    transition: transform var(--ts-dur-slower, 700ms) var(--ts-panel-ease-in);
+    transform-origin: center;
+  }
+
+  &:not(.ts-accordion--toggle-plus):not(.ts-ui-accordion--toggle-plus)
+    .ts-accordion__header[aria-expanded='true']::after,
+  &:not(.ts-accordion--toggle-plus):not(.ts-ui-accordion--toggle-plus)
+    .ts-ui-accordion__header[aria-expanded='true']::after {
+    transform: rotate(-135deg) translateY(var(--ts-accordion-chevron-offset-2));
+    border-color: var(--ts-accordion-arrow-color-hover);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     PLUS / MINUS INDICATOR — `.ts-accordion__indicator` element.
+     Two CSS lines crossed (plus) → both rotate to one line (minus).
+     Active when `.ts-accordion--toggle-plus` is applied.
+     ═══════════════════════════════════════════════════════════════════ */
+
+  /* Hide the chevron when toggle-plus is requested. */
+  &.ts-accordion--toggle-plus .ts-accordion__header::after,
+  &.ts-ui-accordion--toggle-plus .ts-accordion__header::after,
+  &.ts-accordion--toggle-plus .ts-ui-accordion__header::after,
+  &.ts-ui-accordion--toggle-plus .ts-ui-accordion__header::after {
+    display: none;
+  }
+
+  & .ts-accordion__indicator,
+  & .ts-ui-accordion__indicator {
+    position: relative;
+    flex-shrink: 0;
+    width:  calc(var(--ts-accordion-toggle-btn-h) + var(--ts-accordion-toggle-pad) * 1);
+    height: calc(var(--ts-accordion-toggle-btn-h) + var(--ts-accordion-toggle-pad) * 1);
+    box-sizing: border-box;
+    padding: var(--ts-accordion-toggle-pad);
+    border: 0 solid var(--ts-accordion-toggle-border);
+    border-radius: var(--ts-accordion-toggle-rad);
+    background: var(--ts-accordion-toggle-bg);
+    margin-right: calc(var(--ts-accordion-header-pad-y) * -0.5);
+    transition:
+      background var(--ts-dur-slower, 700ms) var(--ts-panel-ease-out),
+      border-color var(--ts-dur-slower, 700ms) var(--ts-panel-ease-out);
+
+    /* Two CSS lines — horizontal + vertical — crossed as a plus. */
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      background-color: var(--ts-accordion-toggle-color);
+      transform: translate(-50%, -50%);
+      transition:
+        opacity var(--ts-dur-fast, 120ms) var(--ts-ease-out),
+        transform var(--ts-dur-slow, 350ms) var(--ts-ease-out),
+        background-color 300ms ease;
+    }
+
+    /* Horizontal stroke (the minus line). */
+    &::before {
+      width: var(--ts-accordion-toggle-stroke-l);
+      height: var(--ts-accordion-toggle-stroke);
+      transform: translate(-50%, -50%) rotate(-180deg) scale(1);
+    }
+
+    /* Vertical stroke (rotates out on expand to become "minus"). */
+    &::after {
+      width: var(--ts-accordion-toggle-stroke);
+      height: var(--ts-accordion-toggle-stroke-l);
+      transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    }
+  }
+
+  /* Indicator hover state (paints alongside header hover). */
+  & .ts-accordion__header:hover .ts-accordion__indicator,
+  & .ts-accordion__header:hover .ts-ui-accordion__indicator,
+  & .ts-ui-accordion__header:hover .ts-accordion__indicator,
+  & .ts-ui-accordion__header:hover .ts-ui-accordion__indicator {
+    background: var(--ts-accordion-toggle-bg-hover);
+    border-color: var(--ts-accordion-toggle-border);
+  }
+
+  & .ts-accordion__header:hover .ts-accordion__indicator::before,
+  & .ts-accordion__header:hover .ts-accordion__indicator::after,
+  & .ts-ui-accordion__header:hover .ts-ui-accordion__indicator::before,
+  & .ts-ui-accordion__header:hover .ts-ui-accordion__indicator::after {
+    background-color: var(--ts-accordion-arrow-color-hover);
+  }
+
+  /* Indicator under an active / expanded header. */
+  & .ts-accordion__header--active .ts-accordion__indicator,
+  & .ts-ui-accordion__header--active .ts-ui-accordion__indicator {
+    border-color: var(--ts-accordion-arrow-color-hover);
+    color: var(--ts-accordion-arrow-color-hover);
+  }
+
+  /* Expanded: rotate the vertical stroke into the horizontal so the plus
+     becomes a minus, and recolor to the active accent. */
+  & .ts-accordion__header[aria-expanded='true'] .ts-accordion__indicator::after,
+  & .ts-ui-accordion__header[aria-expanded='true'] .ts-ui-accordion__indicator::after {
+    transform: translate(-50%, -50%) rotate(90deg) scale(1);
+    background-color: var(--ts-accordion-arrow-color-hover);
+  }
+  & .ts-accordion__header[aria-expanded='true'] .ts-accordion__indicator::before,
+  & .ts-ui-accordion__header[aria-expanded='true'] .ts-ui-accordion__indicator::before {
+    transform: translate(-50%, -50%) rotate(180deg) scale(1);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     PANEL — the disclosed body
+     ═══════════════════════════════════════════════════════════════════ */
+
+  & .ts-accordion__panel,
+  & .ts-ui-accordion__panel {
+    font-size: var(--ts-accordion-panel-fs);
+    color: var(--ts-accordion-panel-color);
+    line-height: var(--ts-accordion-panel-lh);
+    background: var(--ts-accordion-panel-bg);
+    position: relative;
+    min-height: 0;
+    max-height: 4000px;
+    padding: var(--ts-accordion-panel-pad);
+    padding-block: var(--ts-accordion-panel-pad);
+    display: block;
+    opacity: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: hidden;
+    box-sizing: border-box;
+    transition:
+      max-height    var(--ts-dur-base, 200ms) var(--ts-panel-ease-in) allow-discrete,
+      padding-block var(--ts-dur-base, 200ms) var(--ts-panel-ease-in) allow-discrete,
+      opacity       var(--ts-dur-base, 200ms) var(--ts-panel-ease-in) allow-discrete,
+      display       var(--ts-dur-base, 200ms) var(--ts-panel-ease-in) .12s allow-discrete;
+
+    /* Collapsed: discrete max-height 0 + hidden display. The `[hidden]`
+       attribute is the toggle hook. */
+    &[hidden] {
+      max-height: 0;
+      display: none;
+      opacity: 0;
+      padding-block: 0;
+      z-index: -1;
+      transition:
+        max-height    var(--ts-dur-base, 200ms) var(--ts-panel-ease-in) allow-discrete,
+        padding-block var(--ts-dur-base, 200ms) var(--ts-panel-ease-in) allow-discrete,
+        opacity       var(--ts-dur-base, 200ms) var(--ts-panel-ease-in) allow-discrete,
+        display       var(--ts-dur-base, 200ms) var(--ts-panel-ease-in) .12s allow-discrete;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     VARIANTS
+     ═══════════════════════════════════════════════════════════════════ */
+
+  /* ─── SEPARATED — each item its own bordered + rounded card with gap ─── */
+  &.ts-accordion--separated,
+  &.ts-ui-accordion--separated {
+    border: none;
+    background: transparent;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    gap: var(--ts-accordion-gap);
+
+    & .ts-accordion__item,
+    & .ts-ui-accordion__item {
+      border: 1px solid var(--ts-accordion-toggle-border);
+      border-radius: var(--ts-accordion-toggle-rad);
+      overflow: hidden;
+      background: var(--ts-accordion-panel-bg);
+    }
+  }
+
+  /* ─── DUAL-ICON — leading category column + separator + header-main ─── */
+  &.ts-accordion--dual-icon,
+  &.ts-ui-accordion--dual-icon {
+    --ts-accordion-category-sep-width:  1px;
+    --ts-accordion-category-sep-height: var(--ts-accordion-header-min-h);
+    --ts-accordion-header-radius:       var(--ts-accordion-toggle-rad);
+
+    & .ts-accordion__category-icon,
+    & .ts-ui-accordion__category-icon {
+      flex-shrink: 0;
+      flex: 0 1 var(--ts-accordion-header-min-h);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width:      var(--ts-accordion-header-min-h);
+      height:     var(--ts-accordion-header-min-h);
+      max-height: var(--ts-accordion-header-min-h);
+      max-width:  var(--ts-accordion-header-min-h);
+      min-width:  var(--ts-accordion-header-min-h);
+      min-height: var(--ts-accordion-header-min-h);
+      border-right: 1px solid var(--ts-this-bg-border-0);
+      margin-right: calc(var(--ts-accordion-header-pad-x) * 0.3);
+      /* Frozen ink: `color-mix(in srgb, var(--ts-accent), var(--ts-text-muted) 35%)`.
+         Migrated to oklab so the orange→neutral path stays clean. */
+      color: color-mix(in oklab, var(--ts-accent), var(--ts-text-muted) 35%);
+      font-size: calc(var(--ts-accordion-category-icon-size) * 1);
+      padding: calc(var(--ts-accordion-header-pad-y) * 0.75);
+      box-sizing: border-box;
+      margin-block: calc(var(--ts-accordion-header-pad-x) * -1);
+      margin-left:  calc(var(--ts-accordion-header-pad-x) * -1);
+    }
+
+    & .ts-accordion__category-sep,
+    & .ts-ui-accordion__category-sep {
+      flex-shrink: 0;
+      width:  var(--ts-accordion-category-sep-width);
+      height: var(--ts-accordion-category-sep-height);
+      margin-right: var(--ts-accordion-category-gap);
+      border-radius: 1px;
+      background: var(--ts-accordion-toggle-border);
+      align-self: center;
+      display: none!important;
+    }
+
+    & .ts-accordion__header,
+    & .ts-ui-accordion__header {
+      /* Dual-icon variant uses a slightly lighter header weight (frozen
+         L18157). 500 is within the canonical ladder. */
+      font-weight: var(--ts-fw-medium, 500);
+    }
+  }
+
+  /* Dual-icon + separated combo gets a constrained item radius. */
+  &.ts-accordion--dual-icon.ts-accordion--separated .ts-accordion__item,
+  &.ts-ui-accordion--dual-icon.ts-ui-accordion--separated .ts-ui-accordion__item,
+  &.ts-accordion--dual-icon.ts-ui-accordion--separated .ts-accordion__item,
+  &.ts-ui-accordion--dual-icon.ts-accordion--separated .ts-ui-accordion__item {
+    border-radius: var(--ts-radius-md);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2.  CONTEXT OVERRIDES — scoped re-anchoring, never duplication.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Inside an on-accent surface (e.g. .ts-section--accent-band), the accordion
+   re-anchors so every engine derivative — header bg, hover, border, panel —
+   resolves through the accent path. Ink flips to on-accent. */
+.ts-on-accent .ts-accordion,
+.ts-on-accent .ts-ui-accordion {
+  --ts-this-bg: var(--ts-accent);
+
+  & .ts-accordion__header,
+  & .ts-ui-accordion__header {
+    color: var(--ts-on-accent);
+  }
+  & .ts-accordion__panel,
+  & .ts-ui-accordion__panel {
+    color: var(--ts-on-accent);
+    opacity: 0.92;
+  }
+}
+
+.ts-accordion__category-sep,
+.ts-ui-accordion__category-sep {
+  display: none;
+}
