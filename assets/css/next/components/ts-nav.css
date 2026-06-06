@@ -1,0 +1,514 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · ts-nav — Navigation link list (inline + fixed + dropdown)
+   ───────────────────────────────────────────────────────────────────────────
+   Migrated from toolskin.css.frozen §6j (lines 8012-8064) and §6j-bis
+   (lines 12300-12815) onto the v2 `--ts-this-bg` engine.
+   Phase 2 · Wave 2 (toolbar/nav).
+
+   Two compositional modes
+   ───────────────────────
+     • `.ts-nav`            inline link list — composes inside a `.ts-topbar`
+                             or any container. Frozen 8012-8042.
+     • `.ts-nav-fixed`      page-fixed chrome variant — sticks to top with
+                             its own backdrop. Frozen 12559-12613. Includes:
+        ◦ `.ts-nav-fixed__links`   link container (frozen 12383-12404)
+        ◦ `.ts-nav-more`           dropdown trigger (frozen 12412-12424)
+        ◦ `.ts-nav-dropdown`       dropdown panel (frozen 12428-12460)
+
+   BEM variants (frozen 12781-12814)
+   ─────────────────────────────────
+     • `.ts-nav--spaced`     gap-driven layout, dividers removed
+     • `.ts-nav--icon-only`  collapses labels, keeps icons
+
+   What changed vs the frozen spec
+   ───────────────────────────────
+     • Multi-selector base rule (frozen 8012, plus the duplicated
+       `.ts-nav-fixed__links`, `.ts-nav-dropdown` blocks at 12631-12660)
+       DROPPED. Each public component owns a self-contained nested block
+       (CSS-1). Shared behaviour comes from shared --ts-nav-* knobs.
+
+     • All `!important` flags DROPPED (frozen 8040-8041, 12566, 12572-12573,
+       12580, 12591, 12606, 12617-12626 …). CSS-1 makes specificity solvable.
+
+     • Frozen `.ts-nav__item:hover { background: var(--ts-bg-3); }` (8036)
+       used a static surface primitive. Replaced with the engine derivative
+       `--ts-this-bg-hover` — hue-stable, theme-agnostic, recomputes against
+       the live `--ts-this-bg`.
+
+     • Frozen `.ts-nav__item--active { background: var(--ts-accent-dim); }`
+       (8041) referenced a token not present in this repo's primitives
+       (Session 3.x B2 — accent.css NOT yet built). Replaced with
+       `--ts-this-bg-selected` (the engine emits an accent-tinted oklab
+       mix off the live surface). When `accent.css` lands, this can switch
+       to `--ts-accent-dim` without changing component logic.
+
+     • Frozen `font-weight: 600` (8024) — preserved verbatim using
+       `--ts-fw-semibold` (META-2: zero `font-weight: 800`).
+
+     • Frozen `--ts-text-secondary-dim-2` / `--ts-this-color-bright`
+       (12119-12121) — neither in this repo's primitives. Replaced with
+       oklab derivations off `--ts-text-secondary` / `--ts-text-primary`.
+
+     • Frozen `--ts-nav-btn-h` calculation (12117) was a workaround for the
+       static `--ts-btn-h` chain. v2 ts-btn takes a unitless `--ts-btn-scale`
+       knob; nav contexts pin scale and the height computes proportionally.
+       No `--ts-btn-h` redeclare — that bypassed the ratio chain.
+
+     • Frozen `color-mix(in srgb, var(--ts-accent) 7%, transparent)` for
+       `--ts-navlink-bg-active` (12132) DROPPED (RULE S3). Replaced with
+       `color-mix(in oklab, …)`.
+
+     • Frozen border-color: var(--ts-header-border) (12637) where
+       `--ts-header-border` was itself an srgb mix — replaced with the
+       engine's `--ts-this-bg-border` derivative.
+
+     • Frozen `.ts-nav-fixed:before` backdrop-blur layer (12586-12613)
+       PRESERVED but the surface color switched from a srgb mix to an
+       oklab mix (RULE S3). Glass / saturate effects are visual decoration,
+       not borders.
+
+     • Frozen `--ts-index-bar-height` accent-top stripe on dropdown
+       (12440) — not a primitive in this repo. Migrated as a 2px literal
+       on the dropdown's accent rail (intentional: this is a non-token
+       structural detail, not a colour value).
+
+     • Cross-component `:where(:root .ts-mobile-menu, …)` mega-selector
+       (frozen 12087-12274) DROPPED. Each component scope re-anchors its
+       own `--ts-this-bg` and derivatives flow through inheritance.
+
+     • Mobile-menu / sidebar-nav / sidenav children NOT migrated — those
+       belong in their own component files when they land. ts-nav owns
+       inline nav + fixed nav + dropdown only.
+
+   Load order
+   ──────────
+     1-8: same as ts-topbar.css (primitives → engine → ts-btn → ts-topbar)
+     9.   components/ts-nav.css         (this file)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1.  NAV-SCOPED KNOBS (zero-specificity)
+       Declared on :where(:root) so parents — including ts-topbar — can
+       override without touching the rules below.
+   ───────────────────────────────────────────────────────────────────────── */
+:where(:root) {
+  --ts-navlink-fs:         var(--ts-fs-xs);
+  --ts-navlink-fw:         var(--ts-fw-medium);
+  --ts-navlink-ls:         var(--ts-tracking-wide);
+  --ts-navlink-gap:        var(--ts-sp-2);
+  --ts-navlink-pad-x:      var(--ts-sp-3);
+  --ts-navlink-pad-y:      var(--ts-sp-2);
+  --ts-navlink-radius:     var(--ts-radius-sm);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2.  THE INLINE NAV — `.ts-nav` + `.ts-nav__item`
+       Frozen lines 8012-8042. Composes inside a topbar or a sidebar.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--ts-sp-1);
+
+  /* ─── CHILD · NAV ITEM ──────────────────────────────────────────── */
+  & .ts-nav__item {
+    /* ── NAV-ITEM KNOBS — surface/ink/border in one place. ── */
+    --_nav-item-bg:         transparent;
+    --_nav-item-bg-hover:   var(--ts-this-bg-hover);
+    --_nav-item-bg-active:  var(--ts-this-bg-selected);
+    --_nav-item-ink:        var(--ts-text-secondary);
+    --_nav-item-ink-hover:  var(--ts-text-primary);
+    --_nav-item-ink-active: var(--ts-accent);
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ts-sp-2);
+
+    padding-block:  var(--ts-navlink-pad-y);
+    padding-inline: var(--ts-navlink-pad-x);
+
+    font-family: inherit;
+    font-size:   var(--ts-navlink-fs);
+    font-weight: var(--ts-fw-semibold);
+    letter-spacing: var(--ts-navlink-ls);
+    line-height: 1;
+
+    color:            var(--_nav-item-ink);
+    background-color: var(--_nav-item-bg);
+    border-radius:    var(--ts-navlink-radius);
+    text-decoration:  none;
+    white-space:      nowrap;
+    cursor:           pointer;
+
+    transition:
+      background-color var(--ts-dur-fast) var(--ts-ease-out),
+      color            var(--ts-dur-fast) var(--ts-ease-out);
+
+    /* ─── STATES ─── */
+    &:hover {
+      background-color: var(--_nav-item-bg-hover);
+      color:            var(--_nav-item-ink-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ts-this-bg-border-focus);
+      outline-offset: 2px;
+    }
+
+    /* ACTIVE / current page — accent ink on a quiet selected tint. */
+    &.ts-nav__item--active,
+    &[aria-current="page"],
+    &.is-active {
+      background-color: var(--_nav-item-bg-active);
+      color:            var(--_nav-item-ink-active);
+    }
+
+    /* ─── ICON CHILD — currentColor on glyph is RULE S2 carve-out. ─── */
+    & > .ts-icon,
+    & > i[class*="fa-"],
+    & > ion-icon,
+    & > svg {
+      flex: none;
+      font-size: 1.1em;
+      line-height: 1;
+      color: currentColor;
+    }
+  }
+
+  /* ─── VARIANTS — BEM modifiers (frozen 12798-12814) ─── */
+  &.ts-nav--spaced  { gap: var(--ts-navlink-gap); }
+  &.ts-nav--icon-only .ts-nav__item > .ts-menu-text,
+  &.ts-nav--icon-only .ts-nav__item .ts-menu-text {
+    display: none;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   3.  THE FIXED NAV — `.ts-nav-fixed` (frozen 12559-12613)
+       Self-contained chrome with its own backdrop. Stays as a sibling of
+       `.ts-topbar` so a page can pick one or the other.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-nav-fixed {
+  /* ── NAV-FIXED KNOBS — re-anchor surface FIRST (Ruling R9). ── */
+  --_navfx-h:                 var(--ts-topbar-h, 65px);
+  --ts-this-bg:               var(--ts-bg-1);
+
+  --ts-header-bg-alpha:       22%;
+  --ts-header-border-alpha:   22%;
+  --ts-header-blur:           8px;
+
+  --_navfx-backdrop:
+    color-mix(in oklab, var(--ts-this-bg), transparent var(--ts-header-bg-alpha));
+  --_navfx-border:
+    color-mix(in oklab, var(--ts-this-bg-border), transparent var(--ts-header-border-alpha));
+
+  /* Geometry */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--ts-z-sticky, 40);
+
+  height: var(--_navfx-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ts-navlink-gap);
+  padding-inline: var(--ts-sp-6);
+
+  /* Surface + chrome line — oklab, never srgb. */
+  background-color: var(--_navfx-backdrop);
+  color: var(--ts-text-primary);
+  border-bottom: 1px solid var(--_navfx-border);
+
+  isolation: isolate;
+
+  /* ─── DECOR · BLURRED BACKDROP PSEUDO ─────────────────────────────
+     The frozen :before adds a saturated blur behind the chrome. Visual
+     decoration; no token leakage. Glass / sheen alpha can still be
+     tuned via --ts-header-bg-alpha + --ts-header-blur knobs above. */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--_navfx-backdrop);
+    backdrop-filter: blur(var(--ts-header-blur)) saturate(140%);
+    transition:
+      background-color var(--ts-dur-base) var(--ts-ease-out),
+      backdrop-filter  var(--ts-dur-base) var(--ts-ease-out);
+  }
+
+  /* ─── CHILD · LINK CONTAINER ───────────────────────────────────── */
+  & .ts-nav-fixed__links {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    align-content: stretch;
+    height: 100%;
+    margin-left: auto;
+    gap: 0;
+    padding-inline: var(--ts-navlink-pad-x);
+
+    /* Truncation variant — frozen 12395-12404 */
+    &.ts-nav-truncate {
+      flex-wrap: nowrap;
+      align-items: center;
+      flex: 1;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    /* Default item — non-button link inside the container. Carries the
+       1px divider via right border; the spaced/icon-only variants below
+       neutralize it. */
+    & > a:not(.ts-btn),
+    & > *:not(.ts-btn) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+      flex-wrap: nowrap;
+
+      height: 100%;
+      padding-inline: var(--ts-navlink-pad-x);
+      padding-block:  var(--ts-navlink-pad-y);
+
+      font-family: inherit;
+      font-size:   var(--ts-navlink-fs);
+      font-weight: var(--ts-navlink-fw);
+      letter-spacing: var(--ts-navlink-ls);
+      text-transform: uppercase;
+      text-decoration: none;
+      white-space: nowrap;
+
+      color: var(--ts-text-secondary);
+      background-color: transparent;
+      border: 0 solid var(--ts-this-bg-border);
+      border-right-width: 1px;
+
+      transition:
+        color            var(--ts-dur-fast) var(--ts-ease-out),
+        background-color var(--ts-dur-fast) var(--ts-ease-out),
+        border-color     var(--ts-dur-fast) var(--ts-ease-out);
+
+      gap: var(--ts-navlink-gap);
+      position: relative;
+
+      & > .ts-icon,
+      & > i[class*="fa-"],
+      & > ion-icon,
+      & > svg,
+      & .ts-menu-icon {
+        font-size: 1.1em;
+        line-height: 1;
+        color: currentColor;
+        flex: none;
+      }
+
+      &:hover {
+        color: var(--ts-text-primary);
+        background-color: var(--ts-this-bg-hover);
+      }
+
+      &.ts-active,
+      &.active,
+      &[aria-current="page"] {
+        color: var(--ts-accent);
+        background-color: var(--ts-this-bg-selected);
+      }
+    }
+
+    /* Last item — no trailing divider */
+    & > *:last-child:not(.ts-btn) {
+      border-right-width: 0;
+    }
+  }
+
+  /* ─── DESCENDANT · ts-btn HEIGHT PARITY ────────────────────────────
+     Same scale knob the topbar uses. NO local engine derivative
+     redefine (RULE S6). */
+  & .ts-btn {
+    --ts-btn-scale: 0.82;
+  }
+
+  /* ─── VARIANT · spaced — gap-driven, no dividers ─────────────────── */
+  &.ts-nav--spaced .ts-nav-fixed__links,
+  &.spaced .ts-nav-fixed__links {
+    gap: var(--ts-navlink-gap);
+
+    & > *:not(.ts-btn) {
+      border-right-width: 0;
+      border-left-width:  0;
+    }
+  }
+
+  /* ─── VARIANT · icon-only — collapse labels ──────────────────────── */
+  &.ts-nav--icon-only .ts-nav-fixed__links {
+    & > *:not(.ts-btn) {
+      border-right-width: 0;
+      border-left-width:  0;
+    }
+    & > *:not(.ts-btn) > .ts-menu-text,
+    & > *:not(.ts-btn) .ts-menu-text {
+      display: none;
+    }
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   4.  THE NAV-MORE TRIGGER + DROPDOWN — `.ts-nav-more` + `.ts-nav-dropdown`
+       Frozen lines 12412-12498. Composes inside .ts-nav-fixed or any nav.
+       Self-contained nested block; surface re-anchors when open.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-nav-more {
+  position: relative;
+  display: none;       /* hidden until JS or `.hasItems` marks it visible */
+  height: 100%;
+  padding: 0;
+  margin-inline: 0;
+
+  /* Visible state — frozen 12420 */
+  &.hasItems,
+  &[data-has-items="true"] {
+    display: flex;
+  }
+
+  /* Hover / focus / aria-expanded — reveals the dropdown child */
+  &:hover > .ts-nav-dropdown,
+  &:focus-within > .ts-nav-dropdown,
+  &[aria-expanded="true"] > .ts-nav-dropdown,
+  &.is-open > .ts-nav-dropdown {
+    opacity: 1;
+    display: flex;
+    pointer-events: auto;
+  }
+
+  /* ─── CHILD · TRIGGER BUTTON ───────────────────────────────────── */
+  & .ts-more-trigger,
+  & > button {
+    appearance: none;
+    background-color: transparent;
+    border: 0;
+    padding-inline: var(--ts-navlink-pad-x);
+    padding-block:  var(--ts-navlink-pad-y);
+    cursor: pointer;
+    color: var(--ts-text-secondary);
+    font: inherit;
+
+    transition: color var(--ts-dur-fast) var(--ts-ease-out);
+
+    &:hover {
+      color: var(--ts-text-primary);
+    }
+  }
+}
+
+.ts-nav-dropdown {
+  /* ── DROPDOWN KNOBS — re-anchor surface FIRST (Ruling R9). ── */
+  --ts-this-bg: var(--ts-bg-body);
+
+  --_dropdown-rail-h: 2px;    /* accent top-rail (frozen --ts-index-bar-height) */
+
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: calc(var(--ts-z-sticky, 40) + 1);
+
+  display: none;             /* opened by .ts-nav-more state (above) */
+  flex-direction: column;
+  min-width: 180px;
+
+  background-color: var(--ts-this-bg);
+  border: 1px solid var(--ts-this-bg-border);
+  border-top: var(--_dropdown-rail-h) solid var(--ts-accent);
+  border-radius: 0 0 var(--ts-radius-sm) var(--ts-radius-sm);
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+
+  box-shadow:
+    0 10px 25px color-mix(in oklab, var(--ts-tone-floor), transparent 80%);
+
+  transition:
+    opacity         var(--ts-dur-base) var(--ts-ease-out),
+    transform       var(--ts-dur-base) var(--ts-ease-out);
+
+  /* ─── CHILD · DROPDOWN ITEM ─────────────────────────────────────── */
+  & > a:not(.ts-btn),
+  & > *:not(.ts-btn) {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: var(--ts-navlink-gap);
+
+    padding-inline: var(--ts-navlink-pad-x);
+    padding-block:  var(--ts-navlink-pad-y);
+
+    font-family: inherit;
+    font-size:   var(--ts-navlink-fs);
+    font-weight: var(--ts-navlink-fw);
+    letter-spacing: var(--ts-tracking-wide);
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+
+    color: var(--ts-text-secondary);
+    background-color: transparent;
+
+    border-bottom: 1px solid var(--ts-this-bg-border);
+    position: relative;
+
+    transition:
+      color            var(--ts-dur-fast) var(--ts-ease-out),
+      background-color var(--ts-dur-fast) var(--ts-ease-out);
+
+    /* Optional accent rail on the leading edge — frozen 12545-12557.
+       Active state slides it to position 0. */
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -110%;
+      width: var(--_dropdown-rail-h);
+      background-color: transparent;
+      transition: left var(--ts-dur-base) var(--ts-ease-out);
+      pointer-events: none;
+    }
+
+    &:hover {
+      color: var(--ts-text-primary);
+      background-color: var(--ts-this-bg-hover);
+    }
+
+    &.ts-active,
+    &.active,
+    &[aria-current="page"] {
+      color: var(--ts-accent);
+      background-color: var(--ts-this-bg-selected);
+
+      &::after {
+        left: 0;
+        background-color: var(--ts-accent);
+      }
+    }
+  }
+
+  /* Last item — no trailing divider */
+  & > *:last-child {
+    border-bottom-width: 0;
+  }
+
+  /* Buttons inside dropdown — keep margin breathing room, no border */
+  & > .ts-btn {
+    margin-inline: var(--ts-navlink-pad-x);
+    margin-block:  var(--ts-navlink-gap);
+    border-radius: var(--ts-radius-sm);
+  }
+}

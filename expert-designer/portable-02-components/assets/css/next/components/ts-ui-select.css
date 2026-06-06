@@ -1,0 +1,1727 @@
+@charset "UTF-8";
+/* OWNER's FIX:  enhanced dropdown mac heigh system . 
+NEW Refactor Note URGENT: we need to merge and unify all the  spared  code  from the assets to one place ,,  except for the scoped sepcific isolated rules inside bannergenertor.  or other isolated nested scopes. but this al l the cascade inherited  styles must be grouped. move this and all the other inheritanee styles and  all other cases to  unify and clean up the  code.  */
+
+/* ─────────────────────────────────────────────────────────────────────
+ 
+
+## UI-SELECT.CSS — OWNER NOTE (CLEAN / REFACTORED)
+
+### CONTEXT
+
+This file was **bulk-imported with full token coverage** from legacy styles, with minimal integration.
+
+Current state:
+
+* Tokens are **complete but unfiltered**
+* Component works, but **not system-aligned**
+* Some styles originate from **older project implementations**
+
+Target:
+
+* Match **showcase visual output**
+* Conform to **current token system + scope rules**
+* Ensure **component portability across scopes**
+
+---
+
+## CORE INTENT
+
+* Establish **stable base pattern** for `ts-ui-select`
+* Normalize token usage and scope
+* Eliminate duplication and drift
+* Preserve visual parity with showcase
+
+---
+
+## SOURCE OF TRUTH
+
+* Refactor baseline exists in:
+  → `ts-nav-header.css`
+  → scoped implementation of `ts-ui-select`
+
+These styles:
+
+* Are **functionally correct**
+* Should guide **final behavior**
+* Must be **merged conceptually**, not blindly copied
+
+---
+
+## CRITICAL SCOPE RULE
+
+### Input Tokens (MISPLACED)
+
+The following block:
+
+* `--ts-input-*`
+* input surfaces, borders, transitions
+
+❗ MUST NOT live in `ui-select.css`
+
+They belong to:
+→ **ts-input context / global input system**
+
+Reason:
+
+* Shared across all inputs
+* Driven by `--ts-this-bg` cascade
+* Required for system-wide consistency
+
+✔ Action:
+
+* Extract to **input token layer**
+* Ensure `ts-ui-select` consumes them, not defines them
+
+---
+
+## TOKEN MIGRATION RULES
+
+### 1. Root Tokens
+
+Current:
+
+```
+:root, :root *
+```
+
+Problems:
+
+* Over-scoped
+* Hard to control inheritance
+* Pollutes cascade
+
+✔ Action:
+
+* Move into:
+
+  * global token groups OR
+  * component-scoped vars (when truly local)
+
+---
+
+### 2. Cross-Component Leakage
+
+Imported but misplaced:
+
+* `--ts-card-*`
+* `--ts-range-*`
+* `--ts-panel-*`
+
+❗ These DO NOT belong to ui-select
+
+✔ Action:
+
+* Relocate to their respective contexts:
+
+  * card → card.css
+  * range → range.css / global controls
+  * panel → panel system
+
+---
+
+## LAYOUT / ALIGNMENT CONSTRAINT
+
+### Icon Alignment Rule (CRITICAL)
+
+Applies ONLY to:
+
+→ `.t-icon` elements inside selectable items
+
+Problem:
+
+* Grid / flex layouts introduce:
+
+  * misalignment
+  * jitter
+  * inconsistent spacing
+
+✔ Rule:
+
+* Use **controlled inline/block alignment pattern**
+* Avoid relying on:
+
+  * flex centering
+  * grid auto placement
+
+✔ Goal:
+
+* deterministic alignment
+* no displacement across variants
+
+---
+
+## COMPONENT RESPONSIBILITIES
+
+`ts-ui-select` should ONLY handle:
+
+* dropdown sizing logic
+* item layout
+* interaction states
+* select-specific structure
+
+It should NOT:
+
+* define global input system
+* define unrelated component tokens
+* override shared primitives
+
+---
+
+## TASK LIST
+
+### Token Cleanup
+
+* [ ] Extract all `--ts-input-*` to input system scope
+* [ ] Remove `:root *` overreach
+* [ ] Group tokens by domain (input, select, layout)
+
+### Cross-Component Separation
+
+* [ ] Remove `--ts-card-*` from file
+* [ ] Remove `--ts-range-*`
+* [ ] Remove `--ts-panel-*`
+* [ ] Reassign to correct assets
+
+### Select Normalization
+
+* [ ] Keep dropdown sizing tokens (`--ts-ui-select-dd-*`)
+* [ ] Verify clamp logic across viewports
+* [ ] Ensure no hardcoded fallbacks
+
+### Alignment Fix
+
+* [ ] Refactor `.t-icon` handling inside items
+* [ ] Remove grid/flex dependency for icon positioning
+* [ ] Enforce stable alignment model
+
+### Visual Parity
+
+* [ ] Compare against showcase
+* [ ] Adjust variants minimally
+* [ ] Preserve spacing + proportions
+
+### Integration Check
+
+* [ ] Validate with current token system
+* [ ] Ensure no token gaps
+* [ ] Confirm inheritance works via `--ts-this-bg`
+
+---
+
+## NON-GOALS
+
+* No redesign
+* No new tokens unless required
+* No JS changes
+* No system-wide refactor from here
+
+---
+
+## SUMMARY (FOR GREP)
+
+* bulk import → needs cleanup
+* input tokens → MUST move out
+* root over-scoping → reduce
+* foreign tokens (card/range/panel) → remove
+* `.t-icon` alignment → fix without flex/grid
+* preserve showcase visuals
+* enforce token system compliance
+
+---
+
+END NOTE
+
+   ───────────────────────────────────────────────────────────────────── */
+
+/* ── 1. PAGE-LEVEL DEFAULT 
+REFACTOR NOTE: 
+
+ Move to :root and group under component asset vars.
+ Apply same cleanup to all non-scoped variables across the sheet.
+ Verify each variable still resolves correctly after migration.
+*/
+:root,:root * {
+
+
+  /*
+  ts-ui-select __dropdown — context-aware smart max-height (v3)
+
+   Why v3: in v2 the formula was declared on :root and the knobs were
+   overridden in nested contexts. This relies on custom-property
+   inheritance reaching the dropdown through every wrapper layer. In
+   practice, sibling/specificity edge cases (especially when the same
+   class — e.g.  — sits on both :root and a
+   descendant panel) can short-circuit the cascade and the dropdown
+   falls back to root values.
+
+   v3 fix: declare BOTH the knobs AND the formula in each context.
+   The formula resolves at the context root (panel, modal, body),
+   so the dropdown inherits a fully-resolved value — no propagation
+   game, no specificity battles, no !important on max-height needed.
+  */
+  --ts-ui-select-dd-min: 12rem;
+  --ts-ui-select-dd-runway: 14rem;
+  --ts-ui-select-dd-max-abs: 28rem;
+  --ts-ui-select-dd-max-rel: 70dvh;
+
+  --ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min),
+      calc(100dvh - var(--ts-ui-select-dd-runway)),
+      min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
+
+
+  /* ─── Input system — derives from --ts-this-bg ──────────────────────
+Any parent that sets --ts-this-bg automatically restyles all its
+inputs. No need to override per-element bg/border/color/transitions
+— set the parent surface and the cascade does the rest. */
+  --ts-input-h: var(--ts-btn-h);
+  --ts-input-pad-x: var(--ts-navlink-pad-x);
+  --ts-input-pad-y: var(--ts-navlink-pad-y);
+  --ts-input-padding: var(--ts-input-pad-y) var(--ts-input-pad-x) var(--ts-input-pad-y) var(--ts-input-pad-left);
+  --ts-input-pad-left: calc(var(--ts-input-h) + var(--ts-input-pad-y));
+  --ts-input-radius: var(--ts-radius-sm);
+  --ts-input-fs: var(--ts-fs-body-sm);
+
+  /* Surfaces — derived from --ts-this-bg. Override --ts-this-bg on a parent to recolor. */
+  --ts-input-bg: var(--ts-this-bg-dim-4);
+  --ts-input-bg-2: var(--ts-this-bg-bright-1);
+  --ts-input-bg-2-t: var(--ts-this-bg-dim);
+  --ts-input-bg-active: var(--ts-this-bg-bright);
+  --ts-input-bg-focus: var(--ts-this-bg-dark-1);
+  --ts-input-bg-grad: var(--ts-this-bg-grad-2);
+
+  /* Borders — derived from --ts-this-bg-border (which uses --ts-mix-perc) */
+  --ts-input-border: var(--ts-this-bg-border);
+  --ts-input-border-hover: var(--ts-this-bg-border-hover);
+  --ts-input-border-focus: var(--ts-border-accent);
+  --ts-input-border-disabled: var(--ts-this-bg-border-disabled);
+
+  /* Text colors — keep dim by default, brighten on focus */
+  --ts-input-color: var(--ts-text-primary-dim-2);
+  --ts-input-color-focus: var(--ts-text-primary);
+  --ts-input-accent: var(--ts-accent);
+
+  /* Inset action button (search icon, clear, etc.) */
+  --ts-input-btn-color: var(--ts-input-color);
+  --ts-input-btn-bg: var(--ts-input-bg-2);
+  --ts-input-btn-bg-accent: var(--ts-accent);
+  --ts-input-btn-bg-accent-color: var(--ts-on-accent);
+
+  /* Single transition token — components reference this, not a list */
+  --ts-input-transitions:
+    border-color var(--ts-dur-fast) var(--ts-ease-out),
+    outline-color var(--ts-dur-fast) var(--ts-ease-out),
+    color var(--ts-dur-fast) var(--ts-ease-out),
+    background-color var(--ts-dur-fast) var(--ts-ease-out),
+    box-shadow var(--ts-dur-fast) var(--ts-ease-out);
+
+    
+  --ts-card-transitions: border-color var(--ts-dur-fast) var(--ts-ease-out),
+    outline-color var(--ts-dur-fast) var(--ts-ease-out),
+    transform var(--ts-dur-fast) var(--ts-ease-out),
+    color var(--ts-dur-fast) var(--ts-ease-out),
+    background var(--ts-dur-fast) var(--ts-ease-out),
+    box-shadow var(--ts-dur-fast) var(--ts-ease-out);
+
+
+  /* Card — one step above panels so blocks read off the page */
+  --ts-card-pad: var(--ts-sp-6);
+  --ts-card-radius: var(--ts-radius-lg);
+  --ts-card-bg: var(--ts-bg-1-t);
+  --ts-card-bg-2: var(--ts-bg-2);
+  --ts-card-border: var(--ts-border-0);
+  --ts-card-header-h: 45px;
+  --ts-card-sp: var(--ts-sp-3);
+  --ts-card-fs: var(--ts-fs-sm);
+  --ts-card-title-fs: calc(var(--ts-card-fs) * 1.1);
+
+  /* Range slider — must exist on plain :root (Pattern Generator, etc.); banner app may override */
+  --ts-range-h: 10px;
+  --ts-range-thumb: calc(var(--ts-range-h) * 1.6);
+  --ts-range-bg: var(--ts-bg-3);
+  --ts-range-bg-2: var(--ts-bg-0);
+  --ts-range-border: var(--ts-border-1);
+  --ts-range-accent: var(--ts-accent);
+  --ts-range-label: var(--ts-range-bg);
+  --ts-range-text: var(--ts-text-primary);
+  --ts-range-rad: calc(var(--ts-range-h) * 2);
+  --ts-range-arrow: 5px;
+
+  /* Panel (control panels, tool panels) */
+  --ts-panel-w: 340px;
+  --ts-panel-bg: var(--ts-bg-1);
+  --ts-panel-border: var(--ts-border-0);
+  --ts-panel-radius: var(--ts-radius-md);
+}
+
+/* ── 2. CONSTRAINED CONTEXTS — knobs AND formula re-declared ─────── */
+
+/* Offcanvas editor: dropdown is clipped by .ts-oce-panel__inner's
+   overflow:auto. We size it to fit comfortably WITHIN the panel
+   viewport, never trespassing past the sticky footer. */
+.ts-oce-panel,
+.ts-oce-panel__inner,
+.ts-oce-panel .ts-card,
+.ts-oce-panel .ts-tab-pane {
+  --ts-ui-select-dd-min: 7rem;
+  --ts-ui-select-dd-runway: 22rem;
+  /* tabs + open accordion + footer */
+  --ts-ui-select-dd-max-abs: 16rem;
+  /* hard cap: 256px inside panel */
+  --ts-ui-select-dd-max-rel: 45dvh;
+
+  --ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min),
+      calc(100dvh - var(--ts-ui-select-dd-runway)),
+      min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
+}
+
+/* Modal body */
+.ts-modal,
+.ts-modal__body {
+  --ts-ui-select-dd-min: 10rem;
+  --ts-ui-select-dd-runway: 18rem;
+  --ts-ui-select-dd-max-abs: 22rem;
+  --ts-ui-select-dd-max-rel: 55dvh;
+
+  --ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min),
+      calc(100dvh - var(--ts-ui-select-dd-runway)),
+      min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
+}
+
+/* Banner generator app (class lives on :root in this app) */
+:root {
+  --ts-ui-select-dd-min: 10rem;
+  --ts-ui-select-dd-runway: 16rem;
+  --ts-ui-select-dd-max-abs: 22rem;
+  --ts-ui-select-dd-max-rel: 60dvh;
+
+  --ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min),
+      calc(100dvh - var(--ts-ui-select-dd-runway)),
+      min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
+}
+
+/* Belt-and-suspenders: when the offcanvas panel ALSO has the
+   banner-generator-app class on it (image 3 shows this is real),
+   the panel's offcanvas knobs must win over the app-level knobs.
+   Higher specificity selector for the win. */
+.ts-oce-panel,
+.ts-oce-panel .ts-oce-panel__inner,
+.ts-oce-panel .ts-card,
+.ts-oce-panel .ts-tab-pane {
+  --ts-ui-select-dd-min: 7rem;
+  --ts-ui-select-dd-runway: 22rem;
+  --ts-ui-select-dd-max-abs: 16rem;
+  --ts-ui-select-dd-max-rel: 45dvh;
+  --ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min),
+   calc(100dvh - var(--ts-ui-select-dd-runway)),
+   min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
+}
+
+
+/* ── 3. APPLY TO THE DROPDOWN ────────────────────────────────────── */
+
+.ts-ui-select__dropdown {
+  max-height: calc(var(--ts-ui-select-dd-max-h) + 1px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ts-ui-select__list {
+  max-height: calc(var(--ts-ui-select-dd-max-h) + 1px - var(--ts-ui-select-trigger-min-height, 2.75rem));
+  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.ts-ui-select--no-search .ts-ui-select__list {
+  max-height: calc(var(--ts-ui-select-dd-max-h) + 1px);
+}
+
+
+/* ── 4. ANCHOR POSITIONING (progressive enhancement) ─────────────── */
+@supports (anchor-name: --foo) and (position-try-fallbacks: flip-block) {
+  .ts-ui-select__dropdown {
+    position-try-fallbacks: flip-block;
+  }
+}
+
+
+
+.ts-ui-select__dropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 2000;
+  border-radius: var(--ts-input-radius);
+  border-width: 1px solid var(--ts-input-border);
+  outline: 1px solid var(--ts-input-border);
+  outline-offset: -1px !important;
+  --ts-this-bg: var(--ts-bg-0);
+  box-shadow: var(--ts-shadow-3);
+  flex-direction: column;
+  top: calc(100% - 1px);
+  border-color: var(--ts-input-border);
+  outline-color: var(--ts-input-border-focus);
+}
+
+/* [hidden] must win over display:flex (otherwise panel stays visible) */
+.ts-ui-select__dropdown[hidden] {
+  display: none !important;
+}
+
+.ts-ui-select--open .ts-ui-select__dropdown,
+.ts-ui-select__dropdown:not([hidden]) {
+  display: flex;
+  --ts-input-border: var(--ts-accent-border);
+  --ts-shadow-3: var(--ts-shadow-accent);
+  --ts-input-color: var(--ts-text-primary);
+  --ts-input-border: var(--ts-this-bg-border);
+}
+
+
+
+.ts-ui-select__option {
+  min-height: var(--ts-ui-select-trigger-min-height);
+  display: flex;
+  align-items: center;
+  border-radius: 0;
+  border-bottom: 1px solid var(--ts-input-border);
+  
+  cursor: pointer;
+  font-size: 90%;
+}
+
+.ts-ui-select__option:last-child {
+  border-bottom: none !important;
+}
+
+.ts-ui-select__option:hover,
+.ts-ui-select__option:focus {
+  /*  background: var(--ts-bg-3);
+  */
+  outline: none;
+  color: var(--ts-text-primary);
+
+}
+
+.ts-ui-select__option--selected {
+  background: color-mix(in srgb, var(--ts-accent), transparent 88%);
+}
+
+.ts-ui-select__option-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--ts-sp-2);
+}
+
+.ts-ui-select__option-inner i {
+  width: 1.1em;
+  text-align: center;
+  color: var(--ts-text-secondary-dim-2);
+  min-width: fit-content;
+  aspect-ratio: 1;
+  vertical-align: middle;
+  display: grid;
+  align-items: center;
+  height: fit-content;
+  justify-content: center;
+  place-content: center;
+  position: relative;
+  margin-top: auto;
+  margin-bottom: auto;
+  line-height: 0.5rem;
+}
+
+.ts-ui-select__option:hover .ts-ui-select__option-inner i {
+  color: var(--ts-text-accent);
+}
+
+
+/* ── Select ───────── */
+.ts-ui-select {
+  position: relative;
+  display: inline-block;
+  min-width: 220px;
+  max-width: 100%;
+  /* Options match trigger row height; override per instance if needed */
+  --ts-ui-select-trigger-min-height: 2.75rem;
+}
+
+.ts-ui-select__native {
+  position: absolute !important;
+  opacity: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  pointer-events: none !important;
+}
+
+.ts-ui-select__trigger {
+  width: 100%;
+  min-height: var(--ts-ui-select-trigger-min-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ts-navlink-gap, var(--ts-sp-1));
+  padding: var(--ts-sp-2) var(--ts-sp-3);
+  box-sizing: border-box;
+  border-radius: var(--ts-input-radius);
+  color: var(--ts-input-color);
+  font-size: var(--ts-input-fs);
+  cursor: pointer;
+  /* --ts-input-bg: var(--ts-this-bg-dim-4); */
+  --ts-input-bg-grad: var(--ts-accent-glow-bg-2);
+  --ts-input-border: color-mix(in srgb, var(--ts-input-color), transparent 80%);
+  --ts-input-color: var(--_input-color);
+  background-color: var(--ts-input-bg, var(--ts-bg-1-t));
+  border-width: 1px;
+  border-style: solid;
+  /*background-image: var(--ts-input-bg-grad);*/
+  border-color: var(--ts-input-border) !important;
+  outline-color: var(--ts-input-border);
+  transition: border-color var(--ts-dur-fast),
+    box-shadow var(--ts-dur-fast),
+    background 300ms ease,
+    outline-color 300ms ease;
+}
+
+
+
+.ts-ui-select--open .ts-ui-select__trigger {
+
+  --ts-input-color: var(--ts-text-primary);
+}
+
+.ts-ui-select .ts-ui-select__trigger:hover {
+  /* box-shadow: var(--ts-accent-shadow-glow); */
+  --ts-input-color: var(--ts-text-primary);
+  color: var(--ts-input-color) !important;
+  /*background-image: var(--ts-input-bg-grad);*/
+}
+
+.ts-ui-select__trigger .ts-ui-select__value,
+.ts-ui-select__value {
+  display: flex;
+  align-items: center;
+  gap: var(--ts-navlink-gap, var(--ts-sp-1));
+  min-width: 0;
+  color: inherit;
+  flex: 1 1 calc(100% - var(--ts-btn-icon-size, 0.7rem) - var(--ts-navlink-gap, var(--ts-sp-1)));
+  max-width: calc(100% - var(--ts-btn-icon-size, 0.7rem) - var(--ts-navlink-gap, var(--ts-sp-1))*2) !important;
+}
+
+.ts-ui-select__value-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0 !important;
+  width: auto;
+  font-size: inherit !important;
+  line-height: 1;
+}
+
+
+.ts-ui-select__chevron {
+  flex: 1 1 var(--ts-btn-icon-size, 0.7rem);
+  opacity: 0.7;
+  transform: rotate(0deg);
+  color: var(--ts-input-color) !important;
+  --ts-input-color: var(--ts-text-primary-dim);
+
+  transition: opacity var(--ts-dur-base) var(--ts-ease-snap),
+    transform var(--ts-dur-base) var(--ts-ease-snap);
+}
+
+.ts-ui-select--open .ts-ui-select__chevron {
+  opacity: 1;
+  --ts-input-color: var(--ts-text-accent);
+
+  transform: rotate(180deg);
+}
+
+.ts-ui-select__dropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 2000;
+  border-radius: var(--ts-input-radius);
+  border-width: 1px solid var(--ts-input-border);
+  outline: 1px solid var(--ts-input-border);
+  outline-offset: -1px !important;
+  --ts-this-bg: var(--ts-bg-0);
+  box-shadow: var(--ts-shadow-3);
+  flex-direction: column;
+  top: calc(100% - 1px);
+  border-color: var(--ts-input-border);
+  outline-color: var(--ts-input-border-focus);
+}
+
+/* [hidden] must win over display:flex (otherwise panel stays visible) */
+.ts-ui-select__dropdown[hidden] {
+  display: none !important;
+}
+
+.ts-ui-select--open .ts-ui-select__dropdown,
+.ts-ui-select__dropdown:not([hidden]) {
+  display: flex;
+  --ts-input-border: var(--ts-accent-border);
+  --ts-shadow-3: var(--ts-shadow-accent);
+  --ts-input-color: var(--ts-text-primary);
+  --ts-input-border: var(--ts-this-bg-border);
+}
+
+.ts-card .ts-ui-select--open .ts-ui-select__dropdown {
+  top: calc(100% - 1px);
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.ts-card .ts-ui-select--open .ts-ui-select__trigger {
+
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.ts-ui-select__search {
+  position: relative;
+  padding: 0;
+  border: 1px solid transparent;
+  border-bottom-color: var(--ts-input-border);
+  flex-shrink: 0;
+}
+
+.ts-ui-select--no-search .ts-ui-select__search {
+  display: none;
+}
+
+.ts-ui-select__search-icon {
+  position: absolute;
+  left: var(--ts-sp-3);
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: inherit;
+  font-size: var(--ts-input-fs);
+  line-height: 1;
+  z-index: 1;
+}
+
+.ts-ui-select .ts-ui-select__filter {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: var(--ts-ui-select-trigger-min-height);
+  padding: var(--ts-sp-2) var(--ts-sp-3) var(--ts-sp-2) calc(var(--ts-sp-3) + 1.1em + var(--ts-sp-2));
+  border-radius: 0 !important;
+  border: none;
+  --ts-this-bg: transparent !important;
+  color: inherit;
+  font-size: 98%;
+  outline: none;
+  box-shadow: none;
+  background: var(--ts-this-bg) !important;
+  color: var(--ts-input-color);
+
+}
+
+.ts-ui-select__filter:focus,
+.ts-ui-select__filter:hover {
+  outline: none;
+  box-shadow: none;
+  --ts-this-bg: var(--ts-bg-2-t) !important;
+  background: var(--ts-this-bg) !important;
+  --ts-input-color: var(--ts-text-primary) !important;
+  color: var(--ts-input-color);
+
+}
+
+.ts-ui-select__filter:focus::placeholder,
+.ts-ui-select__filter:hover::placeholder {
+  opacity: 1;
+  --ts-input-color: var(--ts-text-primary);
+  color: var(--ts-input-color);
+
+}
+
+.ts-ui-select__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  border-inline: none;
+  outline: none;
+}
+
+/* ── UI Kit scrollbars (thin, transparent track, token thumb) ───── */
+.ts-ui-select__dropdown,
+.ts-ui-select__list {
+  --ts-ui-scrollbar-size: 6px;
+  scrollbar-gutter: unset;
+  scrollbar-width: unset;
+}
+
+.ts-ui-table-scroll {
+  --ts-ui-scrollbar-size: 7px;
+  scrollbar-gutter: unset;
+  scrollbar-width: unset;
+}
+
+.ts-ui-table-scroll::-webkit-scrollbar,
+.ts-ui-select__dropdown::-webkit-scrollbar,
+.ts-ui-select__list::-webkit-scrollbar {
+  width: var(--ts-ui-scrollbar-size) !important;
+  height: var(--ts-ui-scrollbar-size) !important;
+}
+
+.ts-ui-table-scroll::-webkit-scrollbar-track,
+.ts-ui-select__dropdown::-webkit-scrollbar-track,
+.ts-ui-select__list::-webkit-scrollbar-track {
+  background: transparent;
+  border: none;
+}
+
+.ts-ui-table-scroll::-webkit-scrollbar-thumb,
+.ts-ui-select__dropdown::-webkit-scrollbar-thumb,
+.ts-ui-select__list::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--ts-text-muted), transparent 42%);
+  border-radius: var(--ts-radius-full, 9999px);
+  border-radius: 0 !important;
+  border: none;
+}
+
+
+
+/* Opt-in Mozilla: only when html.ts-env-moz (set by toolskin-uikit.js on Firefox).
+  Applying scrollbar-width / scrollbar-color on Chromium breaks ::-webkit-scrollbar styling. */
+html.ts-env-moz .ts-ui-scrollbar--moz.ts-ui-table-scroll,
+html.ts-env-moz .ts-ui-scrollbar--moz.ts-ui-select__dropdown,
+html.ts-env-moz .ts-ui-scrollbar--moz .ts-ui-select__list {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--ts-text-muted), transparent 35%) transparent;
+}
+
+
+/* ─── ICON DROPDOWN ───────────────────────────────── */
+
+
+.ts-icon-dd-wrap {
+  position: relative;
+}
+
+.ts-icon-search-input {
+  width: 100%;
+  background: var(--ts-bg-2);
+  border: 1px solid var(--ts-border-1);
+  color: var(--ts-text-secondary);
+  border-radius: var(--ts-input-radius);
+  height: var(--ts-input-h);
+  padding: var(--ts-input-padding);
+  font-size: var(--ts-input-fs);
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+  cursor: text;
+}
+
+.ts-icon-search-input:focus {
+  border-color: var(--ts-accent);
+  background: var(--ts-accent-dim-2);
+}
+
+.ts-icon-search-icon {
+  position: absolute;
+  left: var(--ts-input-pad-y);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ts-text-secondary);
+  pointer-events: none;
+  font-size: calc(var(--ts-input-fs)*1.2);
+  display: flex;
+}
+
+
+.ts-ui-select__dropdown {
+  /* display: none; */
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  /* REFACTOR NOTES AND HIGHLIGHTS: Tokens that needs to be centralized*/
+  /* REFACTOR NOTES AND HIGHLIGHTS: Tokens that needs to be centralized*/
+  /* border-radius: var(--ts-radius-md); 
+  max-height: clamp(40vh, 80vw, 220px);*/
+  overflow-y: auto;
+  z-index: 99999;
+  /*scrollbar-width: thin;
+  scrollbar-gutter: unset;
+  scrollbar-color: var(--ts-text-primary-dim) rgba(0, 0, 0, 0.01);*/
+  backdrop-filter: blur(var(--ts-backdrop-blur)) saturate(.46);
+  /* @refactor:backdrop-critical */
+  /* @refactor:glass-dependent */
+  /* @refactor:needs-solid-fallback */
+  /* @refactor:token-dependency */
+  background: var(--ts-this-bg-dim);
+}
+
+.ts-icon-dd-list {
+  /*background: var(--ts-bg-1-t);*/
+  /* REFACTOR NOTES AND HIGHLIGHTS: Tokens that needs to be centralized*/
+  outline: 1px solid var(--ts-border-1);
+  /* REFACTOR NOTES AND HIGHLIGHTS: Tokens that needs to be centralized*/
+  max-height: clamp(40vh, 80vw, 220px);
+  overflow-y: auto;
+  z-index: 99999;
+  
+  outline-offset: -1px;
+  position: absolute;
+  left: 0 !important;
+  top: calc(var(--ts-input-h) + var(--ts-sp-0, -1px)) !important;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.ts-icon-dd-list.open,
+.ts-ui-select__dropdown:not([hidden]) {
+  display: block;
+}
+
+.ts-icon-dd-list:not(.open),
+.ts-ui-select__dropdown:not([hidden]) {
+  display: none;
+}
+
+.ts-ui-select__dropdown:not([hidden]) {
+  display: flex !important;
+}
+
+
+
+
+.ts-ui-select[data-ts-ui-select-placeholder*="fonts"] li.ts-ui-select__option {
+  font-family: attr(data-value);
+  font-size: var(--ts-fs-h3);
+  font-weight: 400;
+
+  padding: calc(var(--ts-input-pad-y)*1) !important;
+  border-bottom: 1px solid var(--ts-this-bg-border-0) !important;
+  white-space: nowrap;
+  line-height: 1;
+  background-color: var(--ts-this-bg-dim-4);
+
+  /* background-image: var(--ts-this-bg-grad); */
+  /*#NEW REFACTOR NOTES:  All the inputs that has gradients  by default must be removed and be delegated globally to a  global button and input styling mode "Lush Mode". WHICH SHOULD NABLE THE BACKGRUND IMAGES FOR THE INPUTS that has already the ts-this-bg built and only needs the image  set to work. the hover state should support it too. */
+
+  min-height: unset;
+  --ts-this-bg: #47474720;
+  color: var(--ts-text-primary-dim-2);
+
+}
+
+ .ts-card:has(.ts-ui-select--open) {
+  z-index: 200 !important;
+  backdrop-filter: none !important;
+}
+
+.ts-card:has(.ts-ui-select--open) {
+  z-index: 200 !important;
+  backdrop-filter: none !important;
+}
+
+.ts-ui-select[data-ts-ui-select-placeholder*="fonts"] li.ts-ui-select__option .ts-ui-select__option-inner {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  font-weight: inherit !important;
+
+}
+
+.ts-ui-select[data-ts-ui-select-placeholder*="fonts"] .ts-ui-select__option:hover, .ts-ui-select .ts-ui-select__option:hover {
+
+  /*background: var(--ts-this-bg-grad-3);*/
+  background: var(--ts-this-bg-dim-5);
+
+  color: var(--ts-text-primary);
+
+}
+
+.ts-ui-select[data-ts-ui-select-placeholder*="fonts"] .ts-ui-select__option.ts-ui-select__option--selected {
+
+  background: var(--ts-this-bg-dim-5);
+  border-bottom-color: transparent;
+  color: var(--ts-accent-bright-2);
+  color: var(--ts-on-accent);
+  color: var(--ts-text-primary);
+
+}
+
+/*OWNER FIXES & AUDIT: HER EI MADE A REALLY DEFINITIVE way of  solving the select and other assets states and colors    in single neste blocks.  */
+.ts-ui-select .ts-ui-select__trigger {
+    border-color: var(--ts-input-border);
+  outline-color: var(--ts-input-border);
+  --ts-input-border: var(--ts-this-bg-border)!important;
+  --ts-input-border-hover: var(--ts-this-bg-border-hover)!important;
+  --ts-input-border-active: var(--ts-this-bg-focus-outline)!important;
+
+  &:focus,
+  &:hover,
+  &:active {
+  --ts-input-border: var(--ts-accent-border-hover)!important;
+  --input-color: var(--ts-this-color-bright);
+  /* --ts-text-primary: var(--ts-input-color-hover); */
+  --ts-this-bg: var(--ts-accent-dim-2)!important;
+}
+  
+}
+
+.ts-ui-select--open .ts-ui-select__trigger {
+  --ts-input-border: var(--ts-input-border-active);
+  border-color: var(--ts-input-border);
+  outline-color: var(--ts-input-border);
+  /* box-shadow: var(--ts-accent-shadow-glow-2); */
+  color: var(--ts-this-color-bright)!important;
+  background-color: var(--ts-accent-dim-2) !important;
+  /* background-image: var(--ts-accent-glow-bg-3) !important; */
+  --ts-this-bg: var(--ts-text-accent-dim-2) !important;
+  background-color: var(--ts-this-bg-dim-5) !important;
+}
+
+.ts-ui-select .ts-ui-select__option,
+.ts-card .ts-field .ts-ui-select .ts-ui-select__option {
+  font-weight: normal;
+  padding: calc(var(--ts-input-pad-y)*.65) var(--ts-input-pad-x);
+  border-bottom: 1px solid var(--ts-input-border);
+  --ts-input-border: var(--ts-this-bg-border-0);
+  --ts-input-color: var(--ts-text-primary-dim-2);
+  color: var(--ts-input-color);
+  margin-inline: 1px;
+  width: calc(100% - 2px);
+}
+
+.ts-ui-select li.ts-ui-select__option.ts-ui-select__option--selected,
+.ts-card .ts-field .ts-ui-select .ts-ui-select__option.ts-ui-select__option--selected,
+.ts-ui-select__option.ts-ui-select__option--selected {
+  background: var(--ts-this-bg-dim-5) !important;
+  --ts-input-border: var(--ts-this-bg-dim-5);
+  --ts-input-color: var(--ts-on-accent);
+  --ts-this-bg: var(--ts-text-accent-dim-2);
+}
+
+
+.ts-icon-option {
+  display: flex;
+  align-items: center;
+  gap: var(--ts-sp-3);
+  cursor: pointer;
+  font-size: var(--ts-fs-md);
+  color: var(--ts-text-secondary);
+  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+  padding: calc(var(--ts-input-pad-y)*.85) var(--ts-input-pad-x);
+  border-block: 1px solid var(--ts-this-bg-border);
+  margin-block: -1px;
+  background-color: var(--ts-this-bg);
+  --ts-this-bg: transparent;
+  --ts-this-bg-border: var(--ts-input-border);
+}
+
+.ts-icon-option ion-icon {
+  color: var(--ts-text-primary);
+}
+
+.ts-icon-option:hover,
+.ts-icon-option:hover ion-icon {
+  --ts-this-bg: var(--ts-accent-dim-3);
+  color: var(--ts-text-primary);
+  --ts-input-border: var(--ts-accent-dim-2);
+}
+
+.ts-icon-option.sel,
+.ts-icon-option.sel ion-icon {
+  --ts-this-bg: var(--ts-accent-dim);
+  color: var(--ts-accent-bright-2);
+  --ts-this-bg-border: var(--ts-accent-dim);
+}
+
+.ts-icon-option.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: grayscale(1);
+}
+
+.ts-icon-option ion-icon {
+  font-size: 150%;
+  flex-shrink: 0;
+}
+
+.ts-icon-selected-row {
+  display: flex;
+  align-items: center;
+  gap: var(--ts-sp-2);
+  padding: var(--ts-sp-2) var(--ts-sp-3);
+  background: var(--ts-bg-2);
+  border: 1px solid var(--ts-border-0);
+  border-radius: var(--ts-radius-sm);
+  font-size: var(--ts-fs-sm);
+  color: var(--ts-text-secondary);
+}
+
+.ts-icon-selected-row {
+  display: flex;
+  align-items: center;
+  gap: var(--ts-sp-2);
+  padding: var(--ts-sp) var(--ts-sp-2) !important;
+  background: var(--ts-bg-3);
+  border: 1px solid var(--ts-border-2);
+  border-radius: var(--ts-input-radius);
+  font-size: var(--ts-input-fs);
+  /* color: var(--ts-text-primary); */
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.ts-icon-selected-row ion-icon {
+  font-size: 150%;
+  color: var(--ts-accent);
+}
+/* @ts-component-consolidate */
+/*
+ICON SELECTOR — EXTENSION OF ts-ui-select (NOT A SEPARATE COMPONENT)
+
+This block represents a SPECIALIZED VARIANT of the select component
+(icon picker with search + preview + overlay behavior).
+
+It MUST be aligned with the base `.ts-ui-select` system defined in the
+previous consolidation note.
+
+----------------------------------------------------------------------
+RELATION TO BASE COMPONENT
+
+- `.ts-ui-select` → owns:
+  - structure (dropdown, options, trigger)
+  - state model (open, hover, active, focus)
+  - token system (colors, borders, shadows)
+
+- `.ts-icon-selected-row` → should ONLY:
+  - extend behavior (icon preview, search overlay)
+  - declare scoped tokens (if needed)
+  - NEVER redefine base structure or duplicate logic
+
+----------------------------------------------------------------------
+CURRENT ISSUES (CRITICAL)
+
+1. STRUCTURAL DUPLICATION
+   - Uses custom wrappers:
+     `.ts-fullselector-wrapper`, `.ts-icon-dd-wrap`, `.ts-icon-dd-list`
+   - These partially duplicate `.ts-ui-select` structure
+   - Result: forced selector merging and cascade conflicts
+
+2. STATE SYSTEM OVERCOMPLEXITY
+   - Heavy reliance on:
+     `:has()`, `:hover`, `.open`, nested conditions
+   - State logic is:
+     - duplicated
+     - inconsistent with base select
+     - difficult to reason about and override
+
+3. MIXED RESPONSIBILITIES
+   - This block contains:
+     - structure
+     - layout hacks
+     - theming
+     - state transitions
+   - Violates separation of concerns
+
+4. TOKEN LEAKAGE
+   - Tokens are redefined locally:
+     `--ts-input-*`, `--ts-this-bg`, etc.
+   - Conflicts with base select token system
+
+5. "CRAZY_FIX_RULES"
+   - Multiple overrides fighting each other
+   - Some rules:
+     - patch layout issues
+     - simulate missing states
+     - override icon visibility
+   - These must be audited and reduced
+
+6. CSS-DRIVEN LOGIC THAT SHOULD BE JS
+   - Icon "none" state rendering via pseudo-elements
+   - Conditional visibility hacks
+   - Search/input overlay transitions tied to hover
+
+----------------------------------------------------------------------
+REQUIRED REFACTOR
+
+1. STRUCTURE UNIFICATION
+
+   Replace custom structure with base select:
+
+   REMOVE / MERGE:
+   - `.ts-icon-dd-list` → `.ts-ui-select__dropdown`
+   - option items → `.ts-ui-select__option`
+   - wrapper logic → align with `.ts-ui-select`
+
+   KEEP ONLY:
+   - `.ts-icon-selected-row` as a variant wrapper
+
+----------------------------------------------------------------------
+2. STATE SIMPLIFICATION
+
+   Canonical states (shared with base select):
+
+   - idle
+   - hover
+   - open
+   - selected (value present)
+
+   REMOVE:
+   - chained `:has()` conditions for state derivation
+   - duplicated hover/open logic
+
+   MOVE TO JS (RECOMMENDED):
+   - open/close state
+   - "has value" state
+   - search active state
+
+----------------------------------------------------------------------
+3. TOKEN CONSOLIDATION
+
+   MOVE ALL TOKENS TO:
+   `.ts-ui-select` (component root)
+
+   THIS BLOCK MAY ONLY:
+   - override via scoped variables if needed
+
+   REMOVE LOCAL DEFINITIONS:
+   - `--ts-input-color`
+   - `--ts-input-bg`
+   - `--ts-input-border`
+   - etc.
+
+----------------------------------------------------------------------
+4. ICON-SPECIFIC FEATURES (KEEP)
+
+   These are VALID and must remain:
+
+   ✔ Selected icon preview (left slot)
+   ✔ Search input overlay behavior
+   ✔ Dropdown icon list
+   ✔ Dynamic icon sizing (token-based)
+
+   BUT:
+   - must plug into base select structure
+   - must not redefine it
+
+----------------------------------------------------------------------
+5. LAYOUT + OVERLAY LOGIC
+
+   Current behavior:
+   - absolute positioned overlay input
+   - expanding wrapper
+   - opacity transitions
+
+   KEEP CONCEPT
+   REIMPLEMENT CLEANLY:
+   - overlay = modifier, not structural rewrite
+   - no duplicated wrappers
+
+----------------------------------------------------------------------
+6. REMOVE / REPLACE "CRAZY_FIX_RULES"
+
+   ACTION:
+   - extract ONLY:
+     - proportional sizing logic (token आधारित)
+   - REMOVE:
+     - hardcoded overrides
+     - duplicated opacity rules
+     - conflicting transitions
+
+----------------------------------------------------------------------
+7. "NONE" STATE HANDLING
+
+   CURRENT:
+   - CSS pseudo-element hacks (`✖`)
+   - forced opacity / fill overrides
+
+   REQUIRED:
+   - handle via JS (data-state or attribute)
+   - CSS should only style state, not simulate it
+
+----------------------------------------------------------------------
+SCOPE RULE (CRITICAL)
+
+Inside ``:
+
+❌ NO structural rules
+❌ NO state logic
+❌ NO duplicated selectors
+
+✅ ONLY:
+- token overrides
+- layout context adjustments (if unavoidable)
+
+----------------------------------------------------------------------
+EXPECTED FINAL ARCHITECTURE
+
+.ts-ui-select (base)
+  ├── __trigger
+  ├── __dropdown
+  ├── __option
+
+.ts-ui-select--icon (variant)
+  ├── icon preview slot
+  ├── search overlay modifier
+  ├── optional token overrides
+
+----------------------------------------------------------------------
+RESULT
+
+- single unified select system
+- icon selector becomes a clean variant
+- zero duplication
+- simplified state model
+- predictable cascade
+
+
+NEW NOTE: PLESE GREP THE  BLOCK FOUND  BY SEARCHING FOR @consolidate_select_component
+*/
+
+.ts-icon-selected-row.ts-fullselector-wrapper {
+  position: relative;
+  /* padding-right: 0!important; */
+}
+
+.ts-icon-selected-row.ts-fullselector-wrapper:after {
+  content: "\f078";
+  font-family: var(--ts-fontawesome-family);
+  font-weight: 900;
+  font-size: 1rem !important;
+  opacity: 1;
+  width: var(--ts-input-h);
+  max-width: var(--ts-input-h);
+  height: 100%;
+  max-height: calc(var(--ts-input-h) - var(--ts-card-sp)*2);
+  max-height: var(--ts-input-h);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  z-index: 3;
+  color: inherit;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  pointer-events: none;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.ts-icon-selected-row.ts-fullselector-wrapper:has(.ts-icon-dd-list.open):after {
+  transform: rotate(-180deg);
+  color: var(--ts-accent);
+
+}
+
+.ts-icon-selected-row.ts-fullselector-wrapper:hover:after {
+  color: var(--ts-accent);
+}
+
+.ts-icon-selected-row.ts-fullselector-wrapper .ts-icon-dd-wrap {
+  margin: 0;
+  margin-inline-start: auto;
+  min-width: var(--ts-input-h);
+  field-sizing: content;
+  flex: 0;
+  max-width: calc(100% - var(--ts-input-h)*1);
+  transition: all 0.3s ease-in-out;
+
+}
+
+.ts-icon-selected-row.ts-fullselector-wrapper:not(:has(.ts-icon-dd-list.open)) .ts-icon-dd-list {
+  opacity: 0;
+
+}
+
+.ts-icon-selected-row.ts-fullselector-wrapper:has(.ts-icon-dd-list.open) .ts-icon-dd-list {
+  opacity: 1;
+}
+
+.ts-icon-selected-row.ts-fullselector-wrapper .ts-icon-dd-wrap {
+  margin: 0;
+  margin-inline-start: auto;
+  min-width: calc(100% + 2px);
+  field-sizing: content;
+  flex: 1;
+  max-width: unset;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  position: absolute;
+  inset: -1px;
+  background-color: transparent!important;
+}
+
+.ts-icon-selected-row.ts-fullselector-wrapper .ts-icon-dd-wrap .ts-icon.ts-search-icon {
+  width: var(--ts-input-h);
+  max-width: var(--ts-input-h);
+  height: 100%;
+  max-height: calc(var(--ts-input-h) - var(--ts-card-sp)*2);
+  max-height: calc(var(--ts-input-h) - 2px);
+  margin-top: 1px;
+  display: flex;
+  padding: var(--ts-card-sp);
+  box-sizing: border-box !important;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  align-content: center;
+  aspect-ratio: 1;
+  border: 0px solid var(--ts-input-border);
+  border-right-width: 1px;
+  z-index: 4;
+}
+
+.ts-icon-selected-row.ts-fullselector-wrapper .ts-icon-dd-wrap .ts-icon-search-input {
+  width: 100%;
+  max-width: unset;
+  height: 100%;
+  max-height: calc(var(--ts-input-h) - var(--ts-card-sp)*2);
+  max-height: var(--ts-input-h);
+  display: flex;
+  padding: var(--ts-input-padding);
+  /* padding-left: calc(var(--ts-input-h) + var(--ts-input-pad-x)); */
+  box-sizing: border-box !important;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  align-content: center;
+  border: 1px solid var(--ts-input-border);
+  /* @refactor:backdrop-critical */
+  /* @refactor:glass-dependent */
+  /* @refactor:needs-solid-fallback */
+  /* @refactor:token-dependency */
+  background: var(--ts-input-bg);
+  border-radius: calc(var(--ts-input-radius) - 1px);
+  outline: none;
+  box-sizing: border-box;
+  cursor: text;
+  transition: opacity 400ms ease, transform 400ms, border-radius 300ms;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  color: var(--ts-input-color);
+  --ts-input-color: var(--ts-text-primary-dim-2);
+  --ts-input-color-active: var(--ts-this-color-bright);
+  --ts-input-bg: var(--ts-this-bg);
+  --ts-this-bg: var(--ts-bg-1);
+
+}
+
+/* #CRAZY_FIX_RULES */
+.ts-icon-selected-row.ts-fullselector-wrapper:hover .ts-icon-dd-wrap .ts-icon-search-input,
+.ts-icon-selected-row.ts-fullselector-wrapper:has(.ts-icon-dd-list.open) .ts-icon-dd-wrap .ts-icon-search-input,
+.ts-icon-selected-row.ts-fullselector-wrapper:hover .ts-icon-dd-wrap .ts-icon.ts-search-icon {
+  opacity: 1;
+  /* transform: translateX(0px); */
+  --ts-input-color: var(--ts-this-color-bright);
+
+  transition: opacity 300ms ease, transform 300ms, border-radius 300ms;
+  --ts-input-border: var(--ts-input-border-focus);
+}
+
+.ts-icon-selected-row.ts-fullselector-wrapper:has(.ts-icon-dd-list.open) .ts-icon-dd-wrap .ts-icon-search-input {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  cursor: text;
+  --ts-input-border: var(--ts-input-border-focus);
+  color: var(--ts-input-color);
+  --ts-input-color: var(--ts-this-color-bright);
+  --ts-input-bg: var(--ts-accent-glow-bg-2);
+  --ts-this-bg: var(--ts-accent);
+}
+
+.ts-icon-selected-row.ts-fullselector-wrapper:not(:hover, :has(.ts-icon-dd-list.open)) .ts-icon-search-input,
+.ts-icon-selected-row.ts-fullselector-wrapper:not(:hover, :has(.ts-icon-dd-list.open)) .ts-icon.ts-search-icon,
+.ts-icon-selected-row.ts-fullselector-wrapper:has(.ts-icon-dd-list.open) .ts-icon-dd-wrap .ts-icon.ts-search-icon {
+  opacity: 0;
+  /*transform: translateX(-10px);*/
+  transition: opacity 400ms ease, transform 400ms, border-radius 300ms;
+}
+
+ .ts-card-rows .ts-icon-selected-row.ts-fullselector-wrapper:has([data-ts-selected-icon]) ion-icon#ts-icon-selected-preview,
+.ts-icon-selected-row.ts-fullselector-wrapper:has([data-ts-selected-icon]) ion-icon[id*="selected"] {
+  width: var(--ts-input-icon-size);
+  max-width: var(--ts-input-icon-size);
+  height: 100%;
+  max-height: var(--ts-input-icon-size);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  z-index: 0;
+  color: inherit;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: var(--ts-input-icon-pad);
+  font-size: var(--ts-input-icon-fs) !important;
+  border: 0px solid var(--ts-input-border);
+  border-right-width: 1px;
+  pointer-events: none;
+  transition: all 300ms;
+}
+
+/* @ts-component-consolidate */
+/*
+ICON SELECTOR — STATE + STRUCTURE NORMALIZATION
+(extends previous consolidation notes)
+
+This block contains CRITICAL duplication of:
+- sizing logic
+- state handling
+- visual overrides
+
+It must be reduced to:
+✔ structural + proportional rules ONLY
+✖ no state logic duplication
+✖ no CSS-driven logic simulation
+
+----------------------------------------------------------------------
+1. EXTRACTED CORE (VALID — KEEP)
+
+These are correct because they are:
+- proportional
+- token-based
+- layout-defining
+
+→ MOVE to component/variant root (`.ts-ui-select--icon` or wrapper)
+
+
+.ts-icon-selected-row {
+  --ts-input-icon-pad: calc(var(--ts-input-h) / 4);
+  --ts-input-icon-size: calc(var(--ts-input-h) - var(--ts-input-icon-pad) * 2 - 2px);
+  --ts-input-icon-fs: calc(var(--ts-input-h) / 3);
+}
+
+*/
+ .ts-card-rows .ts-icon-selected-row.ts-fullselector-wrapper:has([data-ts-selected-icon]):has(ion-icon#ts-icon-selected-preview),
+.ts-icon-selected-row.ts-fullselector-wrapper:has([data-ts-selected-icon]):has(ion-icon[id*="selected"]),
+.ts-icon-selected-row.ts-fullselector-wrapper,
+.ts-icon-selected-row.ts-fullselector-wrapper .ts-icon-search-input {
+  --ts-input-icon-size: calc(var(--ts-input-h) - var(--ts-input-icon-pad)*2 - 2px);
+  --ts-input-icon-pad: calc(var(--ts-input-h)/4);
+  --ts-input-icon-fs: calc(var(--ts-input-h)/3);
+  padding-left: calc(var(--ts-input-h) + var(--ts-input-icon-pad)*1) !important;
+  /* padding: var(--ts-input-padding) !important; */
+}
+
+.ts-icon-selected-row {
+  --ts-input-icon-pad: calc(var(--ts-input-h) / 4);
+  --ts-input-icon-size: calc(var(--ts-input-h) - var(--ts-input-icon-pad) * 2 - 2px);
+  --ts-input-icon-fs: calc(var(--ts-input-h) / 3);
+}
+
+/* structural spacing (icon slot) */
+.ts-icon-selected-row {
+  padding-left: calc(var(--ts-input-h) + var(--ts-input-icon-pad));
+}
+
+/*
+WHY THIS STAYS:
+- defines icon slot layout
+- proportional to input height
+- reusable across all states
+
+----------------------------------------------------------------------
+2. REMOVE CASCADE ABUSE (CRITICAL)
+
+DELETE:
+- chained selectors with ``
+- duplicated selector groups
+- `:has()` + `:not(:hover)` combinations for layout
+
+REASON:
+- layout must NOT depend on state conditions
+- this creates cascade conflicts and unpredictability
+
+----------------------------------------------------------------------
+3. "NONE" STATE — REMOVE FROM CSS
+
+CURRENT PROBLEMS:
+- CSS simulates logic using:
+  - `[data-ts-selected-icon="none"]`
+  - pseudo-elements ("✖")
+  - forced opacity / fill overrides
+
+THIS IS INVALID RESPONSIBILITY
+
+----------------------------------------------------------------------
+REPLACEMENT (REQUIRED)
+
+Move to JS-driven state:
+
+HTML:
+[data-state="empty"]
+[data-state="selected"]
+
+CSS (clean):
+
+.ts-icon-selected-row[data-state="empty"] {
+  --ts-input-bg: var(--ts-bg-2-t);
+  color: var(--ts-text-secondary-dim);
+}
+
+.ts-icon-selected-row[data-state="selected"] ion-icon {
+  color: var(--ts-accent);
+}
+
+----------------------------------------------------------------------
+4. REMOVE HARD OVERRIDES
+
+DELETE:
+- `!important` color rules
+- `fill: transparent`
+- svg opacity hacks
+- pseudo `:after` "✖" injection
+
+REASON:
+- these are compensating for missing state model
+- break theming and composability
+
+----------------------------------------------------------------------
+5. STATE MODEL SIMPLIFICATION
+
+REPLACE ALL THIS:
+
+:has([data-ts-selected-icon="none"])
+:not(:hover)
+:has(.open)
+multiple nested combinations
+
+WITH:
+
+SINGLE SOURCE OF TRUTH:
+
+[data-state="empty"]
+[data-state="selected"]
+[data-state="open"]
+
+OPTIONAL:
+[data-interaction="hover"]
+
+----------------------------------------------------------------------
+6. COLOR SYSTEM DECOUPLING
+
+IMPORTANT:
+- this block MUST NOT define final colors
+
+ONLY:
+- consume tokens
+
+MOVE color logic to:
+→ global select theme layer
+
+KEEP HERE:
+- structural + sizing tokens ONLY
+
+----------------------------------------------------------------------
+7. REMOVE APP-SCOPED DEPENDENCY
+
+DELETE:
+ .ts-card-rows ...
+
+REASON:
+- component must be portable
+- app scope should ONLY override tokens, never behavior
+
+----------------------------------------------------------------------
+FINAL RESULT
+
+✔ icon selector becomes a clean variant
+✔ no duplicated logic
+✔ no CSS hacks
+✔ predictable states
+✔ fully token-driven
+✔ portable outside banner-generator
+
+*/
+
+ .ts-card-rows .ts-icon-selected-row.ts-fullselector-wrapper:has([data-ts-selected-icon="none"]) ion-icon[id*="selected"],
+ .ts-card-rows .ts-icon-selected-row.ts-fullselector-wrapper:has([data-ts-selected-icon="none"]):not(:hover) #ts-icon-selected-name,
+ .ts-card-rows .ts-icon-selected-row.ts-fullselector-wrapper:has([data-ts-selected-icon="none"]):not(:hover),
+.ts-icon-selected-row.ts-fullselector-wrapper:has([data-ts-selected-icon="none"]) #ts-icon-selected-preview,
+.ts-icon-selected-row.ts-fullselector-wrapper:has([data-ts-selected-icon="none"]):not(:hover) {
+  fill: currentcolor;
+  --ts-input-bg-2: transparent;
+  --ts-input-bg: var(--ts-bg-2-t);
+  /* z-index: 0; */
+}
+
+.ts-icon-selected-row.ts-fullselector-wrapper:has([data-ts-selected-icon="none"]):has(.ts-icon-dd-list.open) #ts-icon-selected-name {
+  opacity: 0;
+}
+
+ .ts-card-rows .ts-icon-selected-row.ts-fullselector-wrapper:not(:has([data-ts-selected-icon="none"])) #ts-icon-selected-preview,
+.ts-icon-selected-row.ts-fullselector-wrapper:not(:has([data-ts-selected-icon="none"])) ion-icon[id*="selected"] {
+  color: var(--ts-accent) !important;
+
+}
+
+/* #CRAZY_FIX_RULES: added a hardcoded css placehoplder replacement for the icon when theresno icon selected. this should be done with js instead of this.  */
+ .ts-card-rows .ts-icon-selected-row.ts-fullselector-wrapper:has([data-ts-selected-icon="none"]) ion-icon[id*="selected"] {
+  --ts-text-muted: var(--ts-text-secondary-dim);
+  fill: transparent !important;
+}
+
+ .ts-card-rows .ts-icon-selected-row.ts-fullselector-wrapper:has([data-ts-selected-icon="none"]) ion-icon[id*="selected"] svg {
+  --ts-text-muted: var(--ts-text-secondary-dim);
+  fill: transparent !important;
+  opacity: 0 !important;
+}
+
+ .ts-card-rows .ts-icon-selected-row.ts-fullselector-wrapper:has([data-ts-selected-icon="none"]) ion-icon[id*="selected"]:after {
+  content: "✖";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+}
+
+.ts-ui-select .ts-ui-select__search .ts-icon,
+.ts-ui-select .ts-ui-select__search .ts-icon,
+ .ts-ui-select .ts-ui-select__chevron .ts-icon,
+ .ts-ui-select .ts-ui-select__chevron,
+.ts-ui-select .ts-ui-select__chevron .ts-icon,
+.ts-ui-select .ts-ui-select__chevron {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  place-content: center;
+  line-height: var(--ts-btn-fs);
+  font-size: var(--ts-btn-icon-size) !important;
+  --ts-btn-icon-size: calc(var(--ts-btn-fs)*1);
+  aspect-ratio: 1;
+  width: var(--ts-btn-icon-size);
+  height: var(--ts-btn-icon-size);
+  max-width: var(--ts-btn-icon-size);
+  min-width: var(--ts-btn-icon-size);
+  max-height: var(--ts-btn-icon-size);
+}

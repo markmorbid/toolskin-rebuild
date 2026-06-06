@@ -1,0 +1,468 @@
+[
+  {
+    "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer",
+    "name": "expert-designer",
+    "type": "folder",
+    "url": ".",
+    "size": null,
+    "mtime": 1779682843,
+    "ctime": 1779682843,
+    "children": [
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\references",
+        "name": "references",
+        "type": "folder",
+        "url": "references",
+        "size": null,
+        "mtime": 1779634819,
+        "ctime": 1779634819,
+        "children": [
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\references\\01-foundation.md",
+            "name": "01-foundation.md",
+            "type": "file",
+            "url": "references/01-foundation.md",
+            "size": 8883,
+            "mtime": 1779630646,
+            "ctime": 1779633796,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\references\\02-typography.md",
+            "name": "02-typography.md",
+            "type": "file",
+            "url": "references/02-typography.md",
+            "size": 12125,
+            "mtime": 1779630646,
+            "ctime": 1779633796,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\references\\03-layout-and-spacing.md",
+            "name": "03-layout-and-spacing.md",
+            "type": "file",
+            "url": "references/03-layout-and-spacing.md",
+            "size": 12225,
+            "mtime": 1779634724,
+            "ctime": 1779634726,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\references\\04-cards-and-containers.md",
+            "name": "04-cards-and-containers.md",
+            "type": "file",
+            "url": "references/04-cards-and-containers.md",
+            "size": 18188,
+            "mtime": 1779630646,
+            "ctime": 1779633796,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\references\\05-awwwards-patterns.md",
+            "name": "05-awwwards-patterns.md",
+            "type": "file",
+            "url": "references/05-awwwards-patterns.md",
+            "size": 23459,
+            "mtime": 1779630646,
+            "ctime": 1779633796,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\references\\06-component-recipes.md",
+            "name": "06-component-recipes.md",
+            "type": "file",
+            "url": "references/06-component-recipes.md",
+            "size": 14603,
+            "mtime": 1779634819,
+            "ctime": 1779634819,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\screenshots",
+        "name": "screenshots",
+        "type": "folder",
+        "url": "screenshots",
+        "size": null,
+        "mtime": 1779634239,
+        "ctime": 1779634239,
+        "children": [
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\screenshots\\expert--designer-showcase.jpg",
+            "name": "expert--designer-showcase.jpg",
+            "type": "file",
+            "url": "screenshots/expert--designer-showcase.jpg",
+            "size": 2479595,
+            "mtime": 1779634239,
+            "ctime": 1779634239,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\screenshots\\screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_55_57.jpg",
+            "name": "screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_55_57.jpg",
+            "type": "file",
+            "url": "screenshots/screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_55_57.jpg",
+            "size": 1407779,
+            "mtime": 1779634239,
+            "ctime": 1779634239,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\screenshots\\screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_57_00.jpg",
+            "name": "screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_57_00.jpg",
+            "type": "file",
+            "url": "screenshots/screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_57_00.jpg",
+            "size": 5503193,
+            "mtime": 1779634239,
+            "ctime": 1779634239,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\screenshots\\screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_57_32.jpg",
+            "name": "screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_57_32.jpg",
+            "type": "file",
+            "url": "screenshots/screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_57_32.jpg",
+            "size": 5328883,
+            "mtime": 1779634239,
+            "ctime": 1779634239,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\screenshots\\screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_57_55.jpg",
+            "name": "screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_57_55.jpg",
+            "type": "file",
+            "url": "screenshots/screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_57_55.jpg",
+            "size": 3063945,
+            "mtime": 1779634239,
+            "ctime": 1779634239,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\screenshots\\screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_58_58.jpg",
+            "name": "screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_58_58.jpg",
+            "type": "file",
+            "url": "screenshots/screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_58_58.jpg",
+            "size": 3772170,
+            "mtime": 1779634239,
+            "ctime": 1779634239,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\screenshots\\screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_59_26.jpg",
+            "name": "screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_59_26.jpg",
+            "type": "file",
+            "url": "screenshots/screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-03_59_26.jpg",
+            "size": 4108317,
+            "mtime": 1779634239,
+            "ctime": 1779634239,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\screenshots\\screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-04_06_06.jpg",
+            "name": "screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-04_06_06.jpg",
+            "type": "file",
+            "url": "screenshots/screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-04_06_06.jpg",
+            "size": 5525528,
+            "mtime": 1779634239,
+            "ctime": 1779634239,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\screenshots\\screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-04_06_56.jpg",
+            "name": "screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-04_06_56.jpg",
+            "type": "file",
+            "url": "screenshots/screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-04_06_56.jpg",
+            "size": 4472424,
+            "mtime": 1779634239,
+            "ctime": 1779634239,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\screenshots\\screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-04_07_48.jpg",
+            "name": "screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-04_07_48.jpg",
+            "type": "file",
+            "url": "screenshots/screencapture-localhost-8002-docs-claude-design-files-project-Expert-Designer-Pack-html-2026-05-24-04_07_48.jpg",
+            "size": 709036,
+            "mtime": 1779634239,
+            "ctime": 1779634239,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\screenshots\\showcase-13px-aligned-phase-a.png",
+            "name": "showcase-13px-aligned-phase-a.png",
+            "type": "file",
+            "url": "screenshots/showcase-13px-aligned-phase-a.png",
+            "size": 1367193,
+            "mtime": 1779634239,
+            "ctime": 1779634239,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\scripts",
+        "name": "scripts",
+        "type": "folder",
+        "url": "scripts",
+        "size": null,
+        "mtime": 1779634253,
+        "ctime": 1779634253,
+        "children": [
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\scripts\\audit-boring.mjs",
+            "name": "audit-boring.mjs",
+            "type": "file",
+            "url": "scripts/audit-boring.mjs",
+            "size": 11643,
+            "mtime": 1779630646,
+            "ctime": 1779633796,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\scripts\\audit-design.mjs",
+            "name": "audit-design.mjs",
+            "type": "file",
+            "url": "scripts/audit-design.mjs",
+            "size": 12276,
+            "mtime": 1779634253,
+            "ctime": 1779634253,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\scripts\\generate-colors.js",
+            "name": "generate-colors.js",
+            "type": "file",
+            "url": "scripts/generate-colors.js",
+            "size": 18968,
+            "mtime": 1779634839,
+            "ctime": 1779634839,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\scripts\\health-check.sh",
+            "name": "health-check.sh",
+            "type": "file",
+            "url": "scripts/health-check.sh",
+            "size": 4001,
+            "mtime": 1779630646,
+            "ctime": 1779633797,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\scripts\\scaffold-component.sh",
+            "name": "scaffold-component.sh",
+            "type": "file",
+            "url": "scripts/scaffold-component.sh",
+            "size": 6465,
+            "mtime": 1779630646,
+            "ctime": 1779633797,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\starters",
+        "name": "starters",
+        "type": "folder",
+        "url": "starters",
+        "size": null,
+        "mtime": 1779633797,
+        "ctime": 1779635614,
+        "children": [
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\starters\\01-centered-hero.html",
+            "name": "01-centered-hero.html",
+            "type": "file",
+            "url": "starters/01-centered-hero.html",
+            "size": 3723,
+            "mtime": 1779630646,
+            "ctime": 1779635614,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\starters\\02-magazine-split.html",
+            "name": "02-magazine-split.html",
+            "type": "file",
+            "url": "starters/02-magazine-split.html",
+            "size": 10386,
+            "mtime": 1779630646,
+            "ctime": 1779635629,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\starters\\03-asymmetric-hero.html",
+            "name": "03-asymmetric-hero.html",
+            "type": "file",
+            "url": "starters/03-asymmetric-hero.html",
+            "size": 10075,
+            "mtime": 1779678003,
+            "ctime": 1779678003,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\starters\\04-oversized-type.html",
+            "name": "04-oversized-type.html",
+            "type": "file",
+            "url": "starters/04-oversized-type.html",
+            "size": 3612,
+            "mtime": 1779630646,
+            "ctime": 1779635650,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\starters\\05-bento-landing.html",
+            "name": "05-bento-landing.html",
+            "type": "file",
+            "url": "starters/05-bento-landing.html",
+            "size": 11758,
+            "mtime": 1779630646,
+            "ctime": 1779635660,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\starters\\06-magazine-toc.html",
+            "name": "06-magazine-toc.html",
+            "type": "file",
+            "url": "starters/06-magazine-toc.html",
+            "size": 5815,
+            "mtime": 1779630646,
+            "ctime": 1779635669,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\templates",
+        "name": "templates",
+        "type": "folder",
+        "url": "templates",
+        "size": null,
+        "mtime": 1779660073,
+        "ctime": 1779660073,
+        "children": [
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\templates\\seed-page.html",
+            "name": "seed-page.html",
+            "type": "file",
+            "url": "templates/seed-page.html",
+            "size": 5094,
+            "mtime": 1779630646,
+            "ctime": 1779663670,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\templates\\starters-extraction.css",
+            "name": "starters-extraction.css",
+            "type": "file",
+            "url": "templates/starters-extraction.css",
+            "size": 40222,
+            "mtime": 1779678254,
+            "ctime": 1779678254,
+            "children": []
+          },
+          {
+            "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\templates\\tokens.css",
+            "name": "tokens.css",
+            "type": "file",
+            "url": "templates/tokens.css",
+            "size": 27751,
+            "mtime": 1779676097,
+            "ctime": 1779676097,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\ANTI-DEFAULT-PROTOCOL.md",
+        "name": "ANTI-DEFAULT-PROTOCOL.md",
+        "type": "file",
+        "url": "ANTI-DEFAULT-PROTOCOL.md",
+        "size": 7787,
+        "mtime": 1779630646,
+        "ctime": 1779633796,
+        "children": []
+      },
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\Expert Designer Pack.html",
+        "name": "Expert Designer Pack.html",
+        "type": "file",
+        "url": "Expert Designer Pack.html",
+        "size": 267362,
+        "mtime": 1779634791,
+        "ctime": 1779634791,
+        "children": []
+      },
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\expert-designer — tree.pdf",
+        "name": "expert-designer — tree.pdf",
+        "type": "file",
+        "url": "expert-designer — tree.pdf",
+        "size": 72865,
+        "mtime": 1779682843,
+        "ctime": 1779682843,
+        "children": []
+      },
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\expert-designer-tree.md",
+        "name": "expert-designer-tree.md",
+        "type": "file",
+        "url": "expert-designer-tree.md",
+        "size": 3986,
+        "mtime": 1779682625,
+        "ctime": 1779682625,
+        "children": []
+      },
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\HANDOFF.md",
+        "name": "HANDOFF.md",
+        "type": "file",
+        "url": "HANDOFF.md",
+        "size": 9339,
+        "mtime": 1779630646,
+        "ctime": 1779673043,
+        "children": []
+      },
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\README.md",
+        "name": "README.md",
+        "type": "file",
+        "url": "README.md",
+        "size": 6250,
+        "mtime": 1779630646,
+        "ctime": 1779633796,
+        "children": []
+      },
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\showcase_original.html",
+        "name": "showcase_original.html",
+        "type": "file",
+        "url": "showcase_original.html",
+        "size": 53267,
+        "mtime": 1779676480,
+        "ctime": 1779676480,
+        "children": []
+      },
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\showcase.html",
+        "name": "showcase.html",
+        "type": "file",
+        "url": "showcase.html",
+        "size": 58761,
+        "mtime": 1779676840,
+        "ctime": 1779676840,
+        "children": []
+      },
+      {
+        "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\SKILL.md",
+        "name": "SKILL.md",
+        "type": "file",
+        "url": "SKILL.md",
+        "size": 15211,
+        "mtime": 1779630646,
+        "ctime": 1779663462,
+        "children": []
+      }
+    ]
+  }
+]

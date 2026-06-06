@@ -1,0 +1,1505 @@
+/* ============================================================================
+ * starters-extraction.css — a staged partial cummulative nd  deduper-focsed stylesheet where 
+ we coigregate all the header styles from thestarter templates html generated to  filter and get the final classes rules and polished final  tokens for layout buildign and finald esign rules for  the skills adn agent isnturctiosn boudnaries.
+ Once al the duplicated  clases and rules are minized, dedupleed, optimized,  atomized,  okeniz<ed, and   delegated to asset stge and  turned into token based design layer,  this  sheet  will migrate  the different type of rules to the correspondign sheets correpsdondign to the architect criteria, only leavign heare the proper layer of tplkenization organziad to  commit to itspurpose and   unify its  function optimally, Toolskin design tokens for expert-designer v6
+ * ----------------------------------------------------------------------------
+ * The complete --ts-* contract: color, type, space, shape, motion, layout.
+ * Drop this in any HTML to get the full system. Surfaces ship dark + light
+ * default; switch by setting [data-theme="light"] on <html>.
+ *
+ * For production, generate the color block via scripts/generate-colors.js
+ * (it dual-emits hex + oklch and runs APCA verification).
+
+ @OWNER_NOTE: Remove color overrides that conflict with non-inheritable rules across stylesheets.
+   Prefer a proper import chain to avoid duplicated root declarations (tokens.css already defines core values).
+
+
+ * ========================================================================== */
+
+
+
+/* Showcase.html Bento design isolated  scoped  styles, moved for  unifying sand normalization purposes. . both sylesheeets now shares the  same classes names, but mwe neeed to  filter out which styles a re the ones that are  flexible and able to be used  on all the layouts semalessly woithout any design restriction. so we are comaprign ansd cleaning up  from the general scope ()above) to the specific scoped  code bellwwe, that only affects the encvlosed  ccsas   affefcting onlu the class  wrapping the  sahowcase page.  once filtered the scoping resdtirction wont be neccesary anymore. */
+
+
+/* these t two utlkitary classes ar e appolied directly on the  body of the  landing.  both serves for shwocase oages utilitary executins and  this especific style attribution glbal styles enbaling.  without those classes  th styles wont be applied and the defalt  fallback styles will beused.  this scoping methdos will be mandatory for the different oatterns and  themes  to afvoid  deployuiing  complex and differetn  dom, layouts and markups wne  we should only deployy the same baseline wktrh cnagens on attributes scirpts,   init code and  propertiesd on assets + contenti*/
+
+body.ts-showcase.ts-bento-landing {
+  overflow-x: hidden;
+
+      font-family: var(--ts-font-body);
+    font-size: var(--ts-fs-body);
+    line-height: var(--ts-lh-normal);
+    color: var(--ts-text-primary);
+    background: var(--ts-bg-body);
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern", "liga", "calt";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.ts-showcase.ts-bento-landing {
+
+  /* ──────────────────────────────────────────────────────────────
+       Showcase-only styles. Builds on tokens.css. No overrides.
+       ────────────────────────────────────────────────────────────── */
+
+
+
+  /* ── TOPBAR ─────────────────────────────────────────────────── */
+  .ts-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--ts-sp-6);
+    height: 64px;
+    padding: 0 var(--ts-container-pad);
+    background: color-mix(in srgb, var(--ts-bg-body), transparent 20%);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid var(--ts-border-0);
+  }
+
+  .ts-topbar__brand {
+    font-weight: var(--ts-fw-bold);
+    letter-spacing: var(--ts-tracking-tight);
+    display: flex;
+    align-items: center;
+    gap: var(--ts-sp-2);
+  }
+
+  .ts-topbar__brand-mark {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--ts-radius-xs);
+    background: var(--ts-accent);
+    display: grid;
+    place-items: center;
+    color: var(--ts-on-accent);
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    font-weight: var(--ts-fw-bold);
+  }
+
+  .ts-topbar__nav {
+    display: flex;
+    gap: var(--ts-sp-6);
+    justify-content: center;
+    font-size: var(--ts-fs-caption);
+  }
+
+  .ts-topbar__nav a {
+    color: var(--ts-text-secondary);
+    padding: var(--ts-sp-2);
+    transition: color var(--ts-dur-fast) var(--ts-ease-out);
+  }
+
+  .ts-topbar__nav a:hover {
+    color: var(--ts-text-primary);
+  }
+
+  .ts-topbar__actions {
+    display: flex;
+    gap: var(--ts-sp-2);
+    align-items: center;
+  }
+
+  .ts-theme-toggle {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--ts-radius-sm);
+    border: 1px solid var(--ts-border-1);
+    background: var(--ts-bg-2);
+    color: var(--ts-text-primary);
+    cursor: pointer;
+    font-size: var(--ts-fs-caption);
+    transition: var(--ts-transition);
+  }
+
+  .ts-theme-toggle:hover {
+    border-color: var(--ts-border-2);
+  }
+
+  @media (max-width: 720px) {
+    .ts-topbar__nav {
+      display: none;
+    }
+  }
+
+  /* ── HERO ──────────────────────────────────────────────────── */
+  .ts-hero {
+    position: relative;
+    padding: clamp(96px, 16vh, 192px) 0;
+    isolation: isolate;
+  }
+
+  .ts-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(ellipse 50% 60% at 30% 30%, var(--ts-accent-dim) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 80% 70%, var(--ts-alt-dim) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .ts-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(32px, 5vw, 96px);
+    align-items: end;
+    max-width: var(--ts-container-xl);
+}
+
+  @media (max-width: 960px) {
+    .ts-hero__grid {
+      grid-template-columns: 1fr;
+      gap: var(--ts-sp-12);
+    }
+  }
+
+  .ts-hero-kickers {
+    display: grid;
+    gap: var(--ts-sp-2);
+    margin-bottom: var(--ts-sp-8);
+  }
+
+  .ts-hero__kicker {
+    font-size: var(--ts-fs-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--ts-tracking-wider);
+    font-weight: var(--ts-fw-semibold);
+    color: var(--ts-text-muted);
+  }
+
+  .ts-hero__kicker.ts-accent {
+
+    color: var(--ts-accent);
+  }
+
+  .ts-hero__title {
+    font-family: var(--ts-font-display);
+    font-size: clamp(48px, 9vw, 124px);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    font-weight: var(--ts-fw-bold);
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .ts-hero__title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ts-accent);
+    letter-spacing: -0.02em;
+  }
+
+  .ts-hero__rail {
+    border-left: 1px solid var(--ts-border-1);
+    padding-left: var(--ts-sp-6);
+    display: grid;
+    gap: var(--ts-sp-6);
+  }
+
+  .ts-hero__rail p {
+    color: var(--ts-text-secondary);
+    max-width: 38ch;
+  }
+
+  .ts-hero__actions {
+    display: flex;
+    gap: var(--ts-sp-3);
+    flex-wrap: wrap;
+  }
+
+  /* ── SECTION HEADER ────────────────────────────────────────── */
+  .ts-section-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: clamp(var(--ts-sp-6), 4vw, var(--ts-sp-16));
+    align-items: end;
+    margin-bottom: var(--ts-sp-12);
+    padding-bottom: var(--ts-sp-8);
+    border-bottom: 1px solid var(--ts-border-1);
+  }
+
+  @media (max-width: 720px) {
+    .ts-section-head {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ts-section-head__num {
+    font-family: var(--ts-font-mono);
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-muted);
+    letter-spacing: var(--ts-tracking-wide);
+  }
+
+  .ts-section-head__title {
+    font-family: var(--ts-font-display);
+    font-size: var(--ts-fs-h1);
+    line-height: var(--ts-lh-headline);
+    letter-spacing: var(--ts-tracking-tight);
+    font-weight: var(--ts-fw-bold);
+    margin: var(--ts-sp-2) 0 0 0;
+    text-wrap: balance;
+  }
+
+  .ts-section-head__lead {
+    color: var(--ts-text-secondary);
+    font-size: var(--ts-fs-lead);
+    max-width: 60ch;
+  }
+
+  /* ── TYPE LADDER VISUALIZER ───────────────────────────────── */
+  .ts-ladder {
+    display: grid;
+    gap: var(--ts-sp-4);
+  }
+
+  .ts-ladder__row {
+    display: grid;
+    grid-template-columns: 60px 80px 1fr auto;
+    gap: var(--ts-sp-6);
+    align-items: baseline;
+    padding: var(--ts-sp-3) 0;
+    border-bottom: 1px solid var(--ts-border-0);
+  }
+
+  .ts-ladder__step {
+    font-family: var(--ts-font-mono);
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-muted);
+  }
+
+  .ts-ladder__size {
+    font-family: var(--ts-font-mono);
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-secondary);
+    font-feature-settings: "tnum" 1;
+  }
+
+  .ts-ladder__sample {
+    font-weight: var(--ts-fw-semibold);
+  }
+
+  .ts-ladder__role {
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--ts-tracking-wider);
+  }
+
+  /* ── COLOR / SURFACE VISUALIZER ───────────────────────────── */
+  .ts-swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+    gap: var(--ts-sp-3);
+  }
+
+  .ts-swatch {
+    aspect-ratio: 1.2 / 1;
+    border-radius: var(--ts-radius-md);
+    padding: var(--ts-sp-4);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid var(--ts-border-1);
+    transition: transform var(--ts-dur-fast) var(--ts-ease-out);
+  }
+
+  .ts-swatch:hover {
+    transform: translateY(-2px);
+  }
+
+  .ts-swatch__label {
+    font-family: var(--ts-font-mono);
+    font-size: 10px;
+    color: var(--ts-text-secondary);
+  }
+
+  .ts-swatch__value {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    color: var(--ts-text-primary);
+    align-self: flex-end;
+  }
+
+  /* Accent knob slider playground */
+  .ts-accent-lab {
+    padding: var(--ts-sp-8);
+    background: var(--ts-bg-1);
+    border-radius: var(--ts-radius-lg);
+    border: 1px solid var(--ts-border-1);
+    display: grid;
+    gap: var(--ts-sp-6);
+  }
+
+  .ts-accent-lab__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--ts-sp-8);
+    align-items: center;
+  }
+
+  @media (max-width: 720px) {
+    .ts-accent-lab__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ts-accent-lab__preview {
+    aspect-ratio: 4/3;
+    border-radius: var(--ts-radius-md);
+    background:
+      radial-gradient(ellipse at 30% 30%, var(--ts-accent-bright), transparent 70%),
+      radial-gradient(ellipse at 70% 70%, var(--ts-accent-dark), transparent 70%),
+      var(--ts-accent);
+    display: grid;
+    place-items: center;
+    color: var(--ts-on-accent);
+    font-family: var(--ts-font-display);
+    font-size: var(--ts-fs-h2);
+    font-weight: var(--ts-fw-bold);
+    letter-spacing: var(--ts-tracking-tight);
+    transition: background var(--ts-dur-base) var(--ts-ease-out);
+  }
+
+  .ts-accent-lab__controls {
+    display: grid;
+    gap: var(--ts-sp-4);
+  }
+
+  .ts-accent-lab__field {
+    display: grid;
+    gap: var(--ts-sp-2);
+  }
+
+  .ts-accent-lab__field label {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-secondary);
+  }
+
+  .ts-accent-lab__field label span {
+    font-family: var(--ts-font-mono);
+    color: var(--ts-text-primary);
+  }
+
+  .ts-accent-lab__field input[type="range"] {
+    width: 100%;
+    accent-color: var(--ts-accent);
+  }
+
+  .ts-accent-lab__samples {
+    display: flex;
+    gap: var(--ts-sp-2);
+    flex-wrap: wrap;
+  }
+
+  /* ── SPACING RHYTHM ───────────────────────────────────────── */
+  .ts-rhythm {
+    display: grid;
+    gap: var(--ts-sp-3);
+  }
+
+  .ts-rhythm__row {
+    display: grid;
+    grid-template-columns: 80px 1fr 100px;
+    gap: var(--ts-sp-4);
+    align-items: center;
+  }
+
+  .ts-rhythm__token {
+    font-family: var(--ts-font-mono);
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-secondary);
+  }
+
+  .ts-rhythm__bar {
+    height: 12px;
+    background: linear-gradient(90deg, var(--ts-accent) 0%, var(--ts-accent-dim) 100%);
+    border-radius: var(--ts-radius-xs);
+  }
+
+  .ts-rhythm__px {
+    font-family: var(--ts-font-mono);
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-muted);
+    text-align: right;
+    font-feature-settings: "tnum" 1;
+  }
+
+  /* ── CARD GALLERY ─────────────────────────────────────────── */
+  .ts-gallery {
+    display: grid;
+    gap: var(--ts-sp-6);
+  }
+
+  .ts-gallery__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--ts-sp-8);
+    align-items: start;
+    padding: var(--ts-sp-8) 0;
+    border-bottom: 1px solid var(--ts-border-0);
+  }
+
+  @media (max-width: 720px) {
+    .ts-gallery__row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ts-gallery__meta {
+    position: sticky;
+    top: 96px;
+  }
+
+  .ts-gallery__meta h3 {
+    font-family: var(--ts-font-display);
+    font-size: var(--ts-fs-h3);
+    letter-spacing: var(--ts-tracking-tight);
+    margin: var(--ts-sp-3) 0;
+  }
+
+  .ts-gallery__meta p {
+    color: var(--ts-text-secondary);
+    font-size: var(--ts-fs-body);
+    margin-bottom: var(--ts-sp-4);
+  }
+
+  .ts-gallery__num {
+    font-family: var(--ts-font-mono);
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-accent);
+  }
+
+  .ts-gallery__chips {
+    display: flex;
+    gap: var(--ts-sp-1);
+    flex-wrap: wrap;
+    margin-top: var(--ts-sp-4);
+  }
+
+  .ts-chip {
+    font-family: var(--ts-font-mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: var(--ts-radius-full);
+    background: var(--ts-bg-2);
+    color: var(--ts-text-secondary);
+    border: 1px solid var(--ts-border-0);
+  }
+
+  /* Stat card sample */
+  .ts-demo-stat {
+    display: grid;
+    gap: var(--ts-sp-2);
+    padding: var(--ts-sp-6);
+    background: var(--ts-bg-2);
+    border: 1px solid var(--ts-border-1);
+    border-radius: var(--ts-radius-md);
+    box-shadow: var(--ts-shadow-1);
+  }
+
+  .ts-demo-stat .ts-card__metric {
+    font-size: var(--ts-fs-h2);
+  }
+
+  /* Feature card */
+  .ts-demo-feature {
+    padding: var(--ts-sp-8);
+    background: var(--ts-bg-2);
+    border: 1px solid var(--ts-border-1);
+    border-radius: var(--ts-radius-md);
+    display: grid;
+    gap: var(--ts-sp-4);
+  }
+
+  .ts-demo-feature h4 {
+    font-size: var(--ts-fs-h4);
+    letter-spacing: var(--ts-tracking-tight);
+  }
+
+  .ts-demo-feature p {
+    color: var(--ts-text-secondary);
+    max-width: 36ch;
+  }
+
+  /* Pricing card */
+  .ts-demo-price {
+    display: grid;
+    gap: var(--ts-sp-6);
+    padding: var(--ts-sp-8);
+    background: var(--ts-bg-2);
+    border: 1px solid var(--ts-border-1);
+    border-radius: var(--ts-radius-lg);
+    position: relative;
+  }
+
+  .ts-demo-price--featured {
+    border-color: var(--ts-accent-border);
+    box-shadow: var(--ts-shadow-accent);
+  }
+
+  .ts-demo-price__amount {
+    font-family: var(--ts-font-display);
+    font-size: var(--ts-fs-h1);
+    font-weight: var(--ts-fw-bold);
+    line-height: var(--ts-lh-tight);
+    letter-spacing: var(--ts-tracking-tight);
+    font-feature-settings: "tnum" 1;
+  }
+
+  .ts-demo-price__amount span {
+    font-size: var(--ts-fs-body);
+    color: var(--ts-text-secondary);
+    font-weight: var(--ts-fw-normal);
+    margin-left: 4px;
+  }
+
+  .ts-demo-price__features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--ts-sp-3);
+    font-size: var(--ts-fs-body);
+  }
+
+  .ts-demo-price__features li {
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: var(--ts-sp-2);
+    color: var(--ts-text-secondary);
+  }
+
+  .ts-demo-price__features li::before {
+    content: "✓";
+    color: var(--ts-accent);
+    font-weight: var(--ts-fw-bold);
+  }
+
+  .ts-demo-quote {
+    padding: var(--ts-sp-8);
+    background: var(--ts-bg-1);
+    border-radius: var(--ts-radius-lg);
+  }
+
+  .ts-demo-quote blockquote {
+    font-family: 'Instrument Serif', serif;
+    font-size: var(--ts-fs-h3);
+    line-height: var(--ts-lh-snug);
+    letter-spacing: var(--ts-tracking-snug);
+    margin: 0 0 var(--ts-sp-6) 0;
+    text-wrap: balance;
+  }
+
+  .ts-demo-quote figcaption {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: var(--ts-sp-3);
+    align-items: center;
+  }
+
+  .ts-demo-quote__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ts-accent), var(--ts-alt));
+  }
+
+  .ts-demo-quote__name {
+    font-weight: var(--ts-fw-semibold);
+  }
+
+  .ts-demo-quote__role {
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-secondary);
+  }
+
+  /* ── ts-BENTO ts-BENTO DEMO ───────────────────────────────────────────── */
+  .ts-bento-demo .ts-card {
+    padding: var(--ts-sp-6);
+  }
+
+  .ts-bento-demo .ts-bento-hero {
+    grid-column: span 8;
+    grid-row: span 2;
+    padding: var(--ts-sp-10);
+    display: grid;
+    align-content: end;
+    gap: var(--ts-sp-4);
+    background: linear-gradient(135deg, var(--ts-bg-2) 0%, var(--ts-bg-1) 100%);
+  }
+
+  .ts-bento-demo .ts-bento-hero h3 {
+    font-family: var(--ts-font-display);
+    font-size: clamp(28px, 3vw, 48px);
+    line-height: var(--ts-lh-headline);
+    letter-spacing: var(--ts-tracking-tight);
+    text-wrap: balance;
+  }
+
+  .ts-bento-demo .ts-bento-hero p {
+    color: var(--ts-text-secondary);
+    max-width: 40ch;
+  }
+
+  .ts-bento-demo .ts-bento-tall {
+    grid-column: span 4;
+    grid-row: span 2;
+    background: var(--ts-accent);
+    color: var(--ts-on-accent);
+  }
+
+  .ts-bento-demo .ts-bento-tall .ts-card__metric {
+    color: var(--ts-on-accent);
+    font-size: clamp(40px, 5vw, 80px);
+  }
+
+  .ts-bento-demo .ts-bento-tall .ts-card__eyebrow {
+    color: color-mix(in srgb, var(--ts-on-accent), transparent 30%);
+  }
+
+  .ts-bento-demo .ts-bento-third {
+    grid-column: span 4;
+    background: var(--ts-bg-2);
+  }
+
+  @media (max-width: 960px) {
+
+    .ts-bento-demo .ts-bento-hero,
+    .ts-bento-demo .ts-bento-tall,
+    .ts-bento-demo .ts-bento-third {
+      grid-column: span 6;
+    }
+  }
+
+  @media (max-width: 560px) {
+
+    .ts-bento-demo .ts-bento-hero,
+    .ts-bento-demo .ts-bento-tall,
+    .ts-bento-demo .ts-bento-third {
+      grid-column: 1 / -1;
+      grid-row: auto;
+    }
+  }
+
+  /* ── DECISION FLOW ────────────────────────────────────────── */
+  .ts-flow {
+    display: grid;
+    gap: var(--ts-sp-4);
+  }
+
+  .ts-flow__step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: var(--ts-sp-4);
+    align-items: start;
+    padding: var(--ts-sp-4);
+    background: var(--ts-bg-1);
+    border-radius: var(--ts-radius-md);
+    border-left: 3px solid var(--ts-accent);
+  }
+
+  .ts-flow__num {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    background: var(--ts-accent);
+    color: var(--ts-on-accent);
+    border-radius: var(--ts-radius-full);
+    font-family: var(--ts-font-mono);
+    font-size: var(--ts-fs-caption);
+    font-weight: var(--ts-fw-bold);
+  }
+
+  .ts-flow__step h4 {
+    font-size: var(--ts-fs-body);
+    letter-spacing: var(--ts-tracking-tight);
+    margin-bottom: var(--ts-sp-1);
+  }
+
+  .ts-flow__step p {
+    color: var(--ts-text-secondary);
+    font-size: var(--ts-fs-caption);
+    margin: 0;
+  }
+
+  .ts-flow__step code {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    padding: 1px 6px;
+    background: var(--ts-bg-3);
+    border-radius: var(--ts-radius-xs);
+    color: var(--ts-accent);
+  }
+
+  /* ── FOOTER ───────────────────────────────────────────────── */
+  .ts-footer {
+    border-top: 1px solid var(--ts-border-1);
+    padding: var(--ts-sp-16) 0 var(--ts-sp-8);
+    background: var(--ts-bg-1);
+   /* margin-top: var(--ts-section-pad);*/
+  }
+
+  .ts-footer__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--ts-sp-8);
+  }
+
+  @media (max-width: 720px) {
+    .ts-footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .ts-footer h4 {
+    font-size: var(--ts-fs-caption);
+    text-transform: uppercase;
+    letter-spacing: var(--ts-tracking-wider);
+    color: var(--ts-text-secondary);
+    margin: 0 0 var(--ts-sp-4) 0;
+    font-weight: var(--ts-fw-semibold);
+  }
+
+  .ts-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--ts-sp-2);
+    font-size: var(--ts-fs-caption);
+  }
+
+  .ts-footer a {
+    color: var(--ts-text-primary);
+  }
+
+  .ts-footer a:hover {
+    color: var(--ts-accent);
+  }
+
+  .ts-footer__bottom {
+    max-width: var(--ts-container-lg);
+    margin: var(--ts-sp-12) auto 0;
+    padding-top: var(--ts-sp-6);
+    border-top: 1px solid var(--ts-border-0);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-muted);
+    flex-wrap: wrap;
+    gap: var(--ts-sp-3);
+  }
+
+  /* ── SCROLL ts-REVEAL ────────────────────────────────────────── */
+  .ts-reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 600ms var(--ts-ease-out), transform 600ms var(--ts-ease-out);
+  }
+
+  .ts-reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+
+    /* Skip the animation entirely — show content immediately */
+    .ts-reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  code.inline {
+    font-family: var(--ts-font-mono);
+    font-size: 0.9em;
+    padding: 1px 6px;
+    background: var(--ts-bg-2);
+    border: 1px solid var(--ts-border-0);
+    border-radius: var(--ts-radius-xs);
+    color: var(--ts-accent);
+  }
+
+
+}
+
+/* /////////  END isolated scope (bento showcase)./expert-designer/showcase.html  ///////////
+- Keep ONLY truly unique elements required for this view
+- Merge any reusable rules into general tokens.css scope
+- If fully covered by general classes, this block must be removed
+- DO NOT delete without explicit owner approval
+- Part of ongoing sandbox → tokens.css consolidation 
+*/
+
+
+
+
+/* Showcase.html Bento design isolated  scoped  styles, moved for  unifying sand normalization purposes.*/
+
+body.ts-showcase.ts-asymmetric-landing {
+  overflow-x: hidden;
+}
+
+.ts-showcase.ts-asymmetric-landing {
+
+    /*
+      STARTER 03 — ASYMMETRIC HERO  (the marketing/product-launch default)
+      ===================================================================
+      Open this file. It renders as a complete demo. The slots are described
+      in comments right above each element — replace the default text with
+      your own. Do NOT change grid-template-columns, ratios, or container widths.
+
+      THE PATTERN
+        Hero        5:7 split. Vertical kicker rail in left gutter.
+                    Headline anchored to baseline of right column.
+                    Decorative product card bleeds off the right edge.
+        Stripe      Alt-bg section. 5:7 again — section header left, items right.
+        Bento       12-col mixed-size tile grid. ONE hero tile (8x2). ONE accent
+                    tile (4x2). Three small tiles (4 each).
+        Closer      Off-center 3:5 — empty left column makes the closer feel
+                    "discovered" rather than announced.
+
+      THE ONE MOVE
+        Vertical kicker rail. The headline is NOT centered. The product card
+        bleeds off-edge. Every section has a different background and grid.
+    */
+
+    /* HERO ──────────────────────────────────────────────────────────── */
+    .ts-hero {
+      position: relative;
+      padding-block: clamp(80px, 12vh, 160px) clamp(80px, 10vh, 144px);
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .ts-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse 40% 60% at 18% 30%, var(--ts-accent-dim) 0%, transparent 60%),
+        radial-gradient(ellipse 35% 50% at 92% 78%, var(--ts-alt-dim) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .ts-hero__grid {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        gap: clamp(32px, 5vw, 96px);
+        align-items: end;
+        max-width: var(--ts-container-xl);
+        justify-content: center;
+        justify-items: center;
+        align-self: center;
+        margin: 0px auto;
+    }
+    @media (max-width: 768px) {
+      .ts-hero__grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+    }
+
+    .ts-hero__rail {
+      display: grid;
+      gap: 8px;
+      padding-bottom: 16px;
+      border-left: 1px solid var(--ts-border-1);
+      padding-left: 24px;
+    }
+
+    .ts-hero__kicker {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      color: var(--ts-text-muted);
+    }
+
+    .ts-hero__kicker--accent {
+      color: var(--ts-accent);
+    }
+
+    .ts-hero__rail-body {
+      color: var(--ts-text-secondary);
+      max-width: 36ch;
+      margin-top: 24px;
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .ts-hero__actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .ts-hero__title {
+        font-family: var(--ts-font-display);
+        font-size: clamp(56px, 9vw, 124px);
+        line-height: 0.85;
+        letter-spacing: -0.04em;
+        font-weight: 700;
+        margin: 0;
+        text-wrap: balance;
+        font-size: calc(4dvw + 4dvh + 2vmin);
+    }
+
+    .ts-hero__title em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--ts-accent);
+      letter-spacing: -0.02em;
+    }
+
+    /* Decorative product card — fully contained, no edge crop (per Satoshi).
+       Sits inside the right edge with breathing room. Tilt + shadow give the
+       "floating object" feel without the boundary cutting it off. */
+    .ts-hero__viz {
+        position: absolute;
+        left: calc(100% - min(100dvw - 21dvw, 50dvw + var(--ts-section-pad) - 7dvw));
+        top: 50%;
+        transform: translateX(120px) translateY(-50%) rotate(-3deg);
+        width: min(40vw, 560px);
+        aspect-ratio: 4/3;
+        border-radius: var(
+          --ts-radius-lg);
+        background: linear-gradient(155deg, var(
+          --ts-bg-2) 0%, var(--ts-bg-1) 100%);
+        border: 1px solid var(
+          --ts-border-2);
+        box-shadow: var(
+          --ts-shadow-4);
+        /* transform: rotate(-3deg); */
+        z-index: -1;
+        padding: 20px;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 12px;
+        overflow: hidden;
+        transition: all 300ms ease!important;
+    }
+
+    .ts-hero__viz-toolbar {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .ts-hero__viz-toolbar span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--ts-border-2);
+    }
+
+    .ts-hero__viz-toolbar span:first-child {
+      background: var(--ts-accent);
+    }
+
+    .ts-hero__viz-toolbar small {
+      margin-left: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--ts-text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .ts-hero__viz-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .ts-hero__viz-tile {
+      padding: 14px;
+      background: var(--ts-bg-3);
+      border-radius: var(--ts-radius-sm);
+      display: grid;
+      gap: 6px;
+    }
+
+    .ts-hero__viz-tile small {
+      font-size: 9px;
+      color: var(--ts-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .ts-hero__viz-tile b {
+      font-family: var(--ts-font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--ts-text-primary);
+      font-feature-settings: "tnum" 1;
+    }
+
+    .ts-hero__viz-tile--accent {
+      background: var(--ts-accent);
+      color: var(--ts-on-accent);
+    }
+
+    .ts-hero__viz-tile--accent b {
+      color: var(--ts-on-accent);
+    }
+
+    .ts-hero__viz-tile--accent small {
+      color: color-mix(in srgb, var(--ts-on-accent), transparent 30%);
+    }
+
+    .ts-hero__viz-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--ts-text-muted);
+    }
+
+    @media (max-width: 1100px) {
+      .ts-hero__viz {
+        display: none;
+      }
+    }
+
+    /* STRIPE ─────────────────────────────────────────────────────────── */
+    .ts-stripe {
+      background: var(--ts-bg-1);
+      padding-block: clamp(64px, 8vw, 128px);
+      /*margin-block: clamp(48px, 6vw, 96px);*/
+    }
+
+    .ts-stripe__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(32px, 5vw, 96px);
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .ts-stripe__grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .ts-stripe__head h2 {
+      font-family: var(--ts-font-display);
+      font-size: clamp(36px, 4vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      margin: 12px 0 16px;
+      text-wrap: balance;
+    }
+
+    .ts-stripe__head p {
+      color: var(--ts-text-secondary);
+      max-width: 36ch;
+      font-size: 17px;
+    }
+
+    .ts-stripe__items {
+      display: grid;
+    }
+
+    .ts-stripe__item {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      gap: 24px;
+      padding-block: 28px;
+      border-top: 1px solid var(--ts-border-2);
+      align-items: baseline;
+    }
+
+    .ts-stripe__item:last-child {
+      border-bottom: 1px solid var(--ts-border-2);
+    }
+
+    .ts-stripe__item-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--ts-accent);
+      letter-spacing: 0.06em;
+    }
+
+    .ts-stripe__item h3 {
+      font-family: var(--ts-font-display);
+      font-size: clamp(22px, 2vw, 28px);
+      letter-spacing: -0.015em;
+      line-height: 1.25;
+      margin: 0 0 6px;
+      font-weight: 600;
+    }
+
+    .ts-stripe__item p {
+      font-size: 15px;
+      color: var(--ts-text-secondary);
+      margin: 0;
+      max-width: 56ch;
+    }
+
+   .ts-stripe__item a {
+      color: var(--ts-text-muted);
+      font-size: 23px;
+      font-family: var(--ts-font-mono);
+      text-decoration: none;
+      transition: color 200ms;
+  }
+
+    .ts-stripe__item:hover a {
+      color: var(--ts-accent);
+    }
+
+    /* BENTO ──────────────────────────────────────────────────────────── */
+    /* Bento sits on bg-body but gets a top border to separate from stripe (bg-1). */
+    .ts-bento-section {
+      padding-block: clamp(48px, 6vw, 96px);
+      border-top: 1px solid var(--ts-border-0);
+    }
+
+    .ts-bento-section__head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      gap: clamp(24px, 4vw, 64px);
+      align-items: end;
+      margin-bottom: 48px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--ts-border-1);
+    }
+
+    @media (max-width: 768px) {
+      .ts-bento-section__head {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .ts-bento-section__head h2 {
+      font-family: var(--ts-font-display);
+      font-size: clamp(32px, 4vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      margin: 8px 0 0;
+      text-wrap: balance;
+    }
+
+    .ts-bento-section__head .ts-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--ts-text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .ts-bento-section__head p {
+      color: var(--ts-text-secondary);
+      font-size: 17px;
+      max-width: 52ch;
+      margin: 0;
+    }
+
+    /* Eyebrow row — single subtle icon inline with the section number.
+       Replaces the standalone icon stack (per Satoshi — harmonic, not overloaded). */
+    .ts-bento-section__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--ts-text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .ts-bento-section__eyebrow i {
+      font-size: 11px;
+      color: var(--ts-accent);
+      opacity: 0.7;
+    }
+
+    /* Tile-layout legend — balances the right column (per Satoshi).
+       Three chips, each naming a tile span. Gives the section header
+       symmetric visual weight: eyebrow+h2 left, paragraph+chips right. */
+    .ts-bento-section__chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .ts-bento-section__chips span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 9999px;
+      border: 1px solid var(--ts-border-1);
+      background: var(--ts-bg-1);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--ts-text-secondary);
+      letter-spacing: 0.04em;
+    }
+
+    .ts-bento-section__chips span i {
+      font-size: 10px;
+      color: var(--ts-accent);
+    }
+
+    .ts-bento {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-auto-rows: minmax(180px, auto);
+      gap: 16px;
+      grid-auto-flow: dense;
+    }
+
+    /* Tiles use bg-1 + border-0 for a more discrete surface (per Satoshi). */
+    .ts-bento>* {
+      background: var(--ts-bg-1);
+      border: 1px solid var(--ts-border-0);
+      border-radius: var(--ts-radius-md);
+      padding: 24px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .ts-b-hero {
+      grid-column: span 8;
+      grid-row: span 2;
+      padding: 40px;
+      align-content: space-between;
+    }
+
+    .ts-b-accent {
+      grid-column: span 4;
+      grid-row: span 2;
+      background: var(--ts-accent);
+      color: var(--ts-on-accent);
+      border-color: transparent;
+      align-content: space-between;
+    }
+
+    .ts-b-third {
+      grid-column: span 4;
+    }
+
+    @media (max-width: 960px) {
+
+      .ts-b-hero,
+      .ts-b-accent {
+        grid-column: span 6;
+        grid-row: span 1;
+      }
+
+      .ts-b-third {
+        grid-column: span 6;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .ts-bento>* {
+        grid-column: 1 / -1 !important;
+        grid-row: auto !important;
+      }
+    }
+
+    .ts-b-hero h3 {
+      font-family: var(--ts-font-display);
+      font-size: clamp(28px, 3vw, 44px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 0;
+      text-wrap: balance;
+      max-width: 18ch;
+    }
+
+    .ts-b-hero p {
+      color: var(--ts-text-secondary);
+      max-width: 44ch;
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .ts-b-accent .ts-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: color-mix(in srgb, var(--ts-on-accent), transparent 25%);
+    }
+
+    .ts-b-accent .ts-metric {
+      font-family: var(--ts-font-display);
+      font-size: clamp(48px, 5.5vw, 80px);
+      line-height: 0.95;
+      letter-spacing: -0.035em;
+      font-weight: 700;
+      font-feature-settings: "tnum" 1;
+    }
+
+    .ts-b-accent .ts-caption {
+      font-size: 13px;
+      color: color-mix(in srgb, var(--ts-on-accent), transparent 20%);
+      max-width: 22ch;
+      margin: 0;
+    }
+
+    .ts-b-third .ts-icon {
+      margin-bottom: 4px;
+    }
+
+    .ts-b-third h4 {
+      font-size: 19px;
+      letter-spacing: -0.01em;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .ts-b-third p {
+      color: var(--ts-text-secondary);
+      font-size: 14px;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* CLOSER ─────────────────────────────────────────────────────────── */
+    /* Full-bleed surface (per Satoshi) — surfaces apply to cards OR full-width
+       sections, never to contained sections (would read as a floating square).
+       So the section itself is edge-to-edge; only the inner content is contained. */
+   .ts-closer {
+    background-color: var(--ts-bg-0);
+    border-top: 1px solid var(--ts-border-0);
+    padding-block: clamp(80px, 10vw, 160px) clamp(96px, 12vw, 192px);
+}
+
+    .ts-closer__inner {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 5fr);
+      gap: clamp(24px, 4vw, 80px);
+      align-items: end;
+    }
+
+    @media (max-width: 768px) {
+      .ts-closer__inner {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Signature block — fills the previously-empty left column.
+       Visual rhyme with the hero's kicker rail: border-left + padding-left + mono data. */
+    .ts-closer__signature {
+      display: grid;
+      gap: 20px;
+      padding-bottom: 16px;
+      padding-left: 24px;
+      border-left: 1px solid var(--ts-border-1);
+    }
+
+    @media (max-width: 768px) {
+      .ts-closer__signature {
+        display: none;
+      }
+    }
+
+    .ts-closer__sig-mark {
+      font-family: var(--ts-font-display);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .ts-closer__sig-tagline {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 19px;
+      color: var(--ts-text-secondary);
+      line-height: 1.4;
+      max-width: 24ch;
+      margin: 0;
+    }
+
+    .ts-closer__sig-data {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+      padding-top: 16px;
+      border-top: 1px solid var(--ts-border-1);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ts-text-muted);
+    }
+
+    .ts-closer__sig-data div {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .ts-closer__sig-data div b {
+      color: var(--ts-text-primary);
+      font-weight: 500;
+    }
+
+    .ts-closer h2 {
+      font-family: var(--ts-font-display);
+      font-size: clamp(42px, 5vw, 60px);
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+      font-weight: 700;
+      margin: 0 0 24px;
+      text-wrap: balance;
+    }
+
+   .ts-hero__title em {
+        font-family: 'Instrument Serif', serif;
+        font-style: italic;
+        font-weight: 400;
+        color: var(--ts-accent);
+        letter-spacing: -0.02em;
+        font-size: 140%;
+      line-height: 0.98;
+
+    }
+
+    .ts-closer p {
+      color: var(--ts-text-secondary);
+      font-size: 17px;
+      max-width: 40ch;
+      margin: 0 0 32px;
+      line-height: 1.55;
+    }
+
+}
+
+/* /////////  END isolated scope (assymetric hero showcase)./expert-designer/starters/03-asymmetric-hero.html  ///////////
+- Keep ONLY truly unique elements required for this view
+- Merge any reusable rules into general tokens.css scope
+- If fully covered by general classes, this block must be removed
+- DO NOT delete without explicit owner approval
+- Part of ongoing sandbox → tokens.css consolidation 
+*/
+
+

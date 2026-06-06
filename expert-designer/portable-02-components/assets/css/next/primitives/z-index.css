@@ -1,0 +1,44 @@
+@charset "UTF-8";
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · primitives/z-index.css — Z-INDEX STACK TOKENS
+   ───────────────────────────────────────────────────────────────────────────
+   Phase 3 wiring · 2026-06-05 · Owner directive §9
+
+   PROVENANCE
+   ──────────
+   Z-index stack did not exist as tokens before this file. Every component
+   that needed a stacking context declared a numeric literal inline
+   (z-index: 9999, z-index: 1000, etc.). The directive §9 names this a
+   CORE TOKEN system that MUST be globally defined.
+
+   This file declares the canonical scale. Values were proposed in
+   docs/architecture/global-architecture-plan.md §3d and are now deployed.
+   If owner audits a value as wrong, change here once — components inherit.
+
+   CONTRACT
+   ────────
+   • Tokens are the SOLE source of truth for stacking order
+   • Components MUST consume these tokens — no numeric z-index literals
+   • Token values are 0, 1, 100, 200, 300, 900, 1000, 1100, 9999
+     (large gaps to allow future inserts without re-numbering)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ── Page-flow stack ──────────────────────────────────────────────────── */
+  --ts-z-base:        0;    /* default static content */
+  --ts-z-raised:      1;    /* :hover lifts, mild elevation */
+
+  /* ── Floating UI ──────────────────────────────────────────────────────── */
+  --ts-z-dropdown:  100;    /* ts-nav-dropdown, ts-ui-select__menu */
+  --ts-z-sticky:    200;    /* sticky table headers, sticky section labels */
+  --ts-z-fixed-nav: 300;    /* ts-nav-fixed, ts-promo-banner */
+
+  /* ── Overlays ─────────────────────────────────────────────────────────── */
+  --ts-z-overlay:   900;    /* scrim behind modal / mobile menu */
+  --ts-z-modal:    1000;    /* dialog content */
+  --ts-z-toast:    1100;    /* transient notifications, above modal */
+
+  /* ── Escape hatch ─────────────────────────────────────────────────────── */
+  --ts-z-max:      9999;    /* burger-active nav (already used in ts-nav-header.css) */
+}

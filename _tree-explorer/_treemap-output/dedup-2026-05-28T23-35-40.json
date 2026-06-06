@@ -1,0 +1,3232 @@
+{
+  "generated_at": "2026-05-28T23:35:42",
+  "root": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild",
+  "summary": {
+    "duplicate_groups": 142,
+    "redundant_files": 176,
+    "wasted_bytes": 17997543,
+    "wasted_mb": 17.16
+  },
+  "groups": [
+    {
+      "sha1": "ca3cefb08c93aacb2a3d9cca802e3bea92a9ee93",
+      "size": 12872412,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\screencapture-localhost-8002-2026-05-03-02_50_26.png",
+          "name": "screencapture-localhost-8002-2026-05-03-02_50_26.png",
+          "url": "docs/claude-design-files/project/uploads/screencapture-localhost-8002-2026-05-03-02_50_26.png",
+          "size": 12872412,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\uploads\\screencapture-localhost-8002-2026-05-03-02_50_26.png",
+          "name": "screencapture-localhost-8002-2026-05-03-02_50_26.png",
+          "url": "docs/references/branding/uploads/screencapture-localhost-8002-2026-05-03-02_50_26.png",
+          "size": 12872412,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "744e91f29319c69eea25c23ba6e2ac4a50c2b179",
+      "size": 1380034,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\screencapture-localhost-8002-2026-05-03-02_50_26 (1).jpg",
+          "name": "screencapture-localhost-8002-2026-05-03-02_50_26 (1).jpg",
+          "url": "docs/claude-design-files/project/uploads/screencapture-localhost-8002-2026-05-03-02_50_26 (1).jpg",
+          "size": 1380034,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\uploads\\screencapture-localhost-8002-2026-05-03-02_50_26 (1).jpg",
+          "name": "screencapture-localhost-8002-2026-05-03-02_50_26 (1).jpg",
+          "url": "docs/references/branding/uploads/screencapture-localhost-8002-2026-05-03-02_50_26 (1).jpg",
+          "size": 1380034,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "8fff4931c3975f69edacc5a5701e613a6dfc415f",
+      "size": 193160,
+      "count": 4,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\fonts\\JetBrainsMono-Italic-VariableFont_wght.ttf",
+          "name": "JetBrainsMono-Italic-VariableFont_wght.ttf",
+          "url": "docs/claude-design-files/project/fonts/JetBrainsMono-Italic-VariableFont_wght.ttf",
+          "size": 193160,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\Gradient Engine System\\fonts\\JetBrainsMono-Italic-VariableFont_wght.ttf",
+          "name": "JetBrainsMono-Italic-VariableFont_wght.ttf",
+          "url": "docs/claude-design-files/project/Gradient Engine System/fonts/JetBrainsMono-Italic-VariableFont_wght.ttf",
+          "size": 193160,
+          "mtime": 1779839926
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\fonts\\JetBrainsMono-Italic-VariableFont_wght.ttf",
+          "name": "JetBrainsMono-Italic-VariableFont_wght.ttf",
+          "url": "docs/references/branding/fonts/JetBrainsMono-Italic-VariableFont_wght.ttf",
+          "size": 193160,
+          "mtime": 1777831611
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\handoff-type-v2\\fonts\\JetBrainsMono-Italic-VariableFont_wght.ttf",
+          "name": "JetBrainsMono-Italic-VariableFont_wght.ttf",
+          "url": "expert-designer/handoff-type-v2/fonts/JetBrainsMono-Italic-VariableFont_wght.ttf",
+          "size": 193160,
+          "mtime": 1780009113
+        }
+      ]
+    },
+    {
+      "sha1": "fed595267bb001dac27ea255ad02cb70f4f4441c",
+      "size": 189028,
+      "count": 4,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\fonts\\JetBrainsMono-VariableFont_wght.ttf",
+          "name": "JetBrainsMono-VariableFont_wght.ttf",
+          "url": "docs/claude-design-files/project/fonts/JetBrainsMono-VariableFont_wght.ttf",
+          "size": 189028,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\Gradient Engine System\\fonts\\JetBrainsMono-VariableFont_wght.ttf",
+          "name": "JetBrainsMono-VariableFont_wght.ttf",
+          "url": "docs/claude-design-files/project/Gradient Engine System/fonts/JetBrainsMono-VariableFont_wght.ttf",
+          "size": 189028,
+          "mtime": 1779839926
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\fonts\\JetBrainsMono-VariableFont_wght.ttf",
+          "name": "JetBrainsMono-VariableFont_wght.ttf",
+          "url": "docs/references/branding/fonts/JetBrainsMono-VariableFont_wght.ttf",
+          "size": 189028,
+          "mtime": 1777831611
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\handoff-type-v2\\fonts\\JetBrainsMono-VariableFont_wght.ttf",
+          "name": "JetBrainsMono-VariableFont_wght.ttf",
+          "url": "expert-designer/handoff-type-v2/fonts/JetBrainsMono-VariableFont_wght.ttf",
+          "size": 189028,
+          "mtime": 1780009113
+        }
+      ]
+    },
+    {
+      "sha1": "0e9348243185d6cb2e32014b3ee80959ef645b52",
+      "size": 134112,
+      "count": 4,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\fonts\\SpaceGrotesk-VariableFont_wght.ttf",
+          "name": "SpaceGrotesk-VariableFont_wght.ttf",
+          "url": "docs/claude-design-files/project/fonts/SpaceGrotesk-VariableFont_wght.ttf",
+          "size": 134112,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\Gradient Engine System\\fonts\\SpaceGrotesk-VariableFont_wght.ttf",
+          "name": "SpaceGrotesk-VariableFont_wght.ttf",
+          "url": "docs/claude-design-files/project/Gradient Engine System/fonts/SpaceGrotesk-VariableFont_wght.ttf",
+          "size": 134112,
+          "mtime": 1779839926
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\fonts\\SpaceGrotesk-VariableFont_wght.ttf",
+          "name": "SpaceGrotesk-VariableFont_wght.ttf",
+          "url": "docs/references/branding/fonts/SpaceGrotesk-VariableFont_wght.ttf",
+          "size": 134112,
+          "mtime": 1777831611
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\handoff-type-v2\\fonts\\SpaceGrotesk-VariableFont_wght.ttf",
+          "name": "SpaceGrotesk-VariableFont_wght.ttf",
+          "url": "expert-designer/handoff-type-v2/fonts/SpaceGrotesk-VariableFont_wght.ttf",
+          "size": 134112,
+          "mtime": 1780009113
+        }
+      ]
+    },
+    {
+      "sha1": "cc24d7468b0a43b90279f6ff2985cd8103201e27",
+      "size": 203238,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\live-browser.js",
+          "name": "live-browser.js",
+          "url": ".agents/skills/impeccable/scripts/live-browser.js",
+          "size": 203238,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\live-browser.js",
+          "name": "live-browser.js",
+          "url": ".claude/skills/impeccable/scripts/live-browser.js",
+          "size": 203238,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "e02661f7828235c1d82b9c84da829f79750045e2",
+      "size": 137842,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\generator\\assets\\js\\ts-offcanvas-editor.js",
+          "name": "ts-offcanvas-editor.js",
+          "url": "docs/references/generator/assets/js/ts-offcanvas-editor.js",
+          "size": 137842,
+          "mtime": 1778696370
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\toolskin-assets-js\\ts-offcanvas-editor.js",
+          "name": "ts-offcanvas-editor.js",
+          "url": "docs/references/toolskin-assets-js/ts-offcanvas-editor.js",
+          "size": 137842,
+          "mtime": 1778696370
+        }
+      ]
+    },
+    {
+      "sha1": "1a7f1950e23bd99231a09e995d87b05e7db852c5",
+      "size": 83913,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\treemap-module\\tools\\build_tree_full_html-interactive.py",
+          "name": "build_tree_full_html-interactive.py",
+          "url": "docs/references/treemap-module/tools/build_tree_full_html-interactive.py",
+          "size": 83913,
+          "mtime": 1779484504
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\build_tree_full_html-interactive.py",
+          "name": "build_tree_full_html-interactive.py",
+          "url": "docs/references/build_tree_full_html-interactive.py",
+          "size": 83913,
+          "mtime": 1779484504
+        }
+      ]
+    },
+    {
+      "sha1": "5bdd5e15f673863ab2699ec14251e7a08ce71443",
+      "size": 76030,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\assets\\grainy-noise.gif",
+          "name": "grainy-noise.gif",
+          "url": "docs/claude-design-files/project/assets/grainy-noise.gif",
+          "size": 76030,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\assets\\grainy-noise.gif",
+          "name": "grainy-noise.gif",
+          "url": "docs/references/branding/assets/grainy-noise.gif",
+          "size": 76030,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "cca126606590f3b99e913d182e1d194055690172",
+      "size": 37563,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\assets\\css\\next\\system\\toolskin-gradients-v3.css",
+          "name": "toolskin-gradients-v3.css",
+          "url": "assets/css/next/system/toolskin-gradients-v3.css",
+          "size": 37563,
+          "mtime": 1779839926
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\Gradient Engine System\\toolskin-gradients-v3.css",
+          "name": "toolskin-gradients-v3.css",
+          "url": "docs/claude-design-files/project/Gradient Engine System/toolskin-gradients-v3.css",
+          "size": 37563,
+          "mtime": 1779839926
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\handoff-type-v2\\toolskin-gradients-v3.css",
+          "name": "toolskin-gradients-v3.css",
+          "url": "expert-designer/handoff-type-v2/toolskin-gradients-v3.css",
+          "size": 37563,
+          "mtime": 1780009113
+        }
+      ]
+    },
+    {
+      "sha1": "ada77c35bbd141f03e1912b366264c8ff1bfc692",
+      "size": 75041,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\generator\\assets\\js\\toolskin.bannerGenerator.js",
+          "name": "toolskin.bannerGenerator.js",
+          "url": "docs/references/generator/assets/js/toolskin.bannerGenerator.js",
+          "size": 75041,
+          "mtime": 1777933546
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\toolskin-assets-js\\toolskin.bannerGenerator.js",
+          "name": "toolskin.bannerGenerator.js",
+          "url": "docs/references/toolskin-assets-js/toolskin.bannerGenerator.js",
+          "size": 75041,
+          "mtime": 1777933546
+        }
+      ]
+    },
+    {
+      "sha1": "fad1e5fcb5ac1f45cc0664fd7f59994328b1a663",
+      "size": 54252,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\assets\\css\\toolskin-deck.css",
+          "name": "toolskin-deck.css",
+          "url": "docs/claude-design-files/project/assets/css/toolskin-deck.css",
+          "size": 54252,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\pitchdeck\\archive-css-files\\toolskin-deck.css",
+          "name": "toolskin-deck.css",
+          "url": "docs/references/pitchdeck/archive-css-files/toolskin-deck.css",
+          "size": 54252,
+          "mtime": 1778600491
+        }
+      ]
+    },
+    {
+      "sha1": "03b3582cadd1f2d6ccef4530c6d9917c0a5f6e68",
+      "size": 52940,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\pasted-1777787379987-0.png",
+          "name": "pasted-1777787379987-0.png",
+          "url": "docs/claude-design-files/project/uploads/pasted-1777787379987-0.png",
+          "size": 52940,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\uploads\\pasted-1777787379987-0.png",
+          "name": "pasted-1777787379987-0.png",
+          "url": "docs/references/branding/uploads/pasted-1777787379987-0.png",
+          "size": 52940,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "c4d4d274176d8a747b964f067b05a1bf2fd768a2",
+      "size": 51442,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\live.md",
+          "name": "live.md",
+          "url": ".agents/skills/impeccable/reference/live.md",
+          "size": 51442,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\live.md",
+          "name": "live.md",
+          "url": ".claude/skills/impeccable/reference/live.md",
+          "size": 51442,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "b46430fe74df10c2bc4902e47cb0bc92551ffe7f",
+      "size": 50826,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\toolskin_brand_identity_proposal_v2.html",
+          "name": "toolskin_brand_identity_proposal_v2.html",
+          "url": "docs/claude-design-files/project/uploads/toolskin_brand_identity_proposal_v2.html",
+          "size": 50826,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\uploads\\toolskin_brand_identity_proposal_v2.html",
+          "name": "toolskin_brand_identity_proposal_v2.html",
+          "url": "docs/references/branding/uploads/toolskin_brand_identity_proposal_v2.html",
+          "size": 50826,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "c5c8c30b9cf951c437e4601e046b4bdcaa80fef0",
+      "size": 45644,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\generator\\assets\\js\\toolskin-uikit.js",
+          "name": "toolskin-uikit.js",
+          "url": "docs/references/generator/assets/js/toolskin-uikit.js",
+          "size": 45644,
+          "mtime": 1777933546
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\toolskin-assets-js\\toolskin-uikit.js",
+          "name": "toolskin-uikit.js",
+          "url": "docs/references/toolskin-assets-js/toolskin-uikit.js",
+          "size": 45644,
+          "mtime": 1777933546
+        }
+      ]
+    },
+    {
+      "sha1": "04dcbee0403d42d7a03f7787329b300c91d9867e",
+      "size": 18609,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\expert-designer\\scripts\\generate-colors.js",
+          "name": "generate-colors.js",
+          "url": ".claude/skills/expert-designer/scripts/generate-colors.js",
+          "size": 18609,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\expert-designer\\scripts\\generate-colors.js",
+          "name": "generate-colors.js",
+          "url": "docs/claude-design-files/project/expert-designer/scripts/generate-colors.js",
+          "size": 18609,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\generate-colors.js",
+          "name": "generate-colors.js",
+          "url": "docs/claude-design-files/project/uploads/generate-colors.js",
+          "size": 18609,
+          "mtime": 1779601618
+        }
+      ]
+    },
+    {
+      "sha1": "28485c8e4f70f1bcc8a2dc21cf7044f680d0d412",
+      "size": 33503,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\expert-designer\\references\\design-theory.md",
+          "name": "design-theory.md",
+          "url": ".claude/skills/expert-designer/references/design-theory.md",
+          "size": 33503,
+          "mtime": 1779155228
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\expert-designer\\references\\design-theory.md",
+          "name": "design-theory.md",
+          "url": "docs/claude-design-files/project/uploads/expert-designer/references/design-theory.md",
+          "size": 33503,
+          "mtime": 1779601618
+        }
+      ]
+    },
+    {
+      "sha1": "e70eb17d23c96cddf17e5847681b078f6ffd464b",
+      "size": 33447,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\live-server.mjs",
+          "name": "live-server.mjs",
+          "url": ".agents/skills/impeccable/scripts/live-server.mjs",
+          "size": 33447,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\live-server.mjs",
+          "name": "live-server.mjs",
+          "url": ".claude/skills/impeccable/scripts/live-server.mjs",
+          "size": 33447,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "52cc9a5910d2b351400dde2ba566f1976700b863",
+      "size": 14746,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\SKILL.harmonic-pitchdeck.md",
+          "name": "SKILL.harmonic-pitchdeck.md",
+          "url": "docs/claude-design-files/project/SKILL.harmonic-pitchdeck.md",
+          "size": 14746,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\_components-docs\\SKILL.harmonic-pitchdeck.md",
+          "name": "SKILL.harmonic-pitchdeck.md",
+          "url": "docs/references/_components-docs/SKILL.harmonic-pitchdeck.md",
+          "size": 14746,
+          "mtime": 1779214248
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\pitchdeck\\md-files\\SKILL.harmonic-pitchdeck.md",
+          "name": "SKILL.harmonic-pitchdeck.md",
+          "url": "docs/references/pitchdeck/md-files/SKILL.harmonic-pitchdeck.md",
+          "size": 14746,
+          "mtime": 1778581147
+        }
+      ]
+    },
+    {
+      "sha1": "aee9ce9e185d7fcd68df18c35abcb2e25a610008",
+      "size": 29304,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\modern-screenshot.umd.js",
+          "name": "modern-screenshot.umd.js",
+          "url": ".agents/skills/impeccable/scripts/modern-screenshot.umd.js",
+          "size": 29304,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\modern-screenshot.umd.js",
+          "name": "modern-screenshot.umd.js",
+          "url": ".claude/skills/impeccable/scripts/modern-screenshot.umd.js",
+          "size": 29304,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "632d60d15f9a29a99b5c302f29c57dd4e5d1b1b9",
+      "size": 28522,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\document.md",
+          "name": "document.md",
+          "url": ".agents/skills/impeccable/reference/document.md",
+          "size": 28522,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\document.md",
+          "name": "document.md",
+          "url": ".claude/skills/impeccable/reference/document.md",
+          "size": 28522,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "e6c7f2208707b0303e031f61687595191dd77e9c",
+      "size": 27456,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\assets\\css\\next\\components\\ts-btn_v3.1.css",
+          "name": "ts-btn_v3.1.css",
+          "url": "assets/css/next/components/ts-btn_v3.1.css",
+          "size": 27456,
+          "mtime": 1779850375
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\Gradient Engine System\\ts-btn_v3.1.css",
+          "name": "ts-btn_v3.1.css",
+          "url": "docs/claude-design-files/project/Gradient Engine System/ts-btn_v3.1.css",
+          "size": 27456,
+          "mtime": 1779850375
+        }
+      ]
+    },
+    {
+      "sha1": "534eeb66d4fc933829ca22f1e79e529d71d3cc07",
+      "size": 26599,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\live-wrap.mjs",
+          "name": "live-wrap.mjs",
+          "url": ".agents/skills/impeccable/scripts/live-wrap.mjs",
+          "size": 26599,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\live-wrap.mjs",
+          "name": "live-wrap.mjs",
+          "url": ".claude/skills/impeccable/scripts/live-wrap.mjs",
+          "size": 26599,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "0759964c7766955ba05cbb7e1a1f34ae7bce93f1",
+      "size": 26037,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\design-parser.mjs",
+          "name": "design-parser.mjs",
+          "url": ".agents/skills/impeccable/scripts/design-parser.mjs",
+          "size": 26037,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\design-parser.mjs",
+          "name": "design-parser.mjs",
+          "url": ".claude/skills/impeccable/scripts/design-parser.mjs",
+          "size": 26037,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "f6552b86eb6c59e6e1f97d00f820f41bd7b5ffb7",
+      "size": 24102,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\Gradient Engine System\\toolskin-this-bg-v2.css",
+          "name": "toolskin-this-bg-v2.css",
+          "url": "docs/claude-design-files/project/Gradient Engine System/toolskin-this-bg-v2.css",
+          "size": 24102,
+          "mtime": 1779839926
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\handoff-type-v2\\toolskin-this-bg-v2.css",
+          "name": "toolskin-this-bg-v2.css",
+          "url": "expert-designer/handoff-type-v2/toolskin-this-bg-v2.css",
+          "size": 24102,
+          "mtime": 1780009113
+        }
+      ]
+    },
+    {
+      "sha1": "d2ddce32a9bbc16dfee5176b16f695ce6c041ef4",
+      "size": 23501,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\live-accept.mjs",
+          "name": "live-accept.mjs",
+          "url": ".agents/skills/impeccable/scripts/live-accept.mjs",
+          "size": 23501,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\live-accept.mjs",
+          "name": "live-accept.mjs",
+          "url": ".claude/skills/impeccable/scripts/live-accept.mjs",
+          "size": 23501,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "23fb88517c159d75d21faf969b02e6e9ed654e92",
+      "size": 23459,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\expert-designer\\references\\05-awwwards-patterns.md",
+          "name": "05-awwwards-patterns.md",
+          "url": "docs/claude-design-files/project/expert-designer/references/05-awwwards-patterns.md",
+          "size": 23459,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\references\\05-awwwards-patterns.md",
+          "name": "05-awwwards-patterns.md",
+          "url": "expert-designer/references/05-awwwards-patterns.md",
+          "size": 23459,
+          "mtime": 1779630646
+        }
+      ]
+    },
+    {
+      "sha1": "05df899232524133403bb4837737b19b2fd225cc",
+      "size": 22880,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\generator\\assets\\js\\ts-gradient-canvas.js",
+          "name": "ts-gradient-canvas.js",
+          "url": "docs/references/generator/assets/js/ts-gradient-canvas.js",
+          "size": 22880,
+          "mtime": 1777933546
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\toolskin-assets-js\\ts-gradient-canvas.js",
+          "name": "ts-gradient-canvas.js",
+          "url": "docs/references/toolskin-assets-js/ts-gradient-canvas.js",
+          "size": 22880,
+          "mtime": 1777933546
+        }
+      ]
+    },
+    {
+      "sha1": "985a9ede6bf390c3651a4594e6eee4d550c80d1c",
+      "size": 22267,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\expert-designer\\references\\css-and-systems.md",
+          "name": "css-and-systems.md",
+          "url": ".claude/skills/expert-designer/references/css-and-systems.md",
+          "size": 22267,
+          "mtime": 1779155228
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\expert-designer\\references\\css-and-systems.md",
+          "name": "css-and-systems.md",
+          "url": "docs/claude-design-files/project/uploads/expert-designer/references/css-and-systems.md",
+          "size": 22267,
+          "mtime": 1779601618
+        }
+      ]
+    },
+    {
+      "sha1": "17a34a876916d75c4bfcf1f420743bf471b9ade9",
+      "size": 10722,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\Gradient Engine System\\toolskin.css",
+          "name": "toolskin.css",
+          "url": "docs/claude-design-files/project/Gradient Engine System/toolskin.css",
+          "size": 10722,
+          "mtime": 1779839926
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\toolskin.css",
+          "name": "toolskin.css",
+          "url": "docs/claude-design-files/project/toolskin.css",
+          "size": 10722,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\handoff-type-v2\\toolskin.css",
+          "name": "toolskin.css",
+          "url": "expert-designer/handoff-type-v2/toolskin.css",
+          "size": 10722,
+          "mtime": 1779839926
+        }
+      ]
+    },
+    {
+      "sha1": "c2c3a1f4e5b6227720a141947df2e726b26004e2",
+      "size": 21314,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\typeui-haul\\SKILLS_INDEX.csv",
+          "name": "SKILLS_INDEX.csv",
+          "url": "docs/claude-design-files/project/uploads/typeui-haul/SKILLS_INDEX.csv",
+          "size": 21314,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\_components-docs\\Template system - Toolskin Adaptation Plan\\SKILLS_INDEX.csv",
+          "name": "SKILLS_INDEX.csv",
+          "url": "docs/references/_components-docs/Template system - Toolskin Adaptation Plan/SKILLS_INDEX.csv",
+          "size": 21314,
+          "mtime": 1778394922
+        }
+      ]
+    },
+    {
+      "sha1": "418e8c73d43a324fd737a72981d28cd8bba0f2e7",
+      "size": 20858,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\typography-master\\references\\font-catalog.md",
+          "name": "font-catalog.md",
+          "url": ".claude/skills/typography-master/references/font-catalog.md",
+          "size": 20858,
+          "mtime": 1779155229
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\font-catalog.md",
+          "name": "font-catalog.md",
+          "url": "docs/claude-design-files/project/uploads/font-catalog.md",
+          "size": 20858,
+          "mtime": 1779601618
+        }
+      ]
+    },
+    {
+      "sha1": "7bbee047d7d94dfd8d4500509d1f1d1cf17cd2d0",
+      "size": 20767,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\compass_artifact_wf-61448914-62e6-4cb1-9e69-16a7fb1dc38f_text_markdown.md",
+          "name": "compass_artifact_wf-61448914-62e6-4cb1-9e69-16a7fb1dc38f_text_markdown.md",
+          "url": "docs/claude-design-files/project/uploads/compass_artifact_wf-61448914-62e6-4cb1-9e69-16a7fb1dc38f_text_markdown.md",
+          "size": 20767,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\uploads\\compass_artifact_wf-61448914-62e6-4cb1-9e69-16a7fb1dc38f_text_markdown.md",
+          "name": "compass_artifact_wf-61448914-62e6-4cb1-9e69-16a7fb1dc38f_text_markdown.md",
+          "url": "docs/references/branding/uploads/compass_artifact_wf-61448914-62e6-4cb1-9e69-16a7fb1dc38f_text_markdown.md",
+          "size": 20767,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "143daf63a387d5f0526f293c9a3890b0781b8cd4",
+      "size": 9773,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "name": "Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "url": "docs/claude-design-files/project/Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "size": 9773,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\_components-docs\\Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "name": "Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "url": "docs/references/_components-docs/Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "size": 9773,
+          "mtime": 1779214257
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\pitchdeck\\md-files\\Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "name": "Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "url": "docs/references/pitchdeck/md-files/Toolskin Pitchdeck v3.2 HANDOFF.md",
+          "size": 9773,
+          "mtime": 1778581144
+        }
+      ]
+    },
+    {
+      "sha1": "1f0d9daa3c1f04d3fd949e14639d9517bb8d8563",
+      "size": 18188,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\expert-designer\\references\\04-cards-and-containers.md",
+          "name": "04-cards-and-containers.md",
+          "url": "docs/claude-design-files/project/expert-designer/references/04-cards-and-containers.md",
+          "size": 18188,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\references\\04-cards-and-containers.md",
+          "name": "04-cards-and-containers.md",
+          "url": "expert-designer/references/04-cards-and-containers.md",
+          "size": 18188,
+          "mtime": 1779630646
+        }
+      ]
+    },
+    {
+      "sha1": "1c7e20064c3f814eb7f29f7cba7502f483c2209b",
+      "size": 18037,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\Gradient Engine System\\index.html",
+          "name": "index.html",
+          "url": "docs/claude-design-files/project/Gradient Engine System/index.html",
+          "size": 18037,
+          "mtime": 1779839926
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\handoff-type-v2\\index.html",
+          "name": "index.html",
+          "url": "expert-designer/handoff-type-v2/index.html",
+          "size": 18037,
+          "mtime": 1779839926
+        }
+      ]
+    },
+    {
+      "sha1": "1201de13d7467eeb7331a1daa14e4372eb510077",
+      "size": 17923,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\critique.md",
+          "name": "critique.md",
+          "url": ".agents/skills/impeccable/reference/critique.md",
+          "size": 17923,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\critique.md",
+          "name": "critique.md",
+          "url": ".claude/skills/impeccable/reference/critique.md",
+          "size": 17923,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "c0c84d2088a024bf8591c4abb20f934685318e9a",
+      "size": 17848,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\live-inject.mjs",
+          "name": "live-inject.mjs",
+          "url": ".agents/skills/impeccable/scripts/live-inject.mjs",
+          "size": 17848,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\live-inject.mjs",
+          "name": "live-inject.mjs",
+          "url": ".claude/skills/impeccable/scripts/live-inject.mjs",
+          "size": 17848,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "a1ef88b74bcae944886bbeba54e6ea8dd6297a66",
+      "size": 17720,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\Gradient Engine System\\ts-btn_v3.1_HANDOFF.md",
+          "name": "ts-btn_v3.1_HANDOFF.md",
+          "url": "docs/claude-design-files/project/Gradient Engine System/ts-btn_v3.1_HANDOFF.md",
+          "size": 17720,
+          "mtime": 1779849972
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\handoff-type-v2\\ts-btn_v3.1_HANDOFF.md",
+          "name": "ts-btn_v3.1_HANDOFF.md",
+          "url": "expert-designer/handoff-type-v2/ts-btn_v3.1_HANDOFF.md",
+          "size": 17720,
+          "mtime": 1779849972
+        }
+      ]
+    },
+    {
+      "sha1": "18be328812069b0a2b600ca2d300cac7464a8146",
+      "size": 7644,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.remember\\core-memories.md",
+          "name": "core-memories.md",
+          "url": ".remember/core-memories.md",
+          "size": 7644,
+          "mtime": 1779623110
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\core-memories.md",
+          "name": "core-memories.md",
+          "url": "docs/handoffs/core-memories.md",
+          "size": 7644,
+          "mtime": 1779623110
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\handoffs\\core-memories.md",
+          "name": "core-memories.md",
+          "url": "handoffs/core-memories.md",
+          "size": 7644,
+          "mtime": 1779623110
+        }
+      ]
+    },
+    {
+      "sha1": "35cd76f800fa6de31c494fa306a5b489b9a1bac7",
+      "size": 7634,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\backups\\oklch-surface-system-PREVIOUS.css",
+          "name": "oklch-surface-system-PREVIOUS.css",
+          "url": "backups/oklch-surface-system-PREVIOUS.css",
+          "size": 7634,
+          "mtime": 1779693836
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\backups\\oklch-surface-system-PREVIOUS.css",
+          "name": "oklch-surface-system-PREVIOUS.css",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/backups/oklch-surface-system-PREVIOUS.css",
+          "size": 7634,
+          "mtime": 1779704642
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\backups\\oklch-surface-system-PREVIOUS.css",
+          "name": "oklch-surface-system-PREVIOUS.css",
+          "url": "session5-system-fix/backups/oklch-surface-system-PREVIOUS.css",
+          "size": 7634,
+          "mtime": 1779693836
+        }
+      ]
+    },
+    {
+      "sha1": "0bca4c6fbf78c6ded6b870e4df5a456c68b56515",
+      "size": 15211,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\expert-designer\\SKILL.md",
+          "name": "SKILL.md",
+          "url": ".claude/skills/expert-designer/SKILL.md",
+          "size": 15211,
+          "mtime": 1779634672
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\SKILL.md",
+          "name": "SKILL.md",
+          "url": "expert-designer/SKILL.md",
+          "size": 15211,
+          "mtime": 1779630646
+        }
+      ]
+    },
+    {
+      "sha1": "6214cab7d90430c4bef0cf99e12668005748b01b",
+      "size": 14846,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\generator\\assets\\js\\toolskin-assets.js",
+          "name": "toolskin-assets.js",
+          "url": "docs/references/generator/assets/js/toolskin-assets.js",
+          "size": 14846,
+          "mtime": 1777933546
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\toolskin-assets-js\\toolskin-assets.js",
+          "name": "toolskin-assets.js",
+          "url": "docs/references/toolskin-assets-js/toolskin-assets.js",
+          "size": 14846,
+          "mtime": 1777933546
+        }
+      ]
+    },
+    {
+      "sha1": "766d8cee9b93cf1108795c4366d75203a6bb691b",
+      "size": 14238,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\expert-designer\\references\\enfold-builder.md",
+          "name": "enfold-builder.md",
+          "url": ".claude/skills/expert-designer/references/enfold-builder.md",
+          "size": 14238,
+          "mtime": 1779155228
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\expert-designer\\references\\enfold-builder.md",
+          "name": "enfold-builder.md",
+          "url": "docs/claude-design-files/project/uploads/expert-designer/references/enfold-builder.md",
+          "size": 14238,
+          "mtime": 1779601618
+        }
+      ]
+    },
+    {
+      "sha1": "034f7a39deea5996802e3a34ef8e6e1dda6906c6",
+      "size": 14098,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\.claude-skills\\toolskin-visual-audit\\SKILL.md",
+          "name": "SKILL.md",
+          "url": "docs/claude-design-files/project/.claude-skills/toolskin-visual-audit/SKILL.md",
+          "size": 14098,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\session-1-bootstrap\\toolskin-visual-audit\\SKILL.md",
+          "name": "SKILL.md",
+          "url": "docs/session-1-bootstrap/toolskin-visual-audit/SKILL.md",
+          "size": 14098,
+          "mtime": 1779213991
+        }
+      ]
+    },
+    {
+      "sha1": "13980096cf9549cc4af19b71c1dcce7108e0f379",
+      "size": 13267,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\polish.md",
+          "name": "polish.md",
+          "url": ".agents/skills/impeccable/reference/polish.md",
+          "size": 13267,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\polish.md",
+          "name": "polish.md",
+          "url": ".claude/skills/impeccable/reference/polish.md",
+          "size": 13267,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "cb6d3ec0a44511e891a698d243db2a4e83d4b1d6",
+      "size": 13024,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\SKILL.md",
+          "name": "SKILL.md",
+          "url": ".agents/skills/impeccable/SKILL.md",
+          "size": 13024,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\SKILL.md",
+          "name": "SKILL.md",
+          "url": ".claude/skills/impeccable/SKILL.md",
+          "size": 13024,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "df8bed57a9a2acfb4b4dc4d384dc3b37a68545d4",
+      "size": 6465,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\expert-designer\\scripts\\scaffold-component.sh",
+          "name": "scaffold-component.sh",
+          "url": ".claude/skills/expert-designer/scripts/scaffold-component.sh",
+          "size": 6465,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\expert-designer\\scripts\\scaffold-component.sh",
+          "name": "scaffold-component.sh",
+          "url": "docs/claude-design-files/project/expert-designer/scripts/scaffold-component.sh",
+          "size": 6465,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\scripts\\scaffold-component.sh",
+          "name": "scaffold-component.sh",
+          "url": "expert-designer/scripts/scaffold-component.sh",
+          "size": 6465,
+          "mtime": 1779630646
+        }
+      ]
+    },
+    {
+      "sha1": "b9387996b3eb67891ee552e717acecbe483de6e3",
+      "size": 6403,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\INSTALL.md",
+          "name": "INSTALL.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/INSTALL.md",
+          "size": 6403,
+          "mtime": 1779704714
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\INSTALL.md",
+          "name": "INSTALL.md",
+          "url": "session5-system-fix/INSTALL.md",
+          "size": 6403,
+          "mtime": 1779693908
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\INSTALL.md",
+          "name": "INSTALL.md",
+          "url": "INSTALL.md",
+          "size": 6403,
+          "mtime": 1779696317
+        }
+      ]
+    },
+    {
+      "sha1": "f8afc66dbc109401422756cccdbf6ffee0261918",
+      "size": 4092,
+      "count": 4,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\handoffs\\council-compensation-directive.md",
+          "name": "council-compensation-directive.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/handoffs/council-compensation-directive.md",
+          "size": 4092,
+          "mtime": 1779704684
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\council-compensation-directive.md",
+          "name": "council-compensation-directive.md",
+          "url": "docs/handoffs/council-compensation-directive.md",
+          "size": 4092,
+          "mtime": 1779697252
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\handoffs\\council-compensation-directive.md",
+          "name": "council-compensation-directive.md",
+          "url": "handoffs/council-compensation-directive.md",
+          "size": 4092,
+          "mtime": 1779693878
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\handoffs\\council-compensation-directive.md",
+          "name": "council-compensation-directive.md",
+          "url": "session5-system-fix/handoffs/council-compensation-directive.md",
+          "size": 4092,
+          "mtime": 1779693878
+        }
+      ]
+    },
+    {
+      "sha1": "5337ef6cffb63290d59041cda5963bf15a881eef",
+      "size": 12125,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\expert-designer\\references\\02-typography.md",
+          "name": "02-typography.md",
+          "url": "docs/claude-design-files/project/expert-designer/references/02-typography.md",
+          "size": 12125,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\references\\02-typography.md",
+          "name": "02-typography.md",
+          "url": "expert-designer/references/02-typography.md",
+          "size": 12125,
+          "mtime": 1779630646
+        }
+      ]
+    },
+    {
+      "sha1": "ae244f82d83b542b354d2b6ce41d7bfd23442a6b",
+      "size": 5947,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\rules\\05-owner-notes.md",
+          "name": "05-owner-notes.md",
+          "url": ".claude/rules/05-owner-notes.md",
+          "size": 5947,
+          "mtime": 1779704608
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\.claude\\rules\\05-owner-notes.md",
+          "name": "05-owner-notes.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/.claude/rules/05-owner-notes.md",
+          "size": 5947,
+          "mtime": 1779704608
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\.claude\\rules\\05-owner-notes.md",
+          "name": "05-owner-notes.md",
+          "url": "session5-system-fix/.claude/rules/05-owner-notes.md",
+          "size": 5947,
+          "mtime": 1779693803
+        }
+      ]
+    },
+    {
+      "sha1": "511c45d6cb6122f2aa8f420a5022ee6ace6c937d",
+      "size": 5897,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\hooks\\guard.mjs",
+          "name": "guard.mjs",
+          "url": ".claude/hooks/guard.mjs",
+          "size": 5897,
+          "mtime": 1779830428
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\.claude\\hooks\\guard.mjs",
+          "name": "guard.mjs",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/.claude/hooks/guard.mjs",
+          "size": 5897,
+          "mtime": 1779830428
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\guard.mjs",
+          "name": "guard.mjs",
+          "url": "docs/handoffs/guard.mjs",
+          "size": 5897,
+          "mtime": 1779821914
+        }
+      ]
+    },
+    {
+      "sha1": "55dc060169f62c80044d25180a0335af289c35ff",
+      "size": 11714,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\craft.md",
+          "name": "craft.md",
+          "url": ".agents/skills/impeccable/reference/craft.md",
+          "size": 11714,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\craft.md",
+          "name": "craft.md",
+          "url": ".claude/skills/impeccable/reference/craft.md",
+          "size": 11714,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "6e40e64991e3384306a80dd5b9d5cb9b7d087bf5",
+      "size": 11553,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\brand.md",
+          "name": "brand.md",
+          "url": ".agents/skills/impeccable/reference/brand.md",
+          "size": 11553,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\brand.md",
+          "name": "brand.md",
+          "url": ".claude/skills/impeccable/reference/brand.md",
+          "size": 11553,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "029b4f69162d299b8f752b0dcbea26f5d9cd9393",
+      "size": 11448,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\shape.md",
+          "name": "shape.md",
+          "url": ".agents/skills/impeccable/reference/shape.md",
+          "size": 11448,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\shape.md",
+          "name": "shape.md",
+          "url": ".claude/skills/impeccable/reference/shape.md",
+          "size": 11448,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "3ac96f719f1e0f97ac502abbfb93ec5379873a09",
+      "size": 11135,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\Gradient Engine System\\GRADIENTS.md",
+          "name": "GRADIENTS.md",
+          "url": "docs/claude-design-files/project/Gradient Engine System/GRADIENTS.md",
+          "size": 11135,
+          "mtime": 1779839926
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\handoff-type-v2\\GRADIENTS.md",
+          "name": "GRADIENTS.md",
+          "url": "expert-designer/handoff-type-v2/GRADIENTS.md",
+          "size": 11135,
+          "mtime": 1779839926
+        }
+      ]
+    },
+    {
+      "sha1": "3b6b3bd82c3c32d0cfc649e8b7f57562c3b9fa6d",
+      "size": 10675,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\typeui-haul\\AUDIT.md",
+          "name": "AUDIT.md",
+          "url": "docs/claude-design-files/project/uploads/typeui-haul/AUDIT.md",
+          "size": 10675,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\_components-docs\\Template system - Toolskin Adaptation Plan\\AUDIT.md",
+          "name": "AUDIT.md",
+          "url": "docs/references/_components-docs/Template system - Toolskin Adaptation Plan/AUDIT.md",
+          "size": 10675,
+          "mtime": 1778394922
+        }
+      ]
+    },
+    {
+      "sha1": "4fd063f113ec9f0ddc42e29886cf0128bc913c9b",
+      "size": 10022,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\delight.md",
+          "name": "delight.md",
+          "url": ".agents/skills/impeccable/reference/delight.md",
+          "size": 10022,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\delight.md",
+          "name": "delight.md",
+          "url": ".claude/skills/impeccable/reference/delight.md",
+          "size": 10022,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "0de068b7f03acfd3857e1c1323dee0a5e4e2d207",
+      "size": 9996,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\expert-designer\\css-integration-discipline.md",
+          "name": "css-integration-discipline.md",
+          "url": ".claude/skills/expert-designer/css-integration-discipline.md",
+          "size": 9996,
+          "mtime": 1779155228
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\expert-designer\\css-integration-discipline.md",
+          "name": "css-integration-discipline.md",
+          "url": "docs/claude-design-files/project/uploads/expert-designer/css-integration-discipline.md",
+          "size": 9996,
+          "mtime": 1779601618
+        }
+      ]
+    },
+    {
+      "sha1": "661379fe6f47954003a65e96c907b95b14693ac9",
+      "size": 9544,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\Gradient Engine System\\HANDOFF.md",
+          "name": "HANDOFF.md",
+          "url": "docs/claude-design-files/project/Gradient Engine System/HANDOFF.md",
+          "size": 9544,
+          "mtime": 1779839926
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\handoff-type-v2\\HANDOFF.md",
+          "name": "HANDOFF.md",
+          "url": "expert-designer/handoff-type-v2/HANDOFF.md",
+          "size": 9544,
+          "mtime": 1779839926
+        }
+      ]
+    },
+    {
+      "sha1": "3a7459f9ea6a275b1ccef252b88d4be2c6e2ca26",
+      "size": 9414,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\cleanup-deprecated.mjs",
+          "name": "cleanup-deprecated.mjs",
+          "url": ".agents/skills/impeccable/scripts/cleanup-deprecated.mjs",
+          "size": 9414,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\cleanup-deprecated.mjs",
+          "name": "cleanup-deprecated.mjs",
+          "url": ".claude/skills/impeccable/scripts/cleanup-deprecated.mjs",
+          "size": 9414,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "042d8a1bc87c849c9156de7c19c6adc38f14a9ce",
+      "size": 9334,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\teach.md",
+          "name": "teach.md",
+          "url": ".agents/skills/impeccable/reference/teach.md",
+          "size": 9334,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\teach.md",
+          "name": "teach.md",
+          "url": ".claude/skills/impeccable/reference/teach.md",
+          "size": 9334,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "900d3ff6655a36b37b4a5d00a26ad074c284329f",
+      "size": 9251,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\live-session-store.mjs",
+          "name": "live-session-store.mjs",
+          "url": ".agents/skills/impeccable/scripts/live-session-store.mjs",
+          "size": 9251,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\live-session-store.mjs",
+          "name": "live-session-store.mjs",
+          "url": ".claude/skills/impeccable/scripts/live-session-store.mjs",
+          "size": 9251,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "2500306324d699a32c7252d821f559ce31b6a7d0",
+      "size": 9246,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\critique-storage.mjs",
+          "name": "critique-storage.mjs",
+          "url": ".agents/skills/impeccable/scripts/critique-storage.mjs",
+          "size": 9246,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\critique-storage.mjs",
+          "name": "critique-storage.mjs",
+          "url": ".claude/skills/impeccable/scripts/critique-storage.mjs",
+          "size": 9246,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "49f119e9de23779607bffb3913e8dd340ed3caeb",
+      "size": 9145,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\overdrive.md",
+          "name": "overdrive.md",
+          "url": ".agents/skills/impeccable/reference/overdrive.md",
+          "size": 9145,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\overdrive.md",
+          "name": "overdrive.md",
+          "url": ".claude/skills/impeccable/reference/overdrive.md",
+          "size": 9145,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "0b2f34d01a7358e622d55e3e53140dbe4d06253a",
+      "size": 9009,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\heuristics-scoring.md",
+          "name": "heuristics-scoring.md",
+          "url": ".agents/skills/impeccable/reference/heuristics-scoring.md",
+          "size": 9009,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\heuristics-scoring.md",
+          "name": "heuristics-scoring.md",
+          "url": ".claude/skills/impeccable/reference/heuristics-scoring.md",
+          "size": 9009,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "ef66bc2b6506cf7358e861de375dd9f511af9896",
+      "size": 8958,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\harden.md",
+          "name": "harden.md",
+          "url": ".agents/skills/impeccable/reference/harden.md",
+          "size": 8958,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\harden.md",
+          "name": "harden.md",
+          "url": ".claude/skills/impeccable/reference/harden.md",
+          "size": 8958,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "d87211d4898daab6e5cd666fb42b62a9d15a13d5",
+      "size": 8883,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\expert-designer\\references\\01-foundation.md",
+          "name": "01-foundation.md",
+          "url": "docs/claude-design-files/project/expert-designer/references/01-foundation.md",
+          "size": 8883,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\references\\01-foundation.md",
+          "name": "01-foundation.md",
+          "url": "expert-designer/references/01-foundation.md",
+          "size": 8883,
+          "mtime": 1779630646
+        }
+      ]
+    },
+    {
+      "sha1": "97540e07eee360367beaa4d4fd33e2d908b02a06",
+      "size": 8859,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\live.mjs",
+          "name": "live.mjs",
+          "url": ".agents/skills/impeccable/scripts/live.mjs",
+          "size": 8859,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\live.mjs",
+          "name": "live.mjs",
+          "url": ".claude/skills/impeccable/scripts/live.mjs",
+          "size": 8859,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "c4b7ac1c599dd7d27048cb604a58b373717d1269",
+      "size": 8498,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\treemap-module\\tools\\build-asset-map.js",
+          "name": "build-asset-map.js",
+          "url": "docs/references/treemap-module/tools/build-asset-map.js",
+          "size": 8498,
+          "mtime": 1778136010
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\build-asset-map.js",
+          "name": "build-asset-map.js",
+          "url": "docs/references/build-asset-map.js",
+          "size": 8498,
+          "mtime": 1778136010
+        }
+      ]
+    },
+    {
+      "sha1": "cc505efbf3a8627dec315cd39ad0b288dea088e9",
+      "size": 8438,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\agents\\impeccable-asset-producer.md",
+          "name": "impeccable-asset-producer.md",
+          "url": ".agents/skills/impeccable/agents/impeccable-asset-producer.md",
+          "size": 8438,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\agents\\impeccable-asset-producer.md",
+          "name": "impeccable-asset-producer.md",
+          "url": ".claude/skills/impeccable/agents/impeccable-asset-producer.md",
+          "size": 8438,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "1889c1c32e243b9553fc98d521481b116e6f15f8",
+      "size": 8428,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\typography.md",
+          "name": "typography.md",
+          "url": ".agents/skills/impeccable/reference/typography.md",
+          "size": 8428,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\typography.md",
+          "name": "typography.md",
+          "url": ".claude/skills/impeccable/reference/typography.md",
+          "size": 8428,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "aec95821de685f2c6e5371307eda8efb36938b13",
+      "size": 8173,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\colorize.md",
+          "name": "colorize.md",
+          "url": ".agents/skills/impeccable/reference/colorize.md",
+          "size": 8173,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\colorize.md",
+          "name": "colorize.md",
+          "url": ".claude/skills/impeccable/reference/colorize.md",
+          "size": 8173,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "c91afa8e2d0aa12a95fc2b28659aa4f17ded7644",
+      "size": 8122,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\layout.md",
+          "name": "layout.md",
+          "url": ".agents/skills/impeccable/reference/layout.md",
+          "size": 8122,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\layout.md",
+          "name": "layout.md",
+          "url": ".claude/skills/impeccable/reference/layout.md",
+          "size": 8122,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "3565f7e48e23d09aa5e57e0bc2085a8334faa839",
+      "size": 8038,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\command-metadata.json",
+          "name": "command-metadata.json",
+          "url": ".agents/skills/impeccable/scripts/command-metadata.json",
+          "size": 8038,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\command-metadata.json",
+          "name": "command-metadata.json",
+          "url": ".claude/skills/impeccable/scripts/command-metadata.json",
+          "size": 8038,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "940755fe7ae3f5a19734fd7da78b2dd5e7c8fcf6",
+      "size": 4001,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\expert-designer\\scripts\\health-check.sh",
+          "name": "health-check.sh",
+          "url": ".claude/skills/expert-designer/scripts/health-check.sh",
+          "size": 4001,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\expert-designer\\scripts\\health-check.sh",
+          "name": "health-check.sh",
+          "url": "docs/claude-design-files/project/expert-designer/scripts/health-check.sh",
+          "size": 4001,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\scripts\\health-check.sh",
+          "name": "health-check.sh",
+          "url": "expert-designer/scripts/health-check.sh",
+          "size": 4001,
+          "mtime": 1779630646
+        }
+      ]
+    },
+    {
+      "sha1": "bd4a634dc0fc538c973ade057011be7bc65e436f",
+      "size": 7991,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\onboard.md",
+          "name": "onboard.md",
+          "url": ".agents/skills/impeccable/reference/onboard.md",
+          "size": 7991,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\onboard.md",
+          "name": "onboard.md",
+          "url": ".claude/skills/impeccable/reference/onboard.md",
+          "size": 7991,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "4f2720ca519cd54bbf9c65ece5366083562a144f",
+      "size": 7943,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\animate.md",
+          "name": "animate.md",
+          "url": ".agents/skills/impeccable/reference/animate.md",
+          "size": 7943,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\animate.md",
+          "name": "animate.md",
+          "url": ".claude/skills/impeccable/reference/animate.md",
+          "size": 7943,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "b85e32552ca1c4049b66f3d72b59332dbf027550",
+      "size": 7941,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\_components-docs\\agent-teams\\AGENT_CONTEXT.md",
+          "name": "AGENT_CONTEXT.md",
+          "url": "docs/references/_components-docs/agent-teams/AGENT_CONTEXT.md",
+          "size": 7941,
+          "mtime": 1779298534
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\_components-docs\\token-validation\\AGENT_CONTEXT.md",
+          "name": "AGENT_CONTEXT.md",
+          "url": "docs/references/_components-docs/token-validation/AGENT_CONTEXT.md",
+          "size": 7941,
+          "mtime": 1779298534
+        }
+      ]
+    },
+    {
+      "sha1": "53ff57494b76f0302dd01b254e039fa0974e9319",
+      "size": 7910,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\live-poll.mjs",
+          "name": "live-poll.mjs",
+          "url": ".agents/skills/impeccable/scripts/live-poll.mjs",
+          "size": 7910,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\live-poll.mjs",
+          "name": "live-poll.mjs",
+          "url": ".claude/skills/impeccable/scripts/live-poll.mjs",
+          "size": 7910,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "0832952ec5fff6f2ae568439240b31ebd59dbd2f",
+      "size": 7874,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\optimize.md",
+          "name": "optimize.md",
+          "url": ".agents/skills/impeccable/reference/optimize.md",
+          "size": 7874,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\optimize.md",
+          "name": "optimize.md",
+          "url": ".claude/skills/impeccable/reference/optimize.md",
+          "size": 7874,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "78a88a331c6aab2fbf3607edec930b3325762218",
+      "size": 7768,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\typeui-haul\\TOOLSKIN_ADAPTATION_PLAN.md",
+          "name": "TOOLSKIN_ADAPTATION_PLAN.md",
+          "url": "docs/claude-design-files/project/uploads/typeui-haul/TOOLSKIN_ADAPTATION_PLAN.md",
+          "size": 7768,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\_components-docs\\Template system - Toolskin Adaptation Plan\\TOOLSKIN_ADAPTATION_PLAN.md",
+          "name": "TOOLSKIN_ADAPTATION_PLAN.md",
+          "url": "docs/references/_components-docs/Template system - Toolskin Adaptation Plan/TOOLSKIN_ADAPTATION_PLAN.md",
+          "size": 7768,
+          "mtime": 1778394922
+        }
+      ]
+    },
+    {
+      "sha1": "9b64b213390a4683042131935b5fda4eda45c2d1",
+      "size": 3775,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\logos\\symbols.svg",
+          "name": "symbols.svg",
+          "url": "docs/claude-design-files/project/logos/symbols.svg",
+          "size": 3775,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\_broke\\symbols.svg",
+          "name": "symbols.svg",
+          "url": "docs/references/branding/logos/_broke/symbols.svg",
+          "size": 3775,
+          "mtime": 1778017913
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\symbols.svg",
+          "name": "symbols.svg",
+          "url": "docs/references/branding/logos/symbols.svg",
+          "size": 3775,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "7d033630728a1756d2ff10e4f8af2f70651a793c",
+      "size": 7283,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\personas.md",
+          "name": "personas.md",
+          "url": ".agents/skills/impeccable/reference/personas.md",
+          "size": 7283,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\personas.md",
+          "name": "personas.md",
+          "url": ".claude/skills/impeccable/reference/personas.md",
+          "size": 7283,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "ae87f4f30fc266149684a7b6bc65271c142f0bc5",
+      "size": 7277,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\interaction-design.md",
+          "name": "interaction-design.md",
+          "url": ".agents/skills/impeccable/reference/interaction-design.md",
+          "size": 7277,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\interaction-design.md",
+          "name": "interaction-design.md",
+          "url": ".claude/skills/impeccable/reference/interaction-design.md",
+          "size": 7277,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "7e4a69ec108de9817648e82892cb1d633a891dd0",
+      "size": 7031,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\codex.md",
+          "name": "codex.md",
+          "url": ".agents/skills/impeccable/reference/codex.md",
+          "size": 7031,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\codex.md",
+          "name": "codex.md",
+          "url": ".claude/skills/impeccable/reference/codex.md",
+          "size": 7031,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "3a4fef7f54923335bd8ff2043689be2904de83df",
+      "size": 6959,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\detect-csp.mjs",
+          "name": "detect-csp.mjs",
+          "url": ".agents/skills/impeccable/scripts/detect-csp.mjs",
+          "size": 6959,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\detect-csp.mjs",
+          "name": "detect-csp.mjs",
+          "url": ".claude/skills/impeccable/scripts/detect-csp.mjs",
+          "size": 6959,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "95c7d542dc9e3965c1daa401d480b27e79452a4e",
+      "size": 6735,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\audit.md",
+          "name": "audit.md",
+          "url": ".agents/skills/impeccable/reference/audit.md",
+          "size": 6735,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\audit.md",
+          "name": "audit.md",
+          "url": ".claude/skills/impeccable/reference/audit.md",
+          "size": 6735,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "f70ca28b7dc7e37c04db13ae8d64a0bfeb182f6c",
+      "size": 6676,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\adapt.md",
+          "name": "adapt.md",
+          "url": ".agents/skills/impeccable/reference/adapt.md",
+          "size": 6676,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\adapt.md",
+          "name": "adapt.md",
+          "url": ".claude/skills/impeccable/reference/adapt.md",
+          "size": 6676,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "91941c2cb6a3c2ebe6e18b7e431a8cf0cc914317",
+      "size": 6496,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\bolder.md",
+          "name": "bolder.md",
+          "url": ".agents/skills/impeccable/reference/bolder.md",
+          "size": 6496,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\bolder.md",
+          "name": "bolder.md",
+          "url": ".claude/skills/impeccable/reference/bolder.md",
+          "size": 6496,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "0cdcc6bb874b0bb43e8d0e71a6d6c63fc74c1031",
+      "size": 3231,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\decisions\\color-system.md",
+          "name": "color-system.md",
+          "url": "decisions/color-system.md",
+          "size": 3231,
+          "mtime": 1779704516
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\decisions\\color-system.md",
+          "name": "color-system.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/decisions/color-system.md",
+          "size": 3231,
+          "mtime": 1779704516
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\decisions\\color-system.md",
+          "name": "color-system.md",
+          "url": "session5-system-fix/decisions/color-system.md",
+          "size": 3231,
+          "mtime": 1779693711
+        }
+      ]
+    },
+    {
+      "sha1": "6b07d6c99a49f5362ddbc62d0c2c3ca46f7c631a",
+      "size": 6441,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\typeset.md",
+          "name": "typeset.md",
+          "url": ".agents/skills/impeccable/reference/typeset.md",
+          "size": 6441,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\typeset.md",
+          "name": "typeset.md",
+          "url": ".claude/skills/impeccable/reference/typeset.md",
+          "size": 6441,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "4ddfa71da903b55e4862b4192b8e363dbdc64552",
+      "size": 6339,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\pin.mjs",
+          "name": "pin.mjs",
+          "url": ".agents/skills/impeccable/scripts/pin.mjs",
+          "size": 6339,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\pin.mjs",
+          "name": "pin.mjs",
+          "url": ".claude/skills/impeccable/scripts/pin.mjs",
+          "size": 6339,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "9374ffc1d08e4d08461240f726ce1c33df04a513",
+      "size": 6310,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\clarify.md",
+          "name": "clarify.md",
+          "url": ".agents/skills/impeccable/reference/clarify.md",
+          "size": 6310,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\clarify.md",
+          "name": "clarify.md",
+          "url": ".claude/skills/impeccable/reference/clarify.md",
+          "size": 6310,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "f5d5bfa3b6ab6147e8636b6bc6983ca1269f4343",
+      "size": 3147,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\logos\\icon-legacy.svg",
+          "name": "icon-legacy.svg",
+          "url": "docs/claude-design-files/project/logos/icon-legacy.svg",
+          "size": 3147,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\_broke\\icon-legacy.svg",
+          "name": "icon-legacy.svg",
+          "url": "docs/references/branding/logos/_broke/icon-legacy.svg",
+          "size": 3147,
+          "mtime": 1777831611
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\icon-legacy.svg",
+          "name": "icon-legacy.svg",
+          "url": "docs/references/branding/logos/icon-legacy.svg",
+          "size": 3147,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "ae79490bce81829203230990001ebcfdd02857c8",
+      "size": 6179,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\pasted-1777786381600-0.png",
+          "name": "pasted-1777786381600-0.png",
+          "url": "docs/claude-design-files/project/uploads/pasted-1777786381600-0.png",
+          "size": 6179,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\uploads\\pasted-1777786381600-0.png",
+          "name": "pasted-1777786381600-0.png",
+          "url": "docs/references/branding/uploads/pasted-1777786381600-0.png",
+          "size": 6179,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "94139c15d8184baaad0ef4cd3358377ad780464b",
+      "size": 3055,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\decisions\\font-scaling.md",
+          "name": "font-scaling.md",
+          "url": "decisions/font-scaling.md",
+          "size": 3055,
+          "mtime": 1779704536
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\decisions\\font-scaling.md",
+          "name": "font-scaling.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/decisions/font-scaling.md",
+          "size": 3055,
+          "mtime": 1779704536
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\decisions\\font-scaling.md",
+          "name": "font-scaling.md",
+          "url": "session5-system-fix/decisions/font-scaling.md",
+          "size": 3055,
+          "mtime": 1779693731
+        }
+      ]
+    },
+    {
+      "sha1": "00cc7f66bec483fa4bf8189eadbe8145d9949aa6",
+      "size": 3000,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\rules\\01-rulings.md",
+          "name": "01-rulings.md",
+          "url": ".claude/rules/01-rulings.md",
+          "size": 3000,
+          "mtime": 1779704410
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\.claude\\rules\\01-rulings.md",
+          "name": "01-rulings.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/.claude/rules/01-rulings.md",
+          "size": 3000,
+          "mtime": 1779704410
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\.claude\\rules\\01-rulings.md",
+          "name": "01-rulings.md",
+          "url": "session5-system-fix/.claude/rules/01-rulings.md",
+          "size": 3000,
+          "mtime": 1779693605
+        }
+      ]
+    },
+    {
+      "sha1": "93bb8c9b3ffba4a27fd56a426ed27577d13942bd",
+      "size": 2966,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\audit\\checklist.md",
+          "name": "checklist.md",
+          "url": "audit/checklist.md",
+          "size": 2966,
+          "mtime": 1779704554
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\audit\\checklist.md",
+          "name": "checklist.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/audit/checklist.md",
+          "size": 2966,
+          "mtime": 1779704554
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\audit\\checklist.md",
+          "name": "checklist.md",
+          "url": "session5-system-fix/audit/checklist.md",
+          "size": 2966,
+          "mtime": 1779693749
+        }
+      ]
+    },
+    {
+      "sha1": "4bd288b19cc5368026a8242ff9c4730f34c73771",
+      "size": 5893,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\motion-design.md",
+          "name": "motion-design.md",
+          "url": ".agents/skills/impeccable/reference/motion-design.md",
+          "size": 5893,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\motion-design.md",
+          "name": "motion-design.md",
+          "url": ".claude/skills/impeccable/reference/motion-design.md",
+          "size": 5893,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "4f869c13db337ac97b57917fd06cfc68144af48d",
+      "size": 5874,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\color-and-contrast.md",
+          "name": "color-and-contrast.md",
+          "url": ".agents/skills/impeccable/reference/color-and-contrast.md",
+          "size": 5874,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\color-and-contrast.md",
+          "name": "color-and-contrast.md",
+          "url": ".claude/skills/impeccable/reference/color-and-contrast.md",
+          "size": 5874,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "568c2a9b336d78e5769d401a9f4d2613062a0bab",
+      "size": 5853,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\expert-designer\\references\\card-layout-rules.md",
+          "name": "card-layout-rules.md",
+          "url": ".claude/skills/expert-designer/references/card-layout-rules.md",
+          "size": 5853,
+          "mtime": 1779155228
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\expert-designer\\references\\card-layout-rules.md",
+          "name": "card-layout-rules.md",
+          "url": "docs/claude-design-files/project/uploads/expert-designer/references/card-layout-rules.md",
+          "size": 5853,
+          "mtime": 1779601618
+        }
+      ]
+    },
+    {
+      "sha1": "bcf84034f966add7aea73b31ef2735a59919155b",
+      "size": 2910,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\decisions\\system-layer-status.md",
+          "name": "system-layer-status.md",
+          "url": "decisions/system-layer-status.md",
+          "size": 2910,
+          "mtime": 1779704498
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\decisions\\system-layer-status.md",
+          "name": "system-layer-status.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/decisions/system-layer-status.md",
+          "size": 2910,
+          "mtime": 1779704498
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\decisions\\system-layer-status.md",
+          "name": "system-layer-status.md",
+          "url": "session5-system-fix/decisions/system-layer-status.md",
+          "size": 2910,
+          "mtime": 1779693693
+        }
+      ]
+    },
+    {
+      "sha1": "183cdd29470f3bdaa38c7e9f7dbbf21441bf4cad",
+      "size": 5744,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\distill.md",
+          "name": "distill.md",
+          "url": ".agents/skills/impeccable/reference/distill.md",
+          "size": 5744,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\distill.md",
+          "name": "distill.md",
+          "url": ".claude/skills/impeccable/reference/distill.md",
+          "size": 5744,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "f48fc03ac5ee22c6360da3c4fe1aec00d2ef731a",
+      "size": 2803,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\rules\\03-css-architecture.md",
+          "name": "03-css-architecture.md",
+          "url": ".claude/rules/03-css-architecture.md",
+          "size": 2803,
+          "mtime": 1779704424
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\.claude\\rules\\03-css-architecture.md",
+          "name": "03-css-architecture.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/.claude/rules/03-css-architecture.md",
+          "size": 2803,
+          "mtime": 1779704424
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\.claude\\rules\\03-css-architecture.md",
+          "name": "03-css-architecture.md",
+          "url": "session5-system-fix/.claude/rules/03-css-architecture.md",
+          "size": 2803,
+          "mtime": 1779693619
+        }
+      ]
+    },
+    {
+      "sha1": "22f143267304a1c863771889a7489af60b27e2b5",
+      "size": 2669,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\rules\\02-visual-quality.md",
+          "name": "02-visual-quality.md",
+          "url": ".claude/rules/02-visual-quality.md",
+          "size": 2669,
+          "mtime": 1779704570
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\.claude\\rules\\02-visual-quality.md",
+          "name": "02-visual-quality.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/.claude/rules/02-visual-quality.md",
+          "size": 2669,
+          "mtime": 1779704570
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\.claude\\rules\\02-visual-quality.md",
+          "name": "02-visual-quality.md",
+          "url": "session5-system-fix/.claude/rules/02-visual-quality.md",
+          "size": 2669,
+          "mtime": 1779693765
+        }
+      ]
+    },
+    {
+      "sha1": "5e148a04669ab9d09f63662cbd1f46553939134d",
+      "size": 5253,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\load-context.mjs",
+          "name": "load-context.mjs",
+          "url": ".agents/skills/impeccable/scripts/load-context.mjs",
+          "size": 5253,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\load-context.mjs",
+          "name": "load-context.mjs",
+          "url": ".claude/skills/impeccable/scripts/load-context.mjs",
+          "size": 5253,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "6bfd64be49d21a3d44d8f9c398cc75922638bb30",
+      "size": 5094,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\expert-designer\\templates\\seed-page.html",
+          "name": "seed-page.html",
+          "url": "docs/claude-design-files/project/expert-designer/templates/seed-page.html",
+          "size": 5094,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\expert-designer\\templates\\seed-page.html",
+          "name": "seed-page.html",
+          "url": "expert-designer/templates/seed-page.html",
+          "size": 5094,
+          "mtime": 1779630646
+        }
+      ]
+    },
+    {
+      "sha1": "10f3ef0d2212c45abaedd05e51f1fd21f439a2a0",
+      "size": 2496,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\rules\\06-design-law.md",
+          "name": "06-design-law.md",
+          "url": ".claude/rules/06-design-law.md",
+          "size": 2496,
+          "mtime": 1779704584
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\.claude\\rules\\06-design-law.md",
+          "name": "06-design-law.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/.claude/rules/06-design-law.md",
+          "size": 2496,
+          "mtime": 1779704584
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\.claude\\rules\\06-design-law.md",
+          "name": "06-design-law.md",
+          "url": "session5-system-fix/.claude/rules/06-design-law.md",
+          "size": 2496,
+          "mtime": 1779693778
+        }
+      ]
+    },
+    {
+      "sha1": "22e80dd6e181a4697c815d9f911b3e96b0855d46",
+      "size": 4903,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\quieter.md",
+          "name": "quieter.md",
+          "url": ".agents/skills/impeccable/reference/quieter.md",
+          "size": 4903,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\quieter.md",
+          "name": "quieter.md",
+          "url": ".claude/skills/impeccable/reference/quieter.md",
+          "size": 4903,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "64b8f1a6e9be45e2a9f1cb83a5e2fa6891efab95",
+      "size": 4902,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\cognitive-load.md",
+          "name": "cognitive-load.md",
+          "url": ".agents/skills/impeccable/reference/cognitive-load.md",
+          "size": 4902,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\cognitive-load.md",
+          "name": "cognitive-load.md",
+          "url": ".claude/skills/impeccable/reference/cognitive-load.md",
+          "size": 4902,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "c262cc25a7c8a20df040ca5289913b9e0f722ee6",
+      "size": 2286,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\hooks\\session-rehydrate.mjs",
+          "name": "session-rehydrate.mjs",
+          "url": ".claude/hooks/session-rehydrate.mjs",
+          "size": 2286,
+          "mtime": 1779704464
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\.claude\\hooks\\session-rehydrate.mjs",
+          "name": "session-rehydrate.mjs",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/.claude/hooks/session-rehydrate.mjs",
+          "size": 2286,
+          "mtime": 1779704464
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\.claude\\hooks\\session-rehydrate.mjs",
+          "name": "session-rehydrate.mjs",
+          "url": "session5-system-fix/.claude/hooks/session-rehydrate.mjs",
+          "size": 2286,
+          "mtime": 1779693657
+        }
+      ]
+    },
+    {
+      "sha1": "4b7e392049a69423c7fac6da31a08dee39b60967",
+      "size": 4433,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\ux-writing.md",
+          "name": "ux-writing.md",
+          "url": ".agents/skills/impeccable/reference/ux-writing.md",
+          "size": 4433,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\ux-writing.md",
+          "name": "ux-writing.md",
+          "url": ".claude/skills/impeccable/reference/ux-writing.md",
+          "size": 4433,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "0f2b1ed3faa0aeb487b641f5e766a2e87bfac499",
+      "size": 4199,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\product.md",
+          "name": "product.md",
+          "url": ".agents/skills/impeccable/reference/product.md",
+          "size": 4199,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\product.md",
+          "name": "product.md",
+          "url": ".claude/skills/impeccable/reference/product.md",
+          "size": 4199,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "f824588c7a5b93ce648d34852e3f07245a0e46bb",
+      "size": 3805,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\rules\\04-behavior.md",
+          "name": "04-behavior.md",
+          "url": ".claude/rules/04-behavior.md",
+          "size": 3805,
+          "mtime": 1779830558
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\.claude\\rules\\04-behavior.md",
+          "name": "04-behavior.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/.claude/rules/04-behavior.md",
+          "size": 3805,
+          "mtime": 1779830558
+        }
+      ]
+    },
+    {
+      "sha1": "d72c13d8bf93ab020d07b9b890f0791eb05514c7",
+      "size": 3747,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\uploads\\pasted-1777786424874-0.png",
+          "name": "pasted-1777786424874-0.png",
+          "url": "docs/claude-design-files/project/uploads/pasted-1777786424874-0.png",
+          "size": 3747,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\uploads\\pasted-1777786424874-0.png",
+          "name": "pasted-1777786424874-0.png",
+          "url": "docs/references/branding/uploads/pasted-1777786424874-0.png",
+          "size": 3747,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "5c0dbd6c6571510ecfd4c243b9bb8f0528d69ee7",
+      "size": 3662,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\.claude\\CLAUDE.md",
+          "name": "CLAUDE.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/.claude/CLAUDE.md",
+          "size": 3662,
+          "mtime": 1779704660
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\.claude\\CLAUDE.md",
+          "name": "CLAUDE.md",
+          "url": "session5-system-fix/.claude/CLAUDE.md",
+          "size": 3662,
+          "mtime": 1779693855
+        }
+      ]
+    },
+    {
+      "sha1": "cba1a2444aa259e6379e30e345738012ccfb551e",
+      "size": 3638,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\spatial-design.md",
+          "name": "spatial-design.md",
+          "url": ".agents/skills/impeccable/reference/spatial-design.md",
+          "size": 3638,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\spatial-design.md",
+          "name": "spatial-design.md",
+          "url": ".claude/skills/impeccable/reference/spatial-design.md",
+          "size": 3638,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "7cbb768bcd84fdc20c7830eb08e39e281521fde2",
+      "size": 3575,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\responsive-design.md",
+          "name": "responsive-design.md",
+          "url": ".agents/skills/impeccable/reference/responsive-design.md",
+          "size": 3575,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\responsive-design.md",
+          "name": "responsive-design.md",
+          "url": ".claude/skills/impeccable/reference/responsive-design.md",
+          "size": 3575,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "9bbb63dfcd6bd3f59215c42f88c8ea2121552e76",
+      "size": 3541,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\impeccable-paths.mjs",
+          "name": "impeccable-paths.mjs",
+          "url": ".agents/skills/impeccable/scripts/impeccable-paths.mjs",
+          "size": 3541,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\impeccable-paths.mjs",
+          "name": "impeccable-paths.mjs",
+          "url": ".claude/skills/impeccable/scripts/impeccable-paths.mjs",
+          "size": 3541,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "93d70db4da516daef49ee6a4c9cd3d90823f94ed",
+      "size": 3420,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\live-browser-session.js",
+          "name": "live-browser-session.js",
+          "url": ".agents/skills/impeccable/scripts/live-browser-session.js",
+          "size": 3420,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\live-browser-session.js",
+          "name": "live-browser-session.js",
+          "url": ".claude/skills/impeccable/scripts/live-browser-session.js",
+          "size": 3420,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "ee94bcddfd44dd2c90787816f743b51a1c08b046",
+      "size": 3404,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\README.md",
+          "name": "README.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/README.md",
+          "size": 3404,
+          "mtime": 1779704382
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\README.md",
+          "name": "README.md",
+          "url": "session5-system-fix/README.md",
+          "size": 3404,
+          "mtime": 1779693576
+        }
+      ]
+    },
+    {
+      "sha1": "65fe8fac262ba20fcd79561c2a1ba9da94e167f2",
+      "size": 3376,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\reference\\extract.md",
+          "name": "extract.md",
+          "url": ".agents/skills/impeccable/reference/extract.md",
+          "size": 3376,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\reference\\extract.md",
+          "name": "extract.md",
+          "url": ".claude/skills/impeccable/reference/extract.md",
+          "size": 3376,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "2554877b9951dffb0ab80739dc65b2fa794da520",
+      "size": 1679,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\hooks\\checkpoint-logger.mjs",
+          "name": "checkpoint-logger.mjs",
+          "url": ".claude/hooks/checkpoint-logger.mjs",
+          "size": 1679,
+          "mtime": 1779704450
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\.claude\\hooks\\checkpoint-logger.mjs",
+          "name": "checkpoint-logger.mjs",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/.claude/hooks/checkpoint-logger.mjs",
+          "size": 1679,
+          "mtime": 1779704450
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\.claude\\hooks\\checkpoint-logger.mjs",
+          "name": "checkpoint-logger.mjs",
+          "url": "session5-system-fix/.claude/hooks/checkpoint-logger.mjs",
+          "size": 1679,
+          "mtime": 1779693645
+        }
+      ]
+    },
+    {
+      "sha1": "87977c6502921b55e5d8867223f77fc1a30bbd67",
+      "size": 1643,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\rules\\00-cold-start.md",
+          "name": "00-cold-start.md",
+          "url": ".claude/rules/00-cold-start.md",
+          "size": 1643,
+          "mtime": 1779704392
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\handoffs\\_s5-extract\\session5-system-fix\\.claude\\rules\\00-cold-start.md",
+          "name": "00-cold-start.md",
+          "url": "docs/handoffs/_s5-extract/session5-system-fix/.claude/rules/00-cold-start.md",
+          "size": 1643,
+          "mtime": 1779704392
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\session5-system-fix\\.claude\\rules\\00-cold-start.md",
+          "name": "00-cold-start.md",
+          "url": "session5-system-fix/.claude/rules/00-cold-start.md",
+          "size": 1643,
+          "mtime": 1779693587
+        }
+      ]
+    },
+    {
+      "sha1": "e27401a6e7ab0c3c0986f8f93db4f20edf5109de",
+      "size": 3013,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\live-complete.mjs",
+          "name": "live-complete.mjs",
+          "url": ".agents/skills/impeccable/scripts/live-complete.mjs",
+          "size": 3013,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\live-complete.mjs",
+          "name": "live-complete.mjs",
+          "url": ".claude/skills/impeccable/scripts/live-complete.mjs",
+          "size": 3013,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "ef1ab9811ccb3a71ca04a429da3840a9280f50be",
+      "size": 2338,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\is-generated.mjs",
+          "name": "is-generated.mjs",
+          "url": ".agents/skills/impeccable/scripts/is-generated.mjs",
+          "size": 2338,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\is-generated.mjs",
+          "name": "is-generated.mjs",
+          "url": ".claude/skills/impeccable/scripts/is-generated.mjs",
+          "size": 2338,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "7b0f5cea9d749df2267ceae806c2b97b84a53934",
+      "size": 2022,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\live-resume.mjs",
+          "name": "live-resume.mjs",
+          "url": ".agents/skills/impeccable/scripts/live-resume.mjs",
+          "size": 2022,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\live-resume.mjs",
+          "name": "live-resume.mjs",
+          "url": ".claude/skills/impeccable/scripts/live-resume.mjs",
+          "size": 2022,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "afefee455f7d28be1f1da859b6a9ffc689e7ac36",
+      "size": 1543,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\live-status.mjs",
+          "name": "live-status.mjs",
+          "url": ".agents/skills/impeccable/scripts/live-status.mjs",
+          "size": 1543,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\live-status.mjs",
+          "name": "live-status.mjs",
+          "url": ".claude/skills/impeccable/scripts/live-status.mjs",
+          "size": 1543,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "da55d3a53ea718064143bffadd6c72cf539dab8a",
+      "size": 1084,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\logos\\toolskin-logo.html",
+          "name": "toolskin-logo.html",
+          "url": "docs/claude-design-files/project/logos/toolskin-logo.html",
+          "size": 1084,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\toolskin-logo.html",
+          "name": "toolskin-logo.html",
+          "url": "docs/references/branding/logos/toolskin-logo.html",
+          "size": 1084,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "7634cce34035bb50a46c84d37ece6e30a9c99c88",
+      "size": 1082,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\logos\\toolskin-logo-light.html",
+          "name": "toolskin-logo-light.html",
+          "url": "docs/claude-design-files/project/logos/toolskin-logo-light.html",
+          "size": 1082,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\toolskin-logo-light.html",
+          "name": "toolskin-logo-light.html",
+          "url": "docs/references/branding/logos/toolskin-logo-light.html",
+          "size": 1082,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "4ebdeb4ec9bf4c86593a54578c99f7b19e000bd8",
+      "size": 889,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\live-completion.mjs",
+          "name": "live-completion.mjs",
+          "url": ".agents/skills/impeccable/scripts/live-completion.mjs",
+          "size": 889,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\live-completion.mjs",
+          "name": "live-completion.mjs",
+          "url": ".claude/skills/impeccable/scripts/live-completion.mjs",
+          "size": 889,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "1d59bda719d43f72c08a057ad213fc5ab6ebbe9a",
+      "size": 420,
+      "count": 3,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\logos\\toolskin-icon.svg",
+          "name": "toolskin-icon.svg",
+          "url": "docs/claude-design-files/project/logos/toolskin-icon.svg",
+          "size": 420,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\_broke\\toolskin-icon.svg",
+          "name": "toolskin-icon.svg",
+          "url": "docs/references/branding/logos/_broke/toolskin-icon.svg",
+          "size": 420,
+          "mtime": 1777831611
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\toolskin-icon.svg",
+          "name": "toolskin-icon.svg",
+          "url": "docs/references/branding/logos/toolskin-icon.svg",
+          "size": 420,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "cfd5dc8d6e472737e52e8af1f0ed6ece9f6f173c",
+      "size": 762,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\treemap-module\\Tree-Explorer.bat",
+          "name": "Tree-Explorer.bat",
+          "url": "docs/references/treemap-module/Tree-Explorer.bat",
+          "size": 762,
+          "mtime": 1779531074
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\Tree-Explorer.bat",
+          "name": "Tree-Explorer.bat",
+          "url": "Tree-Explorer.bat",
+          "size": 762,
+          "mtime": 1779542022
+        }
+      ]
+    },
+    {
+      "sha1": "60f27ee5414d6bcb560228354f8be0bd86d6f8b1",
+      "size": 641,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.agents\\skills\\impeccable\\scripts\\detect.mjs",
+          "name": "detect.mjs",
+          "url": ".agents/skills/impeccable/scripts/detect.mjs",
+          "size": 641,
+          "mtime": 1779600866
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\.claude\\skills\\impeccable\\scripts\\detect.mjs",
+          "name": "detect.mjs",
+          "url": ".claude/skills/impeccable/scripts/detect.mjs",
+          "size": 641,
+          "mtime": 1779600866
+        }
+      ]
+    },
+    {
+      "sha1": "27ede8f7e18109662881cf4aa96e68894ef43336",
+      "size": 640,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\logos\\toolskin-wordmark.html",
+          "name": "toolskin-wordmark.html",
+          "url": "docs/claude-design-files/project/logos/toolskin-wordmark.html",
+          "size": 640,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\toolskin-wordmark.html",
+          "name": "toolskin-wordmark.html",
+          "url": "docs/references/branding/logos/toolskin-wordmark.html",
+          "size": 640,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "37aeff1d1bdbcb60c9761bcd2ac278901ac659e5",
+      "size": 549,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\logos\\toolskin-logo-light.svg",
+          "name": "toolskin-logo-light.svg",
+          "url": "docs/claude-design-files/project/logos/toolskin-logo-light.svg",
+          "size": 549,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\toolskin-logo-light.svg",
+          "name": "toolskin-logo-light.svg",
+          "url": "docs/references/branding/logos/toolskin-logo-light.svg",
+          "size": 549,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "e5654165b5697e4c3f8949d53aa48a74ee698fc1",
+      "size": 549,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\logos\\toolskin-logo.svg",
+          "name": "toolskin-logo.svg",
+          "url": "docs/claude-design-files/project/logos/toolskin-logo.svg",
+          "size": 549,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\toolskin-logo.svg",
+          "name": "toolskin-logo.svg",
+          "url": "docs/references/branding/logos/toolskin-logo.svg",
+          "size": 549,
+          "mtime": 1777831611
+        }
+      ]
+    },
+    {
+      "sha1": "eefe80b8809fe6862c63567e40cd6c58147edd71",
+      "size": 549,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\treemap-module\\Tree-Explorer.command",
+          "name": "Tree-Explorer.command",
+          "url": "docs/references/treemap-module/Tree-Explorer.command",
+          "size": 549,
+          "mtime": 1779531152
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\Tree-Explorer.command",
+          "name": "Tree-Explorer.command",
+          "url": "Tree-Explorer.command",
+          "size": 549,
+          "mtime": 1779542022
+        }
+      ]
+    },
+    {
+      "sha1": "bc51a4b36781be885672073c2a051878be05ff18",
+      "size": 231,
+      "count": 2,
+      "files": [
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\claude-design-files\\project\\logos\\toolskin-wordmark.svg",
+          "name": "toolskin-wordmark.svg",
+          "url": "docs/claude-design-files/project/logos/toolskin-wordmark.svg",
+          "size": 231,
+          "mtime": 1779601618
+        },
+        {
+          "id": "D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\docs\\references\\branding\\logos\\toolskin-wordmark.svg",
+          "name": "toolskin-wordmark.svg",
+          "url": "docs/references/branding/logos/toolskin-wordmark.svg",
+          "size": 231,
+          "mtime": 1777831611
+        }
+      ]
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Expert Designer · Toolskin v6</title>
+  <title>Expert Designer · Toolskin v7</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,579 +12,894 @@
   <link rel="stylesheet" href="templates/tokens.css">
 
   <style>
-    /* ──────────────────────────────────────────────────────────────
+/* CSS moved to an isolated scope for token-level deduplication (tokens.css).
+   DO NOT reintroduce styles here. Use this block only for comparison between
+   scoped styles and existing global rules on the same classes.
+
+   Objective:
+   - Identify and merge duplicated rules into shared token-driven utilities
+   - Normalize general-use classes and base assets
+   - Eliminate divergence between scoped and global styles
+
+   Only after consolidation:
+   - Establish stable layout patterns using the unified class system
+   - Ensure no regressions before removing or collapsing scoped styles
+*/
+
+/* ============================================================================
+ * starters-extraction.css — a staged partial cummulative nd  deduper-focsed stylesheet where 
+ we coigregate all the header styles from thestarter templates html generated to  filter and get the final classes rules and polished final  tokens for layout buildign and finald esign rules for  the skills adn agent isnturctiosn boudnaries.
+ Once al the duplicated  clases and rules are minized, dedupleed, optimized,  atomized,  okeniz<ed, and   delegated to asset stge and  turned into token based design layer,  this  sheet  will migrate  the different type of rules to the correspondign sheets correpsdondign to the architect criteria, only leavign heare the proper layer of tplkenization organziad to  commit to itspurpose and   unify its  function optimally, Toolskin design tokens for expert-designer v6
+ * ----------------------------------------------------------------------------
+ * The complete --ts-* contract: color, type, space, shape, motion, layout.
+ * Drop this in any HTML to get the full system. Surfaces ship dark + light
+ * default; switch by setting [data-theme="light"] on <html>.
+ *
+ * For production, generate the color block via scripts/generate-colors.js
+ * (it dual-emits hex + oklch and runs APCA verification).
+
+ @OWNER_NOTE: Remove color overrides that conflict with non-inheritable rules across stylesheets.
+   Prefer a proper import chain to avoid duplicated root declarations (tokens.css already defines core values).
+
+
+ * ========================================================================== */
+
+
+
+/* Showcase.html Bento design isolated  scoped  styles, moved for  unifying sand normalization purposes. . both sylesheeets now shares the  same classes names, but mwe neeed to  filter out which styles a re the ones that are  flexible and able to be used  on all the layouts semalessly woithout any design restriction. so we are comaprign ansd cleaning up  from the general scope ()above) to the specific scoped  code bellwwe, that only affects the encvlosed  ccsas   affefcting onlu the class  wrapping the  sahowcase page.  once filtered the scoping resdtirction wont be neccesary anymore. */
+
+
+/* these t two utlkitary classes ar e appolied directly on the  body of the  landing.  both serves for shwocase oages utilitary executins and  this especific style attribution glbal styles enbaling.  without those classes  th styles wont be applied and the defalt  fallback styles will beused.  this scoping methdos will be mandatory for the different oatterns and  themes  to afvoid  deployuiing  complex and differetn  dom, layouts and markups wne  we should only deployy the same baseline wktrh cnagens on attributes scirpts,   init code and  propertiesd on assets + contenti*/
+
+body.ts-showcase.ts-bento-landing {
+  overflow-x: hidden;
+
+      font-family: var(--ts-font-body);
+    font-size: var(--ts-fs-body);
+    line-height: var(--ts-lh-normal);
+    color: var(--ts-text-primary);
+    background: var(--ts-bg-body);
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern", "liga", "calt";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+  /* ──────────────────────────────────────────────────────────────
        Showcase-only styles. Builds on tokens.css. No overrides.
        ────────────────────────────────────────────────────────────── */
 
-    body { overflow-x: hidden; }
 
-    /* ── TOPBAR ─────────────────────────────────────────────────── */
-    .topbar {
-      position: sticky; top: 0; z-index: 100;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: var(--ts-sp-6);
-      height: 64px;
-      padding: 0 var(--ts-container-pad);
-      background: color-mix(in srgb, var(--ts-bg-body), transparent 20%);
-      backdrop-filter: blur(16px) saturate(140%);
-      -webkit-backdrop-filter: blur(16px) saturate(140%);
-      border-bottom: 1px solid var(--ts-border-0);
-    }
-    .topbar__brand {
-      font-weight: var(--ts-fw-bold);
-      letter-spacing: var(--ts-tracking-tight);
-      display: flex; align-items: center; gap: var(--ts-sp-2);
-    }
-    .topbar__brand-mark {
-      width: 24px; height: 24px;
-      border-radius: var(--ts-radius-xs);
-      background: var(--ts-accent);
-      display: grid; place-items: center;
-      color: var(--ts-on-accent);
-      font-family: var(--ts-font-mono);
-      font-size: 11px;
-      font-weight: var(--ts-fw-bold);
-    }
-    .topbar__nav {
-      display: flex; gap: var(--ts-sp-6); justify-content: center;
-      font-size: var(--ts-fs-caption);
-    }
-    .topbar__nav a {
-      color: var(--ts-text-secondary);
-      padding: var(--ts-sp-2);
-      transition: color var(--ts-dur-fast) var(--ts-ease-out);
-    }
-    .topbar__nav a:hover { color: var(--ts-text-primary); }
-    .topbar__actions { display: flex; gap: var(--ts-sp-2); align-items: center; }
-    .theme-toggle {
-      width: 36px; height: 36px;
-      display: grid; place-items: center;
-      border-radius: var(--ts-radius-sm);
-      border: 1px solid var(--ts-border-1);
-      background: var(--ts-bg-2);
-      color: var(--ts-text-primary);
-      cursor: pointer;
-      font-size: var(--ts-fs-caption);
-      transition: var(--ts-transition);
-    }
-    .theme-toggle:hover { border-color: var(--ts-border-2); }
 
-    @media (max-width: 720px) {
-      .topbar__nav { display: none; }
-    }
+  /* ── TOPBAR ─────────────────────────────────────────────────── */
+  .ts-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--ts-sp-6);
+    height: 64px;
+    padding: 0 var(--ts-container-pad);
+    background: color-mix(in srgb, var(--ts-bg-body), transparent 20%);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid var(--ts-border-0);
+  }
 
-    /* ── HERO ──────────────────────────────────────────────────── */
-    .hero {
-      position: relative;
-      padding: clamp(96px, 16vh, 192px) 0;
-      isolation: isolate;
-    }
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0; z-index: -1;
-      background:
-        radial-gradient(ellipse 50% 60% at 30% 30%, var(--ts-accent-dim) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 50% at 80% 70%, var(--ts-alt-dim) 0%, transparent 60%);
-      pointer-events: none;
-    }
+  .ts-topbar__brand {
+    font-weight: var(--ts-fw-bold);
+    letter-spacing: var(--ts-tracking-tight);
+    display: flex;
+    align-items: center;
+    gap: var(--ts-sp-2);
+  }
 
-    .hero__grid {
-      display: grid;
-      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-      gap: clamp(var(--ts-sp-8), 6vw, var(--ts-section-pad));
-      align-items: end;
-    }
-    @media (max-width: 960px) {
-      .hero__grid { grid-template-columns: 1fr; gap: var(--ts-sp-12); }
-    }
+  .ts-topbar__brand-mark {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--ts-radius-xs);
+    background: var(--ts-accent);
+    display: grid;
+    place-items: center;
+    color: var(--ts-on-accent);
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    font-weight: var(--ts-fw-bold);
+  }
 
-    .hero__kickers {
-      display: grid; gap: var(--ts-sp-2);
-      margin-bottom: var(--ts-sp-8);
-    }
-    .hero__kicker {
-      font-size: var(--ts-fs-micro);
-      text-transform: uppercase;
-      letter-spacing: var(--ts-tracking-wider);
-      font-weight: var(--ts-fw-semibold);
-      color: var(--ts-text-muted);
-    }
-    .hero__kicker--accent { color: var(--ts-accent); }
+  .ts-topbar__nav {
+    display: flex;
+    gap: var(--ts-sp-6);
+    justify-content: center;
+    font-size: var(--ts-fs-caption);
+  }
 
-    .hero__title {
-      font-family: var(--ts-font-display);
-      font-size: clamp(48px, 9vw, 124px);
-      line-height: 0.92;
-      letter-spacing: -0.04em;
-      font-weight: var(--ts-fw-bold);
-      margin: 0;
-      text-wrap: balance;
-    }
-    .hero__title em {
-      font-family: 'Instrument Serif', serif;
-      font-style: italic;
-      font-weight: 400;
-      color: var(--ts-accent);
-      letter-spacing: -0.02em;
-    }
+  .ts-topbar__nav a {
+    color: var(--ts-text-secondary);
+    padding: var(--ts-sp-2);
+    transition: color var(--ts-dur-fast) var(--ts-ease-out);
+  }
 
-    .hero__rail {
-      border-left: 1px solid var(--ts-border-1);
-      padding-left: var(--ts-sp-6);
-      display: grid; gap: var(--ts-sp-6);
-    }
-    .hero__rail p {
-      color: var(--ts-text-secondary);
-      max-width: 38ch;
-    }
-    .hero__actions { display: flex; gap: var(--ts-sp-3); flex-wrap: wrap; }
+  .ts-topbar__nav a:hover {
+    color: var(--ts-text-primary);
+  }
 
-    /* ── SECTION HEADER ────────────────────────────────────────── */
-    .section-head {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-      gap: clamp(var(--ts-sp-6), 4vw, var(--ts-sp-16));
-      align-items: end;
-      margin-bottom: var(--ts-sp-12);
-      padding-bottom: var(--ts-sp-8);
-      border-bottom: 1px solid var(--ts-border-1);
-    }
-    @media (max-width: 720px) { .section-head { grid-template-columns: 1fr; } }
-    .section-head__num {
-      font-family: var(--ts-font-mono);
-      font-size: var(--ts-fs-caption);
-      color: var(--ts-text-muted);
-      letter-spacing: var(--ts-tracking-wide);
-    }
-    .section-head__title {
-      font-family: var(--ts-font-display);
-      font-size: var(--ts-fs-h1);
-      line-height: var(--ts-lh-headline);
-      letter-spacing: var(--ts-tracking-tight);
-      font-weight: var(--ts-fw-bold);
-      margin: var(--ts-sp-2) 0 0 0;
-      text-wrap: balance;
-    }
-    .section-head__lead {
-      color: var(--ts-text-secondary);
-      font-size: var(--ts-fs-lead);
-      max-width: 60ch;
-    }
+  .ts-topbar__actions {
+    display: flex;
+    gap: var(--ts-sp-2);
+    align-items: center;
+  }
 
-    /* ── TYPE LADDER VISUALIZER ───────────────────────────────── */
-    .ladder { display: grid; gap: var(--ts-sp-4); }
-    .ladder__row {
-      display: grid;
-      grid-template-columns: 60px 80px 1fr auto;
-      gap: var(--ts-sp-6);
-      align-items: baseline;
-      padding: var(--ts-sp-3) 0;
-      border-bottom: 1px solid var(--ts-border-0);
-    }
-    .ladder__step {
-      font-family: var(--ts-font-mono);
-      font-size: var(--ts-fs-caption);
-      color: var(--ts-text-muted);
-    }
-    .ladder__size {
-      font-family: var(--ts-font-mono);
-      font-size: var(--ts-fs-caption);
-      color: var(--ts-text-secondary);
-      font-feature-settings: "tnum" 1;
-    }
-    .ladder__sample { font-weight: var(--ts-fw-semibold); }
-    .ladder__role {
-      font-size: var(--ts-fs-caption);
-      color: var(--ts-text-muted);
-      text-transform: uppercase;
-      letter-spacing: var(--ts-tracking-wider);
-    }
+  .ts-theme-toggle {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--ts-radius-sm);
+    border: 1px solid var(--ts-border-1);
+    background: var(--ts-bg-2);
+    color: var(--ts-text-primary);
+    cursor: pointer;
+    font-size: var(--ts-fs-caption);
+    transition: var(--ts-transition);
+  }
 
-    /* ── COLOR / SURFACE VISUALIZER ───────────────────────────── */
-    .swatch-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
-      gap: var(--ts-sp-3);
-    }
-    .swatch {
-      aspect-ratio: 1.2 / 1;
-      border-radius: var(--ts-radius-md);
-      padding: var(--ts-sp-4);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      border: 1px solid var(--ts-border-1);
-      transition: transform var(--ts-dur-fast) var(--ts-ease-out);
-    }
-    .swatch:hover { transform: translateY(-2px); }
-    .swatch__label {
-      font-family: var(--ts-font-mono);
-      font-size: 10px;
-      color: var(--ts-text-secondary);
-    }
-    .swatch__value {
-      font-family: var(--ts-font-mono);
-      font-size: 11px;
-      color: var(--ts-text-primary);
-      align-self: flex-end;
-    }
+  .ts-theme-toggle:hover {
+    border-color: var(--ts-border-2);
+  }
 
-    /* Accent knob slider playground */
-    .accent-lab {
-      padding: var(--ts-sp-8);
-      background: var(--ts-bg-1);
-      border-radius: var(--ts-radius-lg);
-      border: 1px solid var(--ts-border-1);
-      display: grid;
-      gap: var(--ts-sp-6);
+  @media (max-width: 720px) {
+    .ts-topbar__nav {
+      display: none;
     }
-    .accent-lab__grid {
-      display: grid;
+  }
+
+  /* ── HERO ──────────────────────────────────────────────────── */
+  .ts-hero {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .ts-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(ellipse 50% 60% at 30% 30%, var(--ts-accent-dim) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 80% 70%, var(--ts-alt-dim) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .ts-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(var(--ts-sp-8), 6vw, var(--ts-section-pad));
+    align-items: end;
+  }
+
+  @media (max-width: 960px) {
+    .ts-hero__grid {
+      grid-template-columns: 1fr;
+      gap: var(--ts-sp-12);
+    }
+  }
+
+  .ts-hero-kickers {
+    display: grid;
+    gap: var(--ts-sp-2);
+    margin-bottom: var(--ts-sp-8);
+  }
+
+  .ts-hero__kicker {
+    font-size: var(--ts-fs-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--ts-tracking-wider);
+    font-weight: var(--ts-fw-semibold);
+    color: var(--ts-text-muted);
+  }
+
+  .ts-hero__kicker.ts-accent {
+
+    color: var(--ts-accent);
+  }
+
+  .ts-hero__title {
+    font-family: var(--ts-font-display);
+    font-size: clamp(48px, 8vw, 100px);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    font-weight: var(--ts-fw-bold);
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .ts-hero__title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ts-accent);
+    letter-spacing: -0.02em;
+  }
+
+  .ts-hero__rail {
+    border-left: 1px solid var(--ts-border-1);
+    padding-left: var(--ts-sp-6);
+    display: grid;
+    gap: var(--ts-sp-6);
+  }
+
+  .ts-hero__rail p {
+    color: var(--ts-text-secondary);
+    max-width: 38ch;
+  }
+
+  .ts-hero__actions {
+    display: flex;
+    gap: var(--ts-sp-3);
+    flex-wrap: wrap;
+  }
+
+  /* ── SECTION HEADER ────────────────────────────────────────── */
+  .ts-section-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: clamp(var(--ts-sp-6), 4vw, var(--ts-sp-16));
+    align-items: end;
+    margin-bottom: var(--ts-sp-12);
+    padding-bottom: var(--ts-sp-8);
+    border-bottom: 1px solid var(--ts-border-1);
+  }
+
+  @media (max-width: 720px) {
+    .ts-section-head {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ts-section-head__num {
+    font-family: var(--ts-font-mono);
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-muted);
+    letter-spacing: var(--ts-tracking-wide);
+  }
+
+  .ts-section-head__title {
+    font-family: var(--ts-font-display);
+    font-size: var(--ts-fs-h1);
+    line-height: var(--ts-lh-headline);
+    letter-spacing: var(--ts-tracking-tight);
+    font-weight: var(--ts-fw-bold);
+    margin: var(--ts-sp-2) 0 0 0;
+    text-wrap: balance;
+  }
+
+  .ts-section-head__lead {
+    color: var(--ts-text-secondary);
+    font-size: var(--ts-fs-lead);
+    max-width: 60ch;
+  }
+
+  /* ── TYPE LADDER VISUALIZER ───────────────────────────────── */
+  .ts-ladder {
+    display: grid;
+    gap: var(--ts-sp-4);
+  }
+
+  .ts-ladder__row {
+    display: grid;
+    grid-template-columns: 60px 80px 1fr auto;
+    gap: var(--ts-sp-6);
+    align-items: baseline;
+    padding: var(--ts-sp-3) 0;
+    border-bottom: 1px solid var(--ts-border-0);
+  }
+
+  .ts-ladder__step {
+    font-family: var(--ts-font-mono);
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-muted);
+  }
+
+  .ts-ladder__size {
+    font-family: var(--ts-font-mono);
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-secondary);
+    font-feature-settings: "tnum" 1;
+  }
+
+  .ts-ladder__sample {
+    font-weight: var(--ts-fw-semibold);
+  }
+
+  .ts-ladder__role {
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--ts-tracking-wider);
+  }
+
+  /* ── COLOR / SURFACE VISUALIZER ───────────────────────────── */
+  .ts-swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+    gap: var(--ts-sp-3);
+  }
+
+  .ts-swatch {
+    aspect-ratio: 1.2 / 1;
+    border-radius: var(--ts-radius-md);
+    padding: var(--ts-sp-4);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid var(--ts-border-1);
+    transition: transform var(--ts-dur-fast) var(--ts-ease-out);
+  }
+
+  .ts-swatch:hover {
+    transform: translateY(-2px);
+  }
+
+  .ts-swatch__label {
+    font-family: var(--ts-font-mono);
+    font-size: 10px;
+    color: var(--ts-text-secondary);
+  }
+
+  .ts-swatch__value {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    color: var(--ts-text-primary);
+    align-self: flex-end;
+  }
+
+  /* Accent knob slider playground */
+  .ts-accent-lab {
+    padding: var(--ts-sp-8);
+    background: var(--ts-bg-1);
+    border-radius: var(--ts-radius-lg);
+    border: 1px solid var(--ts-border-1);
+    display: grid;
+    gap: var(--ts-sp-6);
+  }
+
+  .ts-accent-lab__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--ts-sp-8);
+    align-items: center;
+  }
+
+  @media (max-width: 720px) {
+    .ts-accent-lab__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ts-accent-lab__preview {
+    aspect-ratio: 4/3;
+    border-radius: var(--ts-radius-md);
+    background:
+      radial-gradient(ellipse at 30% 30%, var(--ts-accent-bright), transparent 70%),
+      radial-gradient(ellipse at 70% 70%, var(--ts-accent-dark), transparent 70%),
+      var(--ts-accent);
+    display: grid;
+    place-items: center;
+    color: var(--ts-on-accent);
+    font-family: var(--ts-font-display);
+    font-size: var(--ts-fs-h2);
+    font-weight: var(--ts-fw-bold);
+    letter-spacing: var(--ts-tracking-tight);
+    transition: background var(--ts-dur-base) var(--ts-ease-out);
+  }
+
+  .ts-accent-lab__controls {
+    display: grid;
+    gap: var(--ts-sp-4);
+  }
+
+  .ts-accent-lab__field {
+    display: grid;
+    gap: var(--ts-sp-2);
+  }
+
+  .ts-accent-lab__field label {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-secondary);
+  }
+
+  .ts-accent-lab__field label span {
+    font-family: var(--ts-font-mono);
+    color: var(--ts-text-primary);
+  }
+
+  .ts-accent-lab__field input[type="range"] {
+    width: 100%;
+    accent-color: var(--ts-accent);
+  }
+
+  .ts-accent-lab__samples {
+    display: flex;
+    gap: var(--ts-sp-2);
+    flex-wrap: wrap;
+  }
+
+  /* ── SPACING RHYTHM ───────────────────────────────────────── */
+  .ts-rhythm {
+    display: grid;
+    gap: var(--ts-sp-3);
+  }
+
+  .ts-rhythm__row {
+    display: grid;
+    grid-template-columns: 80px 1fr 100px;
+    gap: var(--ts-sp-4);
+    align-items: center;
+  }
+
+  .ts-rhythm__token {
+    font-family: var(--ts-font-mono);
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-secondary);
+  }
+
+  .ts-rhythm__bar {
+    height: 12px;
+    background: linear-gradient(90deg, var(--ts-accent) 0%, var(--ts-accent-dim) 100%);
+    border-radius: var(--ts-radius-xs);
+  }
+
+  .ts-rhythm__px {
+    font-family: var(--ts-font-mono);
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-muted);
+    text-align: right;
+    font-feature-settings: "tnum" 1;
+  }
+
+  /* ── CARD GALLERY ─────────────────────────────────────────── */
+  .ts-gallery {
+    display: grid;
+    gap: var(--ts-sp-6);
+  }
+
+  .ts-gallery__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--ts-sp-8);
+    align-items: start;
+    padding: var(--ts-sp-8) 0;
+    border-bottom: 1px solid var(--ts-border-0);
+  }
+
+  @media (max-width: 720px) {
+    .ts-gallery__row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ts-gallery__meta {
+    position: sticky;
+    top: 96px;
+  }
+
+  .ts-gallery__meta h3 {
+    font-family: var(--ts-font-display);
+    font-size: var(--ts-fs-h3);
+    letter-spacing: var(--ts-tracking-tight);
+    margin: var(--ts-sp-3) 0;
+  }
+
+  .ts-gallery__meta p {
+    color: var(--ts-text-secondary);
+    font-size: var(--ts-fs-body);
+    margin-bottom: var(--ts-sp-4);
+  }
+
+  .ts-gallery__num {
+    font-family: var(--ts-font-mono);
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-accent);
+  }
+
+  .ts-gallery__chips {
+    display: flex;
+    gap: var(--ts-sp-1);
+    flex-wrap: wrap;
+    margin-top: var(--ts-sp-4);
+  }
+
+  .ts-chip {
+    font-family: var(--ts-font-mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: var(--ts-radius-full);
+    background: var(--ts-bg-2);
+    color: var(--ts-text-secondary);
+    border: 1px solid var(--ts-border-0);
+  }
+
+  /* Stat card sample */
+  .ts-demo-stat {
+    display: grid;
+    gap: var(--ts-sp-2);
+    padding: var(--ts-sp-6);
+    background: var(--ts-bg-2);
+    border: 1px solid var(--ts-border-1);
+    border-radius: var(--ts-radius-md);
+    box-shadow: var(--ts-shadow-1);
+  }
+
+  .ts-demo-stat .ts-card__metric {
+    font-size: var(--ts-fs-h2);
+  }
+
+  /* Feature card */
+  .ts-demo-feature {
+    padding: var(--ts-sp-8);
+    background: var(--ts-bg-2);
+    border: 1px solid var(--ts-border-1);
+    border-radius: var(--ts-radius-md);
+    display: grid;
+    gap: var(--ts-sp-4);
+  }
+
+  .ts-demo-feature h4 {
+    font-size: var(--ts-fs-h4);
+    letter-spacing: var(--ts-tracking-tight);
+  }
+
+  .ts-demo-feature p {
+    color: var(--ts-text-secondary);
+    max-width: 36ch;
+  }
+
+  /* Pricing card */
+  .ts-demo-price {
+    display: grid;
+    gap: var(--ts-sp-6);
+    padding: var(--ts-sp-8);
+    background: var(--ts-bg-2);
+    border: 1px solid var(--ts-border-1);
+    border-radius: var(--ts-radius-lg);
+    position: relative;
+  }
+
+  .ts-demo-price--featured {
+    border-color: var(--ts-accent-border);
+    box-shadow: var(--ts-shadow-accent);
+  }
+
+  .ts-demo-price__amount {
+    font-family: var(--ts-font-display);
+    font-size: var(--ts-fs-h1);
+    font-weight: var(--ts-fw-bold);
+    line-height: var(--ts-lh-tight);
+    letter-spacing: var(--ts-tracking-tight);
+    font-feature-settings: "tnum" 1;
+  }
+
+  .ts-demo-price__amount span {
+    font-size: var(--ts-fs-body);
+    color: var(--ts-text-secondary);
+    font-weight: var(--ts-fw-normal);
+    margin-left: 4px;
+  }
+
+  .ts-demo-price__features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--ts-sp-3);
+    font-size: var(--ts-fs-body);
+  }
+
+  .ts-demo-price__features li {
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: var(--ts-sp-2);
+    color: var(--ts-text-secondary);
+  }
+
+  .ts-demo-price__features li::before {
+    content: "✓";
+    color: var(--ts-accent);
+    font-weight: var(--ts-fw-bold);
+  }
+
+  .ts-demo-quote {
+    padding: var(--ts-sp-8);
+    background: var(--ts-bg-1);
+    border-radius: var(--ts-radius-lg);
+  }
+
+  .ts-demo-quote blockquote {
+    font-family: 'Instrument Serif', serif;
+    font-size: var(--ts-fs-h3);
+    line-height: var(--ts-lh-snug);
+    letter-spacing: var(--ts-tracking-snug);
+    margin: 0 0 var(--ts-sp-6) 0;
+    text-wrap: balance;
+  }
+
+  .ts-demo-quote figcaption {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: var(--ts-sp-3);
+    align-items: center;
+  }
+
+  .ts-demo-quote__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ts-accent), var(--ts-alt));
+  }
+
+  .ts-demo-quote__name {
+    font-weight: var(--ts-fw-semibold);
+  }
+
+  .ts-demo-quote__role {
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-secondary);
+  }
+
+  /* ── ts-BENTO ts-BENTO DEMO ───────────────────────────────────────────── */
+  .ts-bento-demo .ts-card {
+    padding: var(--ts-sp-6);
+  }
+
+  .ts-bento-demo .ts-bento-hero {
+    grid-column: span 8;
+    grid-row: span 2;
+    padding: var(--ts-sp-10);
+    display: grid;
+    align-content: end;
+    gap: var(--ts-sp-4);
+    background: linear-gradient(135deg, var(--ts-bg-2) 0%, var(--ts-bg-1) 100%);
+  }
+
+  .ts-bento-demo .ts-bento-hero h3 {
+    font-family: var(--ts-font-display);
+    font-size: clamp(28px, 3vw, 48px);
+    line-height: var(--ts-lh-headline);
+    letter-spacing: var(--ts-tracking-tight);
+    text-wrap: balance;
+  }
+
+  .ts-bento-demo .ts-bento-hero p {
+    color: var(--ts-text-secondary);
+    max-width: 40ch;
+  }
+
+  .ts-bento-demo .ts-bento-tall {
+    grid-column: span 4;
+    grid-row: span 2;
+    background: var(--ts-accent);
+    color: var(--ts-on-accent);
+  }
+
+  .ts-bento-demo .ts-bento-tall .ts-card__metric {
+    color: var(--ts-on-accent);
+    font-size: clamp(40px, 5vw, 80px);
+  }
+
+  .ts-bento-demo .ts-bento-tall .ts-card__eyebrow {
+    color: color-mix(in srgb, var(--ts-on-accent), transparent 30%);
+  }
+
+  .ts-bento-demo .ts-bento-third {
+    grid-column: span 4;
+    background: var(--ts-bg-2);
+  }
+
+  @media (max-width: 960px) {
+
+    .ts-bento-demo .ts-bento-hero,
+    .ts-bento-demo .ts-bento-tall,
+    .ts-bento-demo .ts-bento-third {
+      grid-column: span 6;
+    }
+  }
+
+  @media (max-width: 560px) {
+
+    .ts-bento-demo .ts-bento-hero,
+    .ts-bento-demo .ts-bento-tall,
+    .ts-bento-demo .ts-bento-third {
+      grid-column: 1 / -1;
+      grid-row: auto;
+    }
+  }
+
+  /* ── DECISION FLOW ────────────────────────────────────────── */
+  .ts-flow {
+    display: grid;
+    gap: var(--ts-sp-4);
+  }
+
+  .ts-flow__step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: var(--ts-sp-4);
+    align-items: start;
+    padding: var(--ts-sp-6);
+    background: var(--ts-bg-0);
+    border-radius: 0 var(--ts-radius-md)  var(--ts-radius-md) 0;
+    border-left: 3px solid var(--ts-accent);
+  }
+
+  .ts-flow__num {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    background: var(--ts-accent-dim);
+    color: var(--ts-accent-bright);
+    border-radius: var(--ts-radius-sm);
+    font-family: var(--ts-font-mono);
+    font-size: 1em;
+    font-weight: var(--ts-fw-bold);
+    border: 1px solid var(--ts-border-accent);
+}
+  .ts-flow__step h4 {
+    font-size: var(--ts-fs-1);
+    letter-spacing: var(--ts-tracking-tight);
+    margin-bottom: var(--ts-sp-1);
+    color: var(--ts-text-accent);
+}
+
+  .ts-flow__step p {
+    color: var(--ts-text-secondary);
+    font-size: var(--ts-fs-caption);
+    margin: 0;
+  }
+
+  .ts-flow__step code {
+    font-family: var(--ts-font-mono);
+    font-size: 11px;
+    padding: 1px 6px;
+    background: var(--ts-bg-3);
+    border-radius: var(--ts-radius-xs);
+    color: var(--ts-accent);
+  }
+
+  /* ── FOOTER ───────────────────────────────────────────────── */
+ .ts-footer {
+    border-top: 1px solid var(--ts-border-1);
+    padding: var(--ts-container-pad) var(--ts-section-pad) var(--ts-sp-6)  var(--ts-section-pad);
+    background-color: color-mix(in oklch, var(--ts-this-bg), transparent 70%);
+    /* margin-top: var(--ts-section-pad); */
+    --ts-this-bg: var(--ts-bg-1);
+}
+
+  .ts-footer__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--ts-sp-8);
+  }
+
+  @media (max-width: 720px) {
+    .ts-footer__grid {
       grid-template-columns: 1fr 1fr;
-      gap: var(--ts-sp-8);
-      align-items: center;
     }
-    @media (max-width: 720px) { .accent-lab__grid { grid-template-columns: 1fr; } }
-    .accent-lab__preview {
-      aspect-ratio: 4/3;
-      border-radius: var(--ts-radius-md);
-      background:
-        radial-gradient(ellipse at 30% 30%, var(--ts-accent-bright), transparent 70%),
-        radial-gradient(ellipse at 70% 70%, var(--ts-accent-dark), transparent 70%),
-        var(--ts-accent);
-      display: grid;
-      place-items: center;
-      color: var(--ts-on-accent);
-      font-family: var(--ts-font-display);
-      font-size: var(--ts-fs-h2);
-      font-weight: var(--ts-fw-bold);
-      letter-spacing: var(--ts-tracking-tight);
-      transition: background var(--ts-dur-base) var(--ts-ease-out);
-    }
-    .accent-lab__controls { display: grid; gap: var(--ts-sp-4); }
-    .accent-lab__field { display: grid; gap: var(--ts-sp-2); }
-    .accent-lab__field label {
-      display: flex; justify-content: space-between;
-      font-size: var(--ts-fs-caption);
-      color: var(--ts-text-secondary);
-    }
-    .accent-lab__field label span { font-family: var(--ts-font-mono); color: var(--ts-text-primary); }
-    .accent-lab__field input[type="range"] {
-      width: 100%;
-      accent-color: var(--ts-accent);
-    }
-    .accent-lab__samples {
-      display: flex; gap: var(--ts-sp-2); flex-wrap: wrap;
-    }
+  }
 
-    /* ── SPACING RHYTHM ───────────────────────────────────────── */
-    .rhythm { display: grid; gap: var(--ts-sp-3); }
-    .rhythm__row {
-      display: grid;
-      grid-template-columns: 80px 1fr 100px;
-      gap: var(--ts-sp-4);
-      align-items: center;
-    }
-    .rhythm__token {
-      font-family: var(--ts-font-mono);
-      font-size: var(--ts-fs-caption);
-      color: var(--ts-text-secondary);
-    }
-    .rhythm__bar {
-      height: 12px;
-      background: linear-gradient(90deg, var(--ts-accent) 0%, var(--ts-accent-dim) 100%);
-      border-radius: var(--ts-radius-xs);
-    }
-    .rhythm__px {
-      font-family: var(--ts-font-mono);
-      font-size: var(--ts-fs-caption);
-      color: var(--ts-text-muted);
-      text-align: right;
-      font-feature-settings: "tnum" 1;
-    }
+  .ts-footer h4 {
+    font-size: var(--ts-fs-caption);
+    text-transform: uppercase;
+    letter-spacing: var(--ts-tracking-wider);
+    color: var(--ts-text-accent);
+    margin: 0 0 var(--ts-sp-4) 0;
+    font-weight: var(--ts-fw-bold);
+}
 
-    /* ── CARD GALLERY ─────────────────────────────────────────── */
-    .gallery { display: grid; gap: var(--ts-sp-6); }
-    .gallery__row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-      gap: var(--ts-sp-8);
-      align-items: start;
-      padding: var(--ts-sp-8) 0;
-      border-bottom: 1px solid var(--ts-border-0);
-    }
-    @media (max-width: 720px) { .gallery__row { grid-template-columns: 1fr; } }
-    .gallery__meta { position: sticky; top: 96px; }
-    .gallery__meta h3 {
-      font-family: var(--ts-font-display);
-      font-size: var(--ts-fs-h3);
-      letter-spacing: var(--ts-tracking-tight);
-      margin: var(--ts-sp-3) 0;
-    }
-    .gallery__meta p {
-      color: var(--ts-text-secondary);
-      font-size: var(--ts-fs-body);
-      margin-bottom: var(--ts-sp-4);
-    }
-    .gallery__num {
-      font-family: var(--ts-font-mono);
-      font-size: var(--ts-fs-caption);
-      color: var(--ts-accent);
-    }
-    .gallery__chips {
-      display: flex; gap: var(--ts-sp-1); flex-wrap: wrap;
-      margin-top: var(--ts-sp-4);
-    }
-    .chip {
-      font-family: var(--ts-font-mono);
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: var(--ts-radius-full);
-      background: var(--ts-bg-2);
-      color: var(--ts-text-secondary);
-      border: 1px solid var(--ts-border-0);
-    }
+  .ts-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--ts-sp-2);
+    font-size: var(--ts-fs--1);
+    color: var(--ts-text-secondary);
+}
 
-    /* Stat card sample */
-    .demo-stat {
-      display: grid; gap: var(--ts-sp-2);
-      padding: var(--ts-sp-6);
-      background: var(--ts-bg-2);
-      border: 1px solid var(--ts-border-1);
-      border-radius: var(--ts-radius-md);
-      box-shadow: var(--ts-shadow-1);
-    }
-    .demo-stat .ts-card__metric { font-size: var(--ts-fs-h2); }
+  .ts-footer a {
+    color: inherit;
+    font-size: 90%;
+}
 
-    /* Feature card */
-    .demo-feature {
-      padding: var(--ts-sp-8);
-      background: var(--ts-bg-2);
-      border: 1px solid var(--ts-border-1);
-      border-radius: var(--ts-radius-md);
-      display: grid;
-      gap: var(--ts-sp-4);
-    }
-    .demo-feature h4 {
-      font-size: var(--ts-fs-h4);
-      letter-spacing: var(--ts-tracking-tight);
-    }
-    .demo-feature p {
-      color: var(--ts-text-secondary);
-      max-width: 36ch;
-    }
+  .ts-footer a:hover {
+    color: var(--ts-accent);
+  }
 
-    /* Pricing card */
-    .demo-price {
-      display: grid;
-      gap: var(--ts-sp-6);
-      padding: var(--ts-sp-8);
-      background: var(--ts-bg-2);
-      border: 1px solid var(--ts-border-1);
-      border-radius: var(--ts-radius-lg);
-      position: relative;
-    }
-    .demo-price--featured {
-      border-color: var(--ts-accent-border);
-      box-shadow: var(--ts-shadow-accent);
-    }
-    .demo-price__amount {
-      font-family: var(--ts-font-display);
-      font-size: var(--ts-fs-h1);
-      font-weight: var(--ts-fw-bold);
-      line-height: var(--ts-lh-tight);
-      letter-spacing: var(--ts-tracking-tight);
-      font-feature-settings: "tnum" 1;
-    }
-    .demo-price__amount span {
-      font-size: var(--ts-fs-body);
-      color: var(--ts-text-secondary);
-      font-weight: var(--ts-fw-normal);
-      margin-left: 4px;
-    }
-    .demo-price__features {
-      list-style: none; padding: 0; margin: 0;
-      display: grid; gap: var(--ts-sp-3);
-      font-size: var(--ts-fs-body);
-    }
-    .demo-price__features li {
-      display: grid; grid-template-columns: 16px 1fr;
-      gap: var(--ts-sp-2);
-      color: var(--ts-text-secondary);
-    }
-    .demo-price__features li::before {
-      content: "✓";
-      color: var(--ts-accent);
-      font-weight: var(--ts-fw-bold);
-    }
+  .ts-footer__bottom {
+    max-width: var(--ts-container-lg);
+    margin: var(--ts-sp-12) auto 0;
+    padding-top: var(--ts-sp-6);
+    border-top: 1px solid var(--ts-border-0);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--ts-fs-caption);
+    color: var(--ts-text-muted);
+    flex-wrap: wrap;
+    gap: var(--ts-sp-3);
+  }
 
-    .demo-quote {
-      padding: var(--ts-sp-8);
-      background: var(--ts-bg-1);
-      border-radius: var(--ts-radius-lg);
-    }
-    .demo-quote blockquote {
-      font-family: 'Instrument Serif', serif;
-      font-size: var(--ts-fs-h3);
-      line-height: var(--ts-lh-snug);
-      letter-spacing: var(--ts-tracking-snug);
-      margin: 0 0 var(--ts-sp-6) 0;
-      text-wrap: balance;
-    }
-    .demo-quote figcaption {
-      display: grid; grid-template-columns: 40px 1fr; gap: var(--ts-sp-3);
-      align-items: center;
-    }
-    .demo-quote__avatar {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--ts-accent), var(--ts-alt));
-    }
-    .demo-quote__name { font-weight: var(--ts-fw-semibold); }
-    .demo-quote__role { font-size: var(--ts-fs-caption); color: var(--ts-text-secondary); }
+  /* ── SCROLL ts-REVEAL ────────────────────────────────────────── */
+  .ts-reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 600ms var(--ts-ease-out), transform 600ms var(--ts-ease-out);
+  }
 
-    /* ── BENTO DEMO ───────────────────────────────────────────── */
-    .bento-demo .ts-card { padding: var(--ts-sp-6); }
-    .bento-demo .bento-hero {
-      grid-column: span 8; grid-row: span 2;
-      padding: var(--ts-sp-10);
-      display: grid;
-      align-content: end;
-      gap: var(--ts-sp-4);
-      background: linear-gradient(135deg, var(--ts-bg-2) 0%, var(--ts-bg-1) 100%);
-    }
-    .bento-demo .bento-hero h3 {
-      font-family: var(--ts-font-display);
-      font-size: clamp(28px, 3vw, 48px);
-      line-height: var(--ts-lh-headline);
-      letter-spacing: var(--ts-tracking-tight);
-      text-wrap: balance;
-    }
-    .bento-demo .bento-hero p { color: var(--ts-text-secondary); max-width: 40ch; }
-    .bento-demo .bento-tall {
-      grid-column: span 4; grid-row: span 2;
-      background: var(--ts-accent);
-      color: var(--ts-on-accent);
-    }
-    .bento-demo .bento-tall .ts-card__metric { color: var(--ts-on-accent); font-size: clamp(40px, 5vw, 80px); }
-    .bento-demo .bento-tall .ts-card__eyebrow { color: color-mix(in srgb, var(--ts-on-accent), transparent 30%); }
-    .bento-demo .bento-third {
-      grid-column: span 4;
-      background: var(--ts-bg-2);
-    }
-    @media (max-width: 960px) {
-      .bento-demo .bento-hero, .bento-demo .bento-tall, .bento-demo .bento-third {
-        grid-column: span 6;
-      }
-    }
-    @media (max-width: 560px) {
-      .bento-demo .bento-hero, .bento-demo .bento-tall, .bento-demo .bento-third {
-        grid-column: 1 / -1;
-        grid-row: auto;
-      }
-    }
+  .ts-reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
 
-    /* ── DECISION FLOW ────────────────────────────────────────── */
-    .flow { display: grid; gap: var(--ts-sp-4); }
-    .flow__step {
-      display: grid;
-      grid-template-columns: 40px 1fr;
-      gap: var(--ts-sp-4);
-      align-items: start;
-      padding: var(--ts-sp-4);
-      background: var(--ts-bg-1);
-      border-radius: var(--ts-radius-md);
-      border-left: 3px solid var(--ts-accent);
-    }
-    .flow__num {
-      width: 32px; height: 32px;
-      display: grid; place-items: center;
-      background: var(--ts-accent);
-      color: var(--ts-on-accent);
-      border-radius: var(--ts-radius-full);
-      font-family: var(--ts-font-mono);
-      font-size: var(--ts-fs-caption);
-      font-weight: var(--ts-fw-bold);
-    }
-    .flow__step h4 {
-      font-size: var(--ts-fs-body);
-      letter-spacing: var(--ts-tracking-tight);
-      margin-bottom: var(--ts-sp-1);
-    }
-    .flow__step p { color: var(--ts-text-secondary); font-size: var(--ts-fs-caption); margin: 0; }
-    .flow__step code {
-      font-family: var(--ts-font-mono);
-      font-size: 11px;
-      padding: 1px 6px;
-      background: var(--ts-bg-3);
-      border-radius: var(--ts-radius-xs);
-      color: var(--ts-accent);
-    }
+  @media (prefers-reduced-motion: reduce) {
 
-    /* ── FOOTER ───────────────────────────────────────────────── */
-    .footer {
-      border-top: 1px solid var(--ts-border-1);
-      padding: var(--ts-sp-16) 0 var(--ts-sp-8);
-      background: var(--ts-bg-1);
-      margin-top: var(--ts-section-pad);
+    /* Skip the animation entirely — show content immediately */
+    .ts-reveal {
+      opacity: 1;
+      transform: none;
     }
-    .footer__grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: var(--ts-sp-8);
-    }
-    @media (max-width: 720px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
-    .footer h4 {
-      font-size: var(--ts-fs-caption);
-      text-transform: uppercase;
-      letter-spacing: var(--ts-tracking-wider);
-      color: var(--ts-text-secondary);
-      margin: 0 0 var(--ts-sp-4) 0;
-      font-weight: var(--ts-fw-semibold);
-    }
-    .footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--ts-sp-2); font-size: var(--ts-fs-caption); }
-    .footer a { color: var(--ts-text-primary); }
-    .footer a:hover { color: var(--ts-accent); }
-    .footer__bottom {
-      max-width: var(--ts-container-lg);
-      margin: var(--ts-sp-12) auto 0;
-      padding-top: var(--ts-sp-6);
-      border-top: 1px solid var(--ts-border-0);
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: var(--ts-fs-caption);
-      color: var(--ts-text-muted);
-      flex-wrap: wrap; gap: var(--ts-sp-3);
-    }
+  }
 
-    /* ── SCROLL REVEAL ────────────────────────────────────────── */
-    .reveal { opacity: 0; transform: translateY(12px); transition: opacity 600ms var(--ts-ease-out), transform 600ms var(--ts-ease-out); }
-    .reveal.is-in { opacity: 1; transform: none; }
-    @media (prefers-reduced-motion: reduce) {
-      /* Skip the animation entirely — show content immediately */
-      .reveal { opacity: 1; transform: none; }
-    }
+  code.inline {
+    font-family: var(--ts-font-mono);
+    font-size: 0.9em;
+    padding: 1px 6px;
+    background: var(--ts-bg-2);
+    border: 1px solid var(--ts-border-0);
+    border-radius: var(--ts-radius-xs);
+    color: var(--ts-accent);
+  }
 
-    code.inline {
-      font-family: var(--ts-font-mono);
-      font-size: 0.9em;
-      padding: 1px 6px;
-      background: var(--ts-bg-2);
-      border: 1px solid var(--ts-border-0);
-      border-radius: var(--ts-radius-xs);
-      color: var(--ts-accent);
-    }
+
+}
+
+/* /////////  END isolated scope (bento showcase)./expert-designer/showcase.html  ///////////
+- Keep ONLY truly unique elements required for this view
+- Merge any reusable rules into general tokens.css scope
+- If fully covered by general classes, this block must be removed
+- DO NOT delete without explicit owner approval
+- Part of ongoing sandbox → tokens.css consolidation 
+*/
+
+
+
+
+/* /////////  END isolated scope (assymetric hero showcase)./expert-designer/starters/03-asymmetric-hero.html  ///////////
+- Keep ONLY truly unique elements required for this view
+- Merge any reusable rules into general tokens.css scope
+- If fully covered by general classes, this block must be removed
+- DO NOT delete without explicit owner approval
+- Part of ongoing sandbox → tokens.css consolidation 
+*/
+
+
   </style>
 </head>
-<body>
+<body class="ts-showcase ts-bento-landing">
 
   <!-- ═══ TOPBAR ════════════════════════════════════════════════ -->
-  <header class="topbar">
-    <div class="topbar__brand">
-      <div class="topbar__brand-mark">ED</div>
+  <header class="ts-topbar">
+    <div class="ts-topbar__brand">
+      <div class="ts-topbar__brand-mark">ED</div>
       <span>Expert Designer · v6</span>
     </div>
-    <nav class="topbar__nav">
+    <nav class="ts-topbar__nav" id="ts-primary-menu">
       <a href="#foundations">Foundations</a>
       <a href="#type">Type</a>
       <a href="#color">Color</a>
@@ -592,45 +907,46 @@
       <a href="#cards">Cards</a>
       <a href="#flow">Workflow</a>
     </nav>
-    <div class="topbar__actions">
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-        <span id="theme-icon">☾</span>
+    <div class="ts-topbar__actions">
+      <button class="ts-theme-toggle" id="ts-theme-toggle" aria-label="Toggle theme">
+        <span id="ts-theme-icon ts-icon">☾</span>
       </button>
       <a class="ts-btn ts-btn--primary ts-btn--sm" href="SKILL.md">Open skill</a>
     </div>
   </header>
 
+
   <!-- ═══ HERO ══════════════════════════════════════════════════ -->
-  <section class="ts-section hero">
+  <section class="ts-section ts-hero">
     <div class="ts-container">
-      <div class="hero__grid">
+      <div class="ts-hero__grid">
         <div>
-          <div class="hero__kickers reveal" style="transition-delay: 0ms;">
-            <span class="hero__kicker">/ 01 — Designed for agents</span>
-            <span class="hero__kicker hero__kicker--accent">/ 02 — Rooted in Toolskin</span>
-            <span class="hero__kicker">/ 03 — Awwwards-grade</span>
+          <div class="ts-hero-kickers ts-reveal" style="transition-delay: 0ms;">
+            <span class="ts-hero__kicker">/ 01 — Designed for agents</span>
+            <span class="ts-hero__kicker ts-accent">/ 02 — Rooted in Toolskin</span>
+            <span class="ts-hero__kicker">/ 03 — Awwwards-grade</span>
           </div>
-          <h1 class="hero__title reveal" style="transition-delay: 100ms;">
+          <h1 class="ts-hero__title ts-reveal" style="transition-delay: 100ms;">
             Stop <em>guessing.</em><br>
             Look it up.
           </h1>
         </div>
-        <div class="hero__rail reveal" style="transition-delay: 200ms;">
+        <div class="ts-hero__rail ts-reveal" style="transition-delay: 200ms;">
           <p>
             A design skill that replaces taste-by-vibes with a deterministic decision protocol.
             Color from one knob. Type on a 1.200 ladder. Space on the 8pt grid. Ten card recipes
             that don't break.
           </p>
-          <div class="hero__actions">
+          <div class="ts-hero__actions">
             <a class="ts-btn ts-btn--primary ts-btn--lg" href="SKILL.md">Read the protocol</a>
             <a class="ts-btn ts-btn--outline ts-btn--lg" href="#flow">See workflow</a>
           </div>
           <div style="display: flex; gap: var(--ts-sp-4); align-items: center; flex-wrap: wrap;">
             <div class="ts-cluster">
-              <span class="chip">6 references</span>
-              <span class="chip">4 scripts</span>
-              <span class="chip">10 recipes</span>
-              <span class="chip">APCA gated</span>
+              <span class="ts-chip">6 references</span>
+              <span class="ts-chip">4 scripts</span>
+              <span class="ts-chip">10 recipes</span>
+              <span class="ts-chip">APCA gated</span>
             </div>
           </div>
         </div>
@@ -641,12 +957,12 @@
   <!-- ═══ FOUNDATIONS ═══════════════════════════════════════════ -->
   <section class="ts-section" id="foundations">
     <div class="ts-container">
-      <header class="section-head">
+      <header class="ts-section-head">
         <div>
-          <div class="section-head__num">/ 01</div>
-          <h2 class="section-head__title">Four locked systems.</h2>
+          <div class="ts-section-head__num">/ 01</div>
+          <h2 class="ts-section-head__title">Four locked systems.</h2>
         </div>
-        <p class="section-head__lead">
+        <p class="ts-section-head__lead ts-lead">
           These aren't suggestions. They're the constants of every Toolskin output.
           Every value below is a token. Every recipe is named.
         </p>
@@ -654,44 +970,44 @@
 
       <div class="ts-grid ts-grid--spacious">
         <article class="ts-card">
-          <div class="ts-card__icon">①</div>
+          <div class="ts-card__icon ts-icon">①</div>
           <h3 class="ts-card__title">Color</h3>
           <p class="ts-card__body ts-secondary">
-            Three knobs (<code class="inline">--ts-accent-h/s/l</code>) derive every accent variant.
+            Three knobs (<code class="ts-inline">--ts-accent-h/s/l</code>) derive every accent variant.
             Ten curated surface presets. APCA verified.
           </p>
           <div class="ts-card__footer">
-            <span class="chip ts-mono">generate-colors.js</span>
+            <span class="ts-chip ts-mono">generate-colors.js</span>
           </div>
         </article>
         <article class="ts-card">
-          <div class="ts-card__icon">②</div>
+          <div class="ts-card__icon ts-icon">②</div>
           <h3 class="ts-card__title">Type</h3>
           <p class="ts-card__body ts-secondary">
             1.200 minor-third ladder anchored at 16px. Twelve steps, locked line-heights, locked tracking.
           </p>
           <div class="ts-card__footer">
-            <span class="chip ts-mono">02-typography.md</span>
+            <span class="ts-chip ts-mono">02-typography.md</span>
           </div>
         </article>
         <article class="ts-card">
-          <div class="ts-card__icon">③</div>
+          <div class="ts-card__icon ts-icon">③</div>
           <h3 class="ts-card__title">Space</h3>
           <p class="ts-card__body ts-secondary">
-            8pt grid with a 4pt sub-grid. Padding ≥ gap. Fluid section padding via <code class="inline">clamp()</code>.
+            8pt grid with a 4pt sub-grid. Padding ≥ gap. Fluid section padding via <code class="ts-inline">clamp()</code>.
           </p>
           <div class="ts-card__footer">
-            <span class="chip ts-mono">03-layout-and-spacing.md</span>
+            <span class="ts-chip ts-mono">03-layout-and-spacing.md</span>
           </div>
         </article>
         <article class="ts-card">
-          <div class="ts-card__icon">④</div>
+          <div class="ts-card__icon ts-icon">④</div>
           <h3 class="ts-card__title">Shape</h3>
           <p class="ts-card__body ts-secondary">
-            One radius knob (<code class="inline">--ts-radius-base</code>). Six sizes that scale with element height.
+            One radius knob (<code class="ts-inline">--ts-radius-base</code>). Six sizes that scale with element height.
           </p>
           <div class="ts-card__footer">
-            <span class="chip ts-mono">tokens.css</span>
+            <span class="ts-chip ts-mono">tokens.css</span>
           </div>
         </article>
       </div>
@@ -701,29 +1017,29 @@
   <!-- ═══ TYPE LADDER ═══════════════════════════════════════════ -->
   <section class="ts-section ts-section--alt" id="type">
     <div class="ts-container">
-      <header class="section-head">
+      <header class="ts-section-head">
         <div>
-          <div class="section-head__num">/ 02</div>
-          <h2 class="section-head__title">The 1.200 ladder.</h2>
+          <div class="ts-section-head__num">/ 02</div>
+          <h2 class="ts-section-head--title">The 1.200 ladder.</h2>
         </div>
-        <p class="section-head__lead">
+        <p class="ts-section-head--lead ts-lead">
           Minor third — dense enough for editorial and dashboards, open enough for marketing.
           Anchored at 16px. Twelve steps. Pick by role, not by px.
         </p>
       </header>
 
-      <div class="ladder">
-        <div class="ladder__row"><span class="ladder__step">step 9</span><span class="ladder__size">82.6 px</span><span class="ladder__sample" style="font-family: var(--ts-font-display); font-size: 82.55px; line-height: 0.92; letter-spacing: -0.04em;">Hero</span><span class="ladder__role">hero</span></div>
-        <div class="ladder__row"><span class="ladder__step">step 7</span><span class="ladder__size">57.3 px</span><span class="ladder__sample" style="font-family: var(--ts-font-display); font-size: 57.33px; line-height: 1.05; letter-spacing: -0.025em;">Display</span><span class="ladder__role">display</span></div>
-        <div class="ladder__row"><span class="ladder__step">step 6</span><span class="ladder__size">47.8 px</span><span class="ladder__sample" style="font-family: var(--ts-font-display); font-size: 47.78px; line-height: 1.15; letter-spacing: -0.02em;">Headline</span><span class="ladder__role">h1</span></div>
-        <div class="ladder__row"><span class="ladder__step">step 5</span><span class="ladder__size">39.8 px</span><span class="ladder__sample" style="font-family: var(--ts-font-display); font-size: 39.81px; line-height: 1.15; letter-spacing: -0.02em;">Subhead</span><span class="ladder__role">h2</span></div>
-        <div class="ladder__row"><span class="ladder__step">step 4</span><span class="ladder__size">33.2 px</span><span class="ladder__sample" style="font-size: 33.18px; line-height: 1.25; letter-spacing: -0.015em; font-weight: 600;">Section title</span><span class="ladder__role">h3</span></div>
-        <div class="ladder__row"><span class="ladder__step">step 3</span><span class="ladder__size">27.7 px</span><span class="ladder__sample" style="font-size: 27.65px; line-height: 1.3; letter-spacing: -0.01em; font-weight: 600;">Card title</span><span class="ladder__role">h4</span></div>
-        <div class="ladder__row"><span class="ladder__step">step 2</span><span class="ladder__size">23.0 px</span><span class="ladder__sample" style="font-size: 23.04px; line-height: 1.35; font-weight: 500;">Subtitle</span><span class="ladder__role">h5</span></div>
-        <div class="ladder__row"><span class="ladder__step">step 1</span><span class="ladder__size">19.2 px</span><span class="ladder__sample" style="font-size: 19.2px; line-height: 1.45;">Lead paragraph for intros and supporting copy.</span><span class="ladder__role">lead</span></div>
-        <div class="ladder__row"><span class="ladder__step">step 0</span><span class="ladder__size">16.0 px</span><span class="ladder__sample" style="font-size: 16px; line-height: 1.5;">Body text — the default reading size on every Toolskin page.</span><span class="ladder__role">body</span></div>
-        <div class="ladder__row"><span class="ladder__step">step −1</span><span class="ladder__size">13.3 px</span><span class="ladder__sample" style="font-size: 13.33px; line-height: 1.45; color: var(--ts-text-secondary);">Caption · meta · helper text.</span><span class="ladder__role">caption</span></div>
-        <div class="ladder__row"><span class="ladder__step">step −2</span><span class="ladder__size">11.1 px</span><span class="ladder__sample" style="font-size: 11.11px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; color: var(--ts-text-secondary);">Overline · category · kicker</span><span class="ladder__role">overline</span></div>
+      <div class="ts-ladder">
+        <div class="ts-ladder__row"><span class="ts-ladder__step">step 9</span><span class="ts-ladder__size">82.6 px</span><span class="ts-ladder__sample" style="font-family: var(--ts-font-display); font-size: 82.55px; line-height: 0.92; letter-spacing: -0.04em;">Hero</span><span class="ts-ladder__role">hero</span></div>
+        <div class="ts-ladder__row"><span class="ts-ladder__step">step 7</span><span class="ts-ladder__size">57.3 px</span><span class="ts-ladder__sample" style="font-family: var(--ts-font-display); font-size: 57.33px; line-height: 1.05; letter-spacing: -0.025em;">Display</span><span class="ts-ladder__role">display</span></div>
+        <div class="ts-ladder__row"><span class="ts-ladder__step">step 6</span><span class="ts-ladder__size">47.8 px</span><span class="ts-ladder__sample" style="font-family: var(--ts-font-display); font-size: 47.78px; line-height: 1.15; letter-spacing: -0.02em;">Headline</span><span class="ts-ladder__role">h1</span></div>
+        <div class="ts-ladder__row"><span class="ts-ladder__step">step 5</span><span class="ts-ladder__size">39.8 px</span><span class="ts-ladder__sample" style="font-family: var(--ts-font-display); font-size: 39.81px; line-height: 1.15; letter-spacing: -0.02em;">Subhead</span><span class="ts-ladder__role">h2</span></div>
+        <div class="ts-ladder__row"><span class="ts-ladder__step">step 4</span><span class="ts-ladder__size">33.2 px</span><span class="ts-ladder__sample" style="font-size: 33.18px; line-height: 1.25; letter-spacing: -0.015em; font-weight: 600;">Section title</span><span class="ts-ladder__role">h3</span></div>
+        <div class="ts-ladder__row"><span class="ts-ladder__step">step 3</span><span class="ts-ladder__size">27.7 px</span><span class="ts-ladder__sample" style="font-size: 27.65px; line-height: 1.3; letter-spacing: -0.01em; font-weight: 600;">Card title</span><span class="ts-ladder__role">h4</span></div>
+        <div class="ts-ladder__row"><span class="ts-ladder__step">step 2</span><span class="ts-ladder__size">23.0 px</span><span class="ts-ladder__sample" style="font-size: 23.04px; line-height: 1.35; font-weight: 500;">Subtitle</span><span class="ts-ladder__role">h5</span></div>
+        <div class="ts-ladder__row"><span class="ts-ladder__step">step 1</span><span class="ts-ladder__size">19.2 px</span><span class="ts-ladder__sample" style="font-size: 19.2px; line-height: 1.45;">Lead paragraph for intros and supporting copy.</span><span class="ts-ladder__role">lead</span></div>
+        <div class="ts-ladder__row"><span class="ts-ladder__step">step 0</span><span class="ts-ladder__size">16.0 px</span><span class="ts-ladder__sample" style="font-size: 16px; line-height: 1.5;">Body text — the default reading size on every Toolskin page.</span><span class="ts-ladder__role">body</span></div>
+        <div class="ts-ladder__row"><span class="ts-ladder__step">step −1</span><span class="ts-ladder__size">13.3 px</span><span class="ts-ladder__sample" style="font-size: 13.33px; line-height: 1.45; color: var(--ts-text-secondary);">Caption · meta · helper text.</span><span class="ts-ladder__role">caption</span></div>
+        <div class="ts-ladder__row"><span class="ts-ladder__step">step −2</span><span class="ts-ladder__size">11.1 px</span><span class="ts-ladder__sample" style="font-size: 11.11px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; color: var(--ts-text-secondary);">Overline · category · kicker</span><span class="ts-ladder__role">overline</span></div>
       </div>
     </div>
   </section>
@@ -731,34 +1047,34 @@
   <!-- ═══ COLOR ═══════════════════════════════════════════════ -->
   <section class="ts-section" id="color">
     <div class="ts-container">
-      <header class="section-head">
+      <header class="ts-section-head">
         <div>
-          <div class="section-head__num">/ 03</div>
-          <h2 class="section-head__title">Three knobs. Endless themes.</h2>
+          <div class="ts-section-head__num">/ 03</div>
+          <h2 class="ts-section-head__title">Three knobs. Endless themes.</h2>
         </div>
-        <p class="section-head__lead">
-          The color engine is deterministic — emitted by <code class="inline">generate-colors.js</code>,
+        <p class="ts-section-head__lead ts-lead">
+          The color engine is deterministic — emitted by <code class="ts-inline">generate-colors.js</code>,
           dual-emitted as hex + OKLCH, verified against APCA targets. Move the sliders below to retheme this entire page in real time.
         </p>
       </header>
 
-      <div class="accent-lab">
-        <div class="accent-lab__grid">
-          <div class="accent-lab__preview" id="accent-preview">Aa</div>
-          <div class="accent-lab__controls">
-            <div class="accent-lab__field">
-              <label>Hue <span id="hue-val">18</span></label>
-              <input type="range" id="hue" min="0" max="360" value="18">
+      <div class="ts-accent-lab">
+        <div class="ts-accent-lab__grid">
+          <div class="ts-accent-lab__preview" id="ts-accent-preview">Aa</div>
+          <div class="ts-accent-lab__controls">
+            <div class="ts-accent-lab__field">
+              <label>Hue <span id="ts-hue-val">18</span></label>
+              <input type="range" id="ts-hue" min="0" max="360" value="18">
             </div>
-            <div class="accent-lab__field">
-              <label>Saturation <span id="sat-val">100%</span></label>
-              <input type="range" id="sat" min="0" max="100" value="100">
+            <div class="ts-accent-lab__field">
+              <label>Saturation <span id="ts-sat-val">100%</span></label>
+              <input type="range" id="ts-sat" min="0" max="100" value="100">
             </div>
-            <div class="accent-lab__field">
-              <label>Lightness <span id="light-val">52%</span></label>
-              <input type="range" id="light" min="10" max="90" value="52">
+            <div class="ts-accent-lab__field">
+              <label>Lightness <span id="ts-light-val">52%</span></label>
+              <input type="range" id="ts-light" min="10" max="90" value="52">
             </div>
-            <div class="accent-lab__samples">
+            <div class="ts-accent-lab__samples">
               <button class="ts-btn ts-btn--primary ts-btn--sm">Primary</button>
               <button class="ts-btn ts-btn--outline ts-btn--sm">Outline</button>
               <span class="ts-badge ts-badge--accent">Badge</span>
@@ -769,22 +1085,22 @@
       </div>
 
       <h3 style="margin-top: var(--ts-sp-16); margin-bottom: var(--ts-sp-6);">Surface ladder</h3>
-      <div class="swatch-grid">
-        <div class="swatch" style="background: var(--ts-bg-body);"><span class="swatch__label">--ts-bg-body</span><span class="swatch__value">floor</span></div>
-        <div class="swatch" style="background: var(--ts-bg-0);"><span class="swatch__label">--ts-bg-0</span><span class="swatch__value">base</span></div>
-        <div class="swatch" style="background: var(--ts-bg-1);"><span class="swatch__label">--ts-bg-1</span><span class="swatch__value">mid</span></div>
-        <div class="swatch" style="background: var(--ts-bg-2);"><span class="swatch__label">--ts-bg-2</span><span class="swatch__value">card</span></div>
-        <div class="swatch" style="background: var(--ts-bg-3);"><span class="swatch__label">--ts-bg-3</span><span class="swatch__value">raised</span></div>
-        <div class="swatch" style="background: var(--ts-bg-4);"><span class="swatch__label">--ts-bg-4</span><span class="swatch__value">prominent</span></div>
-        <div class="swatch" style="background: var(--ts-bg-5);"><span class="swatch__label">--ts-bg-5</span><span class="swatch__value">bright</span></div>
+      <div class="ts-swatch-grid">
+        <div class="ts-swatch" style="background: var(--ts-bg-body);"><span class="ts-swatch__label">--ts-bg-body</span><span class="ts-swatch__value">floor</span></div>
+        <div class="ts-swatch" style="background: var(--ts-bg-0);"><span class="ts-swatch__label">--ts-bg-0</span><span class="ts-swatch__value">base</span></div>
+        <div class="ts-swatch" style="background: var(--ts-bg-1);"><span class="ts-swatch__label">--ts-bg-1</span><span class="ts-swatch__value">mid</span></div>
+        <div class="ts-swatch" style="background: var(--ts-bg-2);"><span class="ts-swatch__label">--ts-bg-2</span><span class="ts-swatch__value">card</span></div>
+        <div class="ts-swatch" style="background: var(--ts-bg-3);"><span class="ts-swatch__label">--ts-bg-3</span><span class="ts-swatch__value">raised</span></div>
+        <div class="ts-swatch" style="background: var(--ts-bg-4);"><span class="ts-swatch__label">--ts-bg-4</span><span class="ts-swatch__value">prominent</span></div>
+        <div class="ts-swatch" style="background: var(--ts-bg-5);"><span class="ts-swatch__label">--ts-bg-5</span><span class="ts-swatch__value">bright</span></div>
       </div>
 
       <h3 style="margin-top: var(--ts-sp-16); margin-bottom: var(--ts-sp-6);">Status</h3>
-      <div class="swatch-grid">
-        <div class="swatch" style="background: var(--ts-success); color: #fff;"><span class="swatch__label" style="color: rgba(255,255,255,0.7);">--ts-success</span><span class="swatch__value" style="color: #fff;">142° 76% 36%</span></div>
-        <div class="swatch" style="background: var(--ts-warning); color: #000;"><span class="swatch__label" style="color: rgba(0,0,0,0.6);">--ts-warning</span><span class="swatch__value" style="color: #000;">45° 100% 50%</span></div>
-        <div class="swatch" style="background: var(--ts-danger); color: #fff;"><span class="swatch__label" style="color: rgba(255,255,255,0.7);">--ts-danger</span><span class="swatch__value" style="color: #fff;">0° 85% 55%</span></div>
-        <div class="swatch" style="background: var(--ts-info); color: #fff;"><span class="swatch__label" style="color: rgba(255,255,255,0.7);">--ts-info</span><span class="swatch__value" style="color: #fff;">210° 90% 55%</span></div>
+      <div class="ts-swatch-grid">
+        <div class="ts-swatch" style="background: var(--ts-success); color: #fff;"><span class="ts-swatch__label" style="color: rgba(255,255,255,0.7);">--ts-success</span><span class="ts-swatch__value" style="color: #fff;">142° 76% 36%</span></div>
+        <div class="ts-swatch" style="background: var(--ts-warning); color: #000;"><span class="ts-swatch__label" style="color: rgba(0,0,0,0.6);">--ts-warning</span><span class="ts-swatch__value" style="color: #000;">45° 100% 50%</span></div>
+        <div class="ts-swatch" style="background: var(--ts-danger); color: #fff;"><span class="ts-swatch__label" style="color: rgba(255,255,255,0.7);">--ts-danger</span><span class="ts-swatch__value" style="color: #fff;">0° 85% 55%</span></div>
+        <div class="ts-swatch" style="background: var(--ts-info); color: #fff;"><span class="ts-swatch__label" style="color: rgba(255,255,255,0.7);">--ts-info</span><span class="ts-swatch__value" style="color: #fff;">210° 90% 55%</span></div>
       </div>
     </div>
   </section>
@@ -792,28 +1108,28 @@
   <!-- ═══ SPACE ═══════════════════════════════════════════════ -->
   <section class="ts-section ts-section--alt" id="space">
     <div class="ts-container">
-      <header class="section-head">
+      <header class="ts-section-head">
         <div>
-          <div class="section-head__num">/ 04</div>
-          <h2 class="section-head__title">Harmonic spacing.</h2>
+          <div class="ts-section-head__num">/ 04</div>
+          <h2 class="ts-section-head__title">Harmonic spacing.</h2>
         </div>
-        <p class="section-head__lead">
+        <p class="ts-section-head__lead ts-lead">
           8pt grid with a 4pt sub-grid. Every visible gap, padding, or margin resolves to
-          a <code class="inline">--ts-sp-*</code> token. The rhythm rule: <strong>padding ≥ gap</strong>.
+          a <code class="ts-inline">--ts-sp-*</code> token. The rhythm rule: <strong>padding ≥ gap</strong>.
         </p>
       </header>
 
-      <div class="rhythm">
-        <div class="rhythm__row"><span class="rhythm__token">--ts-sp-1</span><span class="rhythm__bar" style="width: 4px;"></span><span class="rhythm__px">4 px</span></div>
-        <div class="rhythm__row"><span class="rhythm__token">--ts-sp-2</span><span class="rhythm__bar" style="width: 8px;"></span><span class="rhythm__px">8 px</span></div>
-        <div class="rhythm__row"><span class="rhythm__token">--ts-sp-3</span><span class="rhythm__bar" style="width: 12px;"></span><span class="rhythm__px">12 px</span></div>
-        <div class="rhythm__row"><span class="rhythm__token">--ts-sp-4</span><span class="rhythm__bar" style="width: 16px;"></span><span class="rhythm__px">16 px</span></div>
-        <div class="rhythm__row"><span class="rhythm__token">--ts-sp-6</span><span class="rhythm__bar" style="width: 24px;"></span><span class="rhythm__px">24 px</span></div>
-        <div class="rhythm__row"><span class="rhythm__token">--ts-sp-8</span><span class="rhythm__bar" style="width: 32px;"></span><span class="rhythm__px">32 px</span></div>
-        <div class="rhythm__row"><span class="rhythm__token">--ts-sp-12</span><span class="rhythm__bar" style="width: 48px;"></span><span class="rhythm__px">48 px</span></div>
-        <div class="rhythm__row"><span class="rhythm__token">--ts-sp-16</span><span class="rhythm__bar" style="width: 64px;"></span><span class="rhythm__px">64 px</span></div>
+      <div class="ts-rhythm">
+        <div class="ts-rhythm__row"><span class="ts-rhythm__token">--ts-sp-1</span><span class="ts-rhythm__bar" style="width: 4px;"></span><span class="ts-rhythm__px">4 px</span></div>
+        <div class="ts-rhythm__row"><span class="ts-rhythm__token">--ts-sp-2</span><span class="ts-rhythm__bar" style="width: 8px;"></span><span class="ts-rhythm__px">8 px</span></div>
+        <div class="ts-rhythm__row"><span class="ts-rhythm__token">--ts-sp-3</span><span class="ts-rhythm__bar" style="width: 12px;"></span><span class="ts-rhythm__px">12 px</span></div>
+        <div class="ts-rhythm__row"><span class="ts-rhythm__token">--ts-sp-4</span><span class="ts-rhythm__bar" style="width: 16px;"></span><span class="ts-rhythm__px">16 px</span></div>
+        <div class="ts-rhythm__row"><span class="ts-rhythm__token">--ts-sp-6</span><span class="ts-rhythm__bar" style="width: 24px;"></span><span class="ts-rhythm__px">24 px</span></div>
+        <div class="ts-rhythm__row"><span class="ts-rhythm__token">--ts-sp-8</span><span class="ts-rhythm__bar" style="width: 32px;"></span><span class="ts-rhythm__px">32 px</span></div>
+        <div class="ts-rhythm__row"><span class="ts-rhythm__token">--ts-sp-12</span><span class="ts-rhythm__bar" style="width: 48px;"></span><span class="ts-rhythm__px">48 px</span></div>
+        <div class="ts-rhythm__row"><span class="ts-rhythm__token">--ts-sp-16</span><span class="ts-rhythm__bar" style="width: 64px;"></span><span class="ts-rhythm__px">64 px</span></div>
         <!-- RULING 5: scale stops at sp-16. For larger gaps use fluid --ts-section-pad (clamp 64→144px). -->
-        <div class="rhythm__row"><span class="rhythm__token">--ts-section-pad</span><span class="rhythm__bar" style="width: 144px;"></span><span class="rhythm__px">fluid 64→144 px</span></div>
+        <div class="ts-rhythm__row"><span class="ts-rhythm__token">--ts-section-pad</span><span class="ts-rhythm__bar" style="width: 144px;"></span><span class="ts-rhythm__px">fluid 64→144 px</span></div>
       </div>
 
       <div style="margin-top: var(--ts-sp-16); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: var(--ts-sp-6);">
@@ -839,40 +1155,40 @@
   <!-- ═══ CARDS GALLERY ═══════════════════════════════════════ -->
   <section class="ts-section" id="cards">
     <div class="ts-container">
-      <header class="section-head">
+      <header class="ts-section-head">
         <div>
-          <div class="section-head__num">/ 05</div>
-          <h2 class="section-head__title">Ten recipes. Zero invention.</h2>
+          <div class="ts-section-head__num">/ 05</div>
+          <h2 class="ts-section-head__title">Ten recipes. Zero invention.</h2>
         </div>
-        <p class="section-head__lead">
+        <p class="ts-section-head__lead ts-lead">
           Every card you'll ever build fits one of ten recipes. Anatomy locked. Padding locked.
-          States defined. Pick one — don't deviate. See <code class="inline">references/04-cards-and-containers.md</code>.
+          States defined. Pick one — don't deviate. See <code class="ts-inline">references/04-cards-and-containers.md</code>.
         </p>
       </header>
 
-      <div class="gallery">
+      <div class="ts-gallery">
         <!-- Recipe 1 — Stat card -->
-        <div class="gallery__row">
-          <div class="gallery__meta">
-            <div class="gallery__num">Recipe 01</div>
+        <div class="ts-gallery__row">
+          <div class="ts-gallery__meta">
+            <div class="ts-gallery__num">Recipe 01</div>
             <h3>Stat card</h3>
             <p>Dashboard tile. Eyebrow → metric → delta. Mandatory tabular figures.</p>
-            <div class="gallery__chips">
-              <span class="chip">tnum</span><span class="chip">sp-6</span><span class="chip">step 5</span>
+            <div class="ts-gallery__chips">
+              <span class="ts-chip">tnum</span><span class="ts-chip">sp-6</span><span class="ts-chip">step 5</span>
             </div>
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: var(--ts-sp-4);">
-            <div class="demo-stat">
+            <div class="ts-demo-stat">
               <div class="ts-card__eyebrow">Monthly Revenue</div>
               <div class="ts-card__metric">$248,400</div>
               <div style="color: var(--ts-success); font-size: var(--ts-fs-caption);">↑ +12.4%</div>
             </div>
-            <div class="demo-stat">
+            <div class="ts-demo-stat">
               <div class="ts-card__eyebrow">Active Users</div>
               <div class="ts-card__metric">12,847</div>
               <div style="color: var(--ts-success); font-size: var(--ts-fs-caption);">↑ +8.2%</div>
             </div>
-            <div class="demo-stat">
+            <div class="ts-demo-stat">
               <div class="ts-card__eyebrow">Churn Rate</div>
               <div class="ts-card__metric">2.3%</div>
               <div style="color: var(--ts-danger); font-size: var(--ts-fs-caption);">↓ −0.4%</div>
@@ -881,23 +1197,23 @@
         </div>
 
         <!-- Recipe 2 — Feature -->
-        <div class="gallery__row">
-          <div class="gallery__meta">
-            <div class="gallery__num">Recipe 02</div>
+        <div class="ts-gallery__row">
+          <div class="ts-gallery__meta">
+            <div class="ts-gallery__num">Recipe 02</div>
             <h3>Feature card</h3>
             <p>Marketing workhorse. Icon + title + body. Icon background uses accent-dim (12%).</p>
-            <div class="gallery__chips">
-              <span class="chip">sp-8</span><span class="chip">accent-dim</span><span class="chip">step 4</span>
+            <div class="ts-gallery__chips">
+              <span class="ts-chip">sp-8</span><span class="ts-chip">accent-dim</span><span class="ts-chip">step 4</span>
             </div>
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: var(--ts-sp-6);">
-            <div class="demo-feature">
-              <div class="ts-card__icon">⚡</div>
+            <div class="ts-demo-feature">
+              <div class="ts-card__icon ts-icon">⚡</div>
               <h4>Real-time collaboration</h4>
               <p>Multiplayer cursors and presence built-in. Your team sees changes the moment you make them.</p>
             </div>
-            <div class="demo-feature">
-              <div class="ts-card__icon">◯</div>
+            <div class="ts-demo-feature">
+              <div class="ts-card__icon ts-icon">◯</div>
               <h4>Lightning fast</h4>
               <p>Zero-runtime CSS and modern frameworks. Sub-200ms first contentful paint.</p>
             </div>
@@ -905,34 +1221,34 @@
         </div>
 
         <!-- Recipe 5 — Pricing -->
-        <div class="gallery__row">
-          <div class="gallery__meta">
-            <div class="gallery__num">Recipe 05</div>
+        <div class="ts-gallery__row">
+          <div class="ts-gallery__meta">
+            <div class="ts-gallery__num">Recipe 05</div>
             <h3>Pricing card</h3>
             <p>Plan + price + features + CTA. Featured variant uses accent border and shadow.</p>
-            <div class="gallery__chips">
-              <span class="chip">tnum</span><span class="chip">sp-8</span><span class="chip">shadow-accent</span>
+            <div class="ts-gallery__chips">
+              <span class="ts-chip">tnum</span><span class="ts-chip">sp-8</span><span class="ts-chip">shadow-accent</span>
             </div>
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: var(--ts-sp-4); align-items: stretch;">
-            <div class="demo-price">
+            <div class="ts-demo-price">
               <div>
                 <div class="ts-card__eyebrow">Starter</div>
-                <div class="demo-price__amount">$0<span>/forever</span></div>
+                <div class="ts-demo-price__amount">$0<span>/forever</span></div>
               </div>
-              <ul class="demo-price__features">
+              <ul class="ts-demo-price__features">
                 <li>3 projects</li>
                 <li>Up to 5 teammates</li>
                 <li>Community support</li>
               </ul>
               <a class="ts-btn ts-btn--outline ts-btn--full">Start free</a>
             </div>
-            <div class="demo-price demo-price--featured">
+            <div class="ts-demo-price demo-price--featured">
               <div>
                 <div class="ts-card__eyebrow" style="color: var(--ts-accent);">Pro · Most popular</div>
-                <div class="demo-price__amount">$29<span>/month</span></div>
+                <div class="ts-demo-price__amount">$29<span>/month</span></div>
               </div>
-              <ul class="demo-price__features">
+              <ul class="ts-demo-price__features">
                 <li>Unlimited projects</li>
                 <li>Real-time collaboration</li>
                 <li>Priority support</li>
@@ -944,22 +1260,22 @@
         </div>
 
         <!-- Recipe 6 — Quote -->
-        <div class="gallery__row">
-          <div class="gallery__meta">
-            <div class="gallery__num">Recipe 06</div>
+        <div class="ts-gallery__row">
+          <div class="ts-gallery__meta">
+            <div class="ts-gallery__num">Recipe 06</div>
             <h3>Testimonial</h3>
             <p>Display font (often serif) for the quote. Single italic word for character. Subtle attribution.</p>
-            <div class="gallery__chips">
-              <span class="chip">serif</span><span class="chip">step 3</span><span class="chip">text-wrap balance</span>
+            <div class="ts-gallery__chips">
+              <span class="ts-chip">serif</span><span class="ts-chip">step 3</span><span class="ts-chip">text-wrap balance</span>
             </div>
           </div>
-          <figure class="demo-quote">
+          <figure class="ts-demo-quote">
             <blockquote>The only project tool that feels like a Risograph print. Fast, colorful, and completely <em>unforgettable</em>.</blockquote>
             <figcaption>
-              <div class="demo-quote__avatar"></div>
+              <div class="ts-demo-quote__avatar"></div>
               <div>
-                <div class="demo-quote__name">Alex Carter</div>
-                <div class="demo-quote__role">VP Engineering, Acme</div>
+                <div class="ts-demo-quote__name">Alex Carter</div>
+                <div class="ts-demo-quote__role">VP Engineering, Acme</div>
               </div>
             </figcaption>
           </figure>
@@ -969,22 +1285,22 @@
     </div>
   </section>
 
-  <!-- ═══ BENTO ════════════════════════════════════════════════ -->
+  <!-- ═══ ts-BENTO ts-BENTO ════════════════════════════════════════════════ -->
   <section class="ts-section ts-section--alt">
     <div class="ts-container">
-      <header class="section-head">
+      <header class="ts-section-head">
         <div>
-          <div class="section-head__num">/ 06</div>
-          <h2 class="section-head__title">Bento composition.</h2>
+          <div class="ts-section-head__num">/ 06</div>
+          <h2 class="ts-section-head__title">Bento composition.</h2>
         </div>
-        <p class="section-head__lead">
+        <p class="ts-section-head__lead ts-lead">
           12-column dense grid. One hero tile carries 2× the weight of any other. Without
-          a clear hero, the bento reads as collage instead of hierarchy.
+          a clear hero, the ts-bento ts-bento reads as collage instead of hierarchy.
         </p>
       </header>
 
-      <div class="ts-bento bento-demo">
-        <article class="ts-card bento-hero">
+      <div class="ts-bento ts-bento-demo">
+        <article class="ts-card ts-bento-hero">
           <span class="ts-overline">Bento hero</span>
           <h3>The modern way to build digital products.</h3>
           <p>A premium UI toolkit designed for speed, beauty, and flexibility. Start shipping in minutes instead of weeks.</p>
@@ -993,23 +1309,23 @@
             <a class="ts-btn ts-btn--ghost">Documentation</a>
           </div>
         </article>
-        <article class="ts-card bento-tall">
+        <article class="ts-card ts-bento-tall">
           <div class="ts-card__eyebrow">Weekly Downloads</div>
           <div class="ts-card__metric ts-tnum">1.2M+</div>
           <div style="font-size: var(--ts-fs-caption); margin-top: auto;">↑ +24% this week</div>
         </article>
-        <article class="ts-card bento-third">
-          <div class="ts-card__icon">⚡</div>
+        <article class="ts-card ts-bento-third">
+          <div class="ts-card__icon ts-icon">⚡</div>
           <h4 style="font-size: var(--ts-fs-h5); margin-top: var(--ts-sp-4);">Lightning Fast</h4>
           <p style="color: var(--ts-text-secondary); font-size: var(--ts-fs-caption); margin-top: var(--ts-sp-2);">Zero-runtime CSS.</p>
         </article>
-        <article class="ts-card bento-third">
-          <div class="ts-card__icon">◇</div>
+        <article class="ts-card ts-bento-third">
+          <div class="ts-card__icon ts-icon">◇</div>
           <h4 style="font-size: var(--ts-fs-h5); margin-top: var(--ts-sp-4);">Enterprise Ready</h4>
           <p style="color: var(--ts-text-secondary); font-size: var(--ts-fs-caption); margin-top: var(--ts-sp-2);">SOC2 Type II compliant.</p>
         </article>
-        <article class="ts-card bento-third">
-          <div class="ts-card__icon">◯</div>
+        <article class="ts-card ts-bento-third">
+          <div class="ts-card__icon ts-icon">◯</div>
           <h4 style="font-size: var(--ts-fs-h5); margin-top: var(--ts-sp-4);">Open Source</h4>
           <p style="color: var(--ts-text-secondary); font-size: var(--ts-fs-caption); margin-top: var(--ts-sp-2);">MIT licensed, forever.</p>
         </article>
@@ -1020,54 +1336,54 @@
   <!-- ═══ FLOW ════════════════════════════════════════════════ -->
   <section class="ts-section" id="flow">
     <div class="ts-container ts-container--md">
-      <header class="section-head">
+      <header class="ts-section-head">
         <div>
-          <div class="section-head__num">/ 07</div>
-          <h2 class="section-head__title">The agent workflow.</h2>
+          <div class="ts-section-head__num">/ 07</div>
+          <h2 class="ts-section-head__title">The agent workflow.</h2>
         </div>
-        <p class="section-head__lead">
+        <p class="ts-section-head__lead ts-lead">
           From "build me a landing page" to "shipped" in under 40 minutes. No invention. No doubt.
         </p>
       </header>
 
-      <div class="flow">
-        <div class="flow__step">
-          <div class="flow__num">1</div>
+      <div class="ts-flow">
+        <div class="ts-flow__step">
+          <div class="ts-flow__num">1</div>
           <div>
             <h4>Classify the task</h4>
             <p>PAGE · CARD · TYPE · COLOR · LAYOUT · COMPONENT · ENFOLD · REVIEW. State the class in one sentence before doing anything else.</p>
           </div>
         </div>
-        <div class="flow__step">
-          <div class="flow__num">2</div>
+        <div class="ts-flow__step">
+          <div class="ts-flow__num">2</div>
           <div>
             <h4>Open ≤ 2 references</h4>
             <p>Each task class has a fixed entry point. If you need a third reference, you misclassified — re-classify.</p>
           </div>
         </div>
-        <div class="flow__step">
-          <div class="flow__num">3</div>
+        <div class="ts-flow__step">
+          <div class="ts-flow__num">3</div>
           <div>
             <h4>Walk the decision trees</h4>
             <p>Font? Step? Padding? Mode? Each has a tree in SKILL.md §4. Walk it out loud. Show the path you took.</p>
           </div>
         </div>
-        <div class="flow__step">
-          <div class="flow__num">4</div>
+        <div class="ts-flow__step">
+          <div class="ts-flow__num">4</div>
           <div>
             <h4>Build with locked systems</h4>
             <p>Color via <code>generate-colors.js</code>. Type via the 1.200 ladder. Space via 8pt grid. Layouts via three primitives.</p>
           </div>
         </div>
-        <div class="flow__step">
-          <div class="flow__num">5</div>
+        <div class="ts-flow__step">
+          <div class="ts-flow__num">5</div>
           <div>
             <h4>Verify</h4>
             <p><code>node scripts/generate-colors.js</code> + <code>node scripts/audit-design.mjs &lt;file&gt;</code>. Hard fails halt the build.</p>
           </div>
         </div>
-        <div class="flow__step">
-          <div class="flow__num">6</div>
+        <div class="ts-flow__step">
+          <div class="ts-flow__num">6</div>
           <div>
             <h4>Hand off</h4>
             <p>Report: class chosen, recipes used, tokens introduced (ideally zero), audit score, and the manual checklist.</p>
@@ -1075,8 +1391,8 @@
         </div>
       </div>
 
-      <div style="margin-top: var(--ts-sp-12); text-align: center;">
-        <p style="color: var(--ts-text-secondary); margin: 0 auto var(--ts-sp-6); max-width: 50ch;">
+      <div style="margin-top: var(--ts-sp-12); text-align: center;" class="ts-card ts-card--featured" >
+        <p  style="color: var(--ts-text-secondary);margin: 0 auto var(--ts-sp-2);font-size: 1em;">
           Total time for a competent agent: 20–40 minutes for a landing page. Taking longer means
           inventing instead of looking up — stop and re-read the skill.
         </p>
@@ -1086,12 +1402,12 @@
   </section>
 
   <!-- ═══ FOOTER ══════════════════════════════════════════════ -->
-  <footer class="footer">
+  <footer class="ts-footer">
     <div class="ts-container">
-      <div class="footer__grid">
+      <div class="ts-footer__grid">
         <div>
-          <div class="topbar__brand" style="margin-bottom: var(--ts-sp-3);">
-            <div class="topbar__brand-mark">ED</div>
+          <div class="ts-topbar__brand" style="margin-bottom: var(--ts-sp-3);">
+            <div class="ts-topbar__brand-mark">ED</div>
             <span>Expert Designer v6</span>
           </div>
           <p style="color: var(--ts-text-secondary); max-width: 36ch; font-size: var(--ts-fs-caption);">
@@ -1126,7 +1442,7 @@
           </ul>
         </div>
       </div>
-      <div class="footer__bottom">
+      <div class="ts-footer__bottom">
         <span>Expert Designer v6 · Toolskin · MIT</span>
         <span class="ts-mono">designed for agents · built by claude</span>
       </div>
@@ -1136,8 +1452,8 @@
   <script>
     // Theme toggle
     const root = document.documentElement;
-    const toggle = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
+    const toggle = document.getElementById('ts-theme-toggle');
+    const icon = document.getElementById('ts-theme-icon');
     toggle.addEventListener('click', () => {
       const next = root.dataset.theme === 'light' ? 'dark' : 'light';
       root.dataset.theme = next;
@@ -1145,12 +1461,12 @@
     });
 
     // Accent lab — live retheme via slider
-    const hue   = document.getElementById('hue');
-    const sat   = document.getElementById('sat');
-    const light = document.getElementById('light');
-    const hueVal   = document.getElementById('hue-val');
-    const satVal   = document.getElementById('sat-val');
-    const lightVal = document.getElementById('light-val');
+    const hue   = document.getElementById('ts-hue');
+    const sat   = document.getElementById('ts-sat');
+    const light = document.getElementById('ts-light');
+    const hueVal   = document.getElementById('ts-hue-val');
+    const satVal   = document.getElementById('ts-sat-val');
+    const lightVal = document.getElementById('ts-light-val');
 
     function applyAccent() {
       root.style.setProperty('--ts-accent-h', hue.value);
@@ -1162,8 +1478,8 @@
     }
     [hue, sat, light].forEach(el => el.addEventListener('input', applyAccent));
 
-    // Scroll reveal — bypass entirely under reduced-motion
-    const reveals = document.querySelectorAll('.reveal');
+    // Scroll ts-reveal — bypass entirely under reduced-motion
+    const reveals = document.querySelectorAll('.ts-reveal');
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) {
       reveals.forEach(r => r.classList.add('is-in'));

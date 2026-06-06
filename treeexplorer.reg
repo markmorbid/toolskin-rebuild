@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\treeexplorer]
+@="URL:Tree Explorer"
+"URL Protocol"=""
+
+[HKEY_CLASSES_ROOT\treeexplorer\shell\open\command]
+@="\"D:\\Mis Documentos\\Projects\\Toolskin Framework\\toolskin-rebuild\\Tree-Explorer.bat\""

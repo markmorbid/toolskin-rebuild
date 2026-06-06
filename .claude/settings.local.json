@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(remember:remember)",
+      "Skill(remember:remember:*)",
+      "Bash(git add *)",
+      "Bash(git -c core.longpaths=true add .gitignore docs/references/)",
+      "Bash(git *)",
+      "PowerShell(Get-Content *)"
+    ]
+  }
+}

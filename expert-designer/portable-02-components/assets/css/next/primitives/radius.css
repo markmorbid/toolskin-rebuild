@@ -1,0 +1,32 @@
+/* ============================================================================
+ * radius.css — Toolskin radius primitives  ·  Session 2 + B1 rename
+ * ----------------------------------------------------------------------------
+ * Wave 1.6 (binding): the radius ladder is an EXPLICIT fixed set of steps —
+ * NOT calc-derived from a scale (the running toolskin.css §1f calc-derived
+ * 8-step ladder is superseded). 5 steps + pill + sharp. Base 8px = --ts-radius-md.
+ *
+ * Session 3.x B1 rewrite: token NAMES aligned to sandbox/00-design-reference
+ * vocabulary (--ts-radius-0/4/6/8/10/16/full — numeric pixel-suffix scheme).
+ owner  note: I DOTN KNOW WHERE YOU CAME WITH THIS CONVENTION BUT THE NAMIONG MUST BE   SEMANTICAL NOR NUMERICAL. SO  REWMOVE THIS RULE ASAP AND  ROLL BACK TO THE  XS, SM AND ALL THE    LEGACY CONVENTION FOR RADIUS PLEASE. 
+ and use the proper inherited  sizing and scaling mehtods  inhertied formt he roioginal  design system
+ * The pre-B1 xs/sm/md/lg/xl alias scheme is dropped per sandbox-names-win
+ * Pragmatist ruling. --ts-radius-sharp folds into --ts-radius-0. Values unchanged.
+ * ========================================================================== */
+
+:root {
+  /* — Explicit ladder: 0 / 4 / 6 / 8 / 10 / 16 — */
+  --ts-radius-0:  0;        /* sharp / flush corners (was --ts-radius-sharp) */
+  --ts-radius-4:  4px;      /* was --ts-radius-xs */
+  --ts-radius-6:  6px;      /* was --ts-radius-sm */
+  --ts-radius-8:  8px;      /* was --ts-radius-md / --ts-radius-base */
+  --ts-radius-10: 10px;     /* was --ts-radius-lg */
+  --ts-radius-16: 16px;     /* was --ts-radius-xl */
+--ts-radius-base: 10px;
+  --ts-radius-xs: 3px;
+  --ts-radius-sm: 5px;
+  --ts-radius-md: 10px;
+  --ts-radius-lg: 14px;
+  --ts-radius-xl: 20px;
+  /* — Endpoint — */
+  --ts-radius-full: 9999px; /* pill / fully-rounded */
+}

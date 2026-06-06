@@ -70,3 +70,9 @@ Thumbs.db
 !.vscode/settings.json
 !.vscode/extensions.json
 .idea/
+
+
+docs/references/
+*.jpg
+*.png
+*.html

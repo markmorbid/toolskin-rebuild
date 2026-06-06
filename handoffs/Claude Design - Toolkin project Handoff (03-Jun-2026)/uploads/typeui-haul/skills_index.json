@@ -1,0 +1,3129 @@
+{
+  "agentic": {
+    "slug": "agentic",
+    "skill_name": "agentic",
+    "skill_description": "Conversational AI-first interface with minimal controls, clear outcomes, and delegated task flows for agentic workflows.",
+    "brand_text": [
+      "The agentic design style emphasizes conversational interactions, clear outcomes, and minimal controls, allowing users to delegate tasks to AI instead of manually managing complex workflows."
+    ],
+    "visual_style": "modern, bold",
+    "typography": "14/16/18/24/32/40 | Fonts: primary=Playfair Display, display=Playfair Display, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "surface/subtle layers | Tokens: primary=#FF5701, secondary=#F6F6F1, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "8pt baseline grid",
+    "design_colors": {
+      "primary": "#FF5701",
+      "secondary": "#F6F6F1",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Playfair Display",
+        "fontSize": "2.5rem"
+      },
+      "body-md": {
+        "fontFamily": "Playfair Display",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.875rem"
+      },
+      "sourceScale": "14/16/18/24/32/40",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "8pt baseline grid"
+    }
+  },
+  "ant": {
+    "slug": "ant",
+    "skill_name": "ant",
+    "skill_description": "Structured, enterprise-focused design system emphasizing clarity, consistency, and efficiency for data-dense web applications.",
+    "brand_text": [
+      "Ant Design follows a structured, enterprise-focused design system that emphasizes clarity, consistency, and efficiency in complex web applications."
+    ],
+    "visual_style": "data-dense, enterprise",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Plus Jakarta Sans, display=Plus Jakarta Sans, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#1677ff, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#1677ff",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Plus Jakarta Sans",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Plus Jakarta Sans",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "application": {
+    "slug": "application",
+    "skill_name": "application",
+    "skill_description": "App dashboard with purple-themed aesthetic, top-bar navigation, card-based layouts, and developer-first workflows.",
+    "brand_text": [
+      "A modern, Vercel/GitHub-inspired application dashboard designed for clarity, speed, and developer-first workflows. The interface focuses on simplicity and visual hierarchy, allowing teams to monitor, deploy, and manage applications effortlessly from a single control center. Features a top-bar only navigation (no sidebar) and a clean purple-themed aesthetic."
+    ],
+    "visual_style": "modern, clean, high-contrast, glass-like panels, soft shadows, rounded components",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Inter, display=Inter, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary (purple), neutral, success, warning, danger | Tokens: primary=#9333ea, secondary=#a855f7, success=#10b981, warning=#f59e0b, danger=#ef4444, surface=#FFFFFF, text=#09090b",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#9333ea",
+      "secondary": "#a855f7",
+      "success": "#10b981",
+      "warning": "#f59e0b",
+      "danger": "#ef4444",
+      "surface": "#FFFFFF",
+      "text": "#09090b",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Inter",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Inter",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "artistic": {
+    "slug": "artistic",
+    "skill_name": "artistic",
+    "skill_description": "High-contrast, expressive style with creative typography and bold color choices for visually striking interfaces.",
+    "brand_text": [],
+    "visual_style": "high-contrast, artistic",
+    "typography": "12/14/16/18/24/30/36 | Fonts: primary=Limelight, display=Limelight, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Limelight",
+        "fontSize": "2.25rem"
+      },
+      "body-md": {
+        "fontFamily": "Limelight",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/18/24/30/36",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "bento": {
+    "slug": "bento",
+    "skill_name": "bento",
+    "skill_description": "Modular grid layout with card-like blocks, clear hierarchy, soft spacing, and subtle visual contrast for organized, scannable interfaces.",
+    "brand_text": [
+      "The bento box style is an innovative design approach that uses a grid layout to present content in visually appealing blocks of varying sizes."
+    ],
+    "visual_style": "modern, clean",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Inter, display=Inter, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#FAD4C0, secondary=#80A1C1, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFF5E6, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#FAD4C0",
+      "secondary": "#80A1C1",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFF5E6",
+      "text": "#111827",
+      "neutral": "#FFF5E6"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Inter",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Inter",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "bold": {
+    "slug": "bold",
+    "skill_name": "bold",
+    "skill_description": "Strong visual presence with heavyweight typography, high-contrast colors, and commanding layouts.",
+    "brand_text": [],
+    "visual_style": "bold",
+    "typography": "desktop-first expressive scale | Fonts: primary=Archivo Black, display=Archivo Black, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary | Tokens: primary=#0077BC, secondary=#009866, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#111111, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#0077BC",
+      "secondary": "#009866",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#111111",
+      "text": "#111827",
+      "neutral": "#111111"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Archivo Black",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Archivo Black",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "brutalism": {
+    "slug": "brutalism",
+    "skill_name": "brutalism",
+    "skill_description": "Raw, anti-design aesthetic inspired by concrete architecture with unadorned elements, jarring layouts, and functional minimalism.",
+    "brand_text": [
+      "a bold, \"anti-design\" style inspired by 1950s raw concrete architecture, prioritizing functional, unadorned, and often jarring aesthetics over polished, conventional design."
+    ],
+    "visual_style": "bold",
+    "typography": "desktop-first expressive scale | Fonts: primary=Darker Grotesque, display=Darker Grotesque, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success, warning, danger | Tokens: primary=#DD614C, secondary=#DAA144, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#DD614C",
+      "secondary": "#DAA144",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Darker Grotesque",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Darker Grotesque",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "cafe": {
+    "slug": "cafe",
+    "skill_name": "cafe",
+    "skill_description": "Cozy cafe-inspired interface with warm tones, soft typography, and clean layouts for a relaxed browsing experience.",
+    "brand_text": [
+      "A cozy caf\u00e9-inspired interface that blends warm tones, soft typography, and clean layouts to create a relaxed browsing experience"
+    ],
+    "visual_style": "minimal, clean",
+    "typography": "desktop-first expressive scale | Fonts: primary=Poppins, display=Poppins, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#5D4432, secondary=#E9E3DD, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#F9F7F5, text=#3E2B1E",
+    "spacing": "2/4/8/12/16/24/32/48",
+    "design_colors": {
+      "primary": "#5D4432",
+      "secondary": "#E9E3DD",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#F9F7F5",
+      "text": "#3E2B1E",
+      "neutral": "#F9F7F5"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Poppins",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Poppins",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "2px",
+      "md": "4px",
+      "sourceScale": "2/4/8/12/16/24/32/48"
+    }
+  },
+  "claude": {
+    "slug": "claude",
+    "skill_name": "claude",
+    "skill_description": "A research-journal aesthetic printed on warm stone \u2014 authoritative, editorial, almost achromatic. Pages live on warm ivory parchment (never pure white), with near-black slate as the dominant ink.",
+    "brand_text": [
+      "A research-journal aesthetic printed on warm stone \u2014 authoritative, editorial, almost achromatic. Pages live on warm ivory parchment (never pure white), with near-black slate as the dominant ink. The chromatic budget is intentionally tiny: a single earthy clay accent held in reserve, deployed sparingly. Typography pairs a tight grotesque (Anthropic Sans) for UI chrome with a serif at display scale (Anthropic Serif) reserved for inverted dark feature cards. Emphasis comes from typography and underlines \u2014 never from color or glow. Surfaces use hard-edged contrast, zero shadows, and an alternating ivory \u2194 near-black rhythm. Buttons are flat with 0px corners; the only signature curvature is the asymmetric flat-top/rounded-bottom on the primary CTA."
+    ],
+    "visual_style": "modern, minimal, clean",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Anthropic Sans, display=Anthropic Sans, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success, warning, danger | Tokens: primary=#141413, secondary=#FAF9F6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#141413",
+      "secondary": "#FAF9F6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Anthropic Sans",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Anthropic Sans",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "claymorphism": {
+    "slug": "claymorphism",
+    "skill_name": "claymorphism",
+    "skill_description": "Soft, rounded 3D-like shapes mimicking malleable clay with playful, puffy elements and colorful surfaces.",
+    "brand_text": [
+      "a modern UI trend characterized by soft, rounded, 3D-like, \"puffy\" shapes that mimic malleable, colorful clay."
+    ],
+    "visual_style": "modern, high-contrast, playful",
+    "typography": "desktop-first expressive scale | Fonts: primary=Montserrat, display=Poppins, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#FFFFFF, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#1C398E",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#FFFFFF",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#1C398E",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Poppins",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Montserrat",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "clean": {
+    "slug": "clean",
+    "skill_name": "clean",
+    "skill_description": "Simplicity-focused design with ample whitespace, legible typography, and a limited color palette to reduce visual clutter.",
+    "brand_text": [
+      "Clean design style focuses on simplicity, minimalism, and high usability, using ample whitespace, legible typography, and limited color palettes to reduce visual clutter"
+    ],
+    "visual_style": "minimal, clean",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Roboto, display=Poppins, mono=Inconsolata | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "8pt baseline grid",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Poppins",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Roboto",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Inconsolata",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "8pt baseline grid"
+    }
+  },
+  "codex": {
+    "slug": "codex",
+    "skill_name": "codex",
+    "skill_description": "A radically minimal, blank-canvas interface built as a pure edge-to-edge surface, with almost no color and typography carrying the visual weight. Black serves as the only filled color, the only divider, and the sole surface tone cards.",
+    "brand_text": [
+      "A radically minimal, blank-canvas interface built as a pure edge-to-edge surface, with almost no color and typography carrying the visual weight. Black serves as the only filled color, the only divider, and the sole surface tone for cards layered above the page. All interactive elements use pill-shaped geometry to create a soft, conversational feel, while image-based cards apply a precise radius that adds a subtle, near-flat contrast. There are no shadows, no gradients in the UI, and no decorative illustrations\u2014color appears only through editorial photography."
+    ],
+    "visual_style": "modern, minimal, clean",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Open Sans, display=Open Sans, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success, warning, danger | Tokens: primary=#000000, secondary=#ffffff, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#000000",
+      "secondary": "#FFFFFF",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Open Sans",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Open Sans",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "colorful": {
+    "slug": "colorful",
+    "skill_name": "colorful",
+    "skill_description": "Vibrant, high-contrast palettes and gradients for engaging, memorable, and modern user experiences.",
+    "brand_text": [
+      "Colorful UI/UX design uses vibrant, high-contrast palettes and gradients to create engaging, memorable, and modern user experiences"
+    ],
+    "visual_style": "high-contrast, playful, premium",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Inter, display=Inter, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "8pt baseline grid",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Inter",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Inter",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "8pt baseline grid"
+    }
+  },
+  "contemporary": {
+    "slug": "contemporary",
+    "skill_name": "contemporary",
+    "skill_description": "Current-era minimalist design with bento grids, dark mode support, and high-performance accessible layouts.",
+    "brand_text": [
+      "Contemporary UI/UX design focuses on, minimalist, accessible, and high-performance, featuring Bento grids, dark mode, and, AI-powered personalization"
+    ],
+    "visual_style": "modern, minimal, bold, playful",
+    "typography": "desktop-first expressive scale | Fonts: primary=Jost, display=Jost, mono=Overpass Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral | Tokens: primary=#C800DF, secondary=#E60076, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "comfortable density mode",
+    "design_colors": {
+      "primary": "#C800DF",
+      "secondary": "#E60076",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Jost",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Jost",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Overpass Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "comfortable density mode"
+    }
+  },
+  "corporate": {
+    "slug": "corporate",
+    "skill_name": "corporate",
+    "skill_description": "Professional, brand-aligned design with structured grids, minimalist layouts, and consistent enterprise patterns.",
+    "brand_text": [
+      "Corporate UI/UX design focuses on professionalism, consistency, and brand alignment, typically featuring minimalist layouts, structured grids, and, in 2026, AI-driven personalization"
+    ],
+    "visual_style": "enterprise, premium",
+    "typography": "desktop-first expressive scale | Fonts: primary=Open Sans, display=Poppins, mono=IBM Plex Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "8pt baseline grid",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Poppins",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Open Sans",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "IBM Plex Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "8pt baseline grid"
+    }
+  },
+  "cosmic": {
+    "slug": "cosmic",
+    "skill_name": "cosmic",
+    "skill_description": "Futuristic sci-fi aesthetic with dark themes, vibrant neon accents, and immersive spatial elements.",
+    "brand_text": [
+      "Cosmic UI/UX design is a futuristic, sci-fi-inspired style characterized by dark themes, vibrant neon accents, and immersive, spatial elements"
+    ],
+    "visual_style": "playful, premium",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Audiowide, display=Audiowide, mono=JetBrains Mono | weights=400",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Audiowide",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Audiowide",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "400"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "creative": {
+    "slug": "creative",
+    "skill_name": "creative",
+    "skill_description": "Playful, character-driven design with expressive typography and bold graphics for landing pages and creative projects.",
+    "brand_text": [
+      "cerative style for landing  pages"
+    ],
+    "visual_style": "playful",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Bangers, display=Bangers, mono=IBM Plex Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Bangers",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Bangers",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "IBM Plex Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "dashboard": {
+    "slug": "dashboard",
+    "skill_name": "dashboard",
+    "skill_description": "Dark-themed cloud-platform aesthetic with modular grids, glass-like panels, and strong data hierarchy for productivity dashboards.",
+    "brand_text": [
+      "Dashboard design emphasizes grids, modular components, and strong visual hierarchy to present complex data in a clear and accessible way. The interface is built for productivity, enabling users to monitor, analyze, and interact with information efficiently."
+    ],
+    "visual_style": "modern, clean, cloud-platform aesthetic (Heroku/Vercel/GitHub inspired), dark theme, subtle gradients, soft shadows, glass-like panels, rounded components",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=IBM Plex Sans, display=IBM Plex Sans, mono=IBM Plex Sans | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#0C5CAB, secondary=#0a4a8a, success=#10b981, warning=#f59e0b, danger=#ef4444, surface=#09090b, text=#fafafa",
+    "spacing": "8pt baseline grid",
+    "design_colors": {
+      "primary": "#0C5CAB",
+      "secondary": "#0a4a8a",
+      "success": "#10b981",
+      "warning": "#f59e0b",
+      "danger": "#ef4444",
+      "surface": "#09090b",
+      "text": "#fafafa",
+      "neutral": "#09090b"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "IBM Plex Sans",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "IBM Plex Sans",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "IBM Plex Sans",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "8pt baseline grid"
+    }
+  },
+  "dithered": {
+    "slug": "dithered",
+    "skill_name": "dithered",
+    "skill_description": "Dot-pattern rendering technique that simulates shades with a limited palette for nostalgic, retro, high-contrast visuals.",
+    "brand_text": [
+      "Dithered Is a technique that uses patterns of dots to simulate shades and colors with a limited palette within modern digital interfaces to create nostalgic, retro, or high-contrast, artistic visual styles"
+    ],
+    "visual_style": "modern, minimal",
+    "typography": "14/16/18/24/32/40 | Fonts: primary=Open Sans, display=Space Grotesk, mono=IBM Plex Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Space Grotesk",
+        "fontSize": "2.5rem"
+      },
+      "body-md": {
+        "fontFamily": "Open Sans",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "IBM Plex Mono",
+        "fontSize": "0.875rem"
+      },
+      "sourceScale": "14/16/18/24/32/40",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "doodle": {
+    "slug": "doodle",
+    "skill_name": "doodle",
+    "skill_description": "Hand-drawn, sketch-like style with doodles, handwritten fonts, and imperfect lines for a playful, informal feel.",
+    "brand_text": [
+      "a creative, playful, and informal style that utilizes doodles, sketches, handwritten fonts, and imperfect lines to foster emotional connection and a raw, artistic feel"
+    ],
+    "visual_style": "playful",
+    "typography": "14/16/18/24/32/40 | Fonts: primary=Delius Swash Caps, display=Delius Swash Caps, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success, warning, danger | Tokens: primary=#49B6E5, secondary=#263D5B, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#49B6E5",
+      "secondary": "#263D5B",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Delius Swash Caps",
+        "fontSize": "2.5rem"
+      },
+      "body-md": {
+        "fontFamily": "Delius Swash Caps",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.875rem"
+      },
+      "sourceScale": "14/16/18/24/32/40",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "dramatic": {
+    "slug": "dramatic",
+    "skill_name": "dramatic",
+    "skill_description": "High-contrast, theatrical design with bold layouts, immersive visuals, and unconventional compositions that command attention.",
+    "brand_text": [
+      "Dramatic design style is a trend characterized by high-contrast visuals, bold, unconventional layouts, and immersive, theatrical experiences designed to grab user attention."
+    ],
+    "visual_style": "modern, clean, high-contrast",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Outfit, display=Outfit, mono=JetBrains Mono | weights=400, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#8B5CF6, secondary=#F43F5E, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#09090B, text=#FAFAFA",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#8B5CF6",
+      "secondary": "#F43F5E",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#09090B",
+      "text": "#FAFAFA",
+      "neutral": "#09090B"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Outfit",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Outfit",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "400, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "editorial": {
+    "slug": "editorial",
+    "skill_name": "editorial",
+    "skill_description": "Magazine-inspired editorial layout with refined serif typography, structured grids, and elegant reading experiences.",
+    "brand_text": [],
+    "visual_style": "modern, editorial",
+    "typography": "14/16/18/24/32/40 | Fonts: primary=Gelasio, display=Gelasio, mono=Ubuntu Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success | Tokens: primary=#111111, secondary=#f1f1f1, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "8pt baseline grid",
+    "design_colors": {
+      "primary": "#111111",
+      "secondary": "#f1f1f1",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Gelasio",
+        "fontSize": "2.5rem"
+      },
+      "body-md": {
+        "fontFamily": "Gelasio",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Ubuntu Mono",
+        "fontSize": "0.875rem"
+      },
+      "sourceScale": "14/16/18/24/32/40",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "8pt baseline grid"
+    }
+  },
+  "elegant": {
+    "slug": "elegant",
+    "skill_name": "elegant",
+    "skill_description": "Graceful, refined aesthetic with delicate typography, minimal palettes, and polished layouts that exude sophistication.",
+    "brand_text": [],
+    "visual_style": "minimal, clean",
+    "typography": "14/16/18/24/32/40 | Fonts: primary=Google Sans, display=Google Sans, mono=Anonymous Pro | weights=100, 200, 300, 400, 500, 600",
+    "palette": "primary, secondary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Google Sans",
+        "fontSize": "2.5rem"
+      },
+      "body-md": {
+        "fontFamily": "Google Sans",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Anonymous Pro",
+        "fontSize": "0.875rem"
+      },
+      "sourceScale": "14/16/18/24/32/40",
+      "weights": "100, 200, 300, 400, 500, 600"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "energetic": {
+    "slug": "energetic",
+    "skill_name": "energetic",
+    "skill_description": "Dynamic, vibrant style with thick borders, geometric shapes, high-contrast colors, and expressive typography conveying motion and vitality.",
+    "brand_text": [
+      "Energetic design style embodies vibrant, dynamic, and bold aesthetics. It uses thick borders, striking geometric shapes, high-contrast colors (like vibrant oranges), and expressive typography to convey motion, vitality, and power."
+    ],
+    "visual_style": "bold, geometric, vibrant, thick-bordered",
+    "typography": "12/14/16/20/24/32/48 | Fonts: primary=Limelight, display=Limelight, mono=JetBrains Mono | weights=400",
+    "palette": "primary, secondary, neutral | Tokens: primary=#EA580B, secondary=#F59E0B, background=#FFEDD5, surface=#FDBA74, text=#EA580C",
+    "spacing": "4/8/12/16/24/32/48/64",
+    "design_colors": {
+      "primary": "#EA580B",
+      "secondary": "#F59E0B",
+      "background": "#FFEDD5",
+      "surface": "#FDBA74",
+      "text": "#EA580C",
+      "neutral": "#FDBA74"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Limelight",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Limelight",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32/48",
+      "weights": "400"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32/48/64"
+    }
+  },
+  "enterprise": {
+    "slug": "enterprise",
+    "skill_name": "enterprise",
+    "skill_description": "Clean, high-contrast enterprise design for data-driven workflows with intuitive drag-and-drop patterns and structured layouts.",
+    "brand_text": [
+      "Everything you need \u2013 data, apps, and AI in an intuitive drag and drop interface to automate your workflows."
+    ],
+    "visual_style": "clean, high-contrast, enterprise",
+    "typography": "desktop-first expressive scale | Fonts: primary=Ubuntu, display=Oswald, mono=Ubuntu Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, success, warning, danger | Tokens: primary=#072C2C, secondary=#FF5F03, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#EDEADE, text=#111827",
+    "spacing": "comfortable density mode",
+    "design_colors": {
+      "primary": "#072C2C",
+      "secondary": "#FF5F03",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#EDEADE",
+      "text": "#111827",
+      "neutral": "#EDEADE"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Oswald",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Ubuntu",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Ubuntu Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "comfortable density mode"
+    }
+  },
+  "expressive": {
+    "slug": "expressive",
+    "skill_name": "expressive",
+    "skill_description": "Vibrant, personality-driven design with bold colors, playful graphics, and dynamic layouts that balance creativity with structure.",
+    "brand_text": [
+      "A vibrant and visually engaging design style that uses bold colors, playful graphics, and dynamic layouts to create a strong personality. It emphasizes creativity and energy while maintaining clear structure and modern UI patterns."
+    ],
+    "visual_style": "modern, playful",
+    "typography": "14/16/18/24/32/40 | Fonts: primary=IBM Plex Mono, display=IBM Plex Mono, mono=IBM Plex Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success, warning, danger | Tokens: primary=#db2777, secondary=#2563eb, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#db2777",
+      "secondary": "#2563eb",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "IBM Plex Mono",
+        "fontSize": "2.5rem"
+      },
+      "body-md": {
+        "fontFamily": "IBM Plex Mono",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "IBM Plex Mono",
+        "fontSize": "0.875rem"
+      },
+      "sourceScale": "14/16/18/24/32/40",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "fantasy": {
+    "slug": "fantasy",
+    "skill_name": "fantasy",
+    "skill_description": "Game-inspired fantasy aesthetic with bold, premium visuals, rich color palettes, and immersive thematic elements.",
+    "brand_text": [
+      "the best game in the world"
+    ],
+    "visual_style": "bold, premium",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=New Rocker, display=New Rocker, mono=IBM Plex Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, success, warning, danger, info | Tokens: primary=#0250CC, secondary=#FDC800, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "8pt baseline grid",
+    "design_colors": {
+      "primary": "#0250CC",
+      "secondary": "#FDC800",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "New Rocker",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "New Rocker",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "IBM Plex Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "8pt baseline grid"
+    }
+  },
+  "fiction": {
+    "slug": "fiction",
+    "skill_name": "fiction",
+    "skill_description": "A playful, energetic, cartoonesque interface inspired by friendly children's-book illustrations \u2014 warm cream backgrounds, big bold custom display typography, saturated brand color blocks, thick black outlines, generously rounded shapes",
+    "brand_text": [
+      "A playful, energetic, cartoonesque interface inspired by friendly children's-book illustrations \u2014 warm cream backgrounds, big bold custom display typography, saturated brand color blocks, thick black outlines, generously rounded shapes, flat surfaces with almost no shadows, and decorative hand-drawn-feeling illustrations in every section."
+    ],
+    "visual_style": "playful",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Cossette Texte, display=Cossette Texte, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#222222, secondary=#FFE9CE, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#222222",
+      "secondary": "#FFE9CE",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Cossette Texte",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Cossette Texte",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "flat": {
+    "slug": "flat",
+    "skill_name": "flat",
+    "skill_description": "Two-dimensional minimalist style with vibrant colors, clean typography, and no 3D effects for fast, user-friendly interfaces.",
+    "brand_text": [
+      "a minimalist style characterized by two-dimensional elements, vibrant colors, and clean typography, focusing on functionality over ornamentation. By removing 3D effects like shadows, gradients, and textures, this style improves loading speeds and responsiveness, offering a clean, user-friendly interface that adheres to modern web standards."
+    ],
+    "visual_style": "minimal, enterprise",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Inter, display=Inter, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#F2673C, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#F2673C",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Inter",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Inter",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "friendly": {
+    "slug": "friendly",
+    "skill_name": "friendly",
+    "skill_description": "Approachable, intuitive design with rounded elements, ample whitespace, and soft pastel color palettes.",
+    "brand_text": [
+      "Friendly UI/UX design focuses on creating approachable, intuitive, and engaging experiences through, rounded elements, ample whitespace, and, soft, pastel, color, palettes"
+    ],
+    "visual_style": "bold, playful, premium",
+    "typography": "14/16/18/24/32/40 | Fonts: primary=Noto Serif Display, display=Noto Serif Display, mono=Space Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral | Tokens: primary=#F2D9DC, secondary=#D9F2D8, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "compact density mode",
+    "design_colors": {
+      "primary": "#F2D9DC",
+      "secondary": "#D9F2D8",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Noto Serif Display",
+        "fontSize": "2.5rem"
+      },
+      "body-md": {
+        "fontFamily": "Noto Serif Display",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Space Mono",
+        "fontSize": "0.875rem"
+      },
+      "sourceScale": "14/16/18/24/32/40",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "compact density mode"
+    }
+  },
+  "futuristic": {
+    "slug": "futuristic",
+    "skill_name": "futuristic",
+    "skill_description": "Forward-looking design with tech-inspired typography, modern layouts, and a sleek, innovation-driven aesthetic.",
+    "brand_text": [],
+    "visual_style": "modern",
+    "typography": "desktop-first expressive scale | Fonts: primary=Roboto, display=Audiowide, mono=Anonymous Pro | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Audiowide",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Roboto",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Anonymous Pro",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "glassmorphism": {
+    "slug": "glassmorphism",
+    "skill_name": "glassmorphism",
+    "skill_description": "Frosted glass effect with translucent layers, subtle blur, and luminous borders for depth and modern elegance.",
+    "brand_text": [
+      "provide fast, reliable communication for individuals, teams, and communities while maintaining a clean interface and high performance across desktop environments."
+    ],
+    "visual_style": "clean, high-contrast, bold, enterprise, liquidglass effect, glassmorphism",
+    "typography": "mobile-first compact scale | Fonts: primary=Plus Jakarta Sans, display=Plus Jakarta Sans, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger, info, surface/subtle layers | Tokens: primary=#1856FF, secondary=#3A344E, success=#07CA6B, warning=#E89558, danger=#EA2143, surface=#FFFFFF, text=#141414",
+    "spacing": "comfortable density mode",
+    "design_colors": {
+      "primary": "#1856FF",
+      "secondary": "#3A344E",
+      "success": "#07CA6B",
+      "warning": "#E89558",
+      "danger": "#EA2143",
+      "surface": "#FFFFFF",
+      "text": "#141414",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Plus Jakarta Sans",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Plus Jakarta Sans",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "mobile-first compact scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "comfortable density mode"
+    }
+  },
+  "gradient": {
+    "slug": "gradient",
+    "skill_name": "gradient",
+    "skill_description": "Smooth color transitions and gradient-rich surfaces for modern, playful interfaces with visual depth.",
+    "brand_text": [
+      "Gradient design style"
+    ],
+    "visual_style": "modern, playful",
+    "typography": "12/14/16/18/24/30/36 | Fonts: primary=Montserrat, display=Space Grotesk, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success, warning, danger | Tokens: primary=#990FFA, secondary=#E60076, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "8pt baseline grid",
+    "design_colors": {
+      "primary": "#990FFA",
+      "secondary": "#E60076",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Space Grotesk",
+        "fontSize": "2.25rem"
+      },
+      "body-md": {
+        "fontFamily": "Montserrat",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/18/24/30/36",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "8pt baseline grid"
+    }
+  },
+  "immersive": {
+    "slug": "immersive",
+    "skill_name": "immersive",
+    "skill_description": "An immersive, interactive, exhibit-style interface that blends storytelling, animation, and gamified elements to create a playful, experience-driven journey. The entire app sits on a single continuous brand-colored canvas (deep green)",
+    "brand_text": [
+      "An immersive, interactive, exhibit-style interface that blends storytelling, animation, and gamified elements to create a playful, experience-driven journey. The entire app sits on a single continuous brand-colored canvas (deep green) \u2014 there is no alternation between section backgrounds. Crisp white cards with thick black borders, hard offset block shadows, and oversized condensed display typography (Oswald) punch off that canvas. Buttons are skewed white blocks with hard black shadows that grow on hover, like posters or arcade signs reacting to the player. Decorative geometric blocks in brand-tertiary (cobalt blue) and brand-quaternary (hot pink) layer behind cards to add depth without breaking the brand-color continuity. The result feels less like browsing a website and more like exploring a digital exhibit."
+    ],
+    "visual_style": "modern, clean, high-contrast",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Oswald, sans-serif, display=Oswald, sans-serif, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#00592B, secondary=#0023D1, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#00592B",
+      "secondary": "#0023D1",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Oswald",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Oswald",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "impeccable": {
+    "slug": "impeccable",
+    "skill_name": "impeccable",
+    "skill_description": "A modern, graphic, editorial-poster aesthetic \u2014 warm and confident \u2014 built on alternating cream and burnt orange sections, an amber brand color.",
+    "brand_text": [
+      "A modern, graphic, editorial-poster aesthetic \u2014 warm and confident \u2014 built on alternating cream and burnt orange sections, an amber brand color."
+    ],
+    "visual_style": "modern, clean, high-contrast",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Chakra Petch, display=Chakra Petch, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#CC8800, secondary=#C55221, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#CC8800",
+      "secondary": "#C55221",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Chakra Petch",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Chakra Petch",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "levels": {
+    "slug": "levels",
+    "skill_name": "levels",
+    "skill_description": "Conversion-focused design that removes friction and guides users toward action through clarity, trust, and speed.",
+    "brand_text": [
+      "Levels design\u00a0focuses on removing friction, building trust, and guiding users toward a specific action through clarity, psychology, and speed"
+    ],
+    "visual_style": "modern, clean",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Inter, display=Inter, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#27272A, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#27272A",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Inter",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Inter",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "lingo": {
+    "slug": "lingo",
+    "skill_name": "lingo",
+    "skill_description": "Playful, minimal design with bright colors, rounded shapes, tactile 3D borders, and friendly illustrations for approachable interfaces.",
+    "brand_text": [
+      "Lingo is a duolingo inspired design style that combines minimal layouts with bright colors, rounded shapes, and friendly illustrations to create an engaging and approachable interface. It focuses on clarity and simplicity while adding personality that makes the product feel welcoming and interactive."
+    ],
+    "visual_style": "bold, playful",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Nunito, display=Nunito, mono=JetBrains Mono | weights=400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#58cc02, secondary=#ce82ff, success=#58cc02, warning=#ffc800, danger=#ff4b4b, surface=#FFFFFF, text=#3c3c3c",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#58cc02",
+      "secondary": "#ce82ff",
+      "success": "#58cc02",
+      "warning": "#ffc800",
+      "danger": "#ff4b4b",
+      "surface": "#FFFFFF",
+      "text": "#3c3c3c",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Nunito",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Nunito",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "luxury": {
+    "slug": "luxury",
+    "skill_name": "luxury",
+    "skill_description": "High-end dark aesthetic with bold headings, monochromatic palette, and premium feel for luxury brand experiences.",
+    "brand_text": [],
+    "visual_style": "modern, bold, big headings",
+    "typography": "desktop-first expressive scale | Fonts: primary=Oswald, display=Oswald, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary | Tokens: primary=#FAFAFA, secondary=#FAFAFA, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#000000, text=#ffffff",
+    "spacing": "8pt baseline grid",
+    "design_colors": {
+      "primary": "#FAFAFA",
+      "secondary": "#FAFAFA",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#000000",
+      "text": "#ffffff",
+      "neutral": "#000000"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Oswald",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Oswald",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "8pt baseline grid"
+    }
+  },
+  "material": {
+    "slug": "material",
+    "skill_name": "material",
+    "skill_description": "Google's Material Design with layered surfaces, dynamic theming, built-in motion, and responsive cross-platform patterns.",
+    "brand_text": [
+      "UX (user experience) designers use it to create visually consistent, intuitive, and responsive digital experiences. With built-in motion, layering, and dynamic theming, Material Design helps teams deliver accessible, high-quality UIs (user interfaces) across devices and platforms."
+    ],
+    "visual_style": "modern, minimal, clean",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Inter, display=Roboto, mono=Fira Code | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success, warning, danger | Tokens: primary=#6442D6, secondary=#C8B3FD, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#6442D6",
+      "secondary": "#C8B3FD",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Roboto",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Inter",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Fira Code",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "matrix": {
+    "slug": "matrix",
+    "skill_name": "matrix",
+    "skill_description": "A cyber-slick, dark-only Matrix-inspired interface defined by minimalist fashion, high-tech digital elements",
+    "brand_text": [
+      "A cyber-slick, dark-only Matrix-inspired interface defined by minimalist fashion, high-tech digital elements, monospaced typography, and a single deep monochromatic surface. The aesthetic borrows from order-book exchanges and terminal interfaces: ultra-dense layouts, mono numerics, hairline borders, near-square 2px corners, a single brand-green accent that drives every interaction, and a flat dark surface across every section."
+    ],
+    "visual_style": "high-contrast",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Space Mono, display=Space Mono, mono=Space Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#2DB58A, secondary=#0B0C14, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#2DB58A",
+      "secondary": "#0B0C14",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Space Mono",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Space Mono",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Space Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "minimal": {
+    "slug": "minimal",
+    "skill_name": "minimal",
+    "skill_description": "Stripped-back design emphasizing whitespace, clean typography, and restrained color for maximum clarity and focus.",
+    "brand_text": [],
+    "visual_style": "minimal, clean, bold",
+    "typography": "desktop-first expressive scale | Fonts: primary=Open Sans, display=Inter, mono=Inconsolata | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#0C0C09, secondary=#312C85, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#F4F4F1, text=#0C0C09",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#0C0C09",
+      "secondary": "#312C85",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#F4F4F1",
+      "text": "#0C0C09",
+      "neutral": "#F4F4F1"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Inter",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Open Sans",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Inconsolata",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "modern": {
+    "slug": "modern",
+    "skill_name": "modern",
+    "skill_description": "Contemporary editorial style with serif typography, minimal palettes, and clean layouts for polished digital products.",
+    "brand_text": [
+      "Ship software peacefully"
+    ],
+    "visual_style": "modern, minimal, clean, editorial",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=IBM Plex Serif, display=IBM Plex Serif, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary | Tokens: primary=#553F83, secondary=#111111, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#553F83, text=#ffffff",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#553F83",
+      "secondary": "#111111",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#553F83",
+      "text": "#ffffff",
+      "neutral": "#553F83"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "IBM Plex Serif",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "IBM Plex Serif",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "mono": {
+    "slug": "mono",
+    "skill_name": "mono",
+    "skill_description": "Monospace-driven, matrix-inspired design with high-contrast elements, compact density, and a hacker-chic aesthetic.",
+    "brand_text": [
+      "Join the private club where people are building, monetizing, and marketing products with AI."
+    ],
+    "visual_style": "minimal, clean, high-contrast, playful, matrix",
+    "typography": "desktop-first expressive scale | Fonts: primary=Space Mono, display=Space Mono, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, success, warning, danger, info | Tokens: primary=#37F712, secondary=#00A6F4, success=#00A63D, warning=#FE9900, danger=#FF2157, surface=#E7E5E4, text=#78716B",
+    "spacing": "compact density mode",
+    "design_colors": {
+      "primary": "#37F712",
+      "secondary": "#00A6F4",
+      "success": "#00A63D",
+      "warning": "#FE9900",
+      "danger": "#FF2157",
+      "surface": "#E7E5E4",
+      "text": "#78716B",
+      "neutral": "#E7E5E4"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Space Mono",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Space Mono",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "compact density mode"
+    }
+  },
+  "neobrutalism": {
+    "slug": "neobrutalism",
+    "skill_name": "neobrutalism",
+    "skill_description": "Modern take on brutalism with bold borders, vivid accent colors, and raw, high-contrast layouts on warm surfaces.",
+    "brand_text": [],
+    "visual_style": "modern, clean, high-contrast",
+    "typography": "13/15/17/21/27/35 | Fonts: primary=Inter, display=Inter, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#FDC800, secondary=#432DD7, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FBFBF9, text=#1C293C",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#FDC800",
+      "secondary": "#432DD7",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FBFBF9",
+      "text": "#1C293C",
+      "neutral": "#FBFBF9"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Inter",
+        "fontSize": "2.1875rem"
+      },
+      "body-md": {
+        "fontFamily": "Inter",
+        "fontSize": "0.9375rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.8125rem"
+      },
+      "sourceScale": "13/15/17/21/27/35",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "neon": {
+    "slug": "neon",
+    "skill_name": "neon",
+    "skill_description": "Electric neon glow effects with high-contrast color pairings for bold, attention-grabbing interfaces.",
+    "brand_text": [
+      "Neon high contrast design"
+    ],
+    "visual_style": "high-contrast",
+    "typography": "14/16/18/24/32/40 | Fonts: primary=Roboto, display=STIX Two Text, mono=Source Code Pro | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary | Tokens: primary=#BBF351, secondary=#00BCFF, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#BBF351",
+      "secondary": "#00BCFF",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "STIX Two Text",
+        "fontSize": "2.5rem"
+      },
+      "body-md": {
+        "fontFamily": "Roboto",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Source Code Pro",
+        "fontSize": "0.875rem"
+      },
+      "sourceScale": "14/16/18/24/32/40",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "neumorphism": {
+    "slug": "neumorphism",
+    "skill_name": "neumorphism",
+    "skill_description": "Soft, extruded UI elements with inner and outer shadows on monochromatic surfaces for a tactile, embedded look.",
+    "brand_text": [
+      "Join the private club where people are building, monetizing, and marketing products with AI."
+    ],
+    "visual_style": "minimal, clean, high-contrast, playful, matrix",
+    "typography": "desktop-first expressive scale | Fonts: primary=Space Mono, display=Space Mono, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, success, warning, danger, info | Tokens: primary=#006666, secondary=#F1F2F5, success=#00A63D, warning=#FE9900, danger=#FF2157, surface=#E7E5E4, text=#1E2938",
+    "spacing": "compact density mode",
+    "design_colors": {
+      "primary": "#006666",
+      "secondary": "#F1F2F5",
+      "success": "#00A63D",
+      "warning": "#FE9900",
+      "danger": "#FF2157",
+      "surface": "#E7E5E4",
+      "text": "#1E2938",
+      "neutral": "#E7E5E4"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Space Mono",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Space Mono",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "compact density mode"
+    }
+  },
+  "pacman": {
+    "slug": "pacman",
+    "skill_name": "pacman",
+    "skill_description": "Retro arcade-inspired design with pixel fonts, dotted borders, playful high-contrast colors, and 8-bit game aesthetics.",
+    "brand_text": [
+      "Dive into the legendary arcade adventure of Pac\u2011Man, where quick reflexes and smart moves help you clear mazes and escape the ghosts."
+    ],
+    "visual_style": "high-contrast, playful, dotted borders",
+    "typography": "desktop-first expressive scale | Fonts: primary=Press Start 2P, display=Press Start 2P, mono=Space Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, success, warning, danger, info, surface/subtle layers | Tokens: primary=#2A3FE5, secondary=#F4B9B0, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#000000, text=#111827",
+    "spacing": "8pt baseline grid",
+    "design_colors": {
+      "primary": "#2A3FE5",
+      "secondary": "#F4B9B0",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#000000",
+      "text": "#111827",
+      "neutral": "#000000"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Press Start 2P",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Press Start 2P",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Space Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "8pt baseline grid"
+    }
+  },
+  "paper": {
+    "slug": "paper",
+    "skill_name": "paper",
+    "skill_description": "Paper-textured, print-inspired design with minimal colors, clean serif/sans typography, and tactile surface qualities.",
+    "brand_text": [
+      "Paper design style"
+    ],
+    "visual_style": "minimal, clean",
+    "typography": "14/16/18/24/32/40 | Fonts: primary=Roboto, display=Montserrat, mono=PT Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#111111, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#111111",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Montserrat",
+        "fontSize": "2.5rem"
+      },
+      "body-md": {
+        "fontFamily": "Roboto",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "PT Mono",
+        "fontSize": "0.875rem"
+      },
+      "sourceScale": "14/16/18/24/32/40",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "perspective": {
+    "slug": "perspective",
+    "skill_name": "perspective",
+    "skill_description": "Spatial depth design with isometric views, vanishing points, and layered elements that guide attention through 3D-like realism.",
+    "brand_text": [
+      "This style moves beyond flat design by employing techniques like isometric views, vanishing points, and layered elements to guide the user's attention and create a sense of realism or \"spatial\" depth."
+    ],
+    "visual_style": "modern, clean, high-contrast",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Poppins, display=Oswald, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#00BD7D, secondary=#00BD7D, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#00BD7D",
+      "secondary": "#00BD7D",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Oswald",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Poppins",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "premium": {
+    "slug": "premium",
+    "skill_name": "premium",
+    "skill_description": "Apple-inspired premium aesthetic with precise spacing, modern typography, and a refined, polished visual language.",
+    "brand_text": [
+      "Apple design style"
+    ],
+    "visual_style": "modern",
+    "typography": "12/14/16/18/24/30/36 | Fonts: primary=Inter, display=Inter, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Inter",
+        "fontSize": "2.25rem"
+      },
+      "body-md": {
+        "fontFamily": "Inter",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/18/24/30/36",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "professional": {
+    "slug": "professional",
+    "skill_name": "professional",
+    "skill_description": "Polished, business-ready design with modern typography, structured layouts, and a trustworthy visual identity.",
+    "brand_text": [
+      "Electronics shop"
+    ],
+    "visual_style": "modern",
+    "typography": "mobile-first compact scale | Fonts: primary=Poppins, display=Poppins, mono=IBM Plex Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success, warning, danger | Tokens: primary=#FECE14, secondary=#000000, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#FECE14",
+      "secondary": "#000000",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Poppins",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Poppins",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "IBM Plex Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "mobile-first compact scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "publication": {
+    "slug": "publication",
+    "skill_name": "publication",
+    "skill_description": "Print-inspired visual language for books, magazines, and reports with editorial grids and expressive typography.",
+    "brand_text": [
+      "Publication design style define the visual language of books, magazines, and reports, ranging from clean minimalism to ornate, expressive, or retro aesthetics"
+    ],
+    "visual_style": "modern, editorial",
+    "typography": "desktop-first expressive scale | Fonts: primary=Nunito, display=Oswald, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#A855F7, secondary=#0A1829, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#0A1829",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#A855F7",
+      "secondary": "#0A1829",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#0A1829",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Oswald",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Nunito",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "refined": {
+    "slug": "refined",
+    "skill_name": "refined",
+    "skill_description": "Carefully curated, modern minimal style with elegant serif typography and understated, sophisticated palettes.",
+    "brand_text": [
+      "Refined design style"
+    ],
+    "visual_style": "modern, minimal",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Playfair Display, display=Playfair Display, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Playfair Display",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Playfair Display",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "retro": {
+    "slug": "retro",
+    "skill_name": "retro",
+    "skill_description": "Throwback design with vintage-inspired typography, high-contrast retro palettes, and nostalgic visual elements.",
+    "brand_text": [],
+    "visual_style": "high-contrast, retro",
+    "typography": "desktop-first expressive scale | Fonts: primary=Macondo, display=Macondo, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Macondo",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Macondo",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "riso": {
+    "slug": "riso",
+    "skill_name": "riso",
+    "skill_description": "A playful, joyful, two-color risograph print aesthetic built on a single warm off-white paper surface running through every section",
+    "brand_text": [
+      "A playful, joyful, two-color risograph print aesthetic \u2014 built on a single warm off-white paper surface running through every section, a fluorescent brand pink reserved as the sole interaction driver, a deep federal-blue secondary carrying every heading and the signature offset print-shadow"
+    ],
+    "visual_style": "clean, high-contrast",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Space Grotesk, display=Space Grotesk, mono=Overpass Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary | Tokens: primary=#F237A1, secondary=#2C40A7, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#F237A1",
+      "secondary": "#2C40A7",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Space Grotesk",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Space Grotesk",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Overpass Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "sega": {
+    "slug": "sega",
+    "skill_name": "sega",
+    "skill_description": "A playful, arcade-inspired interface for games \u2014 built on the VT323 pixel typeface, hard-edged 0px corners, chunky pill buttons that physically press into solid offset blocks",
+    "brand_text": [
+      "A playful, arcade-inspired interface for games \u2014 built on the VT323 pixel typeface, hard-edged 0px corners, chunky pill buttons that physically press into solid offset blocks, and cards wrapped in rainbow-ringed brand shadows that read like cabinet trim."
+    ],
+    "visual_style": "modern, playful",
+    "typography": "13/15/17/21/27/35 | Fonts: primary=VT323, display=VT323, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success, warning, danger | Tokens: primary=#4502FF, secondary=#FFDA14, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#4502FF",
+      "secondary": "#FFDA14",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "VT323",
+        "fontSize": "2.1875rem"
+      },
+      "body-md": {
+        "fontFamily": "VT323",
+        "fontSize": "0.9375rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.8125rem"
+      },
+      "sourceScale": "13/15/17/21/27/35",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "shadcn": {
+    "slug": "shadcn",
+    "skill_name": "shadcn",
+    "skill_description": "Shadcn/ui-inspired design with minimal, clean components, monochrome palette, and utility-first patterns.",
+    "brand_text": [
+      "shadcn style design"
+    ],
+    "visual_style": "minimal, clean",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Geist, display=Geist, mono=Fira Code | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary | Tokens: primary=#000000, secondary=#111111, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#000000",
+      "secondary": "#111111",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Geist",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Geist",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Fira Code",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "simple": {
+    "slug": "simple",
+    "skill_name": "simple",
+    "skill_description": "Straightforward, no-frills design with clean typography, neutral colors, and intuitive layouts that stay out of the way.",
+    "brand_text": [],
+    "visual_style": "minimal, clean",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Inter, display=Inter, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Inter",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Inter",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "sketch": {
+    "slug": "sketch",
+    "skill_name": "sketch",
+    "skill_description": "A friendly, hand-drawn sketch interface inspired by pencil illustrations on warm cream paper. Soft teal brand accents, hand-written display headings, rounded pill controls.",
+    "brand_text": [
+      "A friendly, hand-drawn sketch interface inspired by pencil illustrations on warm cream paper. Soft teal brand accents, hand-written display headings, rounded pill controls, dashed card outlines, and chunky offset \"pencil-drawn\" shadows give every surface a tactile, illustrated feel."
+    ],
+    "visual_style": "modern, clean, high-contrast",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Delicious Handrawn, display=Delicious Handrawn, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success, warning, danger | Tokens: primary=#1DAD97, secondary=#F4EDE0, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#1DAD97",
+      "secondary": "#F4EDE0",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Delicious Handrawn",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Delicious Handrawn",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "skeumorphism": {
+    "slug": "skeumorphism",
+    "skill_name": "skeumorphism",
+    "skill_description": "Real-world mimicry with textured surfaces, 3D effects, and familiar physical metaphors for intuitive digital interfaces.",
+    "brand_text": [
+      "a UI/UX design approach that mimics real-world textures, materials, and 3D functionality to make digital interfaces intuitive, familiar, and relatable"
+    ],
+    "visual_style": "playful",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Roboto, display=Germania One, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success, warning, danger | Tokens: primary=#FA3C00, secondary=#F08321, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#FA3C00",
+      "secondary": "#F08321",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Germania One",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Roboto",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "sleek": {
+    "slug": "sleek",
+    "skill_name": "sleek",
+    "skill_description": "Modern minimalist aesthetic with clean lines, intentional color palette, subtle interactions, and consistent spacing.",
+    "brand_text": [
+      "Sleek UI/UX design emphasizes a modern, minimalist aesthetic (\"less is more\") focused on clean lines, high functionality, and reduced cognitive load. Key elements include a limited, intentional color palette (e.g., the 60-30-10 rule), subtle, non-distracting interactions, and consistent spacing."
+    ],
+    "visual_style": "modern, minimal, clean",
+    "typography": "desktop-first expressive scale | Fonts: primary=Inter, display=Inter, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "8pt baseline grid",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Inter",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Inter",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "8pt baseline grid"
+    }
+  },
+  "spacious": {
+    "slug": "spacious",
+    "skill_name": "spacious",
+    "skill_description": "Generous whitespace, consistent padding, and grid-based layouts for clean, readable, and breathing interfaces.",
+    "brand_text": [
+      "Spacious UI/UX design uses generous white space, consistent padding, and a 4- or 8-point grid system to create clean, readable, and intuitive interfaces"
+    ],
+    "visual_style": "minimal, clean",
+    "typography": "12/14/16/18/24/30/36 | Fonts: primary=Open Sans, display=Montserrat, mono=IBM Plex Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "8pt baseline grid",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Montserrat",
+        "fontSize": "2.25rem"
+      },
+      "body-md": {
+        "fontFamily": "Open Sans",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "IBM Plex Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/18/24/30/36",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "sourceScale": "8pt baseline grid"
+    }
+  },
+  "storytelling": {
+    "slug": "storytelling",
+    "skill_name": "storytelling",
+    "skill_description": "Narrative-driven design using visuals, copy, and interaction to guide users through engaging, emotionally resonant journeys.",
+    "brand_text": [
+      "a narrative techniques to create engaging, intuitive, and emotionally resonant digital experiences. It guides users through a cohesive journey using visuals, copy, and interaction, transforming functional interfaces into memorable experiences."
+    ],
+    "visual_style": "playful",
+    "typography": "desktop-first expressive scale | Fonts: primary=Inter, display=Abril Fatface, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#3B82F6, secondary=#8B5CF6, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#3B82F6",
+      "secondary": "#8B5CF6",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Abril Fatface",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Inter",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "terracotta": {
+    "slug": "terracotta",
+    "skill_name": "terracotta",
+    "skill_description": "A sun-baked, clay-toned editorial interface built on warm cream surfaces, ink-brown headlines set in a display serif, and a single terracotta accent.",
+    "brand_text": [
+      "A sun-baked, clay-toned editorial interface built on warm cream surfaces, ink-brown headlines set in a display serif, and a single terracotta accent. Earthy, human, and content-first \u2014 tuned for long-form reading, blogs, storytelling, and editorial layouts where readability and visual rhythm matter."
+    ],
+    "visual_style": "modern, clean, high-contrast, playful",
+    "typography": "14/16/18/24/32/40 | Fonts: primary=DM Serif Display, display=DM Serif Display, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#C56A3C, secondary=#F3E9D8, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#111827",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#C56A3C",
+      "secondary": "#F3E9D8",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#111827",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "DM Serif Display",
+        "fontSize": "2.5rem"
+      },
+      "body-md": {
+        "fontFamily": "DM Serif Display",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.875rem"
+      },
+      "sourceScale": "14/16/18/24/32/40",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  },
+  "tetris": {
+    "slug": "tetris",
+    "skill_name": "tetris",
+    "skill_description": "Classic block-game inspired design with playful colors, bold display fonts, and compact, high-energy layouts.",
+    "brand_text": [
+      "the most iconic game of history"
+    ],
+    "visual_style": "high-contrast, playful, premium",
+    "typography": "desktop-first expressive scale | Fonts: primary=Bangers, display=Bangers, mono=JetBrains Mono | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, success, warning, danger, info | Tokens: primary=#1C202B, secondary=#7107E7, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#DFE7FF, text=#1C398E",
+    "spacing": "compact density mode",
+    "design_colors": {
+      "primary": "#1C202B",
+      "secondary": "#7107E7",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#DFE7FF",
+      "text": "#1C398E",
+      "neutral": "#DFE7FF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Bangers",
+        "fontSize": "3rem"
+      },
+      "body-md": {
+        "fontFamily": "Bangers",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "desktop-first expressive scale",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "compact density mode"
+    }
+  },
+  "vibrant": {
+    "slug": "vibrant",
+    "skill_name": "vibrant",
+    "skill_description": "Lively, colorful design with bold playful typography, warm accents, and dynamic visual energy.",
+    "brand_text": [
+      "Vibrant style"
+    ],
+    "visual_style": "modern, clean, bold, playful",
+    "typography": "14/16/18/24/32/40 | Fonts: primary=Noto Sans, display=Fascinate, mono=Fira Code | weights=100, 200, 300, 400, 500, 600, 700, 800, 900",
+    "palette": "primary, secondary, neutral, success | Tokens: primary=#7C61D4, secondary=#EAAE87, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#FFFFFF, text=#2F281D",
+    "spacing": "2/4/8/12/16/24/32/48",
+    "design_colors": {
+      "primary": "#7C61D4",
+      "secondary": "#EAAE87",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#FFFFFF",
+      "text": "#2F281D",
+      "neutral": "#FFFFFF"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Fascinate",
+        "fontSize": "2.5rem"
+      },
+      "body-md": {
+        "fontFamily": "Noto Sans",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "Fira Code",
+        "fontSize": "0.875rem"
+      },
+      "sourceScale": "14/16/18/24/32/40",
+      "weights": "100, 200, 300, 400, 500, 600, 700, 800, 900"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "2px",
+      "md": "4px",
+      "sourceScale": "2/4/8/12/16/24/32/48"
+    }
+  },
+  "vintage": {
+    "slug": "vintage",
+    "skill_name": "vintage",
+    "skill_description": "1950s-1990s nostalgia with skeuomorphic touches, grainy textures, retro color palettes, and pixel-style typography.",
+    "brand_text": [
+      "Vintage design style revives aesthetics from the 1950s\u20131990s, blending nostalgia with modern functionality through skeuomorphic elements, grainy textures, and retro color palettes"
+    ],
+    "visual_style": "clean, vintage, retro",
+    "typography": "12/14/16/20/24/32 | Fonts: primary=Silkscreen, display=Silkscreen, mono=JetBrains Mono | weights=400, 700",
+    "palette": "primary, neutral, success, warning, danger | Tokens: primary=#008080, secondary=#C0C0C0, success=#16A34A, warning=#D97706, danger=#DC2626, surface=#C0C0C0, text=#000000",
+    "spacing": "4/8/12/16/24/32",
+    "design_colors": {
+      "primary": "#008080",
+      "secondary": "#C0C0C0",
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "danger": "#DC2626",
+      "surface": "#C0C0C0",
+      "text": "#000000",
+      "neutral": "#C0C0C0"
+    },
+    "design_typography": {
+      "h1": {
+        "fontFamily": "Silkscreen",
+        "fontSize": "2rem"
+      },
+      "body-md": {
+        "fontFamily": "Silkscreen",
+        "fontSize": "1rem"
+      },
+      "label-caps": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "0.75rem"
+      },
+      "sourceScale": "12/14/16/20/24/32",
+      "weights": "400, 700"
+    },
+    "design_rounded": {
+      "sm": "4px",
+      "md": "8px"
+    },
+    "design_spacing": {
+      "sm": "4px",
+      "md": "8px",
+      "sourceScale": "4/8/12/16/24/32"
+    }
+  }
+}

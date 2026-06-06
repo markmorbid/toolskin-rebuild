@@ -1,0 +1,125 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · primitives/status-tints.css
+   Status palette + curated named-color primitives + local-surface auto-ink
+   ───────────────────────────────────────────────────────────────────────────
+   Provenance: lifted from `components/ts-chip.css` :where(:root) block by
+   Phase 2 prep commit I-1 (per `decisions/forward-architecture.md` ADR +
+   `docs/handoffs/directive-phase2-team.md` IMPORTANT-1).
+
+   Why this file exists
+   ────────────────────
+   The status palette (success / warning / danger / info) and the two
+   curated named-color primitives (purple / cyan) are CANONICAL — every
+   component that needs them must be able to resolve them without a peer
+   component being loaded first. Carrying them in `ts-chip.css` made the
+   chip a load-order dependency for everything else (badge, future input
+   alerts, toolbar status, table row tints …). That's coupling, not
+   architecture.
+
+   Lifting them up to primitives/ closes that hole. ts-chip.css now
+   consumes these tokens; it does not own them.
+
+   Specificity choices
+   ───────────────────
+   • Group A + Group B declarations live on plain `:root` — primitives ARE
+     canonical, no defensive specificity needed. A component that wants to
+     override a status hue locally can still do so via `--ts-success: …` on
+     a parent (component-scope > primitive `:root`).
+   • Group C (`--ts-on-surface-auto`) lives on `:root, :root *` because its
+     formula reads from the LOCAL `--ts-this-bg`, so it must recompute on
+     every element. The trailing universal is intentional, not a smell.
+
+   How groups relate to the engine
+   ───────────────────────────────
+   • Group A hues mirror the internal tints toolskin-this-bg-v2.css uses
+     in its `--ts-this-bg-success/warning/danger` family (file §3 lines
+     194-201). Stays consistent if the engine recomputes states from a
+     status anchor.
+   • Group B is intentionally NOT engine-derived. A warm-orange accent
+     plus a +180° hue rotation lands at BLUE, not purple. Curated
+     primitives stay stable regardless of the accent knob.
+   • Group C is the system's per-element auto-flip ink. Same pattern as
+     `--ts-on-accent` in primitives/colors.css (which uses the RULING 4
+     threshold of 0.75 against the accent). Here the cutoff is 0.65
+     against the LIVE surface, which is the natural midline above which
+     ink should flip to black per the engine's bright/dark family split.
+
+   Load order
+   ──────────
+   1. primitives/colors.css       (--ts-accent, --ts-on-accent, --ts-bg-*)
+   2. primitives/typography.css
+   3. primitives/spacing.css
+   4. primitives/radius.css
+   5. primitives/motion.css
+   6. primitives/status-tints.css (this file)   ← AFTER colors.css because
+                                                    Group B references nothing
+                                                    accent-related; Group A
+                                                    references nothing at all;
+                                                    but Group C's formula
+                                                    reads `--ts-this-bg` and
+                                                    `--ts-bg-body`, both of
+                                                    which come from
+                                                    colors.css.
+   7. system/toolskin-this-bg-v2.css
+   8. system/toolskin-gradients-v3.css
+   9. components/*.css
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Group A — STATUS PALETTE (engine-derivable tints)
+   Mirrors the hues used internally by the v2 engine for state surfaces.
+   DUAL-EMIT pattern (R-D3): #hex sRGB fallback first, oklch override after.
+   Modern browsers use oklch; pre-oklch browsers (rare in 2026) read the hex.
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+  --ts-success: #4ad07b;                     /* sRGB fallback for ↓ */
+  --ts-success: oklch(70% 0.16 145);
+
+  --ts-warning: #e0c34d;                     /* sRGB fallback for ↓ */
+  --ts-warning: oklch(80% 0.16  85);
+
+  --ts-danger:  #d84a4a;                     /* sRGB fallback for ↓ */
+  --ts-danger:  oklch(62% 0.20  25);
+
+  --ts-info:    #5cb3df;                     /* sRGB fallback for ↓ */
+  --ts-info:    oklch(70% 0.13 235);
+
+  /* Hue-rotated companion of the live accent. NO static hex fallback —
+     this is a relative-color formula whose value depends on --ts-accent
+     at runtime. Browsers without relative-color syntax will see this
+     declaration as invalid and fall back to the inherited / initial
+     value of --ts-accent-alt (i.e. nothing). Components that consume
+     --ts-accent-alt should provide their own degraded fallback. */
+  --ts-accent-alt: oklch(from var(--ts-accent) l c calc(h + 180));
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Group B — CURATED NAMED-COLOR PRIMITIVES (accent-stable)
+   Frozen-fidelity migrations of toolskin.css.frozen §6i hex literals.
+   Intentionally NOT derived from --ts-accent — "purple" must stay purple
+   regardless of where the accent knob is set.
+   DUAL-EMIT: the sRGB fallback IS the frozen literal — perfect fidelity.
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+  --ts-color-purple: #c084fc;                /* frozen literal — exact */
+  --ts-color-purple: oklch(74% 0.16 305);
+
+  --ts-color-cyan:   #67e8f9;                /* frozen literal — exact */
+  --ts-color-cyan:   oklch(86% 0.10 207);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Group C — LOCAL-SURFACE AUTO-INK
+   Recomputes per element against the ambient --ts-this-bg, so a light
+   surface gets dark ink and a dark surface gets light ink. Same mechanism
+   as --ts-on-accent in primitives/colors.css.
+   ───────────────────────────────────────────────────────────────────────── */
+:root,
+:root * {
+  --ts-on-surface-auto:
+    oklch(from var(--ts-this-bg, var(--ts-bg-body, #0c0d0f))
+          clamp(0, (0.65 - l) * 999, 1) 0 0);
+}

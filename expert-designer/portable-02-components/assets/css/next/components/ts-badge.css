@@ -1,0 +1,167 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · ts-badge — Status / label badge
+   ───────────────────────────────────────────────────────────────────────────
+   Migrated from toolskin.css.frozen §6i (lines 7837-7930) onto the v2
+   `--ts-this-bg` engine.
+
+   What changed vs the frozen spec
+   ───────────────────────────────
+     • `currentColor`-based borders DROPPED (RULE S2 / owner BORDERS @CRITICAL).
+       The frozen `.ts-badge-color` used `border-color: rgba(from currentColor …)`
+       and `outline-color: rgba(from currentColor …)` — non-inheritable, breaks
+       when no explicit text color is set. Replaced with text-token-derived
+       borders through the v2 engine.
+     • Raw hex literals (`#f87171`, `#c084fc`, `#67e8f9`) DROPPED (RULE S3).
+       The legacy `.ts-badge-color.red/purple/cyan` accent triplet is migrated
+       with FROZEN-COLOR FIDELITY:
+         red    → --ts-danger        (engine state tint, oklch 62%/0.20/25°)
+         purple → --ts-color-purple  (curated frozen-fidelity, oklch 74%/0.16/305°)
+         cyan   → --ts-color-cyan    (curated frozen-fidelity, oklch 86%/0.10/207°)
+       `--ts-color-purple` and `--ts-color-cyan` are CURATED primitives
+       (declared in primitives/status-tints.css Group B). They are NOT engine derivatives
+       like --ts-accent-alt, because a +180° hue rotation off a warm-orange
+       accent (h≈38) lands at BLUE (h≈218), not purple — which would break
+       frozen-spec fidelity. The named-color primitives stay stable
+       regardless of the accent knob.
+     • `color-mix(in srgb, …)` calls DROPPED (RULE S3).
+     • `!important` declarations DROPPED.
+     • Local redeclarations of `--ts-this-bg-dim-5` and `--ts-this-bg-border-0`
+       DROPPED (RULE S6) — let the engine emit them.
+
+   Load order (see ts-chip.css header for the canonical list):
+     primitives/colors → typography → spacing → radius → motion →
+     primitives/status-tints → system/toolskin-this-bg-v2 → components/.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1.  THE BADGE — nested pattern (CSS-1)
+       Pills carrying a status word. Smaller, denser, more affirmative than
+       a chip. Not clickable by default.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-badge {
+  /* ── INPUT KNOBS ── */
+  --ts-badge-pad-y:     var(--ts-sp-1);
+  --ts-badge-pad-x:     var(--ts-sp-3);
+  --ts-badge-gap:       var(--ts-sp-1);
+  --ts-badge-fs:        var(--ts-fs-xs);
+  --ts-badge-fw:        var(--ts-fw-medium, 500);
+  --ts-badge-tracking:  var(--ts-tracking-wider, 0.08em);
+  --ts-badge-lh:        1.1;
+
+  /* ── DEFAULT SURFACE ANCHOR — quiet, muted-text-derived chip.
+        Frozen spec used `--ts-this-bg: var(--ts-text-muted)` then layered a
+        dim-5 and border-0 derivation. We anchor to the same conceptual
+        surface but let the engine handle dim/border emission. */
+  --ts-this-bg: var(--ts-text-muted);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: var(--ts-badge-gap);
+
+  padding-block:  var(--ts-badge-pad-y);
+  padding-inline: var(--ts-badge-pad-x);
+
+  font-family: inherit;
+  font-size: var(--ts-badge-fs);
+  font-weight: var(--ts-badge-fw);
+  letter-spacing: var(--ts-badge-tracking);
+  line-height: var(--ts-badge-lh);
+  text-transform: uppercase;
+  text-shadow: none;
+  text-decoration: none;
+  white-space: nowrap;
+
+  border-radius: var(--ts-radius-full);
+  border: 1px solid var(--ts-this-bg-border-0);
+
+  /* ── REST SURFACE + INK — pure engine consumption.
+        Background = strongly-thinned surface (dim-5).
+        Ink       = text-derived border weight (legible against thin bg).
+        Border    = thinner of the two border weights. */
+  background: var(--ts-this-bg-dim-5);
+  color: var(--ts-this-bg-border);
+
+  /* ─── CHILDREN ─── */
+
+  & .ts-icon,
+  & > i[class*="fa-"],
+  & > svg,
+  & > ion-icon {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width:  1em;
+    height: 1em;
+    font-size: inherit;
+    line-height: 1;
+    vertical-align: middle;
+    color: currentColor;
+  }
+
+  /* ─── VARIANTS — surface re-anchor only. ─── */
+
+  &.ts-badge--accent  { --ts-this-bg: var(--ts-accent);     }
+  &.ts-badge--success { --ts-this-bg: var(--ts-success);    }
+  &.ts-badge--warning { --ts-this-bg: var(--ts-warning);    }
+  &.ts-badge--danger  { --ts-this-bg: var(--ts-danger);     }
+  &.ts-badge--alt     { --ts-this-bg: var(--ts-accent-alt); }
+  &.ts-badge--info    { --ts-this-bg: var(--ts-info);       }
+
+  /* Legacy color-named variants — migrated off raw hex with FROZEN-COLOR
+     FIDELITY. Frozen spec had .ts-badge--purple #c084fc, .ts-badge--cyan
+     #67e8f9. Both now resolve to CURATED primitives declared in
+     primitives/status-tints.css Group B — `--ts-color-purple` / `--ts-color-cyan` —
+     not engine derivatives. The previous attempt routed purple through
+     --ts-accent-alt (a +180° hue rotation), which landed at blue for a
+     warm-orange accent. Curated primitives are accent-stable. */
+  &.ts-badge--purple { --ts-this-bg: var(--ts-color-purple); }
+  &.ts-badge--cyan   { --ts-this-bg: var(--ts-color-cyan);   }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2.  LEGACY .ts-badge-color SHAPE — migrated to engine + curated tokens.
+       Frozen pattern used `currentColor` for border + outline + background.
+       The migrated form uses `--ts-this-bg` as the single source and
+       consumes engine dim/border tokens. The .red/.purple/.cyan modifiers
+       set `--ts-this-bg` to (a) the engine's --ts-danger state tint for
+       red, and (b) the curated --ts-color-purple / --ts-color-cyan
+       primitives for purple/cyan (frozen-fidelity, accent-stable; see
+       primitives/status-tints.css Group B for the primitive definitions).
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-badge-color {
+  /* Default anchor — danger as the "loud" baseline; modifiers below override. */
+  --ts-this-bg: var(--ts-danger);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ts-sp-1);
+  padding-block:  var(--ts-sp-1);
+  padding-inline: var(--ts-sp-2);
+
+  font-family: inherit;
+  font-size: var(--ts-fs-xs);
+  font-weight: var(--ts-fw-normal, 400);
+  letter-spacing: var(--ts-tracking-wider, 0.04em);
+  text-transform: uppercase;
+  line-height: 1.1;
+  white-space: nowrap;
+
+  max-width: fit-content;
+  border-radius: var(--ts-radius-full);
+
+  background: var(--ts-this-bg-dim-5);
+  border: 1px solid var(--ts-this-bg-border);
+  outline: 1px solid var(--ts-this-bg-border-0);
+  outline-offset: -1px;
+  color: var(--ts-this-bg-border-active);
+
+  &.red    { --ts-this-bg: var(--ts-danger);       }
+  &.purple { --ts-this-bg: var(--ts-color-purple); }
+  &.cyan   { --ts-this-bg: var(--ts-color-cyan);   }
+}

@@ -1,0 +1,14 @@
+{
+  "_comment": "Merge these hook entries into the project .claude/settings.json. Do NOT overwrite existing settings — add the hooks block. The PreToolUse guard BLOCKS forbidden actions (B-9, unapproved commits, backup deletion, destructive git).",
+  "hooks": {
+    "SessionStart": [
+      { "hooks": [ { "type": "command", "command": "node .claude/hooks/session-rehydrate.mjs" } ] }
+    ],
+    "PreToolUse": [
+      { "matcher": "Write|Edit|MultiEdit|Bash", "hooks": [ { "type": "command", "command": "node .claude/hooks/guard.mjs" } ] }
+    ],
+    "PostToolUse": [
+      { "matcher": "Write|Edit|MultiEdit", "hooks": [ { "type": "command", "command": "node .claude/hooks/checkpoint-logger.mjs" } ] }
+    ]
+  }
+}
