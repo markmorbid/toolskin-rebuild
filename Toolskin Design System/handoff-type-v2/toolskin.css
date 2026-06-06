@@ -1,0 +1,351 @@
+/* ============================================================
+   TOOLSKIN — Core tokens + typography
+   --------------------------------------------------------------
+   Single source of truth for color, type, surface, and radius.
+   Dark-first. One accent (orange). Two typefaces (variable).
+   --------------------------------------------------------------
+   Usage:
+     <link rel="stylesheet" href="../toolskin.css">
+     <body class="ts">  (or apply tokens at :root scope)
+   ============================================================ */
+
+/* ---------- Variable fonts ----------
+   Font declarations live in the root toolskin.css to avoid
+   duplicate @font-face rules across handoff copies. If this file
+   is used standalone, copy the @font-face blocks from toolskin.css
+   or load toolskin.css first. */
+
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root {
+  /* ---------- Accent engine (drive orange via H/S/L) ---------- */
+  --ts-accent-h: 18;
+  --ts-accent-s: 100%;
+  --ts-accent-l: 52%;
+  --ts-accent: hsl(var(--ts-accent-h), var(--ts-accent-s), var(--ts-accent-l));
+
+  /* ---------- OKLCH auto-contrast (the on-accent pipeline) ----------
+     Generates a readable text color for ANY accent / status background.
+     Threshold = the lightness ceiling at which we flip from white→black.
+     0.72 is tuned so the brand orange (oklch ≈ 0.65 L) keeps WHITE labels
+     in dark mode — matching the toolskin source. Raise to push more whites,
+     lower to push more blacks.
+     -------------------------------------------------------------- */
+  --ts-on-accent-threshold: 0.72;
+  --ts-on-accent:
+    oklch(from var(--ts-accent)
+          clamp(0, (var(--ts-on-accent-threshold) - l) * 999, 1) 0 0);
+
+  /* Orange ramp — derived from the accent engine */
+  --ts-orange-800: #FF8C00;
+  --ts-orange-600: #FF6B00;
+  --ts-orange-500: #FF5500; /* ★ canonical brand orange */
+  --ts-orange-400: #E03C00;
+  --ts-orange-300: #B32C00;
+  --ts-orange-dim:   rgba(255, 85, 0, 0.20);
+  --ts-orange-ghost: rgba(255, 85, 0, 0.07);
+
+  /* ---------- Surface neutrals (Onyx scale, blue-shifted dark) ---------- */
+  --ts-bg-body:    #0c0d0f;
+  --ts-bg-0:       #14161a;
+  --ts-bg-1:       #1c1e24;
+  --ts-bg-2:       #23262e;
+  --ts-bg-3:       #2d3038;
+  --ts-bg-4:       #363942;
+  --ts-bg-5:       #42454f;
+
+  /* Aliases for legacy showcase code */
+  --ts-dark:     var(--ts-bg-body);
+  --ts-surface1: var(--ts-bg-0);
+  --ts-surface2: var(--ts-bg-1);
+  --ts-surface3: var(--ts-bg-2);
+
+  /* ---------- Borders ---------- */
+  --ts-border-0: rgba(255, 255, 255, 0.07);
+  --ts-border-1: rgba(255, 255, 255, 0.12);
+  --ts-border-accent: rgba(255, 85, 0, 0.35);
+  --ts-border: var(--ts-border-0); /* alias */
+
+  /* ---------- Text ---------- */
+  --ts-text-primary:   #e8e9ea;
+  --ts-text-secondary: rgba(232, 233, 234, 0.65);
+  --ts-text-muted:     rgba(232, 233, 234, 0.45);
+  --ts-text-accent:    var(--ts-accent);
+  --ts-text:  var(--ts-text-primary);   /* alias */
+  --ts-muted: var(--ts-text-muted);     /* alias */
+
+  /* ---------- Status ---------- */
+  --ts-success: #22c55e;
+  --ts-warning: #f59e0b;
+  --ts-danger:  #ef4444;
+  --ts-info:    #3b82f6;
+
+  /* On-status text colors — same OKLCH auto-contrast formula.
+     Each status flips white/black based on its own lightness vs threshold. */
+  --ts-on-success: oklch(from var(--ts-success) clamp(0, (var(--ts-on-accent-threshold) - l) * 999, 1) 0 0);
+  --ts-on-warning: oklch(from var(--ts-warning) clamp(0, (var(--ts-on-accent-threshold) - l) * 999, 1) 0 0);
+  --ts-on-danger:  oklch(from var(--ts-danger)  clamp(0, (var(--ts-on-accent-threshold) - l) * 999, 1) 0 0);
+  --ts-on-info:    oklch(from var(--ts-info)    clamp(0, (var(--ts-on-accent-threshold) - l) * 999, 1) 0 0);
+
+  /* ---------- Typography ---------- */
+  --ts-font-display: 'Space Grotesk', -apple-system, system-ui, sans-serif;
+  --ts-font-body:    'Space Grotesk', -apple-system, system-ui, sans-serif;
+  --ts-font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  /* aliases used in some legacy code */
+  --font: var(--ts-font-body);
+  --mono: var(--ts-font-mono);
+
+  /* Type scale — modular 1.20 from 14px body */
+  --ts-fs-2xs: 10px;
+  --ts-fs-xs:  11px;
+  --ts-fs-sm:  12px;
+  --ts-fs-md:  14px;   /* body */
+  --ts-fs-lg:  15px;   /* h3 */
+  --ts-fs-xl:  20px;   /* h2 */
+  --ts-fs-2xl: 26px;   /* h1 */
+  --ts-fs-3xl: 38px;   /* display */
+
+  /* ---------- Spacing (4pt grid) ---------- */
+  --ts-sp-1:  4px;
+  --ts-sp-2:  8px;
+  --ts-sp-3:  12px;
+  --ts-sp-4:  16px;
+  --ts-sp-5:  20px;
+  --ts-sp-6:  24px;
+  --ts-sp-8:  32px;
+  --ts-sp-10: 40px;
+  --ts-sp-12: 48px;
+
+  /* ---------- Radius ---------- */
+  --ts-radius-sm:   4px;
+  --ts-radius-md:   6px;
+  --ts-radius-base: 8px;
+  --ts-radius-lg:   10px;
+  --ts-radius-xl:   16px;
+  --ts-radius-pill: 999px;
+
+  /* ---------- Logo bars ---------- */
+  --ts-logo-bar-1: var(--ts-text-primary);
+  --ts-logo-bar-2: var(--ts-accent);
+  --ts-logo-bar-3: rgba(232, 233, 234, 0.22);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+html, body {
+  background: var(--ts-bg-body);
+  color: var(--ts-text-primary);
+  font-family: var(--ts-font-body);
+  font-size: var(--ts-fs-md);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body { margin: 0; }
+
+/* ============================================================
+   TYPOGRAPHY UTILITIES
+   ============================================================ */
+.ts-display-xl {
+  font-family: var(--ts-font-display);
+  font-size: var(--ts-fs-3xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.ts-h1 {
+  font-family: var(--ts-font-display);
+  font-size: var(--ts-fs-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.ts-h2 {
+  font-family: var(--ts-font-display);
+  font-size: var(--ts-fs-xl);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+.ts-h3 {
+  font-family: var(--ts-font-display);
+  font-size: var(--ts-fs-lg);
+  font-weight: 600;
+  line-height: 1.3;
+}
+.ts-body {
+  font-family: var(--ts-font-body);
+  font-size: var(--ts-fs-md);
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--ts-text-secondary);
+}
+.ts-label {
+  font-family: var(--ts-font-mono);
+  font-size: var(--ts-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ts-accent);
+}
+.ts-caption {
+  font-family: var(--ts-font-mono);
+  font-size: var(--ts-fs-xs);
+  color: var(--ts-text-muted);
+  letter-spacing: 0.04em;
+}
+.ts-mono {
+  font-family: var(--ts-font-mono);
+  font-size: 0.92em;
+}
+
+/* ============================================================
+   CORE COMPONENTS
+   ============================================================ */
+
+/* Card */
+.ts-card {
+  background: var(--ts-bg-0);
+  border: 1px solid var(--ts-border-0);
+  border-radius: var(--ts-radius-lg);
+  padding: var(--ts-sp-5);
+}
+.ts-card--featured {
+  border-color: var(--ts-border-accent);
+  background: rgba(255, 85, 0, 0.04);
+}
+
+/* Badge */
+.ts-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--ts-radius-sm);
+  font-size: var(--ts-fs-2xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--ts-font-mono);
+}
+.ts-badge--orange {
+  background: rgba(255, 85, 0, 0.15);
+  color: var(--ts-accent);
+  border: 1px solid rgba(255, 85, 0, 0.25);
+}
+.ts-badge--neutral {
+  background: var(--ts-bg-2);
+  color: var(--ts-text-secondary);
+  border: 1px solid var(--ts-border-0);
+}
+
+/* Button */
+.ts-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border-radius: var(--ts-radius-md);
+  font-size: var(--ts-fs-sm);
+  font-weight: 600;
+  font-family: var(--ts-font-mono);
+  background: var(--ts-bg-2);
+  border: 1px solid var(--ts-border-0);
+  color: var(--ts-text-secondary);
+  cursor: pointer;
+  transition: border-color .18s, color .18s, background .18s;
+}
+.ts-btn:hover {
+  border-color: var(--ts-accent);
+  color: var(--ts-accent);
+  background: rgba(255, 85, 0, 0.06);
+}
+.ts-btn--primary {
+  background: var(--ts-accent);
+  border-color: var(--ts-accent);
+  color: var(--ts-on-accent);
+}
+.ts-btn--primary:hover {
+  background: var(--ts-orange-600);
+  border-color: var(--ts-orange-600);
+  color: var(--ts-on-accent);
+}
+.ts-btn--ghost {
+  background: transparent;
+}
+
+/* Input */
+.ts-input {
+  font-family: var(--ts-font-mono);
+  font-size: var(--ts-fs-sm);
+  background: var(--ts-bg-1);
+  border: 1px solid var(--ts-border-0);
+  border-radius: var(--ts-radius-base);
+  padding: 10px 12px;
+  color: var(--ts-text-primary);
+  width: 100%;
+  outline: none;
+  transition: border-color .18s;
+}
+.ts-input:focus {
+  border-color: var(--ts-accent);
+}
+
+/* Token row */
+.ts-token-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--ts-border-0);
+  font-size: var(--ts-fs-sm);
+}
+.ts-token-row:last-child { border-bottom: none; }
+.ts-token-name {
+  font-family: var(--ts-font-mono);
+  color: var(--ts-accent);
+  flex: 1;
+}
+.ts-token-val {
+  font-family: var(--ts-font-mono);
+  color: var(--ts-text-muted);
+  font-size: var(--ts-fs-xs);
+}
+
+/* Section label */
+.ts-section-label {
+  font-family: var(--ts-font-mono);
+  font-size: var(--ts-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ts-accent);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ts-section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--ts-border-0);
+}
+
+/* Divider */
+.ts-divider {
+  height: 1px;
+  background: var(--ts-border-0);
+  border: 0;
+  margin: var(--ts-sp-6) 0;
+}
+
+/* ============================================================
+   GRID (canvas pattern — mockups & marketing)
+   ============================================================ */
+.ts-grid-bg {
+  background-color: var(--ts-bg-body);
+  background-image:
+    repeating-linear-gradient(0deg,  transparent, transparent 47px, rgba(255,255,255,0.04) 48px),
+    repeating-linear-gradient(90deg, transparent, transparent 47px, rgba(255,255,255,0.04) 48px);
+}

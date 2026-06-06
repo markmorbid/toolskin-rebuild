@@ -44,7 +44,7 @@
 
 }
 
-:where(:root) {
+:where(:root,:root *) {
   --ts-accent-dark: color-mix(in srgb, var(--ts-accent), #000 10%);
   --ts-accent-bright: color-mix(in srgb, var(--ts-accent), #fff 8%);
   --ts-accent-grad: linear-gradient(to top left,
@@ -55,6 +55,8 @@
       color-mix(in srgb, var(--ts-accent-bright), #fff 4%),
       var(--ts-accent),
       var(--ts-accent-dark));
+   --ts-btn-size: calc(var(--ts-btn-base, 45) * var(--ts-btn-scale, 1));
+  --ts-btn-h: calc(var(--ts-btn-size) * var(--ts-btn-h-ratio, 1) * 1px);
 
 }
 

@@ -259,13 +259,7 @@ REFACTOR NOTE:
    The formula resolves at the context root (panel, modal, body),
    so the dropdown inherits a fully-resolved value — no propagation
    game, no specificity battles, no !important on max-height needed.
-  */
-  --ts-ui-select-dd-min: 12rem;
-  --ts-ui-select-dd-runway: 14rem;
-  --ts-ui-select-dd-max-abs: 28rem;
-  --ts-ui-select-dd-max-rel: 70dvh;
-
-  --ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min),
+  */--ts-ui-select-dd-min: 12rem;--ts-ui-select-dd-runway: 14rem;--ts-ui-select-dd-max-abs: 28rem;--ts-ui-select-dd-max-rel: 70dvh;--ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min),
       calc(100dvh - var(--ts-ui-select-dd-runway)),
       min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
 
@@ -274,49 +268,20 @@ REFACTOR NOTE:
 Any parent that sets --ts-this-bg automatically restyles all its
 inputs. No need to override per-element bg/border/color/transitions
 — set the parent surface and the cascade does the rest. */
-  --ts-input-h: var(--ts-btn-h);
-  --ts-input-pad-x: var(--ts-navlink-pad-x);
-  --ts-input-pad-y: var(--ts-navlink-pad-y);
-  --ts-input-padding: var(--ts-input-pad-y) var(--ts-input-pad-x) var(--ts-input-pad-y) var(--ts-input-pad-left);
-  --ts-input-pad-left: calc(var(--ts-input-h) + var(--ts-input-pad-y));
-  --ts-input-radius: var(--ts-radius-sm);
-  --ts-input-fs: var(--ts-fs-body-sm);
+ 
 
-  /* Surfaces — derived from --ts-this-bg. Override --ts-this-bg on a parent to recolor. */
-  --ts-input-bg: var(--ts-this-bg-dim-4);
-  --ts-input-bg-2: var(--ts-this-bg-bright-1);
-  --ts-input-bg-2-t: var(--ts-this-bg-dim);
-  --ts-input-bg-active: var(--ts-this-bg-bright);
-  --ts-input-bg-focus: var(--ts-this-bg-dark-1);
-  --ts-input-bg-grad: var(--ts-this-bg-grad-2);
+  /* Borders — derived from --ts-this-bg-border (which uses --ts-mix-perc) */--ts-input-border: var(--ts-this-bg-border);--ts-input-border-hover: var(--ts-this-bg-border-hover);/* --ts-input-border-focus: var(--ts-border-accent); */--ts-input-border-disabled: var(--ts-this-bg-border-disabled);
 
-  /* Borders — derived from --ts-this-bg-border (which uses --ts-mix-perc) */
-  --ts-input-border: var(--ts-this-bg-border);
-  --ts-input-border-hover: var(--ts-this-bg-border-hover);
-  --ts-input-border-focus: var(--ts-border-accent);
-  --ts-input-border-disabled: var(--ts-this-bg-border-disabled);
+  /* Text colors — keep dim by default, brighten on focus *//* --ts-input-color: var(--ts-text-primary-dim-2); */--ts-input-color-focus: var(--ts-text-primary);--ts-input-accent: var(--ts-accent);
 
-  /* Text colors — keep dim by default, brighten on focus */
-  --ts-input-color: var(--ts-text-primary-dim-2);
-  --ts-input-color-focus: var(--ts-text-primary);
-  --ts-input-accent: var(--ts-accent);
+  /* Inset action button (search icon, clear, etc.) *//* --ts-input-btn-color: var(--ts-input-color); */r); *//* --ts-input-btn-bg: var(--ts-input-bg-2); */--ts-input-btn-bg-accent: var(--ts-accent);--ts-input-btn-bg-accent-color: var(--ts-on-accent);
 
-  /* Inset action button (search icon, clear, etc.) */
-  --ts-input-btn-color: var(--ts-input-color);
-  --ts-input-btn-bg: var(--ts-input-bg-2);
-  --ts-input-btn-bg-accent: var(--ts-accent);
-  --ts-input-btn-bg-accent-color: var(--ts-on-accent);
-
-  /* Single transition token — components reference this, not a list */
-  --ts-input-transitions:
+  /* Single transition token — components reference this, not a list */--ts-input-transitions:
     border-color var(--ts-dur-fast) var(--ts-ease-out),
     outline-color var(--ts-dur-fast) var(--ts-ease-out),
     color var(--ts-dur-fast) var(--ts-ease-out),
     background-color var(--ts-dur-fast) var(--ts-ease-out),
-    box-shadow var(--ts-dur-fast) var(--ts-ease-out);
-
-    
-  --ts-card-transitions: border-color var(--ts-dur-fast) var(--ts-ease-out),
+    box-shadow var(--ts-dur-fast) var(--ts-ease-out);--ts-card-transitions: border-color var(--ts-dur-fast) var(--ts-ease-out),
     outline-color var(--ts-dur-fast) var(--ts-ease-out),
     transform var(--ts-dur-fast) var(--ts-ease-out),
     color var(--ts-dur-fast) var(--ts-ease-out),
@@ -324,35 +289,11 @@ inputs. No need to override per-element bg/border/color/transitions
     box-shadow var(--ts-dur-fast) var(--ts-ease-out);
 
 
-  /* Card — one step above panels so blocks read off the page */
-  --ts-card-pad: var(--ts-sp-6);
-  --ts-card-radius: var(--ts-radius-lg);
-  --ts-card-bg: var(--ts-bg-1-t);
-  --ts-card-bg-2: var(--ts-bg-2);
-  --ts-card-border: var(--ts-border-0);
-  --ts-card-header-h: 45px;
-  --ts-card-sp: var(--ts-sp-3);
-  --ts-card-fs: var(--ts-fs-sm);
-  --ts-card-title-fs: calc(var(--ts-card-fs) * 1.1);
+  /* Card — one step above panels so blocks read off the page */--ts-card-pad: var(--ts-sp-6);--ts-card-radius: var(--ts-radius-lg);--ts-card-bg: var(--ts-bg-1-t);--ts-card-bg-2: var(--ts-bg-2);--ts-card-border: var(--ts-border-0);--ts-card-header-h: 45px;--ts-card-sp: var(--ts-sp-3);--ts-card-fs: var(--ts-fs-sm);--ts-card-title-fs: calc(var(--ts-card-fs) * 1.1);
 
-  /* Range slider — must exist on plain :root (Pattern Generator, etc.); banner app may override */
-  --ts-range-h: 10px;
-  --ts-range-thumb: calc(var(--ts-range-h) * 1.6);
-  --ts-range-bg: var(--ts-bg-3);
-  --ts-range-bg-2: var(--ts-bg-0);
-  --ts-range-border: var(--ts-border-1);
-  --ts-range-accent: var(--ts-accent);
-  --ts-range-label: var(--ts-range-bg);
-  --ts-range-text: var(--ts-text-primary);
-  --ts-range-rad: calc(var(--ts-range-h) * 2);
-  --ts-range-arrow: 5px;
+  /* Range slider — must exist on plain :root (Pattern Generator, etc.); banner app may override */--ts-range-h: 10px;--ts-range-thumb: calc(var(--ts-range-h) * 1.6);--ts-range-bg: var(--ts-bg-3);--ts-range-bg-2: var(--ts-bg-0);--ts-range-border: var(--ts-border-1);--ts-range-accent: var(--ts-accent);--ts-range-label: var(--ts-range-bg);--ts-range-text: var(--ts-text-primary);--ts-range-rad: calc(var(--ts-range-h) * 2);--ts-range-arrow: 5px;
 
-  /* Panel (control panels, tool panels) */
-  --ts-panel-w: 340px;
-  --ts-panel-bg: var(--ts-bg-1);
-  --ts-panel-border: var(--ts-border-0);
-  --ts-panel-radius: var(--ts-radius-md);
-}
+  /* Panel (control panels, tool panels) */--ts-panel-w: 340px;--ts-panel-bg: var(--ts-bg-1);--ts-panel-border: var(--ts-border-0);--ts-panel-radius: var(--ts-radius-md);}
 
 /* ── 2. CONSTRAINED CONTEXTS — knobs AND formula re-declared ─────── */
 
@@ -416,7 +357,28 @@ inputs. No need to override per-element bg/border/color/transitions
    calc(100dvh - var(--ts-ui-select-dd-runway)),
    min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
 }
+.ts-nav-fixed:has(.ts-ui-select,.ts-select),.ts-nav-fixed:has(.ts-ui-select,.ts-select) *{
+   --ts-input-h: var(--ts-btn-h);
+  --ts-input-pad-x: var(--ts-navlink-pad-y);
+  --ts-input-pad-y: var(--ts-navlink-pad-x);
+  --ts-input-padding: var(--ts-input-pad-y) var(--ts-input-pad-x) var(--ts-input-pad-y) var(--ts-input-pad-left);
+  --ts-input-pad-left: calc(var(--ts-input-h) + var(--ts-input-pad-y));
+  --ts-input-radius: var(--ts-nav-btn-radius);
+  --ts-input-fs: var(--ts-navlink-fs)!important;
 
+    /* — Nav control (button/select/toggle) height — one row, subtractive truth —*/
+  --ts-nav-btn-h: calc(var(--ts-topbar-h) - var(--ts-navlink-pad-y) * 2);
+  --ts-btn-h: var(--ts-nav-btn-h);
+  --ts-btn-fs: var(--ts-navlink-fs)!important;
+  --ts-nav-btn-fs: var(--ts-btn-fs)!important;
+
+  /* Surfaces — derived from --ts-this-bg. Override --ts-this-bg on a parent to recolor. */
+  --ts-input-bg-2: var(--ts-this-bg-bright-1);
+  --ts-input-bg-2-t: var(--ts-this-bg-dim);
+  --ts-input-bg-active: var(--ts-this-bg-bright);
+  --ts-input-bg-focus: var(--ts-this-bg-dark-1);
+  --ts-input-bg-grad: var(--ts-this-bg-grad-2);
+}
 
 /* ── 3. APPLY TO THE DROPDOWN ────────────────────────────────────── */
 
@@ -452,18 +414,15 @@ inputs. No need to override per-element bg/border/color/transitions
   position: absolute;
   left: 0;
   right: 0;
-  top: calc(100% + 4px);
   z-index: 2000;
-  border-radius: var(--ts-input-radius);
-  border-width: 1px solid var(--ts-input-border);
-  outline: 1px solid var(--ts-input-border);
+  border-radius: var(--ts-nav-dropdown-radius,var(--ts-input-radius));
+
   outline-offset: -1px !important;
-  --ts-this-bg: var(--ts-bg-0);
   box-shadow: var(--ts-shadow-3);
   flex-direction: column;
   top: calc(100% - 1px);
-  border-color: var(--ts-input-border);
-  outline-color: var(--ts-input-border-focus);
+  border-color: var(--ts-this-bg-border);
+  outline-color: var(--ts-this-bg-border);
 }
 
 /* [hidden] must win over display:flex (otherwise panel stays visible) */
@@ -477,7 +436,6 @@ inputs. No need to override per-element bg/border/color/transitions
   --ts-input-border: var(--ts-accent-border);
   --ts-shadow-3: var(--ts-shadow-accent);
   --ts-input-color: var(--ts-text-primary);
-  --ts-input-border: var(--ts-this-bg-border);
 }
 
 
@@ -490,7 +448,7 @@ inputs. No need to override per-element bg/border/color/transitions
   border-bottom: 1px solid var(--ts-input-border);
   
   cursor: pointer;
-  font-size: 90%;
+  font-size: 1em;
 }
 
 .ts-ui-select__option:last-child {
@@ -566,39 +524,32 @@ inputs. No need to override per-element bg/border/color/transitions
   gap: var(--ts-navlink-gap, var(--ts-sp-1));
   padding: var(--ts-sp-2) var(--ts-sp-3);
   box-sizing: border-box;
-  border-radius: var(--ts-input-radius);
   color: var(--ts-input-color);
   font-size: var(--ts-input-fs);
   cursor: pointer;
-  /* --ts-input-bg: var(--ts-this-bg-dim-4); */
   --ts-input-bg-grad: var(--ts-accent-glow-bg-2);
-  --ts-input-border: color-mix(in srgb, var(--ts-input-color), transparent 80%);
   --ts-input-color: var(--_input-color);
-  background-color: var(--ts-input-bg, var(--ts-bg-1-t));
   border-width: 1px;
   border-style: solid;
-  /*background-image: var(--ts-input-bg-grad);*/
-  border-color: var(--ts-input-border) !important;
-  outline-color: var(--ts-input-border);
+  border-color: var(--ts-input-border)!important;
+  outline-color: var(--ts-input-border)!important;
   transition: border-color var(--ts-dur-fast),
     box-shadow var(--ts-dur-fast),
     background 300ms ease,
     outline-color 300ms ease;
+  background-color: var(--ts-nav-surface) !important;
+  --ts-this-bg: var(--ts-nav-surface);
+
 }
 
 
 
 .ts-ui-select--open .ts-ui-select__trigger {
 
-  --ts-input-color: var(--ts-text-primary);
+  --ts-input-color: var(--ts-text-secondary);
 }
 
-.ts-ui-select .ts-ui-select__trigger:hover {
-  /* box-shadow: var(--ts-accent-shadow-glow); */
-  --ts-input-color: var(--ts-text-primary);
-  color: var(--ts-input-color) !important;
-  /*background-image: var(--ts-input-bg-grad);*/
-}
+
 
 .ts-ui-select__trigger .ts-ui-select__value,
 .ts-ui-select__value {
@@ -609,6 +560,7 @@ inputs. No need to override per-element bg/border/color/transitions
   color: inherit;
   flex: 1 1 calc(100% - var(--ts-btn-icon-size, 0.7rem) - var(--ts-navlink-gap, var(--ts-sp-1)));
   max-width: calc(100% - var(--ts-btn-icon-size, 0.7rem) - var(--ts-navlink-gap, var(--ts-sp-1))*2) !important;
+  line-height: 1;
 }
 
 .ts-ui-select__value-text {
@@ -617,7 +569,6 @@ inputs. No need to override per-element bg/border/color/transitions
   white-space: nowrap;
   min-width: 0 !important;
   width: auto;
-  font-size: inherit !important;
   line-height: 1;
 }
 
@@ -627,7 +578,6 @@ inputs. No need to override per-element bg/border/color/transitions
   opacity: 0.7;
   transform: rotate(0deg);
   color: var(--ts-input-color) !important;
-  --ts-input-color: var(--ts-text-primary-dim);
 
   transition: opacity var(--ts-dur-base) var(--ts-ease-snap),
     transform var(--ts-dur-base) var(--ts-ease-snap);
@@ -635,7 +585,6 @@ inputs. No need to override per-element bg/border/color/transitions
 
 .ts-ui-select--open .ts-ui-select__chevron {
   opacity: 1;
-  --ts-input-color: var(--ts-text-accent);
 
   transform: rotate(180deg);
 }
@@ -646,7 +595,6 @@ inputs. No need to override per-element bg/border/color/transitions
   right: 0;
   top: calc(100% + 4px);
   z-index: 2000;
-  border-radius: var(--ts-input-radius);
   border-width: 1px solid var(--ts-input-border);
   outline: 1px solid var(--ts-input-border);
   outline-offset: -1px !important;
@@ -716,8 +664,6 @@ inputs. No need to override per-element bg/border/color/transitions
   border-radius: 0 !important;
   border: none;
   --ts-this-bg: transparent !important;
-  color: inherit;
-  font-size: 98%;
   outline: none;
   box-shadow: none;
   background: var(--ts-this-bg) !important;
@@ -731,8 +677,7 @@ inputs. No need to override per-element bg/border/color/transitions
   box-shadow: none;
   --ts-this-bg: var(--ts-bg-2-t) !important;
   background: var(--ts-this-bg) !important;
-  --ts-input-color: var(--ts-text-primary) !important;
-  color: var(--ts-input-color);
+  --ts-input-color: var(--ts-text-primary) ;
 
 }
 
@@ -812,7 +757,6 @@ html.ts-env-moz .ts-ui-scrollbar--moz .ts-ui-select__list {
 .ts-icon-search-input {
   width: 100%;
   background: var(--ts-bg-2);
-  border: 1px solid var(--ts-border-1);
   color: var(--ts-text-secondary);
   border-radius: var(--ts-input-radius);
   height: var(--ts-input-h);
@@ -837,7 +781,6 @@ html.ts-env-moz .ts-ui-scrollbar--moz .ts-ui-select__list {
   transform: translateY(-50%);
   color: var(--ts-text-secondary);
   pointer-events: none;
-  font-size: calc(var(--ts-input-fs)*1.2);
   display: flex;
 }
 
@@ -943,7 +886,6 @@ html.ts-env-moz .ts-ui-scrollbar--moz .ts-ui-select__list {
 .ts-ui-select[data-ts-ui-select-placeholder*="fonts"] .ts-ui-select__option:hover, .ts-ui-select .ts-ui-select__option:hover {
 
   /*background: var(--ts-this-bg-grad-3);*/
-  background: var(--ts-this-bg-dim-5);
 
   color: var(--ts-text-primary);
 
@@ -963,17 +905,12 @@ html.ts-env-moz .ts-ui-scrollbar--moz .ts-ui-select__list {
 .ts-ui-select .ts-ui-select__trigger {
     border-color: var(--ts-input-border);
   outline-color: var(--ts-input-border);
-  --ts-input-border: var(--ts-this-bg-border)!important;
-  --ts-input-border-hover: var(--ts-this-bg-border-hover)!important;
-  --ts-input-border-active: var(--ts-this-bg-focus-outline)!important;
 
   &:focus,
   &:hover,
   &:active {
-  --ts-input-border: var(--ts-accent-border-hover)!important;
   --input-color: var(--ts-this-color-bright);
-  /* --ts-text-primary: var(--ts-input-color-hover); */
-  --ts-this-bg: var(--ts-accent-dim-2)!important;
+   --ts-text-secondary: var(--input-color); 
 }
   
 }
@@ -984,16 +921,15 @@ html.ts-env-moz .ts-ui-scrollbar--moz .ts-ui-select__list {
   outline-color: var(--ts-input-border);
   /* box-shadow: var(--ts-accent-shadow-glow-2); */
   color: var(--ts-this-color-bright)!important;
-  background-color: var(--ts-accent-dim-2) !important;
-  /* background-image: var(--ts-accent-glow-bg-3) !important; */
+   background-image: var(--ts-accent-glow-bg-3) !important; 
   --ts-this-bg: var(--ts-text-accent-dim-2) !important;
-  background-color: var(--ts-this-bg-dim-5) !important;
+  background-color: var(--ts-this-bg-dim-4) !important;
 }
 
 .ts-ui-select .ts-ui-select__option,
 .ts-card .ts-field .ts-ui-select .ts-ui-select__option {
   font-weight: normal;
-  padding: calc(var(--ts-input-pad-y)*.65) var(--ts-input-pad-x);
+  padding: calc(var(--ts-input-pad-y)*.5) var(--ts-input-pad-x);
   border-bottom: 1px solid var(--ts-input-border);
   --ts-input-border: var(--ts-this-bg-border-0);
   --ts-input-color: var(--ts-text-primary-dim-2);
@@ -1054,7 +990,7 @@ html.ts-env-moz .ts-ui-scrollbar--moz .ts-ui-select__list {
 }
 
 .ts-icon-option ion-icon {
-  font-size: 150%;
+  font-size: 1em;
   flex-shrink: 0;
 }
 
@@ -1711,17 +1647,15 @@ FINAL RESULT
  .ts-ui-select .ts-ui-select__chevron,
 .ts-ui-select .ts-ui-select__chevron .ts-icon,
 .ts-ui-select .ts-ui-select__chevron {
-  display: grid;
+  display: inline-block;
   align-items: center;
   justify-content: center;
   place-content: center;
-  line-height: var(--ts-btn-fs);
   font-size: var(--ts-btn-icon-size) !important;
   --ts-btn-icon-size: calc(var(--ts-btn-fs)*1);
   aspect-ratio: 1;
   width: var(--ts-btn-icon-size);
   height: var(--ts-btn-icon-size);
   max-width: var(--ts-btn-icon-size);
-  min-width: var(--ts-btn-icon-size);
   max-height: var(--ts-btn-icon-size);
 }

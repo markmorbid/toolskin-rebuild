@@ -1,0 +1,2545 @@
+/* @implementation_note#3
+as commented on the previous reference wherer this mark was called, the navbar needs to have presets and classes setyles to handle  a transparent header mode  repsonding to the current implemented  scroll spy listener that works currently and is set on the  dynamic nav class and works globall without any performance cost., we need to enable these  featutrerd as they are basics style must have on any menu. either mobile or desktop.
+2- the mobile menu  repsonsive  enabling needs to have a flexible activastion variable value... currently i adapted several styles for the exclusions and exceptions to  fox some thigns that are off on the @media queries  done for the nav elements  and mobile menu elments together. both elements are isolated and must work together. all the following styles must be simplified and work as one same element without all the redundancies and repoetaed rules.  working on patters and global atrributes,  astyled on token valuesd basically, and inhertiing as much as they can on smart initial root scoped values that works, able to apply and import to the  nav assets and elements  without breaking anythging ion style inheritance.
+3- we got duplicate icons issue on the script so we need to fix this asap.
+4- the auto inject icon fuinction works but when it doenst finds a matching tag oir word on the categories it leaves the  item empty. it shoudl at least puty a fallback ot expand the ammpoutn of keywords used on the script.
+5- we dont have any support for custom image or svg uploadable or additionable logo brand  options anywhere. which shopuld apply once for all the theme or showcase as an example. whe onyl got the hardcoded toolskin html logo.
+6- wqe shpould consider  enabvling as mobile menu only mode that displays only yhe menu icon  floating like it was  mobile. and /or an entire sidebar version that  occupies  the dom left side, as a must have alñternative lñayout. not fixzed overlappoihjg  but actually   pushing the content, and then on mobile gettign back to the same repsonsive ,mlayout. that is a must hacve for this.
+7- we need the ui>li>ul sub navigations tructure requested somwwqhere here using the existent drodpown class  utility currently delegated for the truncating  text on menu width. 
+ */
+/*REFACTOR NOTE crucial: WE NEED TO ALLOCATE THESE CLASSES TO THE SPECIFIC SCOPE OF THE    NA TOPNAV, THE DROPDOWN OF THE  NAV, AND THE MOBILE NAVIGATION, AND  EVENTUALLY ANY OTHER NAVIGATION COMPONENT THAT USES THEWSE TOKENS. we must use the :root * method so the tokens works,  but  currently the tpokesn are  overloading the forntend unnecesarilty so we need to scope these only to the  neccesary elemnts so they work  there. perfectly without affecting perfecormance.  same for   all the  globally  applying un.-scoped  local- component planned tokens only.  thta  are  affecting the frontend. we must optimize how the topkenization is affecting the  performance.  the topkenization must keepo workign dynamically but the root * application is    not good if iot's unnecesaruily apllying tons of  tokens on all the elements at once.  */
+/* Docs: nav typography & sizing chain (B23 R-NAV Phase B)
+   --ts-topbar-h        → :root canonical 58px (L595); banner-generator overrides to 65px scoped
+   --ts-fs-base (scoped) → 0.7rem (this block); page default = 13px (token block ~L262)
+   --ts-fs-xs           → derived: --ts-fs * 0.889 (architecture §4 ladder)
+   --ts-navlink-fs      → var(--ts-fs-xs) — restored token-driven from prior 9px hardcode
+   --ts-nav-btn-h       → calc(--ts-topbar-h - --ts-navlink-pad-x-mult * 1.5) ≈ 41.4px @ canonical 65px topbar
+   Note: previously documented as `* 0.7` approximation; revised to subtractive truth. See B17-autopilot-log.md R-NAV Phase B + R3.5 batch entries.
+   Override path:        :root .ts-nav-fixed { --ts-fs-base: ... } — see arch.md §4 / .ts-oce-panel L18443. */
+:root .ts-modal,
+:root .ts-modal *,
+:root .ts-topbar,
+:root .ts-topbar *,
+:root .ts-footer,
+:root .ts-footer *,
+:root .ts-mobile-menu *,
+:root .ts-nav-static,
+:root .ts-nav-static *,
+:root .ts-nav-fixed,
+:root .ts-nav-fixed * {
+	--ts-header-bg: color-mix(in srgb, var(--ts-this-bg), transparent var(--ts-header-bg-alpha));
+	--ts-header-border: color-mix(in srgb, var(--ts-border-1), transparent var(--ts-header-border-alpha));
+	--ts-header-border-alpha: 35%;
+	--ts-header-bg-alpha: 10%;
+	--ts-header-blur: 8px;
+	/* B23 R-NAV Phase B / restyling-arch §4: scoped fs ladder for compressed nav.
+	   Mirrors .ts-oce-panel pattern at L18443. Owner-chosen: 0.7rem (~9.95px nav text).
+	   --ts-fs-xs is redeclared here so its calc() re-evaluates `var(--ts-fs)` at this scope
+	   (CSS quirk: derived tokens declared at :root capture --ts-fs by value, not by reference). */
+	--ts-fs-base: 0.68rem;
+	--ts-fs: calc(var(--ts-fs-base) * var(--ts-font-scale));
+	--ts-fs-xs: calc(var(--ts-fs) * 0.889);
+	/* B23 R-NAV Phase B: unified nav-control button height. Replaces the 45/38.25/48.75 mix
+	   identified in audit §2.4. The explicit --ts-btn-h here overrides the global derivation
+	   at L742 (`:where(:root,:root *)` formula calc(--ts-btn-base * --ts-btn-scale * 1px))
+	   for all nav descendants — ensuring nav controls converge regardless of :root --ts-btn-scale
+	   fallback (1). The dead `--ts-btn-scale: 0.85` declaration was removed in R-CLEANUP-1
+	   (B23 Wave 2): post-Phase B it was a confirmed no-op since --ts-btn-h is set directly. */
+	/*OWNER FIXES: now the button heigh is working right with this local calculation using the multiplier padding type and adjusting the mult value a bit. this should be re analyzed and centralized. */
+	--ts-nav-btn-h: calc(var(--ts-topbar-h) - var(--ts-navlink-pad-x-mult)*1.4);
+	--ts-btn-h: var(--ts-nav-btn-h);
+	--ts-navlink-color: var(--ts-text-secondary-dim-2);
+	--ts-navlink-color-hover: var(--ts-text-primary);
+	--ts-navlink-color-active: var(--ts-this-color-bright);
+	--ts-navlink-fs-text-icon: calc(var(--ts-icon)*1);
+	/* B23 R-NAV Phase B — restored token-driven from prior 9px hardcode (Wave 1 R1) */
+	--ts-navlink-fs: var(--ts-fs-xs);
+	--ts-navlink-ls: var(--ts-letter-spacing-wide);
+	--ts-navlink-fw: 500;
+	/* B23 Wave 2 / R-NAV-GAP: trailing scalar bumped .5 → .7 (+40%) to widen text↔icon breathing room.
+	   Stays inside the calc chain so the gap rescales proportionally with --ts-navlink-fs. */
+	--ts-navlink-gap: calc(var(--ts-navlink-fs) * var(--ts-navlink-mult-xs)*.7);
+	--ts-navlink-bg: transparent;
+	--ts-navlink-bg-hover: var(--ts-this-bg-dim-2);
+	--ts-navlink-bg-active: color-mix(in srgb, var(--ts-accent) 7%, transparent);
+	/* Padding with a  x main static value for a  proportional only x main value and y  repsonsive value*/
+	--ts-navlink-pad-x: var(--ts-sp-2);
+	--ts-navlink-pad-y: calc(var(--ts-navlink-pad-x) * var(--ts-navlink-mult-md));
+	/* NEX: added the new big icon sizing value for the new  icon only mode on the nav ehader  design for  the */
+	--ts-icon-only-fs: calc(var(--ts-navlink-fs)*var(--ts-navlink-mult-lg));
+
+
+	/* Padding with both x and y repsonsive and proportional to the  font size initial input value */
+	--ts-navlink-pad-x-mult: calc(var(--ts-navlink-fs) * var(--ts-navlink-mult-md));
+	--ts-navlink-pad-y-mult: calc(var(--ts-navlink-pad-x-mult) * var(--ts-navlink-mult-sm));
+	--ts-navlink-mult-lg: 1.75;
+	--ts-navlink-mult-md: 1.35;
+	--ts-navlink-mult-sm: 1.1;
+	--ts-navlink-mult-xs: .6;
+	--ts-header-ui-rad: calc(var(--ts-btn-radius)*.85);
+	--ts-header-btn-rad: calc(var(--ts-header-ui-rad) - 1px);
+	--ts-burger-line-h: 2px;
+	--ts-burger-line-radius: 1px;
+	--ts-burger-line-dist-offset: calc(var(--ts-burger-line-distance) * -1);
+	--ts-burger-line-distance: calc(var(--ts-burger-line-h) * 4);
+	--ts-nav-spacing: var(--ts-sp-3);
+	--ts-nav-spacing: var(--ts-navlink-gap);
+	--ts-menu-burger-color: var(--ts-navlink-color);
+	--ts-menu-burger-hover: var(--ts-navlink-color-hover);
+	--ts-menu-burger-active: var(--ts-navlink-color-active);
+	--ts-burger-transition-props: top, bottom, background-color, opacity, transform;
+	/* 
+
+/*REFACTOR NOTE crucial:
+NAVLINK CONTROL TOKENS — Sizing Constraints & Select Behavior
+
+Context:
+These variables control sizing constraints for interactive elements
+(buttons, selects) inside the nav/header context.
+
+---
+
+--ts-navlink-btn-max-h:
+Defines the maximum height constraint for inner controls (buttons/select triggers)
+within nav links.
+
+Current behavior:
+- Enforces visual consistency with header button sizing
+- Acts as a hard cap derived from base button height
+
+Issues:
+- Functions as a constraint override instead of a natural sizing rule
+- May conflict with intrinsic sizing of nested components
+- Could be redundant if a stable internal sizing system is implemented
+
+Refactor direction:
+- Either:
+  A) Remove and rely on intrinsic sizing from `--ts-btn-h`
+  B) Or formalize as a shared constraint token across ALL header controls
+- Must remain consistent across:
+  - button elements
+  - select trigger elements
+
+*/
+	--ts-navlink-btn-max-h: calc(var(--ts-btn-h) - var(--ts-navlink-pad-y) * 0.6);
+
+
+	/* 
+/*REFACTOR NOTE crucial:
+--ts-navlink-select-min-w:
+Defines the minimum width for select elements inside nav links.
+
+Current behavior:
+- Uses a multiplier of button height as a width baseline
+- Ensures select does not collapse visually
+
+Issues:
+- Multiplier (3x) is arbitrary and not systematized
+- Not tied to content length or typography metrics
+
+Refactor direction:
+- Replace with a tokenized scaling factor (e.g. `--ts-control-width-factor`)
+- Consider tying min-width to:
+  - font-size
+  - average character width (ch unit)
+
+*/
+	--ts-navlink-select-min-w: calc(var(--ts-btn-h) * 3);
+
+
+	/* 
+/*REFACTOR NOTE crucial:
+--ts-navlink-select-max-w:
+Defines the maximum width of select elements in nav.
+
+Current behavior:
+- Hard cap using button-height multiplier (4x)
+- Prevents excessive growth but does not account for content
+
+Critical issue:
+- Causes text truncation (ellipsis/clipping)
+- Poor UX for dropdowns where full value visibility is required
+
+Refactor requirements:
+- Replace fixed multiplier with content-aware sizing:
+  - Use `ch` units to approximate character length
+  - Use `clamp()` to balance flexibility and limits
+
+Recommended pattern:
+- Define expected character range (e.g. 12–24 chars)
+- Allow dynamic growth within bounds
+
+Example target approach:
+  width: clamp(min, preferred, max)
+
+Where:
+- min → prevents collapse
+- preferred → based on content or average length
+- max → prevents layout breaking
+
+Goal:
+- Avoid ellipsis in nav selects
+- Preserve readability and usability
+- Maintain layout integrity in header
+
+*/
+	--ts-navlink-select-max-w: calc(var(--ts-btn-h) * 4);
+	--ts-navlink-select-width: clamp(12ch, 20ch, 28ch);
+	--ts-header-logo-w: calc(var(--ts-topbar-h)*2);
+	--ts-header-logo-max-w: calc(var(--ts-header-logo-w) - var(--ts-header-logo-pad)*2);
+	--ts-header-logo-pad: var(--ts-navlink-pad-x);
+	--ts-header-logo-h: calc(var(--ts-topbar-h) - var(--ts-header-logo-pad)*2);
+	--ts-header-logo-fs: var(--ts-fs-lead);
+	--ts-header-logo-color: var(--ts-text-primary);
+	--ts-header-logo-subtext-color: var(--ts-text-primary-dim-2);
+	--ts-header-logo-fs-adjust: 0.65;
+	--ts-header-logo-subtext-fs-adjust: calc(var(--ts-header-logo-fs-adjust)*.375);
+	--ts-header-logo-lh: 1.2;
+	--ts-shadow-bold-str: 0.45px;
+	--ts-shadow-bold-str-n: calc(var(--ts-shadow-bold-str)*-1);
+	--ts-shadow-bold: 0px 0px var(--ts-shadow-bold-str) currentColor,
+		0px var(--ts-shadow-bold-str) 0px currentColor,
+		var(--ts-shadow-bold-str) 0px 0px currentColor,
+		0px 0px var(--ts-shadow-bold-str-n) currentColor,
+		0px var(--ts-shadow-bold-str-n) 0px currentColor,
+		var(--ts-shadow-bold-str-n) 0px 0px currentColor;
+}
+
+:root .ts-mobile-menu,
+:root .ts-mobile-menu *:not(.ts-btn, .ts-btn *, #ts-top-btn, #ts-top-btn *, .theme-toggle, .theme-toggle *, .ts-menu-burger, .ts-menu-burger *),
+:root .ts-nav-fixed,
+:root .ts-nav-fixed *:not(#ts-top-btn, #ts-top-btn *, .theme-toggle, .theme-toggle *, .ts-menu-burger, .ts-menu-burger *) {
+	/* The base surface color  for the entire color   system of the header element.  this sets aLL THE REST OF THE COLORIGN AUTOMATICALLY. */
+	--ts-btn-fs: var(--ts-navlink-fs);
+	/* R-CLEANUP-1 (B23 Wave 2): removed dead `--ts-btn-scale: 0.85` — no-op post-Phase B since --ts-btn-h is set directly via --ts-nav-btn-h. */
+	--ts-btn-pad-x: var(--ts-navlink-pad-x-mult);
+	--ts-btn-pad-y: var(--ts-navlink-pad-y-mult);
+	/* B23 R1+R4: revert icon ratio to backup *1.2 (was *1.5). With R1 navlink-fs=9px → icon ≈11.7px. */
+	--ts-icon: calc(var(--ts-navlink-fs)*1.2);
+}
+
+:root .ts-mobile-menu,
+:root .ts-nav-fixed {
+	--ts-this-bg: var(--ts-bg-body);
+
+}
+
+/* Docs: nav consumer height split (B23 Wave 2 / R3.5, ASK 1 path b).
+   Text-link anchors (`.ts-nav-fixed a:not(.ts-btn)`) keep the typography-derived
+   clamp `--ts-navlink-btn-max-h: calc(var(--ts-topbar-h) - var(--ts-navlink-pad-y-mult)*2)`
+   so anchor padding stays driven by `--ts-navlink-pad-y-mult` and rescales when typography rescales.
+   Button/select consumers (`.ts-btn`, `.ts-ui-select__trigger`) take an explicit
+   `--ts-nav-btn-h` (= `calc(--ts-topbar-h - --ts-navlink-pad-x-mult * 1.5)`, ≈41.4px @ canonical 65px topbar)
+   so they form a uniform nav-component row regardless of `--ts-navlink-pad-y-mult`.
+   Note: previously documented as `* 0.7` approximation; revised to subtractive truth. See B17-autopilot-log.md R-NAV Phase B + R3.5 batch entries.
+   Two height channels, one nav scope. */
+.ts-nav-fixed .ts-btn {
+	height: var(--ts-nav-btn-h);
+}
+
+.ts-nav-fixed .ts-ui-select__trigger {
+	height: var(--ts-nav-btn-h);
+}
+
+/* GLOBAL ICON-ONLY SYSTEM — EXCLUDING SPECIFIC CONTAINERS
+
+This #CRAZY_FIX rule must be removed once the design system functions properly and consistently. These are hardcoded fixes responding to current system limitations.
+
+Keep them as temporary patches, but note that they do not follow best practices.
+
+*/
+
+:where(.ts-btn.ts-btn-icon-only, .ts-btn.ts-btn-icon, .ts-btn.ts-btn--icon):not(:is(.ts-nav-dropdown *, .ts-mobile-menu *))>span:not(:has(i, .ts-icon, svg, ion-icon), .ts-icon, .ts-spinner) {
+	display: none !important;
+}
+
+
+/* Base icon button layout */
+:where(.ts-btn--icon):not(:is(.ts-nav-dropdown *, .ts-mobile-menu *)) {
+	padding-inline: 0 !important;
+	width: var(--ts-btn-h);
+	aspect-ratio: 1;
+}
+
+:where(.ts-btn--icon.ts-btn--sm):not(:is(.ts-nav-dropdown *, .ts-mobile-menu *)) {
+	width: var(--ts-btn-h);
+	line-height: var(--ts-btn-h);
+}
+
+:where(.ts-btn--icon.ts-btn--lg):not(:is(.ts-nav-dropdown *, .ts-mobile-menu *)) {
+	width: var(--ts-btn-h);
+}
+
+:where(.ts-btn--icon.ts-btn--lg):not(:is(.ts-nav-dropdown *, .ts-mobile-menu *)) .ts-menu-text {
+	display: none;
+}
+
+/* Icon sizing */
+:where(.ts-btn.ts-btn-icon-only > i,
+	.ts-btn.ts-btn-icon-only > .ts-icon,
+	.ts-btn.ts-btn-icon-only > svg,
+	.ts-btn.ts-btn-icon-only > ion-icon,
+
+	.ts-btn.ts-btn-icon > i,
+	.ts-btn.ts-btn-icon > .ts-icon,
+	.ts-btn.ts-btn-icon > svg,
+	.ts-btn.ts-btn-icon > ion-icon,
+
+	.ts-btn.ts-btn--icon > span:has(i, .ts-icon, svg, ion-icon),
+	.ts-btn.ts-btn--icon .ts-icon i,
+	.ts-btn.ts-btn--icon .ts-icon,
+	.ts-btn.ts-btn--icon .ts-icon svg,
+	.ts-btn.ts-btn--icon .ts-icon ion-icon,
+	.ts-btn.ts-btn--icon > ion-icon):not(:is(.ts-nav-dropdown *, .ts-mobile-menu *)) {
+	font-size: var(--ts-icon);
+	width: var(--ts-icon);
+	height: var(--ts-icon);
+	--ts-icon: 120%;
+}
+
+
+/* Button sizing */
+:where(.ts-btn.ts-btn-icon-only, .ts-btn.ts-btn-icon):not(:is(.ts-nav-dropdown *, .ts-mobile-menu *)) {
+	min-width: var(--ts-btn-h);
+	aspect-ratio: 1;
+	padding: 0;
+}
+
+/* Prevent empty span issues */
+:where(.ts-btn.ts-btn-icon-only:not(:has(span:not(.ts-spinner))),
+	.ts-btn.ts-btn-icon:not(:has(span:not(.ts-spinner)))):not(:is(.ts-nav-dropdown *, .ts-mobile-menu *)) {
+	display: inline-block;
+	font-size: 0;
+}
+
+.ts-nav-fixed__links {
+	display: flex;
+	margin-left: auto;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-content: stretch;
+	align-items: stretch;
+	height: 100%;
+	gap: 0 !important;
+	padding-inline: var(--ts-navlink-pad-x);
+}
+
+.ts-nav-fixed__links.ts-nav-truncate {
+	display: flex;
+	flex-wrap: nowrap;
+	/* CRITICAL: Prevent wrapping so we can measure overflow */
+	align-items: center;
+	flex: 1;
+	justify-content: flex-end;
+	overflow: hidden;
+	flex-direction: row;
+}
+
+
+
+[data-theme="light"] .ts-nav-dropdown a:not(.ts-btn)::after {
+	mix-blend-mode: multiply;
+}
+
+.ts-nav-more {
+	display: none !important;
+	position: relative !important;
+	padding: 0;
+	margin-inline: 0;
+	height: 100%;
+}
+
+.ts-nav-more.hasItems {
+	display: flex !important;
+}
+
+.ts-nav-fixed__links.ts-nav-truncate:has(.ts-btn:last-child)+.ts-nav-more.hasItems {
+	border-left: 1px solid var(--ts-header-border);
+}
+
+.ts-nav-more .ts-nav-dropdown {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	outline: 1px solid var(--ts-header-border);
+	outline-offset: 0px;
+	display: none;
+	flex-direction: column;
+	min-width: 150px;
+	box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	border-radius: 0 0 var(--ts-header-ui-rad) var(--ts-header-ui-rad);
+	border-top: var(--ts-index-bar-height) solid var(--ts-accent);
+
+	background: var(--ts-header-bg);
+	opacity: 0;
+	display: none;
+	backdrop-filter: blur(var(--ts-header-blur)) saturate(40%) !important;
+	--ts-this-bg: var(--ts-bg-body);
+	/* @refactor:backdrop-critical */
+	/* @refactor:glass-dependent */
+	/* @refactor:needs-solid-fallback */
+	/* @refactor:token-dependency */
+	transition: display 0.5s allow-discrete, opacity 0.5s !important;
+
+}
+
+
+.ts-nav-more:hover .ts-nav-dropdown {
+	opacity: 1;
+	display: flex;
+
+}
+
+.ts-mobile-menu-items>*:not(.ts-btn).active .ts-menu-icon,
+.ts-mobile-menu-items>*:not(.ts-btn).active .ts-icon,
+.ts-mobile-menu-items>*:not(.ts-btn).ts-active .ts-menu-icon,
+.ts-mobile-menu-items>*:not(.ts-btn).ts-active .ts-icon,
+.ts-nav-dropdown>*:not(.ts-btn).active .ts-menu-icon,
+.ts-nav-dropdown>*:not(.ts-btn).ts-active .ts-menu-icon,
+.ts-nav-dropdown>*:not(.ts-btn).active .ts-icon,
+.ts-nav-dropdown>*:not(.ts-btn).ts-active .ts-icon,
+.ts-mobile-menu-items a:not(.ts-btn).active .ts-menu-icon,
+.ts-mobile-menu-items a:not(.ts-btn).active .ts-icon,
+.ts-mobile-menu-items a:not(.ts-btn).ts-active .ts-menu-icon,
+.ts-mobile-menu-items a:not(.ts-btn).ts-active .ts-icon,
+.ts-nav-dropdown a:not(.ts-btn).active .ts-menu-icon,
+.ts-nav-dropdown a:not(.ts-btn).ts-active .ts-menu-icon,
+.ts-nav-dropdown a:not(.ts-btn).active .ts-icon,
+.ts-nav-dropdown a:not(.ts-btn).ts-active .ts-icon {
+	color: var(--ts-navlink-color);
+}
+
+.ts-nav-dropdown>*:not(.ts-btn).active::after,
+.ts-nav-dropdown>*:not(.ts-btn).ts-active::after,
+.ts-nav-dropdown a.active::after,
+.ts-nav-dropdown a.ts-active::after {
+	background-color: var(--ts-accent);
+	left: 0;
+}
+
+.ts-nav-fixed__links>*:not(.ts-btn):hover,
+.ts-nav-fixed__links a:not(.ts-btn):hover,
+.ts-nav-dropdown>*:not(.ts-btn):hover,
+.ts-nav-dropdown a:not(.ts-btn):hover {
+	color: var(--ts-text-primary);
+}
+
+.ts-nav-dropdown a:not(.ts-btn):not(:last-child) {
+	border-bottom-width: 1px;
+}
+
+button.ts-more-trigger,
+.ts-nav-fixed .ts-more-trigger,
+.ts-more-trigger {
+	appearance: none;
+	background: transparent;
+	border: none;
+	padding-inline: var(--ts-navlink-pad-x-mult);
+	padding-block: var(--ts-navlink-pad-y-mult);
+	cursor: pointer;
+	color: var(--ts-navlink-color);
+
+}
+
+.ts-nav-dropdown>*:not(.ts-btn, :last-child),
+.ts-nav-dropdown a:not(.ts-btn, :last-child) {
+	white-space: nowrap;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	text-decoration: none;
+	transition: color 0.15s,
+		background-color 0.15s;
+	height: 100%;
+	height: -webkit-fill-available;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	padding-inline: var(--ts-navlink-pad-x-mult);
+	padding-block: var(--ts-navlink-pad-y-mult);
+	position: relative;
+	gap: var(--ts-navlink-gap);
+	position: relative;
+}
+
+.ts-nav-dropdown>*:not(.ts-btn, :last-child),
+.ts-nav-dropdown a:not(.ts-btn, :last-child) {
+
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+
+.ts-nav-dropdown a:not(.ts-btn)::after {
+	content: "";
+	position: absolute;
+	bottom: auto;
+	left: -110%;
+	right: auto;
+	height: 100%;
+	width: var(--ts-index-bar-height);
+	background-color: transparent;
+	transition: all 0.3s ease;
+	z-index: 0;
+	mix-blend-mode: screen;
+}
+
+.ts-nav-fixed {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: var(--ts-z-sticky);
+	height: var(--ts-topbar-h);
+	border-bottom: 1px solid var(--ts-header-border) !important;
+	display: flex;
+	align-items: center;
+	padding-inline: var(--ts-container-pad);
+	gap: var(--ts-nav-items-spacing);
+	justify-content: space-between;
+	backdrop-filter: none !important;
+	--ts-header-border-alpha: 22% !important;
+	--ts-nav-items-spacing: calc(var(--ts-nav-spacing)*2);
+}
+.ts-nav-fixed:not(.spaced){
+
+	gap: var(--ts-nav-items-spacing);
+		--ts-nav-items-spacing: 0!important;
+
+
+}
+/* reimplementation of the header effects layer  so the childs can have  effects too. this mus be kept either  as a  pseudo element or as a dom element using parameterts  tokens like these. --ts-backdrop-blur: 15%;*/
+.ts-nav-fixed:before {
+	content: "" !important;
+	position: absolute;
+	inset: 0;
+	background: var(--ts-header-bg);
+
+	backdrop-filter: blur(var(--ts-header-blur)) saturate(20%) !important;
+	z-index: -1;
+	transition: backdrop-filter .4s ease, background-color .2s ease, opacity .2s ease;
+	/* @refactor:backdrop-critical */
+	/* @refactor:glass-dependent */
+	/* @refactor:needs-solid-fallback */
+	/* @refactor:token-dependency */
+	/* @refactor:container-review */
+	/* CRITICAL REFACTORING:
+
+This is the main navigation. Regardless of whether the glass effect is enabled, both the main nav and the mobile nav should share the same base settings.
+
+They should also implement a shared, toggleable backdrop “glass” system, including paired opacity and backdrop-filter effects.
+
+A fallback must always be provided:
+- A plain surface background with no alpha, or
+- A configurable alpha value that remains legible in both light and dark modes
+
+This fallback should be percentage-based (user-defined), not a fixed dim preset.
+
+*/
+}
+
+.ts-nav-fixed.spaced .ts-nav-fixed__links {
+	display: flex;
+	gap: var(--ts-navlink-gap) !important;
+	;
+	margin-left: auto;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-content: center;
+	align-items: center;
+	height: 100%;
+	/* gap: 0 !important; */
+	padding: 0;
+	--ts-nav-spacing: var(--ts-navlink-gap);
+
+}
+
+.ts-nav-fixed__links a:not(.ts-btn),
+.ts-nav-fixed__links a:not(.ts-btn),
+.ts-nav-dropdown a:not(.ts-btn),
+.ts-nav-dropdown>*:not(.ts-btn),
+.ts-nav-fixed__links>*:not(.ts-btn) {
+	color: var(--ts-navlink-color);
+	border-color: var(--ts-header-border);
+
+}
+
+.ts-nav-fixed__links a:not(.ts-btn),
+.ts-nav-fixed__links>*:not(.ts-btn) {
+	text-decoration: none;
+	transition: var(--ts-btn-base-transitions);
+	height: 100%;
+	height: -webkit-fill-available;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	/*padding-inline: var(--ts-navlink-pad-x);
+		padding-block: var(--ts-navlink-pad-y);*/
+	padding-inline: var(--ts-navlink-pad-x);
+	padding-block: var(--ts-navlink-pad-y-mult);
+	border-width: 0px;
+	border-style: solid;
+	position: relative;
+	border-right-width: 0px;
+}
+
+.ts-mobile-menu-items>*,
+.ts-mobile-menu-items a,
+.ts-mobile-menu-items .ts-btn,
+.ts-nav-dropdown a,
+.ts-nav-dropdown>*,
+.ts-nav-dropdown .ts-btn,
+.ts-nav-fixed__links a,
+.ts-nav-fixed__links>*,
+.ts-nav-fixed__links .ts-btn {
+	font-size: var(--ts-navlink-fs);
+	font-weight: var(--ts-navlink-fw);
+	text-transform: uppercase;
+	letter-spacing: var(--ts-navlink-ls);
+	/* line-height: calc(var(--ts-navlink-fs)*1.3); */
+	position: relative;
+	gap: var(--ts-navlink-gap);
+	box-shadow: none !important;
+
+
+	/* OWNER'S FIX:
+
+This resolves the misalignment issue in nav link items. The span and icons were not properly aligned vertically when both icon and text were enabled, which negatively affected the visual quality.
+
+However, this should not rely on hardcoded fixes. The current solution uses a specific line-height value with !important to correct the alignment on the .ts-menu-text span element.
+
+This approach may break if the global font sizing or ratio system changes, so this fix should be incorporated into the general button sizing and alignment rules documentation.
+
+*/
+	>i,
+	>ion-icon,
+	.ts-menu-icon,
+	.ts-icon {
+		font-size: var(--ts-icon);
+		flex-shrink: 0;
+		color: inherit;
+		/*transform: translatey(calc(var(--ts-icon)*-.05));*/
+		transform: none;
+		max-height: var(--ts-icon);
+		max-width: var(--ts-icon);
+		line-height: calc(var(--ts-navlink-fs)*.75);
+		display: grid;
+		place-content: center;
+	}
+
+	.ts-menu-text {
+		line-height: calc(var(--ts-navlink-fs)*.75) !important;
+		margin: 0;
+	}
+}
+
+.ts-mobile-menu-items>*:not(.ts-btn),
+.ts-mobile-menu-items a:not(.ts-btn),
+.ts-nav-dropdown a:not(.ts-btn),
+.ts-nav-dropdown>*:not(.ts-btn),
+.ts-nav-fixed__links a:not(.ts-btn),
+.ts-nav-fixed__links>*:not(.ts-btn) {
+
+	.ts-menu-icon,
+	.ts-icon {
+		font-size: var(--ts-navlink-fs-text-icon);
+		position: relative;
+
+		color: var(--ts-navlink-color);
+
+	}
+}
+
+/* Docs: THIS IS THE NEW MODE FOR THE  NAVIGATION MENU. ONLY APPLICABLE FOR DESKTOP AND NON-BUTTON LINK OR ITEM TYPE.
+on the practical actions, it should do:
+1- apply the token values and the 		  padding-inline: var(--ts-btn-pad-y); to each item, applied on the nested   item woldcard  ezxcluding the buttons.
+2- apply the  enlarging --ts-icon-only-fs token, ,
+3- remove max width, and max height, apply aspect ratio,
+4-  the small gap  value as padding for each icon.(currently should be near 4px, if is more check the calculations)
+--ts-navlink-fs-text-icon: var(--ts-icon-only-fs); must be used to override the declared base font size value to avoid using override  declarations. and sizing better the element.
+
+ */
+/* #CRAZY_FIXES_CODE:
+
+All these local applications for this specific variation should be moved to a centralized scope or root hub, where the design can be configured globally instead of within this block.
+
+This will improve usability and consistency. However, the challenge is determining the correct placement so inheritance works effectively, without introducing unnecessary classes or additional tokens.
+
+*/
+.ts-nav-fixed:has(.ts-nav-fixed__links.ts-icon-only-nav) .ts-nav-fixed__links,
+.ts-nav-fixed:has(.ts-nav-fixed__links.ts-icon-only-nav) .ts-nav-fixed__links *,
+.ts-nav-fixed:has(.ts-nav-fixed__links.ts-icon-only-nav) .ts-nav-more,
+.ts-nav-fixed:has(.ts-nav-fixed__links.ts-icon-only-nav) .ts-ui-select,
+.ts-nav-fixed:has(.ts-nav-fixed__links.ts-icon-only-nav) .theme-toggle {
+	--ts-navlink-mult-sm: 1.05;
+
+	--ts-header-border-alpha: 60%;
+
+}
+
+/* NEW ADDITION: #CRAZY_FIXES_CODE
+
+This rule must also account for the variant with no spacing, which includes line dividers across the design.
+
+When the “spaced” variant is active, these dividers must be removed. This is especially important when mixing “icon-only” and “spaced” variants—neither should display vertical separators on the nav links.
+
+Dropdown menus may still include separators, but the spaced variant must not, as it relies on gaps instead.
+
+*/
+/* ─────────────────────────────────────────────────────────────────
+   §6j-bis  NAV VARIANTS — BEM modifiers (resolves ODN-D2)
+
+   .ts-nav--spaced     — gap-driven layout, no vertical dividers
+   .ts-nav--icon-only  — icon-only layout, no vertical dividers
+   Combined            — both modifiers compose; still no dividers
+
+   Dropdown menus (.ts-nav-dropdown) keep their separator rules
+   (defined elsewhere in §6j) regardless of the parent nav variant —
+   they live inside the dropdown subtree, not on the nav links.
+
+   The legacy aliases `.ts-nav-fixed.spaced` and
+   `.ts-nav-fixed__links.ts-icon-only-nav` remain functional;
+   the BEM modifiers are additive and may be applied to either
+   `.ts-nav` or `.ts-nav-fixed` containers.
+   ───────────────────────────────────────────────────────────────── */
+
+/* Topbar/header nav: divider neutralization */
+.ts-nav-fixed.ts-nav--spaced .ts-nav-fixed__links>*:not(.ts-btn),
+.ts-nav-fixed.ts-nav--icon-only .ts-nav-fixed__links>*:not(.ts-btn),
+.ts-nav-fixed:has(.ts-nav-fixed__links.ts-nav--spaced) .ts-nav-fixed__links>*:not(.ts-btn),
+.ts-nav-fixed:has(.ts-nav-fixed__links.ts-nav--icon-only) .ts-nav-fixed__links>*:not(.ts-btn) {
+	border-right-width: 0;
+	border-left-width: 0;
+	margin-left: 0;
+}
+
+/* Topbar/header nav: gap-driven layout when spaced is active */
+.ts-nav-fixed.ts-nav--spaced .ts-nav-fixed__links {
+	gap: var(--ts-navlink-gap);
+	--ts-nav-spacing: var(--ts-navlink-gap);
+}
+
+/* Inline nav (.ts-nav): divider neutralization on items */
+.ts-nav.ts-nav--spaced .ts-nav__item,
+.ts-nav.ts-nav--icon-only .ts-nav__item {
+	border-right-width: 0;
+	border-left-width: 0;
+}
+
+/* Inline nav (.ts-nav): icon-only collapses label */
+.ts-nav.ts-nav--icon-only .ts-nav__item>.ts-menu-text,
+.ts-nav.ts-nav--icon-only .ts-nav__item .ts-menu-text {
+	display: none;
+}
+
+/* Inline nav (.ts-nav): spaced increases item gap to the navlink token */
+.ts-nav.ts-nav--spaced {
+	gap: var(--ts-navlink-gap);
+}
+
+.ts-nav-fixed__links.ts-icon-only-nav:has(a:not(.ts-btn) >.ts-icon) {
+	>*:not(.ts-btn):has(>.ts-icon:not(.theme-toggle__expand))>.ts-icon:not(.theme-toggle__expand) {
+		font-size: var(--ts-navlink-fs-text-icon);
+		max-width: unset;
+		width: var(--ts-icon-only-fs);
+		height: var(--ts-icon-only-fs);
+		max-height: unset;
+		position: relative;
+		--ts-navlink-fs-text-icon: var(--ts-icon-only-fs);
+		color: inherit;
+		aspect-ratio: 1;
+		padding: var(--ts-navlink-gap);
+		box-sizing: content-box !important;
+
+	}
+
+	>*:not(.ts-btn):has(>.ts-icon:not(.theme-toggle__expand)) {
+		padding-inline: var(--ts-btn-pad-y);
+		/* min-width: var(--ts-navlink-btn-max-h); */
+		background: transparent;
+		border-color: var(--ts-header-border);
+
+		border-left-width: 1px;
+		border-left-color: transparent;
+
+	}
+
+	>*:not(.ts-btn):hover,
+	>*:not(.ts-btn).ts-active,
+	>*:not(.ts-btn).active {
+		--ts-navlink-bg: var(--ts-navlink-bg-active);
+		background: var(--ts-navlink-bg) !important;
+
+		--ts-navlink-color: var(--ts-navlink-color-active);
+
+	}
+
+	>*:not(.ts-btn):first-child:hover,
+	>*:not(.ts-btn):first-child.active {
+		border-left-color: var(--ts-header-border);
+		border-right-color: var(--ts-header-border);
+		z-index: 1;
+		--ts-header-border-alpha: 32%;
+
+	}
+
+	>*:not(.ts-btn):first-child.active {
+		border-left-color: var(--ts-header-border);
+		border-right-color: var(--ts-header-border);
+		z-index: 1;
+
+	}
+
+	>*:not(.ts-btn)>.ts-menu-text {
+		display: none;
+
+	}
+
+}
+
+.ts-nav-fixed__links a:not(.ts-btn),
+.ts-nav-fixed__links>*:not(.ts-btn) {
+
+	.ts-menu-icon,
+	.ts-icon {
+		font-size: var(--ts-navlink-fs-text-icon);
+		position: relative;
+
+		color: var(--ts-navlink-color);
+
+	}
+}
+
+.ts-mobile-menu-items>*:not(.ts-btn):hover,
+.ts-mobile-menu-items a:not(.ts-btn):hover,
+.ts-nav-dropdown a:not(.ts-btn):hover,
+.ts-nav-dropdown>*:not(.ts-btn):hover,
+.ts-nav-fixed__links a:not(.ts-btn):hover,
+.ts-nav-fixed__links>*:not(.ts-btn):hover {
+	--ts-navlink-color: var(--ts-navlink-color-hover);
+	color: var(--ts-navlink-color);
+
+	.ts-menu-icon,
+	.ts-icon {
+		--ts-navlink-color: var(--ts-navlink-color-active);
+
+
+		opacity: 1 !important;
+	}
+}
+
+/* #CRAZY_FIX_RULES:
+
+Here I introduced a “spaced” menu variant. This version adds gaps, removes line separators, and adjusts spacing between buttons.
+
+To achieve this, I implemented several complex rules to improve button spacing. However, wrapping elements with <li> just to make spacing work should not be necessary.
+
+We need to preserve the current visual design and maintain this layout without relying on extra structural wrappers.
+
+The goal is to implement a proper semantic menu structure:
+nav > ul > li
+
+This should include:
+- Support for nested <ul> elements (submenus), using the existing dropdown component
+- A mega menu layout with column support
+- Reuse of the existing column system within the header
+- Auto-generation from simple markup
+
+The system should allow enabling a mega menu via attributes or configuration, including:
+- Optional labels to define column titles
+- Flexible sub-item lists per column
+
+Structure target:
+li > a > span (text) + icon
+
+*/
+/*body:has(.ts-nav-fixed:not(.spaced)) .ts-mobile-menu,
+body:has(.ts-nav-fixed:not(.spaced)) .ts-nav-dropdown,*/
+.ts-nav-fixed:not(.spaced) .ts-nav-fixed__links {
+	padding-inline: 0;
+
+	>*:not(.ts-btn) {
+		margin-left: -1px;
+		border-width: 0px;
+		border-right-width: 1px;
+		padding-inline: var(--ts-navlink-pad-x-mult);
+	}
+
+	>.ts-btn {
+		margin-left: var(--ts-navlink-pad-x);
+	}
+
+	>.ts-btn:not(:last-child) {
+		margin-right: calc(var(--ts-navlink-gap)*-.75) !important;
+	}
+
+	>.ts-btn:not(:has(+ .theme-toggle)):last-child {
+		margin-right: var(--ts-navlink-pad-x) !important;
+
+	}
+
+	.theme-toggle {
+
+		width: var(--ts-btn-h);
+		max-width: var(--ts-btn-h);
+		max-height: calc(var(--ts-topbar-h) - 1px);
+		height: 100%;
+		height: var(--ts-topbar-h);
+		border-radius: 0;
+		border: 1px solid var(--ts-header-border);
+		padding-inline: var(--ts-navlink-pad-x-mult) !important;
+		margin-right: calc(var(--ts-nav-gap)*-1);
+		border-right-color: transparent;
+	}
+
+	.ts-nav-more {
+		display: none !important;
+		position: relative !important;
+		padding: 0;
+		margin-inline: calc(var(--ts-nav-spacing) * -1);
+		height: 100%;
+		--ts-nav-spacing: var(--ts-navlink-gap);
+	}
+
+	a:not(.ts-btn, .ts-ui-select) {
+		color: var(--ts-navlink-color);
+		background-color: var(--ts-navlink-bg);
+
+	}
+
+}
+
+.ts-mobile-menu-items :not(.ts-btn-group) > .ts-btn,
+.ts-nav-dropdown>.ts-btn,
+.ts-nav-dropdown :not(.ts-btn-group) > .ts-btn,
+.ts-nav-fixed :not(.ts-btn-group) >  .ts-btn {
+	max-height: var(--ts-navlink-btn-max-h);
+	border-radius: var(--ts-header-btn-rad);
+}
+
+.ts-mobile-menu-items .ts-btn,
+.ts-nav-dropdown>.ts-btn {
+	margin-inline: var(--ts-navlink-pad-x);
+	margin-block: var(--ts-navlink-gap);
+	--ts-btn-pad-y: var(--ts-navlink-pad-x-mult);
+
+}
+
+
+.ts-mobile-menu-items .ts-btn {
+	--ts-btn-scale: 0.9;
+	margin-inline: var(--ts-btn-pad-y);
+	margin-bottom: var(--ts-navlink-pad-x);
+	--ts-btn-pad-y: var(--ts-navlink-pad-x-mult);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Nav dropdown & mobile menu — button spacing in gap-less containers
+   
+   Strategy: target first/last .ts-btn by SIBLING RELATIONSHIPS,
+   not by :first-of-type (which matches by tag, not class, and
+   silently breaks when plain <a> links precede styled buttons).
+   ───────────────────────────────────────────────────────────────── */
+
+.ts-nav-dropdown,
+.ts-mobile-menu-items {
+	/* Tunable: the "gap" we simulate at the button block edges */
+	--ts-btn-block-gap: var(--ts-navlink-pad-y, var(--ts-sp-2));
+	--ts-btn-block-pad: var(--ts-navlink-pad-x, var(--ts-sp-3));
+	--ts-btn-pad-y: var(--ts-navlink-pad-x-mult);
+
+}
+
+/* First .ts-btn (no preceding .ts-btn sibling) — open the gap above */
+.ts-nav-dropdown>.ts-btn:not(.ts-btn ~ .ts-btn),
+.ts-mobile-menu-items>.ts-btn:not(.ts-btn ~ .ts-btn) {
+	margin-top: var(--ts-btn-block-gap);
+}
+
+/* Last .ts-btn (no following .ts-btn sibling) — close with bottom padding */
+.ts-nav-dropdown>.ts-btn:not(:has(~ .ts-btn)),
+.ts-mobile-menu-items>.ts-btn:not(:has(~ .ts-btn)) {
+	margin-bottom: var(--ts-btn-block-gap);
+}
+
+/* Everything else stays at zero — no rule needed; just don't set it. */
+.ts-nav-link.ts-btn.ts-btn--icon>.ts-menu-text {
+	display: none;
+}
+
+.ts-nav-dropdown .ts-btn.ts-btn--icon>.ts-menu-text,
+.ts-mobile-menu .ts-btn.ts-btn--icon>.ts-menu-text {
+	display: block;
+}
+
+.ts-nav-fixed__links a:not(.ts-btn) .ts-menu-text {
+	white-space: nowrap;
+
+	font-size: inherit;
+	font-weight: inherit;
+	text-transform: inherit;
+}
+
+/* REFACTOR NOTE:
+
+There are several duplicated rules in this block. Please unify them, as the current structure is messy.
+
+I attempted some cleanup, but there are still many unnecessary declarations. We can consolidate this into larger, grouped, nested rules that handle icons, anchors, states, and related elements together using tokens.
+
+Focus area: Mobile menu (icon + text layout).
+
+*/
+.ts-mobile-menu-items a:not(.ts-btn) .ts-menu-icon,
+.ts-mobile-menu-items a:not(.ts-btn) .ts-icon {
+	flex-shrink: 0;
+	width: 1em;
+	text-align: center;
+	color: inherit;
+	color: var(--ts-navlink-color);
+
+}
+
+
+.ts-nav-fixed__links a:not(.ts-btn, .ts-ui-select)::after,
+.ts-nav-fixed__links>*:not(.ts-btn, .ts-ui-select)::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: var(--ts-index-bar-height);
+	background-color: transparent;
+	transition: var(--ts-btn-base-transitions);
+}
+
+
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select),
+.ts-nav-dropdown a:not(.ts-btn, .ts-ui-select) {
+	color: var(--ts-navlink-color);
+	background-color: var(--ts-navlink-bg);
+
+}
+
+/* #CRAZY_FIX_RULES: if we w ant to add  backghround colors to the items on other states */
+
+.ts-mobile-menu-items a:not(.ts-btn, :hover, .active, .ts-active),
+.ts-mobile-menu-items a:not(.ts-btn, :hover, .active, .ts-active),
+.ts-mobile-menu-items a:not(.ts-btn, :hover, .active, .ts-active),
+.ts-nav-fixed__links a:not(.ts-btn, :hover, .active, .ts-active),
+.ts-nav-dropdown a:not(.ts-btn, :hover, .active, .ts-active) {
+
+	--ts-navlink-bg: transparent;
+
+}
+
+/* #CRAZY_FIX_RULES */
+
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select):hover,
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select):hover,
+.ts-nav-fixed__links a:not(.ts-btn, .ts-ui-select):hover,
+.ts-nav-dropdown a:not(.ts-btn, .ts-ui-select):hover {
+	--ts-navlink-color: var(--ts-navlink-color-hover);
+	--ts-navlink-bg: var(--ts-navlink-bg-hover);
+	opacity: 1;
+
+}
+
+/* #CRAZY_FIX_RULES */
+
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select).active,
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select).active .ts-icon,
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select).ts-active,
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select).ts-active .ts-icon,
+.ts-nav-fixed__links a:not(.ts-btn, .ts-ui-select).active,
+.ts-nav-fixed__links a:not(.ts-btn, .ts-ui-select).ts-active,
+.ts-nav-fixed__links a:not(.ts-btn, .ts-ui-select).active .ts-icon,
+.ts-nav-fixed__links a:not(.ts-btn, .ts-ui-select).ts-active .ts-icon,
+.ts-nav-dropdown a:not(.ts-btn, .ts-ui-select).active,
+.ts-nav-dropdown a:not(.ts-btn, .ts-ui-select).ts-active,
+.ts-nav-dropdown a:not(.ts-btn, .ts-ui-select).active .ts-icon,
+.ts-nav-dropdown a:not(.ts-btn, .ts-ui-select).ts-active .ts-icon,
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select):hover .ts-icon,
+.ts-nav-fixed__links a:not(.ts-btn, .ts-ui-select):hover .ts-icon,
+.ts-nav-dropdown a:not(.ts-btn, .ts-ui-select):hover .ts-icon {
+	--ts-navlink-color: var(--ts-navlink-color-active);
+	--ts-navlink-bg: var(--ts-navlink-bg-active);
+	opacity: 1;
+	outline: none !important;
+
+}
+
+.ts-nav-fixed__links a:not(.ts-btn, .ts-ui-select).active:first-child,
+.ts-nav-fixed__links a:not(.ts-btn, .ts-ui-select).ts-active:first-child {
+	border-left-width: 1px;
+
+}
+
+.ts-nav-fixed__links a:not(.ts-btn, .ts-ui-select).active::after,
+.ts-nav-fixed__links a:not(.ts-btn, .ts-ui-select).ts-active::after,
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select).active:after,
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select).ts-active:after {
+	background-color: var(--ts-accent);
+
+	outline: none !important;
+
+}
+
+.ts-mobile-menu-items a.active .ts-menu-icon,
+.ts-mobile-menu-items a.active .ts-icon,
+.ts-mobile-menu-items a.ts-active .ts-menu-icon,
+.ts-mobile-menu-items a.ts-active .ts-icon {
+	opacity: 1;
+	--ts-navlink-color: var(--ts-navlink-color-active);
+}
+
+/* #CRAZY_FIX_RULES */
+
+/* Mobile sidebar overlay */
+/* ── Mobile Menu: Compact + Transparent Mode ──
+	Overlay stays open on scroll. Click a nav item → navigate, keep overlay open.
+	Close only on explicit close button or tap outside.
+	Page remains scrollable while overlay is open. */
+
+.ts-mobile-menu-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--ts-this-bg-dim-2);
+	z-index: calc(var(--ts-z-offcanvas-panel) - 2);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease,
+		visibility 0.3s ease;
+	user-select: none !important;
+	--ts-this-bg: var(--ts-bg-body);
+
+	/* No backdrop-filter — keep page visible through overlay */
+}
+
+.ts-mobile-menu-overlay.active {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+	backdrop-filter: blur(2px) saturate(50%);
+	/* CRITICAL REFACTORING:
+
+This is the main navigation. Regardless of glass being enabled, both the main nav and the mobile nav should share the same base settings.
+
+They should also share a unified backdrop “glass” system that can be toggled, including paired opacity and backdrop-filter effects.
+
+A fallback must always be provided:
+- A plain surface background (no alpha), or
+- A configurable alpha value that remains legible in both light and dark modes
+
+This fallback should be percentage-based (user-defined), not a fixed dim preset.
+
+*/
+	/* @refactor:backdrop-critical */
+	/* @refactor:glass-dependent */
+	/* @refactor:needs-solid-fallback */
+	/* @refactor:token-dependency */
+	/* @refactor:container-review */
+	cursor: pointer;
+	user-select: none !important;
+
+	transition: opacity 0.3s ease,
+		visibility 0.3s ease;
+}
+
+.ts-mobile-menu-overlay:active {
+	user-select: none !important;
+
+}
+
+.ts-mobile-menu-overlay.active:hover {
+	opacity: 0;
+}
+
+/* #CRAZY_FIX_RULES */
+
+/* Mobile sidebar menu — compact, auto-fit to content */
+.ts-mobile-menu {
+	position: fixed;
+	top: 0;
+	right: -100%;
+	width: var(--ts-mobile-width);
+	max-width: var(--ts-mobile-width);
+	height: 100vh;
+	backdrop-filter: none;
+	z-index: calc(var(--ts-z-offcanvas-panel));
+	/*padding-top: calc(var(--ts-topbar-h) + var(--ts-sp-6));*/
+	overflow-y: auto;
+	transition: right 0.4s var(--ts-ease-in-out), opacity 0.3s ease;
+	box-shadow: var(--ts-shadow-1);
+	visibility: hidden;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	border-left: 1px solid var(--ts-header-border) !important;
+	--ts-mobile-width: clamp(max(var(--ts-sidebar-w)), 40vw, var(--ts-oce-width));
+	--ts-this-bg: var(--ts-bg-body);
+}
+
+/* reimplementation of the header effects layer  so the childs can have  effects too. this mus be kept either  as a  pseudo element or as a dom element using parameterts  tokens like these. --ts-backdrop-blur: 15%;*/
+.ts-mobile-menu:before {
+	content: "" !important;
+	position: absolute;
+	inset: 0;
+	background: var(--ts-header-bg);
+	backdrop-filter: blur(var(--ts-header-blur)) saturate(120%) !important;
+	/* @refactor:backdrop-critical */
+	/* @refactor:glass-dependent */
+	/* @refactor:needs-solid-fallback */
+	/* @refactor:token-dependency */
+	/* @refactor:container-review */
+	/* CRITICAL REFACTORING:
+
+This is the main navigation. Regardless of glass being enabled, both the main nav and the mobile nav should share the same base settings.
+
+They should also share a unified backdrop “glass” system that can be toggled, including paired opacity and backdrop-filter effects.
+
+A fallback must always be provided:
+- A plain surface background (no alpha), or
+- A configurable alpha value that remains legible in both light and dark modes
+
+This fallback should be percentage-based (user-defined), not a fixed dim preset.
+
+*/
+
+	z-index: -999999999;
+	--ts-header-blur: 13px;
+	--ts-this-bg: var(--ts-bg-body);
+	--ts-header-bg: color-mix(in srgb, var(--ts-this-bg), transparent var(--ts-header-bg-alpha));
+	--ts-header-border-alpha: 35%;
+	--ts-header-bg-alpha: 22%;
+}
+
+.ts-mobile-menu.active {
+	right: 0;
+	visibility: visible;
+}
+
+.ts-mobile-menu-items {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	padding: 0;
+	justify-content: center;
+	flex-wrap: wrap;
+	align-content: stretch;
+	align-items: stretch;
+
+}
+
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select),
+.ts-mobile-menu-items>*:not(.ts-btn, .ts-ui-select) {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-navlink-gap);
+	padding: var(--ts-navlink-pad-y-mult) var(--ts-navlink-pad-x-mult);
+	color: var(--ts-navlink-color);
+	text-decoration: none;
+	font-size: var(--ts-navlink-fs);
+	font-weight: var(--ts-navlink-fw);
+	text-transform: uppercase;
+	letter-spacing: var(--ts-navlink-ls);
+	transition: color 0.2s ease, background 0.2s ease;
+	position: relative;
+	border-block: 1px solid var(--ts-header-border);
+	white-space: nowrap;
+	margin-bottom: -1px;
+	/* REFACTOR NOTES 17-04-2026 - This setting must be  enhanced and moved to root scope and make more fficient. but the design resutl is what i want to keep. and also the availability of  designing this asset  dsifferently from the other menus with a small teweak. but moving everything else  elements to repeat the same patter design as rgey are mostly the same except for the vertical  border usage  and  ther button scaling display. and maybe the font could be scaled up to with the font scaling parameter. this must be simplified but i need to keep the same visual result. Local specific adjustemts for the sca,ling and  design of the  height padding of the mobile items  stripes anchors. the sm affects the padding y and the md  factor affects the x  paddong. which is consturcted with the padding y as base.   modifying the sm value also scales up the base padding. the md value only affects the  x padding  value. */
+	--ts-header-border-alpha: 65%;
+	--ts-navlink-mult-md: 1.85;
+	--ts-navlink-mult-sm: .87;
+	--ts-navlink-fs: var(--ts-fs-sm);
+}
+
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select):last-child,
+.ts-mobile-menu-items>*:not(.ts-btn, .ts-ui-select):last-child {
+	border-bottom-width: 0px;
+}
+
+/* Left vertical indicator bar (like desktop bottom bar) */
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select)::after,
+.ts-mobile-menu-items>*:not(.ts-btn, .ts-ui-select)::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: var(--ts-index-bar-height);
+	height: 100%;
+	background-color: transparent;
+	border-radius: 0;
+	transition: background-color 0.3s ease;
+}
+
+
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select).active::after,
+.ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select).ts-active::after {
+	background-color: var(--ts-accent);
+}
+
+/* ─── Theme Toggle Button (Always Visible) ───────────────────────────── */
+
+.ts-theme-toggle {
+	display: inline-block !important;
+	align-items: center;
+	justify-content: center;
+	width: var(--ts-btn-h);
+	max-width: var(--ts-btn-h);
+	max-height: var(--ts-btn-h);
+	height: var(--ts-btn-h);
+	/* margin-left: auto; */
+	margin-right: 0;
+	background: var(--ts-navlink-bg);
+	border: 1px solid var(--ts-header-border, var(--ts-btn-border));
+	border-radius: var(--ts-header-btn-rad);
+	cursor: pointer;
+	position: relative;
+	transition: all 0.3s ease;
+	padding: 0 !important;
+	gap: 0 !important;
+}
+
+.ts-nav-fixed .theme-toggle {
+	padding: 0;
+	border: none;
+	--ts-btn-icon: calc(var(--ts-btn-h)*.56) !important;
+	appearance: none;
+	font-size: var(--ts-btn-icon) !important;
+	color: var(--ts-navlink-color);
+	--ts-navlink-bg: transparent;
+	max-width: unset !important;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	max-width: var(--ts-btn-h);
+	max-height: calc(var(--ts-topbar-h) - 1px);
+	height: 100%;
+	border-radius: 0;
+	border: 1px solid;
+	background: var(--ts-navlink-bg) !important;
+	padding-inline: var(--ts-navlink-pad-x-mult);
+	box-sizing: content-box;
+	border-block: none;
+	/*margin-right: calc(var(--ts-nav-spacing)*-1);*/
+	border-right-color: transparent;
+	order: 4;
+	--ts-navlink-color: var(--ts-text-secondary);
+	border-left-color: var(--ts-header-border);
+
+
+
+
+
+	.ts-menu-icon,
+	.ts-icon {
+		--ts-btn-icon: calc(var(--ts-btn-h)*.45) !important;
+
+		font-size: var(--ts-btn-icon) !important;
+		position: relative;
+
+	}
+}
+
+
+/* 
+#OWNER FIX UPGRADES — Header Select Integration
+
+Context:
+Select dropdowns were manually enabled inside the header by overriding
+CSS structure and behavior. The current implementation works reliably
+outside `.ts-nav-link` scope, but is unstable or inconsistent within it.
+
+Current behavior:
+- Works correctly as a top-level header control (similar to theme toggler / nav icons)
+- Not fully compatible inside `.ts-nav-link` scope
+- Not responsive (mobile support incomplete)
+- Styling is partially inherited manually from header button styles
+
+Key issues:
+1. Scope inconsistency:
+   - Component behaves differently depending on DOM placement
+   - `.ts-nav-link` introduces constraints that break expected behavior
+
+2. Hardcoded styling:
+   - Button-like appearance achieved via manual overrides
+   - Uses exceptions and one-off rules instead of a reusable pattern
+
+3. Lack of responsive adaptation:
+   - No proper mobile handling for layout, sizing, or interaction
+
+4. Missing abstraction layer:
+   - No unified pattern for "header-compatible components"
+   - Each new component requires manual adjustments
+
+Refactor requirements:
+- Establish a dedicated "header control" pattern (shared ruleset)
+  for any interactive component placed in the header
+- Decouple select styling from button-specific overrides
+- Ensure consistent behavior across:
+  - top-level header placement
+  - `.ts-nav-link` scope (if supported)
+- Implement responsive rules for mobile compatibility
+- Replace hardcoded exceptions with token-driven or pattern-based styling
+
+Target outcome:
+A reusable, scalable system where any appended header component
+(select, toggle, button, etc.) inherits consistent layout, sizing,
+and interaction behavior without requiring manual fixes.
+
+Notes:
+- Current button-based approach should be deprecated as a styling shortcut
+- Treat this as a structural system issue, not a one-off fix
+*/
+
+.ts-nav-fixed .ts-ui-select {
+	padding: 0;
+	appearance: none;
+	color: var(--ts-navlink-color);
+	max-width: var(--ts-navlink-select-max-w);
+	min-width: var(--ts-navlink-select-width);
+	/*Key upgrade
+content-relative sizing (ch)
+predictable bounds
+no arbitrary height multipliers
+no text clipping in most real cases
+--ts-navlink-select-width: clamp(12ch, 20ch, 28ch);
+Check yhe REFACTOR NOTE crucial form the root variable declared forthis.  we needto organiza the css  styles. his rule  fixed partially the width of the select. */
+	max-width: var(--ts-navlink-select-width);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	max-height: calc(var(--ts-topbar-h) - 1px);
+	height: 100%;
+	border-radius: 0;
+	border: 1px solid var(--ts-header-border);
+	/*min-width: var(--ts-navlink-select-max-w);*/
+	background: var(--ts-navlink-bg) !important;
+	padding-inline: var(--ts-navlink-pad-y) !important;
+	box-sizing: border-box;
+	border-block: none;
+	transition: all 0.3s ease;
+	position: relative;
+	order: 3;
+	border-right-width: 0px;
+	color: var(--ts-navlink-color);
+	font-size: var(--ts-input-fs);
+	font-weight: var(--ts-navlink-fw);
+	letter-spacing: var(--ts-navlink-ls);
+	--ts-input-fs: calc(var(--ts-navlink-fs)*1);
+	--ts-navlink-bg: transparent;
+	--ts-btn-icon: calc(var(--ts-input-fs)*1.1);
+	--ts-navlink-pad-y: calc(var(--ts-navlink-pad-x-mult)*0.5);
+	--ts-navlink-mult-md: 1.75;
+	--ts-navlink-color-active: var(--ts-on-accent)!important;
+	--ts-input-bg: var(--ts-this-bg-dim-4)!important;
+	--ts-input-bg-active: var(--ts-accent-dim-5)!important;
+
+	.ts-menu-icon,
+	i,
+	.ts-icon,
+	ion-icon {
+		font-size: var(--ts-btn-icon);
+		position: relative;
+		font-size: var(--ts-btn-icon);
+		max-width: var(--ts-btn-icon);
+		color: var(--ts-navlink-color);
+		display: grid;
+		place-content: center;
+		align-items: center;
+		align-content: center;
+		justify-content: center;
+		max-height: var(--ts-btn-icon);
+
+	}
+
+	.ts-ui-select__trigger {
+		font-size: var(--ts-input-fs) !important;
+		font-weight: inherit;
+		border-radius: var(--ts-header-ui-rad) !important;
+		letter-spacing: var(--ts-navlink-ls);
+		gap: var(--ts-navlink-gap, var(--ts-sp-1));
+		min-height: unset;
+		max-height: var(--ts-navlink-btn-max-h) !important;
+		max-width: var(--ts-navlink-select-max-w) !important;
+		flex: 1;
+		/* box-shadow: none!important; */
+		background-color: var(--ts-input-bg);
+		border-color: var(--ts-input-border) !important;
+		outline-color: var(--ts-input-border) !important;
+		color: var(--ts-navlink-color);
+	}
+
+	.ts-ui-select__value {
+		gap: var(--ts-navlink-gap);
+		text-transform: uppercase !important;
+		font-size: inherit;
+		min-width: unset;
+		max-width: unset;
+		max-inline-size: max-content;
+		--ts-btn-icon: 1em;
+
+		i,
+		.ts-icon,
+		ion-icon {
+			font-size: var(--ts-btn-icon) !important;
+			max-width: var(--ts-btn-icon) !important;
+			color: var(--ts-navlink-color) !important;
+			display: grid !important;
+			place-content: center;
+			align-items: center !important;
+			align-content: center;
+			justify-content: center;
+			min-height: var(--ts-btn-icon) !important;
+			max-height: var(--ts-btn-icon) !important;
+			/* margin-top: auto; */
+		}
+	}
+
+	.ts-ui-select__trigger:hover {
+		/*--ts-navlink-color: var(--ts-text-primary);*/
+		--ts-input-border: var(--ts-input-border-focus);
+		--ts-input-bg: var(--ts-input-bg-2-t);
+
+		i,
+		.ts-icon,
+		ion-icon {
+			--ts-navlink-color: var(--ts-navlink-color-active);
+
+
+		}
+	}
+
+
+	.ts-ui-select__dropdown {
+		border-radius: var(--ts-header-ui-rad) !important;
+		min-width: var(--ts-navlink-select-max-w);
+		max-width: var(--ts-navlink-select-max-w);
+		top: calc(100% - var(--ts-navlink-pad-y-mult)*.5 + var(--ts-navlink-gap)*2) !important;
+		left: auto !important;
+		right: calc(var(--ts-navlink-pad-x-mult)*.5 + var(--ts-navlink-gap)*1) !important;
+		box-shadow: var(--ts-shadow-accent-sm);
+		/*outline: none!important;*/
+		right: calc(var(--ts-navlink-pad-y)*1 - var(--ts-navlink-gap)*1) !important;
+		top: calc(100% - var(--ts-navlink-pad-x)*1 + var(--ts-navlink-gap)*2 - 1px) !important;
+	}
+
+	.ts-ui-select__list,
+	.ts-ui-select__search {
+		scrollbar-width: none;
+
+		i,
+		.ts-icon,
+		ion-icon {
+			font-size: calc(var(--ts-navlink-fs-text-icon)*.75);
+			width: 1.3ch;
+		}
+	}
+
+	.ts-ui-select__search>input,
+	.ts-ui-select__option {
+		padding-block: var(--ts-navlink-pad-y-mult);
+		/* min-height: calc((var(--ts-btn-h) - var(--ts-navlink-pad-x-mult))*.24); */
+		/* max-height: calc(var(--ts-btn-h) - var(--ts-navlink-pad-x-mult)*.14)!important; */
+		font-size: var(--ts-navlink-fs);
+		/* padding-inline: var(--ts-input-pad-y); */
+	}
+
+	.ts-ui-select__search:has(> input:focus, > input:hover),
+	.ts-ui-select__search:has(> input:focus, > input:hover)>input,
+	.ts-ui-select__option:hover {
+		background-color: var(--ts-this-bg-dim-5);
+		--ts-this-bg: var(--ts-bg-2-t);
+		--ts-navlink-color: var(--ts-navlink-color-hover);
+
+		i,
+		.ts-icon,
+		ion-icon {
+			color: var(--ts-navlink-color);
+			--ts-navlink-color: var(--ts-navlink-color-active);
+		}
+	}
+
+	.ts-ui-select__option.ts-ui-select__option--selected {
+		background-color: var(--ts-this-bg-dim-4);
+		color: var(--ts-navlink-color);
+		--ts-this-bg: var(--ts-accent-dim-2);
+		--ts-navlink-color: var(--ts-navlink-color-active);
+
+		i,
+		.ts-icon,
+		ion-icon {
+			color: var(--ts-navlink-color);
+			--ts-navlink-color: var(--ts-navlink-color-active);
+		}
+
+	}
+
+	.ts-ui-select__option-text,
+	.ts-ui-select__search>input {
+		scrollbar-width: none;
+		font-size: var(--ts-input-fs) !important;
+		font-weight: 400;
+		text-transform: none;
+		letter-spacing: normal;
+
+	}
+
+}
+
+.ts-nav-fixed .ts-ui-select--open .ts-ui-select__trigger {
+	--ts-input-bg: var(--ts-input-bg-active);
+		--ts-navlink-color: var(--ts-navlink-color-active);
+
+
+	.ts-ui-select__value,
+	.ts-ui-select__text {
+		color: inherit !important;
+	}
+
+	i,
+	.ts-icon,
+	ion-icon {
+		--ts-navlink-color: var(--ts-navlink-color-active);
+	}
+}
+
+
+/* END OF  UI SELECT TOPNAV HEADER INTEGRATION*/
+
+.ts-nav-fixed .theme-toggle:hover {
+
+	color: var(--ts-navlink-color-active);
+}
+
+.ts-theme-toggle:hover,
+.theme-toggle:hover {
+	background-color: var(--ts-surface-1);
+	/* border-color: var(--ts-accent); */
+	color: var(--ts-navlink-color-active);
+}
+
+
+.ts-theme-toggle:not(label.theme-toggle) .ts-icon {
+	font-size: 120% !important;
+	position: absolute;
+	inset: 50% 50% auto auto;
+	translate: 50% -50% 0;
+	transition: transform 600ms var(--ts-panel-ease-out) .12s, color 300ms ease .32s !important;
+	transform: rotate(0deg) scale(1);
+
+}
+
+.ts-theme-toggle:not(label.theme-toggle) .ts-theme-icon-dark {
+	transform: rotate(0deg) scale(1);
+	color: var(--ts-text-primary);
+	transition: transform 600ms var(--ts-panel-ease-out), color 300ms ease .32s !important;
+}
+
+.ts-theme-toggle:not(label.theme-toggle) .ts-theme-icon-light {
+	transform: rotate(360deg) scale(0);
+	color: var(--ts-accent);
+	transition: transform 600ms var(--ts-panel-ease-out) .12s, color 300ms ease .32s !important;
+
+}
+
+/* Light mode icons */
+[data-theme="light"] .ts-theme-toggle:not(label.theme-toggle) .ts-theme-icon-dark {
+	transform: rotate(-360deg) scale(0);
+	transition: transform 600ms var(--ts-panel-ease-out) .1s, color 300ms ease .32s !important;
+}
+
+[data-theme="light"] .ts-theme-toggle:not(label.theme-toggle) .ts-theme-icon-light {
+	transform: rotate(0deg) scale(1);
+	transition: transform 600ms var(--ts-panel-ease-out), color 300ms ease .32s !important;
+
+
+
+}
+
+
+/* ─── Mobile Menu (Burger & Sidebar) ───────────────────────────────── */
+
+.ts-menu-burger {
+
+	display: none;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: stretch;
+	min-width: var(--ts-btn-h);
+	max-width: var(--ts-btn-h);
+	height: calc(var(--ts-topbar-h) - 1px);
+	background: transparent;
+	border: 1px solid var(--ts-header-border);
+	border-radius: var(--ts-btn-radius);
+	cursor: pointer;
+	position: relative;
+	z-index: 10002;
+	transition: border-color 0.3s ease;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	--ts-btn-h: var(--ts-nav-btn-h);
+	/* B23 R-NAV Phase B — unified (was 40px / calc(--ts-topbar-h*.75)) */
+	z-index: 999999999999999;
+	aspect-ratio: unset;
+	padding-inline: var(--ts-navlink-pad-x-mult) !important;
+}
+
+.ts-menu-burger:hover {
+	border-color: var(--ts-accent);
+}
+
+
+.ts-menu-burger {
+	border-width: 0px;
+	border-radius: 0;
+	border-left-width: 1px;
+	box-sizing: border-box;
+	border-color: var(--ts-header-border) !important;
+}
+
+.ts-menu-burger .ts-menu-burger-inner {
+	transition-duration: 0.3s;
+	transition-timing-function: var(--ts-ease-out-linear);
+
+}
+
+.ts-menu-burger .ts-menu-burger-inner {
+	transition-duration: 0.3s;
+	transition-timing-function: var(--ts-ease-out-linear);
+	background-color: var(--ts-menu-burger-color);
+}
+
+.ts-menu-burger-inner,
+.ts-menu-burger-inner::before,
+.ts-menu-burger-inner::after {
+	width: 100%;
+	position: absolute;
+	transform-origin: center center;
+	content: "";
+	display: block;
+	height: var(--ts-burger-line-h);
+	background-color: inherit;
+	border-radius: var(--ts-burger-line-radius);
+	transition-duration: var(--ts-dur-slow);
+	transition-timing-function: var(--ts-ease-in-out-slow);
+	transition-property: var(--ts-burger-transition-props);
+}
+
+.ts-menu-burger .ts-menu-burger-inner {
+	display: block;
+	top: 50%;
+	margin-top: -1px;
+	transition-property: transform, color, background-color;
+	position: absolute;
+	max-width: calc(var(--ts-btn-h) - var(--ts-navlink-pad-y)* 2);
+}
+
+.ts-menu-burger:hover .ts-menu-burger-inner {
+	--ts-menu-burger-color: var(--ts-menu-burger-hover);
+
+}
+
+.ts-menu-burger.active .ts-menu-burger-inner {
+	--ts-menu-burger-color: var(--ts-menu-burger-active);
+	transform: rotate(225deg);
+	transition-delay: var(--ts-dur-base);
+	transition-duration: var(--ts-dur-slow);
+	transition-timing-function: var(--ts-ease-in-out-slow);
+}
+
+.ts-menu-burger .ts-menu-burger-inner::before {
+	top: calc(var(--ts-burger-line-distance) * -1);
+}
+
+.ts-menu-burger .ts-menu-burger-inner::after {
+	bottom: calc(var(--ts-burger-line-distance) * -1);
+}
+
+.ts-menu-burger.active .ts-menu-burger-inner::before {
+	transition: top 0.1s 0.34s ease-in,
+		opacity 0.1s ease-in,
+		background-color 0.15s ease;
+	top: 0;
+	opacity: 0;
+	transition: top 0.1s ease-out,
+		opacity 0.1s 0.14s ease-out,
+		background-color 0.15s ease;
+}
+
+.ts-menu-burger.active .ts-menu-burger-inner::after {
+	transition: bottom 0.1s 0.34s ease-in,
+		opacity 0.1s ease-in,
+		background-color 0.15s ease;
+	bottom: 0;
+	transform: rotate(-90deg);
+	transition: bottom 0.1s ease-out,
+		transform 0.3s 0.14s var(--ts-ease-in-linear),
+		background-color 0.15s ease;
+}
+
+/* REFACTOR NOTES:
+
+The icon sizing is currently an issue and relies on pure overrides. These styles achieve the desired visual result, but they are fragile and difficult to maintain.
+
+The current design is correct and should be preserved. However, the implementation approach is not acceptable in its current form.
+
+We need to simplify the structure. The calculations themselves represent the correct concept and pattern, but everything else is redundant and should be refactored.
+
+*/
+#ts-top-btn:not(.button-style),
+.ts-back_top-nav:not(.button-style),
+#ts-top-btn:not(.button-style)>*,
+.ts-back_top-nav:not(.button-style)>* {
+	--ts-this-bg: var(--ts-bg-2);
+	--ts-btn-color: var(--ts-text-primary-dim-2);
+	--ts-btn-scale: 1 !important;
+	--ts-btn-icon: calc(var(--ts-topbar-h)*.26);
+	font-size: var(--ts-btn-icon);
+	--ts-navlink-bg: transparent;
+	max-width: var(--ts-btn-h) !important;
+	max-height: calc(var(--ts-topbar-h) - 1px);
+	height: 100%;
+	min-width: var(--ts-btn-icon);
+	border-block: none;
+	--ts-icon: 100%;
+}
+
+@media (min-width: 867px) {
+
+	#ts-top-btn.button-style,
+	.ts-back_top-nav.button-style {
+		background: var(--ts-this-bg);
+		border-radius: var(--ts-btn-radius) !important;
+		color: var(--ts-btn-color) !important;
+		box-shadow: none !important;
+		outline: none !important;
+		transition: right var(--ts-dur-base, 300ms) var(--ts-panel-ease-in, linear),
+			var(--ts-btn-base-transitions),
+			transform var(--ts-dur-base, 300ms) linear .2s !important;
+		filter: none;
+		backdrop-filter: none !important;
+		padding-inline: 0;
+		width: var(--ts-btn-h);
+		height: var(--ts-btn-h);
+		aspect-ratio: 1;
+		--ts-this-bg: var(--ts-bg-1-t);
+
+		--ts-btn-color: var(--ts-text-primary-dim-2);
+		--ts-btn-fs: var(--ts-fs-2xs) !important;
+		--ts-btn-scale: 1 !important;
+		order: 2;
+	}
+
+	#ts-top-btn {
+		border-radius: 0;
+		color: var(--ts-btn-color) !important;
+		box-shadow: none !important;
+		outline: none !important;
+		transition: right var(--ts-dur-base, 300ms) var(--ts-panel-ease-in, linear),
+			var(--ts-btn-base-transitions),
+			transform var(--ts-dur-base, 300ms) linear .2s !important;
+		filter: none;
+		backdrop-filter: none !important;
+		padding-inline: 0;
+		aspect-ratio: unset;
+		--ts-navlink-bg: var(--ts-this-bg) !important;
+		--ts-btn-color: var(--ts-text-primary-dim-2);
+		--ts-btn-scale: 1 !important;
+		order: -1;
+		--ts-btn-icon: calc(var(--ts-btn-h)*.4) !important;
+		font-size: var(--ts-btn-icon) !important;
+		max-width: unset !important;
+		width: var(--ts-btn-h);
+		max-width: var(--ts-btn-h);
+		max-height: var(--ts-btn-h);
+		height: 100%;
+		height: var(--ts-btn-h);
+		border: 1px solid var(--ts-header-border);
+		width: var(--ts-btn-h);
+		min-width: var(--ts-btn-h);
+		background: var(--ts-navlink-bg);
+		--ts-btn-fs: var(--ts-btn-icon);
+		--ts-btn-icon: calc(var(--ts-topbar-h)*1.16);
+		font-size: var(--ts-btn-fs);
+		background: var(--ts-navlink-bg);
+		padding-inline: var(--ts-navlink-pad-x-mult) !important;
+		width: var(--ts-btn-h);
+		max-width: var(--ts-btn-h);
+		max-height: var(--ts-btn-h) !important;
+		min-width: var(--ts-btn-h);
+		border: 1px solid var(--ts-this-bg-border) !important;
+		border-radius: var(--ts-btn-radius) !important;
+	}
+
+	.ts-fixed-btn {
+		position: fixed !important;
+		bottom: var(--ts--btn-fixed-offset);
+		right: var(--ts--btn-fixed-offset);
+		z-index: var(--ts-z-panel);
+		--ts--btn-fixed-offset: var(--ts-sp-5);
+
+
+	}
+
+	.ts-fixed-btn.ts-back_top-nav {
+		position: fixed !important;
+		bottom: var(--ts--btn-fixed-offset);
+		right: var(--ts--btn-fixed-offset);
+		z-index: calc(var(--ts-z-panel) + 5);
+		/* --ts--btn-fixed-offset: var(--ts-container-pad); */
+		/* order: 1; */
+	}
+
+	.ts-nav-more.hasItems {
+		order: 1;
+	}
+
+	#ts-top-btn:not(.is-visible),
+	.ts-fixed-btn:not(.is-visible),
+	.ts-back_top-nav:not(.is-visible) {
+		opacity: 0 !important;
+		pointer-events: none !important;
+		transform: translateX(100%);
+
+	}
+
+	#ts-top-btn:is(.is-visible),
+	.ts-back_top-nav:is(.is-visible) {
+		opacity: 1 !important;
+		pointer-events: all !important;
+		transform: translateX(0);
+		border-color: var(--ts-this-bg-border-hover) !important;
+		color: var(--ts-btn-color) !important;
+		--ts-btn-color: var(--ts-text-primary-dim-2);
+
+	}
+
+
+	#ts-top-btn:hover,
+	.ts-back_top-nav:hover {
+		background-color: var(--ts-this-bg-dim-4);
+		background-image: var(--ts-this-bg-grad-4);
+		--ts-this-bg-border-hover: var(--ts-this-bg-focus-outline);
+		color: var(--ts-btn-color) !important;
+		--ts-this-bg: color-mix(in srgb, var(--ts-btn-color), transparent 92%);
+		--ts-btn-color: var(--ts-accent);
+		box-shadow: var(--ts-accent-shadow-glow) !important;
+
+	}
+
+	#ts-top-btn .ts-icon,
+	.ts-back_top-nav .ts-icon {
+
+		color: inherit !important;
+	}
+}
+
+/* Mobile: Position before burger */
+
+.ts-nav-fixed:has(.ts-menu-burger.active) {
+
+	.ts-theme-toggle,
+	.theme-toggle,
+	.ts-topbar__logo {
+		opacity: 0;
+		pointer-events: none;
+	}
+}
+
+/* Mobile breakpoint */
+@media (max-width: 868px) {
+
+
+	/* REFACTOR NOTE:
+
+This fix for the mobile and desktop menu transition and conversion looks great visually, but the code is heavily patched. We need to centralize all general properties into a single base rule that applies across all instances and variants.
+
+From there, token-based variations should be applied per variant, state, interaction, media query, or any other scenario. This principle should apply to all components and styling patterns.
+
+Mark this as a global refactoring rule: there are multiple components with redundant styles, making the system difficult to maintain. Each element should use the least amount of code possible while preserving the same level of design depth and quality.
+
+All styling should be delegated and architected around a main wrapping selector, with inheritance applied through a root or global rule. Alternatively, tokens could be scoped per module. Evaluate which approach provides better maintainability and usability for both developers and users.
+
+The system must remain semantic, easy to understand, and performant, while preserving the high-quality visual design and allowing continued feature and design expansion.
+
+It should also remain easy to refactor structurally, avoiding rigid selectors and relying on tokenized patterns instead.
+
+In this specific case, implementing a menu using a ul → li → a structure with dropdown sub-items will introduce issues, since the current system is tightly built around direct anchor usage.
+
+Additionally, button components are only partially implemented. I managed to preserve their design using multiple exclusion rules (e.g., :not selectors), but this approach is fragile and should be handled with care.
+
+We need a more robust strategy to support button components within the header without breaking them, as they have already required multiple patches and workarounds (marked as #CRAZY_FIX_RULES across the stylesheet).
+
+This must be reimplemented, but it is critical to:
+- Achieve the exact same visual result
+- Take a snapshot of the current state
+- Ensure the refactored version produces an improved and more scalable outcome
+
+*/
+
+	.ts-theme-toggle {
+		margin-right: 0;
+		order: 2;
+		margin-left: auto;
+		border: none !important;
+	}
+
+	/* #CRAZY_FIX_RULES
+
+These styles must be preserved, but we need to ensure they render the element as a square button (1:1 icon menu style, similar to the floating version), instead of a full-height element like the other navigation links.
+
+We need to remove redundancies while keeping only the necessary tokens and calculations.
+
+*/
+	#ts-top-btn.button-style,
+	.ts-back_top-nav.button-style {
+		border-radius: 0 !important;
+		color: var(--ts-btn-color) !important;
+		box-shadow: none !important;
+		outline: none !important;
+		transition: right var(--ts-dur-base, 300ms) var(--ts-panel-ease-in, linear),
+			transform var(--ts-dur-base, 300ms) linear .2s !important;
+		filter: none;
+		backdrop-filter: none !important;
+		padding-inline: 0;
+		aspect-ratio: unset;
+		--ts-this-bg: var(--ts-bg-1-t);
+		--ts-btn-color: var(--ts-text-primary-dim-2);
+		--ts-btn-scale: 1 !important;
+		order: 2;
+		--ts-btn-icon: calc(var(--ts-topbar-h)*.86) !important;
+		font-size: var(--ts-btn-icon) !important;
+		--ts-navlink-bg: transparent;
+		max-width: unset !important;
+		max-height: calc(var(--ts-topbar-h) - 1px);
+		height: 100%;
+		height: var(--ts-topbar-h);
+		border: 1px solid var(--ts-header-border);
+		width: auto;
+		width: var(--ts-btn-h);
+		background: var(--ts-navlink-bg) !important;
+
+		background: var(--ts-navlink-bg);
+		padding-inline: var(--ts-navlink-pad-x-mult) !important;
+		width: var(--ts-btn-h);
+		max-width: var(--ts-btn-h);
+		max-height: var(--ts-btn-h) !important;
+		min-width: var(--ts-btn-h);
+		border: 1px solid var(--ts-this-bg-border) !important;
+		border-radius: var(--ts-btn-radius) !important;
+	}
+
+	/* #CRAZY_FIX_RULES
+
+We need to move the general parameter definitions of the entire button component to the main scope. In this local scope, we should only keep the enforced media query-specific settings and token alterations that drive the visual differences for each class variant.
+
+This avoids constant re-declaration and allows these rules to share behavior with previous rules and other components that rely on the same properties and patterns.
+
+*/
+
+	#ts-top-btn:not(.button-style),
+	.ts-back_top-nav:not(.button-style) {
+		border-radius: 0 !important;
+		color: var(--ts-btn-color) !important;
+		box-shadow: none !important;
+		outline: none !important;
+		transition: right var(--ts-dur-base, 300ms) var(--ts-panel-ease-in, linear),
+			transform var(--ts-dur-base, 300ms) linear .2s !important;
+		filter: none;
+		backdrop-filter: none !important;
+		padding-inline: var(--ts-navlink-pad-x);
+		aspect-ratio: unset;
+		--ts-this-bg: transparent;
+		--ts-btn-color: var(--ts-navlink-color);
+		order: 3;
+		--ts-navlink-bg: var(--ts-this-bg);
+		max-width: unset !important;
+		max-height: calc(var(--ts-topbar-h) - 1px);
+		height: 100%;
+		border-inline: 1px solid var(--ts-header-border);
+		/* width: auto; */
+		background: var(--ts-navlink-bg);
+	}
+
+	#ts-top-btn .ts-icon,
+	.ts-back_top-nav .ts-icon {
+		color: var(--ts-btn-color) !important;
+		--ts-icon: calc(var(--ts-topbar-h)*.35);
+		--ts-navlink-bg: transparent;
+		font-size: var(--ts-icon);
+		/* --ts-icon: 80%; */
+		width: var(--ts-icon);
+	}
+
+	/* Show burger, hide desktop menu */
+	div#navbar-collapse,
+	nav .ts-nav-more.hasItems,
+	nav .ts-nav-more {
+		display: none !important;
+	}
+
+	.ts-menu-burger {
+		order: 3;
+		display: flex;
+		margin-right: 0 !important;
+		border: none !important;
+	}
+
+	.ts-nav-fixed__links,
+	.ts-nav-fixed:not(.spaced) {
+		gap: 0;
+	}
+
+	.ts-ui-select {
+		order: 4 !important;
+
+	}
+
+	.ts-nav-fixed__links:not(.ts-mobile-menu-items, .ts-ui-select) {
+		display: none !important;
+	}
+
+	.ts-theme-toggle, .theme-toggle {
+	    margin-right: 0;
+	    order: 2!important;
+	    margin-left: auto;
+	    border-left-width: 0px!important;
+	}
+
+}
+
+.ts-nav-fixed:has(button.ts-menu-burger.active) {
+
+	#ts-top-btn,
+	.ts-theme-toggle,
+	.theme-toggle,
+	.ts-menu-burger,
+	.ts-ui-select {
+		border: none !important;
+	}
+
+	.ts-nav-fixed__links>*:not(.ts-btn.ts-menu-burger, .ts-btn.ts-back_top-nav, .ts-btn#ts-top-btn) {
+		display: none;
+	}
+
+	.ts-ui-select__trigger {
+		background: transparent !important;
+		backdrop-filter: none !important;
+	}
+
+	.ts-ui-select,
+	.ts-ui-select__trigger {
+		background: transparent !important;
+		backdrop-filter: none !important;
+		max-width: 0px !important;
+		min-width: 0px !important;
+		padding: 0px !important;
+		width: 0px !important;
+		overflow: hidden;
+		border-color: transparent !important;
+
+	}
+
+	border-bottom-color: transparent !important;
+}
+
+.ts-nav-fixed:has(button.ts-menu-burger.active):before {
+	opacity: 0;
+	backdrop-filter: none !important;
+}
+
+/* Fixed nav sits below modal overlay */
+.ts-nav-fixed,
+[data-fixed-header] {
+	z-index: calc(var(--ts-z-sticky) + 2);
+	z-index: calc(var(--ts-z-offcanvas) - 5);
+}
+
+button.ts-menu-burger.active {
+	border-color: transparent !important;
+	z-index: calc(var(--ts-z-offcanvas-panel) + 5)
+}
+
+.ts-nav-fixed:has(button.ts-menu-burger.active),
+.ts-nav-fixed:has(button.ts-menu-burger.active) button.ts-menu-burger.active {
+	z-index: calc(var(--ts-z-sticky) + 2);
+	z-index: calc(var(--ts-z-offcanvas-panel) + 5);
+}
+
+html:has(.ts-menu-burger.active) .ts-oce-panel {
+	z-index: calc(var(--ts-z-offcanvas-panel) + 6);
+}
+
+.ts-nav-fixed:has(button.ts-menu-burger.active):before {
+	z-index: calc(var(--ts-z-sticky)* - 2);
+	background: transparent !important;
+	backdrop-filter: none !important;
+	border-bottom-color: transparent;
+	opacity: 0;
+}
+
+
+/* #CRAZY_FIX_RULES
+
+This has been defined multiple times, so we need a single general rule.
+
+When the burger sidebar menu is opened:
+- Elements that remain visible should have no borders or background—only icons.
+- This includes the burger icon (which transforms into an “X”) and the top button now located in the main nav scope (no longer floating). Both should remain visible, transparent, and layered above the burger menu as they currently behave.
+
+All other navigation elements must be hidden, including:
+- Standard menu links
+- The logo
+- The truncated icon element
+- Especially the ::before pseudo-element that applies color and backdrop-filter
+
+The bottom border, which is currently visible, must also be made transparent, and pointer events should be removed.
+
+Do NOT use display: none, as that removes the entire navigation structure except for the sidebar. The goal is to preserve the burger button and the top button while disabling or hiding everything else appropriately.
+
+*/
+
+.ts-nav-fixed:has(button.ts-menu-burger.active) .ts-nav-fixed__links a:not(.ts-btn, .ts-menu-burger, .ts-back_top-nav, #ts-top-btn) {
+	background: transparent !important;
+	backdrop-filter: none !important;
+	border-bottom-color: transparent;
+	opacity: 0;
+}
+
+.ts-nav-fixed:has(button.ts-menu-burger.active) {
+	border-bottom-color: transparent !important;
+	background: transparent !important;
+	box-shadow: none;
+	backdrop-filter: none !important;
+
+}
+
+/* Mobile breakpoint */
+@media (max-width: 420px) {
+
+	.ts-nav-fixed .ts-ui-select,
+	.ts-nav-fixed .ts-ui-select__trigger {
+		background: transparent !important;
+		backdrop-filter: none !important;
+		max-width: 0px !important;
+		min-width: 0px !important;
+		padding: 0px !important;
+		width: 0px !important;
+		overflow: hidden;
+		border-color: transparent !important;
+
+	}
+
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	topnav sidebar variant 	═══════════════════════════════════════════════════════════════════ */
+body:has(aside.ts-sidebar-menu.ts-ui-panel:not(.fixed)):not(:has(.ts-showcase,.ts-wireframe)) {
+    margin: 0;
+    position: relative;
+    display: grid;
+    grid-template-columns:var(--ts-sidebar-nav-w)  1fr ;
+    align-items: stretch;
+    align-content: center;
+    justify-items: stretch;
+    --ts-sidebar-nav-w: 200px;
+    --base-size: 100dvw;
+    align-items: center;
+    gap: 0;
+    --ts-this-bg: var(--ts-bg-body);
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    --ts-grid-line-color: color-mix(in srgb, var(--ts-this-bg-border-0), var(--ts-text-primary-dim) var(--ts-grid-line-mix));
+    --ts-grid-line-mix: 10%;
+    --ts-grid-bg-pattern: linear-gradient(to right, var(--ts-grid-line-color) 1px, transparent 1px),        linear-gradient(to bottom, var(--ts-grid-line-color) 1px, transparent 1px);
+    background-image: var(--ts-grid-bg-pattern);
+    background-size: var(--ts-grid-s);
+    background-color: var(--ts-this-bg);
+    --ts-grid-s: 4vw 4vw;
+    display: grid;
+        --ts-sidebar-nav-w: 200px;
+    padding: 0;
+	max-height: 100dvh;
+
+	>.ts-container,>.ts-main,>main,#ts-main,#ts-app{
+		padding: var(--ts-container-pad)!important;
+		overflow-y: auto;
+		overscroll-behavior: auto;
+		max-width: none!important
+		;
+		max-height: 100dvh;
+	}
+
+}
+aside.ts-sidebar-menu.ts-ui-panel {
+    min-width: var(--ts-sidebar-nav-w);
+    width: var(--ts-sidebar-nav-w);
+    background: var(--ts-this-bg);
+    --ts-this-bg:  var(--ts-bg-body);
+    border-radius: 0;
+    border-block-width: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: center;
+  row-gap: 2dvh;
+	position: sticky;
+	min-height: 100dvh;
+	top: 0;
+	outline-color: var(--ts-this-bg-border)!important;
+	border-color: var(--ts-this-bg-border)!important;
+  --ts-btn-h: 30px;
+
+	
+    &:has(.ts-ui-select--open){
+    z-index: 999999;
+    
+    }
+        a:not(.ts-btn){
+            border-radius: 0px;
+            min-width: unset;
+            border-inline-width: 0px!important;
+            font-size: .9em;
+              --ts-this-bg: var(--ts-bg-body);
+
+        }
+      .ts-ui-select{
+              flex: 1 1 100%;
+            min-width: unset;
+      padding: 0 1dvw;
+           order: 0!important;
+        --ts-ui-select-trigger-min-height: 38px;
+      font-size: inherit;
+
+          *:not(.ts-icon, .ts-icon *,.ts-ui-select__trigger,.ts-ui-select__trigger *, span, span *){
+
+                    border-radius: 0px;
+            border-inline-width: 0px!important;
+      outline-offset: 0px!important;
+                background-color: var(--ts-this-bg-dim);
+                border-color: var(--ts-input-border);
+                outline-color: var(--ts-input-border);
+          }
+      .ts-ui-select__trigger{
+        max-height: var(--ts-ui-select-trigger-min-height);
+        background-color: var(--ts-this-bg-dim-3);
+
+          .ts-ui-select__value-text{
+                  font-size: 80%!important;
+          gap: 8px;
+
+            }
+          }
+      
+      .ts-ui-select__dropdown {
+      border-color: var(--ts-this-bg-border);
+      outline-color: var(--ts-this-bg-border);
+            min-width: unset!important;
+        left:auto!important;
+        right:1dvw!important;
+        left:1dvw!important;
+        top: auto;
+        backdrop-filter: blur( 8px);
+        position: absolute;
+        border-radius:  var(--ts-btn-radius);
+          --ts-this-bg: var(--ts-bg-body)!important;
+        background-color: var(--ts-this-bg-dim-5)!important;
+
+
+        .ts-ui-select__option{
+        --ts-this-bg-hover: var(--ts-bg-0-t);
+        --ts-this-bg: var(--ts-bg-body);
+              max-height: var(--ts-ui-select-trigger-min-height);
+        background-color: var(--ts-this-bg-dim-5);
+
+            &:hover{
+              --ts-this-bg: var(--ts-this-bg-hover);
+        background-color: var(--ts-this-bg-dim);
+
+            }
+          &:not(:last-child){
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+          }
+        }
+
+      }
+
+      li{
+        padding-inline: .75dvh;
+       }
+     }
+       .ts-sidenav{
+              flex: 1 1 100%;
+
+         order: 1!important;
+       
+     }
+   
+        .ts-sidenav__btn-row{
+            display: flex;
+            padding-block: 10px;
+            padding-inline:10px;
+                gap: 4px;
+            flex-wrap: wrap;
+
+                order: 2!important;
+              flex: 1 1 100%;
+
+            .ts-btn{
+            --ts-btn-scale:  .7;
+                --ts-btn-radius: 6px;
+                flex: 1 1  auto;
+                 
+
+            }
+          
+            
+        }
+       .theme-toggle{
+     order: 0!important;
+     padding: 0;
+     --ts-btn-icon: calc(var(--ts-btn-h)*.4) !important;
+     appearance: none;
+     font-size: var(--ts-btn-icon) !important;
+     color: var(--ts-navlink-color);
+     max-width: var(--ts-btn-h) !important;
+     display: inline-flex;
+     flex: 1 1 var(--ts-btn-h);
+     align-items: center;
+     margin:0!important;
+     justify-content: center;
+     min-width: var(--ts-btn-h);
+     max-height: calc(var(--ts-btn-h) + 1px);
+     height: auto;
+     border-radius:  var(--ts-btn-radius);
+     position: relative;
+     border: 0px solid var(--ts-this-bg-border-0)!important;
+     /* --ts-this-bg: var(--ts-bg-0) !important; */
+     padding: var(--ts-btn-pad-y);
+     box-sizing: border-box;
+     --ts-navlink-color: var(--ts-text-secondary);
+     --ts-btn-radius: 0;
+     background-color: inherit;
+     border-left-width: 1px!important;
+     aspect-ratio: 1;
+     
+
+           &:hover{
+                --ts-navlink-color: var(--ts-accent);
+
+           }
+
+                .ts-menu-icon,
+                .ts-icon {
+                    --ts-btn-icon: calc(var(--ts-btn-h)*.45) !important;
+            
+                    font-size: var(--ts-btn-icon) !important;
+                    position: relative;
+            
+                }
+             }
+
+
+    .ts-topbar__logo
+    {
+    max-height: fit-content;
+    border-bottom: 0px solid var(--ts-this-bg-border);
+    flex: 0 1 auto;
+    max-width: 100%;
+    width: auto;
+  height: var(--ts-btn-h);
+    padding: 0 1vw 0 1vw;
+    font-size: 16px!important;
+    margin-bottom: 0px;
+    line-height: 1lh;
+    order:-3!important;
+    display: inline-flex;
+    position: relative;
+    transform: none!important;
+    margin-top: 0;
+    width: auto;
+    flex-direction: column;
+    
+    
+ 
+    
+    .ts-logo-sub{
+        font-size: 52%!important;
+        font-weight: 400;
+        font-family: var(--ts-font-mono);
+        color: var(--ts-text-muted);
+    }
+}
+           
+  
+    
+}
+
+
+/* OWNER FIX & REFACTOR NOTES:
+
+This defines a refactoring approach based on a nested, asset-scoped, token-driven system focused on properties and state.
+
+In this implementation, surface mixing is combined with accent and background tokens. This produces consistent results across light and dark themes, enabling subtle visual variation without relying on high-contrast surface differences.
+
+Core approach:
+- Establish primary styling patterns at the component scope
+- Allow the cascade to resolve final behavior naturally
+- Avoid redundant or scattered declarations
+
+This pattern serves as a foundation for:
+- System-wide color strategies
+- Token-based styling rules
+- Predictable component behavior
+
+All styling decisions should be driven by token definitions and configuration layers:
+- Global tokens (root-level system values)
+- Local tokens (component or state overrides)
+
+This shifts responsibility away from individual style declarations and centralizes control at the token and state level.
+
+Goal:
+A cohesive, scalable styling system where components derive their appearance from structured tokens and state, rather than ad hoc CSS rules.
+
+*/
+.ts-nav-fixed {
+	.ts-ui-select {
+		.ts-ui-select__trigger {
+			border-color: var(--ts-navlink-input-border);
+			outline-color: var(--ts-navlink-input-border);
+			background-color: var(--ts-navlink-input-bg);
+			color: var(--ts-input-color);
+			--ts-input-border: color-mix(in srgb, var(--ts-this-bg), var(--ts-navlink-input-color) var(--ts-navlink-border-alpha)) !important;
+			--ts-input-bg: color-mix(in srgb, var(--ts-this-bg), var(--ts-on-surface-muted) var(--ts-navlink-bg-alpha)) !important;
+			--ts-input-color: var(--ts-text-primary-dim-2);
+			--ts-input-color-hover: var(--ts-text-primary);
+			--ts-input-color-focus: var(--ts-text-accent);
+			--ts-navlink-input-border: var(--ts-input-border);
+			--ts-navlink-input-color: var(--ts-input-color);
+			--ts-navlink-input-bg: var(--ts-input-bg);
+			--ts-navlink-border-alpha: 25%;
+			--ts-navlink-bg-alpha: 8%;
+			--ts-this-bg: var(--ts-bg-0-t);
+		}
+	}
+}

@@ -1,0 +1,421 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · ts-modal — Modal shell + overlay scrim + header/body/footer chrome
+   ───────────────────────────────────────────────────────────────────────────
+   Migrated from toolskin.css.frozen §6k (lines 8066-8278) + the deferred
+   `.ts-modal__body .ts-input` parent-context override block (frozen lines
+   7161-7184) onto the v2 `--ts-this-bg` engine. Phase 2 · Wave 2.
+
+   SCOPE — shell only. The open/close behavior is JS (`.ts-overlay--open`
+   class or `[data-open]` attribute toggle), and is NOT part of this file.
+   The CSS reacts to those flags; it does not implement them.
+
+   What changed vs the frozen spec
+   ───────────────────────────────
+     • Nested pattern (CSS-1): every child rule (`.ts-modal__header`,
+       `__title`, `__close`, `__body`, `__footer`) lives INSIDE `.ts-modal`.
+       Variants `--sm`, `--lg`, `--xl` are nested modifiers. The frozen
+       spec already nested correctly; what changed is the surrounding
+       cleanup.
+
+     • All `!important` declarations DROPPED (CSS-1). The frozen spec
+       leaned on `!important` on `background`, `border-bottom`,
+       `border-left`, `min-height`, `--ts-this-bg`, and the input-knob
+       overrides. With the nested block + parent-context-override
+       pattern, none are necessary.
+
+     • The frozen `:root .ts-overlay:has(.ts-modal), :root .ts-modal *`
+       root-scoped variable block (lines 8067-8090) DROPPED. The frozen
+       block existed for two reasons: (a) to declare per-modal local
+       knobs (--ts-modal-surface, --ts-modal-bg, --ts-modal-radius,
+       --ts-modal-gap, --ts-modal-pad, --ts-modal-header-h, etc.), and
+       (b) to push `--ts-input-bg: var(--ts-modal-surface-2) !important`
+       into ts-input's private knobs (architecture leak — Wave 1
+       ts-input ADR explicitly forbids this).
+       The migrated file declares those knobs LOCALLY on `.ts-modal`
+       (nested pattern), and the modal-body→input override re-anchors
+       `--ts-this-bg` rather than reaching into `--ts-input-*` privates.
+
+     • `--ts-modal-surface` / `--ts-modal-surface-2` / `--ts-modal-surface-3`
+       (frozen aliases for --ts-bg-0/--ts-bg-1/--ts-bg-1-t) DROPPED.
+       Replaced with engine derivatives — the modal anchors
+       `--ts-this-bg: var(--ts-bg-0)` (lifted "card on body" surface)
+       and the modal body & footer consume `--ts-this-bg-dim-*` /
+       `--ts-this-bg-border*` from there.
+
+     • `--ts-radius-constrained` (frozen-only, not in next/primitives)
+       replaced with `var(--ts-radius-lg)`. The frozen "constrained"
+       intent is "smaller than the card max" — lg (14px) reads as the
+       same step in the new ladder.
+
+     • `--ts-border-1` (frozen-only token) replaced with
+       `var(--ts-this-bg-border)` derived from the engine. The
+       border re-resolves automatically when the body re-anchors
+       `--ts-this-bg`.
+
+     • `--ts-shadow-5` (frozen-only token) replaced with an engine-
+       derived oklab shadow stack (same pattern as ts-card --interactive).
+       The shadow is the modal's elevation cue and must read on both
+       light and dark themes.
+
+     • `--ts-z-modal` (frozen-only, not in next/primitives) replaced
+       with a literal `1000`. The modal stacking-context constant is
+       a primitive in its own right and can be lifted to a z-index
+       primitive in a future wave; for now the literal documents intent.
+
+     • `--ts-bg-0-t` / `--ts-bg-1-t` (frozen-only transparent surface
+       primitives) DROPPED. The frozen scrim self-contradicted by
+       writing `background: var(--ts-this-bg); --ts-this-bg: var(--ts-bg-0-t)`
+       — which is also a Pattern 4 (R9) violation: it sets the background
+       FIRST (which captures the inherited --ts-this-bg, not the local
+       re-anchor) and then re-anchors. Migrated to re-anchor FIRST,
+       then consume the engine's `--ts-this-bg-dim-3` (50% transparent)
+       for the scrim wash.
+
+     • Frozen scrim used `backdrop-filter: blur(var(--ts-backdrop-blur-2))
+       grayscale(1) brightness(.35)` — `--ts-backdrop-blur-2` is not a
+       primitive in next/. Migrated to a literal `blur(12px)` for the
+       default scrim and `blur(20px)` for the `.blur` variant. Both
+       documented inline so a future primitive lift is trivial.
+
+     • The deferred-from-Wave-1 `.ts-modal__body .ts-input/.ts-select/
+       .ts-textarea` block (frozen lines 7161-7184) lands HERE as a
+       parent-context override at the bottom of this file. Per the
+       Wave-1 ts-input ADR (which forbids reaching into `--ts-input-bg /
+       --ts-input-border` privates from outside the component), the
+       migrated override RE-ANCHORS `--ts-this-bg` on the
+       `.ts-modal__body .ts-input` scope and lets the input's nested
+       block recompute its own surface + border via the engine. This
+       is the textbook surface-propagation use of the v2 engine.
+
+     • The dark-default block in the frozen file (line 28180,
+       `[data-theme="light"] .ts-modal { background-color: ...; ...
+       --ts-this-bg: var(--ts-this-bg-dim); --ts-this-bg: var(--ts-bg-3); }`)
+       DROPPED. It contained two conflicting `--ts-this-bg`
+       declarations and an srgb-mix shadow; the engine already
+       recomputes derivatives when the body re-anchors per theme.
+       Theme-aware modal tuning lands with the theme wave.
+
+   What the migration deliberately did NOT bring forward
+   ─────────────────────────────────────────────────────
+     • `.ts-overlay.blur` extra variant — KEPT (frozen line 8127), but
+       its backdrop blur is now a literal until a `--ts-backdrop-blur*`
+       primitive lands.
+     • `.ts-section--overlay` (frozen lines 8110-8125) — out of scope
+       (that's a section-layer overlay, not a modal scrim; belongs to
+       ts-section if/when its overlay modifier migrates).
+     • `:root .ts-modal { --ts-header-bg: ... }` block (frozen lines
+       12087-12100) — out of scope (that's the topbar font-size /
+       header recolour rule that the topbar/nav worker will own).
+     • `.ts-modal__header .ts-topbar__logo` (frozen line 5946) —
+       out of scope (topbar/nav worker).
+     • `#ts-export-modal .ts-modal-preview / -actions / -title / -sub`
+       (frozen line 22334+) — app-specific scope (banner generator),
+       not the shell.
+     • `.ts-modal, .ts-modal__body { --ts-ui-select-dd-* }` (frozen
+       line 28721) — ts-ui-select knobs, belong with that component's
+       migration.
+
+   Load order:
+     1. primitives/colors.css           (--ts-accent, --ts-on-accent, --ts-bg-*)
+     2. primitives/typography.css       (--ts-font-mono, --ts-fs-*, --ts-fw-*)
+     3. primitives/spacing.css          (--ts-sp-*)
+     4. primitives/radius.css           (--ts-radius-lg, --ts-radius-md)
+     5. primitives/motion.css           (--ts-dur-slow, --ts-dur-fast, --ts-ease-out)
+     6. primitives/status-tints.css
+     7. system/toolskin-this-bg-v2.css  (the surface state engine)
+     8. components/ts-btn_v3.1.css      (close button is a ts-btn variant)
+     9. components/ts-input.css         (modal body hosts inputs)
+    10. components/ts-modal.css         (this file)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1.  THE SCRIM — `.ts-overlay`
+       Full-viewport tinted scrim that the modal sits inside. Hidden until
+       `.ts-overlay--open` or `[data-open]` flips it to display:flex.
+       Pattern 4 (R9): re-anchor `--ts-this-bg` FIRST, consume derivatives
+       SECOND. The frozen spec did the reverse and self-cancelled.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-overlay {
+  /* RE-ANCHOR FIRST. The scrim wash is the "page floor" surface dimmed
+     into transparency — keeps the dim mathematics consistent regardless
+     of the parent's --ts-this-bg. */
+  --ts-this-bg: var(--ts-bg-body);
+
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000; /* was --ts-z-modal (frozen-only); literal until a z-index
+                    primitive lands. Documents intent. */
+  align-items: center;
+  justify-content: center;
+  padding: var(--ts-sp-6);
+
+  /* Scrim wash — 50%-transparent floor surface + backdrop blur.
+     Engine derivative `--ts-this-bg-dim-3` = 50% transparent on the
+     re-anchored body. */
+  background-color: var(--ts-this-bg-dim-3);
+  backdrop-filter:         blur(12px) grayscale(1) brightness(0.35);
+  -webkit-backdrop-filter: blur(12px) grayscale(1) brightness(0.35);
+
+  transition:
+    opacity var(--ts-dur-base, 200ms) var(--ts-ease-out);
+
+  /* OPEN STATE — class toggle OR data attribute (frozen supports both). */
+  &.ts-overlay--open,
+  &[data-open] {
+    display: flex;
+    cursor: pointer; /* clicking the scrim closes the modal (JS owns the handler) */
+  }
+
+  /* HEAVIER BLUR variant — for confirmation / warning modals where the
+     background should fully recede. */
+  &.blur {
+    backdrop-filter:         blur(20px) grayscale(1) brightness(0.35);
+    -webkit-backdrop-filter: blur(20px) grayscale(1) brightness(0.35);
+    background-color: var(--ts-this-bg-dim-4); /* 65% transparent — deeper wash */
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2.  THE MODAL SHELL — `.ts-modal`
+       Nested pattern (CSS-1). Every child element, state, and size variant
+       lives inside this block.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-modal {
+  /* ── INPUT KNOBS — declared LOCALLY on the modal (frozen had them at
+        `:root .ts-overlay:has(.ts-modal)` scope, which scattered the
+        component contract across two selectors and reached into
+        `--ts-input-*` privates with `!important`). All knobs here are
+        scoped to the modal subtree via the cascade. */
+  --ts-modal-pad:           var(--ts-sp-3);
+  --ts-modal-gap:           var(--ts-sp-2);
+  --ts-modal-radius:        var(--ts-radius-lg);
+  --ts-modal-header-h:      40px;
+  --ts-modal-header-btn-h:  var(--ts-modal-header-h);
+  --ts-modal-header-fs:     var(--ts-fs-h6);
+  --ts-modal-border-w:      1px;
+  --ts-modal-body-pad:      var(--ts-sp-5);
+  --ts-modal-max-w:         560px;
+
+  /* RE-ANCHOR FIRST (Pattern 4 R9). Modal sits as a "lifted panel" surface
+     — bg-0 is the canonical "modal on body" anchor in the dark default
+     palette and inverts cleanly via the preset cascade on light. The
+     engine recomputes every derivative (`--ts-this-bg-border*`,
+     `--ts-this-bg-dim-*`) against this anchor automatically. */
+  --ts-this-bg: var(--ts-bg-0);
+
+  /* Local shadow stack — engine-derived, oklab-safe. Mirrors the
+     ts-card --interactive shadow recipe so modals read at the same
+     elevation tier on every theme. Frozen used --ts-shadow-5 (token
+     missing in next/). */
+  --ts-modal-shadow-color:
+    color-mix(in oklab, var(--ts-tone-floor), transparent 35%);
+
+  width: 100%;
+  max-width: var(--ts-modal-max-w);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: default;
+
+  background-color: var(--ts-this-bg);
+  border: var(--ts-modal-border-w) solid var(--ts-this-bg-border);
+  border-radius: var(--ts-modal-radius);
+  box-shadow:
+    0 0 0 1px var(--ts-this-bg-border-0),
+    0 24px 64px -16px var(--ts-modal-shadow-color),
+    0 8px 24px -8px var(--ts-modal-shadow-color);
+  color: var(--ts-text-primary);
+
+  animation: ts-modal-in var(--ts-dur-slow) var(--ts-ease-out) both;
+
+  /* ═══════════════════════════════════════════════════════════════════
+     CHILDREN — header / title / close / body / footer
+     ═══════════════════════════════════════════════════════════════════ */
+
+  /* ─── HEADER ─── horizontal bar with title + close. Border bottom
+        separates from the body. */
+  & .ts-modal__header {
+    display: flex;
+    align-items: center;
+    align-content: stretch;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    flex-shrink: 0;
+    flex: 1;
+    gap: 0;
+    padding: 0;
+    max-height: var(--ts-modal-header-h);
+    font-size: var(--ts-fs-sm);
+    border-bottom: var(--ts-modal-border-w) solid var(--ts-this-bg-border);
+  }
+
+  /* ─── TITLE ─── flexes into remaining header space; border-left separates
+        it from any leading logo/icon slot. */
+  & .ts-modal__title {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    min-height: var(--ts-modal-header-h);
+    padding-inline: var(--ts-modal-pad);
+    font-size: var(--ts-modal-header-fs);
+    font-weight: var(--ts-fw-medium, 500);
+    color: var(--ts-text-primary);
+    border-left: var(--ts-modal-border-w) solid var(--ts-this-bg-border);
+    margin: 0;
+  }
+
+  /* When the title is the FIRST header child (no leading logo slot),
+     drop the divider so it doesn't read as an orphan rule. */
+  & .ts-modal__header > .ts-modal__title:first-child {
+    border-left: 0;
+    padding-inline: var(--ts-modal-pad);
+  }
+
+  /* ─── CLOSE ─── square icon button at the header's trailing edge.
+        Frozen built this from scratch as a transparent <button>; we
+        keep that selector contract (no class change) but derive the
+        rest token-cleanly. The auto-ink token `--ts-on-surface-auto`
+        (emitted by ts-btn_v3.1) auto-flips ink on accent surfaces. */
+  & .ts-modal__close {
+    width: var(--ts-modal-header-btn-h);
+    height: var(--ts-modal-header-btn-h);
+    aspect-ratio: 1;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: 0;
+    border-left: var(--ts-modal-border-w) solid var(--ts-this-bg-border);
+    border-radius: 0;
+    color: var(--ts-text-secondary);
+    font-size: var(--ts-fs-lg);
+    cursor: pointer;
+
+    transition:
+      color            var(--ts-dur-fast) var(--ts-ease-out),
+      background-color var(--ts-dur-fast) var(--ts-ease-out);
+
+    &:hover {
+      color: var(--ts-text-primary);
+      background-color: var(--ts-this-bg-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ts-this-bg-border-focus);
+      outline-offset: -2px;
+      color: var(--ts-text-primary);
+    }
+  }
+
+  /* ─── BODY ─── scrollable content region between header and footer.
+        Frozen padded with sp-5 (20px); preserved verbatim. */
+  & .ts-modal__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--ts-modal-body-pad);
+    color: var(--ts-text-secondary);
+  }
+
+  /* ─── FOOTER ─── action bar. Border-top separates from the body.
+        Frozen used justify-content: space-between (left-aligned secondary
+        actions, right-aligned primary). Preserved. */
+  & .ts-modal__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    gap: var(--ts-modal-gap);
+    padding: var(--ts-modal-pad);
+    border-top: var(--ts-modal-border-w) solid var(--ts-this-bg-border);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     SIZE VARIANTS — frozen sizes preserved verbatim.
+     ═══════════════════════════════════════════════════════════════════ */
+  &.ts-modal--sm { --ts-modal-max-w: 380px; }
+  &.ts-modal--lg { --ts-modal-max-w: 800px; }
+  &.ts-modal--xl { --ts-modal-max-w: 1100px; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   3.  ANIMATION — frozen keyframes preserved (entrance only; exit is JS).
+   ───────────────────────────────────────────────────────────────────────── */
+@keyframes ts-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Respect reduced-motion users — the engine already collapses durations
+   to 0ms via the global media query in motion.css; explicitly neutralize
+   the entrance keyframe transform as well so there is no flash. */
+@media (prefers-reduced-motion: reduce) {
+  .ts-modal { animation: none; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   4.  RESPONSIVE — mobile sheet treatment (frozen lines 11528-11536).
+       At narrow widths the modal anchors to the bottom of the viewport
+       and rounds only its top corners — classic "bottom sheet" pattern.
+   ───────────────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .ts-modal {
+    --ts-modal-radius:
+      var(--ts-radius-md) var(--ts-radius-md) 0 0;
+    align-self: flex-end;
+    max-height: 90vh;
+  }
+
+  .ts-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   5.  PARENT-CONTEXT OVERRIDES — `.ts-modal__body` re-anchors inputs.
+       Deferred from Wave 1 ts-input migration (frozen lines 7161-7184)
+       and lands HERE per the engineer-lead's directive.
+
+       Wave 1 ADR forbids reaching into ts-input's `--ts-input-bg` /
+       `--ts-input-border` private knobs from outside the component.
+       Instead we re-anchor `--ts-this-bg` on the input's host scope
+       and let the input's nested block recompute its surface + border
+       via the engine. This is the textbook surface-propagation use of
+       the v2 engine.
+
+       The frozen rule pushed `--ts-input-bg: var(--ts-bg-2)` etc. The
+       migrated rule re-anchors --ts-this-bg one step deeper toward the
+       floor (--ts-bg-1 — the engine's "recessed surface on a lifted
+       panel" step), and the input's `--ts-input-bg: var(--ts-this-bg-dim)`
+       chain produces the recessed input look automatically. The frozen
+       light-theme branch reused the same primitive (--ts-bg-1-t); the
+       preset cascade in colors.css already inverts this token per theme,
+       so a separate light-theme block is no longer needed.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-modal__body .ts-input:not(.ts-resizable),
+.ts-modal__body .ts-select,
+.ts-modal__body .ts-textarea:not(.ts-resizable),
+.ts-modal__body .ts-ui-select__trigger {
+  /* RE-ANCHOR (Pattern 4 R9). One step deeper than the modal's --ts-bg-0
+     anchor so the input reads as RECESSED inside the modal panel — the
+     frozen intent. */
+  --ts-this-bg: var(--ts-bg-1);
+}

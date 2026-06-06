@@ -1,0 +1,61 @@
+@charset "UTF-8";
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · system/app-tokens.css — L4 APPLICATION TOKENS
+   ───────────────────────────────────────────────────────────────────────────
+   Phase 3 wiring · 2026-06-05 · Owner directive §1, §3
+
+   STATUS: SCAFFOLD ONLY. The file exists, loads in canonical order, and
+   declares the layer slot. Component-namespaced tokens (--ts-nav-*,
+   --ts-card-*, --ts-input-*, --ts-modal-*) will MIGRATE here in a
+   future task. THIS PASS DOES NOT MOVE THEM — that's a redesign per
+   the standing rule.
+
+   ARCHITECTURE ROLE
+   ─────────────────
+   This is the L4 mapping layer in the 5-layer architecture
+   (see docs/architecture/global-architecture-plan.md §0).
+
+       L1 primitives  →  raw tokens
+       L2 engine      →  --ts-this-bg, OKLAB
+       L3 processing  →  --ts-on-surface-auto, .ts-on-accent
+       L4 app tokens  ◄  THIS FILE — maps L1+L2+L3 to component knobs
+       Components     →  consume L4 only
+
+   MIGRATION TARGETS (queued, NOT executed this pass)
+   ──────────────────────────────────────────────────
+   When owner approves the migration, the following declarations move
+   here from their current locations:
+
+     FROM components/ts-nav-header.css §3 (Layer 1 tokens):
+       --ts-nav-fixed-h, --ts-nav-pad-x, --ts-nav-pad-y, --ts-nav-gap,
+       --ts-navlink-color, --ts-navlink-color-hover, --ts-nav-text-alpha,
+       --ts-nav-bg-alpha, --ts-nav-border, etc.
+
+     FROM components/ts-btn_v3.1.css §1 (Layer 1 tokens):
+       --ts-btn-pad-x, --ts-btn-pad-y, --ts-btn-radius, --ts-btn-fs,
+       --ts-btn-border-w, etc.
+
+     FROM components/ts-card.css:
+       --ts-card-pad, --ts-card-radius, --ts-card-border, etc.
+
+     FROM components/ts-input.css:
+       --ts-input-bg, --ts-input-border, --ts-input-fs, etc.
+
+   POST-MIGRATION RULE
+   ───────────────────
+   Component CSS becomes pure consumer:
+     .ts-nav-fixed { padding: var(--ts-nav-pad-y) var(--ts-nav-pad-x); }
+   NO --ts-nav-* declared inside the component file itself.
+
+   THIS PASS — what changes
+   ────────────────────────
+   Nothing. Scaffold file only. Visual output unchanged.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ── Migration queue (empty — see header comment) ─────────────────────── */
+  /* App tokens will be migrated here in a future commit. Currently lives
+     inside each component file's own header block. */
+
+}

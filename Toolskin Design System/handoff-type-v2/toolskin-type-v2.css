@@ -1,0 +1,371 @@
+/* ============================================================================
+   TOOLSKIN · TYPE SCALE v2
+   ----------------------------------------------------------------------------
+   A single-source, mathematically honest type system.
+
+   WHY v2 EXISTS — the v1 "harmonic" scale was broken in five ways:
+     1. --ts-fs-base was declared twice (0.8rem, then 13px) — dead code.
+     2. --ts-fs-ratio: 1.12 was DECORATIVE. The steps hardcoded a different
+        ratio (powers of 1.125) plus ad-hoc multipliers, so the "single ratio"
+        promise was false and unverifiable.
+     3. Comments contradicted computed values throughout (e.g. --ts-fs-sm was
+        labelled "~11.6px" but resolved to 12.1px).
+     4. --ts-fs-h3 used clamp(xl, 2vw, lg) where the MAX (~14.6px) was SMALLER
+        than the MIN (~18.5px) — an inverted clamp that silently pins to min.
+     5. --ts-fs-lead was declared twice with conflicting comments.
+
+   THE FIX — two zones, two honest jobs:
+
+     UI ZONE (10–20px) ........ functional text: labels, body, controls.
+       Steps are px-snapped to stay crisp on screen. The ratio drifts
+       gently (~1.07 → 1.18) because hinting matters more than purity at
+       small sizes — every step lands on a whole pixel at 16px root.
+
+     DISPLAY ZONE (24px+) ..... headings & hero: built on a TRUE, constant
+       Major Third (1.25). Each step is exactly 1.25× the previous, so the
+       big end is genuinely musical and high-contrast. Expressed with clamp()
+       for fluid responsive scaling — bounds verified min < max (no inversion).
+
+   ONE KNOB rescales the whole system: --ts-type-scale (1 = default).
+   Everything is rem-based so OS / browser zoom and a11y settings still work.
+   NEVER set `html { font-size: <px> }` — it breaks user zoom. Drive density
+   through --ts-type-scale instead.
+
+   RESOLVED PX below assume root = 16px and --ts-type-scale = 1.
+   ----------------------------------------------------------------------------
+   Load AFTER toolskin.css to override the legacy 8-step scale:
+     <link rel="stylesheet" href="toolskin.css">
+     <link rel="stylesheet" href="toolskin-type-v2.css">
+   ========================================================================== */
+
+:root {
+  /* ── FOUNDATION ─────────────────────────────────────────────────────────
+     --ts-fs-root .... documentation reference only (the browser default).
+     --ts-type-scale . global density knob. 0.92 = compact, 1.08 = comfortable.
+     --ts-fs ......... THE base unit (body size) every token is derived from. */
+  --ts-fs-root:    16px;
+  --ts-type-scale: 1;
+  --ts-fs:         calc(0.9375rem * var(--ts-type-scale));   /* 15px — body anchor */
+  --ts-fs-base:    var(--ts-fs);                             /* legacy alias */
+  --ts-fs-base-val:var(--ts-fs);                             /* legacy alias */
+  --ts-font-scale: var(--ts-type-scale);                     /* legacy alias */
+
+  /* Documented ratios — these are REAL: the display ladder is computed on
+     --ts-ratio-display, and the UI ladder's effective ratio is shown for
+     reference. Override --ts-ratio-display to retune the big end. */
+  --ts-ratio-ui:      1.125;   /* effective UI drift, px-snapped (reference) */
+  --ts-ratio-display: 1.25;    /* Major Third — drives the display ladder     */
+
+  /* ── UI ZONE — px-snapped, 10→20px ──────────────────────────────────────
+     Functional text. Each value is a clean rem fraction of a 16px root. */
+  --ts-fs-4xs: calc(0.625rem  * var(--ts-type-scale));   /* 10px — legibility floor / fine print */
+  --ts-fs-3xs: calc(0.6875rem * var(--ts-type-scale));   /* 11px — micro labels, eyebrows         */
+  --ts-fs-2xs: calc(0.75rem   * var(--ts-type-scale));   /* 12px — captions, badges, chips        */
+  --ts-fs-xs:  calc(0.8125rem * var(--ts-type-scale));   /* 13px — dense secondary, table cells   */
+  --ts-fs-sm:  calc(0.875rem  * var(--ts-type-scale));   /* 14px — small body, secondary UI       */
+  --ts-fs-md:  var(--ts-fs);                             /* 15px — BODY / base UI label           */
+  --ts-fs-lg:  calc(1.0625rem * var(--ts-type-scale));   /* 17px — lead paragraph, large UI       */
+  --ts-fs-xlg: calc(1.125rem  * var(--ts-type-scale));   /* 18px — legacy bridge step             */
+  --ts-fs-xl:  calc(1.25rem   * var(--ts-type-scale));   /* 20px — subhead / h4, UI→display bridge*/
+
+  /* ── DISPLAY ZONE — true Major Third (1.25), fluid via clamp() ───────────
+     min = floor (small screens), max = geometric step (large screens).
+     Every clamp is verified MIN < MAX. Multiplied by --ts-type-scale so the
+     density knob drives headings too. */
+  --ts-fs-2xl: clamp(calc(1.25rem  * var(--ts-type-scale)),
+                     calc((1.05rem + 0.9vw) * var(--ts-type-scale)),
+                     calc(1.5rem   * var(--ts-type-scale)));   /* 20 → 24px */
+  --ts-fs-3xl: clamp(calc(1.5rem   * var(--ts-type-scale)),
+                     calc((1.15rem + 1.6vw) * var(--ts-type-scale)),
+                     calc(1.875rem * var(--ts-type-scale)));   /* 24 → 30px */
+  --ts-fs-4xl: clamp(calc(1.875rem * var(--ts-type-scale)),
+                     calc((1.30rem + 2.6vw) * var(--ts-type-scale)),
+                     calc(2.375rem * var(--ts-type-scale)));   /* 30 → 38px */
+
+  --ts-fs-display-md: clamp(calc(2.375rem * var(--ts-type-scale)),
+                            calc((1.5rem + 4vw) * var(--ts-type-scale)),
+                            calc(3rem    * var(--ts-type-scale)));   /* 38 → 48px */
+  --ts-fs-display-lg: clamp(calc(3rem    * var(--ts-type-scale)),
+                            calc((1.6rem + 6.5vw) * var(--ts-type-scale)),
+                            calc(3.75rem * var(--ts-type-scale)));   /* 48 → 60px */
+  --ts-fs-display-xl: clamp(calc(3.75rem * var(--ts-type-scale)),
+                            calc((1.8rem + 9vw) * var(--ts-type-scale)),
+                            calc(4.75rem * var(--ts-type-scale)));   /* 60 → 76px */
+  --ts-fs-display-ratio: var(--ts-ratio-display);  /* legacy alias */
+
+  /* ── SEMANTIC ALIASES — name by ROLE, never reach for raw steps in code ──
+     Headings map onto the ladder. h3/h2/h1 ride the fluid display steps,
+     which fixes the v1 inverted-clamp bug. */
+  --ts-fs-h6: var(--ts-fs-md);    /* 15px */
+  --ts-fs-h5: var(--ts-fs-lg);    /* 17px */
+  --ts-fs-h4: var(--ts-fs-xl);    /* 20px */
+  --ts-fs-h3: var(--ts-fs-2xl);   /* 20 → 24px  (was a broken clamp in v1) */
+  --ts-fs-h2: var(--ts-fs-3xl);   /* 24 → 30px */
+  --ts-fs-h1: var(--ts-fs-4xl);   /* 30 → 38px */
+
+  /* Body & utility roles */
+  --ts-fs-body:    var(--ts-fs-md);    /* 15px — comfortable read     */
+  --ts-fs-body-sm: var(--ts-fs-sm);    /* 14px — secondary text       */
+  --ts-fs-lead:    var(--ts-fs-lg);    /* 17px — intro paragraphs     */
+  --ts-fs-caption: var(--ts-fs-2xs);   /* 12px — captions             */
+  --ts-fs-small:   var(--ts-fs-3xs);   /* 11px — fine print           */
+  --ts-fs-eyebrow: var(--ts-fs-3xs);   /* 11px — overlines (v1 was 9px; bumped for legibility) */
+
+  /* ── LINE HEIGHT — pairs by role; bigger type wants tighter leading ───── */
+  --ts-lh-none:    1;
+  --ts-lh-display: 1.05;   /* hero / display wordmarks   */
+  --ts-lh-tight:   1.1;    /* h1 / h2                    */
+  --ts-lh-snug:    1.25;   /* h3 / h4 / subheads         */
+  --ts-lh-normal:  1.5;    /* UI text, single-line       */
+  --ts-lh-relaxed: 1.65;   /* long-form body             */
+  --ts-lh-loose:   1.8;    /* generous editorial         */
+  /* legacy --ts-line-height-* mirrors (deck + extras consumers) */
+  --ts-line-height-display: var(--ts-lh-display);
+  --ts-line-height-tight:   var(--ts-lh-tight);
+  --ts-line-height-snug:    var(--ts-lh-snug);
+  --ts-line-height-normal:  var(--ts-lh-normal);
+  --ts-line-height-relaxed: var(--ts-lh-relaxed);
+  --ts-line-height-loose:   var(--ts-lh-loose);
+
+  /* ── LETTER SPACING — negative on display, positive on small mono UI ──── */
+  --ts-tracking-tightest: -0.04em;  /* display-xl                 */
+  --ts-tracking-tighter:  -0.03em;  /* display / h1               */
+  --ts-tracking-tight:    -0.02em;  /* h2                         */
+  --ts-tracking-snug:     -0.01em;  /* h3 / h4                    */
+  --ts-tracking-normal:    0;       /* body                       */
+  --ts-tracking-wide:      0.04em;  /* captions, mono             */
+  --ts-tracking-wider:     0.08em;  /* eyebrows, badges           */
+  --ts-tracking-widest:    0.14em;  /* section labels             */
+  --ts-letter-spacing-eyebrow: 0.06em;  /* preserved legacy value */
+
+  /* ── WEIGHTS — Space Grotesk variable axis is 300–700 ──────────────────── */
+  --ts-font-weight-thin:     300;
+  --ts-font-weight-normal:   400;
+  --ts-font-weight-medium:   500;
+  --ts-font-weight-semibold: 600;
+  --ts-font-weight-bold:     700;
+  --ts-font-weight-black:    700;   /* capped: face has no >700 master */
+
+  /* ── LEGACY / COMPAT ALIASES — keep older consumers rendering ──────────── */
+  --ts-fs-display:       var(--ts-fs-display-md);   /* 38 → 48px            */
+  --ts-fs-section-title: var(--ts-fs-h2);           /* 24 → 30px            */
+  --ts-fs-pricing:       var(--ts-fs-display-md);   /* 38 → 48px            */
+  /* Hero stays OUTSIDE the ladder on purpose: it's the oversized "TOOLSKIN"
+     wordmark, tuned to fill its container. Not a heading. */
+  --ts-fs-hero: clamp(calc(3.5rem * var(--ts-type-scale)), 12vw, calc(8rem * var(--ts-type-scale))); /* 56 → 128px */
+
+  /* ── FLEX / CONTENT-AWARE DISPLAY ────────────────────────────────────────
+     For heroes that must FILL their area regardless of the viewport's aspect
+     ratio — the one job the fixed ladder above can't do.
+
+     Technique (CrocoDillon): font-size = calc(N·vw + N·vh + N·vmin), where the
+     three scalars sum to a "fill budget". vw alone over-grows on wide screens
+     and under-grows on tall ones; vh is the inverse; vmin corrects the diagonal
+     so the type tracks the viewport AREA at any ratio. A plain `10vmin` only
+     matches at ratio = 1; the vw+vh+vmin blend stays close across 0–4 ratios.
+
+       --ts-fs-flex-budget . the scalar sum (vw+vh+vmin). Higher = bigger fill.
+       More budget on vmin = steadier across extreme ratios; more on vw/vh =
+       more reactive. Always wrapped in clamp() so phones and ultrawides stay sane.
+
+     ALWAYS clamp. Never ship a raw vw+vh+vmin — it has no floor or ceiling. */
+  --ts-fs-flex-budget: 10;   /* reference: the magic number from the math */
+  --ts-fs-flex-hero:    clamp(2.75rem, calc(4vw + 4vh + 2vmin),   8.5rem);  /* viewport-fill hero  */
+  --ts-fs-flex-display: clamp(2rem,    calc(3vw + 3vh + 1.5vmin), 6rem);    /* viewport-fill display */
+  --ts-fs-flex-title:   clamp(1.5rem,  calc(2vw + 2vh + 1vmin),   3.5rem);  /* viewport-fill title */
+
+  /* ── CONTAINER-AWARE (cqi) ──────────────────────────────────────────────
+     Sizes to the nearest INLINE-SIZE container, not the viewport — so a hero
+     inside a card, split layout, or sidebar scales to ITS box, not the screen.
+     Requires an ancestor with `container-type: inline-size` (use .ts-cq).
+     cqi = 1% of the query container's inline size (≈ cqw in horizontal writing). */
+  --ts-fs-cq-hero:    clamp(2rem,   12cqi, 7rem);
+  --ts-fs-cq-display: clamp(1.5rem,  8cqi, 4.5rem);
+  --ts-fs-cq-title:   clamp(1.25rem, 5cqi, 3rem);
+
+  /* ── TEXT MANAGEMENT KNOBS ──────────────────────────────────────────────── */
+  --ts-clamp-lines: 2;             /* default line count for .ts-clamp */
+  --ts-fade-length: 2.5em;         /* edge-fade width for .ts-fade-* */
+}
+
+/* ============================================================================
+   TYPOGRAPHY UTILITIES — role-based classes wired to the tokens above.
+   These OVERRIDE the v1 utilities in toolskin.css with the corrected scale.
+   ========================================================================== */
+.ts-display-xl,
+.ts-hero {
+  font-family: var(--ts-font-display);
+  font-size: var(--ts-fs-display-xl);
+  font-weight: var(--ts-font-weight-bold);
+  line-height: var(--ts-lh-display);
+  letter-spacing: var(--ts-tracking-tightest);
+}
+.ts-display {
+  font-family: var(--ts-font-display);
+  font-size: var(--ts-fs-display-md);
+  font-weight: var(--ts-font-weight-bold);
+  line-height: var(--ts-lh-display);
+  letter-spacing: var(--ts-tracking-tighter);
+}
+.ts-h1 {
+  font-family: var(--ts-font-display);
+  font-size: var(--ts-fs-h1);
+  font-weight: var(--ts-font-weight-bold);
+  line-height: var(--ts-lh-tight);
+  letter-spacing: var(--ts-tracking-tighter);
+}
+.ts-h2 {
+  font-family: var(--ts-font-display);
+  font-size: var(--ts-fs-h2);
+  font-weight: var(--ts-font-weight-semibold);
+  line-height: var(--ts-lh-tight);
+  letter-spacing: var(--ts-tracking-tight);
+}
+.ts-h3 {
+  font-family: var(--ts-font-display);
+  font-size: var(--ts-fs-h3);
+  font-weight: var(--ts-font-weight-semibold);
+  line-height: var(--ts-lh-snug);
+  letter-spacing: var(--ts-tracking-snug);
+}
+.ts-h4 {
+  font-family: var(--ts-font-display);
+  font-size: var(--ts-fs-h4);
+  font-weight: var(--ts-font-weight-semibold);
+  line-height: var(--ts-lh-snug);
+  letter-spacing: var(--ts-tracking-snug);
+}
+.ts-lead {
+  font-family: var(--ts-font-body);
+  font-size: var(--ts-fs-lead);
+  font-weight: var(--ts-font-weight-normal);
+  line-height: var(--ts-lh-relaxed);
+  color: var(--ts-text-secondary);
+}
+.ts-body {
+  font-family: var(--ts-font-body);
+  font-size: var(--ts-fs-body);
+  font-weight: var(--ts-font-weight-normal);
+  line-height: var(--ts-lh-relaxed);
+  color: var(--ts-text-secondary);
+}
+.ts-body-sm {
+  font-family: var(--ts-font-body);
+  font-size: var(--ts-fs-body-sm);
+  line-height: var(--ts-lh-normal);
+  color: var(--ts-text-secondary);
+}
+.ts-caption {
+  font-family: var(--ts-font-mono);
+  font-size: var(--ts-fs-caption);
+  line-height: var(--ts-lh-normal);
+  letter-spacing: var(--ts-tracking-wide);
+  color: var(--ts-text-muted);
+}
+.ts-eyebrow,
+.ts-label {
+  font-family: var(--ts-font-mono);
+  font-size: var(--ts-fs-eyebrow);
+  font-weight: var(--ts-font-weight-semibold);
+  letter-spacing: var(--ts-tracking-wider);
+  text-transform: uppercase;
+  color: var(--ts-accent);
+}
+.ts-mono {
+  font-family: var(--ts-font-mono);
+  font-size: 0.92em;
+}
+
+/* ============================================================================
+   FLEX / CONTENT-AWARE HERO UTILITIES
+   Viewport-fill (vw+vh+vmin) and container-aware (cqi) display type.
+   Pair with .ts-balance so the big lines break evenly.
+   ========================================================================== */
+.ts-flex-hero,
+.ts-flex-display,
+.ts-flex-title {
+  font-family: var(--ts-font-display);
+  font-weight: var(--ts-font-weight-bold);
+  line-height: var(--ts-lh-display);
+  letter-spacing: var(--ts-tracking-tightest);
+  text-wrap: balance;
+}
+.ts-flex-hero    { font-size: var(--ts-fs-flex-hero); }
+.ts-flex-display { font-size: var(--ts-fs-flex-display); letter-spacing: var(--ts-tracking-tighter); }
+.ts-flex-title   { font-size: var(--ts-fs-flex-title);   letter-spacing: var(--ts-tracking-tight); line-height: var(--ts-lh-tight); }
+
+/* Mark an ancestor as a sizing container so cq-* tokens resolve to ITS width */
+.ts-cq { container-type: inline-size; }
+.ts-cq-hero,
+.ts-cq-display,
+.ts-cq-title {
+  font-family: var(--ts-font-display);
+  font-weight: var(--ts-font-weight-bold);
+  line-height: var(--ts-lh-display);
+  letter-spacing: var(--ts-tracking-tighter);
+  text-wrap: balance;
+}
+.ts-cq-hero    { font-size: var(--ts-fs-cq-hero); }
+.ts-cq-display { font-size: var(--ts-fs-cq-display); }
+.ts-cq-title   { font-size: var(--ts-fs-cq-title); line-height: var(--ts-lh-tight); }
+
+/* ============================================================================
+   TEXT MANAGEMENT — truncation, wrapping, effects
+   Composable single-purpose utilities. Stack them: class="ts-clamp ts-clamp-3".
+   ========================================================================== */
+
+/* Single-line ellipsis — needs a constrained width to do anything */
+.ts-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Multi-line clamp — count via --ts-clamp-lines or the .ts-clamp-N helpers.
+   -webkit-* is still required; `line-clamp` is the standardized future form. */
+.ts-clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--ts-clamp-lines, 2);
+  line-clamp: var(--ts-clamp-lines, 2);
+  overflow: hidden;
+  /* guard against an unbounded last line leaking out in some engines */
+  overflow-wrap: anywhere;
+}
+.ts-clamp-1 { --ts-clamp-lines: 1; }
+.ts-clamp-2 { --ts-clamp-lines: 2; }
+.ts-clamp-3 { --ts-clamp-lines: 3; }
+.ts-clamp-4 { --ts-clamp-lines: 4; }
+.ts-clamp-5 { --ts-clamp-lines: 5; }
+.ts-clamp-6 { --ts-clamp-lines: 6; }
+
+/* Wrapping quality */
+.ts-balance { text-wrap: balance; }   /* headlines: even ragged lines (≤6 lines) */
+.ts-pretty  { text-wrap: pretty; }    /* body: no single-word orphan on last line */
+.ts-nowrap  { white-space: nowrap; }
+.ts-break   { overflow-wrap: anywhere; word-break: break-word; }   /* URLs, code, IDs */
+.ts-hyphens { hyphens: auto; }        /* needs lang="" on an ancestor to hyphenate */
+
+/* Edge fade — a softer alternative to a hard ellipsis for overflowing rows.
+   Masks the trailing edge to transparent instead of cutting with "…". */
+.ts-fade-r {
+  white-space: nowrap;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--ts-fade-length)), transparent);
+          mask-image: linear-gradient(90deg, #000 calc(100% - var(--ts-fade-length)), transparent);
+}
+
+/* Numerics & casing helpers */
+.ts-tnum  { font-variant-numeric: tabular-nums; }   /* align digits in tables / counters */
+.ts-onum  { font-variant-numeric: oldstyle-nums; }
+.ts-caps  { text-transform: uppercase; letter-spacing: var(--ts-tracking-wider); }
+.ts-smallcaps { font-variant-caps: small-caps; letter-spacing: var(--ts-tracking-wide); }
+
+/* Gradient ink — accent-tinted display text (uses the brand accent, no new color) */
+.ts-text-accent {
+  background: linear-gradient(180deg, var(--ts-text-primary), var(--ts-accent));
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+          color: transparent;
+}

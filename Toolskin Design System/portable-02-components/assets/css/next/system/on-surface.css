@@ -1,0 +1,373 @@
+@charset "UTF-8";
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · system/on-surface.css — GLOBAL AUTO-INVERSION SYSTEM NOTE ADDED AT THE EWND! THIS SHEET MUST BNE MERGED AND REMOVED. 
+   ───────────────────────────────────────────────────────────────────────────
+   Phase 2 Consolidation · 2026-06-04 · Owner directive: "Task 4 keystone"
+
+   PROVENANCE — what was lifted here, from where, and why
+   ──────────────────────────────────────────────────────
+   The auto-inversion logic was scattered across THREE places:
+
+     1. primitives/status-tints.css  — `--ts-on-surface-auto` (threshold 0.65)
+                                       Group C, lines 120-126.
+                                       This is the CANONICAL definition.
+
+     2. components/ts-btn_v3.1.css   — `--ts-on-surface-auto` (threshold 0.72)
+                                       lines 41-44 — CONFLICT (different value).
+                                       Zero-specificity :where() — currently
+                                       loses to the primitive declaration via
+                                       cascade. Flagged for owner decision.
+
+     3. components/ts-nav-header.css §5.0  — Accent-surface legibility block
+                                       (lines 2534-2562). Re-derives nav ink +
+                                       dividers + active bar from --ts-on-accent
+                                       so 50%-alpha primary ink doesn't go faint
+                                       on accent surfaces. Was nav-scoped — now
+                                       generalized here so EVERY .ts-on-accent
+                                       element inherits the same behaviour.
+
+   WHAT THIS FILE DOES
+   ───────────────────
+   • Re-exports `--ts-on-surface-auto` so any component that loads ONLY this
+     system file (without status-tints.css) still resolves the token. The
+     definition is verbatim from status-tints.css Group C — same formula,
+     same threshold (0.65), no redesign.
+
+   • Lifts the accent-surface legibility resolution from the nav into a
+     generic `.ts-on-accent` selector so cards / sections / modals / any
+     other surface gets identical auto-inversion behaviour without per-
+     component overrides.
+
+   ZERO NEW TOKENS, ZERO REDESIGN. EVERY DECLARATION IS A LIFT.
+   ───────────────────────────────────────────────────────────────────────────
+
+   CANONICAL LOAD ORDER (from owner's consolidation directive)
+   ───────────────────────────────────────────────────────────
+       1. primitives/colors.css
+       2. primitives/type-v2.css                 ← NEW (added Phase 2)
+       3. primitives/spacing.css
+       4. primitives/radius.css
+       5. primitives/motion.css
+       6. primitives/status-tints.css            ← also defines --ts-on-surface-auto
+       7. system/toolskin-this-bg-v2.css         ← engine that emits --ts-this-bg-*
+       8. system/on-surface.css       ◄── THIS FILE
+       9. system/toolskin-gradients-v3.css
+      10. components/ts-btn_v3.1.css
+      11. components/ts-*.css (alphabetical)
+
+   This file loads AFTER status-tints.css and this-bg-v2.css so its formulas
+   can read --ts-this-bg, --ts-on-accent, --ts-text-primary, --ts-accent.
+   It loads BEFORE any component CSS so components inherit the resolved
+   on-surface tokens with zero per-component redeclaration.
+
+   ABSOLUTE RULES (binding on all future component CSS)
+   ─────────────────────────────────────────────────────
+   • Never redeclare --ts-on-surface-auto in a component file.
+   • Never redeclare --ts-on-accent in a component file.
+   • To opt a component INTO accent-surface legibility, just add
+     `.ts-on-accent` to its root element. This file does the rest.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   §1 · LOCAL-SURFACE AUTO-INK
+   ─────────────────────────────────────────────────────────────────────────
+   VERBATIM lift from primitives/status-tints.css Group C.
+
+   Recomputes per element against the ambient --ts-this-bg, so a light
+   surface gets dark ink and a dark surface gets light ink. Same mechanism
+   as --ts-on-accent in primitives/colors.css.
+
+   Declared on `:root, :root *` because the formula reads from the LOCAL
+   --ts-this-bg — it must recompute on every element. The trailing
+   universal is intentional, not a smell.
+   ───────────────────────────────────────────────────────────────────────── */
+:root,
+:root * {
+  --ts-on-surface-auto:
+    oklch(from var(--ts-this-bg, var(--ts-bg-body, #0c0d0f))
+          clamp(0, (0.65 - l) * 999, 1) 0 0);
+
+       --ts-accent-dark: color-mix(in oklab, var(--ts-accent), black 10%);
+       --ts-accent-bright: color-mix(in oklab, var(--ts-accent), white 10%);
+   --ts-accent-grad: linear-gradient(to top left,
+      var(--ts-accent-bright),
+      var(--ts-accent-dark),
+      var(--ts-accent));
+  --ts-accent-grad-hover: linear-gradient(to top left,
+      color-mix(in oklab, var(--ts-accent-bright), white 7%),
+      var(--ts-accent),
+      var(--ts-accent-bright));
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   §2 · ACCENT-SURFACE LEGIBILITY (generalized)
+   ─────────────────────────────────────────────────────────────────────────
+   VERBATIM lift from components/ts-nav-header.css §5.0 (lines 2534-2562),
+   with the nav-only selector list (:is(.ts-nav-fixed, .ts-nav-static,
+   .ts-topbar, .ts-mobile-menu)) replaced by a generic `.ts-on-accent`
+   selector so ANY component anchored on the accent inherits the same
+   ink resolution.
+
+   Original nav copy in ts-nav-header.css remains in place (per owner's
+   "remove nothing" rule) and will be deprecated once this global version
+   is verified across all components. The nav copy is now redundant for
+   ANY token that overlaps with this file.
+
+   Token semantics preserved verbatim:
+   • --ts-text-primary-dim-nav   — nav-scoped dim primary on accent
+   • --ts-navlink-color          — nav link ink
+   • --ts-nav-color              — nav container ink
+   • --ts-navlink-color-hover    — nav link hover ink
+   • --ts-navlink-color-active   — nav link active ink
+   • --ts-navlink-bg-hover       — nav link hover bg
+   • --ts-nav-active-bar         — nav active-state indicator
+   • --ts-logo-color             — logo ink on accent
+   • --ts-logo-sub-color         — logo subtext on accent
+   • --ts-menu-burger-color      — burger icon on accent
+   • --ts-nav-border             — nav border on accent
+
+   These are nav-namespaced tokens. They resolve correctly here too because
+   the formulas only require --ts-on-accent + --ts-nav-text-alpha + --ts-accent,
+   all of which are global by the time this file loads.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.ts-on-accent,
+.ts-on-accent * {
+    /* Dim primary on accent — nav-namespaced token kept for back-compat with
+       ts-nav-header.css selectors that consume it. */
+   
+    --ts-text-primary-dim-nav: color-mix(in oklab,
+                                          var(--ts-on-accent),
+                                          transparent var(--ts-nav-text-alpha, 50%));
+
+    /* Generic on-accent text resolution. Applies to any component using
+       the standard text tokens. */
+   
+    --ts-text-primary:   var(--ts-on-accent);
+    --ts-text-secondary: color-mix(in oklab, var(--ts-on-accent), transparent 30%);
+    --ts-text-muted:     color-mix(in oklab, var(--ts-on-accent), transparent 50%);
+
+    /* Nav-namespaced legibility re-derivations (verbatim from nav §5.0) */
+   
+    --ts-navlink-color:        var(--ts-text-primary-dim-nav);
+    --ts-nav-color:            var(--ts-navlink-color);
+    --ts-navlink-color-hover:  var(--ts-on-accent);
+    --ts-navlink-color-active: var(--ts-on-accent);
+    --ts-navlink-bg-hover:     color-mix(in oklab, var(--ts-accent), black 12%);
+    --ts-nav-active-bar:       var(--ts-on-accent);
+    --ts-logo-color:           var(--ts-on-accent);
+    --ts-logo-sub-color:       color-mix(in oklab, var(--ts-on-accent), transparent 35%);
+    --ts-menu-burger-color:    color-mix(in oklab,
+                                          var(--ts-on-accent),
+                                          transparent var(--ts-nav-text-alpha, 50%));
+    --ts-nav-border:           color-mix(in oklab, var(--ts-on-accent), transparent 82%);
+}
+
+/* Logo em — flip to on-accent ink, drop the bold-glyph shadow which becomes
+   a milky halo on the accent surface. Verbatim from ts-nav-header.css lines
+   2558-2562, selector generalized. */
+.ts-on-accent .ts-topbar__logo em,
+.ts-on-accent.ts-topbar__logo em {
+    color: var(--ts-on-accent);
+    text-shadow: none;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   §3 · CONFLICTS DOCUMENTED (no resolution — owner decision required)
+   ─────────────────────────────────────────────────────────────────────────
+
+   C-01 · `--ts-on-surface-auto` threshold mismatch
+   ───────────────────────────────────────────────
+     status-tints.css Group C  → threshold 0.65
+     ts-btn_v3.1.css line 42   → threshold 0.72
+     ts-nav-header.css L3052   → `var(--ts-dynamic-ink-contrast) !important`
+                                  (an override inside the dynamic accent context)
+
+     Which is correct?  Owner must decide. Currently the primitive 0.65 wins
+     by specificity (the btn version is :where() = zero-specificity, the
+     primitive is :root, :root * = higher). The nav !important override
+     applies only in the dynamic accent context.
+
+     The threshold determines the lightness above which ink flips to black:
+       • 0.65 (current canonical) — more surfaces get white ink
+       • 0.72 (btn's version)    — more surfaces get black ink
+       • dynamic (nav)            — runtime-computed per accent
+
+     Action required: owner picks ONE canonical threshold. Then:
+       1. Update this file's §1 to the chosen threshold
+       2. Comment out the btn redeclaration with 
+       3. Decide if the nav's !important override is still needed (it likely is,
+          since dynamic accent must override the static formula)
+
+   C-02 · status-tints.css owns Group C
+   ────────────────────────────────────
+     `--ts-on-surface-auto` lives in primitives/status-tints.css Group C
+     but its purpose is on-surface inversion, not status palette. The
+     naming is misleading. Suggested cleanup (NOT done here per
+     "remove nothing" rule):
+       • Lift Group C OUT of status-tints.css
+       • Make this system/on-surface.css the SOLE definition
+       • status-tints.css becomes status-palette-only
+     Action required: owner approves before any move.
+═══════════════════════════════════════════════════════════════════════════ */
+/* ─────────────────────────────────────────────────────────────────────────
+OWNER RESOLUTION — CONSOLIDATION & REMOVAL DIRECTIVE
+─────────────────────────────────────────────────────────────────────────
+
+This stylesheet introduces unnecessary specificity and mis-scoped tokens.
+
+The tokens defined here are tightly coupled to the navigation asset
+(naming + intent) and are NOT suitable for general system usage or
+state management. Because of this, the stylesheet is structurally
+incorrect within the design system.
+
+─────────────────────────────────────────────────────────────────────────
+CORE DECISION
+─────────────────────────────────────────────────────────────────────────
+
+This stylesheet is NOT a valid standalone layer.
+
+It must be:
+→ fully overridden
+→ logically extracted
+→ and either:
+(A) merged into the core color processing layer
+OR
+(B) fully absorbed into the this-bg engine
+
+Final outcome must eliminate this file entirely if redundancy is confirmed.
+
+─────────────────────────────────────────────────────────────────────────
+REQUIRED CONSOLIDATION
+─────────────────────────────────────────────────────────────────────────
+
+All relevant logic must be migrated into a unified color engine that handles:
+
+
+ • on-surface
+ • on-accent
+ • automatic accent handling
+ • surface inversion
+ • OKLAB mixing
+ • dynamic contrast / auto-inversion
+
+
+This logic must operate as a **2nd-layer processing system**, consuming:
+→ base color tokens
+→ this-bg computed values
+
+The result must be:
+→ consistent
+→ reusable across ALL components
+→ independent from specific UI assets (e.g. navigation)
+
+─────────────────────────────────────────────────────────────────────────
+TOKEN & STYLE CLEANUP
+─────────────────────────────────────────────────────────────────────────
+
+You MUST:
+
+
+ • Remove duplicate tokens
+ • Remove redundant stylesheets
+ • Eliminate weakly scoped tokens (e.g. gradient tokens not applied globally)
+ • Remove per-component token overrides
+
+
+Current issues:
+
+
+ • Gradient tokens do NOT apply consistently outside showcase contexts
+ • They do NOT reliably inherit from the base this-bg token
+ • Behavior is unpredictable across non-demo usage
+
+
+These MUST be:
+
+
+ → reviewed
+ → normalized
+ → integrated into the global token system
+
+
+─────────────────────────────────────────────────────────────────────────
+COLOR ENGINE FAILURE (CRITICAL)
+─────────────────────────────────────────────────────────────────────────
+
+The core color (non-editable) sheet is NOT functioning as the base engine.
+
+Problems:
+
+
+ • Presets do NOT propagate correctly
+ • Overrides surpass specificity
+ • Base tokens do NOT control final output
+
+
+Required correction:
+
+
+ → Base token layer MUST have priority
+ → Presets MUST visibly affect the system in real-time
+ → Overrides MUST NOT break token hierarchy
+
+
+─────────────────────────────────────────────────────────────────────────
+ARCHITECTURE REALIGNMENT
+─────────────────────────────────────────────────────────────────────────
+
+Color processing must be layered as follows:
+
+
+ 1. Base tokens (source of truth)
+ 2. this-bg / accent computation layer
+ 3. Inversion + OKLAB processing layer (core engine)
+ 4. Final output tokens (consumed by components)
+
+
+This stylesheet currently violates that structure and MUST be removed
+or absorbed into the correct layer.
+
+─────────────────────────────────────────────────────────────────────────
+NAVIGATION-SPECIFIC LOGIC
+─────────────────────────────────────────────────────────────────────────
+
+Token names and mechanics defined here are navigation-specific.
+
+Required action:
+
+
+ • Extract ONLY the logic (not the token naming)
+ • Move logic into the core engine
+ • Re-expose it through generic system tokens
+ • Keep navigation styles as a thin consumer layer
+
+
+─────────────────────────────────────────────────────────────────────────
+FINAL DIRECTIVE
+─────────────────────────────────────────────────────────────────────────
+
+This stylesheet is unnecessary in its current form.
+
+It MUST:
+
+
+ → be merged into the correct system layer
+ → OR be fully removed after migration
+
+
+No redundant or conflicting stylesheets should remain.
+
+The final system must:
+
+
+ • be modular
+ • have zero token conflicts
+ • provide consistent behavior across ALL instances
+ • ensure all tokens resolve predictably from the base system
+
+
+------------------------------------------------------------------------- */

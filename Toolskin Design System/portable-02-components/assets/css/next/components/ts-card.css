@@ -1,0 +1,414 @@
+@charset "UTF-8";
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · ts-card — CARD SURFACE COMPONENT  (consolidated, canonical)
+   ───────────────────────────────────────────────────────────────────────────
+   The CLEAN ts-card: the nested-pattern (CSS-1) block lifted out of the old
+   2683-line kitchen-sink file. Everything that was duplicate, leaked tokens, or
+   belonged to another component now lives — preserved, not deleted — in
+   `../pending-to-integrate.css` (NOT loaded; audit holding pen).
+
+   DISCIPLINE (SKILL rules 1–5)
+   • Re-anchors `--ts-this-bg` per variant, then consumes engine derivatives.
+   • Zero hardcoded colors, zero `!important`, zero srgb mixes — surfaces,
+     borders, gradients, ink all come from primitives or the oklab v2 engine
+     (system/toolskin-this-bg-v2.css) + gradient library (toolskin-gradients-v3.css).
+   • Full surface matrix: set any `--ts-this-bg` (bg-0..5 / accent / preset) on
+     the card or an ancestor and the whole card recomposes. The harness Variant
+     Tester drives exactly this.
+
+   ANATOMY  .ts-card > __header(__title[--lg]/__version/__icon) · __body ·
+            __links(.ts-card-link/__meta) · __footer
+   VARIANTS .ts-card--interactive · --accent · --featured · --glass ·
+            --accent-bar · .gradient · .ts-row
+   CONTEXT  .ts-on-accent .ts-card → auto-flip ink on accent surfaces
+
+   LOAD ORDER  primitives/* → system/toolskin-this-bg-v2.css →
+   system/toolskin-gradients-v3.css → components/ts-btn_v3.1.css → this file.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   TOKEN BRIDGE — the minimal card-scoped tokens the component needs (these
+   were previously buried in a `:where(:root:has(…))` block that also illegally
+   redefined the radius scale). All consume primitives + the engine.
+   ───────────────────────────────────────────────────────────────────────── */
+:where(.ts-card, .ts-panel) {
+  --ts-card-pad:    var(--ts-sp-6);
+  --ts-card-gap:    var(--ts-sp-4);
+  --ts-card-radius: var(--ts-radius-lg);
+  --ts-card-border: var(--ts-this-bg-border);   /* engine-derived, hue-stable */
+  --ts-radius-nest-reduction: 2px;
+  --ts-pd-nest-reduction:     2px;
+}
+
+/* @property-typed nesting knobs so calc() chains type-check + animate. */
+@property --ts-nest-radius { syntax: "<length>"; inherits: true; initial-value: 14px; }
+@property --ts-nest-pad    { syntax: "<length>"; inherits: true; initial-value: 24px; }
+
+
+/* ═════════════════════════════════════════════════════════════════════════
+   CANONICAL COMPONENT  (nested CSS-1 block — the authoritative definition)
+   ═════════════════════════════════════════════════════════════════════════ */
+.ts-card {
+    --ts-card-pad-local: var(--ts-sp-6);
+    --ts-card-gap-local: var(--ts-sp-4);
+    --ts-card-radius-local: var(--ts-radius-lg);
+    --ts-card-border-w: 1px;
+    --ts-card-radius-effective: min(var(--ts-nest-radius, var(--ts-card-radius-local)), var(--ts-radius-xl, 20px));
+    --ts-card-pad-effective: var(--ts-nest-pad, var(--ts-card-pad-local));
+    --ts-this-bg: var(--ts-bg-1);
+    display: flex;
+    flex-direction: column;
+    gap: var(--ts-card-gap-local);
+    position: relative;
+    padding: var(--ts-card-pad-effective);
+    border-radius: var(--ts-card-radius-effective);
+    border: var(--ts-card-border-w) solid var(--ts-card-border);
+    background-color: var(--ts-this-bg);
+    color: var(--ts-text-primary);
+    transition: border-color var(--ts-dur-base, 200ms) var(--ts-ease-out), box-shadow var(--ts-dur-base, 200ms) var(--ts-ease-out), background-color var(--ts-dur-base, 200ms) var(--ts-ease-out), transform var(--ts-dur-base, 200ms) var(--ts-ease-out);
+    & > .ts-card__header {
+        display: flex;
+        align-items: center;
+        gap: var(--ts-sp-3);
+        margin-bottom: var(--ts-sp-1);
+        flex-wrap: wrap;
+        justify-content: space-between;
+        & .ts-card__icon {
+            max-width: var(--ts-icon, 2rem);
+            max-height: var(--ts-icon, 2rem);
+            border-radius: var(--ts-radius-md);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+    }
+
+    & .ts-card__title {
+        font-family: inherit;
+        font-size: var(--ts-fs-lg);
+        font-weight: var(--ts-fw-bold, 700);
+        text-transform: uppercase;
+        letter-spacing: var(--ts-tracking-wider, 0.08em);
+        color: var(--ts-text-primary);
+        line-height: var(--ts-lh-normal, 1.4);
+        display: flex;
+        align-items: center;
+        gap: var(--ts-sp-2);
+        margin: 0px;
+        & > i, & > .ts-icon, & > ion-icon {
+            color: var(--ts-accent);
+            font-size: 1.25em;
+            line-height: 0.85;
+        }
+    }
+
+    & .ts-card__title--lg {
+        font-size: var(--ts-fs-2xl, 1.5rem);
+        text-transform: uppercase;
+        letter-spacing: var(--ts-tracking-wider, 0.08em);
+        color: var(--ts-text-primary);
+        font-weight: var(--ts-fw-bold, 700);
+        line-height: 1.2;
+        margin: auto 0px 0px;
+    }
+
+    & .ts-card__body {
+        flex: 1 1 0%;
+        color: var(--ts-text-secondary);
+        line-height: var(--ts-lh-relaxed, 1.6);
+        font-weight: var(--ts-fw-normal, 400);
+        letter-spacing: var(--ts-tracking-normal, 0);
+    }
+
+    & .ts-card__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--ts-sp-3);
+        padding-top: var(--ts-sp-3);
+        border-top: 1px solid var(--ts-this-bg-border-0);
+    }
+
+    & .ts-card__version {
+        color: var(--ts-text-secondary);
+        font-size: var(--ts-fs-xs);
+        font-weight: var(--ts-fw-bold, 700);
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--ts-sp-1);
+        padding: var(--ts-sp-1) var(--ts-sp-2);
+        letter-spacing: var(--ts-tracking-wider, 0.08em);
+        border-radius: var(--ts-radius-full);
+        max-width: fit-content;
+        background: var(--ts-this-bg-dim-5);
+        border: 1px solid var(--ts-this-bg-border);
+        outline: 1px solid var(--ts-this-bg-border-0);
+        outline-offset: -1px;
+    }
+
+    & .ts-card__links {
+        display: flex;
+        flex-flow: wrap;
+        gap: var(--ts-sp-2);
+        margin-top: var(--ts-sp-2);
+        align-items: center;
+        place-content: center space-between;
+        flex: 1 1 100%;
+        max-height: fit-content;
+        width: 100%;
+        & .ts-card-link, & .ts-card__link {
+            flex: 1 1 0%;
+            white-space: nowrap;
+        }
+
+        &:not(.horizontal) {
+            flex-direction: column;
+            gap: var(--ts-sp-2);
+        }
+
+        &.horizontal {
+            flex-flow: wrap;
+            flex: 1 1 0%;
+            width: 100%;
+            align-content: center;
+            align-items: center;
+            max-height: fit-content;
+            & .ts-card-link, & .ts-card__link {
+                flex: 1 1 48%;
+                white-space: nowrap;
+            }
+        }
+    }
+
+    & .ts-card-link:not(.ts-btn) {
+        display: flex;
+        align-items: center;
+        gap: var(--ts-sp-2);
+        padding: var(--ts-sp-3);
+        border-radius: var(--ts-radius-md);
+        color: var(--ts-text-primary);
+        text-decoration: none;
+        font-size: var(--ts-fs-md, 1rem);
+        font-weight: var(--ts-fw-medium, 500);
+        background: var(--ts-this-bg-dim-5);
+        outline: 1px solid var(--ts-this-bg-border-0);
+        outline-offset: -1px;
+        transition: background var(--ts-dur-base, 200ms) var(--ts-ease-out), color var(--ts-dur-base, 200ms) var(--ts-ease-out), outline-color var(--ts-dur-base, 200ms) var(--ts-ease-out);
+        & .ts-icon, & ion-icon {
+            font-size: 1.3em;
+            color: var(--ts-text-muted);
+            flex-shrink: 0;
+        }
+
+        &:hover {
+            background: var(--ts-this-bg-dim-3);
+            outline-color: var(--ts-this-bg-border-hover);
+            & .ts-card-link__meta, & ion-icon, & .ts-icon {
+                color: var(--ts-accent);
+            }
+        }
+    }
+
+    & .ts-card-link__meta {
+        color: var(--ts-text-muted);
+        margin-left: auto;
+        font-size: 0.75em;
+        line-height: 1.2;
+        font-weight: var(--ts-fw-normal, 400);
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        white-space: break-spaces;
+        text-align: right;
+        flex: 0 1 auto;
+    }
+
+    &:hover .ts-card-link:not(.ts-btn) {
+        background: var(--ts-this-bg-dim-3);
+        outline-color: var(--ts-this-bg-border-hover);
+        & .ts-card-link__meta, & ion-icon, & .ts-icon {
+            color: var(--ts-accent);
+        }
+    }
+
+    &.ts-row {
+        flex-direction: row;
+        gap: var(--ts-sp-2);
+    }
+
+    &.ts-card--interactive:not(.ts-tilt) {
+        cursor: pointer;
+        overflow: visible;
+        transform: translateZ(0px);
+        transform-style: preserve-3d;
+        --ts-card-shadow-h: 30px;
+        --ts-card-shadow-offset: calc(var(--ts-card-shadow-h) * -0.75);
+        --ts-card-shadow-blur: calc(var(--ts-card-shadow-h) * 0.5);
+        --ts-card-shadow-sides: 20%;
+        --ts-card-shadow-color: color-mix(in oklab, var(--ts-tone-floor), transparent 40%);
+        transition: transform var(--ts-dur-base, 200ms) var(--ts-ease-out), background-color var(--ts-dur-base, 200ms) var(--ts-ease-out), box-shadow var(--ts-dur-base, 200ms) var(--ts-ease-out), color var(--ts-dur-base, 200ms) var(--ts-ease-out), border-color var(--ts-dur-base, 200ms) var(--ts-ease-out);
+        &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            left: var(--ts-card-shadow-sides);
+            right: var(--ts-card-shadow-sides);
+            bottom: var(--ts-card-shadow-offset);
+            height: var(--ts-card-shadow-h);
+            filter: blur(var(--ts-card-shadow-blur));
+            background-color: var(--ts-card-shadow-color);
+            border-radius: var(--ts-radius-full);
+            z-index: 0;
+            pointer-events: none;
+            transition: bottom var(--ts-dur-base, 200ms) var(--ts-ease-out), filter var(--ts-dur-base, 200ms) var(--ts-ease-out), background-color var(--ts-dur-base, 200ms) var(--ts-ease-out);
+        }
+
+        &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            inset: -1px;
+            background-image: var(--ts-grad-mix);
+            border-radius: inherit;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity var(--ts-dur-base, 200ms) var(--ts-ease-out);
+        }
+
+        &:hover {
+            transform: translateZ(0px) translateY(-3px);
+            border-color: var(--ts-this-bg-border-active);
+            background-color: var(--ts-this-bg-hover);
+            box-shadow: 0 0 0 1px var(--ts-this-bg-focus-ring), 0 12px 32px -8px color-mix(in oklab, var(--ts-accent), transparent 65%);
+            &::after {
+                opacity: 1;
+            }
+
+            &::before {
+                bottom: calc(var(--ts-card-shadow-h) * -1);
+                filter: blur(calc(var(--ts-card-shadow-h) * 0.6));
+                background-color: color-mix(in oklab, var(--ts-tone-floor), transparent 20%);
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--ts-this-bg-border-focus);
+            outline-offset: 3px;
+            border-color: var(--ts-this-bg-border-focus);
+        }
+    }
+
+    &.ts-card--accent {
+        background-image: var(--ts-grad-mix);
+        border-color: var(--ts-this-bg-border-active);
+        
+        
+        &:hover {
+            border-color: var(--ts-this-bg-border-focus);
+            background-image: var(--ts-grad-mix-strong);
+            box-shadow: 0 0 0 1px var(--ts-this-bg-focus-ring), 0 8px 24px -6px color-mix(in oklab, var(--ts-accent), transparent 60%);
+        }
+    }
+
+    &.ts-card--featured {
+        --ts-this-bg: var(--ts-accent);
+        border-width: 0px;
+        outline: 1px solid var(--ts-this-bg-border);
+        outline-offset: 0px;
+        background-color: var(--ts-this-bg-dim-2);
+        background-image: var(--ts-grad-accent);
+        color: var(--ts-on-accent);
+        box-shadow: 0 0 0 1px var(--ts-this-bg-focus-ring), 0 12px 36px -8px color-mix(in oklab, var(--ts-accent), transparent 55%);
+        position: relative;
+        & .ts-card__title, & .ts-card__body, & .ts-card__version, & .ts-card-link__meta {
+            color: var(--ts-on-accent);
+        }
+
+        & .ts-card__body {
+            opacity: 0.92;
+        }
+
+        &:hover {
+            outline-color: var(--ts-this-bg-border-hover);
+            background-image: var(--ts-grad-accent-mesh);
+            box-shadow: 0 0 0 1px var(--ts-accent), 0 16px 48px -8px color-mix(in oklab, var(--ts-accent), transparent 40%);
+        }
+    }
+
+    &.ts-card--glass {
+        background-color: var(--ts-this-bg-dim-4);
+        background-image: var(--ts-grad-card-glass);
+        border-color: var(--ts-this-bg-border-0);
+        outline: 1px solid var(--ts-this-bg-border-0);
+        outline-offset: -1px;
+        backdrop-filter: blur(var(--ts-card-glass-blur, 8px));
+        &:hover {
+            border-color: var(--ts-this-bg-border);
+            background-color: var(--ts-this-bg-dim-3);
+        }
+    }
+
+    &.ts-card--accent-bar {
+        border-top-left-radius: calc(var(--ts-card-radius-effective) * 0.4);
+        border-bottom-left-radius: calc(var(--ts-card-radius-effective) * 0.4);
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            bottom: 0px;
+            width: max(4px, calc(var(--ts-card-radius-effective) * 0.4));
+            background: var(--ts-grad-accent);
+            border-radius: var(--ts-radius-full);
+            pointer-events: none;
+        }
+    }
+
+    &.gradient {
+        overflow: hidden;
+        --ts-card-pad-local: var(--ts-sp-8);
+        background-image: var(--ts-grad-card);
+        & .ts-input, & .ts-select, & .ts-input-group, & button {
+            --ts-input-bg: var(--ts-this-bg-dim-3);
+        }
+    }
+}
+
+.ts-on-accent .ts-card:not(.ts-card--accent, .ts-card--featured, .ts-card--glass) {
+    --ts-this-bg: var(--ts-accent);
+    background-color: var(--ts-this-bg-dim-2);
+    color: var(--ts-on-accent);
+    border-color: var(--ts-this-bg-border);
+    & .ts-card__title, & .ts-card__body, & .ts-card-link__meta {
+        color: var(--ts-on-accent);
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   NESTED CARDS — each level shaves radius + padding by one reduction step.
+   ───────────────────────────────────────────────────────────────────────── */
+@property --ts-nest-radius {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 9.2px;
+}
+
+@property --ts-nest-pad {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 24px;
+}
+
+.ts-card .ts-card, .ts-card .ts-panel, .ts-panel .ts-card, .ts-panel .ts-panel, .ts-panel, .ts-ui-panel, .ts-ui-panel * {
+    --ts-nest-radius: calc(var(--ts-card-radius) - (1 * var(--ts-radius-nest-reduction)));
+    --ts-nest-pad: calc(var(--ts-card-pad, var(--ts-panel-pad)) - (1 * var(--ts-pd-nest-reduction)));
+    --ts-sb-size: 8px;
+}
+
+.ts-card .ts-card .ts-card, .ts-card .ts-card .ts-panel, .ts-card .ts-panel .ts-card, .ts-panel .ts-card .ts-card, .ts-panel .ts-card .ts-panel, .ts-panel .ts-panel .ts-card, .ts-panel .ts-panel .ts-panel {
+    --ts-nest-radius: calc(var(--ts-card-radius) - (2 * var(--ts-radius-nest-reduction)));
+    --ts-nest-pad: calc(var(--ts-card-pad, var(--ts-panel-pad)) - (2 * var(--ts-pd-nest-reduction)));

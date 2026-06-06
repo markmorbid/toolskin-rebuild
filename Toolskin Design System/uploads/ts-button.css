@@ -1,0 +1,569 @@
+/* ============================================================================
+ * ts-button.css — FIRST real component consuming the v2 surface engine
+ * ----------------------------------------------------------------------------
+ * Proves the core refactor: ZERO hardcoded colors. Every state derives from
+ * --ts-this-bg via the engine (oklab, no purple). Nested component pattern
+ * (CSS-1): all states/variants/children INSIDE the block, behavior via tokens,
+ * context overrides via parent selector only.
+ *
+ * Requires load order: toolskin.css → toolskin-this-bg-v2.css → (this file)
+ * ========================================================================== */
+
+.ts-btn {
+  /* The button re-anchors its own surface, then consumes the engine's
+     derivatives off that anchor (RULING 9: re-anchor first, consume second). */
+  --ts-this-bg: var(--ts-btn-surface, var(--ts-bg-2));
+
+  /* Component tokens — every value reaches through a --ts-* token */
+  --ts-btn-pad-y: var(--ts-sp-2);
+  --ts-btn-pad-x: var(--ts-sp-4);
+  --ts-btn-radius: var(--ts-radius-md);
+  --ts-btn-fs: var(--ts-fs-sm);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ts-sp-2);
+  padding: var(--ts-btn-pad-y) var(--ts-btn-pad-x);
+  font-size: var(--ts-btn-fs);
+  font-weight: 500;
+  line-height: 1;
+  border-radius: var(--ts-btn-radius);
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  white-space: nowrap;
+
+  /* Surface + ink + border ALL derive from the engine off --ts-this-bg */
+  background: var(--ts-this-bg);
+  color: var(--ts-on-surface, var(--ts-text-primary));
+  border: 1px solid var(--ts-this-bg-border);
+
+  transition:
+    background var(--ts-dur-fast, 120ms) var(--ts-ease-out, ease),
+    border-color var(--ts-dur-fast, 120ms) var(--ts-ease-out, ease),
+    transform var(--ts-dur-fast, 120ms) var(--ts-ease-out, ease);
+
+  /* Child element — icon recolors with the button via currentColor only here */
+  .ts-btn__icon {
+    width: 1em;
+    height: 1em;
+    flex: none;
+  }
+
+  /* ── STATES (engine-derived, oklab, no purple) ── */
+  &:hover {
+    background: var(--ts-this-bg-hover);
+    border-color: var(--ts-this-bg-border-hover);
+  }
+
+  &:active {
+    background: var(--ts-this-bg-active);
+    border-color: var(--ts-this-bg-border-active);
+    transform: translateY(1px);
+  }
+
+  &:focus-visible {
+    background: var(--ts-this-bg-focus);          /* warm tint, NOT purple */
+    border-color: var(--ts-this-bg-border-focus); /* accent ring */
+    outline: 2px solid var(--ts-this-bg-focus-ring);
+    outline-offset: 2px;
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    background: var(--ts-this-bg-disabled);
+    border-color: var(--ts-this-bg-border-disabled);
+    color: var(--ts-text-muted);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ── VARIANTS (re-anchor the surface; the whole state machine recomputes) ── */
+  &.ts-btn--primary  { --ts-btn-surface: var(--ts-accent); color: var(--ts-on-accent); }
+  &.ts-btn--ghost    { --ts-btn-surface: transparent; border-color: var(--ts-this-bg-border); }
+  &.ts-btn--raised   { --ts-btn-surface: var(--ts-bg-3); }
+
+  /* ── SIZES (knob-only; no duplicated block) ── */
+  &.ts-btn--sm { --ts-btn-pad-y: var(--ts-sp-1); --ts-btn-pad-x: var(--ts-sp-3); --ts-btn-fs: var(--ts-fs-xs); }
+  &.ts-btn--lg { --ts-btn-pad-y: var(--ts-sp-3); --ts-btn-pad-x: var(--ts-sp-6); --ts-btn-fs: var(--ts-fs-md); }
+}
+
+/* Context override example — scoped, not duplicated (CSS-1) */
+.ts-toolbar .ts-btn { --ts-btn-surface: var(--ts-bg-3); }
+
+
+
+
+:where(:root, :root *) {
+  /* ✅ BUTTON SCALING TOKENS - Global inheritance for perfect scaling */
+  /* The base unit — single knob to retune the whole button system */
+  --ts-btn-base: 45;
+  --ts-btn-scale: 1;
+  --ts-btn-size: calc(var(--ts-btn-base) * var(--ts-btn-scale));
+
+  /* RATIO TOKENS — each derives one dimension from --ts-btn-size.
+     Tune any of these globally without math; per-size variants
+     override individually. */
+  --ts-btn-h-ratio: 1;
+  /* h = size × this        (was hardcoded 1) */
+  --ts-btn-pad-x-ratio: 0.45;
+  /* pad-x = h × this */
+  --ts-btn-pad-y-ratio: 0.42;
+  /* pad-y = pad-x × this */
+  --ts-btn-fs-ratio: 0.23;
+  /* fs = h × this */
+  --ts-btn-icon-ratio: 1;
+  /* icon = fs × this */
+
+  /* DERIVED — never override these directly; tune the ratios above */
+  --ts-btn-h: calc(var(--ts-btn-size) * var(--ts-btn-h-ratio) * 1px);
+  --ts-btn-pad-x: calc(var(--ts-btn-h) * var(--ts-btn-pad-x-ratio));
+  --ts-btn-pad-x: calc(var(--ts-btn-size) * var(--ts-btn-pad-x-ratio) * 1px);
+  --ts-btn-pad-y: calc(var(--ts-btn-pad-x) * var(--ts-btn-pad-y-ratio));
+  --ts-btn-pad-x: calc(var(--ts-btn-size) * var(--ts-btn-pad-x-ratio) * 1px);
+  --ts-btn-pad-y: calc(var(--ts-btn-pad-x) * var(--ts-btn-pad-y-ratio));
+  --ts-btn-fs: calc(var(--ts-btn-h) * var(--ts-btn-fs-ratio));
+  --ts-btn-fs: calc(var(--ts-btn-size) * var(--ts-btn-fs-ratio) * 1px);
+  --ts-btn-icon-size: calc(var(--ts-btn-fs) * var(--ts-btn-icon-ratio));
+}
+/* ─── §6a  BUTTONS ──────── */
+
+/*#OWNER REFACTOR NOTES:  @ts-smart_button_system. +  style  migration and centralization  v2: centralize SmartButton system as single core class builder. eliminate overlapping button implementations and enforce one construction pattern for all buttons across scopes. buttons must be fully adaptive, environment-agnostic, and extensible without breaking layout or behavior. JS must handle automatic construction: always wrap text in a dedicated span (.ts-btn-text), inject icons, counters, tooltips, and state layers consistently. 
+
+CURRENT STATUS:
+- partial centralization achieved via core button attributes
+- vertical icon alignment patched via nested rules due to inconsistent font-size inheritance across legacy implementations
+- icon sizing recalculated multiple times across scopes → causes misalignment
+
+TEMP FIX (TO REMOVE):
+- nested icon normalization rules + margin-top hack applied
+- MUST be removed once SmartButton builder enforces consistent structure and sizing
+
+BLOCKERS:
+- SmartButton auto-construction class not implemented yet
+- missing guaranteed internal structure (icon + text span + helpers not consistent)
+- span class standardization (.ts-btn-text) not enforced
+
+TARGET ARCHITECTURE:
+- single SmartButton JS factory builds all buttons
+- guaranteed DOM structure:
+  [button]
+    [i.ts-btn-icon]
+    [span.ts-btn-text]
+    [span.ts-btn-counter?]
+    [tooltip/helper nodes?]
+- CSS becomes token-driven only (no structural fixes)
+
+HARD RULES:
+- no manual button composition outside SmartButton system
+- no duplicated sizing logic across scopes
+- no hardcoded alignment fixes once system is stable
+- all variants must derive from token styling only
+
+MIGRATION:
+- mark current fixes as @temporary_alignment_patch
+- replace once SmartButton class is fully implemented and stable across all scopes
+*/
+
+.ts-btn {
+  --_btn-accent: var(--ts-accent);
+  --_btn-bg: var(--ts-bg-3);
+  --_btn-color: var(--ts-text-primary);
+  --_btn-border: var(--ts-border-1);
+  --_btn-border: var(--ts-this-bg-border);
+  --ts-this-bg: var(--_btn-bg);
+  /* --ts-btn-icon-size: calc(var(--ts-btn-fs)*1); */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ts-sp-1);
+  height: var(--ts-btn-h);
+  padding: var(--ts-btn-pad-y) var(--ts-btn-pad-x);
+  font-size: var(--ts-btn-fs);
+  font-weight: var(--ts-btn-fw);
+  letter-spacing: var(--ts-btn-ls);
+  border-radius: var(--ts-btn-radius);
+  border: 1px solid var(--_btn-border);
+  border-color: var(--_btn-border);
+  background: var(--_btn-bg);
+  background-color: var(--ts-this-bg);
+  /* background-image: var(--ts-this-bg-grad-2); */
+  color: var(--_btn-color);
+  font-family: inherit;
+  font-weight: var(--ts-btn-fw);
+  letter-spacing: var(--ts-btn-ls);
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  user-select: none;
+  transition: background-color var(--ts-btn-dur) var(--ts-ease-out), background-image var(--ts-btn-dur) var(--ts-ease-out),
+    border-color var(--ts-btn-dur) var(--ts-ease-out),
+    color var(--ts-btn-dur) var(--ts-ease-out),
+    box-shadow var(--ts-btn-dur) var(--ts-ease-out);
+  position: relative;
+  overflow: hidden;
+
+
+  .ts-icon:not(.ts-icon-dot, .theme-toggle__expand, .fa-moon, .fa-sun):not(.ts-icon-tiny),
+  .ts-icon:not(.ts-icon-dot, .theme-toggle__expand, .fa-moon, .fa-sun),
+  .ts-icon:not(.ts-icon-dot, .theme-toggle__expand, .fa-moon, .fa-sun)>i:not(.theme-toggle__expand, .fa-moon, .fa-sun) {
+      font-size: var(--ts-btn-icon-size, var(--ts-icon));
+      line-height: var(--ts-btn-icon-size, var(--ts-icon));
+      min-width: var(--ts-btn-icon-size, var(--ts-icon));
+      max-height: var(--ts-btn-icon-size, var(--ts-icon));
+      /* margin-top: -1%!important; */
+      /*@ts-component-consolidate @temporary_alignment_patch
+
+      ICON ALIGNMENT FIX (CRITICAL / TEMPORARY):
+      this rule normalizes icon sizing + vertical alignment inside buttons.
+      applies unified font-size, line-height, and box constraints to override
+      inconsistent inherited values from multiple legacy implementations.
+
+      ISSUE:
+      icons and text inside buttons are vertically misaligned due to:
+      - multiple redefinitions of font-size across scopes
+      - nested <i> elements with conflicting sizing rules
+      - inherited line-height inconsistencies
+
+      TEMP FIX:
+      - enforce single source of truth via --ts-btn-icon-size
+      - normalize line-height = font-size
+      - constrain width/height box
+      - apply margin-top:-1% as visual correction offset
+
+      NOTE:
+      standard alignment methods fail due to compounded inheritance conflicts.
+      this hack stabilizes rendering across all current button variants.
+
+      REMOVAL CONDITIONS:
+      - SmartButton system enforces strict DOM structure:
+        .ts-btn-icon + .ts-btn-text
+      - icon sizing defined once at root/token level
+      - no nested/legacy icon rules affecting layout
+      - consistent line-height across all button elements
+
+      HARD RULE:
+      this patch MUST be removed once button construction is fully centralized
+      and no longer depends on inherited/legacy sizing behavior.
+
+      NO MODIFICATIONS allowed unless part of full button system refactor.
+      */
+  }
+
+  span:not(.ts-icon-dot,
+    .ts-btn__counter,
+    .ts-spinner,
+    .theme-toggle__expand),
+    .ts-btn-text,
+    .ts-menu-text {
+      font-size: var(--ts-btn-icon-size, var(--ts-icon));
+      width: fit-content;
+      position: relative;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--ts-this-bg-active);
+    border-color: var(--ts-this-bg-border);
+    /* background-image: var(--ts-this-bg-grad-3); */
+    /*@ts-smart_button_system*/
+    /*@color_bg_surface_refactor*/
+
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+    /* Button with counter badge */
+  .ts-btn__counter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(var(--ts-btn-fs)*2.3);
+    height: calc(var(--ts-btn-fs)*2.3);
+    padding: calc(var(--ts-btn-fs)*.5);
+    max-height: calc(var(--ts-btn-h) - var(--ts-btn-pad-y)*2);
+    max-width: calc(var(--ts-btn-h) - var(--ts-btn-pad-y)*2);
+    border-radius: var(--ts-radius-full);
+    background: color-mix(in srgb, var(--ts-this-bg-dim-4), var(--ts-on-accent-dim-1) 28%);
+    --ts-on-accent: var(--ts-on-surface-dim);
+    --ts-accent: var(--ts-on-accent-dim);
+
+    font-size: var(--ts-btn-fs);
+    font-weight: 700;
+    line-height: 1;
+    aspect-ratio: 1;
+    outline: 1px solid;
+    border-color: var(--ts-this-bg-border);
+    outline-color: var(--ts-this-bg-border);
+    --ts-this-bg-border: color-mix(in srgb, var(--ts-this-bg-dim-4), var(--ts-on-accent-dim) 75%);
+
+
+  }
+
+  .ts-icon,
+  .ts-icon:has(>i),
+  .ts-icon:has(>svg),
+  .ts-icon:has(>ion-icon),
+  >i[class*="fa-"],
+  >ion-icon  {
+    display: inline-grid;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    vertical-align: middle;
+    place-content: center;
+  }
+
+  .ts-icon:not(.ts-icon-dot):not(.ts-icon-tiny)>i[class*="fa-"],
+  .ts-icon:not(.ts-icon-dot):not(.ts-icon-tiny)>ion-icon {
+    font-size: 1em;
+    font-size: var(--ts-btn-icon-size, var(--ts-icon), 1em);
+    /* width: 1em; */
+    height: fit-content;
+  }
+
+
+
+}
+
+
+
+/*#REFACTOR_NOTES v1: button token system + outline pattern (stage 1)
+
+CORE CONCEPT:
+establish a token-driven button system where --ts-this-bg acts as the
+base semantic color source for each button instance. all visual states
+derive from this value through mapped local tokens.
+
+PATTERN (CURRENT IMPLEMENTATION - OUTLINE VARIANT):
+- --ts-this-bg → semantic base (context-aware color token)
+- --_btn-bg → actual background (set to transparent for outline)
+- --_btn-bg-hover → subtle hover surface (mapped to dim variant)
+- --_btn-bg-accent → optional accent override for interactive states
+- --_btn-color → text color derived directly from --ts-this-bg
+
+STATE STRATEGY:
+- default: background = --_btn-bg
+- hover: background swaps to --_btn-bg-hover OR --_btn-bg-accent
+- no additional rules → only token reassignment
+- inheritance-driven updates must propagate automatically
+
+INSIGHT:
+this approach allows state changes by reassigning token values only,
+avoiding redundant selectors and enabling scalable theming.
+
+ISSUES DETECTED:
+- inconsistent naming (local --_btn-* vs global --ts-*)
+- cascade failures forcing use of !important
+- duplicated logic across button variants
+- unclear mapping between semantic tokens and implementation tokens
+
+REFACTOR TARGET:
+- unify naming convention (prefer ts-scoped or structured hybrid)
+- enforce single mapping layer:
+  --ts-this-bg → --_btn-* → applied properties
+- eliminate !important via cascade normalization
+- standardize state tokens:
+  --ts-this-bg-hover
+  --ts-this-bg-active
+  --ts-this-bg-accent
+
+HARD RULES:
+- no direct color values in components (tokens only)
+- no new selectors for states (token swap only)
+- all variants must follow same token contract
+- outline/solid/ghost = configuration, not new logic
+
+MIGRATION NOTE:
+current structure is valid as a transitional model but must be
+normalized and tokenized further to support full automation
+via SmartButton system and global theming layer.
+*/
+/* Variants */
+.ts-btn.ts-btn--primary {
+  --_btn-bg: var(--_btn-accent);
+
+  --_btn-border: var(--ts-accent-border);
+  --_btn-color: var(--ts-on-accent) !important;
+  background-color: var(--ts-this-bg);
+  border-color: var(--_btn-border);
+  background-image: var(--ts-accent-grad);
+  /*@ts-smart_button_system*/
+  :hover:not(:disabled) {
+    background-image: var(--ts-accent-glow-bg-3);
+    --_btn-border: var(--ts-accent-border-hover);
+    --_btn-bg: var(--ts-accent-bright-2);
+    box-shadow: var(--ts-shadow-accent-sm);
+    box-shadow: var(--ts-accent-shadow-glow);
+    --_btn-color: var(--ts-on-accent) !important;
+    color: var(--_btn-color);
+
+  }
+
+
+}
+
+/*@ts-smart_button_system*/
+
+.ts-btn.ts-btn--primary:hover:not(:disabled) {
+  background-color: var(--ts-accent);
+  background-image: var(--ts-accent-glow-bg-3);
+  --_btn-border: var(--ts-accent-border-hover);
+  --_btn-bg: var(--ts-accent-bright-2);
+  box-shadow: var(--ts-shadow-accent-sm);
+  box-shadow: var(--ts-accent-shadow-glow);
+  --_btn-color: var(--ts-on-accent) !important;
+  color: var(--_btn-color);
+
+}
+
+.ts-btn.ts-btn--outline {
+  --_btn-bg: transparent;
+  --_btn-bg-hover: var(--ts-this-bg-dim-4);
+  --_btn-bg-accent: var(--ts-accent-dim-2);
+  --_btn-border: var(--ts-this-bg-dim-6);
+  --_btn-border-accent: var(--ts-accent-bright-2);
+  --_btn-border-hover: var(--ts-this-bg-border-active);
+  --_btn-color: var(--ts-this-bg);
+  --_btn-color-hover: var(--ts-this-bg-active);
+  background-color: var(--_btn-bg) !important;
+  background-image: none;
+  color: var(--_btn-color) !important;
+  border-color: var(--_btn-border) !important;
+  outline-color: var(--_btn-border) !important;
+  --ts-this-bg: var(--ts-text-secondary);
+}
+
+.ts-btn.ts-btn--outline:hover:not(:disabled) {
+  --_btn-bg: var(--_btn-bg-accent);
+  --_btn-border: var(--_btn-border-accent);
+  --_btn-color: var(--ts-this-bg);
+  --ts-this-bg: var(--ts-text-primary);
+  background-color: var(--_btn-bg);
+  color: var(--_btn-color);
+
+
+
+}
+
+.ts-btn.ts-btn--ghost {
+  --_btn-bg: color-mix(in srgb, var(--ts-this-bg), transparent 98%);
+  --ts-this-bg: var(--ts-bg-1-t);
+
+  --_btn-border: color-mix(in srgb, var(--ts-this-bg-border), transparent 47%);
+  --_btn-border-hover: color-mix(in srgb, var(--ts-this-bg-border-hover), transparent 8%);
+  --_btn-color: var(--ts-text-secondary-dim-2);
+
+  --glow: color-mix(in srgb, var(--_btn-border), transparent 78%);
+  --ts-btn-ghost-glow: 0 0 3px 1px var(--glow), inset 0 0 15px var(--glow);
+  background-image: none !important;
+  background-color: var(--_btn-bg) !important;
+  border-color: var(--_btn-border);
+  outline-color: var(--_btn-border);
+  color: var(--_btn-color) !important;
+
+}
+
+.ts-btn.ts-btn--ghost:hover:not(:disabled) {
+  --_btn-bg: var(--ts-this-bg-dim-4);
+  --_btn-color: var(--ts-text-primary) !important;
+  --_btn-border: var(--_btn-border-hover);
+  box-shadow: var(--ts-btn-ghost-glow) !important;
+
+}
+
+.ts-btn.ts-btn--ghost:active:not(:disabled),
+.ts-btn.ts-btn--ghost:focus:not(:disabled) {
+  text-shadow: 0px 0px 10px var(--glow);
+  --_btn-bg: var(--ts-this-bg-dim-4);
+  --_btn-color: var(--ts-text-primary) !important;
+  --_btn-border: var(--_btn-accent);
+  box-shadow: var(--ts-btn-ghost-glow) !important;
+
+}
+
+.ts-topbar__actions .ts-btn--ghost.ts-btn--icon {
+  padding: 0 !important;
+  font-size: var(--ts-fs-xl);
+}
+
+.ts-btn--danger {
+  --_btn-bg: var(--ts-danger);
+  --_btn-border: var(--ts-danger);
+  --_btn-color: #fff;
+}
+
+.ts-btn--success {
+  --_btn-bg: var(--ts-success);
+  --_btn-border: var(--ts-success);
+  --_btn-color: #fff;
+}
+
+.ts-btn--alt {
+  --_btn-bg: var(--ts-accent-alt);
+  --_btn-border: var(--ts-accent-alt);
+  --_btn-color: #fff;
+}
+
+/* ✅ SCALABLE SIZES: Only change scale, everything else auto-calculates */
+/* SIZE VARIANTS — change ONLY the scale + ratios you want to differ.
+   Everything else auto-derives from the ratio chain. */
+
+.ts-btn--sm {
+  --ts-btn-scale: 0.84;
+  --ts-btn-h-ratio: 0.9;
+  /* dampen height: 1.3 × 0.88 = 1.14 effective h-scale */
+  --ts-btn-fs-ratio: 0.24;
+  /* slightly tighter text:height ratio */
+}
+
+.ts-btn--md {
+  --ts-btn-scale: 1;
+
+  --ts-btn-fs-ratio: 0.22;
+  /* slightly tighter text:height ratio */
+
+}
+
+.ts-btn--lg {
+  --ts-btn-scale: 1.3;
+  --ts-btn-h-ratio: 0.83;
+  /* dampen height: 1.3 × 0.88 = 1.14 effective h-scale */
+  --ts-btn-fs-ratio: 0.2;
+  /* slightly tighter text:height ratio */
+}
+
+.ts-btn--xl {
+  --ts-btn-scale: 1.45;
+  --ts-btn-h-ratio: 0.89;
+  /* dampen height further: 1.45 × 0.85 = 1.23 effective h-scale */
+  --ts-btn-fs-ratio: 0.2;
+  /* tighter still */
+}
+
+.ts-btn--full {
+  width: 100%;
+}
+
+.ts-btn--secondary:not(.ts-btn--icon, .ts-btn-icon, .ts-btn--outline) {
+
+  /* background-image: var(--ts-this-bg-grad); */
+  /*#NEW REFACTOR NOTES:  All the inputs that has gradients  by default must be removed and be delegated globally to a  global button and input styling mode "Lush Mode". WHICH SHOULD NABLE THE BACKGRUND IMAGES FOR THE INPUTS that has already the ts-this-bg built and only needs the image  set to work. the hover state should support it too. */
+  --_btn-bg: var(--ts-bg-2-t);
+}
+
+.ts-btn--tertiary:not(.ts-btn--icon, .ts-btn-icon, .ts-btn--outline) {
+
+  /* background-image: var(--ts-this-bg-grad-2); */
+  /*#NEW REFACTOR NOTES:  All the inputs that has gradients  by default must be removed and be delegated globally to a  global button and input styling mode "Lush Mode". WHICH SHOULD NABLE THE BACKGRUND IMAGES FOR THE INPUTS that has already the ts-this-bg built and only needs the image  set to work. the hover state should support it too. */
+  --_btn-bg: var(--ts-bg-5);
+}
+
+
+
+
+

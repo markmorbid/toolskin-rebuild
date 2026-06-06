@@ -1,0 +1,125 @@
+/* OWNER's FIX:  enhanced dropdown mac heigh system . 
+NEW Refactor Note URGENT: we need to merge and unify all the  spared  code  from the assets to one place ,,  except for the scoped sepcific isolated rules inside bannergenertor.  or other isolated nested scopes. but this al l the cascade inherited  styles must be grouped. move this and all the other inheritanee styles and  all other cases to  unify and clean up the  code.  */
+
+/* ─────────────────────────────────────────────────────────────────────
+   ts-ui-select __dropdown — context-aware smart max-height (v3)
+
+   Why v3: in v2 the formula was declared on :root and the knobs were
+   overridden in nested contexts. This relies on custom-property
+   inheritance reaching the dropdown through every wrapper layer. In
+   practice, sibling/specificity edge cases (especially when the same
+   class — e.g. .ts-banner-generator-app — sits on both :root and a
+   descendant panel) can short-circuit the cascade and the dropdown
+   falls back to root values.
+
+   v3 fix: declare BOTH the knobs AND the formula in each context.
+   The formula resolves at the context root (panel, modal, body),
+   so the dropdown inherits a fully-resolved value — no propagation
+   game, no specificity battles, no !important on max-height needed.
+   ───────────────────────────────────────────────────────────────────── */
+
+/* ── 1. PAGE-LEVEL DEFAULT 
+NEW REFACTOR NOTE: 
+MOVE TO MAIN ROOT  VARS AND GROPU WIOTH COMPONENT SELECT   ASSET VARS.  DO THE SDAME WITH ALL OTHER DISPERSED NON-SCOPED VARIABLES AROUND THE SHEET AND CHECK THEY ARE STILL APPLIEDON EACH MIGRATION.. ───────────────────────────────────────── */
+:root {
+	--ts-ui-select-dd-min: 12rem;
+	--ts-ui-select-dd-runway: 14rem;
+	--ts-ui-select-dd-max-abs: 28rem;
+	--ts-ui-select-dd-max-rel: 70dvh;
+
+	--ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min),
+			calc(100dvh - var(--ts-ui-select-dd-runway)),
+			min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
+}
+
+/* ── 2. CONSTRAINED CONTEXTS — knobs AND formula re-declared ─────── */
+
+/* Offcanvas editor: dropdown is clipped by .ts-oce-panel__inner's
+   overflow:auto. We size it to fit comfortably WITHIN the panel
+   viewport, never trespassing past the sticky footer. */
+.ts-oce-panel,
+.ts-oce-panel__inner,
+.ts-oce-panel .ts-card,
+.ts-oce-panel .ts-tab-pane {
+	--ts-ui-select-dd-min: 7rem;
+	--ts-ui-select-dd-runway: 22rem;
+	/* tabs + open accordion + footer */
+	--ts-ui-select-dd-max-abs: 16rem;
+	/* hard cap: 256px inside panel */
+	--ts-ui-select-dd-max-rel: 45dvh;
+
+	--ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min),
+			calc(100dvh - var(--ts-ui-select-dd-runway)),
+			min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
+}
+
+/* Modal body */
+.ts-modal,
+.ts-modal__body {
+	--ts-ui-select-dd-min: 10rem;
+	--ts-ui-select-dd-runway: 18rem;
+	--ts-ui-select-dd-max-abs: 22rem;
+	--ts-ui-select-dd-max-rel: 55dvh;
+
+	--ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min),
+			calc(100dvh - var(--ts-ui-select-dd-runway)),
+			min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
+}
+
+/* Banner generator app (class lives on :root in this app) */
+:root.ts-banner-generator-app {
+	--ts-ui-select-dd-min: 10rem;
+	--ts-ui-select-dd-runway: 16rem;
+	--ts-ui-select-dd-max-abs: 22rem;
+	--ts-ui-select-dd-max-rel: 60dvh;
+
+	--ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min),
+			calc(100dvh - var(--ts-ui-select-dd-runway)),
+			min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
+}
+
+/* Belt-and-suspenders: when the offcanvas panel ALSO has the
+   banner-generator-app class on it (image 3 shows this is real),
+   the panel's offcanvas knobs must win over the app-level knobs.
+   Higher specificity selector for the win. */
+.ts-banner-generator-app.ts-oce-panel,
+.ts-banner-generator-app.ts-oce-panel .ts-oce-panel__inner,
+.ts-banner-generator-app.ts-oce-panel .ts-card,
+.ts-banner-generator-app.ts-oce-panel .ts-tab-pane {
+	--ts-ui-select-dd-min: 7rem;
+	--ts-ui-select-dd-runway: 22rem;
+	--ts-ui-select-dd-max-abs: 16rem;
+	--ts-ui-select-dd-max-rel: 45dvh;
+	--ts-ui-select-dd-max-h: clamp(var(--ts-ui-select-dd-min),
+   calc(100dvh - var(--ts-ui-select-dd-runway)),
+   min(var(--ts-ui-select-dd-max-abs), var(--ts-ui-select-dd-max-rel)));
+}
+
+
+/* ── 3. APPLY TO THE DROPDOWN ────────────────────────────────────── */
+
+.ts-ui-select__dropdown {
+	max-height: calc(var(--ts-ui-select-dd-max-h) + 1px);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+.ts-ui-select__list {
+	max-height: calc(var(--ts-ui-select-dd-max-h) + 1px - var(--ts-ui-select-trigger-min-height, 2.75rem));
+	overflow-y: auto;
+	flex: 1 1 auto;
+	min-height: 0;
+}
+
+.ts-ui-select--no-search .ts-ui-select__list {
+	max-height: calc(var(--ts-ui-select-dd-max-h) + 1px);
+}
+
+
+/* ── 4. ANCHOR POSITIONING (progressive enhancement) ─────────────── */
+@supports (anchor-name: --foo) and (position-try-fallbacks: flip-block) {
+	.ts-ui-select__dropdown {
+		position-try-fallbacks: flip-block;
+	}
+}

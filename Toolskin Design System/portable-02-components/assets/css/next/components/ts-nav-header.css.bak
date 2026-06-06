@@ -1,0 +1,674 @@
+@charset "UTF-8";
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · ts-nav-header.css — TOP NAVIGATION SYSTEM (clean reconstruction)
+   ───────────────────────────────────────────────────────────────────────────
+   A precise, optimized reconstruction of the original showcase header system —
+   topbar / fixed topnav / mobile menu / sidenav — rebuilt to the architecture
+   the owner specified. It REPLACES the scattered, `#CRAZY_FIX`-laden migration
+   (`headermenu-topnav-fixednav-mobilemenu-sidebarnav.css`, 2545 lines of
+   `!important`, srgb mixes, and `:root *` token flooding). Visual design is
+   reproduced 1:1; only the implementation is upgraded.
+
+   ─── ARCHITECTURE (strict layers — read top to bottom) ──────────────────────
+     LAYER 1  Global primitives        external — primitives/*.css (NOT here)
+     LAYER 2  Component-scoped tokens   nav heights/paddings/colors/states
+     LAYER 3  Structural               topbar · fixed nav · mobile · sidenav shells
+     LAYER 4  Primary selectors        logo · links · items · more · dropdown · controls
+     LAYER 5  Secondary selectors      variants + states (spaced · icon-only · static
+                                       · sticky · active · hover · burger-open · sidenav)
+     LAYER 6  Sub-elements             icons · labels · logo em/sub · burger lines · bars
+     LAYER 7  Assets / utilities       glass backdrop · overlay · effects
+
+   ─── KEY DECISIONS (owner notes resolved) ───────────────────────────────────
+   • SCOPED tokenization (perf): Layer-2 tokens live on a `:where(<nav scopes>, …*)`
+     list — NOT on `:root *`. They only materialize on header subtrees, so the
+     rest of the page is not flooded with hundreds of unused custom properties.
+   • One shared base, variants derive from tokens. Topbar/fixed/mobile/sidenav
+     share the SAME token contract; a variant only re-binds tokens, never forks
+     structure. No duplicated per-variant logic.
+   • Glass via pseudo-element (`::before`), never on the parent — so dropdowns
+     keep an independent backdrop-filter context (original implementation note).
+     A solid fallback alpha is token-driven (`--ts-nav-glass-alpha`), legible in
+     light + dark; set `--ts-nav-glass: 0` to disable blur entirely.
+   • Engine-true color: every surface/border/ink reads a primitive or an oklab
+     `--ts-this-bg-*` engine derivative. Zero srgb mixes, zero hardcoded hex.
+   • Zero `!important`. Specificity is solved by layer order + scope.
+
+   LOAD ORDER  primitives/* → system/toolskin-this-bg-v2.css → components/
+   ts-btn_v3.1.css → components/ts-nav-header.css → harness.css (scaffold only).
+   Pair with ts-nav.js (burger/overflow/scroll-spy) + ts-icons.js (icon inject).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ╔═══════════════════════════════════════════════════════════════════════════
+   ║ LAYER 2 — COMPONENT-SCOPED TOKENS
+   ║ Scoped to the nav subtrees only (NOT :root *). Every value derives from a
+   ║ LAYER-1 primitive or the v2 engine, so the header re-themes with the system.
+   ╚═══════════════════════════════════════════════════════════════════════════ */
+:where(
+  .ts-nav-fixed, .ts-nav-fixed *,
+  .ts-nav-static, .ts-nav-static *,
+  .ts-topbar, .ts-topbar *,
+  .ts-mobile-menu, .ts-mobile-menu *,
+  .ts-sidebar-menu, .ts-sidebar-menu *
+) {
+  /* — Geometry — */
+  --ts-topbar-h:            58px;                         /* canonical header height */
+  --ts-nav-pad-inline:      clamp(var(--ts-sp-3), 4vw, var(--ts-sp-6));
+
+  /* — Type ramp (compressed nav scale) — re-declared so the calc re-reads the
+       scoped base (CSS captures derived tokens by value at declaration site). — */
+  --ts-nav-fs-base:         0.68rem;
+  --ts-nav-fs:              calc(var(--ts-nav-fs-base) * var(--ts-font-scale, 1));
+  --ts-navlink-fs:          calc(var(--ts-nav-fs) * 0.889);   /* ~9.9px nav text */
+  --ts-navlink-fw:          500;
+  --ts-navlink-ls:          var(--ts-tracking-wide);
+
+  /* — Spacing multipliers (the original sizing chain, kept) — */
+  --ts-navlink-mult-lg:     1.75;
+  --ts-navlink-mult-md:     1.35;
+  --ts-navlink-mult-sm:     1.1;
+  --ts-navlink-mult-xs:     0.6;
+  --ts-navlink-gap:         calc(var(--ts-navlink-fs) * var(--ts-navlink-mult-xs) * 0.7);
+  --ts-navlink-pad-x:       var(--ts-sp-2);
+  --ts-navlink-pad-y:       calc(var(--ts-navlink-pad-x) * var(--ts-navlink-mult-md));
+  --ts-navlink-pad-x-mult:  calc(var(--ts-navlink-fs) * var(--ts-navlink-mult-md));
+  --ts-navlink-pad-y-mult:  calc(var(--ts-navlink-pad-x-mult) * var(--ts-navlink-mult-sm));
+
+  /* — Nav control (button/select/toggle) height — one row, subtractive truth — */
+  --ts-nav-btn-h:           calc(var(--ts-topbar-h) - var(--ts-navlink-pad-x-mult) * 1.4);
+
+  /* — Icon sizing — */
+  --ts-icon:                calc(var(--ts-navlink-fs) * 1.2);
+  --ts-icon-only-fs:        calc(var(--ts-navlink-fs) * var(--ts-navlink-mult-lg));
+
+  /* — Color roles (engine-derived; no legacy -dim-2 aliases) — */
+  --ts-navlink-color:        var(--ts-text-secondary);
+  --ts-navlink-color-hover:  var(--ts-text-primary);
+  --ts-navlink-color-active: var(--ts-accent);
+  --ts-navlink-bg:           transparent;
+  --ts-navlink-bg-hover:     var(--ts-this-bg-dim-2);
+  --ts-navlink-bg-active:    color-mix(in oklab, var(--ts-accent), transparent 92%);
+
+  /* — Header surface + chrome line (glass via pseudo; solid fallback alpha) — */
+  --ts-nav-glass:            1;                            /* 1 = blur on, 0 = off */
+  --ts-nav-glass-blur:       8px;
+  --ts-nav-bg-alpha:         10%;                          /* header backdrop alpha  */
+  --ts-nav-border-alpha:     22%;
+  --ts-nav-surface:          color-mix(in oklab, var(--ts-this-bg), transparent var(--ts-nav-bg-alpha));
+  --ts-nav-border:           color-mix(in oklab, var(--ts-this-bg-border), transparent var(--ts-nav-border-alpha));
+
+  /* — Radii + bars — */
+  --ts-nav-ui-radius:        calc(var(--ts-radius-sm) * 0.85);
+  --ts-nav-btn-radius:       calc(var(--ts-nav-ui-radius) - 1px);
+  --ts-index-bar-height:     2px;                          /* active accent bar      */
+
+  /* — Logo — */
+  --ts-logo-color:           var(--ts-text-primary);
+  --ts-logo-sub-color:       var(--ts-text-muted);
+
+  /* — Layering + responsive switch — */
+  --ts-z-sticky:             var(--ts-z-nav, 1000);
+  --ts-nav-collapse-at:      860px;                        /* burger/mobile breakpoint */
+  --ts-mobile-width:         clamp(260px, 78vw, 360px);
+  --ts-sidebar-nav-w:        200px;
+
+  /* — Bold-glyph text shadow for the accent logo letters — */
+  --ts-shadow-bold-str:      0.45px;
+  --ts-shadow-bold:
+     0 0 var(--ts-shadow-bold-str) currentColor,
+     0 var(--ts-shadow-bold-str) 0 currentColor,
+     var(--ts-shadow-bold-str) 0 0 currentColor,
+     0 0 calc(var(--ts-shadow-bold-str) * -1) currentColor,
+     0 calc(var(--ts-shadow-bold-str) * -1) 0 currentColor,
+     calc(var(--ts-shadow-bold-str) * -1) 0 0 currentColor;
+}
+
+/* Re-anchor the header surface so engine derivatives compute against the page
+   floor (a parent may re-anchor to recolor the whole header in one line). */
+:where(.ts-nav-fixed, .ts-nav-static, .ts-topbar, .ts-mobile-menu, .ts-sidebar-menu) {
+  --ts-this-bg: var(--ts-bg-body);
+}
+
+
+/* ╔═══════════════════════════════════════════════════════════════════════════
+   ║ LAYER 3 — STRUCTURAL SHELLS
+   ╚═══════════════════════════════════════════════════════════════════════════ */
+
+/* Shared header bar — fixed topnav, static topnav, and inline topbar all use
+   the SAME fl/ex row contract; the position differs per variant (LAYER 5). */
+.ts-nav-fixed,
+.ts-nav-static,
+.ts-topbar {
+  position: relative;
+  isolation: isolate;                 /* own stacking context for the glass layer */
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: var(--ts-topbar-h);
+  padding-inline: var(--ts-nav-pad-inline);
+  color: var(--ts-navlink-color);
+  border-bottom: 1px solid var(--ts-nav-border);
+}
+.ts-nav-fixed  { position: fixed; inset: 0 0 auto 0; z-index: var(--ts-z-sticky); }
+.ts-nav-static { position: static; }
+
+/* LAYER 7 dependency lives here structurally: the glass backdrop is a pseudo so
+   children (dropdowns) keep independent backdrop-filter contexts. */
+.ts-nav-fixed::before,
+.ts-mobile-menu::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ts-nav-surface);
+  backdrop-filter: blur(calc(var(--ts-nav-glass-blur) * var(--ts-nav-glass))) saturate(115%);
+  transition: background var(--ts-dur-base) var(--ts-ease-out),
+              backdrop-filter var(--ts-dur-base) var(--ts-ease-out),
+              opacity var(--ts-dur-base) var(--ts-ease-out);
+}
+
+/* Link cluster — pushes to the right of the logo; truncating variant clips
+   overflow so ts-nav.js can relocate spillover into the ••• dropdown. */
+.ts-nav-fixed__links {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  align-self: stretch;
+  margin-left: auto;
+  gap: 0;
+}
+.ts-nav-fixed__links.ts-nav-truncate { flex: 0 0 auto; overflow: visible; }
+/* Items never squish — they either fit, or overflow for ts-nav.js to relocate. */
+.ts-nav-fixed__links > * { flex: none; }
+
+/* Mobile slide-in panel + scrim (LAYER 7 overlay). */
+.ts-mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--ts-z-sticky) - 1);
+  background: var(--ts-this-bg-dim-2);
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  transition: opacity var(--ts-dur-base) var(--ts-ease-out),
+              visibility var(--ts-dur-base) var(--ts-ease-out);
+}
+.ts-mobile-menu-overlay.active { opacity: 1; visibility: visible; }
+
+.ts-mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: auto;                                 /* statically pinned right … */
+  width: var(--ts-mobile-width);
+  max-width: var(--ts-mobile-width);
+  z-index: var(--ts-z-sticky);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  border-left: 1px solid var(--ts-nav-border);
+  transform: translateX(100%);                /* … and slid off-canvas via transform */
+  visibility: hidden;
+  transition: transform var(--ts-dur-slow) var(--ts-ease-in-out),
+              visibility var(--ts-dur-slow) var(--ts-ease-in-out);
+}
+.ts-mobile-menu.active { transform: translateX(0); visibility: visible; }
+.ts-mobile-menu::before { --ts-nav-bg-alpha: 22%; --ts-nav-glass-blur: 13px; }
+
+.ts-mobile-menu-items { display: flex; flex-direction: column; }
+
+
+/* ╔═══════════════════════════════════════════════════════════════════════════
+   ║ LAYER 4 — PRIMARY SELECTORS  (logo · links · items · more · dropdown · controls)
+   ║ Authored as ONE nested rule per family to eliminate the original's
+   ║ repeated flat selectors. Shared item styling is consolidated, then the
+   ║ topbar/dropdown/mobile contexts only adjust what differs.
+   ╚═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 4.1  LOGO ─────────────────────────────────────────────────────────────
+   Column lockup: wordmark on top, subtitle directly beneath. The subtitle is
+   fitted to the EXACT wordmark width at runtime by ts-nav.js (fitLogoSubtitles)
+   so "Design System v1.0" always spans the same width as "TOOLSKIN" — and stays
+   matched when the Variant Tester changes the font or type scale. CSS keeps the
+   wordmark inline (.ts-logo-brand) and the subtitle on its own line; JS only
+   sets the subtitle's font-size to make the widths agree. */
+.ts-topbar__logo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;       /* left-aligned lockup */
+  justify-content: center;
+  gap: calc(var(--ts-navlink-gap) * 0.4);
+  height: 100%;
+  padding-inline: var(--ts-navlink-pad-x);
+  font-family: var(--ts-font-display);
+  font-weight: var(--ts-fw-semibold);
+  font-size: var(--ts-fs-lg);
+  letter-spacing: var(--ts-tracking-wide);
+  text-transform: uppercase;
+  line-height: 1.05;
+  color: var(--ts-logo-color);
+  text-decoration: none;
+  flex: 0 0 auto;
+
+  /* Wordmark — keeps TOOL + SKIN on one inline row; sets the lockup width. */
+  & .ts-logo-brand {
+    display: inline-flex;
+    align-items: baseline;
+    white-space: nowrap;
+  }
+
+  /* LAYER 6 — the accent word. */
+  & em {
+    color: var(--ts-accent);
+    font-style: normal;
+    font-weight: var(--ts-fw-black);
+    text-shadow: var(--ts-shadow-bold);
+  }
+
+  /* Subtitle — own line, natural single line; JS sets font-size so its rendered
+     width === the wordmark width. width:100% + justify spreads any sub-pixel
+     slack so both edges align flush. */
+  & span.ts-logo-sub,
+  & > span:not(.ts-logo-brand) {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    font-family: var(--ts-font-mono);
+    font-size: 0.5em;              /* starting size; ts-nav.js overrides to fit */
+    font-weight: var(--ts-fw-normal);
+    letter-spacing: normal;
+    text-align: justify;
+    text-align-last: justify;
+    line-height: 1.2;
+    color: var(--ts-logo-sub-color);
+  }
+}
+
+/* ── 4.2  NAV ITEMS — shared base for fixed-links, dropdown, mobile items ──────
+   One declaration drives every flavor of nav item; contexts below only diverge
+   where the design genuinely differs (vertical dividers, bar position). ─────── */
+.ts-nav-fixed__links > :is(a, button):not(.ts-btn),
+.ts-nav-dropdown   > :is(a, button):not(.ts-btn),
+.ts-mobile-menu-items > :is(a, button):not(.ts-btn) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ts-navlink-gap);
+  position: relative;
+  font-size: var(--ts-navlink-fs);
+  font-weight: var(--ts-navlink-fw);
+  letter-spacing: var(--ts-navlink-ls);
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--ts-navlink-color);
+  background: var(--ts-navlink-bg);
+  cursor: pointer;
+  transition: color var(--ts-dur-fast) var(--ts-ease-out),
+              background var(--ts-dur-fast) var(--ts-ease-out),
+              border-color var(--ts-dur-fast) var(--ts-ease-out);
+
+  /* LAYER 6 — leading icon */
+  & > .ts-icon,
+  & > i,
+  & > ion-icon,
+  & .ts-menu-icon {
+    flex: none;
+    display: grid;
+    place-content: center;
+    font-size: var(--ts-icon);
+    width: var(--ts-icon);
+    height: var(--ts-icon);
+    color: var(--ts-navlink-color);
+  }
+
+  /* LAYER 6 — the active/hover indicator bar (position set per context). */
+  &::after {
+    content: "";
+    position: absolute;
+    background-color: transparent;
+    transition: background-color var(--ts-dur-base) var(--ts-ease-out),
+                left var(--ts-dur-base) var(--ts-ease-out);
+  }
+
+  &:hover { color: var(--ts-navlink-color-hover); }
+  &:hover > :is(.ts-icon, i, ion-icon, .ts-menu-icon) { color: var(--ts-navlink-color-hover); }
+
+  &:is(.active, .ts-active, [aria-current="page"]) {
+    color: var(--ts-navlink-color-active);
+    background: var(--ts-navlink-bg-active);
+  }
+  &:is(.active, .ts-active, [aria-current="page"]) > :is(.ts-icon, i, ion-icon, .ts-menu-icon) {
+    color: var(--ts-navlink-color-active);
+  }
+}
+
+/* Horizontal (topbar) items: full-height, padded inline, bottom accent bar. */
+.ts-nav-fixed__links > :is(a, button):not(.ts-btn) {
+  height: 100%;
+  padding-inline: var(--ts-navlink-pad-x-mult);
+  justify-content: center;
+  &::after { left: 0; right: 0; bottom: 0; height: var(--ts-index-bar-height); }
+  &:is(.active, .ts-active, [aria-current="page"])::after { background-color: var(--ts-accent); }
+}
+
+/* ── 4.3  CONTROLS PARITY — buttons / select / toggle / back-top form one row ──
+   Button-type links are vertically CENTERED pills (not full-height like the
+   text/icon links, which carry the bottom accent bar). The link row is
+   align-items:stretch for the full-height items, so the fixed-height controls
+   must opt back into centering via align-self. */
+.ts-nav-fixed .ts-btn,
+.ts-nav-fixed .ts-ui-select__trigger { height: var(--ts-nav-btn-h); }
+.ts-nav-fixed .ts-btn {
+  border-radius: var(--ts-nav-btn-radius);
+  align-self: center;            /* vertical-center the nav buttons */
+}
+/* Center every control that shares the bar, regardless of stretch context. */
+.ts-nav-fixed > .ts-btn,
+.ts-nav-fixed__links > .ts-btn,
+.ts-nav-fixed .ts-ui-select,
+.ts-nav-fixed .theme-toggle,
+.ts-nav-fixed .ts-back_top-nav,
+.ts-nav-fixed #ts-top-btn,
+.ts-nav-fixed .ts-menu-burger { align-self: center; }
+
+/* ── 4.4  MORE (•••) TRIGGER + DROPDOWN ───────────────────────────────────────
+   Hidden until ts-nav.js marks it `.hasItems` (overflow relocation). ──────────*/
+.ts-nav-more {
+  display: none;
+  position: relative;
+  align-self: stretch;
+  &.hasItems { display: flex; }
+
+  & .ts-more-trigger {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    border-left: 1px solid var(--ts-nav-border);
+    padding-inline: var(--ts-navlink-pad-x-mult);
+    color: var(--ts-navlink-color);
+    cursor: pointer;
+    transition: color var(--ts-dur-fast) var(--ts-ease-out);
+    &:hover { color: var(--ts-navlink-color-hover); }
+  }
+
+  /* Open on hover OR JS `.is-open` / aria-expanded. */
+  &:hover > .ts-nav-dropdown,
+  &.is-open > .ts-nav-dropdown,
+  &[aria-expanded="true"] > .ts-nav-dropdown { opacity: 1; visibility: visible; pointer-events: auto; }
+}
+
+.ts-nav-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: calc(var(--ts-z-sticky) + 1);
+  display: flex;
+  flex-direction: column;
+  min-width: 170px;
+  background: var(--ts-nav-surface);
+  backdrop-filter: blur(var(--ts-nav-glass-blur)) saturate(140%);
+  border: 1px solid var(--ts-nav-border);
+  border-top: var(--ts-index-bar-height) solid var(--ts-accent);
+  border-radius: 0 0 var(--ts-nav-ui-radius) var(--ts-nav-ui-radius);
+  box-shadow: 0 10px 25px color-mix(in oklab, var(--ts-tone-floor), transparent 80%);
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--ts-dur-base) var(--ts-ease-out),
+              visibility var(--ts-dur-base) var(--ts-ease-out);
+
+  /* Dropdown items stack; divider between, leading accent rail on active. */
+  & > :is(a, button):not(.ts-btn) {
+    padding: var(--ts-navlink-pad-y-mult) var(--ts-navlink-pad-x-mult);
+    &:not(:last-child) { border-bottom: 1px solid var(--ts-nav-border); }
+    &::after { left: 0; top: 0; bottom: 0; width: var(--ts-index-bar-height); height: auto; }
+    &:hover { background: var(--ts-navlink-bg-hover); }
+    &:is(.active, .ts-active, [aria-current="page"])::after { background-color: var(--ts-accent); }
+  }
+
+  /* Button-type links relocated into the dropdown keep breathing room. */
+  & > .ts-btn { margin: var(--ts-navlink-gap) var(--ts-navlink-pad-x-mult); }
+}
+
+/* ── 4.5  THEME TOGGLE — compact square control (animated SVG sun/moon). ─────── */
+.theme-toggle {
+  order: 90;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  width: var(--ts-nav-btn-h);
+  flex: none;
+  padding-inline: var(--ts-navlink-pad-x-mult);
+  border: 0;
+  border-left: 1px solid var(--ts-nav-border);
+  background: transparent;
+  color: var(--ts-navlink-color);
+  font-size: calc(var(--ts-nav-btn-h) * 0.42);
+  cursor: pointer;
+  transition: color var(--ts-dur-fast) var(--ts-ease-out);
+  &:hover { color: var(--ts-navlink-color-active); }
+  & input { position: absolute; opacity: 0; width: 0; height: 0; }
+  & .theme-toggle-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  & .theme-toggle__expand { width: 1em; height: 1em; fill: currentColor; }
+}
+
+/* ── 4.6  BACK-TO-TOP — square icon button, revealed by ts-nav.js on scroll. ── */
+#ts-top-btn,
+.ts-back_top-nav {
+  order: 80;
+  display: none;                      /* shown via .ts-active / .active */
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  width: var(--ts-nav-btn-h);
+  flex: none;
+  border: 0;
+  border-left: 1px solid var(--ts-nav-border);
+  background: transparent;
+  color: var(--ts-navlink-color);
+  text-decoration: none;
+  cursor: pointer;
+  &.active, &.ts-active { display: inline-flex; }
+  & .ts-icon, & ion-icon { font-size: calc(var(--ts-nav-btn-h) * 0.4); }
+  &:hover { color: var(--ts-navlink-color-active); }
+}
+
+/* ── 4.7  BURGER — 3-line → X. Hidden on desktop, shown at collapse width. ───── */
+.ts-menu-burger {
+  order: 95;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  width: var(--ts-nav-btn-h);
+  height: var(--ts-nav-btn-h);
+  flex: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  & .ts-menu-burger-inner,
+  & .ts-menu-burger-inner::before,
+  & .ts-menu-burger-inner::after {
+    content: "";
+    display: block;
+    width: 18px;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--ts-navlink-color);
+    transition: transform var(--ts-dur-base) var(--ts-ease-out),
+                opacity var(--ts-dur-base) var(--ts-ease-out),
+                top var(--ts-dur-base) var(--ts-ease-out),
+                bottom var(--ts-dur-base) var(--ts-ease-out);
+  }
+  & .ts-menu-burger-inner { position: relative; }
+  & .ts-menu-burger-inner::before { position: absolute; top: -6px; }
+  & .ts-menu-burger-inner::after  { position: absolute; bottom: -6px; }
+  &:hover .ts-menu-burger-inner,
+  &:hover .ts-menu-burger-inner::before,
+  &:hover .ts-menu-burger-inner::after { background: var(--ts-navlink-color-active); }
+
+  /* Open → X */
+  &.active .ts-menu-burger-inner { background: transparent; }
+  &.active .ts-menu-burger-inner::before { top: 0; transform: rotate(45deg); }
+  &.active .ts-menu-burger-inner::after  { bottom: 0; transform: rotate(-45deg); }
+}
+
+/* ── 4.8  FRAMEWORK SELECT (trigger styling only; full ts-ui-select migrates later) */
+.ts-nav-fixed .ts-ui-select { order: 70; align-self: center; flex: none; }
+.ts-nav-fixed .ts-ui-select__native { display: none; }
+.ts-nav-fixed .ts-ui-select__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ts-navlink-gap);
+  padding-inline: var(--ts-navlink-pad-x-mult);
+  font: inherit;
+  font-size: var(--ts-navlink-fs);
+  text-transform: uppercase;
+  letter-spacing: var(--ts-navlink-ls);
+  color: var(--ts-navlink-color);
+  background: color-mix(in oklab, var(--ts-this-bg), var(--ts-on-surface-auto) 8%);
+  border: 1px solid var(--ts-nav-border);
+  border-radius: var(--ts-nav-btn-radius);
+  cursor: pointer;
+  transition: color var(--ts-dur-fast) var(--ts-ease-out),
+              border-color var(--ts-dur-fast) var(--ts-ease-out);
+  &:hover { color: var(--ts-navlink-color-hover); border-color: var(--ts-this-bg-border-hover); }
+  & .ts-ui-select__chevron { font-size: 0.8em; opacity: 0.7; }
+}
+
+
+/* ╔═══════════════════════════════════════════════════════════════════════════
+   ║ LAYER 5 — SECONDARY SELECTORS (variants · modifiers · states)
+   ║ Variants only re-bind tokens / toggle dividers. No structural forks.
+   ╚═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 5.1  DEFAULT (non-spaced): vertical dividers between items ────────────── */
+.ts-nav-fixed:not(.spaced):not(.ts-nav--spaced) .ts-nav-fixed__links > :is(a, button):not(.ts-btn) {
+  border-right: 1px solid var(--ts-nav-border);
+}
+.ts-nav-fixed:not(.spaced):not(.ts-nav--spaced) .ts-nav-fixed__links > :is(a, button):not(.ts-btn):first-child {
+  border-left: 1px solid var(--ts-nav-border);
+}
+/* Button-type links keep a small gap from neighbours in the default bar. */
+.ts-nav-fixed:not(.spaced):not(.ts-nav--spaced) .ts-nav-fixed__links > .ts-btn {
+  margin-left: var(--ts-navlink-gap);
+}
+
+/* ── 5.2  SPACED — gap-driven, no dividers, inline (non-full-height) buttons ── */
+.ts-nav-fixed.spaced .ts-nav-fixed__links,
+.ts-nav-fixed.ts-nav--spaced .ts-nav-fixed__links {
+  gap: var(--ts-navlink-gap);
+  align-items: center;
+}
+.ts-nav-fixed.spaced .ts-nav-fixed__links > :is(a, button):not(.ts-btn),
+.ts-nav-fixed.ts-nav--spaced .ts-nav-fixed__links > :is(a, button):not(.ts-btn) {
+  border: 0;
+  border-radius: var(--ts-nav-ui-radius);
+}
+
+/* ── 5.3  ICON-ONLY (desktop) — collapse labels, enlarge icon, square cells ─── */
+.ts-nav-fixed.ts-nav--icon-only .ts-nav-fixed__links > :is(a, button):not(.ts-btn) > .ts-menu-text,
+.ts-nav-fixed__links.ts-icon-only-nav > :is(a, button):not(.ts-btn) > .ts-menu-text {
+  display: none;
+}
+.ts-nav-fixed.ts-nav--icon-only .ts-nav-fixed__links > :is(a, button):not(.ts-btn) > :is(.ts-icon, i, ion-icon),
+.ts-nav-fixed__links.ts-icon-only-nav > :is(a, button):not(.ts-btn) > :is(.ts-icon, i, ion-icon) {
+  font-size: var(--ts-icon-only-fs);
+  width: var(--ts-icon-only-fs);
+  height: var(--ts-icon-only-fs);
+}
+
+/* ── 5.4  STATIC / STICKY position variants ───────────────────────────────── */
+.ts-nav-fixed.ts-nav--static { position: static; }
+.ts-nav-fixed.ts-nav--sticky { position: sticky; top: 0; }
+
+/* ── 5.5  TRANSPARENT (scroll-spy at page top) — ts-nav.js toggles `.at-top` ── */
+.ts-nav-fixed.at-top { --ts-nav-bg-alpha: 100%; border-bottom-color: transparent; }
+.ts-nav-fixed.at-top::before { backdrop-filter: none; }
+
+/* ── 5.6  BURGER OPEN — hide everything but logo-area chrome, drop the glass ── */
+.ts-nav-fixed:has(.ts-menu-burger.active) { border-bottom-color: transparent; }
+.ts-nav-fixed:has(.ts-menu-burger.active)::before { opacity: 0; }
+.ts-nav-fixed:has(.ts-menu-burger.active) :is(.ts-nav-fixed__links, .ts-ui-select, .ts-nav-more) {
+  visibility: hidden;
+}
+
+/* ── 5.7  RESPONSIVE — collapse to burger + mobile menu below the breakpoint ── */
+@media (max-width: 860px) {
+  .ts-nav-fixed .ts-nav-fixed__links,
+  .ts-nav-fixed .ts-ui-select,
+  .ts-nav-fixed .ts-nav-more { display: none; }
+  .ts-nav-fixed .ts-menu-burger { display: inline-flex; margin-left: auto; }
+  .ts-nav-fixed .theme-toggle { order: 85; margin-left: auto; }
+  .ts-nav-fixed .theme-toggle ~ .ts-menu-burger { margin-left: 0; }
+}
+
+/* Mobile items: vertical stripes with top/bottom borders + LEFT accent bar. */
+.ts-mobile-menu-items > :is(a, button):not(.ts-btn) {
+  --ts-navlink-fs: var(--ts-fs-sm);
+  justify-content: flex-start;
+  padding: calc(var(--ts-navlink-pad-y-mult) * 1.6) var(--ts-navlink-pad-x-mult);
+  border-block: 1px solid var(--ts-nav-border);
+  margin-bottom: -1px;
+  &::after { left: 0; top: 0; bottom: 0; width: var(--ts-index-bar-height); height: auto; }
+  &:is(.active, .ts-active, [aria-current="page"])::after { background-color: var(--ts-accent); }
+  &:hover { background: var(--ts-navlink-bg-hover); }
+}
+/* Nav buttons inside the mobile menu get breathing room + full width. */
+.ts-mobile-menu-items > .ts-btn { margin: var(--ts-navlink-gap) var(--ts-navlink-pad-x-mult); }
+
+/* ── 5.8  SIDENAV VARIANT — content-pushing left sidebar (not overlay) ───────
+   Opt in by giving <body> the `.ts-has-sidenav` class with an <aside
+   class="ts-sidebar-menu"> as a direct child. CSS grid pushes the main column. */
+body.ts-has-sidenav {
+  margin: 0;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: var(--ts-sidebar-nav-w, 200px) minmax(0, 1fr);
+  align-items: stretch;
+}
+body.ts-has-sidenav > :is(main, .ts-main, .ts-container) {
+  min-width: 0;
+  padding: var(--ts-nav-pad-inline);
+  overflow-y: auto;
+  max-height: 100dvh;
+}
+.ts-sidebar-menu {
+  position: sticky;
+  top: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ts-sp-1);
+  padding-block: var(--ts-sp-3);
+  background: var(--ts-this-bg);
+  border-right: 1px solid var(--ts-this-bg-border);
+
+  /* The sidenav reuses the SAME item contract, re-bound to a vertical row. */
+  & .ts-topbar__logo { flex-direction: column; align-items: flex-start; height: auto; padding: var(--ts-sp-2) var(--ts-sp-4) var(--ts-sp-4); font-size: var(--ts-fs-md); }
+  & .ts-nav-fixed__links,
+  & .ts-mobile-menu-items { display: flex; flex-direction: column; margin: 0; }
+  & .ts-nav-fixed__links > :is(a, button):not(.ts-btn) {
+    height: auto;
+    justify-content: flex-start;
+    border: 0;
+    padding: var(--ts-navlink-pad-y-mult) var(--ts-sp-4);
+    &::after { left: 0; top: 0; bottom: 0; width: var(--ts-index-bar-height); height: auto; right: auto; }
+  }
+  & .theme-toggle, & .ts-back_top-nav, & #ts-top-btn { border-left: 0; align-self: flex-start; margin: var(--ts-sp-2) var(--ts-sp-4); }
+}
+
+
+/* ╔═══════════════════════════════════════════════════════════════════════════
+   ║ LAYER 6 — SUB-ELEMENTS  (label run / icon-only fallbacks)
+   ╚═══════════════════════════════════════════════════════════════════════════ */
+.ts-menu-text { line-height: 1; }
+
+/* LAYER 7 utilities (overlay/glass) are declared inline in LAYER 3 where the
+   structure needs them so the stacking context stays correct. */

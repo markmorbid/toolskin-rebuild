@@ -1,0 +1,314 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · ts-topbar — Sticky page chrome (logo + actions + nav host)
+   ───────────────────────────────────────────────────────────────────────────
+   Migrated from toolskin.css.frozen §6h (lines 5874-6008, 5017-5020) onto the
+   v2 `--ts-this-bg` engine. Phase 2 · Wave 2 (toolbar/nav).
+
+   What changed vs the frozen spec
+   ───────────────────────────────
+     • Two near-identical `.ts-topbar__logo` blocks (frozen 5890-5944) — one
+       guarded by `:not(:has(.ts-logo-brand))`, the other by `:has(.ts-logo-brand)`
+       — DROPPED in favour of a single nested block. The grid-template-columns
+       toggle (`1fr 1fr` vs `max-content`) is now a single `:has()` override
+       inside the nested block (CSS-1). No duplicated declarations.
+
+     • All `!important` flags on logo typography (frozen lines 5911-5916,
+       5938-5943, 5976-5981) DROPPED. CSS-1 makes specificity solvable.
+
+     • `color-mix(in srgb, …)` for `--ts-header-bg` / `--ts-header-border`
+       (frozen 12098-12099) DROPPED (RULE S3). Re-implemented as
+       `color-mix(in oklab, …)`. The frozen alpha knobs
+       (`--ts-header-bg-alpha`, `--ts-header-border-alpha`) are PRESERVED as
+       the public tuning surface — they now drive the oklab mix instead.
+
+     • `currentColor`-derived border on `.ts-topbar__sep` — frozen used a
+       hardcoded `var(--ts-border-1)` (a token not in this repo's primitives).
+       Replaced with `--ts-this-bg-border` (the engine emits a text-token-
+       derived border per RULE S2).
+
+     • `--ts-text-primary-dim-2` (frozen 12262) — not a primitive in this
+       repo. Subtext ink is derived inline via `color-mix(in oklab,
+       --ts-text-primary, transparent 40%)`. Hue-stable, theme-agnostic.
+
+     • `--ts-shadow-bold` (frozen 12268) — preserved on the `.ts-topbar__logo
+       em` accent letter. The shadow uses `currentColor` glyph offsets, which
+       is the explicit RULE S2 carve-out (text shadow on a glyph child, not a
+       border). The accent `em` itself sets `color: var(--ts-accent)` so the
+       shadow paints the accent.
+
+     • Frozen `font-weight: var(--ts-font-weight-black)` on the logo `em`
+       (5963) — the rebuild's typography primitive exposes the same weight as
+       `--ts-fw-black: 900`. Consumed verbatim. NO `font-weight: 800` anywhere
+       (META-2).
+
+     • Frozen `.ts-modal__header .ts-topbar__logo { padding-inline: … }`
+       (5946-5948) — NOT migrated. Modal is Phase 3+. Re-add as a context
+       override in ts-modal.css when that block lands.
+
+     • Topbar mobile demo overrides (frozen 11448-11461) — NOT migrated.
+       Container-query / responsive scroll fallback is a Phase 4+ concern.
+
+   Local primitives declared here (not in primitives/)
+   ───────────────────────────────────────────────────
+   The frozen spec relied on three tokens that are not in this repo's
+   primitives/ surface yet. They are declared at `:where(:root)` here so a
+   parent override still wins. When a future primitive file owns z-index or
+   topbar geometry, drop these locals — the cascade carries the new value
+   down to every topbar without code change.
+
+     --ts-z-sticky   : z-index lane for sticky chrome (default 40)
+     --ts-topbar-h   : canonical topbar height (default 65px)
+     --ts-topbar-bg  : default surface (resolves to --ts-bg-1, the frozen
+                       canonical lift off the page floor)
+
+   Load order
+   ──────────
+     1. primitives/colors.css           (--ts-accent, --ts-bg-1, --ts-text-*)
+     2. primitives/typography.css       (--ts-font-display, --ts-fw-*, --ts-fs-*)
+     3. primitives/spacing.css          (--ts-sp-*)
+     4. primitives/radius.css           (--ts-radius-sm)
+     5. primitives/motion.css           (--ts-dur-fast, --ts-ease-out)
+     6. primitives/status-tints.css     (--ts-on-surface-auto)
+     7. system/toolskin-this-bg-v2.css  (--ts-this-bg-*, the v2 engine)
+     8. components/ts-btn_v3.1.css      (sibling — actions host ts-btn instances)
+     9. components/ts-topbar.css        (this file)
+    10. components/ts-nav.css           (sibling — nav can compose inside topbar)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1.  LOCAL PRIMITIVES — z-index lane + topbar geometry defaults.
+       `:where(:root)` so a parent override always wins (zero specificity).
+   ───────────────────────────────────────────────────────────────────────── */
+:where(:root) {
+  --ts-z-sticky:    40;
+  --ts-topbar-h:    65px;
+  --ts-topbar-bg:   var(--ts-bg-1);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2.  THE TOPBAR — nested pattern (CSS-1).
+       Every child + state + variant lives inside this block. Tokens flow
+       through inheritance — children consume the topbar's `--ts-this-bg`
+       and the v2 engine derivatives resolve automatically.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-topbar {
+  /* ── TOPBAR KNOBS — the only place the topbar declares behavior tokens.
+        Parent contexts override these without touching the rules below.
+        --ts-this-bg is re-anchored to --ts-topbar-bg so every child (logo,
+        actions, ts-btn, ts-nav) computes its engine derivatives against the
+        topbar's surface, not the page floor. */
+  --_topbar-h:           var(--ts-topbar-h, 65px);
+  --_topbar-pad-x:       calc(var(--_topbar-h) * 0.4);
+  --_topbar-pad-y:       calc(var(--_topbar-pad-x) * 0.78);
+  --_topbar-gap:         var(--ts-sp-4);
+  --_topbar-logo-pad:    var(--ts-sp-3);
+  --_topbar-logo-fs:     var(--ts-fs-lg);
+  --_topbar-logo-lh:     1.2;
+
+  /* Header backdrop tokens — exposed as the public tuning surface. The
+     frozen names are preserved so context overrides (modal, nav-fixed,
+     mobile-menu) keep working when those components land. */
+  --ts-header-bg-alpha:     10%;
+  --ts-header-border-alpha: 35%;
+  --ts-header-blur:         8px;
+
+  /* Re-anchor: every child resolves engine derivatives against the
+     topbar's surface, not the page floor. Pattern 4 / Ruling R9 ordering —
+     this comes FIRST, before any --ts-this-bg-* derivative is consumed. */
+  --ts-this-bg: var(--ts-topbar-bg);
+
+  /* Backdrop-derived tokens (oklab, NOT srgb — RULE S3). The alpha knobs
+     above drive them. */
+  --_topbar-backdrop:
+    color-mix(in oklab, var(--ts-this-bg), transparent var(--ts-header-bg-alpha));
+  --_topbar-border:
+    color-mix(in oklab, var(--ts-this-bg-border), transparent var(--ts-header-border-alpha));
+
+  /* Geometry */
+  position: sticky;
+  top: 0;
+  z-index: var(--ts-z-sticky);
+
+  height:     var(--_topbar-h);
+  min-height: var(--_topbar-h);
+
+  display: flex;
+  align-items: center;
+  gap: var(--_topbar-gap);
+  padding-inline: var(--ts-sp-4);
+  flex-shrink: 0;
+
+  /* Surface + chrome line */
+  background-color: var(--_topbar-backdrop);
+  color: var(--ts-text-primary);
+  border-bottom: 1px solid var(--_topbar-border);
+
+  transition:
+    background-color var(--ts-dur-fast) var(--ts-ease-out),
+    border-color     var(--ts-dur-fast) var(--ts-ease-out);
+
+
+  /* ─── CHILD · LOGO ──────────────────────────────────────────────────
+     Single nested block. The grid-template-columns toggle (1fr 1fr vs
+     max-content) is handled via `:has()` — one block, two layouts. */
+  & .ts-topbar__logo {
+    /* Grid layout — default 2-col (subtext stacks under brand) */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-content: center;
+    justify-items: start;
+    column-gap: var(--ts-sp-2);
+    row-gap: var(--ts-sp-1);
+
+    /* Sizing — intrinsic width, fit-content with safety clamps */
+    width: fit-content;
+    min-width: calc(var(--_topbar-h) * 1.5);
+    max-width: calc(var(--_topbar-h) * 2);
+    height: 100%;
+    text-decoration: none;
+
+    /* Typography — ALL tokenized. No !important. */
+    font-family: var(--ts-font-display);
+    font-weight: var(--ts-fw-semibold);
+    font-size:   var(--_topbar-logo-fs);
+    letter-spacing: var(--ts-tracking-wide);
+    text-transform: uppercase;
+    line-height: var(--_topbar-logo-lh);
+    color: var(--ts-text-primary);
+
+    /* Variant: when a `.ts-logo-brand` wraps the lead word, switch to a
+       single column with content-width sizing. Same effect the frozen
+       achieved with two duplicated blocks. */
+    &:has(.ts-logo-brand) {
+      grid-template-columns: max-content;
+      min-width: 0;
+      max-width: none;
+      padding-inline: var(--_topbar-logo-pad);
+    }
+
+    /* The lead brand word (wrapped in `.ts-logo-brand` or inline). */
+    & .ts-logo-brand {
+      grid-column: 1;
+      white-space: nowrap;
+      display: flex;
+      gap: var(--ts-sp-1);
+      font-size: inherit;
+    }
+
+    /* Accent letter (the `em` inside the brand). currentColor on the
+       shadow is a glyph-shadow, not a border — RULE S2 carve-out. */
+    & em {
+      color: var(--ts-accent);
+      font-style: normal;
+      font-weight: var(--ts-fw-black);
+      white-space: nowrap;
+      text-shadow:
+        0  0   0.45px currentColor,
+        0  0.45px 0 currentColor,
+        0.45px 0 0 currentColor,
+        0  0  -0.45px currentColor,
+        0 -0.45px 0 currentColor,
+       -0.45px 0 0 currentColor;
+    }
+
+    /* Subtitle row — derived ink via oklab from --ts-text-primary
+       (the frozen --ts-text-primary-dim-2 alias is not a primitive
+       in this repo). Hue-stable, theme-agnostic. */
+    & span,
+    & .ts-logo-sub {
+      grid-column: 1 / -1;
+      display: -webkit-box;
+      font-size: inherit;
+      letter-spacing: var(--ts-tracking-wider);
+      color: color-mix(in oklab, var(--ts-text-primary), transparent 40%);
+      font-weight: var(--ts-fw-normal);
+      flex: 1 1 auto;
+      line-height: 2ch;
+      max-height: unset;
+      overflow: hidden;
+      line-clamp: 2;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      white-space: normal;
+      max-inline-size: 100%;
+      width: 100%;
+      text-transform: uppercase;
+    }
+  }
+
+  /* ─── CHILD · SEPARATOR ─────────────────────────────────────────────
+     Vertical 1px hairline between action groups. Border-via-text-token
+     per RULE S2. */
+  & .ts-topbar__sep {
+    width: 1px;
+    height: 18px;
+    background-color: var(--ts-this-bg-border);
+    flex-shrink: 0;
+  }
+
+  /* ─── CHILD · ACTIONS ───────────────────────────────────────────────
+     The action group: ts-btn instances, theme-toggle, search trigger. */
+  & .ts-topbar__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--ts-sp-2);
+    margin-left: auto;
+  }
+
+  /* ─── DESCENDANT · GHOST ICON BUTTON ────────────────────────────────
+     Frozen line 5017-5020 — ghost icon buttons inside the actions
+     group adopt a tighter padding and a larger icon. Migrated as a
+     scoped knob override only — NO local engine derivative redefines
+     (RULE S6). */
+  & .ts-topbar__actions .ts-btn.ts-btn--ghost.ts-btn--icon {
+    padding-inline: 0;
+    padding-block:  0;
+    --ts-btn-fs-ratio: 0.32;   /* a touch larger icon glyph */
+  }
+
+  /* ─── DESCENDANT · ts-btn HEIGHT PARITY ─────────────────────────────
+     Frozen scoped a `--ts-nav-btn-h` for buttons inside the topbar/nav
+     chrome. The v2 sizing model (ts-btn v3.1) takes a unitless scale
+     knob; setting `--ts-btn-scale` here pins every nested button to a
+     proportional height of the topbar without redefining any engine
+     derivative. ts-btn's --ts-btn-h then computes from this scale. */
+  & .ts-btn {
+    --ts-btn-scale: 0.82;
+  }
+
+  /* NOTE — input height parity is currently a Wave 1 fork (see report).
+     ts-input.css declares its --ts-input-size / --ts-input-h chain on
+     `:where(:root)`, so a per-scope override of `--ts-input-scale` here
+     does NOT recompute --ts-input-h (the calc is bound to :root at parse
+     time). The chain needs to move INSIDE `.ts-input` (the same pattern
+     ts-btn uses internally) OR expose `--ts-input-h` as a direct knob.
+     Until Wave 1 owner agrees on the fix, no local override is added —
+     a no-op declaration would mislead future readers. */
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   3.  ON-ACCENT CONTEXT — when a parent re-anchors the surface to accent
+       (e.g. a promo topbar variant), ink flips via the engine. The topbar
+       does not need to declare anything else — children consume
+       --ts-this-bg-* through the cascade.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-on-accent .ts-topbar,
+.ts-topbar.ts-on-accent {
+  --ts-this-bg: var(--ts-accent);
+  color: var(--ts-on-accent);
+
+  & .ts-topbar__logo,
+  & .ts-topbar__logo em,
+  & .ts-topbar__logo .ts-logo-brand {
+    color: var(--ts-on-accent);
+  }
+
+  & .ts-topbar__logo span,
+  & .ts-topbar__logo .ts-logo-sub {
+    color: color-mix(in oklab, var(--ts-on-accent), transparent 30%);
+  }
+}

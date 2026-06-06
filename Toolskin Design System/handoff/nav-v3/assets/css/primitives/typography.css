@@ -1,0 +1,101 @@
+/* ============================================================================
+ * typography.css — Toolskin typography primitives  ·  Session 2 + B1 rename
+ * ----------------------------------------------------------------------------
+ * Base font size 13px (RULING 3 — running toolskin.css:287; the dead `0.8rem`
+ * declaration that preceded it is dropped). Harmonic ladder: body ratio 1.12,
+ * display ratio 1.333. Weight ladder 300/400/500/600/700/900 — NO 800
+ * (Space Grotesk ships 300–700; 900 used for black). Transcribed from §1d/§1d.2.
+ *
+ * Session 3.x B1 rewrite: token NAMES aligned to sandbox/00-design-reference
+ * vocabulary (--ts-fw-*, --ts-lh-*, --ts-tracking-*). Sandbox names win
+ * (Pragmatist council ruling). Values unchanged in the rename-only mappings;
+ * Q3 primitive rewrap (clamp width-awareness on the --ts-fs-{4xs..4xl} family)
+ * lands in Commit B.
+
+ *OWNR ADJUSTMENT ON LG  SIZING RAMP AND   RATIO VALUE. The values and  scalings needs to resemble the original topkns from the toolskin.css entire table.
+ * ========================================================================== */
+
+:root {
+  /* — Font families — */
+  --ts-font-display: "Space Grotesk", system-ui, sans-serif;
+  --ts-font-body: "Space Grotesk", system-ui, -apple-system, sans-serif;
+  --ts-font-mono: "JetBrains Mono", "Fira Code", "Courier New", monospace;
+
+  /* — Weight ladder (no 800) — renamed to --ts-fw-* per sandbox — */
+  --ts-fw-thin: 300;
+  --ts-fw-normal: 400;
+  --ts-fw-medium: 500;
+  --ts-fw-semibold: 600;
+  --ts-fw-bold: 700;
+  --ts-fw-black: 900;          /* extension beyond sandbox set */
+
+  /* — Line heights — renamed to --ts-lh-* per sandbox; sandbox adds `headline`. — */
+  --ts-lh-none: 1;
+  --ts-lh-display: 0.9;
+  --ts-lh-tight: 1.1;
+  --ts-lh-headline: 1.15;      /* sandbox addition (between tight and snug) */
+  --ts-lh-snug: 1.25;
+  --ts-lh-normal: 1.4;
+  --ts-lh-relaxed: 1.5;
+  --ts-lh-loose: 1.625;
+  --ts-lh-very-loose: 1.75;
+
+  /* — Letter spacing — renamed to --ts-tracking-* per sandbox; sandbox adds
+   * tightest / tighter / snug. — */
+  --ts-tracking-tightest: -0.04em;
+  --ts-tracking-tighter:  -0.025em;
+  --ts-tracking-tight:    -0.015em;
+  --ts-tracking-normal:    0;
+  --ts-tracking-snug:     -0.005em;
+  --ts-tracking-wide:      0.02em;
+  --ts-tracking-wider:     0.08em;
+  --ts-tracking-eyebrow:   0.06em;   /* extension — role-fixed */
+
+  /* — Eyebrow / overline — role-fixed primitive, sits outside the modular ladder — */
+  --ts-fs-eyebrow: 9px;
+
+  /* ─── Harmonic font-size scale — base 13px ─── */
+  --ts-fs-base: 13px;
+  --ts-fs-ratio: 1.13;          /* body ladder ratio */
+  --ts-fs-display-ratio: 1.333; /* display ladder ratio (perfect fourth) */
+  --ts-font-scale: 1;
+  --ts-fs: calc(var(--ts-fs-base) * var(--ts-font-scale));
+  --ts-fs-base-val: var(--ts-fs-base);
+
+  /* — Body ramp — */
+  --ts-fs-4xs: calc(var(--ts-fs) * 0.625);  /* ~8.1px  */
+  --ts-fs-3xs: calc(var(--ts-fs) * 0.703);  /* ~9.1px  */
+  --ts-fs-2xs: calc(var(--ts-fs) * 0.79);   /* ~10.3px */
+  --ts-fs-xs: calc(var(--ts-fs) * 0.889);   /* ~11.6px */
+  --ts-fs-sm: calc(var(--ts-fs) * 0.93);    /* ~12.1px */
+  --ts-fs-md: calc(var(--ts-fs) * 1);    /* 13px    */
+  --ts-fs-lg: calc(var(--ts-fs) * 1.2);     /* ~14.3px */
+  --ts-fs-xlg: calc(var(--ts-fs) * 1.3);  /* ~16.5px */
+  --ts-fs-xl: calc(var(--ts-fs) * 1.4);     /* ~18.2px */
+  --ts-fs-2xl: calc(var(--ts-fs) * 1.602);  /* ~20.8px */
+  --ts-fs-3xl: calc(var(--ts-fs) * 1.802);  /* ~23.4px */
+  --ts-fs-4xl: calc(var(--ts-fs) * 2.027);  /* ~26.4px */
+
+  /* — Heading hierarchy — */
+  --ts-fs-h6: var(--ts-fs-md);
+  --ts-fs-h5: var(--ts-fs-lg);
+  --ts-fs-h4: var(--ts-fs-xl);
+  /* NOTE: h3 clamp transcribed verbatim from toolskin.css:336 — its min (fs-xl)
+     exceeds its max (fs-lg), so it renders flat at fs-xl and the 2vw scaling is
+     inert. Flagged for owner review (handoff). */
+  --ts-fs-h3: clamp(var(--ts-fs-xl), 2vw, var(--ts-fs-lg));
+  --ts-fs-h2: clamp(var(--ts-fs-2xl), 3vw, calc(var(--ts-fs) * 2.566));
+  --ts-fs-h1: clamp(var(--ts-fs-4xl), 5vw, calc(var(--ts-fs) * 3.247));
+
+  /* — Display sizes (ratio 1.333) — */
+  --ts-fs-display-md: clamp(calc(var(--ts-fs) * 3.247), 6vw, calc(var(--ts-fs) * 4.328));
+  --ts-fs-display-lg: clamp(calc(var(--ts-fs) * 4.328), 8vw, calc(var(--ts-fs) * 5.769));
+  --ts-fs-display-xl: clamp(calc(var(--ts-fs) * 5.769), 10vw, calc(var(--ts-fs) * 7.690));
+
+  /* — Aliases — */
+  --ts-fs-body: var(--ts-fs-md);
+  --ts-fs-body-sm: calc(var(--ts-fs-body)*.85);
+  --ts-fs-caption: var(--ts-fs-2xs);
+  --ts-fs-small: var(--ts-fs-3xs);
+  --ts-fs-lead: var(--ts-fs-md);
+}

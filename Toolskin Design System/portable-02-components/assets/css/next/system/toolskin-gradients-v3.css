@@ -1,0 +1,719 @@
+:where(:root, :root *) {
+  
+  /* ─────────────────────────────────────────────────────────────────────
+     5.  GRADIENTS — linear · radial · mesh · conic · sheen · glass ────
+     ───────────────────────────────────────────────────────────────────
+     Naming: --ts-grad-{family}-{kind?}
+       family : bg · accent · mix · card · input · veil
+       kind   : (default linear) | flat | comp | radial | mesh
+              | conic | sheen | glass | hover | active
+     Every gradient is built from the SAME tokenized stops. Override
+     `--ts-grad-angle` / `--ts-grad-mix-perc` / `--ts-grad-pos-*` on
+     any scope to retune everything.
+     ───────────────────────────────────────────────────────────────────── */
+
+  /* ── BG family ── */
+  --ts-grad-bg: linear-gradient(
+    var(--ts-grad-angle),
+    var(--ts-this-bg-bright)   var(--ts-grad-stop-1),
+    var(--ts-this-bg)          var(--ts-grad-stop-2),
+    var(--ts-this-bg-dark)     var(--ts-grad-stop-3)
+  );
+  --ts-grad-bg-flat: linear-gradient(
+    var(--ts-grad-angle-flat),
+    var(--ts-this-bg-bright),
+    var(--ts-this-bg-dark)
+  );
+  --ts-grad-bg-comp: linear-gradient(
+    var(--ts-grad-angle-comp),
+    var(--ts-this-bg-bright),
+    var(--ts-this-bg-dark-2),
+    var(--ts-this-bg-bright-1),
+    var(--ts-this-bg-dark)
+  );
+  --ts-grad-bg-hover: linear-gradient(
+    var(--ts-grad-angle),
+    color-mix(in oklab, var(--ts-this-bg-bright), var(--ts-tone-contrast) calc(var(--ts-mix-perc-hover) * 0.7))  0%,
+    color-mix(in oklab, var(--ts-this-bg),        var(--ts-tone-contrast) calc(var(--ts-mix-perc-hover) * 0.4)) 50%,
+    var(--ts-this-bg-hover) 100%
+  );
+  --ts-grad-bg-active: linear-gradient(
+    var(--ts-grad-angle),
+    color-mix(in oklab, var(--ts-this-bg),       var(--ts-tone-floor)    8%)   0%,
+    color-mix(in oklab, var(--ts-this-bg-dark),  var(--ts-tone-floor)    16%) 60%,
+    var(--ts-this-bg-active) 100%
+  );
+  --ts-grad-bg-radial: radial-gradient(
+    circle at var(--ts-grad-pos-center),
+    var(--ts-this-bg-bright) 0%,
+    var(--ts-this-bg) 50%,
+    var(--ts-this-bg-dark) 100%
+  );
+  --ts-grad-bg-mesh:
+    radial-gradient(circle at var(--ts-grad-pos-1), color-mix(in oklab, var(--ts-this-bg-bright),   transparent 30%) 0%, transparent var(--ts-grad-radius)),
+    radial-gradient(circle at var(--ts-grad-pos-2), color-mix(in oklab, var(--ts-this-bg-dark),     transparent 30%) 0%, transparent var(--ts-grad-radius)),
+    radial-gradient(circle at var(--ts-grad-pos-3), color-mix(in oklab, var(--ts-this-bg-dark-2),   transparent 38%) 0%, transparent var(--ts-grad-radius)),
+    radial-gradient(circle at var(--ts-grad-pos-4), color-mix(in oklab, var(--ts-this-bg-bright-1), transparent 38%) 0%, transparent var(--ts-grad-radius)),
+    var(--ts-this-bg);
+  --ts-grad-bg-conic: conic-gradient(
+    from calc(var(--ts-grad-angle) - 90deg) at var(--ts-grad-pos-center),
+    var(--ts-this-bg-bright),
+    var(--ts-this-bg-dark),
+    var(--ts-this-bg),
+    var(--ts-this-bg-bright)
+  );
+  --ts-grad-bg-sheen:
+    linear-gradient(
+      var(--ts-grad-angle),
+      color-mix(in oklab, var(--ts-tone-contrast), transparent calc(100% - var(--ts-grad-sheen-alpha))) 0%,
+      transparent 28%,
+      transparent 72%,
+      color-mix(in oklab, var(--ts-tone-floor),    transparent calc(100% - var(--ts-grad-sheen-alpha))) 100%
+    ),
+    var(--ts-grad-bg);
+
+  /* ── ACCENT family — uses oklab so the hue stays pure ── */
+  --ts-grad-accent: linear-gradient(
+    var(--ts-grad-angle),
+    color-mix(in oklab, var(--ts-accent), var(--ts-tone-contrast) 14%) 0%,
+    var(--ts-accent) 50%,
+    color-mix(in oklab, var(--ts-accent), var(--ts-tone-floor)    20%) 100%
+  );
+  --ts-grad-accent-flat: linear-gradient(
+    var(--ts-grad-angle-flat),
+    var(--ts-accent),
+    color-mix(in oklab, var(--ts-accent), var(--ts-tone-floor) 22%)
+  );
+  --ts-grad-accent-glow: radial-gradient(
+    circle at var(--ts-grad-pos-center),
+    color-mix(in oklab, var(--ts-accent), transparent 15%)  0%,
+    color-mix(in oklab, var(--ts-accent), transparent 65%) 45%,
+    transparent 100%
+  );
+  --ts-grad-accent-radial: radial-gradient(
+    circle at var(--ts-grad-pos-1),
+    color-mix(in oklab, var(--ts-accent), var(--ts-tone-contrast) 10%),
+    var(--ts-accent) 55%,
+    color-mix(in oklab, var(--ts-accent), var(--ts-tone-floor) 22%)
+  );
+  --ts-grad-accent-mesh:
+    radial-gradient(circle at var(--ts-grad-pos-1), color-mix(in oklab, var(--ts-accent), var(--ts-tone-contrast) 18%) 0%, transparent 58%),
+    radial-gradient(circle at var(--ts-grad-pos-2), color-mix(in oklab, var(--ts-accent), var(--ts-tone-floor)    20%) 0%, transparent 62%),
+    radial-gradient(circle at var(--ts-grad-pos-3), color-mix(in oklab, var(--ts-accent), var(--ts-tone-floor)    32%) 0%, transparent 52%),
+    radial-gradient(circle at var(--ts-grad-pos-4), color-mix(in oklab, var(--ts-accent), var(--ts-tone-contrast)  8%) 0%, transparent 60%),
+    var(--ts-accent);
+  --ts-grad-accent-conic: conic-gradient(
+    from calc(var(--ts-grad-angle) - 90deg) at var(--ts-grad-pos-center),
+    var(--ts-accent),
+    color-mix(in oklab, var(--ts-accent), var(--ts-tone-floor) 25%),
+    color-mix(in oklab, var(--ts-accent), var(--ts-tone-contrast) 18%),
+    var(--ts-accent)
+  );
+
+  /* ── MIX family — bg + accent through OKLAB. NEVER purple. ──
+     This is what the user wanted: brand-tinted surfaces that read
+     as warm/orange, not as some color-wheel artifact. */
+  --ts-grad-mix: linear-gradient(
+    var(--ts-grad-angle),
+    var(--ts-this-bg-bright) 0%,
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-accent) var(--ts-grad-mix-perc)) 50%,
+    var(--ts-this-bg-dark) 100%
+  );
+  --ts-grad-mix-strong: linear-gradient(
+    var(--ts-grad-angle),
+    color-mix(in oklab, var(--ts-this-bg-bright), var(--ts-accent) calc(var(--ts-grad-mix-perc-strong) * 0.5)) 0%,
+    color-mix(in oklab, var(--ts-this-bg),        var(--ts-accent) var(--ts-grad-mix-perc-strong)) 50%,
+    color-mix(in oklab, var(--ts-this-bg-dark),   var(--ts-accent) calc(var(--ts-grad-mix-perc-strong) * 0.4)) 100%
+  );
+  --ts-grad-mix-radial: radial-gradient(
+    circle at var(--ts-grad-pos-1),
+    color-mix(in oklab, var(--ts-this-bg-bright), var(--ts-accent) var(--ts-grad-mix-perc)) 0%,
+    var(--ts-this-bg) 55%,
+    var(--ts-this-bg-dark) 100%
+  );
+  --ts-grad-mix-mesh:
+    radial-gradient(circle at var(--ts-grad-pos-1), color-mix(in oklab, var(--ts-this-bg), var(--ts-accent) var(--ts-grad-mix-perc-strong)) 0%, transparent 55%),
+    radial-gradient(circle at var(--ts-grad-pos-4), color-mix(in oklab, var(--ts-this-bg), var(--ts-accent) var(--ts-grad-mix-perc)) 0%, transparent 60%),
+    radial-gradient(circle at var(--ts-grad-pos-3), color-mix(in oklab, var(--ts-this-bg-dark), var(--ts-tone-floor) 6%) 0%, transparent 55%),
+    var(--ts-this-bg);
+
+  /* ── CARD family — surface with subtle top sheen ── */
+  --ts-grad-card: linear-gradient(
+    var(--ts-grad-angle),
+    var(--ts-this-bg-bright) 0%,
+    var(--ts-this-bg) 55%,
+    var(--ts-this-bg-dark-2) 100%
+  );
+  --ts-grad-card-glass:
+    linear-gradient(180deg,
+      color-mix(in oklab, var(--ts-tone-contrast), transparent 90%) 0%,
+      transparent 45%
+    ),
+    linear-gradient(
+      var(--ts-grad-angle),
+      var(--ts-this-bg-bright),
+      var(--ts-this-bg-dark)
+    );
+  --ts-grad-card-elevated:
+    linear-gradient(180deg,
+      color-mix(in oklab, var(--ts-tone-contrast), transparent 92%) 0%,
+      transparent 40%
+    ),
+    radial-gradient(ellipse at 50% -20%,
+      color-mix(in oklab, var(--ts-this-bg-raised), transparent 30%) 0%,
+      transparent 60%
+    ),
+    var(--ts-this-bg);
+
+  /* ── INPUT family — recessed surface, focus variant pulls accent in ── */
+  --ts-grad-input: linear-gradient(
+    180deg,
+    var(--ts-this-bg-dark-2) 0%,
+    var(--ts-this-bg-dark) 100%
+  );
+  --ts-grad-input-hover: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--ts-this-bg-dark-2), var(--ts-tone-contrast) 4%),
+    var(--ts-this-bg-dark)
+  );
+  --ts-grad-input-focus: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--ts-this-bg-dark-2), var(--ts-tone-accent-tint) 8%) 0%,
+    color-mix(in oklab, var(--ts-this-bg-dark),   var(--ts-tone-accent-tint) 4%) 100%
+  );
+
+  /* ── VEIL family — transparency overlays for fades / vignettes ── */
+  --ts-grad-fade-top:    linear-gradient(0deg,   transparent, var(--ts-this-bg));
+  --ts-grad-fade-bottom: linear-gradient(180deg, transparent, var(--ts-this-bg));
+  --ts-grad-fade-left:   linear-gradient(270deg, transparent, var(--ts-this-bg));
+  --ts-grad-fade-right:  linear-gradient(90deg,  transparent, var(--ts-this-bg));
+  --ts-grad-vignette: radial-gradient(
+    ellipse at center,
+    transparent 35%,
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-floor) var(--ts-grad-vignette-perc)) 100%
+  );
+  --ts-grad-spotlight: radial-gradient(
+    circle at var(--ts-grad-pos-1),
+    color-mix(in oklab, var(--ts-tone-contrast), transparent 88%) 0%,
+    transparent 55%
+  );
+  --ts-grad-scrim: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in oklab, var(--ts-this-bg), var(--ts-tone-floor) 35%) 100%
+  );
+  
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN — GRADIENT LIBRARY v3.1   (painterly · eased · tint-agnostic)
+   ───────────────────────────────────────────────────────────────────────────
+   v3.1 changes vs v3
+   ──────────────────
+   ▸ NEW  --ts-grad-peak   global alpha ceiling (default 0.55) — caps how
+                            "loud" any gradient can get. Lower = subtler.
+   ▸ NEW  --ts-grad-plate  three-step subtle linear plate
+   ▸ FIX  --ts-grad-bloom  was using `circle <size>` with a non-length size
+                            (`120% 80%`) which is invalid CSS — element
+                            silently dropped the gradient. Now uses `ellipse`.
+   ▸ FIX  --ts-grad-spot   same `circle <pct>` bug. Now `ellipse`.
+   ▸ FIX  --ts-grad-rim    laser-stripe look replaced with a soft light
+                            streak — wider band, lower peak, dual-streak.
+   ▸ SMOOTH all gradients now interpolate `in oklab` between stops, and
+            curves have 8 stops (was 6) for less visible banding.
+   ▸ TAMER  curve alpha values reduced ~20% across the board, so default
+            output reads as atmospheric, not painted-on.
+
+   How to use
+   ──────────
+       <section style="--ts-grad-tint: var(--ts-accent);
+                       --ts-grad-peak: 0.55;
+                       --ts-grad-intensity: 1;
+                       background: var(--ts-grad-halo);">
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1.  CORE INPUTS
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+  /* ── TINTS ── */
+  --ts-grad-tint:        var(--ts-accent);
+  --ts-grad-tint-2:      oklch(from var(--ts-accent) l c calc(h + 60));
+  --ts-grad-tint-3:      oklch(from var(--ts-accent) l c calc(h + 180));
+  --ts-grad-tint-cool:   oklch(from var(--ts-accent) calc(l + 0.05) calc(c * 0.6) calc(h + 220));
+  --ts-grad-tint-deep:   oklch(from var(--ts-accent) calc(l - 0.35) calc(c * 0.5) h);
+
+  /* ── GLOBAL CEILING (new in v3.1) ──
+     Every alpha stop is multiplied by this. Default 0.55 = atmospheric
+     subtle. Bump to ~0.85 for more presence; cap at 1 = full opacity. */
+  --ts-grad-peak:        0.55;
+
+  /* ── INTENSITY ── (relative multiplier on top of peak) */
+  --ts-grad-intensity:   1;
+
+  /* ── ANGLES ── */
+  --ts-grad-angle:        136deg;
+  --ts-grad-angle-sweep:   24deg;
+  --ts-grad-angle-comp:   214deg;
+  --ts-grad-angle-plate:  180deg;
+
+  /* ── ANCHOR POSITIONS ── */
+  --ts-grad-pos-c:        50% 50%;
+  --ts-grad-pos-tl:       12% 18%;
+  --ts-grad-pos-tr:       88% 18%;
+  --ts-grad-pos-bl:       12% 82%;
+  --ts-grad-pos-br:       88% 82%;
+  --ts-grad-pos-top:      50% -15%;
+  --ts-grad-pos-bottom:   50% 115%;
+  --ts-grad-pos-left:    -15% 50%;
+  --ts-grad-pos-right:   115% 50%;
+
+  /* off-canvas anchors — what makes gradients read as halos behind cards */
+  --ts-grad-pos-off-tl:  -25% -35%;
+  --ts-grad-pos-off-tr:  125% -30%;
+  --ts-grad-pos-off-bl:  -20% 130%;
+  --ts-grad-pos-off-br:  125% 125%;
+
+  /* ── SIZES ── */
+  --ts-grad-size-sm:   60% 40%;
+  --ts-grad-size-md:  120% 80%;
+  --ts-grad-size-lg:  200% 150%;
+  --ts-grad-size-xl:  280% 220%;
+
+
+  /* ─────────────────────────────────────────────────────────────────────
+     2.  EASING CURVES  — 8-stop alpha ramps (v3.1: more stops, tamer peaks)
+     ─────────────────────────────────────────────────────────────────────
+       halo  — bright core, long soft tail        →  default. 9/10 use this.
+       wash  — gentle, near-uniform, slow         →  atmospheric base layers
+       spot  — small sharp core, fast decay       →  focused light spots
+       glow  — wide bright body, soft edge        →  "lit-from-within" panels
+       fog   — barely-there veil                  →  subtle haze
+     ───────────────────────────────────────────────────────────────────── */
+
+  /* HALO — heavy at center, very long fade */
+  --ts-grad-halo-a-1: 1.00; --ts-grad-halo-s-1:   0%;
+  --ts-grad-halo-a-2: 0.85; --ts-grad-halo-s-2:   6%;
+  --ts-grad-halo-a-3: 0.65; --ts-grad-halo-s-3:  16%;
+  --ts-grad-halo-a-4: 0.45; --ts-grad-halo-s-4:  28%;
+  --ts-grad-halo-a-5: 0.28; --ts-grad-halo-s-5:  42%;
+  --ts-grad-halo-a-6: 0.15; --ts-grad-halo-s-6:  58%;
+  --ts-grad-halo-a-7: 0.07; --ts-grad-halo-s-7:  74%;
+  --ts-grad-halo-a-8: 0.02; --ts-grad-halo-s-8:  88%;
+
+  /* WASH — slow uniform decay */
+  --ts-grad-wash-a-1: 0.90; --ts-grad-wash-s-1:   0%;
+  --ts-grad-wash-a-2: 0.85; --ts-grad-wash-s-2:  12%;
+  --ts-grad-wash-a-3: 0.74; --ts-grad-wash-s-3:  26%;
+  --ts-grad-wash-a-4: 0.58; --ts-grad-wash-s-4:  42%;
+  --ts-grad-wash-a-5: 0.40; --ts-grad-wash-s-5:  58%;
+  --ts-grad-wash-a-6: 0.22; --ts-grad-wash-s-6:  72%;
+  --ts-grad-wash-a-7: 0.10; --ts-grad-wash-s-7:  84%;
+  --ts-grad-wash-a-8: 0.03; --ts-grad-wash-s-8:  94%;
+
+  /* SPOT — small sharp core */
+  --ts-grad-spot-a-1: 1.00; --ts-grad-spot-s-1:   0%;
+  --ts-grad-spot-a-2: 0.78; --ts-grad-spot-s-2:   4%;
+  --ts-grad-spot-a-3: 0.52; --ts-grad-spot-s-3:  10%;
+  --ts-grad-spot-a-4: 0.30; --ts-grad-spot-s-4:  20%;
+  --ts-grad-spot-a-5: 0.16; --ts-grad-spot-s-5:  34%;
+  --ts-grad-spot-a-6: 0.07; --ts-grad-spot-s-6:  50%;
+  --ts-grad-spot-a-7: 0.02; --ts-grad-spot-s-7:  68%;
+  --ts-grad-spot-a-8: 0.00; --ts-grad-spot-s-8:  85%;
+
+  /* GLOW — wide body, gentle edge */
+  --ts-grad-glow-a-1: 0.92; --ts-grad-glow-s-1:   0%;
+  --ts-grad-glow-a-2: 0.88; --ts-grad-glow-s-2:  14%;
+  --ts-grad-glow-a-3: 0.78; --ts-grad-glow-s-3:  28%;
+  --ts-grad-glow-a-4: 0.62; --ts-grad-glow-s-4:  44%;
+  --ts-grad-glow-a-5: 0.42; --ts-grad-glow-s-5:  58%;
+  --ts-grad-glow-a-6: 0.22; --ts-grad-glow-s-6:  72%;
+  --ts-grad-glow-a-7: 0.10; --ts-grad-glow-s-7:  84%;
+  --ts-grad-glow-a-8: 0.03; --ts-grad-glow-s-8:  94%;
+
+  /* FOG — very subtle veil */
+  --ts-grad-fog-a-1: 0.40; --ts-grad-fog-s-1:   0%;
+  --ts-grad-fog-a-2: 0.35; --ts-grad-fog-s-2:  14%;
+  --ts-grad-fog-a-3: 0.28; --ts-grad-fog-s-3:  28%;
+  --ts-grad-fog-a-4: 0.20; --ts-grad-fog-s-4:  44%;
+  --ts-grad-fog-a-5: 0.12; --ts-grad-fog-s-5:  60%;
+  --ts-grad-fog-a-6: 0.06; --ts-grad-fog-s-6:  74%;
+  --ts-grad-fog-a-7: 0.02; --ts-grad-fog-s-7:  86%;
+  --ts-grad-fog-a-8: 0.00; --ts-grad-fog-s-8:  95%;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   3.  GRADIENT LIBRARY  (every stop multiplied by peak × intensity)
+   ───────────────────────────────────────────────────────────────────────── */
+:where(:root, :root *) {
+
+  /* ── 3.1  SINGLE-ANCHOR HALOS ────────────────────────────────────────── */
+  --ts-grad-halo: radial-gradient(
+    ellipse var(--ts-grad-size-lg) at var(--ts-grad-pos-off-tl) in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-1),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-2) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-2),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-3),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-4),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-5),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-6),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-7),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-8) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-8),
+    transparent 100%
+  );
+
+  --ts-grad-halo-tr: radial-gradient(
+    ellipse var(--ts-grad-size-lg) at var(--ts-grad-pos-off-tr) in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-1),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-2) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-2),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-3),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-4),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-5),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-6),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-7),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-8) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-8),
+    transparent 100%
+  );
+
+  --ts-grad-halo-bl: radial-gradient(
+    ellipse var(--ts-grad-size-lg) at var(--ts-grad-pos-off-bl) in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-1),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-2) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-2),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-3),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-4),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-5),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-6),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-7),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-8) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-8),
+    transparent 100%
+  );
+
+  --ts-grad-halo-br: radial-gradient(
+    ellipse var(--ts-grad-size-lg) at var(--ts-grad-pos-off-br) in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-1),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-2) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-2),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-3),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-4),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-5),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-6),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-7),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-8) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-8),
+    transparent 100%
+  );
+
+  /* BLOOM — FIXED: use ellipse (circle won't accept percentage sizes) */
+  --ts-grad-bloom: radial-gradient(
+    ellipse var(--ts-grad-size-md) at var(--ts-grad-pos-c) in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-glow-s-1),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-2) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-glow-s-2),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-glow-s-3),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-glow-s-4),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-glow-s-5),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-glow-s-6),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-glow-s-7),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-8) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-glow-s-8),
+    transparent 100%
+  );
+
+  /* SPOT — FIXED: use ellipse (circle won't accept percentage sizes) */
+  --ts-grad-spot: radial-gradient(
+    ellipse 50% 45% at var(--ts-grad-pos-tl) in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-spot-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-spot-s-1),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-spot-a-2) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-spot-s-2),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-spot-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-spot-s-3),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-spot-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-spot-s-4),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-spot-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-spot-s-5),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-spot-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-spot-s-6),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-spot-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-spot-s-7),
+    transparent 95%
+  );
+
+  /* SPOTLIGHT — light from above */
+  --ts-grad-spotlight: radial-gradient(
+    ellipse 90% 70% at var(--ts-grad-pos-top) in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-1),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-2) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-2),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-3),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-4),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-5),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-6),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-7),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-8) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-halo-s-8),
+    transparent 100%
+  );
+
+
+  /* ── 3.2  AURORA ─────────────────────────────────────────────────────── */
+  --ts-grad-aurora: radial-gradient(
+      ellipse var(--ts-grad-size-lg) at var(--ts-grad-pos-off-tl) in oklab,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 18%,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 42%,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 70%,
+      transparent 95%
+    ),
+    radial-gradient(
+      ellipse var(--ts-grad-size-lg) at var(--ts-grad-pos-off-br) in oklab,
+      oklch(from var(--ts-grad-tint-2) l c h / calc(var(--ts-grad-halo-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+      oklch(from var(--ts-grad-tint-2) l c h / calc(var(--ts-grad-halo-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 18%,
+      oklch(from var(--ts-grad-tint-2) l c h / calc(var(--ts-grad-halo-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 42%,
+      oklch(from var(--ts-grad-tint-2) l c h / calc(var(--ts-grad-halo-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 70%,
+      transparent 95%
+    ),
+    radial-gradient(
+      ellipse var(--ts-grad-size-md) at var(--ts-grad-pos-c) in oklab,
+      oklch(from var(--ts-grad-tint-cool) l c h / calc(var(--ts-grad-wash-a-2) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+      oklch(from var(--ts-grad-tint-cool) l c h / calc(var(--ts-grad-wash-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 28%,
+      oklch(from var(--ts-grad-tint-cool) l c h / calc(var(--ts-grad-wash-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 55%,
+      transparent 95%
+    );
+
+  --ts-grad-aurora-dense: radial-gradient(
+      ellipse var(--ts-grad-size-xl) at var(--ts-grad-pos-off-tl) in oklab,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 18%,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 42%,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 70%,
+      transparent 95%
+    ),
+    radial-gradient(
+      ellipse var(--ts-grad-size-lg) at var(--ts-grad-pos-off-tr) in oklab,
+      oklch(from var(--ts-grad-tint-2) l c h / calc(var(--ts-grad-glow-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+      oklch(from var(--ts-grad-tint-2) l c h / calc(var(--ts-grad-glow-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 30%,
+      oklch(from var(--ts-grad-tint-2) l c h / calc(var(--ts-grad-glow-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 60%,
+      transparent 95%
+    ),
+    radial-gradient(
+      ellipse var(--ts-grad-size-lg) at var(--ts-grad-pos-off-bl) in oklab,
+      oklch(from var(--ts-grad-tint-3) l c h / calc(var(--ts-grad-glow-a-2) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+      oklch(from var(--ts-grad-tint-3) l c h / calc(var(--ts-grad-glow-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 30%,
+      oklch(from var(--ts-grad-tint-3) l c h / calc(var(--ts-grad-glow-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 60%,
+      transparent 95%
+    ),
+    radial-gradient(
+      ellipse var(--ts-grad-size-md) at var(--ts-grad-pos-off-br) in oklab,
+      oklch(from var(--ts-grad-tint-cool) l c h / calc(var(--ts-grad-glow-a-2) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+      oklch(from var(--ts-grad-tint-cool) l c h / calc(var(--ts-grad-glow-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 38%,
+      transparent 95%
+    );
+
+  --ts-grad-aurora-subtle: radial-gradient(
+      ellipse var(--ts-grad-size-xl) at var(--ts-grad-pos-off-tl) in oklab,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-fog-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-fog-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 24%,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-fog-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 52%,
+      transparent 92%
+    ),
+    radial-gradient(
+      ellipse var(--ts-grad-size-xl) at var(--ts-grad-pos-off-br) in oklab,
+      oklch(from var(--ts-grad-tint-2) l c h / calc(var(--ts-grad-fog-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+      oklch(from var(--ts-grad-tint-2) l c h / calc(var(--ts-grad-fog-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 28%,
+      oklch(from var(--ts-grad-tint-2) l c h / calc(var(--ts-grad-fog-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 58%,
+      transparent 92%
+    );
+
+
+  /* ── 3.3  EDGES + SWEEP + RIM ────────────────────────────────────────── */
+
+  --ts-grad-edge-top: linear-gradient(
+    180deg in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 14%,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 32%,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 56%,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-8) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 80%,
+    transparent 100%
+  );
+
+  --ts-grad-edge-bottom: linear-gradient(
+    0deg in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 14%,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 32%,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 56%,
+    transparent 100%
+  );
+
+  --ts-grad-sweep: linear-gradient(
+    var(--ts-grad-angle) in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-2) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 10%,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 22%,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 36%,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 52%,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 68%,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-halo-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 82%,
+    transparent 100%
+  );
+
+  /* RIM — FIXED: soft light streak, not a laser stripe.
+     Two overlapping wide bands at different angles for a painterly streak. */
+  --ts-grad-rim:
+    linear-gradient(
+      var(--ts-grad-angle-sweep) in oklab,
+      transparent 0%,
+      oklch(from var(--ts-grad-tint) l c h / 0) 24%,
+      oklch(from var(--ts-grad-tint) l c h / calc(0.06 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 34%,
+      oklch(from var(--ts-grad-tint) l c h / calc(0.14 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 44%,
+      oklch(from var(--ts-grad-tint) l c h / calc(0.18 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 50%,
+      oklch(from var(--ts-grad-tint) l c h / calc(0.14 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 56%,
+      oklch(from var(--ts-grad-tint) l c h / calc(0.06 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 66%,
+      oklch(from var(--ts-grad-tint) l c h / 0) 76%,
+      transparent 100%
+    ),
+    linear-gradient(
+      calc(var(--ts-grad-angle-sweep) + 6deg) in oklab,
+      transparent 30%,
+      oklch(from var(--ts-grad-tint) l c h / calc(0.04 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 48%,
+      oklch(from var(--ts-grad-tint) l c h / calc(0.08 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 52%,
+      oklch(from var(--ts-grad-tint) l c h / calc(0.04 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 56%,
+      transparent 70%
+    );
+
+
+  /* ── 3.4  ATMOSPHERIC FOG + VIGNETTE ─────────────────────────────────── */
+  --ts-grad-fog: radial-gradient(
+    ellipse var(--ts-grad-size-xl) at var(--ts-grad-pos-off-tl) in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-fog-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-fog-s-1),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-fog-a-2) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-fog-s-2),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-fog-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-fog-s-3),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-fog-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-fog-s-4),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-fog-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-fog-s-5),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-fog-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-fog-s-6),
+    oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-fog-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) var(--ts-grad-fog-s-7),
+    transparent 100%
+  );
+
+  --ts-grad-vignette: radial-gradient(
+    ellipse 80% 75% at 50% 50% in oklab,
+    transparent 0%,
+    transparent 48%,
+    oklch(from var(--ts-grad-tint-deep) l c h / calc(0.05 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 64%,
+    oklch(from var(--ts-grad-tint-deep) l c h / calc(0.14 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 82%,
+    oklch(from var(--ts-grad-tint-deep) l c h / calc(0.28 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 100%
+  );
+
+
+  /* ── 3.5  PLATE — NEW: 3-step subtle linear plate ─────────────────────── */
+  /* A flat painterly plate. Three carefully placed stops for a smooth
+     top→middle→bottom shade. Excellent for backgrounds of long sections,
+     headers, and editorial panels. Reads as "paper" not "spotlight". */
+  --ts-grad-plate: linear-gradient(
+    var(--ts-grad-angle-plate) in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(0.18 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+    oklch(from var(--ts-grad-tint) l c h / calc(0.08 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 50%,
+    oklch(from var(--ts-grad-tint) l c h / calc(0.02 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 100%
+  );
+
+  /* Plate variants */
+  --ts-grad-plate-top:    linear-gradient(180deg in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(0.20 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+    oklch(from var(--ts-grad-tint) l c h / calc(0.06 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 50%,
+    transparent 100%);
+  --ts-grad-plate-bottom: linear-gradient(0deg in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(0.20 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+    oklch(from var(--ts-grad-tint) l c h / calc(0.06 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 50%,
+    transparent 100%);
+  --ts-grad-plate-diag:   linear-gradient(var(--ts-grad-angle) in oklab,
+    oklch(from var(--ts-grad-tint) l c h / calc(0.18 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+    oklch(from var(--ts-grad-tint) l c h / calc(0.08 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 50%,
+    oklch(from var(--ts-grad-tint) l c h / calc(0.02 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 100%);
+
+
+  /* ── 3.6  CONIC + MESH ───────────────────────────────────────────────── */
+  --ts-grad-conic: conic-gradient(
+    from calc(var(--ts-grad-angle) - 90deg) at var(--ts-grad-pos-c) in oklab,
+    oklch(from var(--ts-grad-tint)      l c h / calc(0.32 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+    oklch(from var(--ts-grad-tint-2)    l c h / calc(0.26 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 25%,
+    oklch(from var(--ts-grad-tint-3)    l c h / calc(0.22 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 50%,
+    oklch(from var(--ts-grad-tint-cool) l c h / calc(0.26 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 75%,
+    oklch(from var(--ts-grad-tint)      l c h / calc(0.32 * var(--ts-grad-peak) * var(--ts-grad-intensity))) 100%
+  );
+
+  --ts-grad-mesh: radial-gradient(
+      ellipse var(--ts-grad-size-lg) at 15% 20% in oklab,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 22%,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 48%,
+      oklch(from var(--ts-grad-tint) l c h / calc(var(--ts-grad-glow-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 76%,
+      transparent 95%
+    ),
+    radial-gradient(
+      ellipse var(--ts-grad-size-md) at 85% 25% in oklab,
+      oklch(from var(--ts-grad-tint-2) l c h / calc(var(--ts-grad-glow-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+      oklch(from var(--ts-grad-tint-2) l c h / calc(var(--ts-grad-glow-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 30%,
+      oklch(from var(--ts-grad-tint-2) l c h / calc(var(--ts-grad-glow-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 60%,
+      transparent 95%
+    ),
+    radial-gradient(
+      ellipse var(--ts-grad-size-md) at 20% 85% in oklab,
+      oklch(from var(--ts-grad-tint-3) l c h / calc(var(--ts-grad-glow-a-2) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+      oklch(from var(--ts-grad-tint-3) l c h / calc(var(--ts-grad-glow-a-4) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 28%,
+      oklch(from var(--ts-grad-tint-3) l c h / calc(var(--ts-grad-glow-a-6) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 58%,
+      transparent 95%
+    ),
+    radial-gradient(
+      ellipse var(--ts-grad-size-lg) at 90% 80% in oklab,
+      oklch(from var(--ts-grad-tint-cool) l c h / calc(var(--ts-grad-glow-a-1) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 0%,
+      oklch(from var(--ts-grad-tint-cool) l c h / calc(var(--ts-grad-glow-a-3) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 24%,
+      oklch(from var(--ts-grad-tint-cool) l c h / calc(var(--ts-grad-glow-a-5) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 54%,
+      oklch(from var(--ts-grad-tint-cool) l c h / calc(var(--ts-grad-glow-a-7) * var(--ts-grad-peak) * var(--ts-grad-intensity))) 78%,
+      transparent 95%
+    );
+
+
+  /* ── 3.7  STACKED PRESETS @REFACTOR NOTE ADDED ON ON-SURFACE.CSS WITH INSTRUCTIONS ABOUT THIS SHEET  . INCLUDING FLAWS OIN GENERAL ENGINE WORKING. the gradient tokens are not  ascope  efficient ands apllicABLE ON ALL THE ASSETS AND NESTED ELEMENTS. SO IT NEEDS REVIEW.   CHECK THAT NOTE. ────────────────────────────────────────────── */
+  --ts-grad-stack-halo-on-bg:          var(--ts-grad-halo),         var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-halo-tr-on-bg:       var(--ts-grad-halo-tr),      var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-halo-bl-on-bg:       var(--ts-grad-halo-bl),      var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-halo-br-on-bg:       var(--ts-grad-halo-br),      var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-bloom-on-bg:         var(--ts-grad-bloom),        var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-spot-on-bg:          var(--ts-grad-spot),         var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-spotlight-on-bg:     var(--ts-grad-spotlight),    var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-aurora-on-bg:        var(--ts-grad-aurora),       var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-aurora-dense-on-bg:  var(--ts-grad-aurora-dense), var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-aurora-subtle-on-bg: var(--ts-grad-aurora-subtle),var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-mesh-on-bg:          var(--ts-grad-mesh),         var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-edge-on-bg:          var(--ts-grad-edge-top),     var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-sweep-on-bg:         var(--ts-grad-sweep),        var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-rim-on-bg:           var(--ts-grad-rim),          var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-fog-on-bg:           var(--ts-grad-fog),          var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-vignette-on-bg:      var(--ts-grad-vignette),     var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-conic-on-bg:         var(--ts-grad-conic),        var(--ts-this-bg, oklch(20% 0 0));
+  --ts-grad-stack-plate-on-bg:         var(--ts-grad-plate),        var(--ts-this-bg, oklch(20% 0 0));
+
+  /* Editorial — rim + spotlight + vignette + bg, ready to drop on a hero */
+  --ts-grad-stack-editorial:
+    var(--ts-grad-rim),
+    var(--ts-grad-spotlight),
+    var(--ts-grad-vignette),
+    var(--ts-this-bg, oklch(20% 0 0));
+
+
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   4.  OPT-IN UTILITY CLASSES
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-grad-halo            { background: var(--ts-grad-stack-halo-on-bg); }
+.ts-grad-halo-tr         { background: var(--ts-grad-stack-halo-tr-on-bg); }
+.ts-grad-halo-bl         { background: var(--ts-grad-stack-halo-bl-on-bg); }
+.ts-grad-halo-br         { background: var(--ts-grad-stack-halo-br-on-bg); }
+.ts-grad-bloom           { background: var(--ts-grad-stack-bloom-on-bg); }
+.ts-grad-spot            { background: var(--ts-grad-stack-spot-on-bg); }
+.ts-grad-spotlight       { background: var(--ts-grad-stack-spotlight-on-bg); }
+.ts-grad-aurora          { background: var(--ts-grad-stack-aurora-on-bg); }
+.ts-grad-aurora-dense    { background: var(--ts-grad-stack-aurora-dense-on-bg); }
+.ts-grad-aurora-subtle   { background: var(--ts-grad-stack-aurora-subtle-on-bg); }
+.ts-grad-mesh            { background: var(--ts-grad-stack-mesh-on-bg); }
+.ts-grad-edge-top        { background: var(--ts-grad-stack-edge-on-bg); }
+.ts-grad-sweep           { background: var(--ts-grad-stack-sweep-on-bg); }
+.ts-grad-rim             { background: var(--ts-grad-stack-rim-on-bg); }
+.ts-grad-fog             { background: var(--ts-grad-stack-fog-on-bg); }
+.ts-grad-vignette        { background: var(--ts-grad-stack-vignette-on-bg); }
+.ts-grad-conic           { background: var(--ts-grad-stack-conic-on-bg); }
+.ts-grad-plate           { background: var(--ts-grad-stack-plate-on-bg); }
+.ts-grad-editorial       { background: var(--ts-grad-stack-editorial); }
