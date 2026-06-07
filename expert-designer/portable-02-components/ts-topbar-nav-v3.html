@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolskin · ts-nav-header 2.3 · Variant Switcher</title>
+
+  <!-- Exact load order from ts-topbar-nav.html harness -->
+  <link rel="stylesheet" href="assets/css/next/primitives/colors.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/typography.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/spacing.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/radius.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/motion.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/status-tints.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-this-bg-v2.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-btn_v3.1.css" />
+  <!-- SOURCE OF TRUTH 2.3.2 — single self-contained header stylesheet -->
+  <link rel="stylesheet" href="assets/css/next/components/ts-nav-header.css" />
+  <!-- Promo banner (exact owner CSS, separate sheet) -->
+  <link rel="stylesheet" href="assets/css/next/components/ts-promo-banner.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <!-- Font Awesome preloaded in head so icons render on first paint -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <!-- ts-icons.js auto-injects FA from data-ts-icon — no CDN link needed -->
+
+  <style>
+    /* ── PROMO BANNER — exact owner CSS from handoff ──────────────────── */
+    /* ── PROMO BANNER — handled by external sheet (ts-promo-banner.css) ── */
+
+    /* ── THEME TOGGLE ICONS — swap sun/moon via data-theme ────────────── */
+    .ts-toggle-icon--light { display: none; }
+    .ts-toggle-icon--dark  { display: inline-flex; }
+    [data-theme="light"] .ts-toggle-icon--light { display: inline-flex; }
+    [data-theme="light"] .ts-toggle-icon--dark  { display: none; }
+
+    /* ── HARNESS SCAFFOLD — harness-only, never touches nav CSS ──────── */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--ts-font-body, 'Space Grotesk', sans-serif);
+      background: var(--ts-bg-body);
+      color: var(--ts-text-primary);
+      line-height: 1.6;
+    }
+    .ts-harness-pagebody { padding: var(--ts-sp-8); }
+    .ts-harness-fixed-spacer {
+      height: calc(var(--ts-topbar-h, 58px) + var(--ts-promo-banner-h, 40px) + 24px);
+    }
+    h1, h2 {
+      font-family: var(--ts-font-display, 'Space Grotesk', sans-serif);
+      letter-spacing: var(--ts-tracking-tight);
+      margin: 0 0 var(--ts-sp-4);
+    }
+    h1 { font-size: var(--ts-fs-2xl); }
+    h2 { font-size: var(--ts-fs-lg); margin-top: var(--ts-sp-8); }
+    .ts-harness-label {
+      font-family: var(--ts-font-mono);
+      font-size: var(--ts-fs-xs);
+      letter-spacing: var(--ts-tracking-snug);
+      color: var(--ts-text-muted);
+    }
+    .ts-harness-panel {
+      padding: var(--ts-sp-6);
+      border-radius: var(--ts-radius-md);
+      border: 1px solid var(--ts-this-bg-border-0);
+      margin-block: var(--ts-sp-4);
+    }
+    .ts-harness-panel--bg1 { background: var(--ts-bg-1); }
+    .ts-harness-panel--bg3 { background: var(--ts-bg-3); }
+    .ts-harness-panel--accent {
+      --ts-this-bg: var(--ts-accent);
+      background: var(--ts-accent);
+      color: var(--ts-on-accent);
+    }
+    .ts-harness-panel-title {
+      font-family: var(--ts-font-mono);
+      font-size: var(--ts-fs-xs);
+      letter-spacing: var(--ts-tracking-wider);
+      text-transform: uppercase;
+      margin: 0 0 var(--ts-sp-4);
+      opacity: 0.8;
+    }
+    .ts-harness-stage {
+      position: relative;
+      height: calc(var(--ts-topbar-h, 58px) + 2px);
+      border: 1px dashed var(--ts-this-bg-border-0);
+      border-radius: var(--ts-radius-sm);
+      overflow: hidden;
+    }
+    /* Scope demo navs inside stage — harness-only display concern */
+    .ts-harness-stage .ts-nav-fixed { position: absolute; width: 100%; top: 0; left: 0; }
+    .ts-harness-icon {
+      display: inline-grid; place-items: center;
+      width: 1em; height: 1em;
+      border: 1px solid currentColor;
+      border-radius: 2px; font-size: 0.85em; line-height: 1;
+    }
+
+    /* ── VARIANT SWITCHER PANEL ──────────────────────────────────────── */
+    #ts-switcher {
+      position: fixed;
+      bottom: var(--ts-sp-5);
+      left: var(--ts-sp-5);
+      z-index: calc(var(--ts-z-offcanvas-panel) + 20);
+      background: var(--ts-bg-1);
+      border: 1px solid var(--ts-border-2);
+      border-radius: var(--ts-radius-md);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+      min-width: 210px;
+      font-family: var(--ts-font-mono);
+      overflow: hidden;
+    }
+    #sw-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 7px 11px;
+      background: var(--ts-bg-2);
+      border-bottom: 1px solid var(--ts-border-1);
+      cursor: grab;
+      font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ts-text-muted);
+    }
+    #sw-header strong { color: var(--ts-accent); font-weight: 700; }
+    #sw-body { padding: 9px 11px; display: flex; flex-direction: column; gap: 9px; }
+    .sw-lbl {
+      font-size: 0.57rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ts-text-muted); margin-bottom: 3px;
+    }
+    .sw-row { display: flex; flex-wrap: wrap; gap: 4px; }
+    .sw-btn {
+      font-family: var(--ts-font-mono); font-size: 0.64rem;
+      padding: 3px 8px;
+      border-radius: var(--ts-radius-sm);
+      border: 1px solid var(--ts-border-2);
+      background: transparent; color: var(--ts-text-secondary);
+      cursor: pointer; white-space: nowrap;
+      transition: all 140ms ease;
+    }
+    .sw-btn:hover { border-color: var(--ts-accent); color: var(--ts-accent); }
+    .sw-btn.sw-on {
+      background: color-mix(in oklab, var(--ts-accent), transparent 84%);
+      border-color: var(--ts-accent); color: var(--ts-accent); font-weight: 700;
+    }
+    #sw-out {
+      font-size: 0.58rem; color: var(--ts-text-muted); line-height: 1.65;
+      padding: 5px 7px; background: var(--ts-bg-0);
+      border-radius: var(--ts-radius-sm); border: 1px solid var(--ts-border-1);
+      word-break: break-all;
+    }
+    #sw-out strong { color: var(--ts-accent); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PROMO BANNER — owner's exact HTML ═════════════════════════════════ -->
+<div class="ts-promo-banner" id="promo-banner">
+  <span class="ts-promo-banner__text">
+    <strong>
+      <span class="ts-icon" data-ts-icon="fa-solid fa-wand-magic-sparkles"></span>
+      New:
+    </strong>
+    Explore our interactive Toolpanel Mockups — live demos of real userscript automation panels.
+  </span>
+  <a href="#" class="ts-promo-banner__cta">
+    <span class="ts-icon" data-ts-icon="fa-solid fa-arrow-right"></span> View Mockups
+  </a>
+  <button class="ts-promo-banner__close"
+          onclick="this.parentElement.classList.add('ts-dismissed')"
+          aria-label="Dismiss"
+          data-ts-icon="fa-solid fa-xmark">
+  </button>
+</div>
+
+<!-- ═══ LIVE FIXED NAV — exact HTML from owner harness ════════════════════ -->
+<nav class="ts-nav-fixed ts-nav--spaced" id="ts-topbar" aria-label="Primary">
+
+  <a class="ts-topbar__logo" href="#">
+    <span class="ts-logo-brand">TOOL<em>SKIN</em></span>
+    <span class="ts-logo-sub">Design System</span>
+  </a>
+
+  <div class="ts-nav-fixed__links ts-nav-truncate" id="ts-primary-menu">
+    <a href="#">Overview</a>
+    <a href="#" class="ts-active" aria-current="page">Tokens</a>
+    <a href="#">Components</a>
+    <a href="#">Patterns</a>
+    <a href="#">Changelog</a>
+    <a href="#">Roadmap</a>
+  </div>
+
+  <div class="ts-nav-more" aria-expanded="false">
+    <button type="button" class="ts-more-trigger" aria-haspopup="menu">
+      <span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis"></span>
+    </button>
+    <div class="ts-nav-dropdown">
+      <a href="#">Changelog</a>
+      <a href="#">Roadmap</a>
+      <a href="#">Support</a>
+    </div>
+  </div>
+
+  <!-- Theme toggle -->
+  <label class="theme-toggle" aria-label="Toggle theme" role="switch">
+    <input type="checkbox" aria-hidden="true" />
+    <span class="theme-toggle-sr">Toggle theme</span>
+    <span class="ts-icon ts-toggle-icon ts-toggle-icon--dark"  data-ts-icon="fa-solid fa-moon"></span>
+    <span class="ts-icon ts-toggle-icon ts-toggle-icon--light" data-ts-icon="fa-regular fa-sun"></span>
+  </label>
+
+  <!-- Back-to-top -->
+  <a href="#" class="ts-back_top-nav" id="ts-top-btn" aria-label="Back to top">
+    <span class="ts-icon" data-ts-icon="fa-solid fa-arrow-up"></span>
+  </a>
+
+  <!-- Burger -->
+  <button type="button" class="ts-menu-burger" aria-expanded="false" aria-label="Open menu">
+    <span class="ts-menu-burger-inner"></span>
+  </button>
+</nav>
+
+<div class="ts-mobile-menu-overlay" aria-hidden="true"></div>
+<div class="ts-mobile-menu" role="dialog" aria-label="Mobile navigation">
+  <nav class="ts-mobile-menu-items">
+    <a href="#">Overview</a>
+    <a href="#" class="ts-active" aria-current="page">Tokens</a>
+    <a href="#">Components</a>
+    <a href="#">Patterns</a>
+    <a href="#">Changelog</a>
+    <button class="ts-btn ts-btn--primary" type="button">
+      <span class="ts-btn-text">Get started</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ═══ VARIANT SWITCHER ══════════════════════════════════════════════════ -->
+<div id="ts-switcher">
+  <div id="sw-header">
+    <strong>Nav</strong>&nbsp;Variant Switcher
+    <span id="sw-theme" style="cursor:pointer;" title="Toggle theme">☀/☾</span>
+  </div>
+  <div id="sw-body">
+    <div>
+      <div class="sw-lbl">Layout</div>
+      <div class="sw-row" id="sw-layout">
+        <button class="sw-btn" data-l="">Default</button>
+        <button class="sw-btn sw-on" data-l="ts-nav--spaced">Spaced</button>
+        <button class="sw-btn" data-l="ts-nav--spaced ts-tabbed">Tabbed</button>
+        <button class="sw-btn" data-l="ts-nav--icon-only">Icon-only</button>
+      </div>
+    </div>
+    <div>
+      <div class="sw-lbl">Modifier</div>
+      <div class="sw-row" id="sw-mods">
+        <button class="sw-btn" data-m="ts-on-accent">On Accent</button>
+        <button class="sw-btn" data-m="ts-nav--transparent">Transparent</button>
+      </div>
+    </div>
+    <div id="sw-out"><strong>ts-nav-fixed</strong> ts-nav--spaced</div>
+  </div>
+</div>
+
+
+<!-- ═══ HARNESS BODY — same structure as ts-topbar-nav.html ═══════════════ -->
+<main class="ts-harness-pagebody">
+  <div class="ts-harness-fixed-spacer"></div>
+
+  <h1>ts-nav-header 2.3 · Variant Switcher</h1>
+  <p class="ts-harness-label">Use the panel ↙ to live-swap classes on the fixed nav. Static probes below.</p>
+
+  <!-- ── DEFAULT (dividers) ── -->
+  <h2>.ts-nav-fixed · default</h2>
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Divider variant</p>
+    <div class="ts-harness-stage">
+      <nav class="ts-nav-fixed ts-nav--static" aria-label="Default">
+        <a class="ts-topbar__logo" href="#"><span class="ts-logo-brand">TOOL<em>SKIN</em></span></a>
+        <div class="ts-nav-fixed__links">
+          <a href="#">Overview</a>
+          <a href="#" class="ts-active" aria-current="page">Tokens</a>
+          <a href="#">Components</a>
+          <a href="#">Patterns</a>
+        </div>
+        <div class="ts-nav-more" aria-expanded="false">
+          <button type="button" class="ts-more-trigger" aria-haspopup="menu">
+            <span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis"></span>
+          </button>
+          <div class="ts-nav-dropdown">
+            <a href="#">Changelog</a>
+            <a href="#" class="ts-active" aria-current="page">Roadmap</a>
+            <a href="#">Support</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ── SPACED ── -->
+  <h2>.ts-nav--spaced</h2>
+  <div class="ts-harness-panel ts-harness-panel--bg3">
+    <p class="ts-harness-panel-title">Spaced — gap-driven, no dividers</p>
+    <div class="ts-harness-stage" style="background:var(--ts-bg-3);">
+      <nav class="ts-nav-fixed ts-nav--static ts-nav--spaced" aria-label="Spaced">
+        <a class="ts-topbar__logo" href="#"><span class="ts-logo-brand">TOOL<em>SKIN</em></span></a>
+        <div class="ts-nav-fixed__links">
+          <a href="#">Overview</a>
+          <a href="#" class="ts-active" aria-current="page">Tokens</a>
+          <a href="#">Components</a>
+          <a href="#">Patterns</a>
+          <button class="ts-btn ts-btn--primary" type="button">
+            <span class="ts-btn-text">Sign in</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ── TABBED ── -->
+  <h2>.ts-nav--spaced.ts-tabbed</h2>
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Tabbed — sub-variant of spaced</p>
+    <div class="ts-harness-stage">
+      <nav class="ts-nav-fixed ts-nav--static ts-nav--spaced ts-tabbed" aria-label="Tabbed">
+        <a class="ts-topbar__logo" href="#"><span class="ts-logo-brand">TOOL<em>SKIN</em></span></a>
+        <div class="ts-nav-fixed__links">
+          <a href="#">Overview</a>
+          <a href="#" class="ts-active" aria-current="page">Tokens</a>
+          <a href="#">Components</a>
+          <a href="#">Patterns</a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ── ICON-ONLY ── -->
+  <h2>.ts-nav--icon-only</h2>
+  <div class="ts-harness-panel ts-harness-panel--bg1">
+    <p class="ts-harness-panel-title">Icon-only — labels collapsed</p>
+    <div class="ts-harness-stage" style="background:var(--ts-bg-1);">
+      <nav class="ts-nav-fixed ts-nav--static ts-nav--icon-only" aria-label="Icon-only">
+        <a class="ts-topbar__logo" href="#"><span class="ts-logo-brand">TOOL<em>SKIN</em></span></a>
+        <div class="ts-nav-fixed__links">
+          <a href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-house"></span><span class="ts-menu-text">Overview</span></a>
+          <a href="#" class="ts-active" aria-current="page"><span class="ts-icon" data-ts-icon="fa-solid fa-cube"></span><span class="ts-menu-text">Tokens</span></a>
+          <a href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-table-cells"></span><span class="ts-menu-text">Components</span></a>
+          <a href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-shapes"></span><span class="ts-menu-text">Patterns</span></a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ── DROPDOWN OPEN ── -->
+  <h2>.ts-nav-dropdown · open state probe</h2>
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Dropdown forced open via .is-open</p>
+    <div class="ts-harness-stage" style="height:210px; overflow:visible;">
+      <nav class="ts-nav-fixed ts-nav--static" aria-label="Dropdown probe">
+        <a class="ts-topbar__logo" href="#"><span class="ts-logo-brand">TOOL<em>SKIN</em></span></a>
+        <div class="ts-nav-fixed__links">
+          <a href="#">Overview</a>
+          <a href="#" class="ts-active" aria-current="page">Tokens</a>
+        </div>
+        <div class="ts-nav-more hasItems is-open" aria-expanded="true">
+          <button type="button" class="ts-more-trigger" aria-haspopup="menu">
+            <span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis"></span>
+          </button>
+          <div class="ts-nav-dropdown" id="dropdown-open-probe">
+            <a href="#">Changelog</a>
+            <a href="#" class="ts-active" aria-current="page">Roadmap</a>
+            <a href="#">Support</a>
+            <button class="ts-btn ts-btn--primary" type="button">
+              <span class="ts-btn-text">Get started</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ── SURFACE VARIANTS — same component, different anchored surface ─────── -->
+  <h2>.ts-nav-fixed · surface variants</h2>
+
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Default surface (default --ts-this-bg)</p>
+    <div class="ts-harness-stage">
+      <nav class="ts-nav-fixed ts-nav--static ts-nav--spaced" aria-label="Default surface">
+        <a class="ts-topbar__logo" href="#">
+          <span class="ts-logo-brand">TOOL<em>SKIN</em></span>
+          <span class="ts-logo-sub">Design System</span>
+        </a>
+        <div class="ts-nav-fixed__links">
+          <a href="#">Home</a>
+          <a href="#" class="ts-active" aria-current="page">Docs</a>
+          <a href="#" class="ts-btn ts-btn--ghost"><span class="ts-btn-text">Settings</span></a>
+          <a href="#" class="ts-btn ts-btn--primary"><span class="ts-btn-text">Sign in</span></a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <div class="ts-harness-panel ts-on-accent" style="--ts-this-bg: var(--ts-accent); background: var(--ts-accent);">
+    <p class="ts-harness-panel-title" style="opacity:.85; color: var(--ts-on-accent);">
+      .ts-on-accent — header ink auto-flips to --ts-on-accent
+    </p>
+    <div class="ts-harness-stage" style="background: var(--ts-accent); border-color: color-mix(in oklab, var(--ts-on-accent), transparent 70%);">
+      <nav class="ts-nav-fixed ts-nav--static ts-nav--spaced ts-on-accent" aria-label="On accent surface" style="--ts-this-bg: var(--ts-accent);">
+        <a class="ts-topbar__logo" href="#">
+          <span class="ts-logo-brand">TOOL<em>SKIN</em></span>
+          <span class="ts-logo-sub">On accent</span>
+        </a>
+        <div class="ts-nav-fixed__links">
+          <a href="#" class="ts-active" aria-current="page">Docs</a>
+          <a href="#" class="ts-btn ts-btn--outline"><span class="ts-btn-text">Sign in</span></a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- scroll space for transparent test -->
+  <div style="height:90vh; display:flex; align-items:center; justify-content:center; color:var(--ts-text-muted); font-family:var(--ts-font-mono); font-size:0.72rem;">
+    ↑ scroll back to top
+  </div>
+</main>
+
+<script src="assets/js/next/ts-icons.js" defer></script>
+<script src="assets/js/next/ts-nav.js" defer></script>
+
+<script>
+(function () {
+  var nav  = document.getElementById("ts-topbar");
+  var out  = document.getElementById("sw-out");
+  if (!nav) return;
+
+  /* All switchable classes — cleared before each apply */
+  var ALL = ["ts-nav--spaced","ts-tabbed","ts-nav--icon-only",
+             "ts-nav--transparent","ts-on-accent"];
+
+  function apply() {
+    ALL.forEach(function(c){ nav.classList.remove(c); });
+    var lBtn = document.querySelector("#sw-layout .sw-on");
+    var mBtns = document.querySelectorAll("#sw-mods .sw-on");
+    if (lBtn) lBtn.dataset.l.split(" ").filter(Boolean).forEach(function(c){ nav.classList.add(c); });
+    mBtns.forEach(function(b){ b.dataset.m.split(" ").filter(Boolean).forEach(function(c){ nav.classList.add(c); }); });
+    var cls = Array.from(nav.classList).filter(function(c){ return c.startsWith("ts-"); });
+    out.innerHTML = "<strong>ts-nav-fixed</strong> " + cls.join(" ");
+  }
+
+  /* Layout — radio behaviour */
+  document.querySelectorAll("#sw-layout .sw-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      document.querySelectorAll("#sw-layout .sw-btn").forEach(function(b){ b.classList.remove("sw-on"); });
+      this.classList.add("sw-on");
+      apply();
+    });
+  });
+
+  /* Modifiers — toggle behaviour */
+  document.querySelectorAll("#sw-mods .sw-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      this.classList.toggle("sw-on");
+      apply();
+    });
+  });
+
+  /* Theme toggle in switcher header */
+  document.getElementById("sw-theme").addEventListener("click", function(){
+    var light = document.documentElement.getAttribute("data-theme") === "light";
+    document.documentElement.setAttribute("data-theme", light ? "dark" : "light");
+    var box = document.querySelector(".theme-toggle input[type=checkbox]");
+    if (box) { box.checked = !light; }
+  });
+
+  /* Draggable panel */
+  var panel = document.getElementById("ts-switcher");
+  var hdr   = document.getElementById("sw-header");
+  var drag = false, ox = 0, oy = 0;
+  hdr.addEventListener("mousedown", function(e){
+    drag = true;
+    var r = panel.getBoundingClientRect();
+    ox = e.clientX - r.left; oy = e.clientY - r.top;
+    hdr.style.cursor = "grabbing"; e.preventDefault();
+  });
+  document.addEventListener("mousemove", function(e){
+    if (!drag) return;
+    panel.style.left   = (e.clientX - ox) + "px";
+    panel.style.top    = (e.clientY - oy) + "px";
+    panel.style.bottom = "auto"; panel.style.right = "auto";
+  });
+  document.addEventListener("mouseup", function(){ drag = false; hdr.style.cursor = "grab"; });
+
+  apply();
+})();
+</script>
+
+</body>
+</html>

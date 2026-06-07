@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolskin · Phase 2 Wave 2 — ts-topbar + ts-nav verification harness</title>
+
+  <!-- Load order: primitives → system engine → ts-btn → topbar → nav.
+       This is a verification harness, not a marketing page. -->
+  <link rel="stylesheet" href="assets/css/next/primitives/colors.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/typography.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/spacing.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/radius.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/motion.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/status-tints.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-this-bg-v2.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-btn_v3.1.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-input.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-topbar.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-nav.css" />
+
+  <!-- JetBrains Mono + Space Grotesk for labels (VQ-2 / VQ-3 identity). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+
+  <!-- Harness-only layout. NOT a component; this is a probe page.
+       I-2 EXTRACTION DEFERRED to Phase 4 (see ts-chip-badge.html header). -->
+  <style>
+    body {
+      margin: 0;
+      font-family: var(--ts-font-body);
+      background: var(--ts-bg-body);
+      color: var(--ts-text-primary);
+      line-height: var(--ts-lh-normal);
+    }
+    .ts-harness-pagebody {
+      padding: var(--ts-sp-8);
+    }
+    h1, h2 {
+      font-family: var(--ts-font-display);
+      letter-spacing: var(--ts-tracking-tight);
+      margin: 0 0 var(--ts-sp-4);
+    }
+    h1 { font-size: var(--ts-fs-2xl); }
+    h2 { font-size: var(--ts-fs-lg); margin-top: var(--ts-sp-8); }
+    .ts-harness-label {
+      font-family: var(--ts-font-mono);
+      font-size: var(--ts-fs-xs);
+      letter-spacing: var(--ts-tracking-snug);
+      color: var(--ts-text-muted);
+    }
+    .ts-harness-panel {
+      padding: var(--ts-sp-6);
+      border-radius: var(--ts-radius-md);
+      border: 1px solid var(--ts-this-bg-border-0);
+      margin-block: var(--ts-sp-4);
+    }
+    .ts-harness-panel--bg1     { background: var(--ts-bg-1); }
+    .ts-harness-panel--bg3     { background: var(--ts-bg-3); }
+    .ts-harness-panel--accent  {
+      --ts-this-bg: var(--ts-accent);
+      background: var(--ts-accent);
+      color: var(--ts-on-accent);
+    }
+    .ts-harness-panel-title {
+      font-family: var(--ts-font-mono);
+      font-size: var(--ts-fs-xs);
+      letter-spacing: var(--ts-tracking-wider);
+      text-transform: uppercase;
+      margin: 0 0 var(--ts-sp-4);
+      opacity: 0.8;
+    }
+    /* Spacer so a fixed-nav demo doesn't overlap the prose below. */
+    .ts-harness-fixed-spacer {
+      height: calc(var(--ts-topbar-h) + var(--ts-sp-6));
+    }
+    /* Demo-only stage container so the fixed-nav stays scoped to its panel. */
+    .ts-harness-stage {
+      position: relative;
+      height: 220px;
+      border: 1px dashed var(--ts-this-bg-border-0);
+      border-radius: var(--ts-radius-sm);
+      padding: var(--ts-sp-4);
+      overflow: hidden;
+    }
+    /* Override fixed-nav to sit inside the stage, not the viewport — purely
+       a harness display concern. The component default is position:fixed
+       to the viewport; here we scope it for the probe. */
+    .ts-harness-stage .ts-nav-fixed {
+      position: absolute;
+    }
+    .ts-harness-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 1em;
+      height: 1em;
+      border: 1px solid currentColor;
+      border-radius: 2px;
+      font-size: 0.85em;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body class="ts-harness">
+
+  <!-- ─── SECTION · STICKY TOPBAR (page chrome) ────────────────────── -->
+  <header class="ts-topbar">
+    <a class="ts-topbar__logo" href="#">
+      <em>Tool</em>Skin
+      <span class="ts-logo-sub">Design system</span>
+    </a>
+
+    <span class="ts-topbar__sep" aria-hidden="true"></span>
+
+    <!-- Inline nav inside the topbar -->
+    <nav class="ts-nav" aria-label="Primary">
+      <a class="ts-nav__item" href="#">Overview</a>
+      <a class="ts-nav__item ts-nav__item--active" href="#" aria-current="page">Tokens</a>
+      <a class="ts-nav__item" href="#">Components</a>
+      <a class="ts-nav__item" href="#">Patterns</a>
+    </nav>
+
+    <!-- Actions group: search input + ghost icon button + primary -->
+    <div class="ts-topbar__actions">
+      <input class="ts-input" type="search" placeholder="Search…" />
+      <button class="ts-btn ts-btn--ghost ts-btn--icon" type="button" aria-label="Settings">
+        <span class="ts-harness-icon">S</span>
+      </button>
+      <button class="ts-btn ts-btn--primary" type="button">
+        <span class="ts-btn-text">Sign in</span>
+      </button>
+    </div>
+  </header>
+
+
+  <main class="ts-harness-pagebody">
+    <h1>Phase 2 Wave 2 — ts-topbar + ts-nav</h1>
+    <p class="ts-harness-label">Verification harness · sandbox/02-components/ts-topbar-nav.html · audit-gate exempt</p>
+
+    <!-- ─── INLINE NAV variants ───────────────────────────────────── -->
+    <h2>.ts-nav · inline (default)</h2>
+
+    <div class="ts-harness-panel">
+      <p class="ts-harness-panel-title">Surface: --ts-bg-body (default)</p>
+      <nav class="ts-nav" aria-label="Inline nav default">
+        <a class="ts-nav__item" href="#">Home</a>
+        <a class="ts-nav__item" href="#" data-state-probe="hover-target">Products</a>
+        <a class="ts-nav__item ts-nav__item--active" href="#" aria-current="page">Pricing</a>
+        <a class="ts-nav__item" href="#">Docs</a>
+      </nav>
+    </div>
+
+    <div class="ts-harness-panel ts-harness-panel--bg1">
+      <p class="ts-harness-panel-title">Surface: --ts-bg-1 (lifted panel)</p>
+      <nav class="ts-nav" aria-label="Inline nav on bg-1">
+        <a class="ts-nav__item" href="#">Home</a>
+        <a class="ts-nav__item ts-nav__item--active" href="#" aria-current="page">Products</a>
+        <a class="ts-nav__item" href="#">Docs</a>
+      </nav>
+    </div>
+
+    <div class="ts-harness-panel ts-harness-panel--bg3">
+      <p class="ts-harness-panel-title">Surface: --ts-bg-3 (deeper panel)</p>
+      <nav class="ts-nav" aria-label="Inline nav on bg-3">
+        <a class="ts-nav__item" href="#">Home</a>
+        <a class="ts-nav__item" href="#">Products</a>
+        <a class="ts-nav__item ts-nav__item--active" href="#" aria-current="page">Docs</a>
+      </nav>
+    </div>
+
+    <div class="ts-harness-panel ts-harness-panel--accent ts-on-accent">
+      <p class="ts-harness-panel-title">Surface: --ts-accent (auto-flip ink target)</p>
+      <nav class="ts-nav" aria-label="Inline nav on accent">
+        <a class="ts-nav__item" href="#" id="nav-item-on-accent">Home</a>
+        <a class="ts-nav__item ts-nav__item--active" href="#" aria-current="page">Products</a>
+        <a class="ts-nav__item" href="#">Docs</a>
+      </nav>
+    </div>
+
+    <h2>.ts-nav.ts-nav--spaced</h2>
+    <div class="ts-harness-panel">
+      <p class="ts-harness-panel-title">spaced variant — gap-driven</p>
+      <nav class="ts-nav ts-nav--spaced" aria-label="Spaced nav">
+        <a class="ts-nav__item" href="#">Overview</a>
+        <a class="ts-nav__item" href="#">Components</a>
+        <a class="ts-nav__item ts-nav__item--active" href="#" aria-current="page">Tokens</a>
+      </nav>
+    </div>
+
+    <h2>.ts-nav.ts-nav--icon-only</h2>
+    <div class="ts-harness-panel">
+      <p class="ts-harness-panel-title">icon-only variant — labels collapsed</p>
+      <nav class="ts-nav ts-nav--icon-only" aria-label="Icon-only nav">
+        <a class="ts-nav__item" href="#"><span class="ts-harness-icon">H</span><span class="ts-menu-text">Home</span></a>
+        <a class="ts-nav__item ts-nav__item--active" href="#" aria-current="page"><span class="ts-harness-icon">P</span><span class="ts-menu-text">Products</span></a>
+        <a class="ts-nav__item" href="#"><span class="ts-harness-icon">D</span><span class="ts-menu-text">Docs</span></a>
+      </nav>
+    </div>
+
+
+    <!-- ─── FIXED NAV variant (scoped to a stage so it doesn't cover the page) ─ -->
+    <h2>.ts-nav-fixed · page-fixed chrome (scoped demo)</h2>
+
+    <div class="ts-harness-panel">
+      <p class="ts-harness-panel-title">Default fixed nav — divider variant</p>
+      <div class="ts-harness-stage">
+        <nav class="ts-nav-fixed" aria-label="Fixed nav default">
+          <div class="ts-nav-fixed__links">
+            <a href="#">Overview</a>
+            <a href="#" class="ts-active" aria-current="page">Tokens</a>
+            <a href="#">Components</a>
+            <a href="#">Patterns</a>
+          </div>
+          <div class="ts-nav-more hasItems" aria-expanded="false">
+            <button type="button" class="ts-more-trigger" aria-haspopup="menu">More ▾</button>
+            <div class="ts-nav-dropdown">
+              <a href="#">Changelog</a>
+              <a href="#" class="ts-active" aria-current="page">Roadmap</a>
+              <a href="#">Support</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <div class="ts-harness-panel ts-harness-panel--bg3">
+      <p class="ts-harness-panel-title">Fixed nav · spaced variant (no dividers)</p>
+      <div class="ts-harness-stage">
+        <nav class="ts-nav-fixed ts-nav--spaced" aria-label="Fixed nav spaced">
+          <div class="ts-nav-fixed__links">
+            <a href="#">Overview</a>
+            <a href="#" class="ts-active" aria-current="page">Tokens</a>
+            <a href="#">Components</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+
+    <!-- ─── NAV-DROPDOWN open state (forced for visual probing) ───── -->
+    <h2>.ts-nav-dropdown · open state probe</h2>
+    <div class="ts-harness-panel">
+      <p class="ts-harness-panel-title">Dropdown forced open via .is-open for screenshot probing</p>
+      <div class="ts-harness-stage">
+        <nav class="ts-nav-fixed" aria-label="Fixed nav with open dropdown">
+          <div class="ts-nav-fixed__links">
+            <a href="#">Overview</a>
+            <a href="#">Tokens</a>
+          </div>
+          <div class="ts-nav-more hasItems is-open" aria-expanded="true">
+            <button type="button" class="ts-more-trigger" aria-haspopup="menu">More ▾</button>
+            <div class="ts-nav-dropdown" id="dropdown-open-probe">
+              <a href="#">Changelog</a>
+              <a href="#" class="ts-active" aria-current="page">Roadmap</a>
+              <a href="#">Support</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+
+    <!-- ─── TOPBAR · surface variants (logo + actions) ────────────── -->
+    <h2>.ts-topbar · surface variants</h2>
+
+    <div class="ts-harness-panel">
+      <p class="ts-harness-panel-title">Topbar on default (re-anchored to --ts-bg-1)</p>
+      <header class="ts-topbar" id="topbar-default-probe" style="position: relative; top: auto;">
+        <a class="ts-topbar__logo" href="#">
+          <em>Tool</em>Skin
+          <span class="ts-logo-sub">Design system</span>
+        </a>
+        <span class="ts-topbar__sep" aria-hidden="true"></span>
+        <nav class="ts-nav" aria-label="Topbar inline nav probe">
+          <a class="ts-nav__item" href="#">Home</a>
+          <a class="ts-nav__item ts-nav__item--active" href="#" aria-current="page">Docs</a>
+        </nav>
+        <div class="ts-topbar__actions">
+          <input class="ts-input" type="search" placeholder="Search" id="topbar-input-probe" />
+          <button class="ts-btn ts-btn--ghost ts-btn--icon" type="button" aria-label="Settings" id="topbar-ghost-icon-probe">
+            <span class="ts-harness-icon">S</span>
+          </button>
+          <button class="ts-btn ts-btn--primary" type="button" id="topbar-primary-probe">
+            <span class="ts-btn-text">Sign in</span>
+          </button>
+        </div>
+      </header>
+    </div>
+
+    <div class="ts-harness-panel">
+      <p class="ts-harness-panel-title">Topbar with `.ts-logo-brand` variant (single-column layout)</p>
+      <header class="ts-topbar" style="position: relative; top: auto;">
+        <a class="ts-topbar__logo" href="#">
+          <span class="ts-logo-brand"><em>Tool</em>Skin</span>
+        </a>
+        <div class="ts-topbar__actions">
+          <button class="ts-btn ts-btn--primary" type="button">
+            <span class="ts-btn-text">Get started</span>
+          </button>
+        </div>
+      </header>
+    </div>
+
+    <div class="ts-harness-panel ts-on-accent">
+      <p class="ts-harness-panel-title">Topbar.ts-on-accent — accent surface, auto-flip ink</p>
+      <header class="ts-topbar ts-on-accent" style="position: relative; top: auto;">
+        <a class="ts-topbar__logo" href="#">
+          <em>Tool</em>Skin
+          <span class="ts-logo-sub">On accent</span>
+        </a>
+        <div class="ts-topbar__actions">
+          <button class="ts-btn ts-btn--ghost" type="button">
+            <span class="ts-btn-text">Docs</span>
+          </button>
+          <button class="ts-btn ts-btn--outline" type="button">
+            <span class="ts-btn-text">Sign in</span>
+          </button>
+        </div>
+      </header>
+    </div>
+
+
+  </main>
+</body>
+</html>

@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Toolskin · --ts-this-bg v2 — OKLAB safe + parametric gradients</title>
+  <link rel="stylesheet" href="toolskin.css">
+  <link rel="stylesheet" href="toolskin-type-v2.css">
+  <link rel="stylesheet" href="toolskin-this-bg-v2.css">
+  <style>
+    /* ─── page chrome ─── */
+    html,
+    body {
+      background: #0c0d0f;
+      color: #e8e9ea;
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 48px 56px 96px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0 0 6px;
+    }
+
+    .lede {
+      color: #9ea0a5;
+      font-size: 15px;
+      max-width: 760px;
+      margin: 0 0 48px;
+      line-height: 1.55;
+    }
+
+    .lede code {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 13px;
+      background: #1c1e24;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #c8c9cd;
+      margin: 56px 0 4px;
+    }
+
+    h2+.sub {
+      color: #6d6f74;
+      font-size: 13px;
+      margin: 0 0 20px;
+      max-width: 720px;
+      line-height: 1.5;
+    }
+
+    h2+.sub code {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 12px;
+      color: #c8c9cd;
+    }
+
+    .rule {
+      height: 1px;
+      background: linear-gradient(90deg, #2d3038, transparent);
+      margin: 8px 0 24px;
+    }
+
+    /* ─── token swatch grid ─── */
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .sw {
+      border-radius: 10px;
+      overflow: hidden;
+      background: #14161a;
+      border: 1px solid #2d3038;
+    }
+
+    .sw-fill {
+      height: 88px;
+      display: block;
+    }
+
+    .sw-meta {
+      padding: 8px 10px 10px;
+    }
+
+    .sw-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #c8c9cd;
+      line-height: 1.35;
+      word-break: break-all;
+    }
+
+    .sw-tag {
+      font-size: 10.5px;
+      color: #6d6f74;
+      margin-top: 2px;
+      letter-spacing: 0.03em;
+    }
+
+    /* surface contexts — each section sets --ts-this-bg to a different
+     surface so you can verify the system holds on every base */
+    .ctx {
+      padding: 22px 24px;
+      border-radius: 14px;
+      margin-bottom: 28px;
+      border: 1px solid var(--ts-this-bg-border);
+      background: var(--ts-this-bg);
+    }
+
+    .ctx-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .ctx-head h3 {
+      font-size: 14px;
+      font-weight: 500;
+      margin: 0;
+      color: #e8e9ea;
+      letter-spacing: 0.04em;
+    }
+
+    .ctx-head .basecol {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #9ea0a5;
+    }
+
+    /* compare strip: v1 (oklch) vs v2 (oklab) focus side-by-side */
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .cmp {
+      border-radius: 12px;
+      padding: 18px;
+      border: 1px solid var(--ts-this-bg-border);
+      background: var(--ts-this-bg);
+    }
+
+    .cmp-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #9ea0a5;
+      margin-bottom: 8px;
+    }
+
+    .cmp-bug {
+      color: #ff8b73;
+    }
+
+    .cmp-fix {
+      color: #6ee7a8;
+    }
+
+    .cmp-tile {
+      height: 64px;
+      border-radius: 8px;
+      border: 1px solid var(--ts-this-bg-border-0);
+      margin-bottom: 6px;
+    }
+
+    .cmp-formula {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      color: #6d6f74;
+      line-height: 1.5;
+    }
+
+    /* gradient gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .gtile {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--ts-this-bg-border);
+    }
+
+    .gtile-fill {
+      height: 124px;
+    }
+
+    .gtile-meta {
+      background: var(--ts-this-bg-dark);
+      padding: 10px 12px;
+    }
+
+    .gtile-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #c8c9cd;
+    }
+
+    .gtile-kind {
+      font-size: 10.5px;
+      color: #6d6f74;
+      margin-top: 2px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* live UI snippet: focused input + buttons across surfaces */
+    .live {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .live-card {
+      padding: 18px;
+      border-radius: 12px;
+      background: var(--ts-this-bg);
+      border: 1px solid var(--ts-this-bg-border);
+    }
+
+    .live-card h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #9ea0a5;
+      margin: 0 0 12px;
+      font-weight: 500;
+    }
+
+    .live-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      --ts-this-bg: var(--ts-this-bg-bright-2);
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: var(--ts-this-bg);
+      color: #e8e9ea;
+      border: 1px solid var(--ts-this-bg-border);
+      font: 500 12px 'Space Grotesk', sans-serif;
+      cursor: pointer;
+      transition: background 120ms, border-color 120ms;
+    }
+
+    .btn:hover {
+      background: var(--ts-this-bg-hover);
+      border-color: var(--ts-this-bg-border-hover);
+    }
+
+    .btn:active {
+      background: var(--ts-this-bg-active);
+    }
+
+    .btn.is-focus,
+    .btn:focus-visible {
+      background: var(--ts-this-bg-focus);
+      border-color: var(--ts-this-bg-border-focus);
+      outline: 2px solid var(--ts-this-bg-focus-ring);
+      outline-offset: 2px;
+    }
+
+    .input {
+      width: 100%;
+      background: var(--ts-grad-input);
+      color: #e8e9ea;
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font: 13px 'JetBrains Mono', monospace;
+      box-sizing: border-box;
+      transition: background 140ms, border-color 140ms, outline-color 140ms;
+    }
+
+    .input:hover {
+      background: var(--ts-grad-input-hover);
+      border-color: var(--ts-this-bg-border-hover);
+    }
+
+    .input:focus {
+      background: var(--ts-grad-input-focus);
+      border-color: var(--ts-this-bg-border-focus);
+      outline: 2px solid var(--ts-this-bg-focus-ring);
+      outline-offset: 1px;
+    }
+
+    .input.is-focus {
+      background: var(--ts-grad-input-focus);
+      border-color: var(--ts-this-bg-border-focus);
+      outline: 2px solid var(--ts-this-bg-focus-ring);
+      outline-offset: 1px;
+    }
+
+    /* Tweaks panel */
+    .knobs {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 280px;
+      background: rgba(28, 30, 36, 0.92);
+      backdrop-filter: blur(16px);
+      border: 1px solid #2d3038;
+      border-radius: 14px;
+      padding: 16px;
+      z-index: 50;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+    }
+
+    .knobs h5 {
+      margin: 0 0 12px;
+      font: 600 10px 'JetBrains Mono', monospace;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #c8c9cd;
+    }
+
+    .knobs .row {
+      display: grid;
+      grid-template-columns: 1fr 56px;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+      font: 11px 'JetBrains Mono', monospace;
+      color: #9ea0a5;
+    }
+
+    .knobs input[type=range] {
+      width: 100%;
+      accent-color: var(--ts-accent);
+    }
+
+    .knobs .val {
+      color: #e8e9ea;
+      font-size: 11px;
+      text-align: right;
+    }
+
+    .knobs select {
+      background: #14161a;
+      color: #e8e9ea;
+      border: 1px solid #2d3038;
+      border-radius: 6px;
+      padding: 4px 6px;
+      font: 11px 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>--ts-this-bg · v2</h1>
+  <p class="lede">
+    Drop-in replacement for the v1 surface engine. Fixes the
+    <code>--ts-this-bg-focus</code> purple bug (caused by <code>color-mix(in oklch, …)</code>
+    wrapping hue through magenta when mixing a blue-tinted neutral with the orange
+    accent), and extends the system with full state coverage, three border weights,
+    semantic tints, and a parametric gradient library (linear · radial · mesh ·
+    conic · sheen · glass · veil).
+  </p>
+
+  <!-- ─────────────────────────────────────────────────────────────────
+     THE FIX: side-by-side comparison
+     ───────────────────────────────────────────────────────────────── -->
+  <h2>1 · The focus fix</h2>
+  <p class="sub">
+    v1 mixes in <code>oklch</code>, which interpolates the hue ring. Between a
+    blue-shifted dark (h ≈ 274°) and orange accent (h ≈ 39°) the short arc passes
+    through magenta. v2 mixes in <code>oklab</code> using a desaturated accent tint
+    and a lower default percentage (8%). Result: subtle warm focus, no purple, on
+    any base surface.
+  </p>
+  <div class="rule"></div>
+
+  <div class="compare" style="--ts-this-bg: oklch(24.42% 0.00772 274.63);">
+    <div class="cmp">
+      <div class="cmp-label cmp-bug">✗ v1 — oklch wash, 20%</div>
+      <div class="cmp-tile" style="background: color-mix(in oklch, var(--ts-this-bg), var(--ts-accent) 20%);"></div>
+      <div class="cmp-formula">color-mix(in <b>oklch</b>, --ts-this-bg, --ts-accent <b>20%</b>)<br>→ hue wraps via magenta → reads as purple</div>
+    </div>
+    <div class="cmp">
+      <div class="cmp-label cmp-fix">✓ v2 — oklab tint, 8%</div>
+      <div class="cmp-tile" style="background: var(--ts-this-bg-focus);"></div>
+      <div class="cmp-formula">color-mix(in <b>oklab</b>, --ts-this-bg, --ts-tone-accent-tint <b>8%</b>)<br>→ no hue path, reads as a warm focus tint</div>
+    </div>
+  </div>
+
+  <div class="compare" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+    <div class="cmp">
+      <div class="cmp-label cmp-bug">✗ v1 on bg-1</div>
+      <div class="cmp-tile" style="background: color-mix(in oklch, var(--ts-this-bg), var(--ts-accent) 20%);"></div>
+    </div>
+    <div class="cmp">
+      <div class="cmp-label cmp-fix">✓ v2 on bg-1</div>
+      <div class="cmp-tile" style="background: var(--ts-this-bg-focus);"></div>
+    </div>
+  </div>
+
+
+  <!-- ─────────────────────────────────────────────────────────────────
+     2 · Surface scale + states + borders — across three bases
+     ───────────────────────────────────────────────────────────────── -->
+  <h2>2 · Surface scale · states · borders</h2>
+  <p class="sub">
+    Every token is recomputed from whichever <code>--ts-this-bg</code> is in scope.
+    These three contexts each set a different base; identical token names produce
+    surface-appropriate results.
+  </p>
+  <div class="rule"></div>
+
+  <!-- Context A: bg-1 (canonical card) -->
+  <div class="ctx" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+    <div class="ctx-head">
+      <h3>Context A · --ts-this-bg = bg-1</h3>
+      <div class="basecol">oklch(20.92% 0.00611 271.12)</div>
+    </div>
+    <div class="swatches" data-list="surfaces"></div>
+  </div>
+
+  <!-- Context B: bg-3 (raised) -->
+  <div class="ctx" style="--ts-this-bg: oklch(28.19% 0.00924 276.79);">
+    <div class="ctx-head">
+      <h3>Context B · --ts-this-bg = bg-3</h3>
+      <div class="basecol">oklch(28.19% 0.00924 276.79)</div>
+    </div>
+    <div class="swatches" data-list="surfaces"></div>
+  </div>
+
+  <!-- Context C: accent (verifies hue stability on chromatic surfaces) -->
+  <div class="ctx" style="--ts-this-bg: var(--ts-accent);">
+    <div class="ctx-head">
+      <h3>Context C · --ts-this-bg = accent (chromatic surface)</h3>
+      <div class="basecol">oklch(67.59% 0.21747 38.80)</div>
+    </div>
+    <div class="swatches" data-list="surfaces"></div>
+  </div>
+
+
+  <!-- ─────────────────────────────────────────────────────────────────
+     3 · GRADIENT LIBRARY
+     ───────────────────────────────────────────────────────────────── -->
+  <h2>3 · Gradient library</h2>
+  <p class="sub">
+    Linear · radial · mesh · conic · sheen · glass · veil. Every gradient derives
+    from <code>--ts-this-bg</code> and the tokenized stops / angle / mix-percent.
+    Tune <code>--ts-grad-angle</code>, <code>--ts-grad-mix-perc</code>, or
+    <code>--ts-grad-pos-*</code> on any scope to retune the whole family.
+  </p>
+  <div class="rule"></div>
+
+  <div class="ctx" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+    <div class="ctx-head">
+      <h3>BG family — surface-only</h3>
+    </div>
+    <div class="gallery" data-list="grad-bg"></div>
+  </div>
+
+  <div class="ctx" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+    <div class="ctx-head">
+      <h3>ACCENT family — brand-true</h3>
+    </div>
+    <div class="gallery" data-list="grad-accent"></div>
+  </div>
+
+  <div class="ctx" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+    <div class="ctx-head">
+      <h3>MIX family — bg + accent through oklab (never purple)</h3>
+    </div>
+    <div class="gallery" data-list="grad-mix"></div>
+  </div>
+
+  <div class="ctx" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+    <div class="ctx-head">
+      <h3>CARD &amp; INPUT &amp; VEIL families</h3>
+    </div>
+    <div class="gallery" data-list="grad-other"></div>
+  </div>
+
+
+  <!-- ─────────────────────────────────────────────────────────────────
+     4 · Live UI on the new tokens
+     ───────────────────────────────────────────────────────────────── -->
+  <h2>4 · Live UI — buttons + inputs across surfaces</h2>
+  <p class="sub">
+    Click / Tab into the inputs and buttons. Focus reads as a warm tint, not a purple wash.
+  </p>
+  <div class="rule"></div>
+
+  <div class="live">
+    <div class="live-card" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+      <h4>on bg-1</h4>
+      <input class="input" placeholder="type something…">
+      <div style="height:8px"></div>
+      <input class="input is-focus" value="focused state (live)">
+      <div style="height:14px"></div>
+      <div class="live-row">
+        <button class="btn">Default</button>
+        <button class="btn is-focus">Focus</button>
+      </div>
+    </div>
+
+    <div class="live-card" style="--ts-this-bg: oklch(28.19% 0.00924 276.79);">
+      <h4>on bg-3</h4>
+      <input class="input" placeholder="type something…">
+      <div style="height:8px"></div>
+      <input class="input is-focus" value="focused state (live)">
+      <div style="height:14px"></div>
+      <div class="live-row">
+        <button class="btn">Default</button>
+        <button class="btn is-focus">Focus</button>
+      </div>
+    </div>
+
+    <div class="live-card" style="--ts-this-bg: oklch(37.14% 0.00894 268.42);">
+      <h4>on bg-5</h4>
+      <input class="input" placeholder="type something…">
+      <div style="height:8px"></div>
+      <input class="input is-focus" value="focused state (live)">
+      <div style="height:14px"></div>
+      <div class="live-row">
+        <button class="btn">Default</button>
+        <button class="btn is-focus">Focus</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── Tweaks panel ─── -->
+  <div class="knobs">
+    <h5>Live knobs</h5>
+    <div class="row"><label for="k-focus">--ts-mix-perc-focus</label><span class="val"><span id="v-focus">8</span>%</span></div>
+    <input id="k-focus" type="range" min="0" max="40" step="1" value="8">
+    <div class="row"><label for="k-hover">--ts-mix-perc-hover</label><span class="val"><span id="v-hover">22</span>%</span></div>
+    <input id="k-hover" type="range" min="0" max="60" step="1" value="22">
+    <div class="row"><label for="k-mix">--ts-grad-mix-perc</label><span class="val"><span id="v-mix">18</span>%</span></div>
+    <input id="k-mix" type="range" min="0" max="60" step="1" value="18">
+    <div class="row"><label for="k-angle">--ts-grad-angle</label><span class="val"><span id="v-angle">136</span>°</span></div>
+    <input id="k-angle" type="range" min="0" max="360" step="2" value="136">
+    <div class="row"><label for="k-bright">--ts-this-bg-grad-bright-pct</label><span class="val"><span id="v-bright">10</span>%</span></div>
+    <input id="k-bright" type="range" min="0" max="40" step="1" value="10">
+    <div class="row"><label for="k-dark">--ts-this-bg-grad-dark-pct</label><span class="val"><span id="v-dark">16</span>%</span></div>
+    <input id="k-dark" type="range" min="0" max="40" step="1" value="16">
+  </div>
+
+  <script>
+    // ─── populate swatch grids ───
+    const SURFACES = [
+      ['--ts-this-bg', 'base'],
+      ['--ts-this-bg-bright-1', '+contrast 3.5%'],
+      ['--ts-this-bg-bright-2', '+contrast 7%'],
+      ['--ts-this-bg-bright', '+contrast 10%'],
+      ['--ts-this-bg-bright-3', '+contrast 16%'],
+      ['--ts-this-bg-raised', '+contrast 22%'],
+      ['--ts-this-bg-dark-1', '-floor 2.4%'],
+      ['--ts-this-bg-dark-2', '-floor 8%'],
+      ['--ts-this-bg-dark', '-floor 16%'],
+      ['--ts-this-bg-dark-3', '-floor 13.6%'],
+      ['--ts-this-bg-recessed', '-floor 22%'],
+
+      ['--ts-this-bg-dim', 'α 88%'],
+      ['--ts-this-bg-dim-2', 'α 75%'],
+      ['--ts-this-bg-dim-3', 'α 50%'],
+      ['--ts-this-bg-dim-4', 'α 35%'],
+      ['--ts-this-bg-dim-5', 'α 18%'],
+      ['--ts-this-bg-muted', '+gray 22%'],
+
+      ['--ts-this-bg-hover', 'state · hover'],
+      ['--ts-this-bg-active', 'state · active'],
+      ['--ts-this-bg-pressed', 'state · pressed'],
+      ['--ts-this-bg-focus', 'state · focus ✓ fixed'],
+      ['--ts-this-bg-focus-hover', 'focus + hover'],
+      ['--ts-this-bg-selected', 'state · selected'],
+      ['--ts-this-bg-disabled', 'state · disabled'],
+      ['--ts-this-bg-dragging', 'state · dragging'],
+
+      ['--ts-this-bg-success', 'semantic · success'],
+      ['--ts-this-bg-danger', 'semantic · danger'],
+      ['--ts-this-bg-warning', 'semantic · warning'],
+      ['--ts-this-bg-info', 'semantic · info'],
+
+      ['--ts-this-bg-border-0', 'border · 0'],
+      ['--ts-this-bg-border', 'border · 1'],
+      ['--ts-this-bg-border-2', 'border · 2'],
+      ['--ts-this-bg-border-hover', 'border · hover'],
+      ['--ts-this-bg-border-active', 'border · active'],
+      ['--ts-this-bg-border-focus', 'border · focus'],
+      ['--ts-this-bg-border-disabled', 'border · disabled'],
+      ['--ts-this-bg-border-selected', 'border · selected'],
+    ];
+
+    const GRAD_BG = [
+      ['--ts-grad-bg', 'linear'],
+      ['--ts-grad-bg-flat', 'linear · flat'],
+      ['--ts-grad-bg-comp', 'linear · compound'],
+      ['--ts-grad-bg-hover', 'linear · hover'],
+      ['--ts-grad-bg-active', 'linear · active'],
+      ['--ts-grad-bg-radial', 'radial'],
+      ['--ts-grad-bg-mesh', 'mesh (4 blobs)'],
+      ['--ts-grad-bg-conic', 'conic'],
+      ['--ts-grad-bg-sheen', 'sheen'],
+    ];
+    const GRAD_ACCENT = [
+      ['--ts-grad-accent', 'linear'],
+      ['--ts-grad-accent-flat', 'linear · flat'],
+      ['--ts-grad-accent-glow', 'radial · glow'],
+      ['--ts-grad-accent-radial', 'radial'],
+      ['--ts-grad-accent-mesh', 'mesh'],
+      ['--ts-grad-accent-conic', 'conic'],
+    ];
+    const GRAD_MIX = [
+      ['--ts-grad-mix', 'linear'],
+      ['--ts-grad-mix-strong', 'linear · strong'],
+      ['--ts-grad-mix-radial', 'radial'],
+      ['--ts-grad-mix-mesh', 'mesh'],
+    ];
+    const GRAD_OTHER = [
+      ['--ts-grad-card', 'card · linear'],
+      ['--ts-grad-card-glass', 'card · glass'],
+      ['--ts-grad-card-elevated', 'card · elevated'],
+      ['--ts-grad-input', 'input'],
+      ['--ts-grad-input-hover', 'input · hover'],
+      ['--ts-grad-input-focus', 'input · focus'],
+      ['--ts-grad-fade-bottom', 'veil · fade ↓'],
+      ['--ts-grad-fade-top', 'veil · fade ↑'],
+      ['--ts-grad-vignette', 'veil · vignette'],
+      ['--ts-grad-spotlight', 'veil · spotlight'],
+      ['--ts-grad-scrim', 'veil · scrim'],
+    ];
+
+    function fillSwatches(host, items) {
+      host.innerHTML = items.map(([tok, tag]) => `
+      <div class="sw">
+        <span class="sw-fill" style="background: var(${tok});"></span>
+        <div class="sw-meta">
+          <div class="sw-name">${tok}</div>
+          <div class="sw-tag">${tag}</div>
+        </div>
+      </div>
+    `).join('');
+    }
+    function fillGallery(host, items) {
+      host.innerHTML = items.map(([tok, tag]) => `
+      <div class="gtile">
+        <div class="gtile-fill" style="background: var(${tok});"></div>
+        <div class="gtile-meta">
+          <div class="gtile-name">${tok}</div>
+          <div class="gtile-kind">${tag}</div>
+        </div>
+      </div>
+    `).join('');
+    }
+
+    document.querySelectorAll('[data-list="surfaces"]').forEach(el => fillSwatches(el, SURFACES));
+    document.querySelectorAll('[data-list="grad-bg"]').forEach(el => fillGallery(el, GRAD_BG));
+    document.querySelectorAll('[data-list="grad-accent"]').forEach(el => fillGallery(el, GRAD_ACCENT));
+    document.querySelectorAll('[data-list="grad-mix"]').forEach(el => fillGallery(el, GRAD_MIX));
+    document.querySelectorAll('[data-list="grad-other"]').forEach(el => fillGallery(el, GRAD_OTHER));
+
+    // ─── live knobs ───
+    const root = document.documentElement.style;
+    function bind(id, prop, unit, displayId) {
+      const el = document.getElementById(id);
+      const disp = document.getElementById(displayId);
+      el.addEventListener('input', () => {
+        root.setProperty(prop, el.value + unit);
+        disp.textContent = el.value;
+      });
+    }
+    bind('k-focus', '--ts-mix-perc-focus', '%', 'v-focus');
+    bind('k-hover', '--ts-mix-perc-hover', '%', 'v-hover');
+    bind('k-mix', '--ts-grad-mix-perc', '%', 'v-mix');
+    bind('k-angle', '--ts-grad-angle', 'deg', 'v-angle');
+    bind('k-bright', '--ts-this-bg-grad-bright-pct', '%', 'v-bright');
+    bind('k-dark', '--ts-this-bg-grad-dark-pct', '%', 'v-dark');
+  </script>
+</body>
+
+</html>

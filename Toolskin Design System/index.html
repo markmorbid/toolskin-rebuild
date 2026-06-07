@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Toolskin · Surface + Gradient Engine — Handoff</title>
+<link rel="stylesheet" href="toolskin.css">
+<link rel="stylesheet" href="toolskin-this-bg-v2.css">
+<link rel="stylesheet" href="toolskin-gradients-v3.css">
+<style>
+  :root {
+    --ink:   oklch(95% 0.005 270);
+    --ink-2: oklch(72% 0.008 270);
+    --ink-3: oklch(52% 0.008 270);
+    --rule:  oklch(22% 0.008 270);
+    --bg-deep: oklch(13% 0.005 270);
+    --bg-floor: oklch(9% 0.005 270);
+  }
+  html, body { background: var(--bg-floor); }
+  body {
+    margin: 0;
+    color: var(--ink);
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: linear-gradient(180deg in oklab,
+      var(--bg-deep) 0%, var(--bg-floor) 60%, oklch(7% 0.005 270) 100%);
+    z-index: 0;
+  }
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 96px 56px 120px;
+  }
+
+  /* masthead */
+  .masthead { margin-bottom: 80px; max-width: 720px; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--ts-accent);
+    box-shadow: 0 0 12px oklch(from var(--ts-accent) l c h / 0.6);
+  }
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: clamp(40px, 4.6vw, 60px);
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    margin: 0 0 20px;
+    color: var(--ink);
+    max-width: 16ch;
+  }
+  h1 em { font-style: normal; color: var(--ink-2); }
+  p.lede {
+    color: var(--ink-2);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 62ch;
+    margin: 0 0 28px;
+  }
+  p.lede b { color: var(--ink); font-weight: 500; }
+  code, .mono { font-family: 'JetBrains Mono', monospace; }
+  code.inline {
+    font-size: 13px; color: var(--ink);
+    background: oklch(from var(--ts-accent) 26% calc(c * 0.4) h / 0.3);
+    padding: 2px 6px; border-radius: 4px;
+  }
+  .specs {
+    display: inline-flex; gap: 18px;
+    font: 11px 'JetBrains Mono', monospace;
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .specs > span::before { content: '·  '; color: oklch(from var(--ts-accent) l c h / 0.7); }
+  .specs > span:first-child::before { content: ''; }
+
+  /* sections */
+  .section { margin-top: 88px; }
+  .section h2 {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin: 0 0 6px;
+  }
+  .section h2 + p {
+    font-size: 14px;
+    color: var(--ink-3);
+    margin: 0 0 24px;
+    max-width: 68ch;
+    line-height: 1.55;
+  }
+
+  /* file cards */
+  .files {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .files-row {
+    grid-column: 1 / -1;
+    font: 10px 'JetBrains Mono', monospace;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 12px 0 4px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 6px;
+  }
+  .file {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    --ts-this-bg: oklch(15% 0.006 270);
+    background: var(--ts-this-bg);
+    border: 1px solid var(--rule);
+    padding: 22px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: border-color 200ms, transform 200ms;
+  }
+  .file:hover { border-color: oklch(from var(--ts-grad-tint, var(--ts-accent)) 55% calc(c * 0.6) h / 0.6); transform: translateY(-2px); }
+  .file-paint {
+    position: absolute; inset: 0; opacity: 0.7; pointer-events: none;
+  }
+  .file > * { position: relative; z-index: 1; }
+
+  .file-kind {
+    font: 10px 'JetBrains Mono', monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: oklch(from var(--ts-grad-tint, var(--ts-accent)) 78% calc(c * 0.7) h);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .file-kind .dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: oklch(from var(--ts-grad-tint, var(--ts-accent)) 78% c h);
+    box-shadow: 0 0 8px oklch(from var(--ts-grad-tint, var(--ts-accent)) 78% c h / 0.7);
+  }
+  .file-name {
+    font: 500 18px 'Space Grotesk', sans-serif;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .file-path {
+    font: 11px 'JetBrains Mono', monospace;
+    color: var(--ink-3);
+    word-break: break-all;
+  }
+  .file-desc {
+    color: var(--ink-2);
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin-top: 6px;
+  }
+  .file-arrow {
+    margin-top: auto;
+    font: 11px 'JetBrains Mono', monospace;
+    color: oklch(from var(--ts-grad-tint, var(--ts-accent)) 80% c h);
+    letter-spacing: 0.06em;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .file.is-doc       { --ts-grad-tint: oklch(72% 0.14 215); }
+  .file.is-css       { --ts-grad-tint: oklch(70% 0.18 145); }
+  .file.is-showcase  { --ts-grad-tint: oklch(67% 0.21 39); }
+
+  /* code blocks */
+  pre.code {
+    margin: 0;
+    background: oklch(13% 0.005 270);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 18px 22px;
+    font: 12.5px/1.6 'JetBrains Mono', monospace;
+    color: var(--ink);
+    overflow: auto;
+  }
+  pre.code .k { color: oklch(70% 0.14 215); }
+  pre.code .v { color: oklch(80% 0.12 75); }
+  pre.code .c { color: var(--ink-3); }
+
+  /* token reference */
+  .toks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    padding: 28px;
+    background: oklch(13% 0.005 270);
+  }
+  .toks h3 {
+    font: 600 11px 'JetBrains Mono', monospace;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin: 0 0 14px;
+  }
+  .toks dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 8px 14px; }
+  .toks dt {
+    font: 11.5px 'JetBrains Mono', monospace;
+    color: oklch(70% 0.14 215);
+    white-space: nowrap;
+  }
+  .toks dd {
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  /* fix the focus pill demo */
+  .demo-fix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 18px;
+  }
+  .demo-cell {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 18px;
+    background: oklch(17% 0.006 270);
+  }
+  .demo-cell .badge {
+    font: 10px 'JetBrains Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .demo-cell.bug .badge { color: oklch(70% 0.16 25); }
+  .demo-cell.fix .badge { color: oklch(75% 0.14 145); }
+  .demo-cell .tile {
+    height: 56px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .demo-cell .tile.bug { background: color-mix(in oklch, oklch(20.92% 0.00611 271.12), var(--ts-accent) 20%); }
+  .demo-cell .tile.fix { background: color-mix(in oklab, oklch(20.92% 0.00611 271.12), oklch(from var(--ts-accent) 60% calc(c * 0.55) h) 8%); }
+  .demo-cell .form {
+    font: 10.5px 'JetBrains Mono', monospace;
+    color: var(--ink-3);
+    line-height: 1.55;
+  }
+
+  /* footer */
+  .footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font: 11px 'JetBrains Mono', monospace;
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+  }
+  .footer .row { display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <div class="eyebrow">Toolskin · Engine handoff</div>
+    <h1>Surface + Gradient<br><em>engine package.</em></h1>
+    <p class="lede">
+      <b>OKLAB-safe state tokens</b> on top of the existing toolskin base,
+      plus a <b>painterly, fully token-driven gradient library</b>. Every
+      surface, every state, every gradient resolves from
+      <code class="inline">--ts-this-bg</code> and
+      <code class="inline">--ts-grad-tint</code> — no hard-coded colors anywhere.
+    </p>
+    <div class="specs">
+      <span>3 CSS files</span>
+      <span>2 showcases</span>
+      <span>full docs</span>
+      <span>.ts-* namespace</span>
+    </div>
+  </header>
+
+
+  <!-- ─── FILES ─── -->
+  <section class="section">
+    <h2>Package contents</h2>
+    <p>Load the three CSS files in order. The HTML showcases are interactive — open them in a browser to explore.</p>
+
+    <div class="files">
+      <div class="files-row">CSS · ship these</div>
+
+      <a class="file is-css" href="toolskin.css">
+        <div class="file-paint ts-grad-aurora-subtle"></div>
+        <div class="file-kind"><span class="dot"></span>Base · existing</div>
+        <div class="file-name">toolskin.css</div>
+        <div class="file-path">toolskin.css</div>
+        <div class="file-desc">Base tokens, typography, accent engine. Already in your project — left untouched.</div>
+        <div class="file-arrow">→ open file</div>
+      </a>
+
+      <a class="file is-css" href="toolskin-this-bg-v2.css">
+        <div class="file-paint ts-grad-aurora-subtle"></div>
+        <div class="file-kind"><span class="dot"></span>Surface engine · v2</div>
+        <div class="file-name">toolskin-this-bg-v2.css</div>
+        <div class="file-path">toolskin-this-bg-v2.css</div>
+        <div class="file-desc">OKLAB-safe derivatives of <code class="inline" style="font-size:11.5px;">--ts-this-bg</code>: states, borders, dims, semantic tints, and surface gradients.</div>
+        <div class="file-arrow">→ open file</div>
+      </a>
+
+      <a class="file is-css" style="grid-column: 1 / -1;" href="toolskin-gradients-v3.css">
+        <div class="file-paint ts-grad-aurora-subtle"></div>
+        <div class="file-kind"><span class="dot"></span>Gradient library · v3.1</div>
+        <div class="file-name">toolskin-gradients-v3.css</div>
+        <div class="file-path">toolskin-gradients-v3.css</div>
+        <div class="file-desc">19 painterly gradients with 8-stop oklab-interpolated easing. Tint-agnostic via <code class="inline" style="font-size:11.5px;">oklch(from … / α)</code>. Capped by <code class="inline" style="font-size:11.5px;">--ts-grad-peak</code> for atmospheric defaults.</div>
+        <div class="file-arrow">→ open file</div>
+      </a>
+
+
+      <div class="files-row">Showcases · interactive</div>
+
+      <a class="file is-showcase" href="this-bg-v2-showcase.html">
+        <div class="file-paint ts-grad-halo"></div>
+        <div class="file-kind"><span class="dot"></span>Showcase</div>
+        <div class="file-name">Surface engine · v2</div>
+        <div class="file-path">this-bg-v2-showcase.html</div>
+        <div class="file-desc">Side-by-side v1✗/v2✓ focus comparison, token grid on three base surfaces, live tweak panel.</div>
+        <div class="file-arrow">→ open showcase</div>
+      </a>
+
+      <a class="file is-showcase" href="gradients-v3-bento.html">
+        <div class="file-paint ts-grad-halo-tr"></div>
+        <div class="file-kind"><span class="dot"></span>Showcase + generator</div>
+        <div class="file-name">Gradient library · v3.1</div>
+        <div class="file-path">gradients-v3-bento.html</div>
+        <div class="file-desc">Bento layout demonstrating all gradients · recipe wall · gradient generator with Copy/Download.</div>
+        <div class="file-arrow">→ open showcase</div>
+      </a>
+
+
+      <div class="files-row">Documentation</div>
+
+      <a class="file is-doc" href="HANDOFF.md">
+        <div class="file-paint ts-grad-fog"></div>
+        <div class="file-kind"><span class="dot"></span>Master guide</div>
+        <div class="file-name">HANDOFF.md</div>
+        <div class="file-path">HANDOFF.md</div>
+        <div class="file-desc">Load order, naming conventions, common recipes, tuning cheat sheet, verification checklist.</div>
+        <div class="file-arrow">→ read</div>
+      </a>
+
+      <a class="file is-doc" href="GRADIENTS.md">
+        <div class="file-paint ts-grad-fog"></div>
+        <div class="file-kind"><span class="dot"></span>Gradient reference</div>
+        <div class="file-name">GRADIENTS.md</div>
+        <div class="file-path">GRADIENTS.md</div>
+        <div class="file-desc">Token catalog, easing curve tables, usage patterns, browser support, common pitfalls.</div>
+        <div class="file-arrow">→ read</div>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ─── INSTALL ─── -->
+  <section class="section">
+    <h2>Install</h2>
+    <p>Add to <code class="inline">&lt;head&gt;</code> in this exact order:</p>
+    <pre class="code"><span class="c">&lt;!-- 1. base — existing tokens, type, fonts --&gt;</span>
+<span class="k">&lt;link</span> rel=<span class="v">"stylesheet"</span> href=<span class="v">"toolskin.css"</span><span class="k">&gt;</span>
+
+<span class="c">&lt;!-- 2. surface engine — derives state + border + dim from --ts-this-bg --&gt;</span>
+<span class="k">&lt;link</span> rel=<span class="v">"stylesheet"</span> href=<span class="v">"toolskin-this-bg-v2.css"</span><span class="k">&gt;</span>
+
+<span class="c">&lt;!-- 3. gradient library — derives every gradient from --ts-grad-tint --&gt;</span>
+<span class="k">&lt;link</span> rel=<span class="v">"stylesheet"</span> href=<span class="v">"toolskin-gradients-v3.css"</span><span class="k">&gt;</span></pre>
+  </section>
+
+
+  <!-- ─── FIX RECAP ─── -->
+  <section class="section">
+    <h2>The fix that started this</h2>
+    <p>v1's <code class="inline">--ts-this-bg-focus</code> mixed in <code class="inline">oklch</code>. Between a blue-tinted dark neutral and the orange accent, the short hue arc passes through magenta — that's the purple bug. v2 fixes it with three layered moves: mix in <code class="inline">oklab</code>, use a desaturated <code class="inline">--ts-tone-accent-tint</code>, and drop the percentage from 20% to 8%.</p>
+
+    <div class="demo-fix">
+      <div class="demo-cell bug">
+        <div class="badge">✗ v1 — oklch wash, 20%</div>
+        <div class="tile bug"></div>
+        <div class="form">color-mix(in <b style="color:var(--ink);">oklch</b>, --ts-this-bg, --ts-accent <b style="color:var(--ink);">20%</b>)<br>→ hue wraps via magenta → reads as purple</div>
+      </div>
+      <div class="demo-cell fix">
+        <div class="badge">✓ v2 — oklab tint, 8%</div>
+        <div class="tile fix"></div>
+        <div class="form">color-mix(in <b style="color:var(--ink);">oklab</b>, --ts-this-bg, --ts-tone-accent-tint <b style="color:var(--ink);">8%</b>)<br>→ no hue path, reads as a warm focus tint</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── TOKEN REFERENCE ─── -->
+  <section class="section">
+    <h2>Token quick reference</h2>
+    <p>These are the high-level inputs. Override on any scope to retune a subtree. Full list in the source files and in <code class="inline">GRADIENTS.md</code>.</p>
+
+    <div class="toks">
+      <div>
+        <h3>Surface engine</h3>
+        <dl>
+          <dt>--ts-this-bg</dt>            <dd>base surface for this scope</dd>
+          <dt>--ts-tone-contrast</dt>      <dd>achromatic "lighten toward" anchor</dd>
+          <dt>--ts-tone-floor</dt>         <dd>achromatic "darken toward" anchor</dd>
+          <dt>--ts-tone-accent-tint</dt>   <dd>desaturated brand tint used for focus / selected</dd>
+          <dt>--ts-mix-perc-focus</dt>     <dd>focus tint strength (default 8%)</dd>
+          <dt>--ts-mix-perc-hover</dt>     <dd>hover lift (default 22%)</dd>
+          <dt>--ts-mix-perc-active</dt>    <dd>border-active tint (default 32%)</dd>
+        </dl>
+      </div>
+      <div>
+        <h3>Gradient library</h3>
+        <dl>
+          <dt>--ts-grad-tint</dt>      <dd>color the whole library pulls from</dd>
+          <dt>--ts-grad-tint-2/-3</dt> <dd>secondary / tertiary tints for aurora</dd>
+          <dt>--ts-grad-peak</dt>      <dd>global alpha ceiling (default 0.55)</dd>
+          <dt>--ts-grad-intensity</dt> <dd>relative multiplier (0–1.5)</dd>
+          <dt>--ts-grad-angle</dt>     <dd>linear/sweep axis (default 136deg)</dd>
+          <dt>--ts-grad-pos-off-tl</dt><dd>off-canvas anchor point</dd>
+          <dt>--ts-grad-halo-a-N</dt>  <dd>per-curve alpha at stop N (1–8)</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── COMMON RECIPES ─── -->
+  <section class="section">
+    <h2>Three recipes you'll use</h2>
+    <p>All three follow the same shape: set <code class="inline">--ts-this-bg</code> + <code class="inline">--ts-grad-tint</code> + a peak, then drop the utility class.</p>
+
+    <pre class="code"><span class="c">/* — Atmospheric hero — */</span>
+.hero {
+  <span class="k">--ts-this-bg</span>:        <span class="v">var(--ts-bg-1)</span>;
+  <span class="k">--ts-grad-tint</span>:      <span class="v">var(--ts-accent)</span>;
+  <span class="k">--ts-grad-peak</span>:      <span class="v">0.65</span>;
+  background: <span class="v">var(--ts-grad-stack-editorial)</span>;
+}
+
+<span class="c">/* — Feature card — */</span>
+.feature {
+  <span class="k">--ts-this-bg</span>:        <span class="v">var(--ts-bg-2)</span>;
+  <span class="k">--ts-grad-tint</span>:      <span class="v">var(--ts-accent)</span>;
+  <span class="k">--ts-grad-peak</span>:      <span class="v">0.55</span>;
+}
+.feature        { background: <span class="v">var(--ts-grad-stack-aurora-on-bg)</span>; }
+.feature:hover  { <span class="k">--ts-grad-peak</span>: <span class="v">0.7</span>; }
+
+<span class="c">/* — Quiet section plate — */</span>
+.section {
+  background: <span class="v">var(--ts-grad-plate)</span>, <span class="v">var(--ts-bg-body)</span>;
+}</pre>
+  </section>
+
+
+  <div class="footer">
+    <div class="row">
+      <span>Engine v3.1 · OKLAB safe · .ts-* namespace</span>
+      <span>Handoff for agents · drop-in</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

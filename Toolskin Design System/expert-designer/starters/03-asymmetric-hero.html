@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Starter 03 · Asymmetric hero — fully rendered demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400..700&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../templates/tokens.css">
+  <link rel="stylesheet" href="../templates/starters-extraction.css">
+  <style>
+
+  </style>
+</head>
+
+<body class="ts-showcase ts-asymmetric-landing">
+
+  <!-- ════ HERO ═══════════════════════════════════════════════════════ -->
+  <section class="ts-hero ts-container" style="max-width:unset;">
+    <div class="ts-hero__grid" style="max-width: var(--ts-container-xl);">
+
+      <aside class="ts-hero__rail">
+        <!-- SLOT · kicker 1 (mono UPPERCASE, ~3 words) -->
+        <span class="ts-hero__kicker">EST. 2026</span>
+        <!-- SLOT · kicker 2 (accent — the ONE accented kicker) -->
+        <span class="ts-hero__kicker ts-hero__kicker--accent">/ Product · v2.0</span>
+        <!-- SLOT · kicker 3 (audience, mono UPPERCASE) -->
+        <span class="ts-hero__kicker">/ For teams building at scale</span>
+
+        <!-- SLOT · subtitle (1-2 sentences, 36ch max) -->
+        <p class="ts-hero__rail-body">
+          A faster way to ship beautiful design systems. Type, color, and layout
+          locked to a single deterministic engine — never invent a value again.
+        </p>
+
+        <div class="ts-hero__actions">
+          <!-- SLOT · primary CTA -->
+          <a class="ts-btn ts-btn--primary ts-btn--lg" href="#">Start free trial</a>
+          <!-- SLOT · secondary CTA -->
+          <a class="ts-btn ts-btn--outline ts-btn--lg" href="#">See demo →</a>
+        </div>
+      </aside>
+
+      <!-- SLOT · headline (2-3 lines, ONE em italic word, text-wrap balance) -->
+      <h1 class="ts-hero__title">
+        Build with<br>
+        <em>intent</em>,<br>
+        not by accident.
+      </h1>
+    </div>
+
+    <!-- Decorative product viz · bleeds off right edge.
+         Replace with a real screenshot/<img> when available.
+         Until then this stays as a faux-dashboard placeholder. -->
+    <div class="ts-hero__viz" aria-hidden="true">
+      <div class="ts-hero__viz-toolbar">
+        <span></span><span></span><span></span>
+        <small>/ dashboard</small>
+      </div>
+      <div class="ts-hero__viz-grid">
+        <div class="ts-hero__viz-tile">
+          <small>Monthly revenue</small>
+          <b>$248,400</b>
+        </div>
+        <div class="ts-hero__viz-tile ts-hero__viz-tile--accent">
+          <small>Active users</small>
+          <b>12.8K</b>
+        </div>
+        <div class="ts-hero__viz-tile">
+          <small>Conversion</small>
+          <b>4.2%</b>
+        </div>
+        <div class="ts-hero__viz-tile">
+          <small>Churn</small>
+          <b>0.8%</b>
+        </div>
+      </div>
+      <div class="ts-hero__viz-foot">
+        <span>v2.0 · 240ms p95</span>
+        <span>↑ +12.4%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ STRIPE · alt bg, 5:7 with section head + numbered list ═════ -->
+  <section class="ts-stripe">
+    <div class="ts-container ts-container--xl" style="max-width: var(--ts-container-xl);">
+      <div class="ts-stripe__grid">
+
+        <header class="ts-stripe__head">
+          <!-- SLOT · eyebrow (UPPERCASE) -->
+          <span class="ts-overline">FEATURES</span>
+          <!-- SLOT · section title (2 lines) -->
+          <h2>Three things that matter.<br>Everything else is noise.</h2>
+          <!-- SLOT · section lead (1-2 sentences) -->
+          <p>
+            We obsess over the constraints so you don't have to. The system
+            is opinionated — and that's the point.
+          </p>
+        </header>
+
+        <div class="ts-stripe__items">
+
+          <article class="ts-stripe__item">
+            <span class="ts-stripe__item-num">/ 01</span>
+            <div>
+              <!-- SLOT · item 1 title -->
+              <h3>One-knob color engine</h3>
+              <!-- SLOT · item 1 body -->
+              <p>Change one HSL triple and the entire theme rederives. Surfaces stay anchored. APCA verified.</p>
+            </div>
+            <a href="#">→</a>
+          </article>
+
+          <article class="ts-stripe__item">
+            <span class="ts-stripe__item-num">/ 02</span>
+            <div>
+              <!-- SLOT · item 2 title -->
+              <h3>Locked 1.200 type ladder</h3>
+              <!-- SLOT · item 2 body -->
+              <p>Twelve steps from caption to hero. Line-heights and tracking move in lockstep. No off-ladder sizes.</p>
+            </div>
+            <a href="#">→</a>
+          </article>
+
+          <article class="ts-stripe__item">
+            <span class="ts-stripe__item-num">/ 03</span>
+            <div>
+              <!-- SLOT · item 3 title -->
+              <h3>Recipes that don't break</h3>
+              <!-- SLOT · item 3 body -->
+              <p>Ten card recipes. Five hero patterns. Each one tested with content 5× longer than design.</p>
+            </div>
+            <a href="#">→</a>
+          </article>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ BENTO · 12-col with mixed tiles ═══════════════════════════ -->
+  <section class="ts-bento-section ts-container ts-container--xl" style="max-width: var(--ts-container-xl);">
+    <header class="ts-bento-section__head">
+      <div>
+        <!-- Eyebrow: one subtle icon + section number, inline + harmonic -->
+        <span class="ts-bento-section__eyebrow">
+          <i class="fa-solid fa-shapes" aria-hidden="true"></i>
+          / Composition · 02
+        </span>
+        <!-- SLOT · bento section title -->
+        <h2>A bento, not a stack.</h2>
+      </div>
+      <div>
+        <!-- SLOT · bento section lead -->
+        <p>One hero tile dominates. One accent tile breaks the surface rhythm. Three supporting tiles fill the row. The composition is the message.</p>
+        <!-- Tile-layout chips: gives the three icons a meaningful home -->
+        <div class="ts-bento-section__chips" aria-hidden="true">
+          <span><i class="fa-solid fa-bolt"></i> Hero · 8×2</span>
+          <span><i class="fa-solid fa-shield-halved"></i> Accent · 4×2</span>
+          <span><i class="fa-solid fa-code-branch"></i> Thirds · 4×1</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="ts-bento">
+
+      <!-- SLOT · hero tile (8×2) — the dominant element -->
+      <article class="ts-b-hero">
+        <span class="ts-overline">/ THE PRODUCT</span>
+        <div>
+          <h3>The dominant tile carries 2× the visual weight of any neighbor.</h3>
+          <p style="margin-top: 16px;">
+            Without dominance, a bento becomes a collage. Pick the most important
+            thing on the page and give it room. Everything else supports.
+          </p>
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <a class="ts-btn ts-btn--primary" href="#">Get started</a>
+          <a class="ts-btn ts-btn--ghost" href="#">Documentation →</a>
+        </div>
+      </article>
+
+      <!-- SLOT · accent tile (4×2) — the metric -->
+      <article class="ts-b-accent">
+        <div class="ts-eyebrow">/ Daily active users</div>
+        <div>
+          <div class="ts-metric">1.2M+</div>
+          <p class="ts-caption">Up 24% week-over-week. Sustained growth.</p>
+        </div>
+      </article>
+
+      <!-- SLOT · third tile A -->
+      <article class="ts-b-third">
+        <span class="ts-icon ts-icon--md ts-icon--accent"><i class="fa-solid fa-bolt"></i></span>
+        <h4>Lightning fast</h4>
+        <p>Zero-runtime CSS. Sub-200ms first paint on any device.</p>
+      </article>
+
+      <!-- SLOT · third tile B -->
+      <article class="ts-b-third">
+        <span class="ts-icon ts-icon--md ts-icon--accent"><i class="fa-solid fa-shield-halved"></i></span>
+        <h4>Enterprise ready</h4>
+        <p>SOC2 Type II compliant, SSO and audit logs included.</p>
+      </article>
+
+      <!-- SLOT · third tile C -->
+      <article class="ts-b-third">
+        <span class="ts-icon ts-icon--md ts-icon--accent"><i class="fa-solid fa-code-branch"></i></span>
+        <h4>Open source</h4>
+        <p>MIT licensed, forever. No vendor lock-in, ever.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ════ CLOSER · full-bleed alt surface, off-center 3:5 ═══════════ -->
+  <section class="ts-closer">
+    <div class="ts-closer__inner ts-container" style="max-width: var(--ts-container-xl);">
+
+      <!-- Signature column — mirrors the hero's left kicker rail -->
+      <aside class="ts-closer__signature">
+        <p class="ts-closer__sig-mark">Toolskin</p>
+        <p class="ts-closer__sig-tagline">A system for shipping interfaces that don't apologize.</p>
+        <div class="ts-closer__sig-data">
+          <div>VERSION <b>2.0</b></div>
+          <div>P95 PAINT <b>240 ms</b></div>
+          <div>APCA <b>verified</b></div>
+          <div>COMPONENTS <b>47</b></div>
+        </div>
+      </aside>
+
+      <div>
+        <!-- SLOT · closer headline (1-2 lines, ONE em italic word) -->
+        <h2>Ready when <em>you</em> are.</h2>
+        <!-- SLOT · closer body (1 sentence) -->
+        <p>Sixty seconds from this page to a deployed design system. No credit card.</p>
+        <!-- SLOT · closer CTA -->
+        <a class="ts-btn ts-btn--primary ts-btn--xl" href="#">Start free trial →</a>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+
+</html>

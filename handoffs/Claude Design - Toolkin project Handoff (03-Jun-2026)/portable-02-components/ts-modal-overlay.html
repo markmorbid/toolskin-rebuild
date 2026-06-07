@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="ts-harness">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolskin · Phase 2 Wave 2 — ts-modal + ts-overlay verification harness</title>
+
+  <!-- Load order: primitives → system engine → migrated components.
+       This is a verification harness, not a marketing page. -->
+  <link rel="stylesheet" href="assets/css/next/primitives/colors.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/typography.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/spacing.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/radius.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/motion.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/status-tints.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-this-bg-v2.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-gradients-v3.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-btn_v3.1.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-input.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-modal.css" />
+
+  <!-- JetBrains Mono + Space Grotesk for the labels (VQ-2 / VQ-3 identity). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/next/harness.css" />
+</head>
+<body class="ts-harness">
+  <h1>Phase 2 Wave 2 — ts-modal + ts-overlay</h1>
+  <p class="ts-harness-label">Verification harness · sandbox/02-components/ts-modal-overlay.html · audit-gate exempt</p>
+
+
+  <!-- ─── 1. CLOSED OVERLAY ─────────────────────────────────────────── -->
+  <h2>1 / Closed overlay (default — display: none)</h2>
+
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">.ts-overlay (no open flag) — should render NOTHING</p>
+    <div class="ts-harness-content">
+      <span class="ts-harness-label">expected: invisible</span>
+      <div class="ts-overlay" id="overlay-closed">
+        <div class="ts-modal">
+          <div class="ts-modal__header">
+            <div class="ts-modal__title">Closed modal (should not be visible)</div>
+            <button type="button" class="ts-modal__close" aria-label="Close">&times;</button>
+          </div>
+          <div class="ts-modal__body">If you can see this, the closed-by-default rule is broken.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── 2. OPEN MODAL (class flag) ────────────────────────────────── -->
+  <h2>2 / Open modal — .ts-overlay--open class</h2>
+
+  <div class="ts-harness-stage ts-harness-stage--tall">
+    <div class="ts-overlay ts-overlay--open" id="overlay-open-class">
+      <div class="ts-modal" id="modal-default">
+        <div class="ts-modal__header">
+          <div class="ts-modal__title">Confirm action</div>
+          <button type="button" class="ts-modal__close" aria-label="Close">&times;</button>
+        </div>
+        <div class="ts-modal__body">
+          <p>This modal shows the default surface (--ts-bg-0 anchor) with header divider,
+            scrollable body containing a re-anchored input, and a separated footer.</p>
+          <p>
+            <label class="ts-harness-label" for="modal-input-default">Type something:</label>
+            <input type="text" class="ts-input" id="modal-input-default"
+              placeholder="Input inside .ts-modal__body — surface re-anchors via --ts-this-bg" />
+          </p>
+        </div>
+        <div class="ts-modal__footer">
+          <button type="button" class="ts-btn ts-btn--ghost">Cancel</button>
+          <button type="button" class="ts-btn ts-btn--primary">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── 3. OPEN MODAL (data-open attribute) + size variant ─────────── -->
+  <h2>3 / Open modal — [data-open] attribute + .ts-modal--lg</h2>
+
+  <div class="ts-harness-stage ts-harness-stage--tall">
+    <div class="ts-overlay" data-open id="overlay-open-attr">
+      <div class="ts-modal ts-modal--lg" id="modal-large">
+        <div class="ts-modal__header">
+          <div class="ts-modal__title">Edit settings (large variant)</div>
+          <button type="button" class="ts-modal__close" aria-label="Close">&times;</button>
+        </div>
+        <div class="ts-modal__body">
+          <p>Large variant — max-width 800px. The [data-open] attribute toggle
+            renders the same OPEN state as the class flag.</p>
+          <p>
+            <label class="ts-harness-label" for="modal-input-large">Name:</label>
+            <input type="text" class="ts-input" id="modal-input-large" value="Pre-filled value" />
+          </p>
+          <p>
+            <label class="ts-harness-label" for="modal-textarea-large">Notes:</label>
+            <textarea class="ts-input ts-textarea" id="modal-textarea-large" rows="3">Multi-line text area</textarea>
+          </p>
+        </div>
+        <div class="ts-modal__footer">
+          <button type="button" class="ts-btn ts-btn--ghost">Cancel</button>
+          <button type="button" class="ts-btn ts-btn--primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── 4. HEAVIER BLUR scrim variant ─────────────────────────────── -->
+  <h2>4 / .ts-overlay.blur — heavier scrim variant</h2>
+
+  <div class="ts-harness-stage ts-harness-stage--tall">
+    <div class="ts-overlay blur ts-overlay--open" id="overlay-blur">
+      <div class="ts-modal ts-modal--sm" id="modal-small">
+        <div class="ts-modal__header">
+          <div class="ts-modal__title">Warning</div>
+          <button type="button" class="ts-modal__close" aria-label="Close">&times;</button>
+        </div>
+        <div class="ts-modal__body">
+          <p>Small variant inside a .blur overlay. The scrim runs a heavier blur
+            (20px) and a deeper transparency (--ts-this-bg-dim-4 = 65%).</p>
+        </div>
+        <div class="ts-modal__footer">
+          <button type="button" class="ts-btn ts-btn--ghost">Cancel</button>
+          <button type="button" class="ts-btn ts-btn--primary">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── 5. EXTRA-LARGE variant ─────────────────────────────────────── -->
+  <h2>5 / .ts-modal--xl + parent-context input override probe</h2>
+
+  <div class="ts-harness-stage ts-harness-stage--tall">
+    <div class="ts-overlay ts-overlay--open" id="overlay-xl">
+      <div class="ts-modal ts-modal--xl" id="modal-xl">
+        <div class="ts-modal__header">
+          <div class="ts-modal__title">Configure pipeline</div>
+          <button type="button" class="ts-modal__close" aria-label="Close">&times;</button>
+        </div>
+        <div class="ts-modal__body">
+          <div class="ts-harness-grid">
+            <div class="ts-harness-row">
+              <span class="ts-harness-label">Outside modal</span>
+              <input type="text" class="ts-input" placeholder="Input on body surface (--ts-bg-body anchor)" />
+            </div>
+            <div class="ts-harness-row">
+              <span class="ts-harness-label">Inside .ts-modal__body</span>
+              <input type="text" class="ts-input" id="modal-input-probe"
+                placeholder="Input on --ts-bg-1 anchor (modal-body re-anchor)" />
+            </div>
+            <div class="ts-harness-row">
+              <span class="ts-harness-label">Multi-field row</span>
+              <div class="ts-harness-content" style="flex: 1; gap: var(--ts-sp-2);">
+                <input type="text" class="ts-input" placeholder="Field A" style="flex: 1;" />
+                <input type="text" class="ts-input" placeholder="Field B" style="flex: 1;" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ts-modal__footer">
+          <button type="button" class="ts-btn ts-btn--ghost">Cancel</button>
+          <button type="button" class="ts-btn ts-btn--primary">Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared live Variant Tester (surfaces · gradients · accent · type · radius · inputs). -->
+  <script src="assets/js/next/harness-tester.js" defer></script>
+</body>
+</html>

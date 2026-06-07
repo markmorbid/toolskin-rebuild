@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="ts-harness">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolskin · ts-nav-header v3 — verification harness</title>
+
+  <!-- Load order: primitives → system → ts-btn → ts-nav-header → promo-banner → harness.
+       ts-nav-header.css = canonical 2.3.4 (read-only — do not modify).
+       harness.css LAST — scaffold overrides sit on top without !important. -->
+  <link rel="stylesheet" href="assets/css/next/primitives/colors.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/typography.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/spacing.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/radius.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/motion.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/status-tints.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-this-bg-v2.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-gradients-v3.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-btn_v3.1.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-nav-header.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-promo-banner.css" />
+  <link rel="stylesheet" href="assets/css/next/harness.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <!-- Font Awesome — preloaded in head so icons render on first paint.
+       ts-icons.js also lazy-loads it, but this avoids the FOUI flash. -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    /* Promo-banner spacer: harness.css default doesn't know about the banner height.
+       This single override accounts for --ts-promo-banner-h so the page body
+       doesn't slide under the fixed nav + banner stack. */
+    .ts-harness-fixed-spacer {
+      height: calc(var(--ts-topbar-h, 58px) + var(--ts-promo-banner-h, 40px) + 24px);
+    }
+  </style>
+</head>
+<body class="ts-harness" style="--ts-harness-pad: 0; --ts-harness-max: none;" data-ts-breadcrumb="off">
+
+<!-- ═══ PROMO BANNER — exact owner HTML ════════════════════════════════════ -->
+<div class="ts-promo-banner" id="promo-banner">
+  <span class="ts-promo-banner__text">
+    <strong>
+      <span class="ts-icon" data-ts-icon="fa-solid fa-wand-magic-sparkles"></span>
+      New:
+    </strong>
+    Explore our interactive Toolpanel Mockups — live demos of real userscript automation panels.
+  </span>
+  <a href="#" class="ts-promo-banner__cta">
+    <span class="ts-icon" data-ts-icon="fa-solid fa-arrow-right"></span> View Mockups
+  </a>
+  <button class="ts-promo-banner__close"
+          type="button"
+          onclick="this.parentElement.classList.add('ts-dismissed')"
+          aria-label="Dismiss banner">
+    <span class="ts-icon" data-ts-icon="fa-solid fa-xmark"></span>
+  </button>
+</div>
+
+
+<!-- ═══ LIVE FIXED NAV — exact v1 DOM contract ════════════════════════════ -->
+<!--
+  TASK 2a: All links use ts-nav-item + variant modifier (--text / --icon / --button).
+  TASK 2b: Overflow dropdown uses ul.ts-nav-dropdown > li.ts-nav-item > a.
+  TASK 2c: Icon items carry data-ts-icon; ts-icons.js injects at runtime.
+           ts-auto-icon class on mobile container enables auto-icon lookup via
+           ts-nav-auto-icons.js staging addon (Task 4).
+  TASK 2e: Theme toggle = SVG expand variant, theme-toggle--force-motion, data-theme-toggle.
+           ClipPath id="tt-v3-main" is unique to this instance (prevents SVG collision
+           if multiple toggles exist in the same document).
+  TASK 2f: Back-to-top uses ts-btn ts-btn--icon ts-back_top-nav; ts-nav.js adds .active
+           past 300px scroll. On desktop: position:fixed bottom-right (see CSS Layer 5).
+-->
+<nav class="ts-nav-fixed ts-nav--spaced" id="ts-topbar" aria-label="Primary">
+
+  <a class="ts-topbar__logo" href="index.html">
+    <span class="ts-logo-brand">TOOL<em>SKIN</em></span>
+    <span class="ts-logo-sub">Design System</span>
+  </a>
+
+  <!-- TASK 2a: links container — ts-nav-truncate enables JS overflow relocation -->
+  <div class="ts-nav-fixed__links ts-nav-truncate" id="ts-primary-menu">
+    <a href="#top" class="ts-nav-item ts-nav-item--text active ts-active" aria-current="page">
+      <span class="ts-menu-text">Overview</span>
+    </a>
+    <a href="#tokens" class="ts-nav-item ts-nav-item--text">
+      <span class="ts-menu-text">Tokens</span>
+    </a>
+    <a href="#surfaces" class="ts-nav-item ts-nav-item--icon">
+      <span class="ts-icon" data-ts-icon="fa-solid fa-layer-group"></span>
+      <span class="ts-menu-text">Surfaces</span>
+    </a>
+    <a href="#accent" class="ts-nav-item ts-nav-item--icon">
+      <span class="ts-icon" data-ts-icon="fa-solid fa-palette"></span>
+      <span class="ts-menu-text">Accent</span>
+    </a>
+    <!-- ts-nav-link class marks items as truncatable — ts-nav.js relocates these
+         to the ••• dropdown when they overflow the available bar width. -->
+    <a href="#showcase" class="ts-nav-link ts-btn ts-btn--primary ts-nav-item ts-nav-item--button">
+      <span class="ts-icon" data-ts-icon="fa-solid fa-wand-magic-sparkles"></span>
+      <span class="ts-menu-text">Showcase</span>
+    </a>
+    <a href="#patterns" class="ts-nav-link ts-btn ts-btn--ghost ts-nav-item ts-nav-item--button">
+      <span class="ts-icon" data-ts-icon="fa-solid fa-table-cells"></span>
+      <span class="ts-menu-text">Patterns</span>
+    </a>
+  </div>
+
+  <!-- TASK 2b: ••• overflow — ts-nav.js relocates spillover .ts-nav-link items here.
+       ul/li structure is the target contract; JS auto-wrap (Approach B, Claude Code
+       task) will normalize bare <a> → <li class="ts-nav-item"><a> at runtime. -->
+  <div id="navbar-collapse" class="ts-nav-more">
+    <button class="ts-more-trigger" type="button" aria-haspopup="menu" aria-expanded="false">•••</button>
+    <ul id="navbar-extend" class="ts-nav-dropdown"></ul>
+  </div>
+
+  <!-- TASK 2e: Theme toggle — SVG expand variant (toggles.dev), force-motion,
+       data-theme-toggle wired by ts-nav.js to flip <html data-theme> + sync checkbox. -->
+  <label class="theme-toggle theme-toggle--force-motion" data-theme-toggle
+         title="Toggle theme" aria-pressed="false">
+    <input type="checkbox" />
+    <span class="theme-toggle-sr">Toggle theme</span>
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+         class="theme-toggle__expand ts-icon ts-btn-icon" viewBox="0 0 32 32" aria-hidden="true">
+      <clipPath id="tt-v3-main">
+        <path d="M0-11h25a1 1 0 0017 13v30H0Z"></path>
+      </clipPath>
+      <g clip-path="url(#tt-v3-main)">
+        <circle cx="16" cy="16" r="8.4"></circle>
+        <path d="M18.3 3.2c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3S14.7.9 16 .9s2.3 1 2.3 2.3zm-4.6
+          25.6c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3-1 2.3-2.3 2.3-2.3-1-2.3-2.3zm15.1-10.5c-1.3
+          0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zM3.2 13.7c1.3 0 2.3 1 2.3
+          2.3s-1 2.3-2.3 2.3S.9 17.3.9 16s1-2.3 2.3-2.3zm5.8-7C9 7.9 7.9 9 6.7 9S4.4 8 4.4
+          6.7s1-2.3 2.3-2.3S9 5.4 9 6.7zm16.3 21c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3
+          2.3-1 2.3-2.3 2.3zm2.4-21c0 1.3-1 2.3-2.3 2.3S23 7.9 23 6.7s1-2.3 2.3-2.3 2.4 1
+          2.4 2.3zM6.7 23C8 23 9 24 9 25.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z">
+        </path>
+      </g>
+    </svg>
+  </label>
+
+  <!-- TASK 2f: Back-to-top — in-nav element, full ts-btn contract.
+       ts-nav.js adds .active class past 300px scroll. -->
+  <a class="ts-btn ts-btn--icon ts-back_top-nav" href="#top" id="ts-top-btn" aria-label="Back to top">
+    <span class="ts-icon" data-ts-icon="fa-solid fa-arrow-up"></span>
+  </a>
+
+  <!-- Burger — ts-nav.js wires click → mobile menu open/close + aria-expanded sync -->
+  <button class="ts-menu-burger" type="button" aria-label="Toggle menu" aria-expanded="false">
+    <span class="ts-menu-burger-inner"></span>
+  </button>
+
+</nav><!-- /ts-nav-fixed -->
+
+
+<!-- ═══ MOBILE MENU — shares nav token contract ═══════════════════════════ -->
+<!-- TASK 2c: ts-auto-icon class marks this container for ts-nav-auto-icons.js
+     auto-injection (staging addon, Task 4). Mobile menu clones from processed DOM. -->
+<div class="ts-mobile-menu-overlay" aria-hidden="true"></div>
+<div class="ts-mobile-menu" role="dialog" aria-label="Mobile navigation">
+  <div class="ts-mobile-menu-items ts-auto-icon">
+    <a href="#top" class="ts-nav-item ts-nav-item--text active ts-active" aria-current="page">
+      <span class="ts-menu-text">Overview</span>
+    </a>
+    <a href="#tokens" class="ts-nav-item ts-nav-item--text">
+      <span class="ts-menu-text">Tokens</span>
+    </a>
+    <a href="#surfaces" class="ts-nav-item ts-nav-item--text">
+      <span class="ts-icon" data-ts-icon="fa-solid fa-layer-group"></span>
+      <span class="ts-menu-text">Surfaces</span>
+    </a>
+    <a href="#accent" class="ts-nav-item ts-nav-item--text">
+      <span class="ts-icon" data-ts-icon="fa-solid fa-palette"></span>
+      <span class="ts-menu-text">Accent</span>
+    </a>
+    <a href="#showcase" class="ts-nav-link ts-btn ts-btn--primary ts-nav-item ts-nav-item--button">
+      <span class="ts-icon" data-ts-icon="fa-solid fa-wand-magic-sparkles"></span>
+      <span class="ts-menu-text">Showcase</span>
+    </a>
+    <a href="#patterns" class="ts-nav-link ts-btn ts-btn--ghost ts-nav-item ts-nav-item--button">
+      <span class="ts-icon" data-ts-icon="fa-solid fa-table-cells"></span>
+      <span class="ts-menu-text">Patterns</span>
+    </a>
+  </div>
+</div><!-- /ts-mobile-menu -->
+
+
+<!-- ═══ HARNESS BODY ════════════════════════════════════════════════════════ -->
+<main class="ts-harness-pagebody">
+  <div class="ts-harness-fixed-spacer"></div>
+
+  <h1>ts-nav-header v3 · verification harness</h1>
+  <p class="ts-harness-label">ts-topbar-nav-v3.html · canonical 2.3.4 · v1 DOM parity · modifier switcher removed</p>
+  <p style="max-width: 60ch; color: var(--ts-text-secondary); margin-bottom: var(--ts-sp-6);">
+    The sticky header above is the live component. Resize the window to watch links collapse into
+    the <strong>•••</strong> overflow, then to the <strong>burger</strong> + slide-in mobile menu.
+    Scroll to reveal the back-to-top control and the transparent-at-top state. Use the
+    Variant&nbsp;Tester (bottom-right) for accent / surface / type cross-validation.
+  </p>
+
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Quick demos</p>
+    <div class="ts-harness-body">
+      <button class="ts-btn ts-btn--primary" type="button"
+              onclick="document.querySelector('.ts-menu-burger').click()">Open mobile menu</button>
+      <a class="ts-btn ts-btn--outline" href="#surfaces">Jump to surface variants ↓</a>
+    </div>
+  </div>
+
+
+  <!-- ── TASK 2a · DEFAULT (dividers) ─────────────────────────────────── -->
+  <h2 id="tokens">.ts-nav-fixed · default (dividers)</h2>
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Divider variant — border between each item (default)</p>
+    <div class="ts-harness-stage">
+      <nav class="ts-nav-fixed ts-nav--static" aria-label="Default dividers">
+        <a class="ts-topbar__logo" href="#"><span class="ts-logo-brand">TOOL<em>SKIN</em></span></a>
+        <div class="ts-nav-fixed__links">
+          <a href="#" class="ts-nav-item ts-nav-item--text">
+            <span class="ts-menu-text">Overview</span>
+          </a>
+          <a href="#" class="ts-nav-item ts-nav-item--text active ts-active" aria-current="page">
+            <span class="ts-menu-text">Tokens</span>
+          </a>
+          <a href="#" class="ts-nav-item ts-nav-item--text">
+            <span class="ts-menu-text">Components</span>
+          </a>
+          <a href="#" class="ts-nav-item ts-nav-item--text">
+            <span class="ts-menu-text">Patterns</span>
+          </a>
+        </div>
+        <!-- TASK 2b: dropdown uses ul > li.ts-nav-item > a -->
+        <div class="ts-nav-more hasItems" aria-expanded="false">
+          <button type="button" class="ts-more-trigger" aria-haspopup="menu">•••</button>
+          <ul class="ts-nav-dropdown">
+            <li class="ts-nav-item"><a href="#"><span class="ts-menu-text">Changelog</span></a></li>
+            <li class="ts-nav-item">
+              <a href="#" class="ts-active" aria-current="page">
+                <span class="ts-menu-text">Roadmap</span>
+              </a>
+            </li>
+            <li class="ts-nav-item"><a href="#"><span class="ts-menu-text">Support</span></a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+
+  <!-- ── TASK 2a · SPACED ──────────────────────────────────────────────── -->
+  <h2>.ts-nav--spaced</h2>
+  <div class="ts-harness-panel ts-harness-panel--bg3">
+    <p class="ts-harness-panel-title">Spaced — gap-driven, no dividers</p>
+    <div class="ts-harness-stage" style="background:var(--ts-bg-3);">
+      <nav class="ts-nav-fixed ts-nav--static ts-nav--spaced" aria-label="Spaced variant">
+        <a class="ts-topbar__logo" href="#"><span class="ts-logo-brand">TOOL<em>SKIN</em></span></a>
+        <div class="ts-nav-fixed__links">
+          <a href="#" class="ts-nav-item ts-nav-item--text">
+            <span class="ts-menu-text">Overview</span>
+          </a>
+          <a href="#" class="ts-nav-item ts-nav-item--text active ts-active" aria-current="page">
+            <span class="ts-menu-text">Tokens</span>
+          </a>
+          <a href="#" class="ts-nav-item ts-nav-item--text">
+            <span class="ts-menu-text">Components</span>
+          </a>
+          <a href="#" class="ts-nav-item ts-nav-item--text">
+            <span class="ts-menu-text">Patterns</span>
+          </a>
+          <a href="#" class="ts-btn ts-btn--primary ts-nav-item ts-nav-item--button">
+            <span class="ts-btn-text">Sign in</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+
+  <!-- ── TABBED ────────────────────────────────────────────────────────── -->
+  <h2>.ts-nav--spaced.ts-tabbed</h2>
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Tabbed — sub-variant of spaced</p>
+    <div class="ts-harness-stage">
+      <nav class="ts-nav-fixed ts-nav--static ts-nav--spaced ts-tabbed" aria-label="Tabbed variant">
+        <a class="ts-topbar__logo" href="#"><span class="ts-logo-brand">TOOL<em>SKIN</em></span></a>
+        <div class="ts-nav-fixed__links">
+          <a href="#" class="ts-nav-item ts-nav-item--text">
+            <span class="ts-menu-text">Overview</span>
+          </a>
+          <a href="#" class="ts-nav-item ts-nav-item--text active ts-active" aria-current="page">
+            <span class="ts-menu-text">Tokens</span>
+          </a>
+          <a href="#" class="ts-nav-item ts-nav-item--text">
+            <span class="ts-menu-text">Components</span>
+          </a>
+          <a href="#" class="ts-nav-item ts-nav-item--text">
+            <span class="ts-menu-text">Patterns</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+
+  <!-- ── ICON-ONLY ─────────────────────────────────────────────────────── -->
+  <h2 id="surfaces">.ts-nav--icon-only</h2>
+  <div class="ts-harness-panel ts-harness-panel--bg1">
+    <p class="ts-harness-panel-title">Icon-only — labels collapsed on desktop</p>
+    <div class="ts-harness-stage" style="background:var(--ts-bg-1);">
+      <nav class="ts-nav-fixed ts-nav--static ts-nav--icon-only" aria-label="Icon-only variant">
+        <a class="ts-topbar__logo" href="#"><span class="ts-logo-brand">TOOL<em>SKIN</em></span></a>
+        <div class="ts-nav-fixed__links">
+          <a href="#" class="ts-nav-item" title="Overview">
+            <span class="ts-icon" data-ts-icon="fa-solid fa-house"></span>
+            <span class="ts-menu-text">Overview</span>
+          </a>
+          <a href="#" class="ts-nav-item active ts-active" aria-current="page" title="Tokens">
+            <span class="ts-icon" data-ts-icon="fa-solid fa-cube"></span>
+            <span class="ts-menu-text">Tokens</span>
+          </a>
+          <a href="#" class="ts-nav-item" title="Components">
+            <span class="ts-icon" data-ts-icon="fa-solid fa-table-cells"></span>
+            <span class="ts-menu-text">Components</span>
+          </a>
+          <a href="#" class="ts-nav-item" title="Patterns">
+            <span class="ts-icon" data-ts-icon="fa-solid fa-shapes"></span>
+            <span class="ts-menu-text">Patterns</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+
+  <!-- ── TASK 2b · DROPDOWN OPEN ──────────────────────────────────────── -->
+  <h2>.ts-nav-dropdown · open state probe</h2>
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Dropdown forced open via .is-open — ul/li/a structure</p>
+    <div class="ts-harness-stage" style="height: 230px; overflow: visible;">
+      <nav class="ts-nav-fixed ts-nav--static" aria-label="Dropdown open probe">
+        <a class="ts-topbar__logo" href="#"><span class="ts-logo-brand">TOOL<em>SKIN</em></span></a>
+        <div class="ts-nav-fixed__links">
+          <a href="#" class="ts-nav-item ts-nav-item--text">
+            <span class="ts-menu-text">Overview</span>
+          </a>
+          <a href="#" class="ts-nav-item ts-nav-item--text active ts-active" aria-current="page">
+            <span class="ts-menu-text">Tokens</span>
+          </a>
+        </div>
+        <div class="ts-nav-more hasItems is-open" aria-expanded="true">
+          <button type="button" class="ts-more-trigger" aria-haspopup="menu">•••</button>
+          <ul class="ts-nav-dropdown" id="dropdown-open-probe">
+            <li class="ts-nav-item"><a href="#"><span class="ts-menu-text">Changelog</span></a></li>
+            <li class="ts-nav-item">
+              <a href="#" class="ts-active" aria-current="page">
+                <span class="ts-menu-text">Roadmap</span>
+              </a>
+            </li>
+            <li class="ts-nav-item"><a href="#"><span class="ts-menu-text">Support</span></a></li>
+            <li class="ts-nav-item">
+              <a href="#" class="ts-btn ts-btn--primary ts-nav-item--button">
+                <span class="ts-btn-text">Get started</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+
+  <!-- ── SURFACE VARIANTS ──────────────────────────────────────────────── -->
+  <h2 id="accent">.ts-nav-fixed · surface variants</h2>
+
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Default surface (--ts-bg-body)</p>
+    <div class="ts-harness-stage">
+      <nav class="ts-nav-fixed ts-nav--static ts-nav--spaced" aria-label="Default surface">
+        <a class="ts-topbar__logo" href="#">
+          <span class="ts-logo-brand">TOOL<em>SKIN</em></span>
+          <span class="ts-logo-sub">Design System</span>
+        </a>
+        <div class="ts-nav-fixed__links">
+          <a href="#" class="ts-nav-item ts-nav-item--text">
+            <span class="ts-menu-text">Home</span>
+          </a>
+          <a href="#" class="ts-nav-item ts-nav-item--text active ts-active" aria-current="page">
+            <span class="ts-menu-text">Docs</span>
+          </a>
+          <a href="#" class="ts-btn ts-btn--ghost ts-nav-item ts-nav-item--button">
+            <span class="ts-btn-text">Settings</span>
+          </a>
+          <a href="#" class="ts-btn ts-btn--primary ts-nav-item ts-nav-item--button">
+            <span class="ts-btn-text">Sign in</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <div class="ts-harness-panel ts-harness-panel--accent">
+    <p class="ts-harness-panel-title">.ts-on-accent — header ink auto-flips to --ts-on-accent</p>
+    <div class="ts-harness-stage"
+         style="background:var(--ts-accent); border-color:color-mix(in oklab, var(--ts-on-accent), transparent 70%);">
+      <nav class="ts-nav-fixed ts-nav--static ts-nav--spaced ts-on-accent"
+           aria-label="On accent surface"
+           style="--ts-this-bg: var(--ts-accent);">
+        <a class="ts-topbar__logo" href="#">
+          <span class="ts-logo-brand">TOOL<em>SKIN</em></span>
+          <span class="ts-logo-sub">On accent</span>
+        </a>
+        <div class="ts-nav-fixed__links">
+          <a href="#" class="ts-nav-item ts-nav-item--text active ts-active" aria-current="page">
+            <span class="ts-menu-text">Docs</span>
+          </a>
+          <a href="#" class="ts-btn ts-btn--outline ts-nav-item ts-nav-item--button">
+            <span class="ts-btn-text">Sign in</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+
+  <!-- Scroll region — demonstrates transparent-at-top + back-to-top reveal -->
+  <div id="showcase" style="height: 90vh; display: flex; align-items: center; justify-content: center;
+       color: var(--ts-text-muted); font-family: var(--ts-font-mono); font-size: 0.72rem;
+       border: 1px dashed var(--ts-this-bg-border); border-radius: var(--ts-radius-md);
+       margin-top: var(--ts-sp-8);" id="patterns">
+    ↑ scroll back to top
+  </div>
+
+</main><!-- /ts-harness-pagebody -->
+
+
+<!-- Runtime icon injection (Font Awesome + Ionicons shim) -->
+<script src="assets/js/next/ts-icons.js" defer></script>
+<!-- Nav behaviors: burger, overflow→•••, theme toggle, back-to-top, at-top -->
+<script src="assets/js/next/ts-nav.js" defer></script>
+<!-- Staging: auto-icon injection for .auto-icons containers (Task 4) -->
+<!-- <script src="assets/js/next/ts-nav-auto-icons.js" defer></script> -->
+<!-- Shared live Variant Tester — bottom-right control rig (theme/accent/surface/type) -->
+<script src="assets/js/next/harness-tester.js" defer></script>
+
+</body>
+</html>

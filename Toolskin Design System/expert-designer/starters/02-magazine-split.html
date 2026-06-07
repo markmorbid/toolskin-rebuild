@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Starter 02 · Magazine split — masthead + lead + stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400..700&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../templates/tokens.css">
+  <style>
+    /*
+      STARTER 02 — MAGAZINE SPLIT  (editorial / publication / long-form)
+      =================================================================
+      Masthead       Date · UPPERCASE wordmark · Issue №
+      Lead           5:7 — article preview LEFT, pull-quote RIGHT on bg-1
+      Stories        4-col with vertical rules between
+
+      MASTHEAD WORDMARK
+        UPPERCASE + tight tracking — reads as institutional masthead
+        (NYT / FT / The Economist). Smaller than the lead headline.
+        The lead headline is the visual hero, not the wordmark.
+    */
+
+    /* MASTHEAD ─────────────────────────────────────────────────── */
+    .masthead {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: center;
+      gap: 24px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--ts-border-1);
+    }
+    /* Wordmark — UPPERCASE, sans display, tight tracking (per Satoshi).
+       NOT a serif — serif belongs in the lead/quote, not in chrome. */
+    .masthead__title {
+      font-family: var(--ts-font-display);
+      font-size: clamp(14px, 1.4vw, 18px);
+      font-weight: 700;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      text-align: center;
+      margin: 0;
+      color: var(--ts-text-primary);
+    }
+    .masthead__date,
+    .masthead__issue {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ts-text-secondary);
+    }
+    .masthead__issue { text-align: right; }
+
+    /* LEAD ─────────────────────────────────────────────────────── */
+    /* Stays as a 5:7 split down to ~600px — only truly-mobile collapses. */
+    .lead {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(24px, 4vw, 80px);
+      padding-block: clamp(48px, 6vw, 96px);
+      border-bottom: 1px solid var(--ts-border-1);
+      align-items: stretch;
+    }
+    @media (max-width: 600px) {
+      .lead { grid-template-columns: 1fr; }
+    }
+
+    .lead__article {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 20px;
+      align-content: start;
+    }
+    .lead__meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ts-text-secondary);
+    }
+    .lead__headline {
+      font-family: var(--ts-font-display);
+      font-size: clamp(36px, 5vw, 64px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      font-weight: 600;
+      margin: 0;
+      text-wrap: balance;
+    }
+    .lead__body {
+      color: var(--ts-text-secondary);
+      max-width: 50ch;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .lead__cta {
+      align-self: end;
+      justify-self: start;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--ts-accent);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px;
+    }
+    .lead__cta:hover { color: var(--ts-accent-bright); }
+
+    /* PULL QUOTE — bg-1 surface, serif italic for ONE word */
+    .lead__quote {
+      background: var(--ts-bg-1);
+      padding: clamp(32px, 4vw, 64px);
+      border-radius: var(--ts-radius-lg);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 32px;
+      margin: 0;
+    }
+    .lead__quote-mark {
+      font-family: 'Instrument Serif', serif;
+      font-size: 64px;
+      line-height: 1;
+      color: var(--ts-accent);
+      opacity: 0.5;
+    }
+    .lead__quote blockquote {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(28px, 3.5vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      font-weight: 400;
+      margin: 0;
+      text-wrap: balance;
+    }
+    .lead__quote blockquote em {
+      font-style: italic;
+      color: var(--ts-accent);
+    }
+    .lead__quote figcaption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ts-text-secondary);
+    }
+
+    /* STORIES — 4-col with vertical rules ─────────────────────── */
+    .stories {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0;
+      padding-block: 48px 80px;
+    }
+    @media (max-width: 960px) { .stories { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 560px) { .stories { grid-template-columns: 1fr; } }
+
+    .stories__cell {
+      padding: 24px;
+      border-left: 1px solid var(--ts-border-1);
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+    .stories__cell:first-child { border-left: none; padding-left: 0; }
+    @media (max-width: 960px) {
+      .stories__cell:nth-child(2n + 1) { border-left: none; padding-left: 0; }
+    }
+    @media (max-width: 560px) {
+      .stories__cell { border-left: none; padding-left: 0; padding-right: 0; border-top: 1px solid var(--ts-border-1); }
+      .stories__cell:first-child { border-top: none; padding-top: 0; }
+    }
+
+    .stories__cell-section {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ts-text-muted);
+    }
+    .stories__cell h3 {
+      font-family: var(--ts-font-display);
+      font-size: 22px;
+      line-height: 1.25;
+      letter-spacing: -0.015em;
+      font-weight: 600;
+      margin: 0;
+      text-wrap: balance;
+    }
+    .stories__cell p {
+      color: var(--ts-text-secondary);
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .stories__cell a.stories__cell-read {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--ts-text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      margin-top: 4px;
+    }
+    .stories__cell:hover a.stories__cell-read { color: var(--ts-accent); }
+  </style>
+</head>
+<body>
+
+  <div class="ts-container" style="max-width: var(--ts-container-xl);">
+
+    <!-- ═══ MASTHEAD ═══════════════════════════════════════════════ -->
+    <header class="masthead">
+      <span class="masthead__date">VOL. 12 · SPRING 2026</span>
+      <h1 class="masthead__title">The Field Notes</h1>
+      <span class="masthead__issue">ISSUE Nº 47</span>
+    </header>
+
+    <!-- ═══ LEAD STORY · 5:7 split ════════════════════════════════ -->
+    <section class="lead">
+
+      <article class="lead__article">
+        <div class="lead__meta">DESIGN · 12 MIN READ</div>
+        <h2 class="lead__headline">
+          The radical return to<br>
+          minimal interfaces.
+        </h2>
+        <p class="lead__body">
+          The industry is stripping away shadows, gradients, and noise — leaving the
+          bones of the interface visible and undisguised. A study of three companies
+          that committed, what changed, and what their customers said.
+        </p>
+        <a href="#" class="lead__cta">Read full essay →</a>
+      </article>
+
+      <figure class="lead__quote">
+        <div class="lead__quote-mark" aria-hidden="true">&ldquo;</div>
+        <blockquote>
+          When you remove everything that isn't essential, what remains must be <em>perfect</em>.
+        </blockquote>
+        <figcaption>— Editor's note · Spring 2026</figcaption>
+      </figure>
+
+    </section>
+
+    <!-- ═══ SECONDARY STORIES · 4-col with vertical rules ════════ -->
+    <section class="stories">
+
+      <article class="stories__cell">
+        <span class="stories__cell-section">TECHNOLOGY</span>
+        <h3>The slow death of the gradient era.</h3>
+        <p>Five years ago every SaaS dashboard looked like a sunset. We trace the shift back to flat surfaces and ask whether anything was lost.</p>
+        <a href="#" class="stories__cell-read">Read →</a>
+      </article>
+
+      <article class="stories__cell">
+        <span class="stories__cell-section">CULTURE</span>
+        <h3>Working in the age of perpetual beta.</h3>
+        <p>What it means to ship a product that's never finished — and the toll it takes on the people who keep the lights on.</p>
+        <a href="#" class="stories__cell-read">Read →</a>
+      </article>
+
+      <article class="stories__cell">
+        <span class="stories__cell-section">ARCHITECTURE</span>
+        <h3>Building software for slow time.</h3>
+        <p>A counter-argument to velocity culture — the systems that last twenty years are not the ones that shipped fastest.</p>
+        <a href="#" class="stories__cell-read">Read →</a>
+      </article>
+
+      <article class="stories__cell">
+        <span class="stories__cell-section">DESIGN</span>
+        <h3>Why typography is the whole stack.</h3>
+        <p>The first thing a user sees is type. The last thing they remember is type. Everything in between is supporting the type.</p>
+        <a href="#" class="stories__cell-read">Read →</a>
+      </article>
+
+    </section>
+
+  </div>
+
+</body>
+</html>

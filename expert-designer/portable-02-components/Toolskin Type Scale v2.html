@@ -1,0 +1,1171 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Toolskin · Type Scale v2 — single-source modular system</title>
+
+  <!-- base provides fonts + neutrals; v2 overrides the legacy 8-step scale -->
+  <link rel="stylesheet" href="toolskin.css">
+  <link rel="stylesheet" href="toolskin-type-v2.css">
+
+  <style>
+    /* ─── page chrome — mirrors the Toolskin showcase aesthetic ─── */
+    html {
+      font-size: 16px;
+    }
+
+    html,
+    body {
+      background: #0c0d0f;
+      color: #e8e9ea;
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 48px 56px 96px;
+      max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .top-eyebrow {
+      font: 600 10.5px 'JetBrains Mono', monospace;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ts-accent);
+      margin: 0 0 14px;
+    }
+
+    h1.page {
+      font-size: 34px;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      margin: 0 0 8px;
+      line-height: 1.08;
+    }
+
+    h1.page .v {
+      color: #6d6f74;
+      font-weight: 400;
+    }
+
+    .lede {
+      color: #9ea0a5;
+      font-size: 15px;
+      max-width: 780px;
+      margin: 0 0 18px;
+      line-height: 1.6;
+    }
+
+    .lede code,
+    .sub code,
+    p.note code {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 0.86em;
+      background: #1c1e24;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #d7d8db;
+    }
+
+    .lede b {
+      color: #e8e9ea;
+      font-weight: 600;
+    }
+
+    h2.sec {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #c8c9cd;
+      margin: 64px 0 5px;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    h2.sec .n {
+      color: var(--ts-accent);
+    }
+
+    h2.sec+.sub {
+      color: #6d6f74;
+      font-size: 13px;
+      margin: 0 0 22px;
+      max-width: 760px;
+      line-height: 1.55;
+    }
+
+    .rule {
+      height: 1px;
+      background: linear-gradient(90deg, #2d3038, transparent);
+      margin: 8px 0 26px;
+    }
+
+    /* ── engine block ── */
+    .engine {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 26px;
+    }
+
+    .panel {
+      border-radius: 14px;
+      border: 1px solid #2d3038;
+      background: #14161a;
+      padding: 20px 22px;
+    }
+
+    .panel h3 {
+      font: 600 10px 'JetBrains Mono', monospace;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #c8c9cd;
+      margin: 0 0 14px;
+    }
+
+    pre.formula {
+      margin: 0;
+      font: 12px/1.75 'JetBrains Mono', monospace;
+      color: #c8c9cd;
+      background: #0c0d0f;
+      border: 1px solid #2d3038;
+      border-radius: 9px;
+      padding: 15px 17px;
+      overflow: auto;
+    }
+
+    pre.formula .k {
+      color: oklch(75% 0.14 215);
+    }
+
+    pre.formula .v {
+      color: oklch(80% 0.12 75);
+    }
+
+    pre.formula .c {
+      color: #5f6168;
+    }
+
+    pre.formula .a {
+      color: var(--ts-accent);
+    }
+
+    .ratios {
+      display: grid;
+      grid-template-columns: max-content 1fr max-content;
+      gap: 9px 16px;
+      align-items: baseline;
+      font: 12px 'JetBrains Mono', monospace;
+    }
+
+    .ratios .k {
+      color: oklch(75% 0.14 215);
+    }
+
+    .ratios .d {
+      color: #5f6168;
+    }
+
+    .ratios .vv {
+      color: #e8e9ea;
+      text-align: right;
+    }
+
+    .ratios .zone {
+      grid-column: 1 / -1;
+      font: 9.5px 'JetBrains Mono', monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6d6f74;
+      margin-top: 8px;
+      padding-top: 10px;
+      border-top: 1px dashed #2d3038;
+    }
+
+    .ratios .zone:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    /* ── ladder table ── */
+    .zonehead {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 30px 0 4px;
+    }
+
+    .zonehead .zlabel {
+      font: 600 11px 'JetBrains Mono', monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #e8e9ea;
+    }
+
+    .zonehead .zmeta {
+      font: 11px 'JetBrains Mono', monospace;
+      color: #6d6f74;
+    }
+
+    .zonehead .zbar {
+      flex: 1;
+      height: 1px;
+      background: #23262e;
+    }
+
+    .ladder {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 28px;
+      align-items: center;
+      padding: 13px 0;
+      border-bottom: 1px solid #191b20;
+    }
+
+    .step:last-child {
+      border-bottom: none;
+    }
+
+    .step .meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .step .tok {
+      font: 12.5px 'JetBrains Mono', monospace;
+      color: var(--ts-accent);
+    }
+
+    .step .role {
+      font-size: 11.5px;
+      color: #6d6f74;
+      letter-spacing: 0.02em;
+    }
+
+    .step .nums {
+      display: flex;
+      gap: 7px;
+      align-items: baseline;
+    }
+
+    .step .px {
+      font: 11px 'JetBrains Mono', monospace;
+      color: #c8c9cd;
+      min-width: 58px;
+    }
+
+    .step .rem {
+      font: 10.5px 'JetBrains Mono', monospace;
+      color: #5f6168;
+    }
+
+    .step .specimen {
+      font-family: 'Space Grotesk', sans-serif;
+      color: #e8e9ea;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.1;
+    }
+
+    .step.body-anchor {
+      background: linear-gradient(90deg, rgba(255, 85, 0, 0.05), transparent);
+      margin: 0 -14px;
+      padding-left: 14px;
+      padding-right: 14px;
+      border-radius: 8px;
+    }
+
+    .step.body-anchor .tok::after {
+      content: '★ body';
+      margin-left: 9px;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      color: #6d6f74;
+      text-transform: uppercase;
+    }
+
+    /* ── specimen stack ── */
+    .specimens {
+      border-radius: 14px;
+      border: 1px solid #2d3038;
+      background: #14161a;
+      padding: 28px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .specimens .spec-row {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 24px;
+      align-items: baseline;
+    }
+
+    .specimens .spec-row .cls {
+      font: 11px 'JetBrains Mono', monospace;
+      color: #6d6f74;
+      padding-top: 4px;
+    }
+
+    .specimens .spec-row .cls b {
+      color: #9ea0a5;
+      font-weight: 400;
+      display: block;
+    }
+
+    .specimens p {
+      margin: 0;
+    }
+
+    /* ── tokens (lh / tracking) ── */
+    .tokgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+    }
+
+    .toklist {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .toklist .t {
+      display: grid;
+      grid-template-columns: max-content 52px 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid #191b20;
+    }
+
+    .toklist .t:last-child {
+      border-bottom: none;
+    }
+
+    .toklist .t .tn {
+      font: 11.5px 'JetBrains Mono', monospace;
+      color: oklch(75% 0.14 215);
+    }
+
+    .toklist .t .tv {
+      font: 11.5px 'JetBrains Mono', monospace;
+      color: #c8c9cd;
+      text-align: right;
+    }
+
+    .toklist .t .demo {
+      color: #9ea0a5;
+      font-size: 13px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* ── migration ── */
+    .migrate {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .fix {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 14px;
+      padding: 16px 18px;
+      border-radius: 11px;
+      border: 1px solid #2d3038;
+      background: #14161a;
+    }
+
+    .fix .badge {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: rgba(34, 197, 94, 0.14);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #22c55e;
+      font: 700 11px 'JetBrains Mono', monospace;
+      display: grid;
+      place-items: center;
+    }
+
+    .fix .body h4 {
+      margin: 0 0 5px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #e8e9ea;
+      letter-spacing: -0.01em;
+    }
+
+    .fix .body p {
+      margin: 0;
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: #9ea0a5;
+    }
+
+    .fix .body code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      background: #0c0d0f;
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #d7d8db;
+    }
+
+    .fix .body .was {
+      color: #ef6b5e;
+    }
+
+    .fix .body .now {
+      color: #5bd17f;
+    }
+
+    .usage {
+      margin-top: 8px;
+    }
+
+    pre.code {
+      margin: 0;
+      background: #14161a;
+      border: 1px solid #2d3038;
+      border-radius: 11px;
+      padding: 16px 19px;
+      font: 12px/1.7 'JetBrains Mono', monospace;
+      color: #d7d8db;
+      overflow: auto;
+    }
+
+    pre.code .k {
+      color: oklch(75% 0.14 215);
+    }
+
+    pre.code .v {
+      color: oklch(80% 0.12 75);
+    }
+
+    pre.code .c {
+      color: #5f6168;
+    }
+
+    pre.code .s {
+      color: var(--ts-accent);
+    }
+
+    .footer {
+      margin-top: 84px;
+      padding-top: 22px;
+      border-top: 1px solid #2d3038;
+      font: 11px 'JetBrains Mono', monospace;
+      color: #6d6f74;
+      letter-spacing: 0.08em;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ── flex / cq hero demos ── */
+    .demo-label {
+      font: 10px 'JetBrains Mono', monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6d6f74;
+      margin: 16px 0 10px;
+    }
+
+    .demo-frame {
+      border: 1px dashed #3a3d45;
+      background: #0c0d0f;
+      border-radius: 10px;
+      padding: 18px;
+      display: grid;
+      place-items: center;
+      min-height: 130px;
+      overflow: hidden;
+    }
+
+    .resizer {
+      resize: both;
+      overflow: hidden;
+      min-width: 200px;
+      min-height: 110px;
+      max-width: 100%;
+      width: 100%;
+      height: 150px;
+      border: 1px dashed #3a3d45;
+      border-radius: 10px;
+      background: #0c0d0f;
+      padding: 16px;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .resizer::after {
+      content: '⤡';
+      position: absolute;
+      right: 7px;
+      bottom: 4px;
+      font: 12px monospace;
+      color: #5f6168;
+    }
+
+    .demo-frame .ts-flex-hero,
+    .resizer .ts-cq-hero {
+      margin: 0;
+    }
+
+    /* ── text-management cards ── */
+    .tm-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .tm-card {
+      border: 1px solid #2d3038;
+      background: #14161a;
+      border-radius: 12px;
+      padding: 16px 18px;
+      overflow: hidden;
+    }
+
+    .tm-card .th {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .tm-card .th .cn {
+      font: 11.5px 'JetBrains Mono', monospace;
+      color: var(--ts-accent);
+    }
+
+    .tm-card .th .cd {
+      font: 10px 'JetBrains Mono', monospace;
+      color: #6d6f74;
+      letter-spacing: 0.04em;
+    }
+
+    .tm-card .sample {
+      color: #c8c9cd;
+      line-height: 1.55;
+    }
+
+    .tm-card .narrow {
+      max-width: 250px;
+    }
+
+    .tnum-demo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .tnum-demo .col span {
+      font: 10px 'JetBrains Mono', monospace;
+      color: #6d6f74;
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .tnum-demo .col div {
+      color: #c8c9cd;
+      font-size: 14px;
+      text-align: right;
+      line-height: 1.5;
+    }
+
+    /* ── knobs ── */
+    .knobs {
+      position: fixed;
+      top: 22px;
+      right: 22px;
+      width: 268px;
+      background: rgba(20, 22, 26, 0.94);
+      backdrop-filter: blur(16px);
+      border: 1px solid #2d3038;
+      border-radius: 14px;
+      padding: 16px 17px 14px;
+      z-index: 50;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+    }
+
+    .knobs h5 {
+      margin: 0 0 14px;
+      font: 600 10px 'JetBrains Mono', monospace;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #c8c9cd;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .knobs h5::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ts-accent);
+      box-shadow: 0 0 10px var(--ts-accent);
+    }
+
+    .knobs .krow {
+      display: grid;
+      grid-template-columns: 1fr 50px;
+      align-items: center;
+      gap: 5px 8px;
+      margin-bottom: 11px;
+    }
+
+    .knobs label {
+      font: 10.5px 'JetBrains Mono', monospace;
+      color: #9ea0a5;
+    }
+
+    .knobs input[type=range] {
+      width: 100%;
+      accent-color: var(--ts-accent);
+      grid-column: 1 / -1;
+    }
+
+    .knobs .val {
+      font: 10.5px 'JetBrains Mono', monospace;
+      color: #e8e9ea;
+      text-align: right;
+    }
+
+    .knobs .reset {
+      margin-top: 4px;
+      width: 100%;
+      background: #1c1e24;
+      border: 1px solid #2d3038;
+      color: #9ea0a5;
+      font: 10px 'JetBrains Mono', monospace;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 7px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .knobs .reset:hover {
+      border-color: var(--ts-accent);
+      color: #e8e9ea;
+    }
+
+    .knobs .hint {
+      font: 9.5px/1.5 'JetBrains Mono', monospace;
+      color: #5f6168;
+      margin: 9px 0 0;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        padding: 32px 22px 80px;
+      }
+
+      .engine,
+      .tokgrid {
+        grid-template-columns: 1fr;
+      }
+
+      .step {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .knobs {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <p class="top-eyebrow">Toolskin Design System · Refactor</p>
+  <h1 class="page">Type Scale <span class="v">v2 — single-source modular system</span></h1>
+  <p class="lede">
+    A ground-up replacement for the legacy &ldquo;harmonic&rdquo; scale, whose single-ratio
+    promise was <b>decorative</b> — the steps hardcoded a different ratio, comments contradicted
+    their own values, and <code>--ts-fs-h3</code> shipped an <b>inverted clamp</b> that silently
+    pinned to its minimum. v2 is honest: <b>two zones</b>, each with the right job. A px-snapped
+    <b>UI ladder</b> (10&ndash;20px) for functional text, and a true <b>Major-Third display ladder</b>
+    (24px+) for headings. One knob — <code>--ts-type-scale</code> — rescales everything, and every
+    value is <code>rem</code>-based so browser zoom still works.
+  </p>
+
+  <!-- ════════════════════ 1 · THE ENGINE ════════════════════ -->
+  <h2 class="sec"><span class="n">01</span> The engine</h2>
+  <p class="sub">
+    One base unit (<code>--ts-fs</code>, the body size) and one documented display ratio
+    (<code>--ts-ratio-display</code>). The UI ladder is px-snapped for crispness; the display
+    ladder is computed on a constant 1.25, fluid via <code>clamp()</code> with every bound
+    verified <code>min&nbsp;&lt;&nbsp;max</code>.
+  </p>
+  <div class="rule"></div>
+
+  <div class="engine">
+    <div class="panel">
+      <h3>The source of truth</h3>
+      <pre class="formula"><span class="c">/* one base, one knob, rem-based */</span>
+<span class="k">--ts-fs-root</span>:    <span class="v">16px</span>;   <span class="c">/* browser default */</span>
+<span class="k">--ts-type-scale</span>: <span class="v">1</span>;      <span class="c">/* density knob */</span>
+<span class="k">--ts-fs</span>: <span class="a">calc</span>(<span class="v">0.9375rem</span> * <span class="k">var</span>(--ts-type-scale)); <span class="c">/* 15px body */</span>
+
+<span class="c">/* UI zone — px-snapped rem fractions */</span>
+<span class="k">--ts-fs-sm</span>: <span class="a">calc</span>(<span class="v">0.875rem</span> * <span class="k">var</span>(--ts-type-scale));
+<span class="k">--ts-fs-md</span>: <span class="k">var</span>(--ts-fs);
+<span class="k">--ts-fs-lg</span>: <span class="a">calc</span>(<span class="v">1.0625rem</span> * <span class="k">var</span>(--ts-type-scale));
+
+<span class="c">/* display zone — true Major Third, fluid */</span>
+<span class="k">--ts-ratio-display</span>: <span class="v">1.25</span>;
+<span class="k">--ts-fs-3xl</span>: <span class="a">clamp</span>(<span class="v">1.5rem</span>, …, <span class="v">1.875rem</span>); <span class="c">/* 24→30 */</span>
+<span class="k">--ts-fs-4xl</span>: <span class="a">clamp</span>(<span class="v">1.875rem</span>, …, <span class="v">2.375rem</span>); <span class="c">/* 30→38 */</span></pre>
+    </div>
+    <div class="panel">
+      <h3>The ladder · resolved at 16px root</h3>
+      <div class="ratios" id="ratioMap"></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════ 2 · THE LADDER ════════════════════ -->
+  <h2 class="sec"><span class="n">02</span> The full ladder</h2>
+  <p class="sub">
+    Every token rendered at its true size. Pixel values are read <b>live</b> from
+    <code>getComputedStyle</code> — drag the knobs (top-right) and watch the whole ladder retune.
+    Name tokens by <b>role</b> in product code, never reach for a raw step.
+  </p>
+  <div class="rule"></div>
+
+  <div class="zonehead">
+    <span class="zlabel">UI zone</span>
+    <span class="zmeta">10–20px · px-snapped · functional text</span>
+    <span class="zbar"></span>
+  </div>
+  <div class="ladder" id="ladderUI"></div>
+
+  <div class="zonehead">
+    <span class="zlabel">Display zone</span>
+    <span class="zmeta">24px+ · Major Third 1.25 · fluid clamp()</span>
+    <span class="zbar"></span>
+  </div>
+  <div class="ladder" id="ladderDisplay"></div>
+
+  <!-- ════════════════════ 3 · SPECIMENS ════════════════════ -->
+  <h2 class="sec"><span class="n">03</span> Role specimens</h2>
+  <p class="sub">
+    The utility classes wired to the tokens. Each pairs a size with its intended line-height and
+    tracking — bigger type gets tighter leading and negative tracking; small mono UI gets positive.
+  </p>
+  <div class="rule"></div>
+
+  <div class="specimens">
+    <div class="spec-row">
+      <div class="cls">.ts-display<b>display-md</b></div>
+      <p class="ts-display">Ship faster.</p>
+    </div>
+    <div class="spec-row">
+      <div class="cls">.ts-h1<b>h1 · 30→38</b></div>
+      <p class="ts-h1">Build the developer surface</p>
+    </div>
+    <div class="spec-row">
+      <div class="cls">.ts-h2<b>h2 · 24→30</b></div>
+      <p class="ts-h2">A type system you can trust</p>
+    </div>
+    <div class="spec-row">
+      <div class="cls">.ts-h3<b>h3 · 20→24</b></div>
+      <p class="ts-h3">Two zones, one source of truth</p>
+    </div>
+    <div class="spec-row">
+      <div class="cls">.ts-h4<b>h4 · 20</b></div>
+      <p class="ts-h4">Tokens name a role, not a pixel</p>
+    </div>
+    <div class="spec-row">
+      <div class="cls">.ts-lead<b>lead · 17</b></div>
+      <p class="ts-lead">The lead paragraph sets the tone before the body copy begins, riding a relaxed 1.65 line-height for comfortable scanning.</p>
+    </div>
+    <div class="spec-row">
+      <div class="cls">.ts-body<b>body · 15</b></div>
+      <p class="ts-body">Body text is the workhorse. At 15px on a 1.65 line-height it stays legible across long-form documentation while keeping the dense, technical feel of a developer tool. Every paragraph inherits the same anchor the entire scale is built from.</p>
+    </div>
+    <div class="spec-row">
+      <div class="cls">.ts-body-sm<b>body-sm · 14</b></div>
+      <p class="ts-body-sm">Secondary text drops to 14px for supporting copy, helper text, and metadata that sits beneath the primary reading line.</p>
+    </div>
+    <div class="spec-row">
+      <div class="cls">.ts-caption<b>caption · 12</b></div>
+      <p class="ts-caption">Captions and timestamps · monospace, tracked +0.04em</p>
+    </div>
+    <div class="spec-row">
+      <div class="cls">.ts-eyebrow<b>eyebrow · 11</b></div>
+      <p class="ts-eyebrow">Section overline</p>
+    </div>
+  </div>
+
+  <!-- ════════════════════ 4 · COMPANION TOKENS ════════════════════ -->
+  <h2 class="sec"><span class="n">04</span> Line-height &amp; tracking</h2>
+  <p class="sub">
+    A type scale is more than sizes. These companion tokens pair with each step so headings and
+    body get the right rhythm without per-component guesswork.
+  </p>
+  <div class="rule"></div>
+
+  <div class="tokgrid">
+    <div class="panel">
+      <h3>Line height · --ts-lh-*</h3>
+      <div class="toklist" id="lhList"></div>
+    </div>
+    <div class="panel">
+      <h3>Letter spacing · --ts-tracking-*</h3>
+      <div class="toklist" id="trkList"></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════ 5 · FLEX / CONTENT-AWARE HEROES ════════════════════ -->
+  <h2 class="sec"><span class="n">05</span> Flex &amp; content-aware heroes</h2>
+  <p class="sub">
+    The fixed ladder caps at 76px (<code>--ts-fs-display-xl</code>). When a hero must <b>fill its
+      area</b> at any aspect ratio, switch methods. Two are provided — pick by what the type should track.
+  </p>
+  <div class="rule"></div>
+
+  <div class="engine">
+    <div class="panel">
+      <h3>Viewport-fill · vw + vh + vmin</h3>
+      <pre class="formula"><span class="c">/* tracks the viewport AREA at any ratio */</span>
+<span class="k">--ts-fs-flex-hero</span>: <span class="a">clamp</span>(
+  <span class="v">2.75rem</span>,                  <span class="c">/* floor */</span>
+  <span class="a">calc</span>(<span class="v">4vw</span> + <span class="v">4vh</span> + <span class="v">2vmin</span>),  <span class="c">/* fill */</span>
+  <span class="v">8.5rem</span>);                  <span class="c">/* ceiling */</span>
+
+<span class="c">/* vw over-grows wide, vh over-grows tall;
+   vmin corrects the diagonal. Scalars sum
+   to a "fill budget" — always clamp(). */</span></pre>
+      <p class="demo-label">.ts-flex-hero · tracks the viewport — resize the window</p>
+      <div class="demo-frame">
+        <div class="ts-flex-hero ts-text-accent">Toolskin</div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Container-aware · cqi</h3>
+      <pre class="formula"><span class="c">/* tracks its CONTAINER, not the screen */</span>
+<span class="k">--ts-fs-cq-hero</span>: <span class="a">clamp</span>(<span class="v">2rem</span>, <span class="v">12cqi</span>, <span class="v">7rem</span>);
+
+<span class="c">/* needs an ancestor marked as a container: */</span>
+<span class="s">.ts-cq</span> { <span class="k">container-type</span>: <span class="v">inline-size</span>; }
+
+<span class="c">/* cqi = 1% of that container's width, so a
+   hero in a card scales to the CARD. */</span></pre>
+      <p class="demo-label">.ts-cq-hero · tracks its box — drag the corner ⤡</p>
+      <div class="resizer ts-cq">
+        <div class="ts-cq-hero">Toolskin</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════ 6 · TEXT MANAGEMENT ════════════════════ -->
+  <h2 class="sec"><span class="n">06</span> Text management</h2>
+  <p class="sub">
+    Truncation, wrapping quality, and effects as composable single-purpose utilities.
+    Stack them freely — <code>class="ts-clamp ts-clamp-3 ts-pretty"</code>.
+  </p>
+  <div class="rule"></div>
+
+  <div class="tm-grid">
+    <div class="tm-card">
+      <div class="th"><span class="cn">.ts-truncate</span><span class="cd">1 line · ellipsis</span></div>
+      <div class="sample ts-truncate">Single-line truncation needs a constrained width, then it cuts with an ellipsis when the content runs past the edge.</div>
+    </div>
+    <div class="tm-card">
+      <div class="th"><span class="cn">.ts-clamp .ts-clamp-2</span><span class="cd">2 lines · ellipsis</span></div>
+      <div class="sample ts-clamp ts-clamp-2">Multi-line clamp truncates after a set number of lines via <code>--ts-clamp-lines</code> — here capped at two, so any overflow beyond the second line collapses into an ellipsis.</div>
+    </div>
+    <div class="tm-card">
+      <div class="th"><span class="cn">.ts-clamp .ts-clamp-3</span><span class="cd">3 lines · ellipsis</span></div>
+      <div class="sample ts-clamp ts-clamp-3">Bump the helper to clamp at three lines. Useful for card descriptions and feed previews where you want a predictable block height without measuring text. Everything past the third line is hidden behind the trailing ellipsis automatically.</div>
+    </div>
+    <div class="tm-card">
+      <div class="th"><span class="cn">.ts-balance / .ts-pretty</span><span class="cd">wrap quality</span></div>
+      <div class="sample ts-balance" style="font-size:17px;font-weight:600;color:#e8e9ea;margin-bottom:8px;">Balanced headlines break into even ragged lines</div>
+      <div class="sample ts-pretty narrow">Pretty body wrapping prevents a lonely orphan word from stranding on the last line of a paragraph.</div>
+    </div>
+    <div class="tm-card">
+      <div class="th"><span class="cn">.ts-fade-r</span><span class="cd">edge fade · soft cut</span></div>
+      <div class="sample ts-fade-r">A softer alternative to the hard ellipsis — the trailing edge masks to transparent instead of cutting with three dots.</div>
+      <div class="th" style="margin-top:14px;"><span class="cn">.ts-break</span><span class="cd">force-wrap</span></div>
+      <div class="sample ts-break narrow">https://toolskin.dev/handoff/type-v2/very-long-unbreakable-identifier-0xA1B2C3</div>
+    </div>
+    <div class="tm-card">
+      <div class="th"><span class="cn">.ts-tnum</span><span class="cd">tabular numerals</span></div>
+      <div class="tnum-demo">
+        <div class="col"><span>default</span>
+          <div>1,204.50<br>89.07<br>3,330.19</div>
+        </div>
+        <div class="col"><span>.ts-tnum</span>
+          <div class="ts-tnum">1,204.50<br>89.07<br>3,330.19</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════ 7 · WHAT CHANGED ════════════════════ -->
+  <h2 class="sec"><span class="n">07</span> What v2 fixes</h2>
+  <p class="sub">Every defect in the legacy scale, and how the refactor resolves it. All public token names are preserved — v2 is a drop-in: load it after <code>toolskin.css</code>.</p>
+  <div class="rule"></div>
+
+  <div class="migrate">
+    <div class="fix">
+      <div class="badge">1</div>
+      <div class="body">
+        <h4>Double-declared base</h4>
+        <p><span class="was"><code>--ts-fs-base: 0.8rem</code></span> was immediately overwritten by <span class="now"><code>13px</code></span>. v2 has <b>one</b> base, <code>--ts-fs</code>, which every token derives from.</p>
+      </div>
+    </div>
+    <div class="fix">
+      <div class="badge">2</div>
+      <div class="body">
+        <h4>Decorative ratio</h4>
+        <p><code>--ts-fs-ratio: 1.12</code> was never used — steps hardcoded powers of 1.125 plus ad-hoc multipliers. v2's display ladder is <b>computed on a real, constant</b> <code>--ts-ratio-display: 1.25</code>.</p>
+      </div>
+    </div>
+    <div class="fix">
+      <div class="badge">3</div>
+      <div class="body">
+        <h4>Lying comments</h4>
+        <p><code>--ts-fs-sm</code> was labelled <span class="was">~11.6px</span> but resolved to <span class="was">12.1px</span>; <code>--ts-fs-md</code> said 13px while its own alias said 14.6px. v2 comments are <b>verified against computed values</b>.</p>
+      </div>
+    </div>
+    <div class="fix">
+      <div class="badge">4</div>
+      <div class="body">
+        <h4>Inverted clamp</h4>
+        <p><span class="was"><code>--ts-fs-h3: clamp(xl, 2vw, lg)</code></span> had a max (~14.6px) <b>smaller</b> than its min (~18.5px), silently pinning to the min forever. v2: <span class="now"><code>--ts-fs-h3 → --ts-fs-2xl</code></span>, a valid 20→24px clamp.</p>
+      </div>
+    </div>
+    <div class="fix">
+      <div class="badge">5</div>
+      <div class="body">
+        <h4>Duplicate &amp; magic values</h4>
+        <p><code>--ts-fs-lead</code> was declared twice with conflicting comments; display steps used magic numbers (3.247, 4.328…). v2 has <b>one declaration per token</b>, all on the 1.25 ladder.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="usage">
+    <h2 class="sec" style="margin-top:40px;"><span class="n">+</span> Usage</h2>
+    <div class="rule"></div>
+    <pre class="code"><span class="c">&lt;!-- load order: base first, v2 overrides the legacy scale --&gt;</span>
+<span class="k">&lt;link</span> <span class="v">rel</span>=<span class="s">"stylesheet"</span> <span class="v">href</span>=<span class="s">"toolskin.css"</span><span class="k">&gt;</span>
+<span class="k">&lt;link</span> <span class="v">rel</span>=<span class="s">"stylesheet"</span> <span class="v">href</span>=<span class="s">"toolskin-type-v2.css"</span><span class="k">&gt;</span>
+
+<span class="c">/* name by ROLE — not by raw step */</span>
+.card-title  { font-size: <span class="k">var</span>(--ts-fs-h3); line-height: <span class="k">var</span>(--ts-lh-snug); }
+.card-body   { font-size: <span class="k">var</span>(--ts-fs-body); line-height: <span class="k">var</span>(--ts-lh-relaxed); }
+.card-meta   { font-size: <span class="k">var</span>(--ts-fs-caption); letter-spacing: <span class="k">var</span>(--ts-tracking-wide); }
+
+<span class="c">/* retune density for a whole subtree — no per-element edits */</span>
+.compact     { <span class="k">--ts-type-scale</span>: <span class="v">0.92</span>; }
+.comfortable { <span class="k">--ts-type-scale</span>: <span class="v">1.08</span>; }</pre>
+  </div>
+
+  <div class="footer">
+    <span>TOOLSKIN · TYPE SCALE v2</span>
+    <span>toolskin-type-v2.css</span>
+  </div>
+
+  <!-- ── knobs ── -->
+  <div class="knobs">
+    <h5>Live system</h5>
+    <div class="krow">
+      <label>Root font-size</label><span class="val" id="vRoot">16px</span>
+      <input type="range" id="kRoot" min="14" max="20" step="1" value="16">
+    </div>
+    <div class="krow">
+      <label>--ts-type-scale</label><span class="val" id="vScale">1.00</span>
+      <input type="range" id="kScale" min="0.85" max="1.20" step="0.01" value="1">
+    </div>
+    <div class="krow">
+      <label>Display ratio</label><span class="val" id="vRatio">1.25</span>
+      <input type="range" id="kRatio" min="1.15" max="1.40" step="0.01" value="1.25">
+    </div>
+    <button class="reset" id="kReset">Reset</button>
+    <p class="hint">Root + scale rescale every token. Display ratio recomputes the 24px+ ladder live (becomes static while dragging).</p>
+  </div>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+
+      // ── token definitions ────────────────────────────────────────────────
+      const UI = [
+        ['--ts-fs-4xs', '0.625rem', 'Fine print · legibility floor'],
+        ['--ts-fs-3xs', '0.6875rem', 'Micro label · eyebrow'],
+        ['--ts-fs-2xs', '0.75rem', 'Caption · badge · chip'],
+        ['--ts-fs-xs', '0.8125rem', 'Dense secondary · table cell'],
+        ['--ts-fs-sm', '0.875rem', 'Small body · secondary UI'],
+        ['--ts-fs-md', '0.9375rem', 'Body · base UI label', true],
+        ['--ts-fs-lg', '1.0625rem', 'Lead paragraph · large UI'],
+        ['--ts-fs-xl', '1.25rem', 'Subhead / h4 · UI→display bridge'],
+      ];
+      const DISPLAY = [
+        ['--ts-fs-2xl', '1.25→1.5rem', 'h3'],
+        ['--ts-fs-3xl', '1.5→1.875rem', 'h2'],
+        ['--ts-fs-4xl', '1.875→2.375rem', 'h1'],
+        ['--ts-fs-display-md', '2.375→3rem', 'Display · pricing'],
+        ['--ts-fs-display-lg', '3→3.75rem', 'Display large'],
+        ['--ts-fs-display-xl', '3.75→4.75rem', 'Hero display'],
+      ];
+      const SPECIMEN = 'Toolskin';
+      const SPECIMEN_UI = 'The quick brown fox jumps';
+
+      // ── build ladder rows ─────────────────────────────────────────────────
+      function buildLadder(host, list, isDisplay) {
+        host.innerHTML = '';
+        list.forEach(([tok, rem, role, anchor]) => {
+          const row = document.createElement('div');
+          row.className = 'step' + (anchor ? ' body-anchor' : '');
+          row.innerHTML =
+            '<div class="meta">' +
+            '<span class="tok">' + tok + '</span>' +
+            '<span class="role">' + role + '</span>' +
+            '<span class="nums"><span class="px" data-px="' + tok + '"></span>' +
+            '<span class="rem">' + rem + '</span></span>' +
+            '</div>' +
+            '<div class="specimen" style="font-size:var(' + tok + ');' +
+            (isDisplay ? 'font-weight:600;letter-spacing:-0.02em;' : '') + '">' +
+            (isDisplay ? SPECIMEN : SPECIMEN_UI) + '</div>';
+          host.appendChild(row);
+        });
+      }
+      buildLadder(document.getElementById('ladderUI'), UI, false);
+      buildLadder(document.getElementById('ladderDisplay'), DISPLAY, true);
+
+      // ── ratio reference map ───────────────────────────────────────────────
+      const ratioHost = document.getElementById('ratioMap');
+      function buildRatioMap() {
+        ratioHost.innerHTML = '';
+        const add = (k, d, v) => {
+          const e = document.createElement('div'); e.className = 'k'; e.textContent = k;
+          const dd = document.createElement('div'); dd.className = 'd'; dd.textContent = d;
+          const vv = document.createElement('div'); vv.className = 'vv'; vv.textContent = v;
+          ratioHost.append(e, dd, vv);
+        };
+        const zone = (t) => { const z = document.createElement('div'); z.className = 'zone'; z.textContent = t; ratioHost.appendChild(z); };
+        zone('UI zone · px-snapped');
+        UI.forEach(([tok, , role]) => add(tok.replace('--ts-fs-', ''), role.split(' · ')[0], px(tok)));
+        zone('Display zone · ×1.25');
+        DISPLAY.forEach(([tok, , role]) => add(tok.replace('--ts-fs-', ''), role, px(tok)));
+      }
+
+      // ── companion token lists ─────────────────────────────────────────────
+      const LH = [
+        ['--ts-lh-display', '1.05', 'Hero display wordmark'],
+        ['--ts-lh-tight', '1.1', 'Headline h1 / h2'],
+        ['--ts-lh-snug', '1.25', 'Subhead h3 / h4'],
+        ['--ts-lh-normal', '1.5', 'UI text, single-line'],
+        ['--ts-lh-relaxed', '1.65', 'Long-form body copy'],
+        ['--ts-lh-loose', '1.8', 'Generous editorial'],
+      ];
+      const TRK = [
+        ['--ts-tracking-tightest', '-0.04em', 'Display XL'],
+        ['--ts-tracking-tighter', '-0.03em', 'Display / h1'],
+        ['--ts-tracking-tight', '-0.02em', 'Heading h2'],
+        ['--ts-tracking-snug', '-0.01em', 'Heading h3 / h4'],
+        ['--ts-tracking-normal', '0', 'Body copy'],
+        ['--ts-tracking-wide', '0.04em', 'Caption · mono'],
+        ['--ts-tracking-wider', '0.08em', 'Eyebrow · badge'],
+        ['--ts-tracking-widest', '0.14em', 'Section label'],
+      ];
+      function buildTok(host, list, kind) {
+        list.forEach(([tok, val, demo]) => {
+          const r = document.createElement('div'); r.className = 't';
+          const style = kind === 'lh'
+            ? 'line-height:var(' + tok + ');display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;'
+            : 'letter-spacing:var(' + tok + ');';
+          r.innerHTML = '<span class="tn">' + tok.replace('--ts-', '') + '</span>' +
+            '<span class="tv">' + val + '</span>' +
+            '<span class="demo" style="' + style + '">' + demo + '</span>';
+          host.appendChild(r);
+        });
+      }
+      buildTok(document.getElementById('lhList'), LH, 'lh');
+      buildTok(document.getElementById('trkList'), TRK, 'trk');
+
+      // ── live px reader ────────────────────────────────────────────────────
+      let probe = document.createElement('span');
+      probe.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none;';
+      document.body.appendChild(probe);
+      function px(tok) {
+        probe.style.fontSize = 'var(' + tok + ')';
+        const v = parseFloat(getComputedStyle(probe).fontSize);
+        return (Math.round(v * 10) / 10) + 'px';
+      }
+      function refreshPx() {
+        document.querySelectorAll('[data-px]').forEach(el => { el.textContent = px(el.dataset.px); });
+        buildRatioMap();
+      }
+
+      // ── display-ladder recompute from live ratio ──────────────────────────
+      // base = --ts-fs-2xl floor (1.25rem). Each step = base × ratio^n, min/max pair.
+      const DISP_TOKENS = ['--ts-fs-2xl', '--ts-fs-3xl', '--ts-fs-4xl', '--ts-fs-display-md', '--ts-fs-display-lg', '--ts-fs-display-xl'];
+      function applyRatio(ratio) {
+        if (Math.abs(ratio - 1.25) < 0.005) { DISP_TOKENS.forEach(t => root.style.removeProperty(t)); return; }
+        const scale = parseFloat(getComputedStyle(root).getPropertyValue('--ts-type-scale')) || 1;
+        let minRem = 1.25; // 2xl floor
+        DISP_TOKENS.forEach((t) => {
+          const maxRem = minRem * ratio;
+          root.style.setProperty(t,
+            'clamp(' + (minRem * scale).toFixed(3) + 'rem, ' +
+            ((minRem * 0.7 + maxRem * 0.3) * scale).toFixed(3) + 'rem + 1.5vw, ' +
+            (maxRem * scale).toFixed(3) + 'rem)');
+          minRem = maxRem;
+        });
+      }
+
+      // ── knobs ─────────────────────────────────────────────────────────────
+      const kRoot = document.getElementById('kRoot'), kScale = document.getElementById('kScale'), kRatio = document.getElementById('kRatio');
+      const vRoot = document.getElementById('vRoot'), vScale = document.getElementById('vScale'), vRatio = document.getElementById('vRatio');
+      function sync() {
+        root.style.fontSize = kRoot.value + 'px';
+        root.style.setProperty('--ts-type-scale', kScale.value);
+        root.style.setProperty('--ts-ratio-display', kRatio.value);
+        applyRatio(parseFloat(kRatio.value));
+        vRoot.textContent = kRoot.value + 'px';
+        vScale.textContent = parseFloat(kScale.value).toFixed(2);
+        vRatio.textContent = parseFloat(kRatio.value).toFixed(2);
+        refreshPx();
+      }
+      [kRoot, kScale, kRatio].forEach(k => k.addEventListener('input', sync));
+      document.getElementById('kReset').addEventListener('click', () => {
+        kRoot.value = 16; kScale.value = 1; kRatio.value = 1.25; sync();
+      });
+
+      refreshPx();
+    })();
+  </script>
+</body>
+
+</html>

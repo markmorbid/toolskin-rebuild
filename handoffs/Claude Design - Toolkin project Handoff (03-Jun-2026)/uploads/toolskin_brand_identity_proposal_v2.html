@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="../assets/css/toolskin.css">
+<title>Toolskin — Brand Identity Proposal v1.0</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ts-orange:#FF5500;
+  --ts-amber:#FF8C00;
+  --ts-dark:#0c0d0f;
+  --ts-surface1:#14161a;
+  --ts-surface2:#1c1e24;
+  --ts-surface3:#23262e;
+  --ts-border:rgba(255,255,255,0.07);
+  --ts-text:#e8e9ea;
+  --ts-muted:rgba(232,233,234,0.45);
+  --font:'Space Grotesk',-apple-system,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+
+  /* Logo system tokens */
+  --ts-logo-bar-1: var(--ts-text);
+  --ts-logo-bar-2: var(--ts-orange);
+  --ts-logo-bar-3: rgba(232,233,234,0.22);
+}
+html,body{background:var(--ts-dark);color:var(--ts-text);font-family:var(--font);line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+/* NAV */
+.nav{font-family:var(--mono);display:flex;gap:4px;padding: 0;border-bottom:1px solid var(--ts-border);flex-wrap:wrap;position:sticky;top:0;background:var(--ts-dark);z-index:100}
+.nav-btn{font-family:var(--mono);padding:8px 14px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:none;border:none;color:var(--ts-muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s}
+.nav-btn.active{color:var(--ts-orange);border-color:var(--ts-orange)}
+.nav-btn:hover:not(.active){color:var(--ts-text)}
+
+/* SECTIONS */
+.section{display:none;/* padding:50px; */animation:fadeIn .25s ease;max-width:1400px;width: 100%;margin:0 auto}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.section-label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ts-orange);margin-bottom:20px;display:flex;align-items:center;gap:10px;flex: 0 1;max-height: fit-content;margin-bottom: -15px;/* margin-top: auto; */}
+.section-label::after{content:'';flex:1;height:1px;background:var(--ts-border)}
+
+h2{font-family:var(--font);font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom: 0;flex: 1 1;max-block-size: fit-content;}
+h3{font-family:var(--font);font-size:15px;font-weight:600;margin-bottom:10px;color:var(--ts-text)}
+p.body{font-size:14px;color:var(--ts-muted);line-height:1.65;margin-bottom: 0;flex: 1 1 100%;max-height: fit-content;}
+code{font-family:var(--mono);font-size:.92em}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom: 0;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.card{background:var(--ts-surface1);border:1px solid var(--ts-border);border-radius:10px;padding:20px}
+.card.featured{border-color:rgba(255,85,0,.35);background:rgba(255,85,0,.04)}
+.card-label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ts-muted);margin-bottom:12px}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:var(--mono)}
+.badge-orange{background:rgba(255,85,0,.15);color:var(--ts-orange);border:1px solid rgba(255,85,0,.25)}
+.select-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:6px;font-size:12px;font-weight:600;background:var(--ts-surface3);border:1px solid var(--ts-border);color:var(--ts-muted);cursor:pointer;transition:all .18s;margin-top:14px;font-family:var(--mono)}
+.select-btn:hover{border-color:var(--ts-orange);color:var(--ts-orange);background:rgba(255,85,0,.06)}
+.select-btn.chosen{border-color:var(--ts-orange);color:var(--ts-orange);background:rgba(255,85,0,.1)}
+
+/* ========================================================
+   LOGO SYSTEM — clean architecture
+   - SVG handles all internal geometry via viewBox (unitless)
+   - CSS handles outer sizing + font inheritance only
+   - No CSS overrides on SVG x/y/width/height attributes
+   ======================================================== */
+.logo-wrap{
+  background:var(--ts-surface2);
+  border-radius:10px;
+  padding:28px 32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:140px;
+  margin-bottom:12px;
+  position:relative;
+  overflow:hidden;
+  /* subtle interior glow for depth */
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);
+}
+.logo-wrap.dark-bg{background:#080a0c}
+.logo-wrap.light-bg{background:#f0f0f0}
+.logo-wrap.brand-bg{background:#FF5500}
+.logo-wrap.icon-bg{background:#111213;min-height:96px;padding:18px}
+
+/* Construction grid — appears on hover, reveals geometry */
+.logo-wrap::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(to right, rgba(255,85,0,0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,85,0,0.06) 1px, transparent 1px);
+  background-size:8px 8px;
+  opacity:0;
+  transition:opacity .3s;
+  pointer-events:none;
+}
+.logo-wrap:hover::before{opacity:1}
+
+/* SVG logo — outer sizing only */
+svg.logomark{
+  display:block;
+  width:100%;
+  height:auto;
+  max-width:240px;
+  /* allow font-family to cascade to <text> children */
+  font-family:var(--font);
+  position:relative;
+  z-index:1;
+}
+.logo-wrap.icon-bg svg.logomark{max-width:48px}
+.master-mark svg.logomark{max-width:380px}
+
+/* SVG text styling — inherits via class, NOT inline attributes */
+svg.logomark text.ts-display{
+  font-family:var(--font);
+  font-weight:800!important;
+  /* do NOT set font-size here — let viewBox-relative attributes win */
+}
+svg.logomark text.ts-mono{
+  font-family:var(--mono);
+  font-weight:500;
+}
+
+.logo-caption{
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--ts-muted);
+  text-align:center;
+  letter-spacing:.04em;
+}
+
+/* ============== rest of the showcase ============== */
+
+.swatch-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.swatch{font-family:var(--font);height:48px;border-radius:6px;flex:1;min-width:48px;display:flex;align-items:flex-end;padding:5px 7px;font-size:9px;font-weight:700;letter-spacing:.06em}
+.swatch-label{font-family:var(--mono);font-size:11px;color:var(--ts-muted);margin-bottom:8px}
+
+.type-sample{padding:16px 0;border-bottom:1px solid var(--ts-border)}
+.type-sample:last-child{border-bottom:none}
+.type-meta{font-family:var(--mono);font-size:10px;color:var(--ts-muted);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+
+.usage-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.usage-card{background:var(--ts-surface1);border:1px solid var(--ts-border);border-radius:10px;overflow:hidden}
+.usage-preview{height:120px;display:flex;align-items:center;justify-content:center;background:var(--ts-dark);padding:18px}
+.usage-info{padding:14px 16px}
+.usage-title{font-family:var(--font);font-size:13px;font-weight:600;margin-bottom:4px}
+.usage-desc{font-family:var(--mono);font-size:11px;color:var(--ts-muted)}
+
+.personality-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.trait-card{background:var(--ts-surface1);border:1px solid var(--ts-border);border-radius:8px;padding:18px}
+.trait-title{font-family:var(--font);font-size:13px;font-weight:700;margin-bottom:4px}
+.trait-body{font-family:var(--mono);font-size:12px;color:var(--ts-muted);line-height:1.55}
+.trait-icon{font-size:22px;margin-bottom:10px}
+
+.token-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--ts-border);font-size:12px}
+.token-row:last-child{border:none}
+.token-name{font-family:var(--mono);color:var(--ts-orange);flex:1}
+.token-val{font-family:var(--mono);color:var(--ts-muted);font-size:11px}
+
+.divider{height:1px;background:var(--ts-border);margin:24px 0}
+
+.verdict{background:rgba(255,85,0,.06);border:1px solid rgba(255,85,0,.2);border-radius:10px;padding:20px 22px;margin-top:20px}
+.verdict h3{font-family:var(--font);color:var(--ts-orange);margin-bottom:8px}
+
+@media(max-width:600px){
+  .grid2,.grid3,.usage-grid,.personality-grid{grid-template-columns:1fr}
+  .nav{gap:2px}
+  .nav-btn{padding:6px 10px;font-size:10px}
+  .logo-wrap{padding:20px;min-height:110px}
+}
+</style>
+
+<style>
+  
+  /*VISUAL UPGRADE ADDING IMPROVMEMENT WITH GRID ASSND FLEXBOX AND TOOLSKIN TOKENS*/
+
+
+
+:root {
+    --ts-panel-w: 0;
+    --ts-topbar-h: 65px;
+    --ts-card-calculated-width: calc(var(--ts-panel-w) - var(--ts-card-pad)*2 - var(--ts-card-gap)*2);
+    --ts-input-h: 45px;
+    --ts-input-fs: var(--ts-fs-md);
+    --ts-input-pad-y: calc(var(--ts-input-h)*.3);
+    --ts-input-pad-left: calc(var(--ts-input-h) - var(--ts-input-pad-y));
+    --ts-input-padding: var(--ts-input-pad-y) var(--ts-input-pad-x) var(--ts-input-pad-y) var(--ts-input-pad-left);
+    --ts-input-radius: 8px;
+    --ts-toggle-size: 30px;
+    --ts-title-color: #ffffff;
+    --ts-badge-radius: 7px;
+    --ts-badge-opacity: 1;
+    --ts-icon-size: 60px;
+    --ts-card-pad: 30px;
+    --ts-card-gap: 15px;
+    --ts-icon-top: 0px;
+    --ts-icon-right: 0px;
+    --ts-canvas-grid-size: 48px;
+    --ts-canvas-grid-opacity: 91%;
+    --ts-canvas-grid-color: color-mix(in srgb, var(--ts-text-primary), var(--ts-bg-body) var(--ts-canvas-grid-opacity));
+    --ts-bg-grid-pattern: repeating-linear-gradient(0deg, transparent, transparent calc(var(--ts-canvas-grid-size) - 1px), var(--ts-canvas-grid-color) var(--ts-canvas-grid-size)), repeating-linear-gradient(90deg, transparent, transparent calc(var(--ts-canvas-grid-size) - 1px), var(--ts-canvas-grid-color) var(--ts-canvas-grid-size));
+}
+
+body {    
+    display: grid;
+    grid-template-columns: 1fr var(--ts-panel-w);
+    grid-template-rows: var(--ts-topbar-h) 1fr;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    scrollbar-width: none;
+    color-scheme: dark;
+}
+
+.nav {
+        font-family: var(--mono);
+        gap: 0;
+        flex-wrap: nowrap;
+        position: sticky;
+        top: 0;
+        grid-column: 1 / -1;
+        background: var(--ts-bg-body);
+        border-bottom: 1px solid var(--ts-border-0);
+        display: flex;
+        align-items: stretch;
+        padding: var(--ts-topbar-padding);
+        z-index: 200;
+        height: var(--ts-topbar-h);
+        justify-content: center;
+        flex-direction: row;
+        padding: 0;
+}
+.nav-btn {
+    height: 100%;
+    font-size: var(--ts-fs-2xs);
+    border-bottom-width: 3px;
+    letter-spacing: 0.05rem;
+    border-inline: 1px solid var(--ts-this-bg-border-0)!important;
+    margin-inline-end: -1px;
+    background: var(--ts-this-bg-dim-4);
+    --ts-this-bg: var();
+    --ts-this-bg: var(--ts-dark);
+}
+.section {
+    display: none;
+    padding: 50px;
+    animation: fadeIn .25s ease;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    /* display: flex; */
+    align-items: stretch;
+    height: 100%;
+    min-height: auto;
+    /* flex-wrap: wrap; */
+    flex-direction: row;
+    align-content: stretch;
+    gap: var(--ts-sp-4);
+    flex: 1;
+    grid-column: 1/-1;
+    grid-row: 2;
+    flex-direction: column;
+    /* align-items: center; */
+    background-color: var(--ts-bg-body);
+    background-image: var(--ts-bg-grid-pattern);
+    /* overflow: hidden; */
+    position: relative;
+    column-fill: balance;
+    grid-column: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    color-scheme: dark;
+}
+.section.active {
+    display: flex!important;
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="show('brief',this)">Brief</button>
+  <button class="nav-btn" onclick="show('logo',this)">Logo Concepts</button>
+  <button class="nav-btn" onclick="show('direction',this)">Chosen Direction</button>
+  <button class="nav-btn" onclick="show('color',this)">Color System</button>
+  <button class="nav-btn" onclick="show('type',this)">Typography</button>
+  <button class="nav-btn" onclick="show('voice',this)">Voice &amp; Traits</button>
+  <button class="nav-btn" onclick="show('usage',this)">Usage</button>
+  <button class="nav-btn" onclick="show('tokens',this)">Token Bridge</button>
+</div>
+
+<!-- ============================================================
+     SVG SYMBOL LIBRARY — define once, reference everywhere.
+     This way the polished logos stay consistent across the whole
+     proposal and we never re-implement geometry by hand.
+     ============================================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- ===== CONCEPT A — The Layer Stack =====
+         viewBox 0 0 240 100
+         3 horizontal bars with peak-stagger (mid bar most offset)
+         + stacked TOOL/SKIN wordmark at right
+    -->
+   <symbol id="ts-layerstack" viewBox="0 0 240 100">
+      <!-- decorative left tick: ties bars together as one stack -->
+      
+      <!-- bar 1 (top, primary) -->
+      <rect x="7" y="15" width="84" height="16" rx="4" fill="var(--bar1, #e8e9ea)"></rect>
+      <!-- bar 2 (middle, accent — the engine, max stagger) -->
+      <rect x="16" y="42" width="84" height="16" rx="4" fill="var(--bar2, #FF5500)"></rect>
+      <!-- bar 3 (bottom, muted) -->
+      <rect x="7" y="68" width="84" height="16" rx="4" fill="var(--bar3, rgba(232,233,234,0.22))"></rect>
+      <!-- wordmark TOOL -->
+      <text class="ts-display" x="108" y="35" font-size="52" letter-spacing="-1.5" fill="var(--word1, #e8e9ea)" font-weight="900" dominant-baseline="middle">TOOL</text>
+      <!-- wordmark SKIN -->
+      <text class="ts-display" x="110" y="78" font-size="52" letter-spacing="1" fill="var(--word2, #FF5500)" font-weight="900" dominant-baseline="middle">SKIN</text>
+    </symbol>
+
+    <!-- icon-only (16/32px favicon) — same geometry, no wordmark -->
+    <symbol id="ts-layerstack-icon" viewBox="0 0 32 32">
+      <rect x="0"  y="2"  width="22" height="7" rx="1.5" fill="var(--bar1, #e8e9ea)"/>
+      <rect x="5"  y="12" width="22" height="7" rx="1.5" fill="var(--bar2, #FF5500)"/>
+      <rect x="2"  y="22" width="22" height="7" rx="1.5" fill="var(--bar3, rgba(232,233,234,0.3))"/>
+    </symbol>
+
+    <!-- ===== CONCEPT B — TS Monogram =====
+         Geometric T (rect crossbar + rect stem) +
+         curved S (path with rounded joins)
+         + horizontal TOOLSKIN wordmark beneath caption
+    -->
+    <symbol id="ts-monogram" viewBox="0 0 240 100">
+      <!-- T: orange crossbar -->
+      <rect x="6"  y="14" width="58" height="10" rx="2" fill="var(--bar2, #FF5500)"/>
+      <!-- T: primary stem -->
+      <rect x="29" y="14" width="14" height="72" rx="2" fill="var(--bar1, #e8e9ea)"/>
+      <!-- S: zig-zag with rounded corners -->
+      <path d="M 78 19 H 104 a 9 9 0 0 1 0 18 H 86 a 9 9 0 0 0 0 18 H 104 a 9 9 0 0 1 0 18 H 78"
+            fill="none" stroke="var(--bar2, #FF5500)" stroke-width="10"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- wordmark TOOLSKIN -->
+      <text class="ts-display" x="130" y="44"
+            font-size="22" letter-spacing="-0.6" font-weight="700" 
+            fill="var(--word1, #e8e9ea)">TOOL<tspan fill="var(--word2, #FF5500)">SKIN</tspan></text>
+      <!-- mono caption -->
+      <text class="ts-mono" x="130" y="68"
+            font-size="9" letter-spacing="2"
+            fill="var(--caption, rgba(232,233,234,0.4))">DESIGN&#160;SYSTEM</text>
+    </symbol>
+
+    <symbol id="ts-monogram-icon" viewBox="0 0 56 56">
+      <rect x="4"  y="8"  width="36" height="7" rx="1.5" fill="var(--bar2, #FF5500)"/>
+      <rect x="18" y="8"  width="9"  height="40" rx="1.5" fill="var(--bar1, #e8e9ea)"/>
+      <path d="M 32 12 H 46 a 5 5 0 0 1 0 10 H 36 a 5 5 0 0 0 0 10 H 46 a 5 5 0 0 1 0 10 H 32"
+            fill="none" stroke="var(--bar2, #FF5500)" stroke-width="6"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- ===== CONCEPT C — Token Diamond =====
+         Outer diamond outline (rotated square) +
+         inner accent diamond + inline TOOLSKIN wordmark
+    -->
+    <symbol id="ts-diamond" viewBox="0 0 240 100">
+      <!-- outer diamond (rotated 45°, centered at 50,50) -->
+      <g transform="translate(50 50) rotate(45)">
+        <rect x="-30" y="-30" width="60" height="60" rx="4"
+              fill="none" stroke="var(--bar1, #e8e9ea)" stroke-width="3"/>
+      </g>
+      <!-- inner accent diamond -->
+      <g transform="translate(50 50) rotate(45)">
+        <rect x="-13" y="-13" width="26" height="26" rx="2" fill="var(--bar2, #FF5500)"/>
+      </g>
+      <!-- wordmark TOOLSKIN inline -->
+      <text class="ts-display" x="98" y="46"
+            font-size="24" letter-spacing="-0.6" font-weight="800" 
+            fill="var(--word1, #e8e9ea)">TOOL<tspan fill="var(--word2, #FF5500)">SKIN</tspan></text>
+      <!-- mono caption -->
+      <text class="ts-mono" x="98" y="70"
+            font-size="9" letter-spacing="2.2"
+            fill="var(--caption, rgba(232,233,234,0.35))">v1.0.0&#160;·&#160;TOKEN&#160;ENGINE</text>
+    </symbol>
+
+    <symbol id="ts-diamond-icon" viewBox="0 0 56 56">
+      <g transform="translate(28 28) rotate(45)">
+        <rect x="-19" y="-19" width="38" height="38" rx="3"
+              fill="none" stroke="var(--bar1, #e8e9ea)" stroke-width="2.5"/>
+        <rect x="-8"  y="-8"  width="16" height="16" rx="1.5" fill="var(--bar2, #FF5500)"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ===================== 1 — BRIEF ===================== -->
+<div class="section active" id="s-brief">
+  <div class="section-label">Brand Brief</div>
+  <h2>Toolskin — Identity Foundation</h2>
+  <p class="body">Toolskin is a CSS design system built for precision engineers and pragmatic developers. It isn't a pretty component library — it's infrastructure with aesthetics. The brand identity must communicate: <strong style="color:var(--ts-text)">engineered control, raw accuracy, zero decoration overhead</strong>.</p>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-label">Target Audience</div>
+      <p class="body" style="margin:0;font-size:13px">WordPress power users · Toolpanel / automation engineers · UI framework builders · SatSea product users. <strong style="color:var(--ts-text)">Technically fluent, opinionated, impatient with fluff.</strong></p>
+    </div>
+    <div class="card">
+      <div class="card-label">Tone Directive</div>
+      <p class="body" style="margin:0;font-size:13px"><strong style="color:var(--ts-text)">Industrial-precision meets aggressive orange.</strong> Like a professional tool with a sharp edge — a Stanley blade, not a Swiss watch. Dark-first. No soft gradients. Token-driven everything.</p>
+    </div>
+  </div>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-label">What to Feel</div>
+      <p class="body" style="font-size:12px;margin:0">Control. Reliability. A tool that <em>does exactly what you tell it</em>. The orange says: energy, not decoration.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">What to Drop</div>
+      <p class="body" style="font-size:12px;margin:0">The current gear SVG. Generic. No concept. No connection to "skin", "tool", or the token-driven philosophy.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">What to Keep</div>
+      <p class="body" style="font-size:12px;margin:0"><code style="color:var(--ts-orange)">#FF5500</code> orange. Dark surfaces. The raw, utilitarian energy of the current showcase aesthetic.</p>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="card-label" style="margin-bottom:12px">Design Direction Selected</div>
+  <p class="body">After analysing the showcase, the codebase structure, the token architecture, and the audience — one direction wins decisively. <strong style="color:var(--ts-orange)">Industrial Precision</strong>: geometric mark built from the logic of CSS layers, strict grid, zero organic curves. Orange as the only warmth. A wordmark that's as much a code snippet as it is a brand.</p>
+</div>
+
+<!-- ===================== 2 — LOGO CONCEPTS ===================== -->
+<div class="section" id="s-logo">
+  <div class="section-label">Logo Concepts — 3 Directions</div>
+  <p class="body">Three structurally different ideas. Each is a coherent system, not a sketch. Pick one — it becomes the master mark.</p>
+
+  <!-- ========== Concept A ========== -->
+  <div class="card featured" style="margin-bottom:16px">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px">
+      <div>
+        <div class="card-label">Concept A — Recommended</div>
+        <h3 style="font-size:17px">The Layer Stack</h3>
+        <p class="body" style="margin:0;font-size:13px;max-width:380px">Three stacked horizontal bars, offset like CSS cascade layers. The middle bar is orange — the active engine. Reads as: depth, system, token hierarchy. Works at 16px favicon size.</p>
+      </div>
+      <span class="badge badge-orange">★ Recommended</span>
+    </div>
+    <div class="grid3" style="margin-bottom:0">
+      <div>
+        <div class="logo-wrap dark-bg">
+          <svg class="logomark" viewBox="0 0 240 100" style="--bar1:#e8e9ea;--bar2:#FF5500;--bar3:rgba(232,233,234,0.22);--word1:#e8e9ea;--word2:#FF5500" aria-label="Toolskin logo on dark"><use href="#ts-layerstack"/></svg>
+        </div>
+        <div class="logo-caption">Dark — primary lockup</div>
+      </div>
+      <div>
+        <div class="logo-wrap light-bg">
+          <svg class="logomark" viewBox="0 0 240 100" style="--bar1:#1a1c20;--bar2:#FF5500;--bar3:rgba(26,28,32,0.22);--word1:#1a1c20;--word2:#FF5500" aria-label="Toolskin logo on light"><use href="#ts-layerstack"/></svg>
+        </div>
+        <div class="logo-caption">Light — print &amp; docs</div>
+      </div>
+      <div>
+        <div class="logo-wrap brand-bg">
+          <svg class="logomark" viewBox="0 0 240 100" style="--bar1:#ffffff;--bar2:#0c0d0f;--bar3:rgba(255,255,255,0.42);--word1:#ffffff;--word2:#0c0d0f" aria-label="Toolskin logo on brand orange"><use href="#ts-layerstack"/></svg>
+        </div>
+        <div class="logo-caption">Brand orange — hero placements</div>
+      </div>
+    </div>
+    <button class="select-btn chosen" id="btn-a" onclick="selectConcept('a')">✓ Select Concept A</button>
+  </div>
+
+  <!-- ========== Concept B ========== -->
+  <div class="card" style="margin-bottom:16px">
+    <div style="margin-bottom:18px">
+      <div class="card-label">Concept B</div>
+      <h3 style="font-size:17px">The TS Monogram</h3>
+      <p class="body" style="margin:0;font-size:13px;max-width:380px">A geometric TS ligature where the T (rect crossbar + stem) sits beside an angular S (zig-zag path with rounded joins). References both the class prefix <code style="color:var(--ts-orange)">.ts-</code> and a "skin layer." Paired with a tight wordmark.</p>
+    </div>
+    <div class="grid3" style="margin-bottom:0">
+      <div>
+        <div class="logo-wrap dark-bg">
+          <svg class="logomark" viewBox="0 0 240 100" style="--bar1:#e8e9ea;--bar2:#FF5500;--word1:#e8e9ea;--word2:#FF5500;--caption:rgba(232,233,234,0.4)" aria-label="TS monogram on dark"><use href="#ts-monogram"/></svg>
+        </div>
+        <div class="logo-caption">Full lockup — dark</div>
+      </div>
+      <div>
+        <div class="logo-wrap light-bg">
+          <svg class="logomark" viewBox="0 0 240 100" style="--bar1:#1a1c20;--bar2:#FF5500;--word1:#1a1c20;--word2:#FF5500;--caption:rgba(26,28,32,0.45)" aria-label="TS monogram on light"><use href="#ts-monogram"/></svg>
+        </div>
+        <div class="logo-caption">Full lockup — light</div>
+      </div>
+      <div>
+        <div class="logo-wrap icon-bg">
+          <svg class="logomark" viewBox="0 0 56 56" style="--bar1:#e8e9ea;--bar2:#FF5500" aria-label="TS monogram icon"><use href="#ts-monogram-icon"/></svg>
+        </div>
+        <div class="logo-caption">Mark only — icon</div>
+      </div>
+    </div>
+    <button class="select-btn" id="btn-b" onclick="selectConcept('b')">Select Concept B</button>
+  </div>
+
+  <!-- ========== Concept C ========== -->
+  <div class="card" style="margin-bottom:0">
+    <div style="margin-bottom:18px">
+      <div class="card-label">Concept C</div>
+      <h3 style="font-size:17px">The Token Diamond</h3>
+      <p class="body" style="margin:0;font-size:13px;max-width:380px">A rotated square (diamond) with an inner accent square — references the CSS custom property <code style="color:var(--ts-orange)">◆</code> token structure. Outer = computed, inner = primitive. Surgical and minimal.</p>
+    </div>
+    <div class="grid3" style="margin-bottom:0">
+      <div>
+        <div class="logo-wrap dark-bg">
+          <svg class="logomark" viewBox="0 0 240 100" style="--bar1:#e8e9ea;--bar2:#FF5500;--word1:#e8e9ea;--word2:#FF5500;--caption:rgba(232,233,234,0.4)" aria-label="Token diamond on dark"><use href="#ts-diamond"/></svg>
+        </div>
+        <div class="logo-caption">Full lockup — dark</div>
+      </div>
+      <div>
+        <div class="logo-wrap light-bg">
+          <svg class="logomark" viewBox="0 0 240 100" style="--bar1:#1a1c20;--bar2:#FF5500;--word1:#1a1c20;--word2:#FF5500;--caption:rgba(26,28,32,0.45)" aria-label="Token diamond on light"><use href="#ts-diamond"/></svg>
+        </div>
+        <div class="logo-caption">Full lockup — light</div>
+      </div>
+      <div>
+        <div class="logo-wrap icon-bg">
+          <svg class="logomark" viewBox="0 0 56 56" style="--bar1:rgba(232,233,234,0.4);--bar2:#FF5500" aria-label="Token diamond icon"><use href="#ts-diamond-icon"/></svg>
+        </div>
+        <div class="logo-caption">Mark only — icon</div>
+      </div>
+    </div>
+    <button class="select-btn" id="btn-c" onclick="selectConcept('c')">Select Concept C</button>
+  </div>
+</div>
+
+<!-- ===================== 3 — CHOSEN DIRECTION ===================== -->
+<div class="section" id="s-direction">
+  <div class="section-label">Chosen Direction — Concept A: The Layer Stack</div>
+  <p class="body">Full logo system built out. The mark is three horizontal bars staggered to form a peak — a direct visual metaphor for CSS cascade layers and the token hierarchy (Primitive → Computed → Component). The orange bar is always the middle layer: the computed engine, the living part.</p>
+
+  <div class="card featured master-mark" style="margin-bottom:20px">
+    <div class="card-label">Master Mark — Full Lockup</div>
+    <div class="logo-wrap dark-bg" style="min-height:200px;padding:36px 44px">
+      <svg class="logomark" viewBox="0 0 240 100" style="--bar1:#e8e9ea;--bar2:#FF5500;--bar3:rgba(232,233,234,0.22);--word1:#e8e9ea;--word2:#FF5500" aria-label="Toolskin master mark"><use href="#ts-layerstack"/></svg>
+    </div>
+  </div>
+
+  <div class="grid3" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-label">Icon Mark (32px)</div>
+      <div class="logo-wrap dark-bg" style="min-height:96px">
+        <svg class="logomark" viewBox="0 0 32 32" style="max-width:64px;--bar1:#e8e9ea;--bar2:#FF5500;--bar3:rgba(232,233,234,0.3)" aria-label="Toolskin icon 32"><use href="#ts-layerstack-icon"/></svg>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Icon Mark (16px / favicon)</div>
+      <div class="logo-wrap dark-bg" style="min-height:96px">
+        <svg class="logomark" viewBox="0 0 32 32" style="max-width:32px;--bar1:#e8e9ea;--bar2:#FF5500;--bar3:rgba(232,233,234,0.3)" aria-label="Toolskin icon 16"><use href="#ts-layerstack-icon"/></svg>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Wordmark only</div>
+      <div class="logo-wrap dark-bg" style="min-height:96px">
+        <svg class="logomark" viewBox="0 0 180 40" style="max-width:180px" aria-label="Toolskin wordmark">
+          <text class="ts-display" x="0" y="30" font-size="32" letter-spacing="-1.5" fill="#e8e9ea">TOOL<tspan fill="#FF5500">SKIN</tspan></text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-label">Why This Works</div>
+    <div class="grid3" style="margin-bottom:0">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--ts-text);margin-bottom:6px">Conceptual depth</div>
+        <p style="font-size:12px;color:var(--ts-muted);line-height:1.6">3 bars = 3 token layers (primitive, computed, component). The peak-stagger = cascade specificity. Engineers will decode it immediately.</p>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--ts-text);margin-bottom:6px">Scales to favicon</div>
+        <p style="font-size:12px;color:var(--ts-muted);line-height:1.6">The mark works at 16×16px with no degradation. 3 solid bars are readable at any size. No fine detail to lose.</p>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--ts-text);margin-bottom:6px">Orange stays the hero</div>
+        <p style="font-size:12px;color:var(--ts-muted);line-height:1.6">The middle bar is always orange — the "active layer." This preserves the orange DNA without making it a logo blob.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Clear Space Rule</div>
+    <p class="body" style="font-size:12px;margin-bottom:0">Minimum clear space = height of the orange bar (middle bar) on all four sides. Never place other logos or busy elements within this zone. Minimum digital size: 80px wide lockup, 16px icon mark.</p>
+  </div>
+</div>
+
+<!-- ===================== 4 — COLOR ===================== -->
+<div class="section" id="s-color">
+  <div class="section-label">Color System</div>
+  <p class="body">Built entirely on the existing <code style="color:var(--ts-orange)">--ts-accent-h/s/l</code> engine. One primary, two neutrals, three functional. Dark-first. Every swatch maps to a Toolskin token.</p>
+
+  <h3>Primary — Orange Fire</h3>
+  <div class="swatch-row" style="margin-bottom:4px">
+    <div class="swatch" style="background:#FF8C00;color:rgba(0,0,0,0.5)">800</div>
+    <div class="swatch" style="background:#FF6B00;color:rgba(0,0,0,0.5)">600</div>
+    <div class="swatch" style="background:#FF5500;color:rgba(0,0,0,0.6)">500 ★</div>
+    <div class="swatch" style="background:#E03C00;color:rgba(255,255,255,0.8)">400</div>
+    <div class="swatch" style="background:#B32C00;color:rgba(255,255,255,0.8)">300</div>
+    <div class="swatch" style="background:rgba(255,85,0,0.2);color:#FF5500;font-size:8px">dim</div>
+    <div class="swatch" style="background:rgba(255,85,0,0.07);color:#FF5500;font-size:8px">ghost</div>
+  </div>
+  <div class="swatch-label" style="margin-bottom:20px">HSL(18, 100%, 52%) → --ts-accent-h:18  --ts-accent-s:100%  --ts-accent-l:52%</div>
+
+  <h3>Surface Neutrals — Onyx Scale</h3>
+  <div class="swatch-row" style="margin-bottom:4px">
+    <div class="swatch" style="background:#0c0d0f;color:rgba(255,255,255,0.3);font-size:8px">body</div>
+    <div class="swatch" style="background:#14161a;color:rgba(255,255,255,0.3);font-size:8px">bg-0</div>
+    <div class="swatch" style="background:#1c1e24;color:rgba(255,255,255,0.3);font-size:8px">bg-1</div>
+    <div class="swatch" style="background:#23262e;color:rgba(255,255,255,0.4);font-size:8px">bg-2</div>
+    <div class="swatch" style="background:#2d3038;color:rgba(255,255,255,0.5);font-size:8px">bg-3</div>
+    <div class="swatch" style="background:#363942;color:rgba(255,255,255,0.6);font-size:8px">bg-4</div>
+    <div class="swatch" style="background:#42454f;color:rgba(255,255,255,0.7);font-size:8px">bg-5</div>
+  </div>
+  <div class="swatch-label" style="margin-bottom:20px">--ts-bg-body through --ts-bg-5 · Cool-dark, slightly blue-shifted neutrals</div>
+
+  <h3>Text Scale</h3>
+  <div class="swatch-row" style="margin-bottom:4px">
+    <div class="swatch" style="background:#e8e9ea;color:#0c0d0f">Primary</div>
+    <div class="swatch" style="background:rgba(232,233,234,0.65);color:#0c0d0f;font-size:9px">Secondary</div>
+    <div class="swatch" style="background:rgba(232,233,234,0.4);color:#0c0d0f;font-size:9px">Muted</div>
+    <div class="swatch" style="background:#FF5500;color:rgba(0,0,0,0.6)">Accent</div>
+  </div>
+  <div class="swatch-label" style="margin-bottom:20px">--ts-text-primary / -secondary / -muted / -accent</div>
+
+  <h3>Semantic / Status</h3>
+  <div class="swatch-row">
+    <div class="swatch" style="background:#22c55e;color:rgba(0,0,0,0.6);font-size:9px">Success</div>
+    <div class="swatch" style="background:#f59e0b;color:rgba(0,0,0,0.6);font-size:9px">Warning</div>
+    <div class="swatch" style="background:#ef4444;color:rgba(0,0,0,0.6);font-size:9px">Danger</div>
+    <div class="swatch" style="background:#3b82f6;color:rgba(0,0,0,0.6);font-size:9px">Info</div>
+  </div>
+</div>
+
+<!-- ===================== 5 — TYPOGRAPHY ===================== -->
+<div class="section" id="s-type">
+  <div class="section-label">Typography System</div>
+  <p class="body">Two typefaces. One for display authority, one for UI precision. Both are variable fonts — single file, infinite control — which aligns with the Toolskin one-stylesheet philosophy.</p>
+
+  <div class="grid2" style="margin-bottom:20px">
+    <div class="card featured">
+      <div class="card-label">Display / Headings</div>
+      <h3 style="font-family:var(--font);font-size:24px;font-weight:700;letter-spacing:-0.02em;margin-bottom:6px">Space Grotesk</h3>
+      <p class="body" style="font-size:12px">Variable grotesque. Tight, geometric, slightly humanist. Engineered for technical UI yet still warm. Letter-spacing −0.02em for hero sizes. Range: 300–700.</p>
+      <a href="https://fonts.google.com/specimen/Space+Grotesk" style="font-size:11px;color:var(--ts-orange);font-family:var(--mono)">Google Fonts →</a>
+    </div>
+    <div class="card">
+      <div class="card-label">Mono / Code / Captions</div>
+      <h3 style="font-family:var(--mono);font-size:22px;font-weight:600;letter-spacing:-0.01em;margin-bottom:6px">JetBrains Mono</h3>
+      <p class="body" style="font-size:12px">The engineer's monospace. Ligatures, tight ink traps, exceptional at small sizes. Used for tokens, captions, code, UI labels. Range: 100–800, both styles.</p>
+      <a href="https://www.jetbrains.com/lp/mono/" style="font-size:11px;color:var(--ts-orange);font-family:var(--mono)">jetbrains.com/mono →</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Type Scale</div>
+    <div class="type-sample">
+      <div class="type-meta">Display XL — 38px / -0.03em / 700</div>
+      <div style="font-size:38px;font-weight:700;letter-spacing:-.03em;line-height:1.05">TOOLSKIN <span style="color:var(--ts-orange)">v1</span></div>
+    </div>
+    <div class="type-sample">
+      <div class="type-meta">H1 — 26px / -0.02em / 700</div>
+      <div style="font-size:26px;font-weight:700;letter-spacing:-.02em">Design System · Token Architecture</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-meta">H2 — 20px / -0.015em / 600</div>
+      <div style="font-size:20px;font-weight:600;letter-spacing:-.015em">Surface &amp; Color Tokens</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-meta">H3 — 15px / 0 / 600</div>
+      <div style="font-size:15px;font-weight:600">Component Configuration</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-meta">Body — 14px / 0 / 400 / 1.65 leading</div>
+      <div style="font-size:14px;color:rgba(232,233,234,0.65);line-height:1.65">Token-driven CSS design system built for WordPress, web applications, and UI toolkits. One stylesheet. Infinite control.</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-meta">Label / Caption — 11px / +0.08em / 600 uppercase mono</div>
+      <div style="font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ts-orange)">Design System · v1.0.0 · 2026</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-meta">Code / Mono — JetBrains Mono 13px</div>
+      <div style="font-family:var(--mono);font-size:13px;color:rgba(232,233,234,0.7)"><span style="color:#FF5500">--ts-accent-h</span>: 18; <span style="color:rgba(232,233,234,0.4)">/* orange fire */</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 6 — VOICE ===================== -->
+<div class="section" id="s-voice">
+  <div class="section-label">Brand Voice &amp; Personality</div>
+  <p class="body">Toolskin speaks like a precision tool's documentation — never flowery, never dumbed-down. Confident. Terse. The tone that ships code at 2am.</p>
+
+  <div class="personality-grid">
+    <div class="trait-card">
+      <div class="trait-icon">⚙</div>
+      <div class="trait-title">Engineered</div>
+      <div class="trait-body">Every word justified. No filler. Copy reads like tokens: purposeful, scoped, hierarchical.</div>
+    </div>
+    <div class="trait-card">
+      <div class="trait-icon">▲</div>
+      <div class="trait-title">Precise</div>
+      <div class="trait-body">Exact variable names. Exact pixel values. No "roughly" or "sort of." Confidence is the default register.</div>
+    </div>
+    <div class="trait-card" style="border-color:rgba(255,85,0,.25);background:rgba(255,85,0,.04)">
+      <div class="trait-icon" style="color:var(--ts-orange)">◈</div>
+      <div class="trait-title" style="color:var(--ts-orange)">Direct</div>
+      <div class="trait-body">No soft openers. No "feel free to." Statements &gt; suggestions. The orange bar is energy without noise.</div>
+    </div>
+    <div class="trait-card">
+      <div class="trait-icon">⌗</div>
+      <div class="trait-title">Systematic</div>
+      <div class="trait-body">Everything connects to a token. Brand copy uses the same logic as code: consistent naming, predictable structure.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Voice Examples</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:#ef4444;letter-spacing:.08em;margin-bottom:8px">✕ NOT THIS</div>
+        <p style="font-size:12px;color:var(--ts-muted);font-style:italic">"A beautifully crafted design system that helps you build amazing interfaces with ease."</p>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:#22c55e;letter-spacing:.08em;margin-bottom:8px">✓ THIS</div>
+        <p style="font-size:12px;color:var(--ts-text)">"One stylesheet. Token-driven. Dark default. Zero framework dependencies."</p>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:#ef4444;letter-spacing:.08em;margin-bottom:8px">✕ NOT THIS</div>
+        <p style="font-size:12px;color:var(--ts-muted);font-style:italic">"Feel free to explore our components and discover what resonates with your vision."</p>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:#22c55e;letter-spacing:.08em;margin-bottom:8px">✓ THIS</div>
+        <p style="font-size:12px;color:var(--ts-text)">"Change <code style="color:var(--ts-orange)">--ts-accent-h</code>. Everything updates."</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="card-label" style="margin-bottom:12px">Brand Tagline Options</div>
+  <div class="grid3">
+    <div class="card featured">
+      <div class="card-label">Primary</div>
+      <p style="font-size:15px;font-weight:700;letter-spacing:-.01em;color:var(--ts-text)">"One engine.<br>Every surface."</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Alt A</div>
+      <p style="font-size:15px;font-weight:700;letter-spacing:-.01em">"The layer under everything."</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Alt B</div>
+      <p style="font-size:15px;font-weight:700;letter-spacing:-.01em">"Skin your tools.<br>Ship the rest."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 7 — USAGE ===================== -->
+<div class="section" id="s-usage">
+  <div class="section-label">Brand in Use</div>
+  <p class="body">How the mark, color, and type behave across surfaces — from browser favicon to docs header to social card.</p>
+
+  <div class="usage-grid" style="margin-bottom:16px">
+    <div class="usage-card">
+      <div class="usage-preview">
+        <div style="background:#1c1e24;border-radius:6px 6px 0 0;padding:8px 14px;display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;color:rgba(232,233,234,0.7);min-width:140px">
+          <svg viewBox="0 0 32 32" style="width:14px;height:14px;--bar1:#e8e9ea;--bar2:#FF5500;--bar3:rgba(232,233,234,0.3)"><use href="#ts-layerstack-icon"/></svg>
+          Toolskin
+        </div>
+      </div>
+      <div class="usage-info">
+        <div class="usage-title">Favicon / Browser Tab</div>
+        <div class="usage-desc">3-bar icon mark at 16px. Orange bar always centered.</div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-preview">
+        <svg class="logomark" viewBox="0 0 240 100" style="max-width:200px;--bar1:#e8e9ea;--bar2:#FF5500;--bar3:rgba(232,233,234,0.22);--word1:#e8e9ea;--word2:#FF5500"><use href="#ts-layerstack"/></svg>
+      </div>
+      <div class="usage-info">
+        <div class="usage-title">Showcase / Docs Header</div>
+        <div class="usage-desc">Full lockup. Mark + wordmark. Replaces the existing hero text.</div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-preview" style="background:#111213">
+        <div style="background:var(--ts-surface1);border:1px solid var(--ts-border);border-radius:8px;padding:14px 18px;min-width:200px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+            <svg viewBox="0 0 32 32" style="width:22px;height:22px;--bar1:#e8e9ea;--bar2:#FF5500;--bar3:rgba(232,233,234,0.3)"><use href="#ts-layerstack-icon"/></svg>
+            <span style="font-family:var(--font);font-size:13px;font-weight:700;letter-spacing:-.01em">TOOLSKIN</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--ts-muted);margin-bottom:8px">--ts-accent-h: 18</div>
+          <div style="height:5px;border-radius:3px;background:var(--ts-surface3);overflow:hidden">
+            <div style="height:100%;width:65%;background:#FF5500;border-radius:3px"></div>
+          </div>
+        </div>
+      </div>
+      <div class="usage-info">
+        <div class="usage-title">Toolpanel / UI Panel</div>
+        <div class="usage-desc">Icon mark + wordmark compact. Panels use the 3-bar icon as visual anchor.</div>
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="usage-preview" style="background:#0a0a0a">
+        <div style="background:#0c0d0f;border:1px solid rgba(255,85,0,.15);border-radius:10px;padding:18px 22px;min-width:240px">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--ts-orange);margin-bottom:10px">TOOLSKIN DESIGN SYSTEM</div>
+          <div style="font-size:18px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px;line-height:1.15">One engine.<br>Every surface.</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--ts-muted)">satsea.io/toolskin-showcase</div>
+          <div style="margin-top:12px;display:flex;gap:4px">
+            <div style="height:4px;background:#FF5500;border-radius:2px;width:50px"></div>
+            <div style="height:4px;background:rgba(255,255,255,0.12);border-radius:2px;width:30px"></div>
+            <div style="height:4px;background:rgba(255,255,255,0.07);border-radius:2px;width:40px"></div>
+          </div>
+        </div>
+      </div>
+      <div class="usage-info">
+        <div class="usage-title">Open Graph / Social Card</div>
+        <div class="usage-desc">Dark bg, orange accent, wordmark, tagline, 3-bar decorative element.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Do / Don't</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:12px">
+      <div>
+        <div style="font-family:var(--mono);color:#22c55e;font-weight:700;margin-bottom:8px;font-size:11px;letter-spacing:.06em">✓ DO</div>
+        <ul style="color:var(--ts-muted);padding-left:14px;display:flex;flex-direction:column;gap:6px;line-height:1.55">
+          <li>Use the orange bar as the sole accent — don't add a second accent color</li>
+          <li>Always maintain the peak-stagger offset in the 3-bar mark</li>
+          <li>Use TOOL + SKIN as a split wordmark (never TOOLSKIN as one weight)</li>
+          <li>Keep the mark dark-first; invert only when necessary</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);color:#ef4444;font-weight:700;margin-bottom:8px;font-size:11px;letter-spacing:.06em">✕ DON'T</div>
+        <ul style="color:var(--ts-muted);padding-left:14px;display:flex;flex-direction:column;gap:6px;line-height:1.55">
+          <li>Rotate, skew, or add gradients to the logo mark</li>
+          <li>Use the old gear SVG — it's been retired</li>
+          <li>Place the logo on busy textured backgrounds without a clear zone</li>
+          <li>Use orange body copy — only headings, accents, and the orange wordmark half</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 8 — TOKEN BRIDGE ===================== -->
+<div class="section" id="s-tokens">
+  <div class="section-label">Brand → Token Bridge</div>
+  <p class="body">Every brand decision maps directly to an existing Toolskin token. No new variables. No new overhead. Drop-in brand consistency.</p>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-label">Core Brand Tokens</div>
+    <div class="token-row"><span class="token-name">--ts-accent-h</span><span class="token-val">18 → orange hue (18°)</span></div>
+    <div class="token-row"><span class="token-name">--ts-accent-s</span><span class="token-val">100% → full saturation</span></div>
+    <div class="token-row"><span class="token-name">--ts-accent-l</span><span class="token-val">52% → mid-bright energy</span></div>
+    <div class="token-row"><span class="token-name">--ts-accent</span><span class="token-val">hsl(18,100%,52%) → #FF5500</span></div>
+    <div class="token-row"><span class="token-name">--ts-bg-body</span><span class="token-val">#0c0d0f → brand dark canvas</span></div>
+    <div class="token-row"><span class="token-name">--ts-text-primary</span><span class="token-val">#e8e9ea → near-white, not pure white</span></div>
+    <div class="token-row"><span class="token-name">--ts-font-display</span><span class="token-val">'Space Grotesk', system-ui → hero typography</span></div>
+    <div class="token-row"><span class="token-name">--ts-font-body</span><span class="token-val">'Space Grotesk', system-ui → UI copy</span></div>
+    <div class="token-row"><span class="token-name">--ts-font-mono</span><span class="token-val">'JetBrains Mono', monospace → code / tokens</span></div>
+    <div class="token-row"><span class="token-name">--ts-radius-base</span><span class="token-val">10px → brand corner softness</span></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-label">WordPress Bridge (customized.css — no change needed)</div>
+    <div class="token-row"><span class="token-name">--maincolor</span><span class="token-val">var(--ts-accent) → already mapped</span></div>
+    <div class="token-row"><span class="token-name">--orange</span><span class="token-val">var(--ts-accent) → already mapped</span></div>
+    <div class="token-row"><span class="token-name">--mainfont</span><span class="token-val">var(--ts-font-body) → update to Space Grotesk</span></div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-label">Suggested toolskin.css additions (brand layer)</div>
+<pre style="font-size:11px;font-family:var(--mono);color:rgba(232,233,234,0.7);line-height:1.7;overflow-x:auto"><code><span style="color:rgba(232,233,234,0.3)">/* Brand identity layer */</span>
+<span style="color:#FF5500">--ts-brand-name</span>: 'Toolskin';
+<span style="color:#FF5500">--ts-brand-version</span>: 'v1.0.0';
+<span style="color:#FF5500">--ts-font-display</span>: 'Space Grotesk', system-ui, sans-serif;
+<span style="color:#FF5500">--ts-logo-bar-1</span>: var(--ts-text-primary);
+<span style="color:#FF5500">--ts-logo-bar-2</span>: var(--ts-accent);    <span style="color:rgba(232,233,234,0.3)">/* engine layer */</span>
+<span style="color:#FF5500">--ts-logo-bar-3</span>: color-mix(in srgb, var(--ts-text-primary) 22%, transparent);</code></pre>
+  </div>
+
+  <div class="verdict">
+    <h3>Implementation Path</h3>
+    <p class="body" style="margin-bottom:8px;font-size:13px">1. Add the 3 new <code style="color:var(--ts-orange)">--ts-logo-bar-*</code> variables to the brand section of <code>toolskin.css</code>.<br>
+    2. Replace the gear SVG in the showcase <code>&lt;head&gt;</code> favicon and the hero with the 3-bar SVG mark (use <code>&lt;symbol&gt;</code>+<code>&lt;use&gt;</code> for one-source-of-truth geometry).<br>
+    3. Load Space Grotesk + JetBrains Mono via Google Fonts in <code>extra-styles.css</code>.<br>
+    4. Update the <code>--ts-font-display</code> assignment in <code>toolskin.css</code>.<br>
+    5. Replace the hero TOOLSKIN text treatment with the split-weight wordmark.</p>
+    <p style="font-size:12px;color:var(--ts-muted)">Everything else — color, surfaces, dark mode, radius — is already in place. The brand is <em>already</em> in the tokens. This proposal just names it and draws it.</p>
+  </div>
+</div>
+
+<script>
+function show(tab, btn) {
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active')});
+  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active')});
+  document.getElementById('s-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+var chosen = 'a';
+function selectConcept(id) {
+  ['a','b','c'].forEach(function(x){
+    var btn = document.getElementById('btn-' + x);
+    if(btn){ btn.classList.remove('chosen'); btn.textContent = 'Select Concept ' + x.toUpperCase(); }
+  });
+  chosen = id;
+  var b = document.getElementById('btn-' + id);
+  if(b){ b.classList.add('chosen'); b.textContent = '✓ Concept ' + id.toUpperCase() + ' Selected'; }
+}
+</script>
+</body>
+</html>

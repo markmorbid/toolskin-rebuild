@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolskin · Phase 2 Wave 1 — portable component sandbox</title>
+
+  <link rel="stylesheet" href="assets/css/next/primitives/colors.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/typography.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/spacing.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/radius.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/motion.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/status-tints.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-this-bg-v2.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: var(--ts-font-body);
+      background: var(--ts-bg-body);
+      color: var(--ts-text-primary);
+      padding: var(--ts-sp-8);
+      line-height: var(--ts-lh-normal);
+    }
+    .ts-eyebrow {
+      font-family: var(--ts-font-mono);
+      font-size: var(--ts-fs-xs);
+      letter-spacing: var(--ts-tracking-wide);
+      text-transform: uppercase;
+      color: var(--ts-text-muted);
+      margin: 0 0 var(--ts-sp-2);
+    }
+    h1 {
+      font-family: var(--ts-font-display);
+      font-size: var(--ts-fs-2xl);
+      letter-spacing: var(--ts-tracking-tight);
+      margin: 0 0 var(--ts-sp-4);
+    }
+    .ts-lede {
+      max-width: 60ch;
+      color: var(--ts-text-secondary);
+      margin: 0 0 var(--ts-sp-8);
+    }
+    .ts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--ts-sp-4);
+    }
+    .ts-tile {
+      display: block;
+      padding: var(--ts-sp-5);
+      border: 1px solid var(--ts-this-bg-border-0);
+      border-radius: var(--ts-radius-lg);
+      background: var(--ts-bg-1);
+      color: inherit;
+      text-decoration: none;
+      transition: border-color var(--ts-dur-2) var(--ts-ease-standard),
+                  background var(--ts-dur-2) var(--ts-ease-standard);
+    }
+    .ts-tile:hover {
+      border-color: var(--ts-this-bg-border-hover);
+      background: var(--ts-bg-2);
+    }
+    .ts-tile__id {
+      font-family: var(--ts-font-mono);
+      font-size: var(--ts-fs-xs);
+      color: var(--ts-text-muted);
+      margin: 0 0 var(--ts-sp-2);
+    }
+    .ts-tile__name {
+      font-family: var(--ts-font-display);
+      font-size: var(--ts-fs-lg);
+      letter-spacing: var(--ts-tracking-tight);
+      margin: 0 0 var(--ts-sp-2);
+    }
+    .ts-tile__desc {
+      font-size: var(--ts-fs-sm);
+      color: var(--ts-text-secondary);
+      margin: 0;
+    }
+    footer {
+      margin-top: var(--ts-sp-12);
+      padding-top: var(--ts-sp-6);
+      border-top: 1px solid var(--ts-this-bg-border-0);
+      font-family: var(--ts-font-mono);
+      font-size: var(--ts-fs-xs);
+      color: var(--ts-text-muted);
+    }
+  </style>
+</head>
+<body>
+  <p class="ts-eyebrow">/ 00 — index</p>
+  <h1>Toolskin · component verification harnesses</h1>
+  <p class="ts-lede">
+    Self-contained portable copy of the Phase 2 Wave 1 component sandbox.
+    Each tile opens a verification harness for one component family.
+    All CSS, tokens, and engine layers ship inside <code>assets/</code> —
+    only Google Fonts is fetched from the web.
+  </p>
+
+  <nav class="ts-grid">
+    <a class="ts-tile" href="ts-input.html">
+      <p class="ts-tile__id">/ 01</p>
+      <p class="ts-tile__name">ts-input</p>
+      <p class="ts-tile__desc">Text inputs, textarea, select, combobox — state matrix &amp; density variants.</p>
+    </a>
+    <a class="ts-tile" href="ts-card.html">
+      <p class="ts-tile__id">/ 02</p>
+      <p class="ts-tile__name">ts-card</p>
+      <p class="ts-tile__desc">Card surfaces with media, eyebrow, body, footer slots and accent variants.</p>
+    </a>
+    <a class="ts-tile" href="ts-section.html">
+      <p class="ts-tile__id">/ 03</p>
+      <p class="ts-tile__name">ts-section</p>
+      <p class="ts-tile__desc">Section containers — alternating surfaces, dividers, density rhythm.</p>
+    </a>
+    <a class="ts-tile" href="ts-chip-badge.html">
+      <p class="ts-tile__id">/ 04</p>
+      <p class="ts-tile__name">ts-chip &amp; ts-badge</p>
+      <p class="ts-tile__desc">Status tints, interactive chips, dot/count badges.</p>
+    </a>
+    <a class="ts-tile" href="ts-table-accordion.html">
+      <p class="ts-tile__id">/ 05</p>
+      <p class="ts-tile__name">ts-table &amp; ts-accordion</p>
+      <p class="ts-tile__desc">Data tables with sort/select; accordion disclosure patterns.</p>
+    </a>
+    <a class="ts-tile" href="ts-modal-overlay.html">
+      <p class="ts-tile__id">/ 06</p>
+      <p class="ts-tile__name">ts-modal &amp; overlays</p>
+      <p class="ts-tile__desc">Dialogs, drawers, sheets — focus traps and scrim layers.</p>
+    </a>
+    <a class="ts-tile" href="ts-topbar-nav.html">
+      <p class="ts-tile__id">/ 07</p>
+      <p class="ts-tile__name">ts-topbar &amp; ts-nav</p>
+      <p class="ts-tile__desc">App shells — sticky topbar, brand mark, primary nav, CTA slot.</p>
+    </a>
+  </nav>
+
+  <footer>
+    Bundle: 7 harnesses · 19 stylesheets · token-driven · file:// safe (except web fonts).
+  </footer>
+</body>
+</html>

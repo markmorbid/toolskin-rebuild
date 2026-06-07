@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="ts-harness">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolskin · Phase 2 Wave 1 — ts-card verification harness</title>
+
+  <!-- Load order: primitives → system engine → migrated components.
+       This is a verification harness, not a marketing page. -->
+  <link rel="stylesheet" href="assets/css/next/primitives/colors.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/typography.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/spacing.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/radius.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/motion.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/status-tints.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-this-bg-v2.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-gradients-v3.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-btn_v3.1.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-chip.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-badge.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-card.css" />
+
+  <!-- JetBrains Mono + Space Grotesk for the labels (VQ-2 / VQ-3 identity). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/next/harness.css" />
+</head>
+
+<body class="ts-harness">
+  <h1>Phase 2 Wave 1 — ts-card</h1>
+  <p class="ts-harness-label">Verification harness · sandbox/02-components/ts-card.html · audit-gate exempt</p>
+
+  <!-- ─── BASE + LAYOUT MODIFIERS on default body surface ──────────── -->
+  <h2>ts-card · base + layout modifiers</h2>
+
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Surface: --ts-bg-body (default)</p>
+
+    <div class="ts-harness-grid">
+      <div class="ts-harness-row">
+        <span class="ts-harness-label">.ts-card</span>
+        <div class="ts-harness-content">
+          <article class="ts-card" id="card-default">
+            <header class="ts-card__header">
+              <h3 class="ts-card__title">Default card</h3>
+              <span class="ts-card__version">v 1.0</span>
+            </header>
+            <div class="ts-card__body">
+              A plain ts-card anchored to bg-1. Border + sub-element accents
+              consume engine derivatives only.
+            </div>
+            <footer class="ts-card__footer">
+              <span class="ts-harness-label">FOOTER</span>
+              <span class="ts-harness-label">META</span>
+            </footer>
+          </article>
+
+          <article class="ts-card">
+            <header class="ts-card__header">
+              <h3 class="ts-card__title">With child components</h3>
+            </header>
+            <div class="ts-card__body">
+              ts-chip + ts-btn nested inside a default card.
+            </div>
+            <div class="ts-card__footer">
+              <span class="ts-chip">React</span>
+              <button class="ts-btn ts-btn--sm">Action</button>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="ts-harness-row">
+        <span class="ts-harness-label">.ts-card.ts-row</span>
+        <div class="ts-harness-content">
+          <article class="ts-card ts-row">
+            <span class="ts-card__title" style="flex:1">Row layout</span>
+            <span class="ts-card__version">v 2.0</span>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── VARIANTS on default body surface ──────────────────────────── -->
+  <h2>ts-card variants</h2>
+
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Surface: --ts-bg-body (default)</p>
+
+    <div class="ts-harness-grid">
+      <div class="ts-harness-row">
+        <span class="ts-harness-label">.ts-card--interactive</span>
+        <div class="ts-harness-content">
+          <article class="ts-card ts-card--interactive" tabindex="0" id="card-interactive">
+            <header class="ts-card__header">
+              <h3 class="ts-card__title">Interactive</h3>
+            </header>
+            <div class="ts-card__body">Hover lifts, gains accent ring + soft shadow.</div>
+          </article>
+        </div>
+      </div>
+
+      <div class="ts-harness-row">
+        <span class="ts-harness-label">.ts-card--accent</span>
+        <div class="ts-harness-content">
+          <article class="ts-card ts-card--accent" id="card-accent">
+            <header class="ts-card__header">
+              <h3 class="ts-card__title">Accent</h3>
+            </header>
+            <div class="ts-card__body">Accent-mix gradient skin + warm border.</div>
+            <!-- Nested chip proves auto-flip ink + derived border on accent ctx -->
+            <div class="ts-card__footer">
+              <span class="ts-chip" id="chip-in-accent-card">Nested chip</span>
+              <span class="ts-badge ts-badge--accent">Badge</span>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="ts-harness-row">
+        <span class="ts-harness-label">.ts-card--featured</span>
+        <div class="ts-harness-content">
+          <article class="ts-card ts-card--featured" id="card-featured">
+            <header class="ts-card__header">
+              <h3 class="ts-card__title">Featured</h3>
+              <span class="ts-card__version">v 3.0</span>
+            </header>
+            <div class="ts-card__body">Full accent gradient + glow + on-accent ink.</div>
+            <!-- Nested chip proves child inherits the card's accent re-anchor -->
+            <div class="ts-card__footer">
+              <span class="ts-chip" id="chip-in-featured-card">Nested chip</span>
+              <button class="ts-btn ts-btn--sm" id="btn-in-featured-card">Action</button>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="ts-harness-row">
+        <span class="ts-harness-label">.ts-card--glass</span>
+        <div class="ts-harness-content">
+          <article class="ts-card ts-card--glass" id="card-glass">
+            <header class="ts-card__header">
+              <h3 class="ts-card__title">Glass</h3>
+            </header>
+            <div class="ts-card__body">Translucent dim surface + backdrop blur.</div>
+          </article>
+        </div>
+      </div>
+
+      <div class="ts-harness-row">
+        <span class="ts-harness-label">.ts-card--accent-bar</span>
+        <div class="ts-harness-content">
+          <article class="ts-card ts-card--accent-bar" id="card-accent-bar">
+            <header class="ts-card__header">
+              <h3 class="ts-card__title">Accent bar</h3>
+            </header>
+            <div class="ts-card__body">Vertical accent strip on the left edge (::before).</div>
+          </article>
+        </div>
+      </div>
+
+      <div class="ts-harness-row">
+        <span class="ts-harness-label">.ts-card.gradient</span>
+        <div class="ts-harness-content">
+          <article class="ts-card gradient" id="card-gradient">
+            <header class="ts-card__header">
+              <h3 class="ts-card__title">Gradient skin</h3>
+            </header>
+            <div class="ts-card__body">Consumes --ts-grad-card from gradients-v3.</div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── Surface alternation: bg-1 panel ─────────────────────────── -->
+  <div class="ts-harness-panel ts-harness-panel--bg1">
+    <p class="ts-harness-panel-title">Surface: --ts-bg-1 (lifted panel)</p>
+
+    <div class="ts-harness-content">
+      <article class="ts-card">
+        <header class="ts-card__header">
+          <h3 class="ts-card__title">Default</h3>
+        </header>
+        <div class="ts-card__body">Default on bg-1.</div>
+      </article>
+
+      <article class="ts-card ts-card--interactive" tabindex="0">
+        <header class="ts-card__header">
+          <h3 class="ts-card__title">Interactive</h3>
+        </header>
+        <div class="ts-card__body">Interactive on bg-1.</div>
+      </article>
+
+      <article class="ts-card ts-card--accent">
+        <header class="ts-card__header">
+          <h3 class="ts-card__title">Accent</h3>
+        </header>
+        <div class="ts-card__body">Accent on bg-1.</div>
+      </article>
+
+      <article class="ts-card ts-card--featured">
+        <header class="ts-card__header">
+          <h3 class="ts-card__title">Featured</h3>
+        </header>
+        <div class="ts-card__body">Featured on bg-1.</div>
+      </article>
+
+      <article class="ts-card ts-card--glass">
+        <header class="ts-card__header">
+          <h3 class="ts-card__title">Glass</h3>
+        </header>
+        <div class="ts-card__body">Glass on bg-1.</div>
+      </article>
+
+      <article class="ts-card ts-card--accent-bar">
+        <header class="ts-card__header">
+          <h3 class="ts-card__title">Accent bar</h3>
+        </header>
+        <div class="ts-card__body">Accent bar on bg-1.</div>
+      </article>
+    </div>
+  </div>
+
+
+  <!-- ─── Surface alternation: accent panel ───────────────────────── -->
+  <div class="ts-harness-panel ts-harness-panel--accent ts-on-accent">
+    <p class="ts-harness-panel-title">Surface: --ts-accent (cards on accent surface)</p>
+
+    <div class="ts-harness-content">
+      <article class="ts-card" id="card-on-accent">
+        <header class="ts-card__header">
+          <h3 class="ts-card__title">Default on accent</h3>
+        </header>
+        <div class="ts-card__body">Context override should flip ink.</div>
+      </article>
+
+      <article class="ts-card ts-card--accent">
+        <header class="ts-card__header">
+          <h3 class="ts-card__title">Accent on accent</h3>
+        </header>
+        <div class="ts-card__body">Variant re-anchor stays brand-loud.</div>
+      </article>
+
+      <article class="ts-card ts-card--featured">
+        <header class="ts-card__header">
+          <h3 class="ts-card__title">Featured on accent</h3>
+        </header>
+        <div class="ts-card__body">Featured re-anchors regardless of host.</div>
+      </article>
+
+      <article class="ts-card ts-card--glass">
+        <header class="ts-card__header">
+          <h3 class="ts-card__title">Glass on accent</h3>
+        </header>
+        <div class="ts-card__body">Translucent dim against accent surface.</div>
+      </article>
+    </div>
+  </div>
+
+
+  <!-- ─── Sub-elements / links ────────────────────────────────────── -->
+  <h2>ts-card sub-elements</h2>
+
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Header / title / icon / version / body / footer / links</p>
+
+    <div class="ts-harness-content">
+      <article class="ts-card" id="card-full-anatomy">
+        <header class="ts-card__header">
+          <h3 class="ts-card__title">
+            <i class="ts-icon" aria-hidden="true">▦</i>
+            Full anatomy
+          </h3>
+          <span class="ts-card__version">v 4.0</span>
+        </header>
+        <div class="ts-card__body">
+          Every documented sub-element rendered together. Links use engine
+          derivatives for outline + bg (no more rgba(from currentColor)).
+        </div>
+        <div class="ts-card__links horizontal">
+          <a href="#" class="ts-card-link">
+            <i class="ts-icon" aria-hidden="true">→</i>
+            Docs
+            <span class="ts-card-link__meta">Read</span>
+          </a>
+          <a href="#" class="ts-card-link">
+            <i class="ts-icon" aria-hidden="true">→</i>
+            Source
+            <span class="ts-card-link__meta">v2</span>
+          </a>
+        </div>
+        <footer class="ts-card__footer">
+          <span class="ts-harness-label">FOOTER</span>
+          <span class="ts-harness-label">META</span>
+        </footer>
+      </article>
+
+      <article class="ts-card">
+        <header class="ts-card__header">
+          <h3 class="ts-card__title--lg">Large title modifier</h3>
+        </header>
+        <div class="ts-card__body">
+          .ts-card__title--lg — landing/index card variant.
+        </div>
+        <div class="ts-card__links">
+          <a href="#" class="ts-card-link">Read more</a>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- Pricing / flip / swipe composite patterns were appended here twice with
+       broken markup (a stray </section>) and FontAwesome icons that never load;
+       their CSS now lives in ../pending-to-integrate.css pending a dedicated
+       harness. This harness stays focused on the canonical .ts-card component
+       and its full variant + surface + sub-element matrix above. -->
+
+  <!-- Shared live Variant Tester (surfaces · gradients · accent · type · radius · inputs). -->
+  <script src="assets/js/next/harness-tester.js" defer></script>
+</body>
+</html>

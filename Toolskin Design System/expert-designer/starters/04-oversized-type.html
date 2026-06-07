@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Toolskin — Starter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400..700&display=swap">
+  <link rel="stylesheet" href="../templates/tokens.css">
+  <style>
+    .stage {
+      min-height: 100dvh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 24px;
+      gap: 32px;
+    }
+    .stage__top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ts-text-secondary);
+    }
+    .stage__words {
+      display: grid;
+      align-content: end;
+      gap: 0;
+    }
+    .stage__words .word {
+      font-family: var(--ts-font-display);
+      font-size: clamp(64px, 18vw, 280px);   /* MASSIVE — do not shrink */
+      line-height: 0.85;
+      letter-spacing: -0.045em;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin: 0;
+      text-wrap: balance;
+    }
+    .stage__words .word--accent { color: var(--ts-accent); }
+    .stage__bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      gap: 24px;
+      padding-top: 32px;
+      border-top: 1px solid var(--ts-border-1);
+    }
+    .stage__bottom-left { font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ts-text-secondary); }
+    .stage__bottom-right { text-align: right; }
+    .stage__lead {
+      font-size: 18px;
+      color: var(--ts-text-secondary);
+      max-width: 44ch;
+      margin-left: auto;
+    }
+    .stage__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--ts-text-primary);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px;
+    }
+    .stage__cta:hover { color: var(--ts-accent); border-bottom-color: var(--ts-accent); }
+  </style>
+</head>
+<body>
+
+  <div class="stage">
+
+    <header class="stage__top">
+      <span>EST. 2026 · ATELIER</span>
+      <span>VOL. 01 / 12</span>
+    </header>
+
+    <!-- ═══ THE WORDS · stacked, oversized, left-aligned ═════════ -->
+    <main class="stage__words" style="font-family: &quot;Space Grotesk&quot;; font-size: 120px; width: 1145px; font-weight: 700">
+      <!-- Pattern: 3-5 single words stacked. ONE word uses --accent class. -->
+      <p class="word">NO</p>
+      <p class="word">EXCUSES</p>
+      <p class="word word--accent">ONLY</p>
+      <p class="word">RESULTS</p>
+    </main>
+
+    <footer class="stage__bottom">
+      <div class="stage__bottom-left">
+        BUILDING ABSOLUTE STRENGTH & ENDURANCE
+      </div>
+      <div class="stage__bottom-right">
+        <p class="stage__lead">
+          <!-- FILL: subtitle, 1 sentence. Sets the context for the bold statement. -->
+          One sentence that grounds the statement in a concrete promise.
+        </p>
+        <a href="#" class="stage__cta">
+          JOIN THE PROGRAM →
+        </a>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

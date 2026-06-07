@@ -1,0 +1,2902 @@
+<!DOCTYPE html>
+<html lang="en" data-ts-offcanvas-editor>
+
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Theme before first paint (matches ToolskinTheme storageKey + auto mode) to reduce FOUC -->
+    <script>
+      (function () {
+        try {
+          var key = 'ts-theme-mode';
+          var m = localStorage.getItem(key);
+          if (!m) return;
+          if (m === 'auto') {
+            m = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          if (m === 'dark' || m === 'light') {
+            document.documentElement.setAttribute('data-theme', m);
+            document.documentElement.setAttribute('data-ts-theme', m);
+          }
+        } catch (e) { /* ignore */ }
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toolskin · Design System Showcase</title>
+
+    <!-- Google Fonts — render-blocking (critical for preloader + body text, prevents FOUT) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- CDN preconnects — reduces latency for render-blocking theme-toggles CSS + dynamic asset loader -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://api.cdnjs.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <!-- Other CDN assets (FA, Ionicons, Lenis, GSAP, etc.) loaded dynamically by toolskin-assets.js -->
+    <noscript>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    </noscript>
+    <link rel="icon" href="https://satsea.io/toolskin-showcase/assets/img/favicon.ico" sizes="any">
+    <link rel="icon" href="https://satsea.io/toolskin-showcase/assets/img/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="https://satsea.io/toolskin-showcase/assets/img/apple-touch-icon.png">
+
+  <!-- ToolskinAssets — dynamic asset pipeline (must load before toolskin.js early boot) -->
+  <script src="toolskin-assets-js/toolskin-assets.js" defer></script>
+    <!-- Preloader critical CSS — inline so the lock is available at first paint,
+       before the external stylesheet finishes loading. Mirrors generator/index.html
+       <style id="ts-preloader-boot"> pattern. -->
+    <style id="ts-preloader-boot">
+      /* FOUC guard: body background locks to the dark default before external CSS parses.
+         Prevents white flash on cold loads. The external stylesheet overrides this once loaded. */
+      html.ts-preloader-lock body {
+        background-color: #0c0d0f !important;
+      }
+
+      html.ts-preloader-lock,
+      html.ts-preloader-lock body {
+        overflow: hidden !important;
+      }
+
+      html.ts-preloader-lock #ts-app,
+      html.ts-preloader-lock #ts-main {
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
+
+      /* Ensure preloader overlay paints before external CSS resolves.
+         Fallback background mirrors --ts-bg-body dark default. */
+      html.ts-preloader-lock .ts-preloader {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        background-color: #0c0d0f !important;
+      }
+
+       /* Hide sidebar during preloader (it's outside #ts-main) */
+    html.ts-preloader-lock .ts-oce-panel.ts-oce--open,
+    html.ts-preloader-lock #ts-debug-root,
+    html.ts-preloader-lock .ts-oce-panel.ts-oce--open .ts-oce-fab {
+      opacity: 0 !important;
+      z-index: -20 !important;
+
+      pointer-events: none !important;
+    }
+    </style>
+
+    <!-- Toolskin System (local — render-critical) -->
+    <script>
+      document.documentElement.classList.add('ts-preloader-lock');
+      window.__TOOLSKIN_CONFIG__ = {
+        cursor: { mode: 'simple', follower: true, easing: 0.42, followerEasing: 0.12 },
+        reveal: { enabled: false, useGSAP: false, stagger: 0.05, rootMargin: '0px 0px -40px 0px' },
+        smoothScroll: { enabled: false, duration: 1.2 },
+      };
+      // Font-gate: reveal preloader text only after the two fonts it uses are loaded.
+      // Uses document.fonts.load() for specific families (resolves fast, doesn't wait for FA).
+      Promise.all([
+        document.fonts.load('600 1em "Space Grotesk"'),
+        document.fonts.load('400 1em "JetBrains Mono"')
+      ]).then(function () {
+        document.documentElement.classList.add('ts-fonts-ready');
+      });
+    </script>
+    <script src="toolskin-assets-js/toolskin.showcase.js" defer></script>
+
+    <!-- <link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css" /> -->
+     <link rel="stylesheet" href="toolskin.css_toolskin-showcase[latest_cannonical_reference].css" />
+
+
+    <!-- Toolskin Framework — early boot IIFE kicks off ToolskinAssets.loadAll() -->
+    <script>
+      window.__TOOLSKIN_CONFIG__ = {
+        stylesheetDebugger: { enabled: false }
+      };
+    </script>
+    <script src="toolskin-assets-js/toolskin.js" defer></script>
+    <script src="toolskin-assets-js/toolskin-uikit.js" defer></script>
+    <script src="toolskin-assets-js/ts-gradient-canvas.js" defer></script>
+    <script src="toolskin-assets-js/ts-offcanvas-editor.js" defer></script>
+
+    <!-- External CDN libs (Lenis, Locomotive, GSAP, Color.js) are now loaded dynamically by toolskin-assets.js -->
+    <!-- Showcase config — must be before toolskin.js so __tsPreloaderEarlyBoot reads it -->
+    <!-- Toolskin Configuration -->
+    <script>
+      window.addEventListener('ts:ready', () => {
+        console.log('✅ Toolskin Framework Initialized');
+        console.log('Config:', Toolskin.config);
+      });
+
+
+
+
+    </script>
+
+
+  </head>
+
+  <body>
+    <!-- Synchronous lock — add class BEFORE any content element is parsed/painted.
+       The deferred toolskin.js IIFE is a safety net, not the primary mechanism. -->
+
+
+    <div id="ts-preloader" class="ts-preloader" >
+      <div class="ts-preloader__brand">
+        <div class="ts-preloader__logo">
+          <svg class="ts-preloader__bolt" viewBox="0 0 384 512" fill="currentColor" >
+            <path d="M0 256L28.5 28c2-16 15.6-28 31.8-28H228.9c15 0 27.1 12.1 27.1 27.1c0 3.2-.6 6.4-1.6 9.5L192 192h174.8c21.8 0 36.3 22.6 27.2 42.6L179.2 481.2c-7.5 16.4-30.4 12.6-32.5-5.4L128 256z" />
+          </svg>
+          TOOL<em>SKIN</em>
+        </div>
+        <div class="ts-preloader__bar-wrap"><span class="ts-preloader__bar"></span></div>
+        <div class="ts-preloader__hint">Loading Toolskin showcase</div>
+      </div>
+    </div>
+
+    <main id="ts-main" class="ts-main ts-showcase ts-landing">
+
+      <!-- ═══ PROMO BANNER — Dismissable top notification ═══════════════ -->
+      <div class="ts-promo-banner ba-grid" id="promo-banner" style="--ts-grid-size: 15px; --ts-grid-line-opacity: 0.85;">
+        <span class="ts-promo-banner__text">
+          <strong><span class="ts-icon" data-ts-icon="fa-solid fa-wand-magic-sparkles" ></span>
+            New:</strong>
+          Explore our interactive Toolpanel Mockups — live demos of real userscript automation panels.
+        </span>
+        <a href="mockup/index.html" class="ts-promo-banner__cta">
+          <span class="ts-icon" data-ts-icon="fa-solid fa-arrow-right" ></span> View Mockups
+        </a>
+        <button class="ts-promo-banner__close" onclick="this.parentElement.classList.add('ts-dismissed')" aria-label="Dismiss" data-ts-icon="fa-solid fa-xmark">
+        </button>
+      </div>
+
+      <!--  FIXED NAV ────── -->
+      <nav class="ts-nav-fixed" id="ts-topbar">
+        <div class="ts-topbar__logo">
+         <div class="ts-logo-brand">Tool<em>skin</em></div>
+
+          <span class="ts-logo-sub">Design System v1.0</span>
+        </div>
+         <!-- the header has variants  in which adding class .spaced and .ts-icon-only-nav the styles applies and are combinable. the variant Glass, sidebar and Mobile are pending-->
+        <div class="ts-nav-fixed__links ts-nav-truncate ts-auto-icon" id="ts-primary-menu">
+          <a href="#top">Home</a>
+          <a href="#typography">Type</a>
+          <a href="#components">Components</a>
+          <a href="#ui-kit">UI Kit</a>
+          <a href="#forms">Forms</a>
+          <a href="#cards">Cards</a>
+          <a href="#panels">Panels</a>
+          <a href="#mockups">Mockups</a>
+          <a href="generator/index.html" class="ts-nav-link ts-btn ts-btn--outline" data-icon="ion:options-outline" data-tooltip="Check the Banner generator, a branded interface fully built with toolksin design system that  lets you  design your own brand banner for simple   featured images or  covers. a sample of this  system power.">Banner UI</a>
+          <a href="pages/surface-lab.html" class="ts-nav-link ts-btn ts-btn--primary" data-icon="ion:color-palette-outline" data-tooltip="Navigate to the Tokens and Surfaces Color Lab from the Design System.">Surfaces Lab</a>
+
+        </div>
+        <!-- The "More" Button -->
+        <div id="navbar-collapse" class="ts-nav-more">
+          <button class="ts-more-trigger">•••</button>
+          <div id="navbar-extend" class="ts-nav-dropdown"></div>
+        </div>
+        <!-- Theme Toggle (right side of menu) -->
+        <!-- <button class="ts-theme-toggle" data-theme-toggle aria-label="Toggle theme">
+          <span class="ts-icon ts-theme-icon-light" data-ts-icon="fa-solid fa-sun" ></span>
+          <span class="ts-icon ts-theme-icon-dark" data-ts-icon="fa-solid fa-moon" ></span>
+        </button> -->
+        <label class="theme-toggle theme-toggle--force-motion theme-toggle--toggled" data-theme-toggle aria-label="Dark/Light Mode" data-tooltip="Switch Dark/Light Mode" data-tooltip-pos="bottom">
+          <input type="checkbox" />
+          <span class="theme-toggle-sr">Switch Dark/Light Mode</span>
+          <svg xmlns="http://www.w3.org/2000/svg"  width="1em" height="1em" fill="currentColor" class="theme-toggle__expand ts-icon ts-btn-icon" viewBox="0 0 32 32" style="pointer-events: none;">
+            <clipPath id="theme-toggle__expand__cutout">
+              <path d="M0-11h25a1 1 0 0017 13v30H0Z" />
+            </clipPath>
+            <g clip-path="url(#theme-toggle__expand__cutout)">
+              <circle cx="16" cy="16" r="8.4" />
+              <path d="M18.3 3.2c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3S14.7.9 16 .9s2.3 1 2.3 2.3zm-4.6 25.6c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3-1 2.3-2.3 2.3-2.3-1-2.3-2.3zm15.1-10.5c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zM3.2 13.7c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3S.9 17.3.9 16s1-2.3 2.3-2.3zm5.8-7C9 7.9 7.9 9 6.7 9S4.4 8 4.4 6.7s1-2.3 2.3-2.3S9 5.4 9 6.7zm16.3 21c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm2.4-21c0 1.3-1 2.3-2.3 2.3S23 7.9 23 6.7s1-2.3 2.3-2.3 2.4 1 2.4 2.3zM6.7 23C8 23 9 24 9 25.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z" />
+            </g>
+          </svg>
+        </label>
+
+
+        <a class="ts-btn ts-btn--icon ts-back_top-nav ts-fixed-btn" href="#top" data-icon="ion:arrow-up-outline" id="ts-top-btn"><span class="sr-only">Back to top</span></a>
+        <!-- the header variants  should be  live toggleable on th showcase  as aprview  shortcut for user on both theme mdoes  woith this droipdown once they are available. this just adds the classes. enbale this asset when possible-->
+        <div class="ts-ui-select" data-ts-ui-select-placeholder="Select nav Style" id="ts-topnav-selector">
+          <select class="ts-ui-select__native">
+            <option value="default" data-icon="fa-solid fa-bolt">Default</option>
+            <option value="auto-icons" data-icon="fa-solid fa-icons">Auto-Icons</option>
+            <option value="spaced" data-icon="fa-solid fa-expand">Spaced</option>
+            <option value="icons" data-icon="fa-solid fa-image">Icons-Only</option>
+            <option value="mobile" data-icon="fa-solid fa-window-maximize">Mobile-Only</option>
+            <option value="sidebar" data-icon="fa-solid fa-xmark" disabled>Sidebar (soon)</option>
+          </select>
+        </div>
+      </nav>
+
+
+
+      <!--  HERO — effects on dedicated layer elements, not section pseudo-elements -->
+      <section class="ts-section ts-hero gradient-canvas" id="top">
+        <!-- Canvas auto-injected by ts-gradient-canvas.js into .gradient-canvas#top -->
+
+        <!-- Layer stack: canvas(0) → grid-lines(1) → color-overlay(2) → dots(3) → content(5) → grain(7)
+           Dot grid: classes on SECTION so ToolskinGridBg receives mouse events.
+           Overlay element is direct child so CSS vars cascade from section inline styles. -->
+        <div class="ts-effects-layer ba-grid" ></div>
+        <div class="ts-color-overlay-layer" style="background: color-mix(in srgb, var(--ts-bg-0) 80%, transparent);">
+        </div>
+        <div class="ts-section-color-overlay" ></div>
+        <div class="ts-container ts-relative ts-z-1 ts-flex-row ts-fullwidth" style="z-index: 5;">
+          <div class="ts-hero-content ts-flex-col">
+            <div class="ts-hero__badge">
+              <span class="ts-icon ts-icon-dot" data-ts-icon="fa-solid fa-circle" ></span>
+              Design System · v1.0.0 · 2026
+            </div>
+
+            <h1 class="ts-hero-title ">
+              TOOL<span class="ts-gradient-text">SKIN</span>
+            </h1>
+
+            <p class="ts-lead ts-hero-lead ">
+              A token-driven CSS design system built for WordPress, web applications, and UI toolkits. One stylesheet.
+              Infinite control.
+            </p>
+
+            <div class="ts-hero__actions ">
+              <button class="ts-btn ts-btn--primary ts-btn--lg" data-modal-open="modal-demo">
+                <span class="ts-icon" data-ts-icon="fa-solid fa-bolt" ></span> View Components
+              </button>
+              <a href="surface-lab.html#tokens" class="ts-btn ts-btn--outline ts-btn--lg">
+                <span class="ts-icon" data-ts-icon="fa-solid fa-code" ></span> Design Tokens
+              </a>
+            </div>
+
+          <div class="theme-swatches ">
+            <span class="ts-accent-label">Accent</span>
+            <div class="theme-swatch" data-color="#ff5500" onclick="Toolskin.setAccentHex('#ff5500')" data-tooltip="Orange">
+            </div>
+            <div class="theme-swatch" data-color="#00e5ff" onclick="Toolskin.setAccentHex('#00e5ff')" data-tooltip="Cyan">
+            </div>
+            <div class="theme-swatch" data-color="#2efc86" onclick="Toolskin.setAccentHex('#2efc86')" data-tooltip="Green">
+            </div>
+            <div class="theme-swatch" data-color="#a855f7" onclick="Toolskin.setAccentHex('#a855f7')" data-tooltip="Purple">
+            </div>
+            <div class="theme-swatch" data-color="#f7931a" onclick="Toolskin.setAccentHex('#f7931a')" data-tooltip="Bitcoin">
+            </div>
+            <div class="theme-swatch" data-color="#ec4899" onclick="Toolskin.setAccentHex('#ec4899')" data-tooltip="Pink">
+            </div>
+          </div> 
+          </div>
+          <div class="ts-hero-image  ts-flex-col ts-empty">
+
+          </div>
+        </div>
+
+        <!-- Grain layer: TOPMOST — texturizes everything via mix-blend-mode -->
+        <div class="ts-grain-layer ts-grain ts-grain--flickered" ></div>
+
+        <!-- decorative accent glow blob -->
+        <div class="glow-bulb-2" id="ts-hero-glow" style="display:none"></div>
+      </section>
+
+      <!-- Accent band: gradients + text use per-element accent tokens -->
+      <section class="ts-section ts-section--accent-band ts-section--fullbleed ts-grain ts-grain--strong" aria-label="Accent highlight">
+        <div class="ts-container ts-text-center">
+          <span class="ts-label">Live accent</span>
+          <h2 class="ts-display-editorial ts-mt-4">One engine — surfaces, gradients, controls</h2>
+          <p class="ts-caption ts-mt-3 ts-max-w-lg ts-mx-auto">Foreground colors and accent gradients follow
+            <code>--ts-accent</code> on
+            every element, so nested components stay in sync when the theme or accent changes.
+          </p>
+          <div class="ts-mt-6">
+            <a href="surface-lab.html" class="ts-btn ts-btn--secondary">Open Surfaces Lab</a>
+          </div>
+        </div>
+      </section>
+
+
+      <!--  SECTION: TYPOGRAPHY ─────────────────────────────────────── -->
+      <section class="ts-section ts-bg-grad-surface-radial-soft" id="typography">
+        <div class="ts-container">
+          <div class="ts-section-divider rounded">
+            <h2>§3 — Typography</h2>
+          </div>
+
+          <div class="">
+            <p class="ts-overline">Display / Hero</p>
+            <h1 class="ts-hero-title">HERO TITLE<br><span class="ts-gradient-text">Gradient</span></h1>
+          </div>
+
+          <div class="ts-grid ts-grid--2  ts-gap-3">
+            <div class="ts-card">
+              <span class="ts-label">Type Scale</span>
+              <div class="ts-h1 ts-mb-2">H1 — Display Heading</div>
+              <div class="ts-h2 ts-mb-2">H2 — Section Title</div>
+              <div class="ts-h3 ts-mb-2">H3 — Card Header</div>
+              <div class="ts-h4 ts-mb-2">H4 — Subsection</div>
+              <div class="ts-h5 ts-mb-2">H5 — Label Heading</div>
+              <div class="ts-h6 ts-mb-2">H6 — Micro Label</div>
+            </div>
+            <div class="ts-card">
+              <span class="ts-label">Text Utilities</span>
+              <p class="ts-text-primary ts-mb-3">Body text: primary color, default weight. Used for
+                main content paragraphs with relaxed line-height.</p>
+              <p class="ts-text-secondary ts-mb-3">Secondary text — slightly muted for supporting content.</p>
+              <p class="ts-text-muted ts-mb-3">Muted text — labels, captions, metadata.</p>
+              <p class="ts-text-accent ts-mb-3">Accent colored text — highlights, links.</p>
+              <p class="ts-gradient-text bevel ts-h3 ts-mb-3">Gradient Text</p>
+              <span class="ts-overline">Overline Label</span>
+              <p class="ts-label">UI Label / Category</p>
+              <p class="ts-caption">Caption text — smallest readable size for metadata, timestamps, and supporting
+                details.
+              </p>
+            </div>
+          </div>
+
+          <span class="ts-label">Code / Mono</span>
+          <p class="ts-lh-relaxed">
+            Use <code class="ts-mono">ts-mono</code> for inline code, or pair it with the log component for terminal
+            output.
+            Reference tokens like <code class="ts-mono">--ts-accent</code> or <code class="ts-mono">--ts-radius-base</code>
+            in your overrides.
+          </p>
+        </div>
+      </section>
+
+
+
+
+
+
+      <!--  SECTION: COMPONENTS ─────────────────────────────────────── -->
+      <section class="ts-section" id="components">
+        <div class="ts-container">
+          <div class="ts-section-divider rounded">
+            <h2>§6g–6r — Components</h2>
+          </div>
+
+          <!-- Row 1: Chips + Badges side by side -->
+          <div class="ts-grid ts-grid--2 ts-gap-8 ">
+            <div class="ts-card ts-card--glass">
+              <span class="ts-label">Chips / Tags</span>
+              <div class="ts-chips">
+                <span class="ts-chip ts-chip--active">Selected</span>
+                <span class="ts-chip">Default</span>
+                <span class="ts-chip ts-chip--accent">Accent</span>
+                <span class="ts-chip ts-chip--success"><span class="ts-icon" data-ts-icon="fa-solid fa-check" ></span> Success</span>
+                <span class="ts-chip ts-chip--warning"><span class="ts-icon" data-ts-icon="fa-solid fa-triangle-exclamation" ></span> Warning</span>
+                <span class="ts-chip ts-chip--danger"><span class="ts-icon" data-ts-icon="fa-solid fa-xmark" ></span> Danger</span>
+              </div>
+              <div class="ts-chips">
+                <span class="ts-chip ts-rounded-full ts-chip--active">Selected</span>
+                <span class="ts-chip ts-rounded-full">Default</span>
+                <span class="ts-chip ts-rounded-full ts-chip--accent">Accent</span>
+                <span class="ts-chip ts-rounded-full ts-chip--success"><span class="ts-icon" data-ts-icon="fa-solid fa-check" ></span> Success</span>
+                <span class="ts-chip ts-rounded-full ts-chip--warning"><span class="ts-icon" data-ts-icon="fa-solid fa-triangle-exclamation" ></span> Warning</span>
+                <span class="ts-chip ts-rounded-full ts-chip--danger"><span class="ts-icon" data-ts-icon="fa-solid fa-xmark" ></span> Danger</span>
+              </div>
+            </div>
+            <div class="ts-card ts-card--glass">
+              <span class="ts-label">Badges & Status Dots</span>
+              <div class="ts-row ts-mb-4">
+                <span class="ts-badge">Default</span>
+                <span class="ts-badge ts-badge--accent">Accent</span>
+                <span class="ts-badge ts-badge--success"><span class="ts-icon ts-icon-tiny" data-ts-icon="fa-solid fa-check" ></span> Live</span>
+                <span class="ts-badge ts-badge--warning">Beta</span>
+                <span class="ts-badge ts-badge--danger">Error</span>
+                <span class="ts-badge ts-badge--alt">Alt</span>
+              </div>
+              <div class="ts-row ts-mb-4">
+                <span class="ts-badge ts-rounded-full">Default</span>
+                <span class="ts-badge ts-rounded-full ts-badge--accent">Accent</span>
+                <span class="ts-badge ts-rounded-full ts-badge--success"><span class="ts-icon ts-icon-tiny" data-ts-icon="fa-solid fa-check" ></span> Live</span>
+                <span class="ts-badge ts-rounded-full ts-badge--warning">Beta</span>
+                <span class="ts-badge ts-rounded-full ts-badge--danger">Error</span>
+                <span class="ts-badge ts-rounded-full ts-badge--alt">Alt</span>
+              </div>
+              <div class="ts-row">
+                <div class="ts-status-dot">
+                  <span class="ts-dot ts-dot--pulse ts-dot--accent"></span><span class="ts-caption">Live</span>
+                </div>
+                <div class="ts-status-dot">
+                  <span class="ts-dot ts-dot--success"></span><span class="ts-caption">Online</span>
+                </div>
+                <div class="ts-status-dot">
+                  <span class="ts-dot ts-dot--warning"></span><span class="ts-caption">Idle</span>
+                </div>
+                <div class="ts-status-dot">
+                  <span class="ts-dot ts-dot--danger"></span><span class="ts-caption">Offline</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--  SECTION: BUTTONS  -->
+          <div class="ts-section-divider rounded ts-zoom-in">
+            <h2>§6a — Buttons</h2>
+          </div>
+
+          <div class="ts-grid ts-grid--2 ts-gap-3">
+            <!-- Left column: Variants + Sizes -->
+            <div class="ts-grid-col">
+              <span class="ts-label ">Variants</span>
+              <div class="ts-card ts-row ">
+                <button class="ts-btn ts-btn--primary"><span class="ts-icon" data-ts-icon="fa-solid fa-bolt" ></span> Primary</button>
+                <button class="ts-btn ts-btn--outline"><span class="ts-icon" data-ts-icon="fa-solid fa-arrow-right" ></span> Outline</button>
+                <button class="ts-btn"><span class="ts-icon" data-ts-icon="fa-solid fa-layer-group" ></span> Default</button>
+                <button class="ts-btn ts-btn--ghost"><span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis" ></span> Ghost</button>
+                <button class="ts-btn ts-btn--alt"><span class="ts-icon" data-ts-icon="fa-solid fa-wifi" ></span> Alt</button>
+                <button class="ts-btn ts-btn--success"><span class="ts-icon" data-ts-icon="fa-solid fa-check" ></span> Success</button>
+                <button class="ts-btn ts-btn--danger"><span class="ts-icon" data-ts-icon="fa-solid fa-trash" ></span> Danger</button>
+                <button class="ts-btn" disabled>Disabled</button>
+              </div>
+
+              <span class="ts-label">Sizes</span>
+              <div class="ts-card ts-row ts-items-center">
+                <button class="ts-btn ts-btn--primary ts-btn--sm"><span class="ts-icon" data-ts-icon="fa-solid fa-bolt" ></span> Small</button>
+                <button class="ts-btn ts-btn--primary"><span class="ts-icon" data-ts-icon="fa-solid fa-bolt" ></span> Default</button>
+                <button class="ts-btn ts-btn--primary ts-btn--lg"><span class="ts-icon" data-ts-icon="fa-solid fa-bolt" ></span> Large</button>
+                <button class="ts-btn ts-btn--primary ts-btn--xl"><span class="ts-icon" data-ts-icon="fa-solid fa-rocket" ></span> X-Large</button>
+              </div>
+            </div>
+
+            <!-- Right column: Icon-only + Counter -->
+            <div class="ts-grid-col">
+              <span class="ts-label">Icon-only</span>
+              <div class="ts-card ts-row">
+                <button class="ts-btn ts-btn--primary ts-btn--icon" data-tooltip="Launch"><span class="ts-icon" data-ts-icon="fa-solid fa-rocket" ></span></button>
+                <button class="ts-btn ts-btn--outline ts-btn--icon" data-tooltip="Settings"><span class="ts-icon" data-ts-icon="fa-solid fa-gear" ></span></button>
+                <button class="ts-btn ts-btn--icon" data-tooltip="Download"><span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span></button>
+                <button class="ts-btn ts-btn--ghost ts-btn--icon" data-tooltip="More"><span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis-vertical" ></span></button>
+                <button class="ts-btn ts-btn--danger ts-btn--icon ts-btn--sm" data-tooltip="Delete"><span class="ts-icon" data-ts-icon="fa-solid fa-xmark" ></span></button>
+              </div>
+
+              <span class="ts-label">With counter badge</span>
+              <div class="ts-card ts-row">
+                <button class="ts-btn ts-btn--primary">
+                  <span class="ts-icon" data-ts-icon="fa-solid fa-bell" ></span> Notifications
+                  <span class="ts-btn__counter">12</span>
+                </button>
+                <button class="ts-btn">
+                  <span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span> Downloads
+                  <span class="ts-btn__counter">3</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Row 2: Tabs — full width -->
+          <div class="ts-grid ts-grid--2 ts-gap-8 ">
+            <div>
+              <span class="ts-label">Tabs Fullwidth Variant</span>
+              <div class="ts-card ts-tab-wrap">
+                <div class="ts-tabs" id="ts-tabs">
+                  <button class="ts-tab ts-tab--active" data-tab="pane-overview">Overview</button>
+                  <button class="ts-tab" data-tab="pane-analytics">Analytics</button>
+                  <button class="ts-tab" data-tab="pane-settings">Settings</button>
+                </div>
+                <div class="ts-tab-pane ts-tab-pane--active" id="pane-overview">
+                  <p class="ts-text-secondary">Overview tab content. This pane is visible by default.</p>
+                </div>
+                <div class="ts-tab-pane" id="pane-analytics">
+                  <p class="ts-text-secondary">Analytics tab content. Activated when the Analytics tab is clicked.</p>
+                </div>
+                <div class="ts-tab-pane" id="pane-settings">
+                  <p class="ts-text-secondary">Settings tab content. Each pane can contain any component.</p>
+                </div>
+              </div>
+
+            </div>
+            <div>
+              <span class="ts-label">Tabs — Tabbed Card Variant</span>
+              <div class="ts-card ts-tab-wrap">
+                <div class="ts-tabs ts-tabs--pill" id="ts-tabs-card">
+                  <button class="ts-tab ts-tab--active" data-tab="pane-0">All</button>
+                  <button class="ts-tab" data-tab="pane-1">Published</button>
+                  <button class="ts-tab" data-tab="pane-2">Drafts</button>
+                  <button class="ts-tab" data-tab="pane-3">Archived</button>
+                </div>
+                <div class="ts-tab-pane ts-tab-pane--active" id="pane-0">
+                  <p class="ts-text-secondary">Overview tab content. This pane is visible by default.</p>
+                </div>
+                <div class="ts-tab-pane" id="pane-1">
+                  <p class="ts-text-secondary">Analytics tab content.</p>
+                </div>
+                <div class="ts-tab-pane" id="pane-2">
+                  <p class="ts-text-secondary">Settings tab content.</p>
+                </div>
+                <div class="ts-tab-pane" id="pane-3">
+                  <p class="ts-text-secondary">Archived tab content.</p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <span class="ts-label ts-mt-6">Tabs — Pill Rounded Buttons</span>
+              <div class="ts-tab-wrap">
+                <div class="ts-tabs ts-tabs--pill-rounded" id="ts-tabs-pill">
+                  <button class="ts-tab ts-tab--active" data-tab="pane-all-pill">All</button>
+                  <button class="ts-tab" data-tab="pane-Published-pill">Published</button>
+                  <button class="ts-tab" data-tab="pane-Drafts-pill">Drafts</button>
+                  <button class="ts-tab" data-tab="pane-Archived-pill">Archived</button>
+                </div>
+                <div class="ts-card ts-tab-pane ts-card ts-tab-pane--active" id="pane-all-pill">
+                  <p class="ts-text-secondary">Overview tab content. This pane is visible by default.</p>
+                </div>
+                <div class="ts-card ts-tab-pane" id="pane-Published-pill">
+                  <p class="ts-text-secondary">Analytics tab content.</p>
+                </div>
+                <div class="ts-card ts-tab-pane" id="pane-Drafts-pill">
+                  <p class="ts-text-secondary">Settings tab content.</p>
+                </div>
+                <div class="ts-card ts-tab-pane" id="pane-Archived-pill">
+                  <p class="ts-text-secondary">Archived tab content.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Row 3: Progress + Toasts/Modals side by side -->
+          <div class="ts-grid ts-grid--2 ts-gap-8 ">
+            <div>
+              <span class="ts-label">Progress Bars</span>
+              <div class="ts-flex-col ts-gap-4">
+                <div>
+                  <div class="ts-progress-row"><span class="ts-progress-label">Uploading files</span><span class="ts-progress-value">68%</span></div>
+                  <div class="ts-progress">
+                    <div class="ts-progress__bar" style="width:68%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="ts-progress-row"><span class="ts-progress-label">Processing queue</span><span class="ts-progress-value">32%</span></div>
+                  <div class="ts-progress ts-progress--lg">
+                    <div class="ts-progress__bar" style="width:32%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="ts-progress-row"><span class="ts-progress-label">Striped style</span><span class="ts-progress-value">55%</span></div>
+                  <div class="ts-progress ts-progress--striped">
+                    <div class="ts-progress__bar" style="width:55%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <span class="ts-label">Toast Notifications</span>
+              <div class="ts-row">
+                <button class="ts-btn ts-btn--sm" onclick="Toolskin.showToast('Operation completed successfully.', {type:'success',title:'Success'})">
+                  <span class="ts-icon ts-text-success" data-ts-icon="fa-solid fa-circle-check" ></span>
+                  Success
+                </button>
+                <button class="ts-btn ts-btn--sm" onclick="Toolskin.showToast('Rate limit detected — retrying in 3s.', {type:'warning',title:'Warning'})">
+                  <span class="ts-icon ts-text-warning" data-ts-icon="fa-solid fa-triangle-exclamation" ></span> Warning
+                </button>
+                <button class="ts-btn ts-btn--sm" onclick="Toolskin.showToast('Upload failed: Connection timeout.', {type:'error',title:'Error'})">
+                  <span class="ts-icon ts-text-danger" data-ts-icon="fa-solid fa-circle-xmark" ></span>
+                  Error
+                </button>
+                <button class="ts-btn ts-btn--sm" onclick="Toolskin.showToast('New batch ready for processing.', {type:'info',title:'Info'})">
+                  <span class="ts-icon ts-text-alt" data-ts-icon="fa-solid fa-circle-info" ></span> Info
+                </button>
+              </div>
+
+              <span class="ts-label">Modal (click to open)</span>
+              <div class="ts-row">
+                <button class="ts-btn ts-btn--primary" data-modal-open="modal-demo">
+                  <span class="ts-icon" data-ts-icon="fa-solid fa-window-maximize" ></span> Open Modal
+                </button>
+                <button class="ts-btn ts-btn--outline" data-modal-open="modal-sm">
+                  <span class="ts-icon" data-ts-icon="fa-solid fa-compress" ></span> Small Modal
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enhanced Data Tables -->
+          <div class="ts-card">
+            <div class="ts-card__header">
+              <span class="ts-card__title">Enhanced Data Tables</span>
+              <div class="ts-flex ts-gap-2">
+                <span class="ts-badge ts-badge--success">Sortable</span>
+                <span class="ts-badge ts-badge--accent">Bulk Actions</span>
+                <span class="ts-badge ts-badge--muted">Sticky Header</span>
+              </div>
+            </div>
+            <div class="ts-card__body">
+              <p class="ts-text-secondary ts-mb-4">Click column headers to sort. Select rows for bulk actions. Table
+                header stays visible on scroll.</p>
+
+              <!-- Enhanced Table with Bulk Actions -->
+              <div class="ts-ui-table-bulk-wrap">
+                <div class="ts-ui-table-scroll" style="max-height: 400px; overflow-y: auto;">
+                  <table class="ts-table ts-ui-table--sortable ts-ui-table--bulk ts-ui-table--striped">
+                    <thead>
+                      <tr>
+                        <th class="ts-ui-checkbox-cell" scope="col">
+                          <input type="checkbox" class="ts-ui-table__select-all" aria-label="Select all rows" />
+                        </th>
+                        <th data-sort-key="title" scope="col" style="cursor: pointer;">
+                          <span class="ts-flex ts-items-center ts-gap-2">
+                            Video Title
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-sort" style="font-size: 0.75rem; opacity: 0.6;"></span>
+                          </span>
+                        </th>
+                        <th data-sort-key="status" scope="col" style="cursor: pointer;">
+                          <span class="ts-flex ts-items-center ts-gap-2">
+                            Status
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-sort" style="font-size: 0.75rem; opacity: 0.6;"></span>
+                          </span>
+                        </th>
+                        <th data-sort-key="views" scope="col" style="cursor: pointer;">
+                          <span class="ts-flex ts-items-center ts-gap-2">
+                            Views
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-sort" style="font-size: 0.75rem; opacity: 0.6;"></span>
+                          </span>
+                        </th>
+                        <th data-sort-key="published" scope="col" style="cursor: pointer;">
+                          <span class="ts-flex ts-items-center ts-gap-2">
+                            Published
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-sort" style="font-size: 0.75rem; opacity: 0.6;"></span>
+                          </span>
+                        </th>
+                        <th data-sort-key="rating" scope="col" style="cursor: pointer;">
+                          <span class="ts-flex ts-items-center ts-gap-2">
+                            Rating
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-sort" style="font-size: 0.75rem; opacity: 0.6;"></span>
+                          </span>
+                        </th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                        <td class="ts-text-primary ts-fw-medium" data-value="Variation Ballad">Variation Ballad</td>
+                        <td data-value="published"><span class="ts-badge ts-badge--success">Published</span></td>
+                        <td data-value="14820"><span class="ts-mono">14,820</span></td>
+                        <td data-value="2026-03-05">Mar 5, 2026</td>
+                        <td data-value="4.8">
+                          <div class="ts-flex ts-items-center ts-gap-2">
+                            <span class="ts-mono">4.8</span>
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-star" style="color: #ffc107; font-size: 0.8rem;"></span>
+                          </div>
+                        </td>
+                        <td>
+                          <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm" data-tooltip="More options">
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis"></span>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                        <td class="ts-text-primary ts-fw-medium" data-value="Tundra in Mineral">Tundra in Mineral</td>
+                        <td data-value="unlisted"><span class="ts-badge ts-badge--warning">Unlisted</span></td>
+                        <td data-value="6241"><span class="ts-mono">6,241</span></td>
+                        <td data-value="2026-03-02">Mar 2, 2026</td>
+                        <td data-value="4.2">
+                          <div class="ts-flex ts-items-center ts-gap-2">
+                            <span class="ts-mono">4.2</span>
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-star" style="color: #ffc107; font-size: 0.8rem;"></span>
+                          </div>
+                        </td>
+                        <td>
+                          <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm" data-tooltip="More options">
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis"></span>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                        <td class="ts-text-primary ts-fw-medium" data-value="TechBuzz Episode 12">TechBuzz Episode 12</td>
+                        <td data-value="scheduled"><span class="ts-badge ts-badge--accent">Scheduled</span></td>
+                        <td data-value="0"><span class="ts-mono">—</span></td>
+                        <td data-value="2026-03-10">Mar 10, 2026</td>
+                        <td data-value="0">
+                          <span class="ts-text-muted ts-mono">—</span>
+                        </td>
+                        <td>
+                          <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm" data-tooltip="More options">
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis"></span>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                        <td class="ts-text-primary ts-fw-medium" data-value="Creative Workflow Guide">Creative Workflow
+                          Guide</td>
+                        <td data-value="published"><span class="ts-badge ts-badge--success">Published</span></td>
+                        <td data-value="32100"><span class="ts-mono">32,100</span></td>
+                        <td data-value="2026-02-28">Feb 28, 2026</td>
+                        <td data-value="4.9">
+                          <div class="ts-flex ts-items-center ts-gap-2">
+                            <span class="ts-mono">4.9</span>
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-star" style="color: #ffc107; font-size: 0.8rem;"></span>
+                          </div>
+                        </td>
+                        <td>
+                          <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm" data-tooltip="More options">
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis"></span>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                        <td class="ts-text-primary ts-fw-medium" data-value="Design System Deep Dive">Design System Deep
+                          Dive</td>
+                        <td data-value="draft"><span class="ts-badge ts-badge--muted">Draft</span></td>
+                        <td data-value="0"><span class="ts-mono">—</span></td>
+                        <td data-value="2026-03-15">Mar 15, 2026</td>
+                        <td data-value="0">
+                          <span class="ts-text-muted ts-mono">—</span>
+                        </td>
+                        <td>
+                          <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm" data-tooltip="More options">
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis"></span>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                        <td class="ts-text-primary ts-fw-medium" data-value="Portfolio Review Session">Portfolio Review
+                          Session</td>
+                        <td data-value="published"><span class="ts-badge ts-badge--success">Published</span></td>
+                        <td data-value="8750"><span class="ts-mono">8,750</span></td>
+                        <td data-value="2026-03-01">Mar 1, 2026</td>
+                        <td data-value="4.6">
+                          <div class="ts-flex ts-items-center ts-gap-2">
+                            <span class="ts-mono">4.6</span>
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-star" style="color: #ffc107; font-size: 0.8rem;"></span>
+                          </div>
+                        </td>
+                        <td>
+                          <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm" data-tooltip="More options">
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis"></span>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                        <td class="ts-text-primary ts-fw-medium" data-value="Creative Workflow Guide">Creative Workflow
+                          Guide</td>
+                        <td data-value="published"><span class="ts-badge ts-badge--success">Published</span></td>
+                        <td data-value="32100"><span class="ts-mono">32,100</span></td>
+                        <td data-value="2026-02-28">Feb 28, 2026</td>
+                        <td data-value="4.9">
+                          <div class="ts-flex ts-items-center ts-gap-2">
+                            <span class="ts-mono">4.9</span>
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-star" style="color: #ffc107; font-size: 0.8rem;"></span>
+                          </div>
+                        </td>
+                        <td>
+                          <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm" data-tooltip="More options">
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis"></span>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                        <td class="ts-text-primary ts-fw-medium" data-value="Design System Deep Dive">Design System Deep
+                          Dive</td>
+                        <td data-value="draft"><span class="ts-badge ts-badge--muted">Draft</span></td>
+                        <td data-value="0"><span class="ts-mono">—</span></td>
+                        <td data-value="2026-03-15">Mar 15, 2026</td>
+                        <td data-value="0">
+                          <span class="ts-text-muted ts-mono">—</span>
+                        </td>
+                        <td>
+                          <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm" data-tooltip="More options">
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis"></span>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="ts-ui-checkbox-cell"><input type="checkbox" class="ts-ui-row-checkbox" aria-label="Select row" /></td>
+                        <td class="ts-text-primary ts-fw-medium" data-value="Portfolio Review Session">Portfolio Review
+                          Session</td>
+                        <td data-value="published"><span class="ts-badge ts-badge--success">Published</span></td>
+                        <td data-value="8750"><span class="ts-mono">8,750</span></td>
+                        <td data-value="2026-03-01">Mar 1, 2026</td>
+                        <td data-value="4.6">
+                          <div class="ts-flex ts-items-center ts-gap-2">
+                            <span class="ts-mono">4.6</span>
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-star" style="color: #ffc107; font-size: 0.8rem;"></span>
+                          </div>
+                        </td>
+                        <td>
+                          <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm" data-tooltip="More options">
+                            <span class="ts-icon" data-ts-icon="fa-solid fa-ellipsis"></span>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Bulk Actions Bar -->
+                <div class="ts-ui-bulk-bar" hidden>
+                  <span class="ts-ui-bulk-bar__count">0 selected</span>
+                  <div class="ts-ui-bulk-bar__actions">
+                    <button type="button" class="ts-btn ts-btn--secondary ts-btn--sm">
+                      <span class="ts-icon" data-ts-icon="fa-solid fa-download"></span>Export
+                    </button>
+                    <button type="button" class="ts-btn ts-btn--secondary ts-btn--sm">
+                      <span class="ts-icon" data-ts-icon="fa-solid fa-copy"></span>Duplicate
+                    </button>
+                    <button type="button" class="ts-btn ts-btn--outline ts-btn--sm">
+                      <span class="ts-icon" data-ts-icon="fa-solid fa-archive"></span>Archive
+                    </button>
+                    <button type="button" class="ts-btn ts-btn--danger ts-btn--sm">
+                      <span class="ts-icon" data-ts-icon="fa-solid fa-trash"></span>Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Table Feature Description -->
+              <div class="ts-flex ts-flex-wrap ts-gap-4 ts-mt-4 ts-text-sm ts-text-secondary">
+                <div class="ts-flex ts-items-center ts-gap-2">
+                  <span class="ts-icon" data-ts-icon="fa-solid fa-sort" style="color: var(--ts-accent);"></span>
+                  <span>Click headers to sort</span>
+                </div>
+                <div class="ts-flex ts-items-center ts-gap-2">
+                  <span class="ts-icon" data-ts-icon="fa-solid fa-check-square" style="color: var(--ts-accent);"></span>
+                  <span>Select rows for bulk actions</span>
+                </div>
+                <div class="ts-flex ts-items-center ts-gap-2">
+                  <span class="ts-icon" data-ts-icon="fa-solid fa-thumbtack" style="color: var(--ts-accent);"></span>
+                  <span>Sticky header on scroll</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ts-section-divider rounded">
+            <h2>List with icon Components</h2>
+          </div>
+          <div class="ts-grid ts-grid--3 ts-gap-8 ">
+           
+            <div class="ts-card ts-card--glass">
+              <span class="ts-label">List Element basic Simple List</span>
+
+              <ul class="ts-feat-list lorem list">
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-palette" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-font" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-image" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-expand" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-icons" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-sliders" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-floppy-disk" ></span> <span>List Element Item</span> </li>
+              </ul>
+            </div>
+            <div class="ts-card ts-card--glass">
+              <span class="ts-label">List Element Big Icons Single List</span>
+
+              <ul class="ts-feat-list lorem ts-feat-icon-big list Single List">
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-palette" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-font" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-image" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-expand" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-icons" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-sliders" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-floppy-disk" ></span> <span>List Element Item</span> </li>
+              </ul>
+            </div>
+            <div class="ts-card ts-card--glass">
+              <span class="ts-label">List Element Card items Single List</span>
+
+              <ul class="ts-feat-list lorem ts-feat-cards list">
+                <li class="ts-feat-item hover-accent"> <span class="ts-icon" data-ts-icon="fa-solid fa-palette" ></span> <span>List Element Item hover-accent</span> </li>
+                <li class="ts-feat-item hover-accent"> <span class="ts-icon" data-ts-icon="fa-solid fa-font" ></span> <span>List Element Item hover-accent</span> </li>
+                <li class="ts-feat-item hover-accent"> <span class="ts-icon" data-ts-icon="fa-solid fa-image" ></span> <span>List Element Item hover-accent</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-expand" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-icons" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-sliders" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-floppy-disk" ></span> <span>List Element Item</span> </li>
+              </ul>
+            </div>
+            
+            <div class="ts-card ts-card--glass ts-col-full ">
+              <span class="ts-label">List Element Big Icons Two Columns</span>
+
+              <ul class="ts-feat-list lorem ts-feat-icon-big">
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-palette" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-font" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-icons" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-expand" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-floppy-disk" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-palette" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-font" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-image" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-expand" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-icons" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-sliders" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-floppy-disk" ></span> <span>List Element Item</span> </li>
+              </ul>
+            </div>
+            
+             <div class="ts-card ts-card ts-card--glass ts-col-full">
+              <span class="ts-label">List Element Basic Two Columns</span>
+
+              <ul class="ts-feat-list lorem">
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-palette" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-font" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-icons" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-expand" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-floppy-disk" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-palette" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-font" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-image" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-expand" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-icons" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-sliders" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-floppy-disk" ></span> <span>List Element Item</span> </li>
+              </ul>
+            </div>
+            <div class="ts-card ts-card--glass ts-col-full">
+              <span class="ts-label">List Element Card items Two Columns</span>
+
+              <ul class="ts-feat-list lorem ts-feat-cards">
+                <li class="ts-feat-item hover-accent"> <span class="ts-icon" data-ts-icon="fa-solid fa-palette" ></span> <span>List Element Item hover-accent</span> </li>
+                <li class="ts-feat-item hover-accent"> <span class="ts-icon" data-ts-icon="fa-solid fa-font" ></span> <span>List Element Item hover-accent</span> </li>
+                <li class="ts-feat-item hover-accent"> <span class="ts-icon" data-ts-icon="fa-solid fa-icons" ></span> <span>List Element Item hover-accent</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-expand" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-floppy-disk" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-palette" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-font" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-image" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-expand" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-icons" ></span>
+                  <span>List Element Item</span>
+                </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-sliders" ></span> <span>List Element Item</span> </li>
+                <li class="ts-feat-item"> <span class="ts-icon" data-ts-icon="fa-solid fa-floppy-disk" ></span> <span>List Element Item</span> </li>
+              </ul>
+            </div>
+
+          </div>
+
+
+
+        </div>
+      </section>
+
+      <!-- Enhanced UIKit Components -->
+      <section class="ts-section ts-section--alt-mute" id="ui-kit">
+        <div class="ts-container">
+          <div class="ts-section-divider rounded">
+            <h2>§6x — Enhanced UI Kit Components</h2>
+          </div>
+          <p class="ts-lead ">Advanced interactive components with rich features from the UI Kit.</p>
+
+          <!-- Enhanced Toast System -->
+          <div class="ts-grid ts-grid--2 ts-gap-8 ts-mb-12">
+            <div class="ts-card">
+              <div class="ts-card__header">
+                <span class="ts-card__title">Enhanced Toast System</span>
+                <span class="ts-badge ts-badge--accent">UIKit</span>
+              </div>
+              <div class="ts-card__body">
+                <p>Rich toast notifications with progress tracking and better styling.</p>
+                <div class="ts-flex ts-flex-wrap ts-gap-2 ts-mt-4">
+                  <button type="button" class="ts-btn ts-btn--sm ts-btn--primary" id="showcase-toast-success">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-check"></span>Success
+                  </button>
+                  <button type="button" class="ts-btn ts-btn--sm ts-btn--outline" id="showcase-toast-warning">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-triangle-exclamation"></span>Warning
+                  </button>
+                  <button type="button" class="ts-btn ts-btn--sm ts-btn--ghost" id="showcase-toast-error">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-circle-xmark"></span>Error
+                  </button>
+                  <button type="button" class="ts-btn ts-btn--sm" id="showcase-toast-info">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-circle-info"></span>Info
+                  </button>
+                </div>
+                <div class="ts-gap-3 ts-grid ts-grid--2 ts-grid-responsive ts-mt-4 ts-ui-toast-display">
+                  <div class="ts-ui-toast ts-ui-toast--info">
+                    <div class="ts-ui-toast__track ts-ui-toast__track--animate"></div>
+                    <div class="ts-ui-toast__row"><span class="ts-ui-toast__icon"><i class="fa-solid fa-circle-info"></i></span>
+                      <div class="ts-ui-toast__body">
+                        <div class="ts-ui-toast__title">Enhanced Toast Info</div>
+                        <div class="ts-ui-toast__msg">Enhanced toast system with progress tracking and rich styling.</div>
+                      </div>
+                      <button type="button" class="ts-ui-toast__close" aria-label="Dismiss"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                  </div>
+                  <div class="ts-ui-toast ts-ui-toast--success">
+                    <div class="ts-ui-toast__track ts-ui-toast__track--animate"></div>
+                    <div class="ts-ui-toast__row"><span class="ts-ui-toast__icon"><i class="fa-solid fa-circle-check"></i></span>
+                      <div class="ts-ui-toast__body">
+                        <div class="ts-ui-toast__title">Enhanced Toast Success</div>
+                        <div class="ts-ui-toast__msg">Enhanced toast system with progress tracking and rich styling.</div>
+                      </div>
+                      <button type="button" class="ts-ui-toast__close" aria-label="Dismiss"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                  </div>
+                  <div class="ts-ui-toast ts-ui-toast--warning">
+                    <div class="ts-ui-toast__track ts-ui-toast__track--animate"></div>
+                    <div class="ts-ui-toast__row"><span class="ts-ui-toast__icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+                      <div class="ts-ui-toast__body">
+                        <div class="ts-ui-toast__title">Enhanced Toast Warning</div>
+                        <div class="ts-ui-toast__msg">Enhanced toast system with progress tracking and rich styling.</div>
+                      </div>
+                      <button type="button" class="ts-ui-toast__close" aria-label="Dismiss"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                  </div>
+                  <div class="ts-ui-toast ts-ui-toast--error">
+                    <div class="ts-ui-toast__track ts-ui-toast__track--animate"></div>
+                    <div class="ts-ui-toast__row"><span class="ts-ui-toast__icon"><i class="fa-solid fa-circle-xmark"></i></span>
+                      <div class="ts-ui-toast__body">
+                        <div class="ts-ui-toast__title">Enhanced Toast Warning</div>
+                        <div class="ts-ui-toast__msg">Enhanced toast system with progress tracking and rich styling.</div>
+                      </div>
+                      <button type="button" class="ts-ui-toast__close" aria-label="Dismiss"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Enhanced Select -->
+            <div class="ts-card">
+              <div class="ts-card__header">
+                <span class="ts-card__title">Enhanced Select</span>
+                <span class="ts-badge ts-badge--success">Searchable</span>
+              </div>
+              <div class="ts-card__body">
+                <p>Dropdowns with search, icons, and enhanced styling.</p>
+
+                <div class="ts-field ts-mt-4">
+                  <label class="ts-field__label">Framework</label>
+                  <div class="ts-ui-select" data-ts-ui-select-placeholder="Search frameworks...">
+                    <select class="ts-ui-select__native">
+                      <option value="react" data-icon="fa-brands fa-react">React</option>
+                      <option value="vue" data-icon="fa-brands fa-vuejs">Vue.js</option>
+                      <option value="angular" data-icon="fa-brands fa-angular">Angular</option>
+                      <option value="svelte" data-icon="fa-solid fa-fire">Svelte</option>
+                      <option value="vanilla" data-icon="fa-brands fa-js-square">Vanilla JS</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="ts-field ts-mt-4">
+                  <label class="ts-field__label">Color Scheme</label>
+                  <div class="ts-ui-select" data-ts-ui-select-search="false">
+                    <select class="ts-ui-select__native">
+                      <option value="auto" data-icon="fa-solid fa-circle-half-stroke">Auto</option>
+                      <option value="light" data-icon="fa-solid fa-sun">Light</option>
+                      <option value="dark" data-icon="fa-solid fa-moon">Dark</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ts-card">
+              <div class="ts-card__header">
+                <span class="ts-card__title">Interactive Tooltips</span>
+                <span class="ts-badge ts-badge--success">Core</span>
+              </div>
+              <div class="ts-card__body">
+                <p class="ts-mb-4">Hover over elements to see contextual tooltips. Supports rich content and positioning.
+                </p>
+
+                <div class="ts-grid ts-grid--2 ts-gap-4">
+                  <div class="ts-flex ts-flex-col ts-gap-2">
+                    <label class="ts-fs-sm ts-text-secondary">Basic Tooltips</label>
+                    <div class="ts-flex ts-gap-3 ts-flex-wrap">
+                      <button class="ts-btn ts-btn--sm ts-btn--primary" data-tooltip="Primary action button">Primary</button>
+                      <button class="ts-btn ts-btn--sm ts-btn--outline" data-tooltip="Secondary action - opens dialog">Secondary</button>
+                      <span class="ts-badge ts-badge--accent" data-tooltip="Current status indicator">Live</span>
+                    </div>
+                  </div>
+
+                  <div class="ts-flex ts-flex-col ts-gap-2">
+                    <label class="ts-fs-sm ts-text-secondary">Icon Tooltips</label>
+                    <div class="ts-flex ts-gap-4 ts-items-center">
+                      <span class="ts-icon" data-ts-icon="fa-solid fa-info-circle" data-tooltip="Additional information about this feature" style="font-size: 1.2rem; color: var(--ts-accent); cursor: help;"></span>
+                      <span class="ts-icon" data-ts-icon="fa-solid fa-question-circle" data-tooltip="Need help? Click for documentation" style="font-size: 1.2rem; color: var(--ts-text-muted); cursor: help;"></span>
+                      <span class="ts-icon" data-ts-icon="fa-solid fa-exclamation-triangle" data-tooltip="Warning: This action cannot be undone" style="font-size: 1.2rem; color: var(--ts-warning); cursor: help;"></span>
+                    </div>
+                  </div>
+
+                  <div class="ts-flex ts-flex-col ts-gap-2">
+                    <label class="ts-fs-sm ts-text-secondary">Form Elements</label>
+                    <div class="ts-flex ts-gap-3 ts-flex-wrap">
+                      <input type="text" class="ts-input ts-input--sm" placeholder="Username" data-tooltip="Enter your email or username" style="width: 140px;">
+                      <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm" data-tooltip="Generate random password">
+                        <span class="ts-icon" data-ts-icon="fa-solid fa-dice"></span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="ts-flex ts-flex-col ts-gap-2">
+                    <label class="ts-fs-sm ts-text-secondary">Multi-line Content</label>
+                    <div class="ts-flex ts-gap-3">
+                      <span class="ts-chip ts-chip--accent" data-tooltip="Design System v1.0.0&#10;Built with modern CSS tokens&#10;Framework-independent architecture">
+                        Toolskin
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tooltip Features -->
+                <div class="ts-flex ts-flex-wrap ts-gap-4 ts-mt-6 ts-pt-4 ts-border-t ts-text-sm ts-text-secondary">
+                  <div class="ts-flex ts-items-center ts-gap-2">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-mouse-pointer" style="color: var(--ts-accent);"></span>
+                    <span>Hover to show</span>
+                  </div>
+                  <div class="ts-flex ts-items-center ts-gap-2">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-arrows-alt" style="color: var(--ts-accent);"></span>
+                    <span>Smart positioning</span>
+                  </div>
+                  <div class="ts-flex ts-items-center ts-gap-2">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-clock" style="color: var(--ts-accent);"></span>
+                    <span>Configurable delays</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ts-card">
+              <div class="ts-card__header">
+                <span class="ts-card__title">Enhanced Number Inputs</span>
+                <span class="ts-badge ts-badge--success">UIKit</span>
+              </div>
+              <div class="ts-card__body">
+                <p class="ts-mb-4">Auto-enhanced number inputs with YSS-style stacked controls.</p>
+
+                <div class="ts-grid ts-grid--2 ts-gap-4">
+                  <div class="ts-field">
+                    <label class="ts-field__label">Quantity</label>
+                    <input type="number" class="ts-input" value="5" min="0" max="100" step="1" data-tooltip="Use controls or type directly" />
+                  </div>
+
+                  <div class="ts-field">
+                    <label class="ts-field__label">Price ($)</label>
+                    <input type="number" class="ts-input" value="29.99" min="0" max="999" step="0.01" data-tooltip="Price in USD" />
+                  </div>
+
+                  <div class="ts-field">
+                    <label class="ts-field__label">Progress (%)</label>
+                    <input type="number" class="ts-input" value="75" min="0" max="100" step="5" data-tooltip="Project completion percentage" />
+                  </div>
+
+                  <div class="ts-field">
+                    <label class="ts-field__label">Rating</label>
+                    <input type="number" class="ts-input" value="4.5" min="0" max="5" step="0.1" data-tooltip="Rating out of 5 stars" />
+                  </div>
+                </div>
+
+                <!-- Enhancement Description -->
+                <div class="ts-flex ts-flex-wrap ts-gap-4 ts-mt-4 ts-pt-4 ts-border-t ts-text-sm ts-text-secondary">
+                  <div class="ts-flex ts-items-center ts-gap-2">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-chevron-up" style="color: var(--ts-accent);"></span>
+                    <span>Stacked increment controls</span>
+                  </div>
+                  <div class="ts-flex ts-items-center ts-gap-2">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-keyboard" style="color: var(--ts-accent);"></span>
+                    <span>Keyboard navigation support</span>
+                  </div>
+                  <div class="ts-flex ts-items-center ts-gap-2">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-shield-alt" style="color: var(--ts-accent);"></span>
+                    <span>Min/max validation</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Components -->
+          <div class="ts-grid ts-grid--3 ts-gap-4 ">
+
+
+            <div class="ts-card ts-grid-col ts-col-full">
+              <div class="ts-card__header">
+                <span class="ts-card__title">Lab Components</span>
+
+                <span class="ts-badge ts-badge--alt">Available</span>
+              </div>
+              <div class="ts-card__body">
+                <div class="ts-card-rows">
+                  <div class="ts-card-row">
+
+
+
+
+                    <div class="ts-card-col-full">
+
+
+                      <h3 class="ts-mb-4"> Advanced components available in <a href="toolskin-lab.html" class="ts-link">Toolskin
+                          Lab</a>:</h3>
+
+                    </div>
+                  </div>
+                  <div class="ts-card-row">
+
+
+                    <div class="ts-card-col-half ">
+                      <h4 class="ts-fw-medium">Sortable Lists</h4>
+
+                      <span class="ts-fs-xs ts-text-muted">Drag & drop reordering</span>
+                      <p class="ts-fs-sm ts-text-secondary" style="margin:0 0 var(--ts-sp-3);">Handle-only: only the grip
+                        starts a drag; the row uses <code>cursor: default</code>. Full-row: drag anywhere on the item
+                        (<code>cursor: grab</code>). Optional <code>data-ts-ui-sort-drag=".selector"</code> limits drag
+                        start to a sub-region (e.g. title bar).</p>
+                      <span class="ts-fs-xs ts-text-muted">Interactive utilities with bounds</span>
+
+                    </div>
+
+                    <div class="ts-card-col-half ">
+                      <span class="ts-icon" data-ts-icon="fa-solid fa-th" style="color: var(--ts-accent);"></span>
+                      <div class="ts-flex ts-flex-col">
+                        <span class="ts-fw-medium">Masonry Layout</span>
+                        <span class="ts-fs-xs ts-text-muted">Pinterest-style grid system</span>
+
+                        <span class="ts-fw-medium">Draggable & Resizable</span>
+                        <span class="ts-fw-medium">Advanced Data Tables</span>
+                        <span class="ts-fs-xs ts-text-muted">Full feature set with pagination</span>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ts-card-row">
+
+                    <div class="ts-card-col-third">
+                      <label data-ts-icon="ion:grid" class="ts-field__label">A — Handle only</label>
+                      <ul class="ts-ui-sortable" data-ts-ui-sort-handle-only>
+                        <li class="ts-ui-sortable__item"><span class="ts-ui-sortable__handle" ><i class="fa-solid fa-arrows-up-down"></i></span> Item 1</li>
+                        <li class="ts-ui-sortable__item"><span class="ts-ui-sortable__handle" ><i class="fa-solid fa-arrows-up-down"></i></span> Item 2</li>
+                        <li class="ts-ui-sortable__item"><span class="ts-ui-sortable__handle" ><i class="fa-solid fa-arrows-up-down"></i></span> Item 3</li>
+                      </ul>
+                    </div>
+                    <div class="ts-card-col-third">
+                      <label data-ts-icon="fa-solid fa-arrows-up-down" class="ts-field__label">B — Whole row
+                        draggable</label>
+                      <ul class="ts-ui-sortable">
+                        <li class="ts-ui-sortable__item">Row A — drag anywhere</li>
+                        <li class="ts-ui-sortable__item">Row B — drag anywhere</li>
+                        <li class="ts-ui-sortable__item">Row C — drag anywhere</li>
+                      </ul>
+                    </div>
+                    <div class="ts-card-col-third">
+                      <label data-ts-icon="fa-solid fa-grip-vertical" class="ts-field__label">C — Drag handle = title
+                        strip only</label>
+                      <ul class="ts-ui-sortable" data-ts-ui-sort-drag=".ts-ui-sortable__title">
+                        <li class="ts-ui-sortable__item">
+                          <span class="ts-ui-sortable__title" style="display:block;padding:2px 0;font-weight:600;cursor:grab;"><i class="fa-solid fa-grip-lines" style="opacity:0.6;margin-right:6px;"></i>Title drag
+                            zone</span>
+                          <span class="ts-fs-xs ts-text-muted">Body text does not start a drag.</span>
+                        </li>
+                        <li class="ts-ui-sortable__item">
+                          <span class="ts-ui-sortable__title" style="display:block;padding:2px 0;font-weight:600;cursor:grab;"><i class="fa-solid fa-grip-lines" style="opacity:0.6;margin-right:6px;"></i>Second card</span>
+                          <span class="ts-fs-xs ts-text-muted">Try dragging from here ↑</span>
+                        </li>
+                      </ul>
+                    </div>
+
+
+
+
+                  </div>
+                  <div class="ts-card-row">
+                    <div class="ts-card-col-full"> <a href="toolskin-lab.html" class="ts-btn ts-btn--primary ts-btn--lg ts-btn--full"> <span class="ts-icon" data-ts-icon="fa-solid fa-flask"></span> Explore Lab </a> </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ======== /MARQUEE ======== -->
+
+      <section class="ts-section" id="marquee-documentation">
+        <div class="ts-container">
+
+          <div class="ts-section-divider rounded">
+            <h2>Marquee Component</h2>
+          </div>
+          <p class="ts-lead " style="max-width: unset; display: none;">Infinite scrolling text marquee with full CSS
+            variable support, data attributes, and JavaScript API. Perfect for hero sections, tickers, and announcements.
+          </p>
+
+          <div class="ts-marquee fullwidth " data-mq-speed="58s" data-mq-weight="200" data-mq-font-size="2rem" data-mq-gutter="0px"> Infinite scrolling text marquee with full CSS variable support, data attributes, and
+            JavaScript API. Perfect for hero sections, tickers, and announcements. </div>
+          <div class="ts-masonry ts-mt-12" style="--ts-masonry-cols: 2;">
+
+
+
+            <!-- Documentation card -->
+            <div class="ts-masonry-item " style="display: block; align-items: center;align-content: center;align-self: center;">
+
+              <div class="ts-card ts-flex-col ts-gap-2  ts-mb-4">
+                <h3 class="ts-label">Features</h3>
+                <ul class="ts-list ts-checklist">
+                  <li>Configurable via CSS variables</li>
+                  <li>Data attribute support (<code>data-mq-*</code>)</li>
+                  <li>Pause on hover (optional)</li>
+                  <li>Direction control (left/right)</li>
+                  <li>Responsive and performant</li>
+                  <li>Auto-calculates text repeats</li>
+                  <li>Viewport-aware pausing</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- CSS Variables documentation -->
+            <div class="ts-masonry-item" style="display: block; align-items: center;align-content: center;align-self: center;">
+              <div class="ts-flex-col ts-gap-2 ts-mb-4">
+                <h3 class="ts-label">CSS Variables</h3>
+                <div class="ts-code-window">
+                  <div class="ts-code-header">
+                    <div class="ts-code-dotbtn red"></div>
+                    <div class="ts-code-dotbtn yellow"></div>
+                    <div class="ts-code-dotbtn green"></div>
+                    <span class="ts-code-label">marquee-variables.css</span>
+                    <button class="ts-code-copy" aria-label="Copy code">
+                      <span class="ts-icon" data-ts-icon="fa-solid fa-copy" ></span>
+                    </button>
+                  </div>
+                  <div class="ts-code-content">
+                    <pre><code style="white-space: pre-line;">--ts-marquee-speed: 45s;
+                        --ts-marquee-font-size: 2rem;
+                        --ts-marquee-color: var(--ts-accent);
+                        --ts-marquee-bg: var(--ts-bg-1);
+                        --ts-marquee-border: 1px;
+                        --ts-marquee-radius: var(--ts-radius-lg);
+                        --ts-marquee-pad: var(--ts-sp-8);
+                        --ts-marquee-gutter: var(--ts-sp-6);
+                        --ts-marquee-weight: 600;</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ts-masonry-item ts-masonry--wide-full">
+              <div class="ts-marquee fullwidth" data-mq-font-size="5rem" data-mq-radius="0" data-mq-bg="var(--ts-accent-dim)" data-mq-gutter="20px">
+                Design, Software And Marketing Systems For The Future.
+              </div>
+            </div>
+
+            <div class="ts-masonry-item">
+              <div class="ts-marquee" data-mq-speed="18s" data-mq-font-size="2rem" data-mq-bg="var(--ts-bg-1)" data-mq-gutter="0px" data-mq-color="var(--ts-text-primary)">
+                Design, Software And Marketing.
+              </div>
+
+            </div>
+            <div class="ts-masonry-item">
+
+              <div class="ts-marquee" data-mq-speed="48s" data-mq-font-size="5rem" data-mq-gutter="0px" data-mq-pad="30px" data-mq-color="var(--ts-accent)">
+                Design, Software And Marketing Systems For The Future.
+              </div>
+            </div>
+
+
+
+
+
+
+          </div>
+        </div>
+      </section>
+
+
+      <!--  SECTION: FORMS ── -->
+      <section class="ts-section ts-section--alt-mute" id="forms">
+        <div class="ts-container">
+          <div class="ts-section-divider rounded">
+            <h2>§6d–6f — Forms, Toggles, Sliders</h2>
+          </div>
+
+          <div class="ts-grid ts-grid--2">
+            <!-- Form fields -->
+            <div class="ts-card">
+              <span class="ts-label">Inputs & Fields</span>
+              <div class="ts-field">
+                <label class="ts-field-label">Project Name</label>
+                <div class="ts-input-group">
+                  <span class="ts-icon ts-input-icon" data-ts-icon="fa-solid fa-folder" ></span>
+                  <input type="text" class="ts-input" placeholder="Enter project name…" />
+                </div>
+              </div>
+
+              <span class="ts-label">Inset Button Input</span>
+              <div class="ts-field">
+                <label class="ts-field-label">Video URL</label>
+                <div class="ts-input-group ts-input-inset-button">
+                  <span class="ts-icon ts-input-icon" data-ts-icon="fa-solid fa-video"></span>
+                  <input type="text" class="ts-input" placeholder="https://www.youtube.com/watch?v=…">
+                  <button type="button" class="ts-btn ts-btn--icon ts-btn--primary ts-input-btn" data-tooltip="Submit">
+                    <span class="ts-icon ts-btn-icon" data-ts-icon="fa-solid fa-arrow-right"></span>
+                    <span class="sr-only">Submit</span>
+                  </button>
+                </div>
+              </div>
+              <div class="ts-field">
+                <label class="ts-field-label">Search</label>
+                <div class="ts-input-group ts-input-inset-button">
+                  <span class="ts-icon ts-input-icon" data-ts-icon="fa-solid fa-magnifying-glass"></span>
+                  <input type="text" class="ts-input" placeholder="Search tokens…">
+                  <button type="button" class="ts-btn ts-btn--icon ts-btn--primary ts-input-btn" data-tooltip="Search">
+                    <span class="ts-icon ts-btn-icon" data-ts-icon="fa-solid fa-arrow-right"></span>
+                    <span class="sr-only">Search</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="ts-field">
+                <label class="ts-field-label">Notes</label>
+                <textarea class="ts-input ts-textarea ts-resizable" style="width:100%;" placeholder="Add a note…" rows="3"></textarea>
+              </div>
+
+              <div class="ts-field">
+                <label class="ts-field-label">CSS Token (Mono)</label>
+                <input type="text" class="ts-input ts-input--mono" value="--ts-accent-h: 18;" />
+              </div>
+
+              <!-- Checkboxes -->
+              <span class="ts-label">Checkboxes</span>
+              <div class="ts-flex-col ts-gap-3">
+                <label class="ts-checkbox-row">
+                  <input type="checkbox" checked /> <span>Enable auto-scheduling</span>
+                </label>
+                <label class="ts-checkbox-row">
+                  <input type="checkbox" /> <span>Rename-only mode</span>
+                </label>
+                <label class="ts-checkbox-row">
+                  <input type="checkbox" /> <span>Notify subscribers on publish</span>
+                </label>
+              </div>
+
+              <!-- Sample Asset Window design imported from a css extractor. needs to be addapted.-->
+              <span class="ts-label">Code Wrappers</span>
+
+              <div class="ts-code-window" data-purpose="code-example">
+                <div class="ts-code-header">
+                  <div class="ts-code-dotbtn red"></div>
+                  <div class="ts-code-dotbtn yellow"></div>
+                  <div class="ts-code-dotbtn green"></div>
+                  <span class="ts-code-label">ts-button.config.json</span>
+                  <button class="ts-code-copy" aria-label="Copy code" data-tooltip="Copy code">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-copy" ></span>
+                  </button>
+                </div>
+                <div class="ts-code-content">
+                  <pre><code>{
+                      <span class="ts-accent-text">"prefix"</span>: "ts-",
+                      <span class="ts-accent-text">"states"</span>: {
+                      "default": "bg-brand text-black",
+                      "hover": "translate-y-[-2px]",
+                      "active": "scale-95"
+                      },
+                      <span class="ts-accent-text">"animation"</span>: "spring-smooth"
+                      }</code></pre>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Toggles, sliders, color -->
+            <div>
+              <div class="ts-card ts-flex-col ts-gap-2 ts-mb-2">
+                <span class="ts-label">Toggle Switches</span>
+
+                <div class="ts-toggle-row">
+                  <span class="ts-toggle-label"><span class="ts-icon ts-icon-mr ts-text-accent" data-ts-icon="fa-solid fa-bolt" ></span>UI
+                    Transitions</span>
+                  <label class="ts-toggle"><input type="checkbox" checked /><span class="ts-toggle__knob"></span></label>
+                </div>
+                <div class="ts-toggle-row">
+                  <span class="ts-toggle-label"><span class="ts-icon ts-icon-mr ts-text-muted" data-ts-icon="fa-solid fa-comment" ></span>Show
+                    Tooltips</span>
+                  <label class="ts-toggle"><input type="checkbox" /><span class="ts-toggle__knob"></span></label>
+                </div>
+                <div class="ts-toggle-row">
+                  <span class="ts-toggle-label"><span class="ts-icon ts-icon-mr ts-text-success" data-ts-icon="fa-solid fa-wifi" ></span>Live
+                    Updates</span>
+                  <label class="ts-toggle"><input type="checkbox" checked /><span class="ts-toggle__knob"></span></label>
+                </div>
+                <div class="ts-toggle-row">
+                  <span class="ts-toggle-label">Disabled Toggle</span>
+                  <label class="ts-toggle"><input type="checkbox" disabled /><span class="ts-toggle__knob"></span></label>
+                </div>
+                <div class="ts-toggle-row">
+                  <span class="ts-toggle-label">Small Toggle</span>
+                  <label class="ts-toggle ts-toggle--sm"><input type="checkbox" checked /><span class="ts-toggle__knob"></span></label>
+                </div>
+                <div class="ts-toggle-row">
+                  <span class="ts-toggle-label">Large Toggle</span>
+                  <label class="ts-toggle ts-toggle--lg"><input type="checkbox" checked /><span class="ts-toggle__knob"></span></label>
+                </div>
+                <div class="ts-toggle-row">
+                  <span class="ts-toggle-label">Extra Large Toggle</span>
+                  <label class="ts-toggle ts-toggle--xl"><input type="checkbox" checked /><span class="ts-toggle__knob"></span></label>
+                </div>
+              </div>
+
+              <div class="ts-card ts-flex-col ts-gap-2">
+                <span class="ts-label">Range Sliders</span>
+
+                <div class="ts-field">
+                  <label class="ts-field-label">Delay (ms)</label>
+                  <div class="ts-range-row">
+                    <input type="range" class="ts-range" min="0" max="100" value="50" data-unit="ms" />
+                    <span class="ts-range-val">50ms</span>
+                  </div>
+                </div>
+                <div class="ts-field">
+                  <label class="ts-field-label">Scale</label>
+                  <div class="ts-range-row">
+                    <input type="range" class="ts-range" min="0" max="100" value="65" data-unit="%" />
+                    <span class="ts-range-val">65%</span>
+                  </div>
+                </div>
+                <div class="ts-field">
+                  <label class="ts-field-label">Volume (0-200)</label>
+                  <div class="ts-range-row">
+                    <input type="range" class="ts-range" min="0" max="200" value="120" data-unit="" />
+                    <span class="ts-range-val">120</span>
+                  </div>
+                </div>
+                <div class="ts-field">
+                  <label class="ts-field-label">Small Slider</label>
+                  <div class="ts-range-row">
+                    <input type="range" class="ts-range ts-range--sm" min="0" max="100" value="35" data-unit="%" />
+                    <span class="ts-range-val">35%</span>
+                  </div>
+                </div>
+                <div class="ts-field">
+                  <label class="ts-field-label">Large Slider</label>
+                  <div class="ts-range-row">
+                    <input type="range" class="ts-range ts-range--lg" min="0" max="100" value="80" data-unit="%" />
+                    <span class="ts-range-val">80%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ts-card">
+
+                <div class="ts-card-rows">
+                  <div class="ts-card-row">
+                    <div class="ts-card-col-half">
+                      <div class="ts-field">
+                        <label class="ts-label">Color Swatch 1</label>
+                        <div class="ts-color-row">
+                          <div class="ts-color-swatch ts-swatch ts-swatch--picker">
+                            <div class="ts-sw ts-swatch__preview" style="background:#ffffff"></div>
+                            <input type="color" value="#ffffff" aria-label="Choose color" data-tooltip="Choose color" />
+                          </div>
+                          <input type="text" class="ts-input ts-input-text mono ts-form-color-hex" value="#ffffff" autocomplete="off" aria-label="Hex color" maxlength="9">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ts-card-col-half">
+                      <div class="ts-field">
+                        <label class="ts-label">Color Swatch 2</label>
+                        <div class="ts-color-row">
+                          <div class="ts-color-swatch ts-swatch ts-swatch--picker">
+                            <div class="ts-sw ts-swatch__preview" style="background:#ff5500"></div>
+                            <input type="color" value="#ff5500" aria-label="Choose color" />
+                          </div>
+                          <input type="text" class="ts-input ts-input-text mono ts-form-color-hex" value="#ff5500" autocomplete="off" aria-label="Hex color" maxlength="9">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ts-card-row">
+                    <div class="ts-card-col-third">
+                      <div class="ts-field">
+                        <label class="ts-label">Color Swatch 3</label>
+                        <div class="ts-color-row vertical">
+                          <div class="ts-color-swatch ts-swatch ts-swatch--picker">
+                            <div class="ts-sw ts-swatch__preview" style="background:#ffc107"></div>
+                            <input type="color" value="#ffc107" aria-label="Choose color" data-tooltip="Choose color" />
+                          </div>
+                          <input type="text" class="ts-input ts-input-text mono ts-form-color-hex" value="#ffc107" autocomplete="off" aria-label="Hex color" maxlength="9">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ts-card-col-third">
+                      <div class="ts-field">
+                        <label class="ts-label">Color Swatch 4</label>
+                        <div class="ts-color-row vertical">
+                          <div class="ts-color-swatch ts-swatch ts-swatch--picker">
+                            <div class="ts-sw ts-swatch__preview" style="background:#C7ff01"></div>
+                            <input type="color" value="#C7ff01" aria-label="Choose color" data-tooltip="Choose color" />
+                          </div>
+                          <input type="text" class="ts-input ts-input-text mono ts-form-color-hex" value="#C7ff01" autocomplete="off" aria-label="Hex color" maxlength="9">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ts-card-col-third">
+                      <div class="ts-field">
+                        <label class="ts-label">Color Swatch 5</label>
+                        <div class="ts-color-row vertical">
+                          <div class="ts-color-swatch ts-swatch ts-swatch--picker">
+                            <div class="ts-sw ts-swatch__preview" style="background:#eeffdd"></div>
+                            <input type="color" value="#eeffdd" aria-label="Choose color" data-tooltip="Choose color" />
+                          </div>
+                          <input type="text" class="ts-input ts-input-text mono ts-form-color-hex" value="#eeffdd" autocomplete="off" aria-label="Hex color" maxlength="9">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ts-card-col-third">
+                      <div class="ts-field">
+                        <label class="ts-label">Color Swatch 6</label>
+                        <div class="ts-color-row vertical">
+                          <div class="ts-color-swatch ts-swatch ts-swatch--picker">
+                            <div class="ts-sw ts-swatch__preview" style="background:#ff77dd"></div>
+                            <input type="color" value="#ff77dd" aria-label="Choose color" data-tooltip="Choose color" />
+                          </div>
+                          <input type="text" class="ts-input ts-input-text mono ts-form-color-hex" value="#ff77dd" autocomplete="off" aria-label="Hex color" maxlength="9">
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+
+              </div>
+
+            </div>
+
+            <div class="ts-col-full" style="min-width: 0;">
+              <div class="ts-card">
+                <span class="ts-label">UIKit select</span>
+                <p class="ts-fs-xs ts-text-secondary ts-mb-3" style="margin-top: var(--ts-sp-1);">
+                  Same demos as <a href="toolskin-lab.html#select">toolskin-lab</a>: search field, option
+                  <code>data-icon</code>, no-search, compact width.
+                  <code class="ts-code">data-ts-ui-scrollbar-moz</code> applies Mozilla scrollbar tokens in Firefox only.
+                </p>
+                <div class="ts-flex ts-flex-wrap ts-gap-4 ts-items-end ts-mb-4">
+                  <div>
+                    <span class="ts-fs-xs ts-text-muted" style="display: block; margin-bottom: var(--ts-sp-1);">With
+                      search</span>
+                    <div class="ts-ui-select" data-ts-ui-scrollbar-moz="">
+                      <select class="ts-ui-select__native">
+                        <option value="one" data-icon="fa-solid fa-star">Alpha</option>
+                        <option value="two" data-icon="fa-solid fa-bolt" selected>Beta</option>
+                        <option value="three" data-icon="fa-solid fa-heart">Gamma</option>
+                        <option value="four" data-icon="fa-regular fa-folder">Delta long label example</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="ts-fs-xs ts-text-muted" style="display: block; margin-bottom: var(--ts-sp-1);">No
+                      search</span>
+                    <div class="ts-ui-select" data-ts-ui-select-search="false">
+                      <select class="ts-ui-select__native">
+                        <option value="a">Compact</option>
+                        <option value="b" selected>Medium</option>
+                        <option value="c">Wide option label for overflow test</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="ts-fs-xs ts-text-muted" style="display: block; margin-bottom: var(--ts-sp-1);">Compact
+                      width</span>
+                    <div class="ts-ui-select" style="min-width: 160px; max-width: 200px;">
+                      <select class="ts-ui-select__native">
+                        <option value="1">One</option>
+                        <option value="2" selected>Two</option>
+                        <option value="3">Three</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <span class="ts-label ts-mt-4">UIKit accordion</span>
+                <p class="ts-fs-xs ts-text-secondary ts-mb-3" style="margin-top: var(--ts-sp-1);">
+                  Parity with <a href="toolskin-lab.html#accordion">toolskin-lab</a>: exclusive / multiple,
+                  <code>data-icon</code> on headers, separated + plus toggle, <code>.ts-accordion</code> alias,
+                  <code>AccordionFromSchema</code>, column groups.
+                </p>
+                <div class="ts-grid ts-grid--2 ts-gap-4 ts-mb-4">
+                  <div class="ts-grid-col" style="min-width: 0;">
+                    <p class="ts-fs-xs ts-text-muted ts-mb-2">Joined · multiple open</p>
+                    <div class="ts-ui-accordion" data-ts-ui-accordion-multiple>
+                      <div class="ts-ui-accordion__item">
+                        <button type="button" class="ts-ui-accordion__header" aria-expanded="true" data-icon="fa-solid fa-layer-group"><span class="ts-ui-accordion__label">Section
+                            A</span></button>
+                        <div class="ts-ui-accordion__panel">First panel — raw HTML content.</div>
+                      </div>
+                      <div class="ts-ui-accordion__item">
+                        <button type="button" class="ts-ui-accordion__header" aria-expanded="false" data-icon="fa-solid fa-sliders"><span class="ts-ui-accordion__label">Section B</span></button>
+                        <div class="ts-ui-accordion__panel" hidden>Second panel hidden by default.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ts-grid-col" style="min-width: 0;">
+                    <p class="ts-fs-xs ts-text-muted ts-mb-2">Joined · exclusive (single open)</p>
+                    <div class="ts-ui-accordion">
+                      <div class="ts-ui-accordion__item">
+                        <button type="button" class="ts-ui-accordion__header" aria-expanded="true" data-icon="fa-solid fa-star"><span class="ts-ui-accordion__label">Only one</span></button>
+                        <div class="ts-ui-accordion__panel">Opening another header closes this one.</div>
+                      </div>
+                      <div class="ts-ui-accordion__item">
+                        <button type="button" class="ts-ui-accordion__header" aria-expanded="false" data-icon="fa-regular fa-folder"><span class="ts-ui-accordion__label">Second</span></button>
+                        <div class="ts-ui-accordion__panel" hidden>Content.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="ts-fs-xs ts-text-muted ts-mb-2">Dual icon — root or per-item
+                  <code>data-ts-ui-accordion-category-icon</code>,
+                  divider, then row <code>data-icon</code> (<code>.ts-ui-accordion--dual-icon</code>)
+                </p>
+                <div class="ts-ui-accordion ts-ui-accordion--separated ts-ui-accordion--dual-icon ts-mb-4" data-ts-ui-accordion-multiple data-ts-ui-accordion-category-icon="fa-solid fa-folder-tree" style="--ts-ui-accordion-header-min-h: 2.75rem; --ts-ui-accordion-header-radius: var(--ts-radius-lg);">
+                  <div class="ts-ui-accordion__item">
+                    <button type="button" class="ts-ui-accordion__header" aria-expanded="true" data-icon="fa-solid fa-file-lines"><span class="ts-ui-accordion__label">Read me</span></button>
+                    <div class="ts-ui-accordion__panel">Shared category icon from the accordion root; item icon from the
+                      header.</div>
+                  </div>
+                  <div class="ts-ui-accordion__item" data-ts-ui-accordion-category-icon="fa-solid fa-gears">
+                    <button type="button" class="ts-ui-accordion__header" aria-expanded="false" data-icon="fa-solid fa-wrench"><span class="ts-ui-accordion__label">Per-item
+                        category</span></button>
+                    <div class="ts-ui-accordion__panel" hidden>This row overrides the category icon on the item.</div>
+                  </div>
+                </div>
+                <div class="ts-grid ts-grid--2 ts-gap-4 ts-mb-4">
+                  <div class="ts-grid-col" style="min-width: 0;">
+                    <p class="ts-fs-xs ts-text-muted ts-mb-2">Separated · plus/minus toggle</p>
+                    <div class="ts-ui-accordion ts-ui-accordion--separated ts-ui-accordion--toggle-plus" style="--ts-ui-accordion-toggle-radius: var(--ts-radius-full);">
+                      <div class="ts-ui-accordion__item">
+                        <button type="button" class="ts-ui-accordion__header" aria-expanded="true" data-icon="fa-solid fa-bolt"><span class="ts-ui-accordion__label">Alpha</span></button>
+                        <div class="ts-ui-accordion__panel">Plus/minus uses <code>--ts-ui-accordion-toggle-stroke</code>
+                          (default 2px).</div>
+                      </div>
+                      <div class="ts-ui-accordion__item">
+                        <button type="button" class="ts-ui-accordion__header" aria-expanded="false" data-icon="fa-solid fa-image"><span class="ts-ui-accordion__label">Beta</span></button>
+                        <div class="ts-ui-accordion__panel" hidden>More content.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ts-grid-col" style="min-width: 0;">
+                    <p class="ts-fs-xs ts-text-muted ts-mb-2">Alias root <code class="ts-code">.ts-accordion</code></p>
+                    <div class="ts-accordion ts-ui-accordion--separated" data-ts-accordion-multiple="">
+                      <div class="ts-accordion__item">
+                        <button type="button" class="ts-accordion__header" aria-expanded="true"><span class="ts-accordion__label">Alias item</span></button>
+                        <div class="ts-accordion__panel">Normalized to <code>ts-ui-accordion__*</code> classes on init.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="ts-fs-xs ts-text-muted ts-mb-2">Schema-built: <code class="ts-code">ToolskinUIKit.AccordionFromSchema</code></p>
+                <div id="showcase-accordion-schema" class="ts-mb-4"></div>
+                <p class="ts-group-title-label ts-mb-2">Column groups (modal-style section labels)</p>
+                <div class="ts-form-column-group ts-mb-4">
+                  <div class="ts-form-column">
+                    <span class="ts-group-title-label">Left column</span>
+                    <div class="ts-ui-accordion ts-ui-accordion--separated">
+                      <div class="ts-ui-accordion__item">
+                        <button type="button" class="ts-ui-accordion__header" aria-expanded="true" data-icon="fa-solid fa-sliders"><span class="ts-ui-accordion__label">Tuning</span></button>
+                        <div class="ts-ui-accordion__panel">Nested accordion beside a second column — same tokens as
+                          Studio
+                          modals.</div>
+                      </div>
+                      <div class="ts-ui-accordion__item">
+                        <button type="button" class="ts-ui-accordion__header" aria-expanded="false" data-icon="fa-regular fa-folder"><span class="ts-ui-accordion__label">Files</span></button>
+                        <div class="ts-ui-accordion__panel" hidden>More settings.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ts-form-column">
+                    <span class="ts-group-title-label">Right column</span>
+                    <div class="ts-ui-accordion ts-ui-accordion--separated">
+                      <div class="ts-ui-accordion__item">
+                        <button type="button" class="ts-ui-accordion__header" aria-expanded="true" data-icon="fa-solid fa-bolt"><span class="ts-ui-accordion__label">Actions</span></button>
+                        <div class="ts-ui-accordion__panel">Icons sit with the title; toggle stays on the right.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+      <!--  SECTION: CARDS ── -->
+      <section class="ts-section ts-section--alt-mute" id="cards">
+        <div class="ts-container">
+          <div class="ts-section-divider rounded ts-zoom-in">
+            <h2>§6b — Cards</h2>
+          </div>
+
+          <div class="ts-grid ts-grid--3 ">
+            <!-- Default card -->
+            <div class="ts-card">
+              <div class="ts-card__header">
+                <div class="ts-card__title"><span class="ts-icon" data-ts-icon="fa-solid fa-cube" ></span>
+                  &nbsp;Default Card</div>
+                <span class="ts-badge ts-badge--accent">v1</span>
+              </div>
+              <div class="ts-card__body">A standard surface card with header, body, and footer sections. Border and
+                background derived from the surface stack.</div>
+              <div class="ts-card__footer">
+                <span class="ts-caption">Updated 2h ago</span>
+                <button class="ts-btn ts-btn--ghost ts-btn--sm">Details</button>
+              </div>
+            </div>
+
+            <!-- Accent card -->
+            <div class="ts-card ts-card--accent ">
+              <div class="ts-card__header">
+                <div class="ts-card__title"><span class="ts-icon" data-ts-icon="fa-solid fa-star" ></span>
+                  &nbsp;Accent Card</div>
+                <span class="ts-badge ts-badge--accent">Active</span>
+              </div>
+              <div class="ts-card__body">Accent variant — border and subtle gradient background tinted with the current
+                accent color.</div>
+              <div class="ts-card__footer">
+                <div class="ts-flex ts-gap-2 ts-flex-center">
+                  <span class="ts-dot ts-dot--accent ts-dot--pulse"></span>
+                  <span class="ts-caption">Live</span>
+                </div>
+                <button class="ts-btn ts-btn--primary ts-btn--sm">Open</button>
+              </div>
+            </div>
+
+            <!-- Featured card -->
+            <div class="ts-card ts-card--featured ">
+              <div class="ts-card__header">
+                <div class="ts-card__title"><span class="ts-icon" data-ts-icon="fa-solid fa-crown" ></span> &nbsp;Featured Card</div>
+              </div>
+              <div class="ts-card__body">Featured state — full accent border with glow shadow. Used for recommended or
+                highlighted items.</div>
+              <div class="ts-card__footer">
+                <span class="ts-badge ts-badge--success"><span class="ts-icon ts-icon-tiny" data-ts-icon="fa-solid fa-check" ></span>
+                  Verified</span>
+                <button class="ts-btn ts-btn--primary ts-btn--sm">Select</button>
+              </div>
+            </div>
+
+            <!-- Glass card -->
+            <div class="ts-card ts-card--glass">
+              <div class="ts-card__header">
+                <div class="ts-card__title"><span class="ts-icon" data-ts-icon="fa-solid fa-droplet" ></span> &nbsp;Glass Card</div>
+              </div>
+              <div class="ts-card__body">Frosted glass surface using backdrop-filter blur. Great for overlays on media
+                backgrounds.</div>
+            </div>
+
+            <!-- Accent bar card -->
+            <div class="ts-card ts-card--accent-bar ">
+              <div class="ts-card__header">
+                <div class="ts-card__title"><span class="ts-icon" data-ts-icon="fa-solid fa-chart-line" ></span> &nbsp;Accent Bar</div>
+              </div>
+              <div class="ts-card__body">Left accent stripe decoration — .ts-card--accent-bar. Good for dashboard metric
+                cards or status panels.</div>
+              <div class="ts-card__footer">
+                <span class="ts-text-accent ts-stat-value">+24.8%</span>
+                <span class="ts-caption">vs last week</span>
+              </div>
+            </div>
+
+            <!-- Interactive card -->
+            <div class="ts-card ts-card--interactive  ts-cursor-pointer">
+              <div class="ts-card__header">
+                <div class="ts-card__title"><span class="ts-icon" data-ts-icon="fa-solid fa-hand-pointer" ></span> &nbsp;Interactive Card</div>
+              </div>
+              <div class="ts-card__body">Hover to see the lift + shadow interaction. Add .ts-card--interactive for hover
+                effects.</div>
+              <div class="ts-card__footer">
+                <span class="ts-badge">Hover me</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ts-section-divider rounded ts-zoom-in">
+            <h2>§6r — Pricing Cards</h2>
+          </div>
+
+          <div class="ts-grid ts-grid--3  ">
+            <div class="ts-pricing-card">
+              <div class="ts-label">Starter</div>
+              <div class="ts-pricing-card__price ts-text-accent"><sup>$</sup>49</div>
+              <div class="ts-pricing-card__features">
+                <div class="ts-pricing-card__feature"><span class="ts-icon" data-ts-icon="fa-solid fa-check" ></span> 1 Domain License</div>
+                <div class="ts-pricing-card__feature"><span class="ts-icon" data-ts-icon="fa-solid fa-check" ></span> Core Modules</div>
+                <div class="ts-pricing-card__feature"><span class="ts-icon" data-ts-icon="fa-solid fa-check" ></span> Community Support</div>
+              </div>
+              <button class="ts-btn ts-btn--full ts-btn--outline">Get Started</button>
+            </div>
+
+            <div class="ts-pricing-card ts-pricing-card--featured ">
+              <div class="ts-pricing-card__recommend">Recommended</div>
+              <div class="ts-label">Studio</div>
+              <div class="ts-pricing-card__price ts-text-accent"><sup>$</sup>199</div>
+              <div class="ts-pricing-card__features">
+                <div class="ts-pricing-card__feature"><span class="ts-icon" data-ts-icon="fa-solid fa-check" ></span> Unlimited Domains</div>
+                <div class="ts-pricing-card__feature"><span class="ts-icon" data-ts-icon="fa-solid fa-check" ></span> Full Source CSS/JS</div>
+                <div class="ts-pricing-card__feature"><span class="ts-icon" data-ts-icon="fa-solid fa-check" ></span> Priority Support</div>
+                <div class="ts-pricing-card__feature"><span class="ts-icon" data-ts-icon="fa-solid fa-check" ></span> All Toolcore Modules</div>
+              </div>
+              <button class="ts-btn ts-btn--primary ts-btn--full">Select Studio</button>
+            </div>
+
+            <div class="ts-pricing-card ">
+              <div class="ts-label">Enterprise</div>
+              <div class="ts-pricing-card__price ts-text-accent"><sup>$</sup>899</div>
+              <div class="ts-pricing-card__features">
+                <div class="ts-pricing-card__feature"><span class="ts-icon" data-ts-icon="fa-solid fa-check" ></span> White-label Rights</div>
+                <div class="ts-pricing-card__feature"><span class="ts-icon" data-ts-icon="fa-solid fa-check" ></span> Dedicated Architect</div>
+                <div class="ts-pricing-card__feature"><span class="ts-icon" data-ts-icon="fa-solid fa-check" ></span> 24/7 Hotline</div>
+              </div>
+              <button class="ts-btn ts-btn--full">Contact Sales</button>
+            </div>
+          </div>
+
+          <!-- 3D Flip Cards -->
+          <div class="ts-section-divider rounded ts-zoom-in">
+            <h2>3D Flip Cards (hover)</h2>
+          </div>
+          <div class="ts-grid ts-grid--3">
+            <div class="ts-flip-card">
+              <div class="ts-flip-card__inner">
+                <div class="ts-flip-card__front">
+                  <div class="ts-label ts-number">01</div>
+                  <div class="ts-h2 ts-text-accent">DYNAMICS</div>
+                  <p class="ts-caption">Hover to inspect</p>
+                </div>
+                <div class="ts-flip-card__back">
+                  <div class="ts-h3">Precision Logic</div>
+                  <p class="ts-text-secondary ts-caption">Calculated interactions with micro-feedback loops.</p>
+                  <button class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+                </div>
+              </div>
+            </div>
+            <div class="ts-flip-card">
+              <div class="ts-flip-card__inner">
+                <div class="ts-flip-card__front">
+                  <div class="ts-label ts-number">02</div>
+                  <div class="ts-h2 ts-text-accent">VISUALS</div>
+                  <p class="ts-caption">Hover to inspect</p>
+                </div>
+                <div class="ts-flip-card__back">
+                  <div class="ts-h3">Aesthetic Depth</div>
+                  <p class="ts-text-secondary ts-caption">Multi-layer SVG noise grain architecture.</p>
+                  <button class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+                </div>
+              </div>
+            </div>
+            <div class="ts-flip-card">
+              <div class="ts-flip-card__inner">
+                <div class="ts-flip-card__front">
+                  <div class="ts-label ts-number">03</div>
+                  <div class="ts-h2 ts-text-accent">SPEED</div>
+                  <p class="ts-caption">Hover to inspect</p>
+                </div>
+                <div class="ts-flip-card__back">
+                  <div class="ts-h3">Runtime Flux</div>
+                  <p class="ts-text-secondary ts-caption">Zero external dependencies. Minimal footprint.</p>
+                  <button class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- NEW swipe Cards variant implemented -->
+          <div class="ts-section-divider rounded ts-zoom-in">
+            <h2>Swipe Cards (hover)</h2>
+          </div>
+          <div class="ts-grid ts-grid--3">
+          <div class="ts-swipe-card">
+            <div class="ts-swipe-card__inner">
+              <div class="ts-swipe-card__front">
+                <div class="ts-label ts-number">01</div>
+                <div class="ts-h2 ts-text-accent">DYNAMICS</div>
+                <p class="ts-caption">Hover to inspect</p>
+              </div>
+              <div class="ts-swipe-card__back">
+                <div class="ts-h3">Precision Logic</div>
+                <p class="ts-text-secondary ts-caption">Calculated interactions with micro-feedback loops.</p>
+                <button class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+              </div>
+            </div>
+          </div>
+          <div class="ts-swipe-card">
+            <div class="ts-swipe-card__inner">
+              <div class="ts-swipe-card__front">
+                <div class="ts-label ts-number">02</div>
+                <div class="ts-h2 ts-text-accent">VISUALS</div>
+                <p class="ts-caption">Hover to inspect</p>
+              </div>
+              <div class="ts-swipe-card__back">
+                <div class="ts-h3">Aesthetic Depth</div>
+                <p class="ts-text-secondary ts-caption">Multi-layer SVG noise grain architecture.</p>
+                <button class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+              </div>
+            </div>
+          </div>
+          <div class="ts-swipe-card">
+            <div class="ts-swipe-card__inner">
+              <div class="ts-swipe-card__front">
+                <div class="ts-label ts-number">03</div>
+                <div class="ts-h2 ts-text-accent">SPEED</div>
+                <p class="ts-caption">Hover to inspect</p>
+              </div>
+              <div class="ts-swipe-card__back">
+                <div class="ts-h3">Runtime Flux</div>
+                <p class="ts-text-secondary ts-caption">Zero external dependencies. Minimal footprint.</p>
+                <button class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        </div>
+      </section>
+
+
+      <!--  SECTION: TOOL PANELS ────────────────────────────────────── -->
+      <section class="ts-section" id="panels">
+        <div class="ts-container">
+          <div class="ts-section-divider rounded">
+            <h2>§6c — Tool Panels</h2>
+          </div>
+
+          <div class="ts-gap-8 ts-grid ts-grid--2">
+            <!-- Full panel demo -->
+            <div class="ts-grid-col">
+              <span class="ts-label">Tool Panel — Control Block</span>
+              <div class="ts-max-w-none ts-panel">
+                <div class="ts-panel__header">
+                  <div class="ts-panel__title">YSS <strong>Toolpanel</strong> · 4.2.2</div>
+                  <div class="ts-panel__header-actions flat">
+                    <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm" data-tooltip="Help"><span class="ts-icon" data-ts-icon="fa-solid fa-circle-question" ></span></button>
+                    <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm" data-tooltip="Settings"><span class="ts-icon" data-ts-icon="fa-solid fa-gear" ></span></button>
+                    <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm" data-tooltip="Collapse" data-collapse-trigger="panel-body-demo"><span class="ts-icon" data-ts-icon="fa-solid fa-chevron-down" ></span></button>
+                  </div>
+                </div>
+
+                <div class="ts-panel__body" id="panel-body-demo">
+                  <!-- Control row -->
+                  <div class="ts-panel__row">
+                    <div class="ts-panel__group ts-flex-1">
+                      <button class="ts-btn ts-btn--primary ts-btn--sm ts-flex-1">
+                        <span class="ts-icon" data-ts-icon="fa-solid fa-calendar-check" ></span>
+                        Schedule
+                        <span class="ts-btn__counter ts-counter-hidden">0</span>
+                      </button>
+                      <button class="ts-btn ts-btn--sm ts-btn--icon" disabled="" data-tooltip="Pause">
+                        <span class="ts-icon" data-ts-icon="fa-solid fa-pause" ></span>
+                      </button>
+                    </div>
+                    <div class="ts-panel__group">
+                      <button class="ts-btn ts-btn--sm ts-flex-1">
+                        <span class="ts-icon" data-ts-icon="fa-solid fa-bell-slash" ></span> Disable
+                        Notifs
+                      </button>
+                    </div>
+                  </div>
+                  <div class="ts-panel__row">
+                    <div class="ts-panel__group ts-flex-1">
+                      <button class="ts-btn ts-btn--sm ts-flex-1"><span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span>
+                        Downloader</button>
+                      <button class="ts-btn ts-btn--sm ts-flex-1"><span class="ts-icon" data-ts-icon="fa-solid fa-cloud-arrow-up" ></span>
+                        Uploader</button>
+                    </div>
+                    <div class="ts-panel__group">
+                      <button class="ts-btn ts-btn--sm"><span class="ts-icon" data-ts-icon="fa-solid fa-file-export" ></span> Export</button>
+                    </div>
+                  </div>
+
+                  <!-- Log area -->
+                  <div class="ts-log">
+                    <div class="ts-log__entry ts-log__entry--info">[10:22:01] [Init] Framework v1.0.0 loaded</div>
+                    <div class="ts-log__entry ts-log__entry--success">[10:22:02] [Auth] Session established</div>
+                    <div class="ts-log__entry ts-log__entry--debug">[10:22:04] [Downloader] Storage pre-fetch complete — 3
+                      items</div>
+                    <div class="ts-log__entry ts-log__entry--warning">[10:22:08] [Scheduler] Rate limit detected —
+                      throttling</div>
+                    <div class="ts-log__entry ts-log__entry--accent">[10:22:15] [Export] CSV generated: 147 rows</div>
+                    <div class="ts-log__entry ts-log__entry--error">[10:22:20] [Upload] Batch 2 failed — timeout</div>
+                  </div>
+                </div>
+
+                <div class="ts-panel__status">
+                  <div class="ts-panel__status-item">
+                    <span class="ts-dot ts-dot--success ts-dot--pulse"></span> Status: Idle
+                  </div>
+                  <div class="ts-panel__status-item">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-video" ></span> Total: 147
+                  </div>
+                  <div class="ts-panel__status-item">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-list" ></span> Page: 1/6
+                  </div>
+                  <button class="ts-btn ts-btn--ghost ts-btn--icon ts-btn--sm ts-ml-auto" data-tooltip="Download log">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- App topbar demo -->
+            <div class="ts-grid-col">
+
+
+
+              <span class="ts-label">Sidebar Nav</span>
+              <div class="ts-card--accent-bar ts-card ts-p-2">
+                <nav class="ts-sidenav ts-p-0">
+                  <span class="ts-sidenav__group-label">Main</span>
+                  <a class="ts-nav__item ts-nav__item--active" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-house" ></span> Dashboard</a>
+                  <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-chart-line" ></span> Analytics</a>
+                  <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-folder" ></span> Projects</a>
+                  <span class="ts-sidenav__group-label">Settings</span>
+                  <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-palette" ></span> Appearance</a>
+                  <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-chart-line" ></span> Analytics</a><a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-shield" ></span> Security</a>
+                  <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-folder" ></span> Projects</a>
+                </nav>
+              </div>
+            </div>
+            <div class="ts-col-full ts-grid-col">
+              <span class="ts-label">App Topbar</span>
+              <div class="ts-topbar ts-mb-5 ts-topbar-static">
+                <div class="ts-topbar__logo">
+                 <div class="ts-logo-brand"> TOOL<em>SKIN</em></div>
+                  <span  class="ts-logo-sub">Design System</span>
+                </div>
+                <div class="ts-topbar__sep"></div>
+                <nav class="ts-nav">
+                  <a class="ts-nav__item ts-nav__item--active" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-house" ></span> Dashboard</a>
+                  <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-chart-bar" ></span> Analytics</a>
+                  <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-gear" ></span> Settings</a>
+                </nav>
+                <div class="ts-topbar__actions">
+                  <button class="ts-btn ts-btn--primary ts-btn--sm"><span class="ts-icon" data-ts-icon="fa-solid fa-plus" ></span> New</button>
+                  <button class="ts-btn ts-btn--icon ts-btn--ghost ts-btn--sm"><span class="ts-icon" data-ts-icon="fa-solid fa-bell" ></span></button>
+                </div>
+              </div>
+
+              <!-- ODN-D2: Nav variant matrix (resolves ODN-D2 acceptance bullet 5) -->
+              <span class="ts-label">Nav variant: default (.ts-nav)</span>
+              <div class="ts-card ts-p-2 ts-mb-3" data-odnd2-case="default">
+                <nav class="ts-nav">
+                  <a class="ts-nav__item ts-nav__item--active" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-house" ></span> <span class="ts-menu-text">Dashboard</span></a>
+                  <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-chart-bar" ></span> <span class="ts-menu-text">Analytics</span></a>
+                  <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-gear" ></span> <span class="ts-menu-text">Settings</span></a>
+                </nav>
+              </div>
+
+              <span class="ts-label">Nav variant: .ts-nav--spaced (no dividers, gap-driven)</span>
+              <div class="ts-card ts-p-2 ts-mb-3" data-odnd2-case="spaced">
+                <nav class="ts-nav ts-nav--spaced">
+                  <a class="ts-nav__item ts-nav__item--active" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-house" ></span> <span class="ts-menu-text">Dashboard</span></a>
+                  <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-chart-bar" ></span> <span class="ts-menu-text">Analytics</span></a>
+                  <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-gear" ></span> <span class="ts-menu-text">Settings</span></a>
+                </nav>
+              </div>
+
+              <span class="ts-label">Nav variant: .ts-nav--icon-only (no dividers, label hidden)</span>
+              <div class="ts-card ts-p-2 ts-mb-3" data-odnd2-case="icon-only">
+                <nav class="ts-nav ts-nav--icon-only">
+                  <a class="ts-nav__item ts-nav__item--active" href="#" data-tooltip="Dashboard"><span class="ts-icon" data-ts-icon="fa-solid fa-house" ></span> <span class="ts-menu-text">Dashboard</span></a>
+                  <a class="ts-nav__item" href="#" data-tooltip="Analytics"><span class="ts-icon" data-ts-icon="fa-solid fa-chart-bar" ></span> <span class="ts-menu-text">Analytics</span></a>
+                  <a class="ts-nav__item" href="#" data-tooltip="Settings"><span class="ts-icon" data-ts-icon="fa-solid fa-gear" ></span> <span class="ts-menu-text">Settings</span></a>
+                </nav>
+              </div>
+
+              <span class="ts-label">Nav variant: .ts-nav--spaced.ts-nav--icon-only (combined; no dividers)</span>
+              <div class="ts-card ts-p-2 ts-mb-3" data-odnd2-case="spaced-icon-only">
+                <nav class="ts-nav ts-nav--spaced ts-nav--icon-only">
+                  <a class="ts-nav__item ts-nav__item--active" href="#" data-tooltip="Dashboard"><span class="ts-icon" data-ts-icon="fa-solid fa-house" ></span> <span class="ts-menu-text">Dashboard</span></a>
+                  <a class="ts-nav__item" href="#" data-tooltip="Analytics"><span class="ts-icon" data-ts-icon="fa-solid fa-chart-bar" ></span> <span class="ts-menu-text">Analytics</span></a>
+                  <a class="ts-nav__item" href="#" data-tooltip="Settings"><span class="ts-icon" data-ts-icon="fa-solid fa-gear" ></span> <span class="ts-menu-text">Settings</span></a>
+                </nav>
+              </div>
+
+              <span class="ts-label">Nav variant: dropdown separators preserved (acceptance bullet 4)</span>
+              <div class="ts-card ts-p-2 ts-mb-3" data-odnd2-case="dropdown-keeps-sep">
+                <nav class="ts-nav ts-nav--spaced">
+                  <div class="ts-nav-more hasItems">
+                    <a class="ts-nav__item" href="#"><span class="ts-icon" data-ts-icon="fa-solid fa-bars" ></span> <span class="ts-menu-text">More</span></a>
+                    <div class="ts-nav-dropdown">
+                      <a href="#">First link</a>
+                      <a href="#">Second link</a>
+                      <a href="#">Third link</a>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="ts-section-divider rounded ts-neon-accent ts-mt-6">
+            <h2>Dashboard App Shell (mini preview)</h2>
+          </div>
+          <div class="ts-card ts-dashboard">
+            <!-- minibar -->
+            <div class="flat ts-card-header ts-panel__header-actions">
+              <span class="ts-logo-text">TOOL<span class="ts-text-accent">SKIN</span>
+              </span>
+              <div class="ts-card-header__actions">
+                <span class="ts-badge ts-badge--success"><span class="ts-dot ts-dot--success ts-dot--pulse"></span>
+                  Live</span>
+                <button class="ts-btn ts-btn--icon"><span class="ts-icon" data-ts-icon="fa-solid fa-plus" ></span></button>
+              </div>
+            </div>
+            <!-- sidebar -->
+            <div class="ts-sidenav">
+              <div class="ts-nav__item ts-nav__item--active ts-mb-1"><span class="ts-icon" data-ts-icon="fa-solid fa-house" ></span> Dashboard</div>
+              <div class="ts-nav__item ts-mb-1"><span class="ts-icon" data-ts-icon="fa-solid fa-video" ></span> Videos</div>
+              <div class="ts-nav__item ts-mb-1"><span class="ts-icon" data-ts-icon="fa-solid fa-chart-line" ></span> Analytics</div>
+              <div class="ts-nav__item"><span class="ts-icon" data-ts-icon="fa-solid fa-gear" ></span>
+                Settings</div>
+            </div>
+            <!-- content -->
+            <div class="ts-card-body">
+              <div class="ts-flex-row ts-gap-3">
+                <div class="ts-card ts-card--accent-bar ts-flex-1">
+                  <div class="ts-label">Total Videos</div>
+                  <div class="ts-h2 ts-text-accent">
+                    14,820</div>
+                </div>
+                <div class="ts-card ts-card--accent-bar ts-flex-1">
+                  <div class="ts-label">Scheduled</div>
+                  <div class="ts-h2 ts-text-accent">
+                    47</div>
+                </div>
+                <div class="ts-card ts-card--accent-bar ts-flex-1">
+                  <div class="ts-label">Queue Size</div>
+                  <div class="ts-h2 ts-text-accent">
+                    12</div>
+                </div>
+              </div>
+              <div class="ts-progress-row"><span class="ts-progress-label">Batch progress</span><span class="ts-progress-value">68%</span></div>
+              <div class="ts-progress">
+                <div class="ts-progress__bar" style="width:68%"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- SOCIAL LINKS SHOWCASE -->
+      <section class="ts-section ts-section--alt-mute ts-bg-grad-surface-radial-soft" id="social-links">
+        <div class="ts-container">
+          <h2 class="ts-section-title">Social Links</h2>
+          <p class="ts-lead ">Flexible social media icon components with multiple style variants.</p>
+
+          <!-- Social Links — multi-column grid -->
+          <div class="ts-grid ts-grid--3 ts-gap-3 ts-mt-6">
+            <div>
+              <span class="ts-label">Standard</span>
+              <ul class="ts-social-links">
+                <li><a href="#" class="ts-social-link" data-icon="ion:logo-facebook"></a></li>
+                <li><a href="#" class="ts-social-link" data-icon="ion:logo-twitter"></a></li>
+                <li><a href="#" class="ts-social-link" data-icon="ion:logo-instagram"></a></li>
+                <li><a href="#" class="ts-social-link" data-icon="ion:logo-linkedin"></a></li>
+                <li><a href="#" class="ts-social-link" data-icon="ion:logo-github"></a></li>
+                <li><a href="#" class="ts-social-link" data-icon="ion:logo-youtube"></a></li>
+              </ul>
+            </div>
+            <div>
+              <span class="ts-label">Light (.light)</span>
+              <ul class="ts-social-links">
+                <li><a href="#" class="ts-social-link light" data-icon="ion:logo-facebook"></a></li>
+                <li><a href="#" class="ts-social-link light" data-icon="ion:logo-twitter"></a></li>
+                <li><a href="#" class="ts-social-link light" data-icon="ion:logo-instagram"></a></li>
+                <li><a href="#" class="ts-social-link light" data-icon="ion:logo-linkedin"></a></li>
+              </ul>
+            </div>
+            <div>
+              <span class="ts-label">Dark (.dark)</span>
+              <ul class="ts-social-links">
+                <li><a href="#" class="ts-social-link dark" data-icon="ion:logo-facebook"></a></li>
+                <li><a href="#" class="ts-social-link dark" data-icon="ion:logo-twitter"></a></li>
+                <li><a href="#" class="ts-social-link dark" data-icon="ion:logo-instagram"></a></li>
+                <li><a href="#" class="ts-social-link dark" data-icon="ion:logo-linkedin"></a></li>
+              </ul>
+            </div>
+            <div>
+              <span class="ts-label">Accent (.accent)</span>
+              <ul class="ts-social-links">
+                <li><a href="#" class="ts-social-link accent" data-icon="ion:logo-facebook"></a></li>
+                <li><a href="#" class="ts-social-link accent" data-icon="ion:logo-twitter"></a></li>
+                <li><a href="#" class="ts-social-link accent" data-icon="ion:logo-instagram"></a></li>
+                <li><a href="#" class="ts-social-link accent" data-icon="ion:logo-linkedin"></a></li>
+              </ul>
+            </div>
+            <div>
+              <span class="ts-label">Rounded (.rounded)</span>
+              <ul class="ts-social-links">
+                <li><a href="#" class="ts-social-link rounded" data-icon="ion:logo-facebook"></a></li>
+                <li><a href="#" class="ts-social-link rounded" data-icon="ion:logo-twitter"></a></li>
+                <li><a href="#" class="ts-social-link rounded" data-icon="ion:logo-instagram"></a></li>
+                <li><a href="#" class="ts-social-link rounded" data-icon="ion:logo-linkedin"></a></li>
+              </ul>
+            </div>
+            <div>
+              <span class="ts-label">Flat (.flat)</span>
+              <ul class="ts-social-links">
+                <li><a href="#" class="ts-social-link flat" data-icon="ion:logo-facebook"></a></li>
+                <li><a href="#" class="ts-social-link flat" data-icon="ion:logo-twitter"></a></li>
+                <li><a href="#" class="ts-social-link flat" data-icon="ion:logo-instagram"></a></li>
+                <li><a href="#" class="ts-social-link flat" data-icon="ion:logo-linkedin"></a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Full-width rows for wider variants -->
+          <div class="ts-grid ts-grid--2 ts-gap-3 ts-mt-2">
+            <div>
+              <span class="ts-label">Colored (.colored) — Hover for brand colors</span>
+              <ul class="ts-social-links">
+                <li><a href="#" class="ts-social-link rounded colored" data-brand="facebook" data-icon="ion:logo-facebook"></a></li>
+                <li><a href="#" class="ts-social-link rounded colored" data-brand="twitter" data-icon="ion:logo-twitter"></a></li>
+                <li><a href="#" class="ts-social-link rounded colored" data-brand="instagram" data-icon="ion:logo-instagram"></a></li>
+                <li><a href="#" class="ts-social-link rounded colored" data-brand="linkedin" data-icon="ion:logo-linkedin"></a></li>
+                <li><a href="#" class="ts-social-link rounded colored" data-brand="github" data-icon="ion:logo-github"></a>
+                </li>
+                <li><a href="#" class="ts-social-link rounded colored" data-brand="youtube" data-icon="ion:logo-youtube"></a></li>
+                <li><a href="#" class="ts-social-link rounded colored" data-brand="pinterest" data-icon="ion:logo-pinterest"></a></li>
+                <li><a href="#" class="ts-social-link rounded colored" data-brand="tiktok" data-icon="ion:logo-tiktok"></a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <span class="ts-label">Combined: Rounded + Accent</span>
+              <ul class="ts-social-links">
+                <li><a href="#" class="ts-social-link rounded accent" data-icon="ion:logo-facebook"></a></li>
+                <li><a href="#" class="ts-social-link rounded accent" data-icon="ion:logo-twitter"></a></li>
+                <li><a href="#" class="ts-social-link rounded accent" data-icon="ion:logo-instagram"></a></li>
+                <li><a href="#" class="ts-social-link rounded accent" data-icon="ion:logo-linkedin"></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER SHOWCASE -->
+      <section class="ts-section ts-grain" id="footer-showcase">
+        <div class="ts-container">
+          <h2 class="ts-section-title">Footer Components</h2>
+          <p class="ts-lead ">Comprehensive footer system with widgets, menus, newsletter, and social
+            links.</p>
+
+          <!-- Menu Bullet Variants -->
+          <div class="ts-grid--auto-fit ts-mt-2">
+            <div>
+              <h4 class="ts-label">Chevron (›)</h4>
+              <ul class="ts-menu-list">
+                <li class="ts-menu-item chevron"><a href="#" class="ts-menu-link">Documentation</a></li>
+                <li class="ts-menu-item chevron"><a href="#" class="ts-menu-link">Components</a></li>
+                <li class="ts-menu-item chevron"><a href="#" class="ts-menu-link">Layouts</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="ts-label">Arrow (→)</h4>
+              <ul class="ts-menu-list">
+                <li class="ts-menu-item arrow"><a href="#" class="ts-menu-link">Get Started</a></li>
+                <li class="ts-menu-item arrow"><a href="#" class="ts-menu-link">Examples</a></li>
+                <li class="ts-menu-item arrow"><a href="#" class="ts-menu-link">GitHub</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="ts-label">Dot (•)</h4>
+              <ul class="ts-menu-list">
+                <li class="ts-menu-item dot"><a href="#" class="ts-menu-link">About Us</a></li>
+                <li class="ts-menu-item dot"><a href="#" class="ts-menu-link">Contact</a></li>
+                <li class="ts-menu-item dot"><a href="#" class="ts-menu-link">Careers</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="ts-label">Plain (No bullet)</h4>
+              <ul class="ts-menu-list">
+                <li class="ts-menu-item"><a href="#" class="ts-menu-link">Privacy Policy</a></li>
+                <li class="ts-menu-item"><a href="#" class="ts-menu-link">Terms of Service</a></li>
+                <li class="ts-menu-item"><a href="#" class="ts-menu-link">Cookie Policy</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Newsletter Widget — beside the menu lists -->
+          <div class="ts-grid ts-grid--2 ts-gap-3 ts-mt-2">
+            <div>
+              <span class="ts-label">Newsletter Widget</span>
+              <div class="ts-card ts-surface-2 ts-rounded ts-border ts-mt-4">
+                <div class="ts-footer-newsletter ts-gap-1">
+                  <h3 class="ts-label dashed">Subscribe to Our Newsletter</h3>
+                  <p class="ts-footer-newsletter-desc">Get the latest updates, articles, and resources delivered to your
+                    inbox
+                    weekly.</p>
+                  <form class="ts-newsletter-form" onsubmit="event.preventDefault(); alert('Newsletter signup demo!');">
+                    <div class="ts-newsletter-input-group">
+                      <input type="email" class="ts-newsletter-input" placeholder="Enter your email address" required />
+                      <button type="submit" class="ts-newsletter-btn">Subscribe</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div>
+              <span class="ts-label">Testimonial</span>
+              <div class="ts-testimonial ts-mt-4">
+                <blockquote>
+                  "The token depth and dynamic color engine are unparalleled. Toolskin changed how I perceive CSS
+                  architecture."
+                </blockquote>
+                <div>
+                  <div class="ts-testimonial__author-name">Marcus Vance</div>
+                  <div class="ts-testimonial__author-role">Lead Architect · Neon Logic</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ═══ MOCKUP SHOWCASE — Parallax reveal section ════════════════════ -->
+      <section class="ts-section ts-parallax ts-h-70" id="mockups">
+        <div class="ts-parallax__bg"></div>
+        <div class="ts-parallax__overlay"></div>
+        <div class="ts-parallax__content">
+          <p class="ts-overline ts-text-accent">PORTFOLIO · LIVE DEMOS</p>
+          <h2>
+            <span class="ts-gradient-text">Toolpanel</span> Mockup Previews
+          </h2>
+          <p>Semi-functional interactive previews of real userscript automation panels. YouTube bulk scheduler,
+            Suno AI music generator, and Higgsfield video automation — all built with our design system.</p>
+          <a href="mockup/index.html" class="ts-btn ts-btn--primary ts-btn--xl">
+            <span class="ts-icon" data-ts-icon="fa-solid fa-rocket" ></span> Explore Mockups
+          </a>
+        </div>
+      </section>
+
+
+      <!-- ═══ BANNER GENERATOR — Split-screen feature section ═════════════ -->
+      <section class="ts-section ts-split-feature" id="banner-generator">
+        <!-- Left: Content -->
+        <div class="ts-split-feature__content">
+          <p class="ts-overline ts-badge" data-ts-icon="ion:sparkles">TOOLSKIN TOOL</p>
+          <h2>
+            <span class="ts-gradient-text">Banner</span> Generator
+          </h2>
+          <p class="ts-desc ts-text-secondary">
+            Create stunning, minimalistic and professional presentation banners in seconds. Pure CSS &amp; Canvas 2D
+            rendering — gradient text, noise textures,
+            custom typography, icon picker, multiple presets. No dependencies. <strong class="ts-accent-text">What you see
+              is what you export.</strong>
+          </p>
+
+          <div class="ts-feat-list ts-feat-cards">
+            <div class="ts-feat-item">
+              <span class="ts-icon" data-ts-icon="fa-solid fa-palette" ></span>
+              <span>Gradient Text with custom color stops</span>
+            </div>
+            <div class="ts-feat-item">
+              <span class="ts-icon" data-ts-icon="fa-solid fa-font" ></span>
+              <span>Multiple fonts &amp; weight controls</span>
+            </div>
+            <div class="ts-feat-item">
+              <span class="ts-icon" data-ts-icon="fa-solid fa-image" ></span>
+              <span>Background presets &amp; noise layers</span>
+            </div>
+            <div class="ts-feat-item">
+              <span class="ts-icon" data-ts-icon="fa-solid fa-expand" ></span>
+              <span>Preset sizes: OG, HD, 4K &amp; custom</span>
+            </div>
+            <div class="ts-feat-item">
+              <span class="ts-icon" data-ts-icon="fa-solid fa-icons" ></span>
+              <span>Icon picker with 1400+ Ionicons</span>
+            </div>
+            <div class="ts-feat-item">
+              <span class="ts-icon" data-ts-icon="fa-solid fa-download" ></span>
+              <span>PNG / JPEG export at 2× resolution</span>
+            </div>
+            <div class="ts-feat-item">
+              <span class="ts-icon" data-ts-icon="fa-solid fa-sliders" ></span>
+              <span>Live preview with real-time controls</span>
+            </div>
+            <div class="ts-feat-item">
+              <span class="ts-icon" data-ts-icon="fa-solid fa-floppy-disk" ></span>
+              <span>Save &amp; load preset configurations</span>
+            </div>
+          </div>
+
+          <a href="generator/index.html" class="ts-btn ts-btn--primary ts-btn--lg" style="align-self:flex-start;">
+            <span class="ts-icon" data-ts-icon="fa-solid fa-wand-magic-sparkles" ></span> Launch Banner
+            Generator
+          </a>
+        </div>
+
+        <!-- Right: Image Slider -->
+        <div class="ts-split-feature__slider" id="banner-slider" data-ts-slider data-ts-slider-interval="4000">
+          <img src="https://satsea.io/toolskin-showcase/assets/img/banner-toolskin-1200x900-01.png" alt="Banner Preview 1" class="active" loading="eager" fetchpriority="high" decoding="async">
+          <img src="https://satsea.io/toolskin-showcase/assets/img/banner-toolskin-1200x900-02.png" alt="Banner Preview 2" loading="lazy" decoding="async">
+          <img src="https://satsea.io/toolskin-showcase/assets/img/banner-toolskin-1200x900-03.png" alt="Banner Preview 3" loading="lazy" decoding="async">
+          <img src="https://satsea.io/toolskin-showcase/assets/img/banner-toolskin-1200x900-04.jpg" alt="Banner Preview 4" loading="lazy" decoding="async">
+          <img src="https://satsea.io/toolskin-showcase/assets/img/banner-toolskin-1200x900-05.jpg" alt="Banner Preview 5" loading="lazy" decoding="async">
+          <img src="https://satsea.io/toolskin-showcase/assets/img/banner-generator-1.jpg" alt="Banner Generator Interface 1" loading="lazy" decoding="async">
+          <img src="https://satsea.io/toolskin-showcase/assets/img/banner-generator-2.jpg" alt="Banner Generator Interface 2" loading="lazy" decoding="async">
+          <img src="https://satsea.io/toolskin-showcase/assets/img/banner-generator-3.jpg" alt="Banner Generator Preview Export" loading="lazy" decoding="async">
+          <div class="ts-slider-dots" id="slider-dots"></div>
+        </div>
+      </section>
+
+
+      <!-- ═══ PORTFOLIO GRID — 3D Flip Cards ══════════════════════════════ -->
+      <section class="ts-section ts-portfolio-section" id="portfolio">
+        <div class="ts-container">
+          <div class="ts-section-divider rounded ts-zoom-in">
+            <h2>§ — Portfolio Showcase</h2>
+          </div>
+          <p class="ts-lead  dashed" style="margin-left: var(--ts-sp-8);">
+            Interactive automation toolpanels — hover to reveal details, click to launch.
+          </p>
+
+          <div class="ts-portfolio-grid ts-masonry">
+            <!-- YouTube Toolpanel -->
+            <div class="ts-flip-card">
+              <div class="ts-flip-card__inner">
+                <div class="ts-flip-card__front">
+                  <img class="ts-card__icon" src="https://www.google.com/s2/favicons?sz=64&domain=youtube.com" alt="YouTube" style="width:48px;height:48px;" loading="eager" fetchpriority="high" decoding="async">
+                  <div class="ts-h3">YouTube Toolpanel</div>
+                  <span class="ts-badge ts-badge--danger">v4.2.7</span>
+                  <p class="ts-caption ts-mt-2" style="color:var(--ts-text-muted);">YSS Studio &amp; Watch modes</p>
+                </div>
+                <div class="ts-flip-card__back">
+                  <div class="ts-h4">Full Studio Automation</div>
+                  <p class="ts-text-secondary ts-caption">Transcript fetcher, batch processor, Gemini AI summarizer,
+                    video downloader, scheduling, and bulk studio actions.</p>
+                  <div style="display:flex; flex-direction:column; gap:8px; width:100%;">
+                    <a href="mockup/yss-toolpanel-watch-mockup.html" class="ts-btn ts-btn--primary ts-btn--sm" style="width:100%;justify-content:center;">
+                      <span class="ts-icon" data-ts-icon="fa-solid fa-play" ></span> Watch Mode
+                    </a>
+                    <a href="mockup/yss-toolpanel-studio-mockup.html" class="ts-btn ts-btn--outline ts-btn--sm" style="width:100%;justify-content:center;">
+                      <span class="ts-icon" data-ts-icon="fa-solid fa-film" ></span> Studio Mode
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Suno Automation -->
+            <div class="ts-flip-card ">
+              <div class="ts-flip-card__inner">
+                <div class="ts-flip-card__front">
+                  <div class="ts-portfolio-icon" style="background: rgba(168,85,247,0.15);">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-music" ></span>
+                  </div>
+                  <div class="ts-h3">Suno Automation</div>
+                  <span class="ts-badge" style="background:rgba(168,85,247,0.15); color:#a855f7; border-color:rgba(168,85,247,0.3);">v3.8.1</span>
+                  <p class="ts-caption ts-mt-2" style="color:var(--ts-text-muted);">AI Music Generation</p>
+                </div>
+                <div class="ts-flip-card__back">
+                  <div class="ts-h4">Bulk Music Pipeline</div>
+                  <p class="ts-text-secondary ts-caption">Automated track generation, bulk downloader, queue viewer,
+                    track status monitoring, and workspace management.</p>
+                  <a href="mockup/suno-toolpanel-mockup.html" class="ts-btn ts-btn--primary ts-btn--sm" style="width:100%;justify-content:center">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-music" ></span> Launch Panel
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Higgsfield Automation -->
+            <div class="ts-flip-card ">
+              <div class="ts-flip-card__inner">
+                <div class="ts-flip-card__front">
+                  <div class="ts-portfolio-icon" style="background: rgba(0,229,255,0.12);">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-video" ></span>
+                  </div>
+                  <div class="ts-h3">Higgsfield Automation</div>
+                  <span class="ts-badge" style="background:rgba(0,229,255,0.12); color:#00e5ff; border-color:rgba(0,229,255,0.3);">v4.9.6</span>
+                  <p class="ts-caption ts-mt-2" style="color:var(--ts-text-muted);">AI Video Generation</p>
+                </div>
+                <div class="ts-flip-card__back">
+                  <div class="ts-h4">Video Workflow Engine</div>
+                  <p class="ts-text-secondary ts-caption">CSV queue import, automated video generation, dashboard with
+                    filter tabs, bulk download, and workflow logging.</p>
+                  <a href="mockup/hf-toolpanel-mockup.html" class="ts-btn ts-btn--primary ts-btn--sm" style="width:100%;justify-content:center">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-video" ></span> Launch Panel
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Banner Generator -->
+            <div class="ts-flip-card ">
+              <div class="ts-flip-card__inner">
+                <div class="ts-flip-card__front">
+                  <div class="ts-portfolio-icon" style="background: var(--ts-accent-dim);">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-wand-magic-sparkles" ></span>
+                  </div>
+                  <div class="ts-h3">Banner Generator</div>
+                  <span class="ts-badge ts-badge--accent">v2.3</span>
+                  <p class="ts-caption ts-mt-2" style="color:var(--ts-text-muted);">Canvas 2D Export Tool</p>
+                </div>
+                <div class="ts-flip-card__back">
+                  <div class="ts-h4">Design &amp; Export</div>
+                  <p class="ts-text-secondary ts-caption">Gradient text, noise textures, custom typography, icon picker,
+                    multiple presets. Pure Canvas 2D — pixel-perfect PNG/JPEG export.</p>
+                  <a href="generator/index.html" class="ts-btn ts-btn--primary ts-btn--sm" style="width:100%;justify-content:center">
+                    <span class="ts-icon" data-ts-icon="fa-solid fa-wand-magic-sparkles" ></span> Open
+                    Generator
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="ts-card ts-card--interactive ts-col-span-2 ">
+              <div class="ts-card__header">
+                <img class="ts-card__icon" src="https://www.google.com/s2/favicons?sz=64&amp;domain=youtube.com" loading="lazy" decoding="async" alt="YouTube">
+                <h2 class="ts-card__title ts-card__title--lg">YouTube Toolpanel</h2>
+                <span class="ts-card__version">v4.2.7</span>
+              </div>
+              <div class="ts-card__body">Transcript fetcher, batch processor, Gemini AI summarizer, video downloader,
+                studio bulk actions,
+                scheduling, and more.</div>
+              <span class="ts-badge-color red"><span class="ts-icon" data-ts-icon="ion:logo-youtube" ></span> YSS
+                Toolpanel</span>
+              <div class="ts-card__links" style="flex-direction: row; flex: 1 1; flex-wrap: wrap; width: 100%; align-content: center; align-items: center;">
+                <a class="ts-card-link" href="mockup/yss-toolpanel-watch-mockup.html" style="flex: 1;">
+                  <span class="ts-icon" data-ts-icon="ion:play-circle" ></span>
+                  Watch Mode
+                  <span class="ts-card-link__meta">Transcript + Summarizer</span>
+                </a>
+                <a class="ts-card-link" href="mockup/yss-toolpanel-studio-mockup.html" style="flex: 1;">
+                  <span class="ts-icon" data-ts-icon="ion:construct" ></span>
+                  Studio Mode
+                  <span class="ts-card-link__meta">Scheduler + Bulk Ops</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!--  FOOTER ─────────── -->
+      <footer class="ts-footer ts-footer--dark" id="footer">
+        <div class="ts-container">
+          <div class="ts-footer-row">
+            <!-- Brand Column -->
+            <div class="ts-footer-column">
+              <div class="ts-topbar__logo ts-fs-base ts-mb-4">
+                TOOL<em>SKIN</em>
+              </div>
+              <p class="ts-caption ts-mb-4">A framework-independent design system. Built for
+                real products.</p>
+
+              <!-- Social Links -->
+              <h4 class="ts-label ts-footer-widget-title dashed">Follow Us</h4>
+              <ul class="ts-social-links">
+                <li><a href="#" class="ts-social-link rounded colored" data-brand="github" data-icon="ion:logo-github"></a>
+                </li>
+                <li><a href="#" class="ts-social-link rounded colored" data-brand="twitter" data-icon="ion:logo-twitter"></a></li>
+                <li><a href="#" class="ts-social-link rounded colored" data-brand="linkedin" data-icon="ion:logo-linkedin"></a></li>
+                <li><a href="#" class="ts-social-link rounded colored" data-brand="youtube" data-icon="ion:logo-youtube"></a></li>
+              </ul>
+            </div>
+
+            <!-- Multi-column Widgets -->
+            <div class="ts-footer-columns">
+              <!-- Framework Links -->
+              <div class="ts-footer-widget">
+                <h3 class="ts-label ts-footer-widget-title dashed">Framework</h3>
+                <div class="ts-footer-menu">
+                  <ul class="ts-menu-list">
+                    <li class="ts-menu-item chevron"><a href="#tokens" class="ts-menu-link">Design Tokens</a></li>
+                    <li class="ts-menu-item chevron"><a href="#surface-presets" class="ts-menu-link">Surface presets</a>
+                    </li>
+                    <li class="ts-menu-item chevron"><a href="#buttons" class="ts-menu-link">Components</a></li>
+                    <li class="ts-menu-item chevron"><a href="#layouts" class="ts-menu-link">Layouts</a></li>
+                    <li class="ts-menu-item chevron"><a href="#forms" class="ts-menu-link">Forms</a></li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Resources Links -->
+              <div class="ts-footer-widget">
+                <h3 class="ts-label ts-footer-widget-title dashed">Resources</h3>
+                <div class="ts-footer-menu">
+                  <ul class="ts-menu-list">
+                    <li class="ts-menu-item arrow"><a href="#" class="ts-menu-link">Documentation</a></li>
+                    <li class="ts-menu-item arrow"><a href="#" class="ts-menu-link">Changelog</a></li>
+                    <li class="ts-menu-item arrow"><a href="#" class="ts-menu-link">WordPress Guide</a></li>
+                    <li class="ts-menu-item arrow"><a href="#" class="ts-menu-link">GitHub Repo</a></li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Newsletter Widget -->
+              <div class="ts-footer-widget ts-widget--wide">
+                <h3 class="ts-label ts-footer-widget-title dashed">Newsletter</h3>
+                <div class="ts-footer-newsletter">
+                  <p class="ts-footer-newsletter-desc">Stay updated with the latest design patterns and framework updates.
+                  </p>
+                  <form class="ts-newsletter-form" onsubmit="event.preventDefault(); alert('Newsletter signup coming soon!');">
+                    <div class="ts-newsletter-input-group">
+                      <input type="email" class="ts-newsletter-input" placeholder="your@email.com" required />
+                      <button type="submit" class="ts-newsletter-btn">Subscribe</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Socket -->
+        <div class="ts-footer-socket">
+          <div class="ts-footer-socket-row">
+            <p class="ts-footer-copyright">© 2026 Toolskin / ToolSkin Design System — All patterns are
+              framework-independent
+              native CSS.</p>
+
+            <!-- Alternative Social Links (flat style in footer socket) -->
+            <ul class="ts-social-links">
+              <li><a href="#" class="ts-social-link flat" data-icon="ion:logo-facebook"></a></li>
+              <li><a href="#" class="ts-social-link flat" data-icon="ion:logo-instagram"></a></li>
+              <li><a href="#" class="ts-social-link flat" data-icon="ion:logo-pinterest"></a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+
+      <!--  MODALS ─────────── -->
+
+      <!-- Demo Modal (Large) -->
+      <div class="ts-overlay" id="modal-demo">
+        <div class="ts-modal ts-modal--lg">
+          <div class="ts-modal__header">
+            <div class="ts-topbar__logo ts-fs-lg">TOOL<em>SKIN</em></div>
+            <div class="ts-modal__title">Modal — Full Demo</div>
+            <button class="ts-modal__close" data-modal-close aria-label="Close">
+              <span class="ts-icon" data-ts-icon="fa-solid fa-xmark" ></span>
+            </button>
+          </div>
+          <div class="ts-modal__body">
+            <p class="ts-text-secondary ts-mb-5">This modal is controlled entirely via HTML attributes. No JavaScript
+              required for basic open/close.</p>
+            <div class="ts-grid ts-grid--2 ts-mb-4 ts-gap-4">
+              <div class="ts-field">
+                <label class="ts-field-label">Project Name</label>
+                <input type="text" class="ts-input" placeholder="Enter name…" />
+              </div>
+              <div class="ts-field">
+                <label class="ts-field-label">Status</label>
+                <div class="ts-ui-select">
+                  <select class="ts-select">
+                    <option>Active</option>
+                    <option>Paused</option>
+                    <option>Archived</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="ts-field ts-mb-4">
+              <label class="ts-field-label">Notes</label>
+              <textarea class="ts-input ts-textarea ts-resizable" placeholder="Add a note…" rows="3"></textarea>
+            </div>
+            <div class="ts-toggle-row">
+              <span class="ts-toggle-label">Send notification on save</span>
+              <label class="ts-toggle"><input type="checkbox" /><span class="ts-toggle__knob"></span></label>
+            </div>
+          </div>
+          <div class="ts-modal__footer">
+            <button class="ts-btn ts-btn--danger" data-modal-close>Cancel</button>
+            <button class="ts-btn ts-btn--primary"><span class="ts-icon" data-ts-icon="fa-solid fa-floppy-disk" ></span> Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Demo Modal (Small) -->
+      <div class="ts-overlay" id="modal-sm">
+        <div class="ts-modal ts-modal--sm">
+          <div class="ts-modal__header">
+            <div class="ts-modal__title"><span class="ts-icon ts-text-warning" data-ts-icon="fa-solid fa-triangle-exclamation" ></span>
+              &nbsp;Confirm Action</div>
+            <button class="ts-modal__close" data-modal-close><span class="ts-icon" data-ts-icon="fa-solid fa-xmark" ></span></button>
+          </div>
+          <div class="ts-modal__body">
+            <p class="ts-text-secondary">Are you sure you want to proceed? This action cannot be undone.</p>
+          </div>
+          <div class="ts-modal__footer">
+            <button class="ts-btn ts-btn--secondary" data-modal-close>Cancel</button>
+            <button class="ts-btn ts-btn--danger"><span class="ts-icon" data-ts-icon="fa-solid fa-trash" ></span> Delete</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Toast container (auto-created by JS, shown here for reference) -->
+    <div class="ts-toast-container"></div>
+
+
+  </body>
+
+</html>

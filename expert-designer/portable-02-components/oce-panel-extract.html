@@ -1,0 +1,922 @@
+<aside id="ts-offcanvas-editor" class="ts-oce-panel ts-banner-generator-app ts-oce--open" role="dialog" aria-modal="true" aria-label="Toolskin live editor" data-ts-oce-isolated="true" style="--ts-bg-body: #0c0d0f; --ts-bg-0: #111214; --ts-bg-1: #17181b; --ts-bg-2: #1f2024; --ts-bg-3: #28292e; --ts-bg-4: #323439; --ts-bg-5: #3e4045; --ts-bg-1-t: color-mix(in srgb,#17181b,transparent 30%); --ts-bg-2-t: color-mix(in srgb,#1f2024,transparent 40%); --ts-text-primary: #e8e9ea; --ts-text-secondary: #9ea0a5; --ts-text-muted: #6d6f74; --ts-border-0: color-mix(in srgb,#fff,transparent 94%); --ts-border-1: color-mix(in srgb,#fff,transparent 90%); --ts-border-2: color-mix(in srgb,#fff,transparent 84%); --ts-sp-base: 4px; --ts-radius-base: 8px; --ts-radius-scale: 1; --ts-fs-base: 15px; --ts-font-display: &quot;Space Grotesk&quot;,system-ui,sans-serif; --ts-font-body: &quot;Space Grotesk&quot;,system-ui,sans-serif; --ts-sp-1: 4px; --ts-sp-2: 8px; --ts-sp-3: 12px; --ts-sp-4: 16px; --ts-sp-5: 20px; --ts-sp-6: 24px; --ts-sp-7: 28px; --ts-sp-8: 32px; --ts-sp-9: 36px; --ts-sp-10: 40px; --ts-sp-11: 44px; --ts-sp-12: 48px; --ts-sp-13: 52px; --ts-sp-14: 56px; --ts-sp-15: 60px; --ts-sp-16: 64px; --ts-sp-17: 68px; --ts-sp-18: 72px; --ts-sp-19: 76px; --ts-sp-20: 80px; --ts-sp-21: 84px; --ts-sp-22: 88px; --ts-sp-23: 92px; --ts-sp-24: 96px; color-scheme: dark;">
+	<div id="ts-panel">
+		<div id="ts-panel-tabs">
+			<div class="ts-ptab active" data-tab="hero">Hero</div>
+			<div class="ts-ptab" data-tab="theme">Theme</div>
+			<div class="ts-ptab" data-tab="colors">Colors</div>
+			<div class="ts-ptab" data-tab="preloader">Preloader</div>
+		</div>
+		<div id="ts-panel-body" data-lenis-prevent="">
+			<div class="ts-tab-pane active" data-pane="hero">
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion open absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="image-outline" role="img" class="md hydrated"></ion-icon>Background Type</span></div>
+					<div class="ts-card-rows">
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field"><label data-tooltip="Hero section background source">Background</label>
+									<div class="ts-ui-select ts-ui-select--no-search" data-ts-ui-select-search="false"><select class="ts-ui-select__native" id="ts-oce-bg-type" tabindex="-1" aria-hidden="true">
+											<option value="canvas-gradient">Canvas Gradient</option>
+											<option value="image">Image</option>
+											<option value="video">Video (URL/mp4)</option>
+										</select><button type="button" class="ts-ui-select__trigger" aria-haspopup="listbox" aria-expanded="false"><span class="ts-ui-select__value"><span class="ts-ui-select__value-text">Canvas Gradient</span></span><span class="ts-ui-select__chevron" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-chevron-down" data-icon-injected="1"><i class="fa-solid fa-chevron-down ts-icon" aria-hidden="true"></i></span></span></button>
+										<div class="ts-ui-select__dropdown" hidden="" role="listbox">
+											<ul class="ts-ui-select__list" role="presentation">
+												<li class="ts-ui-select__option ts-ui-select__option--selected" role="option" data-value="canvas-gradient" data-index="0"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Canvas Gradient</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="image" data-index="1"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Image</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="video" data-index="2"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Video (URL/mp4)</span></span></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row ts-oce-hidden">
+							<div class="ts-card-col-full ts-oce-hidden">
+								<div id="ts-oce-dropzone-wrap" class="ts-oce-hidden">
+									<div class="ts-dropzone" id="ts-oce-dropzone"><ion-icon name="cloud-upload-outline" style="font-size:22px;display:block;margin:0 auto var(--ts-sp-2) auto" role="img" class="md hydrated"></ion-icon><span id="ts-oce-drop-label">Drop image or click to upload</span><input type="file" id="ts-oce-bg-file" accept="image/*"><img id="ts-oce-dz-preview" class="ts-dz-preview"></div>
+									<div class="ts-field" style="margin-top:var(--ts-sp-2)">
+										<div class="ts-input-group" data-tooltip="...or Paste image URL or Path."><span class="ts-icon ts-input-icon"><i class="fa-regular fa-image"></i></span><input type="text" class="ts-input" id="ts-oce-image-url" placeholder="…or paste image URL" value="assets/img/bg_image.jpg"></div>
+									</div>
+									<div class="ts-card-row" style="margin-top:var(--ts-sp-2)">
+										<div class="ts-card-col-half">
+											<div class="ts-field">
+												<div class="ts-toggle-row" data-tooltip="background-attachment: fixed"><span class="ts-toggle-label">Fixed BG</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-bg-fixed"><span class="ts-toggle__knob"></span></label></div>
+											</div>
+										</div>
+										<div class="ts-card-col-half">
+											<div class="ts-field">
+												<div class="ts-toggle-row" data-tooltip="Load random placeholder image"><span class="ts-toggle-label">Random Image</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-random-img"><span class="ts-toggle__knob"></span></label></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row ts-oce-hidden">
+							<div class="ts-card-col-full ts-oce-hidden">
+								<div id="ts-oce-video-wrap" class="ts-oce-hidden">
+									<div class="ts-field">
+										<div class="ts-input-group ts-input-inset-button" data-tooltip="Paste Video URL (YouTube supported)"><span class="ts-icon ts-input-icon"><i class="fa-solid fa-video"></i></span><input type="text" class="ts-input" placeholder="YouTube or mp4 URL" id="ts-oce-video-url"><button type="button" class="ts-btn ts-btn--icon ts-btn--primary ts-input-btn" id="ts-oce-video-submit"><i class="fa-solid fa-arrow-right"></i></button></div>
+									</div>
+									<div class="ts-field" style="margin-top:var(--ts-sp-2)"><label style="margin-bottom:var(--ts-sp-1);display:block">Sample Videos</label>
+										<div class="ts-grad-swatches" id="ts-oce-video-library" style="gap:var(--ts-sp-1)">
+											<div class="ts-grad-swatch ts-img-swatch video" data-tooltip="Aerial Ocean Waves" style="background-image: url(&quot;https://img.youtube.com/vi/DolDgWo-cUA/default.jpg&quot;);"></div>
+											<div class="ts-grad-swatch ts-img-swatch video" data-tooltip="Abstract Particles" style="background-image: url(&quot;https://img.youtube.com/vi/QAEjv3h_LQ0/default.jpg&quot;);"></div>
+											<div class="ts-grad-swatch ts-img-swatch video" data-tooltip="Neon City Lights" style="background-image: url(&quot;https://img.youtube.com/vi/6ek4ZAWRj8c/default.jpg&quot;);"></div>
+											<div class="ts-grad-swatch ts-img-swatch video" data-tooltip="Smoke &amp; Light" style="background-image: url(&quot;https://img.youtube.com/vi/B1WKNL3CgVc/default.jpg&quot;);"></div>
+											<div class="ts-grad-swatch ts-img-swatch video" data-tooltip="Night Sky Stars" style="background-image: url(&quot;https://img.youtube.com/vi/X-HL-r5TOiU/default.jpg&quot;);"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="ts-oce-canvas-wrap" class="ts-card-row ts-mt-2">
+							<div class="ts-field ts-range-stack ts-card-col-full" data-tooltip="Gradient blob orbit speed"><label>Animation Speed</label>
+								<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-canvas-speed" min="0.01" max="0.3" step="0.01" value="0.1" data-unit="" style="--ts-range-val: 0.1; --ts-range-min: 0.01; --ts-range-max: 0.3; --ts-range-percent: 31.034482758620697%;"><span class="ts-range-val">0.1</span></div>
+							</div>
+							<div class="ts-field ts-range-stack ts-card-col-full" data-tooltip="Radial gradient blob radius"><label>Blob Size</label>
+								<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-canvas-blob-size" min="0.3" max="1.2" step="0.05" value="0.65" data-unit="" style="--ts-range-val: 0.65; --ts-range-min: 0.3; --ts-range-max: 1.2; --ts-range-percent: 38.88888888888889%;"><span class="ts-range-val">0.65</span></div>
+							</div>
+							<div class="ts-field ts-card-col-third"><label data-tooltip="Gradient blob 1 (accent-based)">Accent</label>
+								<div class="ts-color-row vertical">
+									<div class="ts-color-swatch">
+										<div class="ts-sw" id="ts-oce-sw-canvas-c1" style="background: rgb(255, 84, 10);"></div><input type="color" id="ts-oce-canvas-c1-pick" value="#ff540a">
+									</div><input type="text" class="ts-input-text mono" id="ts-oce-canvas-c1-hex" value="#ff540a" maxlength="9" placeholder="#ff540a">
+								</div>
+							</div>
+							<div class="ts-field ts-card-col-third"><label data-tooltip="Gradient blob 2 (dark variant)">Sec Color</label>
+								<div class="ts-color-row vertical">
+									<div class="ts-color-swatch">
+										<div class="ts-sw" id="ts-oce-sw-canvas-c2" style="background: rgb(18, 20, 28);"></div><input type="color" id="ts-oce-canvas-c2-pick" value="#12141c">
+									</div><input type="text" class="ts-input-text mono" id="ts-oce-canvas-c2-hex" value="#12141c" maxlength="9" placeholder="#12141c">
+								</div>
+							</div>
+							<div class="ts-field ts-card-col-third"><label data-tooltip="Canvas background fill (optional)">BG Color</label>
+								<div class="ts-color-row vertical">
+									<div class="ts-color-swatch">
+										<div class="ts-sw" id="ts-oce-sw-canvas-c3" style="background: rgb(12, 13, 18);"></div><input type="color" id="ts-oce-canvas-c3-pick" value="#0c0d12">
+									</div><input type="text" class="ts-input-text mono" id="ts-oce-canvas-c3-hex" value="#0c0d12" maxlength="9" placeholder="#0c0d12">
+								</div>
+							</div>
+							<div class="ts-field ts-card-col-full"><button type="button" class="ts-btn ts-btn--ghost ts-btn--full ts-mt-2" id="ts-oce-canvas-reset-colors"><i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i> Reset Colors</button></div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card ts-oce-active">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="grid-outline" role="img" class="md hydrated"></ion-icon>Line Grid</span></div>
+					<div class="ts-toggle-row" data-tooltip="CSS line grid overlay (ba-grid)"><span class="ts-toggle-label">Enable</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-line-grid"><span class="ts-toggle__knob"></span></label></div>
+					<div class="ts-card-rows">
+						<div class="ts-oce-conditional" data-requires="ts-oce-line-grid">
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="--ts-grid-size CSS variable"><label>Grid Size</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-grid-size" min="10" max="80" step="5" value="40" data-unit="px" style="--ts-range-val: 40; --ts-range-min: 10; --ts-range-max: 80; --ts-range-percent: 42.857142857142854%;"><span class="ts-range-val">40px</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="var(--ts-grid-line-opacity) Layer Opacity"><label>Grid Line Opacity</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-grid-line-opacity" min="0" max="100" step="1" value="40" data-unit="%" style="--ts-range-val: 40; --ts-range-min: 0; --ts-range-max: 100; --ts-range-percent: 40%;"><span class="ts-range-val">40%</span></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="apps-outline" role="img" class="md hydrated"></ion-icon>Dot Grid</span></div>
+					<div class="ts-toggle-row" data-tooltip="Animated dot grid overlay (grid-bg)"><span class="ts-toggle-label">Enable</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-dot-grid"><span class="ts-toggle__knob"></span></label></div>
+					<div class="ts-card-rows">
+						<div class="ts-oce-conditional ts-oce-hidden" data-requires="ts-oce-dot-grid">
+							<div class="ts-card-row">
+								<div class="ts-card-col-half">
+									<div class="ts-toggle-row" data-tooltip="Dots follow cursor parallax"><span class="ts-toggle-label">Mouse tracking</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-dot-interactive"><span class="ts-toggle__knob"></span></label></div>
+								</div>
+								<div class="ts-card-col-half">
+									<div class="ts-toggle-row" data-tooltip="Dot drift animation"><span class="ts-toggle-label">Animate</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-dot-anim"><span class="ts-toggle__knob"></span></label></div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="--ts-dot-size per dot"><label>Dot Size</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-dot-size" min="1" max="5" step="0.5" value="2" data-unit="px" style="--ts-range-val: 2; --ts-range-min: 1; --ts-range-max: 5; --ts-range-percent: 25%;"><span class="ts-range-val">2px</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="Inner dot layer scale multiplier"><label>Dot Scale</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-dot-scale" min="1" max="2" step="0.1" value="1" data-unit="x" style="--ts-range-val: 1; --ts-range-min: 1; --ts-range-max: 2; --ts-range-percent: 0%;"><span class="ts-range-val">1x</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field"><label data-tooltip="--ts-dot-color override">Dot Color</label>
+										<div class="ts-color-row">
+											<div class="ts-color-swatch">
+												<div class="ts-sw" id="ts-oce-sw-dot-color" style="background: rgb(255, 84, 10);"></div><input type="color" id="ts-oce-dot-color-pick" value="#ff540a">
+											</div><input type="text" class="ts-input-text mono" id="ts-oce-dot-color-hex" value="#ff540a" maxlength="9" placeholder="#ff540a">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="Dot color transparency"><label>Dot Alpha</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-dot-alpha" min="0" max="1" step="0.05" value="0.8" data-unit="%" style="--ts-range-val: 0.8; --ts-range-min: 0; --ts-range-max: 1; --ts-range-percent: 80%;"><span class="ts-range-val">80%</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="Gap between dot points"><label>Dot Gap</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-dot-gap" min="30" max="200" step="10" value="100" data-unit="px" style="--ts-range-val: 100; --ts-range-min: 30; --ts-range-max: 200; --ts-range-percent: 41.17647058823529%;"><span class="ts-range-val">100px</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row ts-oce-disabled">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="Dot drift period (higher = slower)"><label>Animation Duration</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-dot-speed" min="10" max="100" step="5" value="50" data-unit="s" style="--ts-range-val: 50; --ts-range-min: 10; --ts-range-max: 100; --ts-range-percent: 44.44444444444444%;"><span class="ts-range-val">50s</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row ts-oce-disabled">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="Higher = more mouse response"><label>Mouse Sensitivity</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-dot-sensitivity" min="10" max="100" step="5" value="70" data-unit="" style="--ts-range-val: 70; --ts-range-min: 10; --ts-range-max: 100; --ts-range-percent: 66.66666666666666%;"><span class="ts-range-val">70</span></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card ts-oce-active">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="pulse-outline" role="img" class="md hydrated"></ion-icon>Grain / Noise</span></div>
+					<div class="ts-toggle-row" data-tooltip="SVG noise texture overlay"><span class="ts-toggle-label">Enable</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-grain"><span class="ts-toggle__knob"></span></label></div>
+					<div class="ts-card-rows">
+						<div class="ts-oce-conditional" data-requires="ts-oce-grain">
+							<div class="ts-card-row">
+								<div class="ts-card-col-half">
+									<div class="ts-field"><label data-tooltip="Noise animation style">Animation</label>
+										<div class="ts-ui-select ts-ui-select--no-search" data-ts-ui-select-search="false"><select class="ts-ui-select__native" id="ts-oce-grain-anim" tabindex="-1" aria-hidden="true">
+												<option value="flickered">Flickered</option>
+												<option value="animated">Drift</option>
+												<option value="static">Static</option>
+												<option value="perf">Performance</option>
+											</select><button type="button" class="ts-ui-select__trigger" aria-haspopup="listbox" aria-expanded="false"><span class="ts-ui-select__value"><span class="ts-ui-select__value-text">Flickered</span></span><span class="ts-ui-select__chevron" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-chevron-down" data-icon-injected="1"><i class="fa-solid fa-chevron-down ts-icon" aria-hidden="true"></i></span></span></button>
+											<div class="ts-ui-select__dropdown" hidden="" role="listbox">
+												<ul class="ts-ui-select__list" role="presentation">
+													<li class="ts-ui-select__option ts-ui-select__option--selected" role="option" data-value="flickered" data-index="0"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Flickered</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="animated" data-index="1"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Drift</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="static" data-index="2"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Static</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="perf" data-index="3"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Performance</span></span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="ts-card-col-half">
+									<div class="ts-field"><label data-tooltip="Quick intensity preset">Preset</label>
+										<div class="ts-ui-select ts-ui-select--no-search" data-ts-ui-select-search="false"><select class="ts-ui-select__native" id="ts-oce-grain-preset" tabindex="-1" aria-hidden="true">
+												<option value="">Custom</option>
+												<option value="subtle">Subtle</option>
+												<option value="medium">Medium</option>
+												<option value="strong">Strong</option>
+											</select><button type="button" class="ts-ui-select__trigger" aria-haspopup="listbox" aria-expanded="false"><span class="ts-ui-select__value"><span class="ts-ui-select__value-text">Custom</span></span><span class="ts-ui-select__chevron" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-chevron-down" data-icon-injected="1"><i class="fa-solid fa-chevron-down ts-icon" aria-hidden="true"></i></span></span></button>
+											<div class="ts-ui-select__dropdown" hidden="" role="listbox">
+												<ul class="ts-ui-select__list" role="presentation">
+													<li class="ts-ui-select__option ts-ui-select__option--selected" role="option" data-value="" data-index="0"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Custom</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="subtle" data-index="1"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Subtle</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="medium" data-index="2"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Medium</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="strong" data-index="3"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Strong</span></span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="SVG noise layer opacity"><label>Opacity</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-grain-opacity" min="0" max="1" step="0.05" value="0.6" data-unit="" style="--ts-range-val: 0.6; --ts-range-min: 0; --ts-range-max: 1; --ts-range-percent: 60%;"><span class="ts-range-val">0.6</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-half">
+									<div class="ts-field ts-range-stack" data-tooltip="Noise texture scale"><label>Scale</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-grain-scale" min="0.5" max="3" step="0.1" value="1" data-unit="" style="--ts-range-val: 1; --ts-range-min: 0.5; --ts-range-max: 3; --ts-range-percent: 20%;"><span class="ts-range-val">1</span></div>
+									</div>
+								</div>
+								<div class="ts-card-col-half">
+									<div class="ts-field ts-range-stack" data-tooltip="SVG feTurbulence base frequency"><label>Freq</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-grain-frequency" min="0.2" max="1.5" step="0.05" value="0.65" data-unit="" style="--ts-range-val: 0.65; --ts-range-min: 0.2; --ts-range-max: 1.5; --ts-range-percent: 34.61538461538461%;"><span class="ts-range-val">0.65</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field"><label data-tooltip="CSS mix-blend-mode for grain layer">Blend</label>
+										<div class="ts-ui-select ts-ui-select--no-search" data-ts-ui-select-search="false"><select class="ts-ui-select__native" id="ts-oce-grain-blend" tabindex="-1" aria-hidden="true">
+												<option value="soft-light">Soft Light</option>
+												<option value="overlay">Overlay</option>
+												<option value="multiply">Multiply</option>
+												<option value="screen">Screen</option>
+												<option value="normal">Normal</option>
+											</select><button type="button" class="ts-ui-select__trigger" aria-haspopup="listbox" aria-expanded="false"><span class="ts-ui-select__value"><span class="ts-ui-select__value-text">Soft Light</span></span><span class="ts-ui-select__chevron" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-chevron-down" data-icon-injected="1"><i class="fa-solid fa-chevron-down ts-icon" aria-hidden="true"></i></span></span></button>
+											<div class="ts-ui-select__dropdown" hidden="" role="listbox">
+												<ul class="ts-ui-select__list" role="presentation">
+													<li class="ts-ui-select__option ts-ui-select__option--selected" role="option" data-value="soft-light" data-index="0"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Soft Light</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="overlay" data-index="1"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Overlay</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="multiply" data-index="2"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Multiply</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="screen" data-index="3"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Screen</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="normal" data-index="4"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Normal</span></span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card ts-oce-active">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="color-filter-outline" role="img" class="md hydrated"></ion-icon>Color Overlay</span></div>
+					<div class="ts-toggle-row" data-tooltip="Color overlay div"><span class="ts-toggle-label">Enable</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-color-overlay"><span class="ts-toggle__knob"></span></label></div>
+					<div class="ts-card-rows">
+						<div class="ts-oce-conditional" data-requires="ts-oce-color-overlay">
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="Color overlay mix percentage"><label>Opacity</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-overlay-opacity" min="0" max="1" step="0.05" value="0.8" data-unit="" style="--ts-range-val: 0.8; --ts-range-min: 0; --ts-range-max: 1; --ts-range-percent: 80%;"><span class="ts-range-val">0.8</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field"><label data-tooltip="CSS mix-blend-mode for overlay">Blend Mode</label>
+										<div class="ts-ui-select ts-ui-select--no-search" data-ts-ui-select-search="false"><select class="ts-ui-select__native" id="ts-oce-blend-mode" tabindex="-1" aria-hidden="true">
+												<option value="normal">Normal</option>
+												<option value="multiply">Multiply</option>
+												<option value="overlay">Overlay</option>
+												<option value="soft-light">Soft Light</option>
+												<option value="hard-light">Hard Light</option>
+												<option value="screen">Screen</option>
+											</select><button type="button" class="ts-ui-select__trigger" aria-haspopup="listbox" aria-expanded="false"><span class="ts-ui-select__value"><span class="ts-ui-select__value-text">Normal</span></span><span class="ts-ui-select__chevron" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-chevron-down" data-icon-injected="1"><i class="fa-solid fa-chevron-down ts-icon" aria-hidden="true"></i></span></span></button>
+											<div class="ts-ui-select__dropdown" hidden="" role="listbox">
+												<ul class="ts-ui-select__list" role="presentation">
+													<li class="ts-ui-select__option ts-ui-select__option--selected" role="option" data-value="normal" data-index="0"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Normal</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="multiply" data-index="1"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Multiply</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="overlay" data-index="2"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Overlay</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="soft-light" data-index="3"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Soft Light</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="hard-light" data-index="4"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Hard Light</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="screen" data-index="5"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Screen</span></span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row ts-oce-disabled">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="CSS backdrop-filter blur radius"><label>Backdrop Blur</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-backdrop-blur" min="0" max="20" step="1" value="0" data-unit="px" style="--ts-range-val: 0; --ts-range-min: 0; --ts-range-max: 20; --ts-range-percent: 0%;"><span class="ts-range-val">0px</span></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card ts-oce-disabled">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="ellipsis-horizontal-outline" role="img" class="md hydrated"></ion-icon>Pattern Overlay</span></div>
+					<div class="ts-toggle-row" data-tooltip="CSS background-image pattern overlay"><span class="ts-toggle-label">Enable</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-pattern-enabled"><span class="ts-toggle__knob"></span></label></div>
+					<div class="ts-card-rows">
+						<div class="ts-oce-conditional ts-oce-hidden" data-requires="ts-oce-pattern-enabled">
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field"><label data-tooltip="Pattern style (ts-pattern-* classes)">Type</label>
+										<div class="ts-ui-select ts-ui-select--no-search" data-ts-ui-select-search="false"><select class="ts-ui-select__native" id="ts-oce-pattern-type" tabindex="-1" aria-hidden="true">
+												<option value="dots">Dots</option>
+												<option value="dots-dense">Dots Dense</option>
+												<option value="grid">Grid</option>
+												<option value="grid-bold">Grid Bold</option>
+												<option value="diagonal-stripes">Diagonal Stripes</option>
+												<option value="circles-grid">Circles Grid</option>
+												<option value="cross">Cross</option>
+												<option value="checkerboard">Checkerboard</option>
+												<option value="zigzag">Zigzag</option>
+											</select><button type="button" class="ts-ui-select__trigger" aria-haspopup="listbox" aria-expanded="false"><span class="ts-ui-select__value"><span class="ts-ui-select__value-text">Dots</span></span><span class="ts-ui-select__chevron" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-chevron-down" data-icon-injected="1"><i class="fa-solid fa-chevron-down ts-icon" aria-hidden="true"></i></span></span></button>
+											<div class="ts-ui-select__dropdown" hidden="" role="listbox">
+												<ul class="ts-ui-select__list" role="presentation">
+													<li class="ts-ui-select__option ts-ui-select__option--selected" role="option" data-value="dots" data-index="0"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Dots</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="dots-dense" data-index="1"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Dots Dense</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="grid" data-index="2"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Grid</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="grid-bold" data-index="3"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Grid Bold</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="diagonal-stripes" data-index="4"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Diagonal Stripes</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="circles-grid" data-index="5"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Circles Grid</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="cross" data-index="6"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Cross</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="checkerboard" data-index="7"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Checkerboard</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="zigzag" data-index="8"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Zigzag</span></span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="Pattern scale multiplier (min 1x)"><label>Scale</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-pattern-scale" min="1" max="3" step="0.25" value="1" data-unit="x" style="--ts-range-val: 1; --ts-range-min: 1; --ts-range-max: 3; --ts-range-percent: 0%;"><span class="ts-range-val">1x</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="Pattern layer opacity (0-100)"><label>Opacity</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-pattern-opacity" min="0" max="100" step="5" value="40" data-unit="%" style="--ts-range-val: 40; --ts-range-min: 0; --ts-range-max: 100; --ts-range-percent: 40%;"><span class="ts-range-val">40%</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field"><label data-tooltip="--ts-pattern-color (accent default)">Pattern Color</label>
+										<div class="ts-color-row">
+											<div class="ts-color-swatch">
+												<div class="ts-sw" id="ts-oce-sw-pattern-color" style="background: rgb(255, 84, 10);"></div><input type="color" id="ts-oce-pattern-color-pick" value="#ff540a">
+											</div><input type="text" class="ts-input-text mono" id="ts-oce-pattern-color-hex" value="#ff540a" maxlength="9" placeholder="#ff540a">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ts-tab-pane" data-pane="theme">
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion open absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="moon-outline" role="img" class="md hydrated"></ion-icon>Theme Mode</span></div>
+					<div class="ts-card-rows">
+						<div class="ts-card-row">
+							<div class="ts-card-col-half">
+								<div class="ts-field"><button type="button" class="ts-btn ts-btn--secondary ts-btn--sm" id="" data-ts-oce-theme="dark"><ion-icon name="moon" role="img" class="md hydrated"></ion-icon> Dark</button></div>
+							</div>
+							<div class="ts-card-col-half">
+								<div class="ts-field"><button type="button" class="ts-btn ts-btn--outline ts-btn--sm" id="" data-ts-oce-theme="light"><ion-icon name="sunny" role="img" class="md hydrated"></ion-icon> Light</button></div>
+							</div>
+							<div class="ts-card-col-full">
+								<div class="ts-toggle-row" data-tooltip="Match OS prefers-color-scheme"><span class="ts-toggle-label">Auto-detect from system</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-auto-theme"><span class="ts-toggle__knob"></span></label></div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field"><button type="button" class="ts-btn ts-btn--ghost ts-btn--full" id="" data-ts-oce-reset-theme=""><i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i> Reset to Default</button></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="options-outline" role="img" class="md hydrated"></ion-icon>Global Options</span></div>
+					<div class="ts-card-rows">
+						<div class="ts-card-row">
+							<div class="ts-card-col-half">
+								<div class="ts-toggle-row" data-tooltip="Lenis smooth scroll"><span class="ts-toggle-label">Smooth</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-smooth-scroll"><span class="ts-toggle__knob"></span></label></div>
+							</div>
+							<div class="ts-card-col-half">
+								<div class="ts-toggle-row" data-tooltip="Enable/disable tooltips sitewide"><span class="ts-toggle-label">Tooltips</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-tooltips"><span class="ts-toggle__knob"></span></label></div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-half">
+								<div class="ts-toggle-row" data-tooltip="Backdrop blur on cards/panels"><span class="ts-toggle-label">Glass</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-glass-morph"><span class="ts-toggle__knob"></span></label></div>
+							</div>
+							<div class="ts-card-col-half">
+								<div class="ts-toggle-row" data-tooltip="Disable all animations"><span class="ts-toggle-label">Low Motion</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-reduce-motion"><span class="ts-toggle__knob"></span></label></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="finger-print-outline" role="img" class="md hydrated"></ion-icon>Custom Cursor</span></div>
+					<div class="ts-toggle-row" data-tooltip="Toggle custom cursor"><span class="ts-toggle-label">Enable Cursor</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-cursor-enabled"><span class="ts-toggle__knob"></span></label></div>
+					<div class="ts-card-rows">
+						<div class="ts-oce-conditional ts-oce-hidden" data-requires="ts-oce-cursor-enabled">
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field"><label data-tooltip="Simple dot or tooltip-label cursor">Mode</label>
+										<div class="ts-ui-select ts-ui-select--no-search" data-ts-ui-select-search="false"><select class="ts-ui-select__native" id="ts-oce-cursor-mode" tabindex="-1" aria-hidden="true">
+												<option value="simple">Simple</option>
+												<option value="tooltip">Tooltip</option>
+											</select><button type="button" class="ts-ui-select__trigger" aria-haspopup="listbox" aria-expanded="false"><span class="ts-ui-select__value"><span class="ts-ui-select__value-text">Simple</span></span><span class="ts-ui-select__chevron" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-chevron-down" data-icon-injected="1"><i class="fa-solid fa-chevron-down ts-icon" aria-hidden="true"></i></span></span></button>
+											<div class="ts-ui-select__dropdown" hidden="" role="listbox">
+												<ul class="ts-ui-select__list" role="presentation">
+													<li class="ts-ui-select__option ts-ui-select__option--selected" role="option" data-value="simple" data-index="0"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Simple</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="tooltip" data-index="1"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Tooltip</span></span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-half">
+									<div class="ts-field ts-range-stack" data-tooltip="--ts-cursor-size CSS variable"><label>Size</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-cursor-size" min="10" max="60" step="2" value="20" data-unit="px" style="--ts-range-val: 20; --ts-range-min: 10; --ts-range-max: 60; --ts-range-percent: 20%;"><span class="ts-range-val">20px</span></div>
+									</div>
+								</div>
+								<div class="ts-card-col-half">
+									<div class="ts-field ts-range-stack" data-tooltip="Scale factor on hover"><label>Grow</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-cursor-grow" min="1" max="5" step="0.5" value="3" data-unit="" style="--ts-range-val: 3; --ts-range-min: 1; --ts-range-max: 5; --ts-range-percent: 50%;"><span class="ts-range-val">3</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-toggle-row" data-tooltip="Show trailing follower"><span class="ts-toggle-label">Follower Ring</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-cursor-follower"><span class="ts-toggle__knob"></span></label></div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="Lerp factor — lower = more lag"><label>Easing</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-cursor-easing" min="0.1" max="1" step="0.05" value="0.42" data-unit="" style="--ts-range-val: 0.4; --ts-range-min: 0.1; --ts-range-max: 1; --ts-range-percent: 33.333333333333336%;"><span class="ts-range-val">0.4</span></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="square-outline" role="img" class="md hydrated"></ion-icon>Border Radius</span></div>
+					<div class="ts-card-rows">
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field ts-range-stack" data-tooltip="--ts-radius-base global token"><label>Radius</label>
+									<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-radius" min="0" max="50" step="1" value="10" data-unit="px" style="--ts-range-val: 10; --ts-range-min: 0; --ts-range-max: 50; --ts-range-percent: 20%;"><span class="ts-range-val">10px</span></div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-third">
+								<div class="ts-field"><button type="button" class="ts-btn ts-btn--ghost ts-btn--full" id="" data-ts-oce-radius-preset="0"> Sharp</button></div>
+							</div>
+							<div class="ts-card-col-third">
+								<div class="ts-field"><button type="button" class="ts-btn ts-btn--ghost ts-btn--full" id="" data-ts-oce-radius-preset="6"> Soft</button></div>
+							</div>
+							<div class="ts-card-col-third">
+								<div class="ts-field"><button type="button" class="ts-btn ts-btn--ghost ts-btn--full" id="" data-ts-oce-radius-preset="16"> Round</button></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="radio-button-on-outline" role="img" class="md hydrated"></ion-icon>Button Controls</span></div>
+					<div class="ts-card-rows">
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field ts-range-stack" data-tooltip="--ts-btn-base height unit"><label>Button Size</label>
+									<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-btn-base" min="30" max="56" step="1" value="42" data-unit="" style="--ts-range-val: 42; --ts-range-min: 30; --ts-range-max: 56; --ts-range-percent: 46.15384615384615%;"><span class="ts-range-val">42</span></div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field ts-range-stack" data-tooltip="Button-specific border-radius"><label>Button Radius</label>
+									<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-btn-radius" min="0" max="30" step="1" value="8" data-unit="px" style="--ts-range-val: 8; --ts-range-min: 0; --ts-range-max: 30; --ts-range-percent: 26.666666666666668%;"><span class="ts-range-val">8px</span></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="resize-outline" role="img" class="md hydrated"></ion-icon>Global Spacing</span></div>
+					<div class="ts-card-rows">
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field ts-range-stack" data-tooltip="--ts-sp-base multiplier root"><label>Base Spacing</label>
+									<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-spacing-base" min="2" max="8" step="1" value="4" data-unit="px" style="--ts-range-val: 4; --ts-range-min: 2; --ts-range-max: 8; --ts-range-percent: 33.33333333333333%;"><span class="ts-range-val">4px</span></div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field ts-range-stack" data-tooltip="Multiplier for --ts-fs-base"><label>Type Scale</label>
+									<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-type-scale" min="0.8" max="1.3" step="0.05" value="1" data-unit="" style="--ts-range-val: 1; --ts-range-min: 0.8; --ts-range-max: 1.3; --ts-range-percent: 39.99999999999999%;"><span class="ts-range-val">1</span></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="text-outline" role="img" class="md hydrated"></ion-icon>Typography</span></div>
+					<div class="ts-card-rows">
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field"><label data-tooltip="--ts-font-display headings &amp; hero">Display Font</label>
+									<div class="ts-ui-select ts-ui-select--font-preview" data-ts-ui-select-placeholder="Filter fonts…"><select class="ts-ui-select__native" id="ts-oce-font-display" tabindex="-1" aria-hidden="true">
+											<option value="Bebas Neue">Bebas Neue</option>
+											<option value="Anton">Anton</option>
+											<option value="Barlow Condensed">Barlow Condensed</option>
+											<option value="Oswald">Oswald</option>
+											<option value="Black Han Sans">Black Han Sans</option>
+											<option value="Michroma">Michroma</option>
+											<option value="Syne">Syne</option>
+											<option value="Archivo Black">Archivo Black</option>
+											<option value="Russo One">Russo One</option>
+											<option value="Teko">Teko</option>
+											<option value="Big Shoulders Display">Big Shoulders Display</option>
+											<option value="Turret Road">Turret Road</option>
+											<option value="Chakra Petch">Chakra Petch</option>
+											<option value="Space Grotesk">Space Grotesk</option>
+											<option value="Rajdhani">Rajdhani</option>
+											<option value="Play">Play</option>
+											<option value="Pirata One">Pirata One</option>
+										</select><button type="button" class="ts-ui-select__trigger" aria-haspopup="listbox" aria-expanded="false"><span class="ts-ui-select__value"><span class="ts-ui-select__value-text">Bebas Neue</span></span><span class="ts-ui-select__chevron" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-chevron-down" data-icon-injected="1"><i class="fa-solid fa-chevron-down ts-icon" aria-hidden="true"></i></span></span></button>
+										<div class="ts-ui-select__dropdown" hidden="" role="listbox">
+											<div class="ts-ui-select__search"><span class="ts-ui-select__search-icon" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-magnifying-glass" data-icon-injected="1"><i class="fa-solid fa-magnifying-glass ts-icon" aria-hidden="true"></i></span></span><input type="search" class="ts-ui-select__filter" placeholder="Filter fonts…" aria-label="Filter options"></div>
+											<ul class="ts-ui-select__list" role="presentation">
+												<li class="ts-ui-select__option ts-ui-select__option--selected" role="option" data-value="Bebas Neue" data-index="0" style="font-family: &quot;Bebas Neue&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Bebas Neue</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Anton" data-index="1" style="font-family: Anton, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Anton</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Barlow Condensed" data-index="2" style="font-family: &quot;Barlow Condensed&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Barlow Condensed</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Oswald" data-index="3" style="font-family: Oswald, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Oswald</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Black Han Sans" data-index="4" style="font-family: &quot;Black Han Sans&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Black Han Sans</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Michroma" data-index="5" style="font-family: Michroma, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Michroma</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Syne" data-index="6" style="font-family: Syne, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Syne</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Archivo Black" data-index="7" style="font-family: &quot;Archivo Black&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Archivo Black</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Russo One" data-index="8" style="font-family: &quot;Russo One&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Russo One</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Teko" data-index="9" style="font-family: Teko, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Teko</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Big Shoulders Display" data-index="10" style="font-family: &quot;Big Shoulders Display&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Big Shoulders Display</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Turret Road" data-index="11" style="font-family: &quot;Turret Road&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Turret Road</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Chakra Petch" data-index="12" style="font-family: &quot;Chakra Petch&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Chakra Petch</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Space Grotesk" data-index="13" style="font-family: &quot;Space Grotesk&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Space Grotesk</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Rajdhani" data-index="14" style="font-family: Rajdhani, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Rajdhani</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Play" data-index="15" style="font-family: Play, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Play</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Pirata One" data-index="16" style="font-family: &quot;Pirata One&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Pirata One</span></span></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field"><label data-tooltip="--ts-font-body paragraphs &amp; UI">Body Font</label>
+									<div class="ts-ui-select ts-ui-select--font-preview" data-ts-ui-select-placeholder="Filter fonts…"><select class="ts-ui-select__native" id="ts-oce-font-body" tabindex="-1" aria-hidden="true">
+											<option value="Space Grotesk">Space Grotesk</option>
+											<option value="Inter">Inter</option>
+											<option value="DM Sans">DM Sans</option>
+											<option value="Poppins">Poppins</option>
+											<option value="Roboto">Roboto</option>
+											<option value="Source Sans 3">Source Sans 3</option>
+											<option value="Nunito">Nunito</option>
+											<option value="Work Sans">Work Sans</option>
+										</select><button type="button" class="ts-ui-select__trigger" aria-haspopup="listbox" aria-expanded="false"><span class="ts-ui-select__value"><span class="ts-ui-select__value-text">Space Grotesk</span></span><span class="ts-ui-select__chevron" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-chevron-down" data-icon-injected="1"><i class="fa-solid fa-chevron-down ts-icon" aria-hidden="true"></i></span></span></button>
+										<div class="ts-ui-select__dropdown" hidden="" role="listbox">
+											<div class="ts-ui-select__search"><span class="ts-ui-select__search-icon" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-magnifying-glass" data-icon-injected="1"><i class="fa-solid fa-magnifying-glass ts-icon" aria-hidden="true"></i></span></span><input type="search" class="ts-ui-select__filter" placeholder="Filter fonts…" aria-label="Filter options"></div>
+											<ul class="ts-ui-select__list" role="presentation">
+												<li class="ts-ui-select__option ts-ui-select__option--selected" role="option" data-value="Space Grotesk" data-index="0" style="font-family: &quot;Space Grotesk&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Space Grotesk</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Inter" data-index="1" style="font-family: Inter, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Inter</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="DM Sans" data-index="2" style="font-family: &quot;DM Sans&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">DM Sans</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Poppins" data-index="3" style="font-family: Poppins, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Poppins</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Roboto" data-index="4" style="font-family: Roboto, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Roboto</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Source Sans 3" data-index="5" style="font-family: &quot;Source Sans 3&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Source Sans 3</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Nunito" data-index="6" style="font-family: Nunito, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Nunito</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="Work Sans" data-index="7" style="font-family: &quot;Work Sans&quot;, system-ui, sans-serif;"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Work Sans</span></span></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ts-tab-pane" data-pane="colors">
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion open absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="color-palette-outline" role="img" class="md hydrated"></ion-icon>Global Colors</span></div>
+					<div class="ts-card-rows">
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field"><label data-tooltip="--ts-accent-h/s/l base hue">Accent Color</label>
+									<div class="ts-color-row">
+										<div class="ts-color-swatch">
+											<div class="ts-sw" id="ts-sw-accent" style="background: rgb(255, 84, 10);"></div><input type="color" id="ts-input-accent-color" value="#ff540a">
+										</div><input type="text" class="ts-input-text mono" id="ts-oce-accent" value="#ff540a" maxlength="9" placeholder="#ff540a">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-grad-swatches">
+									<div class="ts-grad-swatch" data-ts-oce-preset="#ff540a" style="background: rgb(255, 84, 10);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#00e5ff" style="background: rgb(0, 229, 255);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#2efc86" style="background: rgb(46, 252, 134);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#a855f7" style="background: rgb(168, 85, 247);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#f7931a" style="background: rgb(247, 147, 26);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#ec4899" style="background: rgb(236, 72, 153);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#7c3aed" style="background: rgb(124, 58, 237);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#3b82f6" style="background: rgb(59, 130, 246);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#10b981" style="background: rgb(16, 185, 129);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#f97316" style="background: rgb(249, 115, 22);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#f43f5e" style="background: rgb(244, 63, 94);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#ef4444" style="background: rgb(239, 68, 68);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#06b6d4" style="background: rgb(6, 182, 212);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#84cc16" style="background: rgb(132, 204, 22);"></div>
+									<div class="ts-grad-swatch" data-ts-oce-preset="#64748b" style="background: rgb(100, 116, 139);"></div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field"><button type="button" class="ts-btn ts-btn--secondary ts-btn--full" id="" data-ts-oce-random-color=""><ion-icon name="shuffle" role="img" class="md hydrated"></ion-icon> Random Color</button></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="color-wand-outline" role="img" class="md hydrated"></ion-icon>Surface Colors</span></div>
+					<div class="ts-card-rows">
+						<div class="ts-card-row">
+							<div class="ts-card-col-half">
+								<div class="ts-field">
+									<div class="ts-field"><label>bg-body</label>
+										<div class="ts-color-row">
+											<div class="ts-color-swatch">
+												<div class="ts-sw" id="ts-oce-sw-bg-body" style="background: rgb(12, 13, 15);"></div><input type="color" class="ts-oce-surface-pick" data-surface="--ts-bg-body">
+											</div><input type="text" class="ts-input-text mono ts-oce-surface-hex" data-surface="--ts-bg-body" maxlength="9">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-col-half">
+								<div class="ts-field">
+									<div class="ts-field"><label>bg-0</label>
+										<div class="ts-color-row">
+											<div class="ts-color-swatch">
+												<div class="ts-sw" id="ts-oce-sw-bg-0" style="background: rgb(17, 18, 20);"></div><input type="color" class="ts-oce-surface-pick" data-surface="--ts-bg-0">
+											</div><input type="text" class="ts-input-text mono ts-oce-surface-hex" data-surface="--ts-bg-0" maxlength="9">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-half">
+								<div class="ts-field">
+									<div class="ts-field"><label>bg-1</label>
+										<div class="ts-color-row">
+											<div class="ts-color-swatch">
+												<div class="ts-sw" id="ts-oce-sw-bg-1" style="background: rgb(23, 24, 27);"></div><input type="color" class="ts-oce-surface-pick" data-surface="--ts-bg-1">
+											</div><input type="text" class="ts-input-text mono ts-oce-surface-hex" data-surface="--ts-bg-1" maxlength="9">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-col-half">
+								<div class="ts-field">
+									<div class="ts-field"><label>bg-2</label>
+										<div class="ts-color-row">
+											<div class="ts-color-swatch">
+												<div class="ts-sw" id="ts-oce-sw-bg-2" style="background: rgb(31, 32, 36);"></div><input type="color" class="ts-oce-surface-pick" data-surface="--ts-bg-2">
+											</div><input type="text" class="ts-input-text mono ts-oce-surface-hex" data-surface="--ts-bg-2" maxlength="9">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-half">
+								<div class="ts-field">
+									<div class="ts-field"><label>bg-3</label>
+										<div class="ts-color-row">
+											<div class="ts-color-swatch">
+												<div class="ts-sw" id="ts-oce-sw-bg-3" style="background: rgb(40, 41, 46);"></div><input type="color" class="ts-oce-surface-pick" data-surface="--ts-bg-3">
+											</div><input type="text" class="ts-input-text mono ts-oce-surface-hex" data-surface="--ts-bg-3" maxlength="9">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-col-half">
+								<div class="ts-field">
+									<div class="ts-field"><label>bg-4</label>
+										<div class="ts-color-row">
+											<div class="ts-color-swatch">
+												<div class="ts-sw" id="ts-oce-sw-bg-4" style="background: rgb(50, 52, 57);"></div><input type="color" class="ts-oce-surface-pick" data-surface="--ts-bg-4">
+											</div><input type="text" class="ts-input-text mono ts-oce-surface-hex" data-surface="--ts-bg-4" maxlength="9">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field">
+									<div class="ts-field"><label>bg-5</label>
+										<div class="ts-color-row">
+											<div class="ts-color-swatch">
+												<div class="ts-sw" id="ts-oce-sw-bg-5" style="background: rgb(62, 64, 69);"></div><input type="color" class="ts-oce-surface-pick" data-surface="--ts-bg-5">
+											</div><input type="text" class="ts-input-text mono ts-oce-surface-hex" data-surface="--ts-bg-5" maxlength="9">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field"><button type="button" class="ts-btn ts-btn--ghost ts-btn--full" id="ts-oce-reset-surface-colors"><i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i> Reset Colors</button></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="layers-outline" role="img" class="md hydrated"></ion-icon>Surface System</span></div>
+					<div class="ts-card-rows">
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field ts-range-stack" data-tooltip="Text + surface luminance spread"><label>Surface Contrast</label>
+									<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-surface-contrast" min="0" max="100" step="1" value="35" data-unit="%" style="--ts-range-val: 35; --ts-range-min: 0; --ts-range-max: 100; --ts-range-percent: 35%;"><span class="ts-range-val">35%</span></div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field"><label data-tooltip="Curated surface color ramps">Surface Presets</label>
+									<div class="ts-ui-select ts-ui-select--no-search" data-ts-ui-select-search="false"><select class="ts-ui-select__native" id="ts-oce-surface-preset" tabindex="-1" aria-hidden="true">
+											<option value="">— select —</option>
+											<option value="dark-neutral-cool-v1">Classic · V1 Neutral Cool</option>
+											<option value="dark-warm-slate-v2">Classic · V2 Warm Slate</option>
+											<option value="dark-blue-tinted-v3">Classic · V3 Blue-Tinted Professional</option>
+											<option value="dark-practical-neutral-v1">Practical · Neutral with proper steps (recommended)</option>
+											<option value="dark-practical-cool-v2">Practical · Slightly cool</option>
+										</select><button type="button" class="ts-ui-select__trigger" aria-haspopup="listbox" aria-expanded="false"><span class="ts-ui-select__value"><span class="ts-ui-select__value-text">— select —</span></span><span class="ts-ui-select__chevron" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-chevron-down" data-icon-injected="1"><i class="fa-solid fa-chevron-down ts-icon" aria-hidden="true"></i></span></span></button>
+										<div class="ts-ui-select__dropdown" hidden="" role="listbox">
+											<ul class="ts-ui-select__list" role="presentation">
+												<li class="ts-ui-select__option ts-ui-select__option--selected" role="option" data-value="" data-index="0"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">— select —</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="dark-neutral-cool-v1" data-index="1"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Classic · V1 Neutral Cool</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="dark-warm-slate-v2" data-index="2"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Classic · V2 Warm Slate</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="dark-blue-tinted-v3" data-index="3"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Classic · V3 Blue-Tinted Professional</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="dark-practical-neutral-v1" data-index="4"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Practical · Neutral with proper steps (recommended)</span></span></li>
+												<li class="ts-ui-select__option" role="option" data-value="dark-practical-cool-v2" data-index="5"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Practical · Slightly cool</span></span></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-field"><button type="button" class="ts-btn ts-btn--ghost ts-btn--full" id="ts-oce-reset-surfaces"><ion-icon name="refresh" role="img" class="md hydrated"></ion-icon> Reset Surface Presets</button></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="download-outline" role="img" class="md hydrated"></ion-icon>Surface Token Export</span></div>
+					<div class="ts-card-rows">
+						<div class="ts-card-row">
+							<div class="ts-card-col-full">
+								<div class="ts-toggle-row" data-tooltip="Add resolved values alongside token names"><span class="ts-toggle-label">Include computed :root snapshot</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-export-computed"><span class="ts-toggle__knob"></span></label></div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-half">
+								<div class="ts-field"><button type="button" class="ts-btn ts-btn--secondary ts-btn--full" id="ts-oce-export-refresh"><ion-icon name="refresh" role="img" class="md hydrated"></ion-icon> Refresh</button></div>
+							</div>
+							<div class="ts-card-col-half">
+								<div class="ts-field"><button type="button" class="ts-btn ts-btn--secondary ts-btn--full" id="ts-oce-export-copy"><ion-icon name="copy" role="img" class="md hydrated"></ion-icon> Copy</button></div>
+							</div>
+						</div>
+						<div class="ts-card-row">
+							<div class="ts-card-col-full"><textarea id="ts-oce-export-area" class="ts-input-text" rows="8" readonly="" spellcheck="false" style="width: 100%; min-height: 10rem; font-size: 11px; line-height: 1.4; font-family: var(--ts-font-mono); resize: vertical;"></textarea></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ts-tab-pane" data-pane="preloader">
+				<div class="ts-card">
+					<div class="ts-card-header ts-accordion open absolute ts-ui-accordion"><span class="ts-card-title"><ion-icon name="hourglass-outline" role="img" class="md hydrated"></ion-icon>Preloader</span></div>
+					<div class="ts-toggle-row" data-tooltip="Lock preloader visible for editing"><span class="ts-toggle-label">Preview Preloader</span><label class="ts-toggle"><input type="checkbox" id="ts-oce-preloader-show"><span class="ts-toggle__knob"></span></label></div>
+					<div class="ts-card-rows">
+						<div class="ts-oce-conditional ts-oce-hidden" data-requires="ts-oce-preloader-show">
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field"><label data-tooltip="Preloader layout variant">Preset</label>
+										<div class="ts-ui-select ts-ui-select--no-search" data-ts-ui-select-search="false"><select class="ts-ui-select__native" id="ts-oce-preloader-preset" tabindex="-1" aria-hidden="true">
+												<option value="brand-box">Brand Box</option>
+												<option value="minimal-bar">Minimal Bar</option>
+												<option value="spinner">Spinner</option>
+												<option value="text-only">Text Only</option>
+											</select><button type="button" class="ts-ui-select__trigger" aria-haspopup="listbox" aria-expanded="false"><span class="ts-ui-select__value"><span class="ts-ui-select__value-text">Brand Box</span></span><span class="ts-ui-select__chevron" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-chevron-down" data-icon-injected="1"><i class="fa-solid fa-chevron-down ts-icon" aria-hidden="true"></i></span></span></button>
+											<div class="ts-ui-select__dropdown" hidden="" role="listbox">
+												<ul class="ts-ui-select__list" role="presentation">
+													<li class="ts-ui-select__option ts-ui-select__option--selected" role="option" data-value="brand-box" data-index="0"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Brand Box</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="minimal-bar" data-index="1"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Minimal Bar</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="spinner" data-index="2"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Spinner</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="text-only" data-index="3"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Text Only</span></span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-half">
+									<div class="ts-field"><button type="button" class="ts-btn ts-btn--secondary ts-btn--full" id="ts-oce-preloader-simulate"><ion-icon name="play" role="img" class="md hydrated"></ion-icon> Simulate</button></div>
+								</div>
+								<div class="ts-card-col-half">
+									<div class="ts-field ts-range-stack" data-tooltip="How long preloader stays before dismissing"><label>Hold</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-preloader-hold" min="500" max="8000" step="250" value="3000" data-unit="ms" style="--ts-range-val: 3000; --ts-range-min: 500; --ts-range-max: 8000; --ts-range-percent: 33.33333333333333%;"><span class="ts-range-val">3000ms</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="--ts-preloader-bar-height"><label>Bar Height</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-preloader-bar-height" min="1" max="20" step="1" value="5" data-unit="px" style="--ts-range-val: 5; --ts-range-min: 1; --ts-range-max: 20; --ts-range-percent: 21.052631578947366%;"><span class="ts-range-val">5px</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field"><label data-tooltip="Position for Minimal Bar variant">Bar Position</label>
+										<div class="ts-ui-select ts-ui-select--no-search" data-ts-ui-select-search="false"><select class="ts-ui-select__native" id="ts-oce-preloader-bar-pos" tabindex="-1" aria-hidden="true">
+												<option value="bottom">Bottom</option>
+												<option value="top">Top</option>
+											</select><button type="button" class="ts-ui-select__trigger" aria-haspopup="listbox" aria-expanded="false"><span class="ts-ui-select__value"><span class="ts-ui-select__value-text">Bottom</span></span><span class="ts-ui-select__chevron" aria-hidden="true"><span class="ts-icon" data-ts-icon="fa-solid fa-chevron-down" data-icon-injected="1"><i class="fa-solid fa-chevron-down ts-icon" aria-hidden="true"></i></span></span></button>
+											<div class="ts-ui-select__dropdown" hidden="" role="listbox">
+												<ul class="ts-ui-select__list" role="presentation">
+													<li class="ts-ui-select__option ts-ui-select__option--selected" role="option" data-value="bottom" data-index="0"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Bottom</span></span></li>
+													<li class="ts-ui-select__option" role="option" data-value="top" data-index="1"><span class="ts-ui-select__option-inner"><span class="ts-ui-select__option-text">Top</span></span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field"><label data-tooltip="Brand logo text">Logo Text</label><input type="text" class="ts-input-text" id="ts-oce-preloader-logo-text" placeholder="TOOLSKIN" value="TOOLSKIN" maxlength=""></div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field"><label data-tooltip="Text shown below progress bar">Hint Text</label><input type="text" class="ts-input-text" id="ts-oce-preloader-hint" placeholder="Loading…" value="Loading Toolskin showcase" maxlength=""></div>
+								</div>
+							</div>
+							<div class="ts-card-row">
+								<div class="ts-card-col-full">
+									<div class="ts-field ts-range-stack" data-tooltip="Background overlay darkness"><label>Overlay Opacity</label>
+										<div class="ts-range-row"><input type="range" class="ts-range" id="ts-oce-preloader-overlay" min="0" max="1" step="0.05" value="0.88" data-unit="%" style="--ts-range-val: 0.9; --ts-range-min: 0; --ts-range-max: 1; --ts-range-percent: 90%;"><span class="ts-range-val">90%</span></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="ts-panel-footer"><button class="ts-btn ts-btn--primary" id="ts-oce-footer-save" data-tooltip="Export Current Preview Live edit settings to an Importable .json File" data-tooltip-pos="top"><i class="ts-icon fa-regular fa-floppy-disk"></i><span>Save Setup</span></button><button class="ts-btn ts-btn--secondary" id="ts-oce-footer-reset" data-tooltip="Reset all to defaults" data-tooltip-pos="top"><i class="ts-icon fa-solid fa-arrow-rotate-left"></i><span>Reset all</span></button><button class="ts-btn ts-btn--ghost ts-btn--icon" id="ts-oce-footer-copy" data-tooltip="Copy settings to clipboard" data-tooltip-pos="top"><i class="ts-icon fa-solid fa-clipboard"></i><span class="sr-only">Copy to clipboard</span></button></div>
+	</div><button type="button" class="ts-oce-fab ts-oce-fab--tab" aria-expanded="true" aria-controls="ts-offcanvas-editor"><i class="fa-solid fa-sliders ts-icon" aria-hidden="true"></i><span>Editor</span></button>
+</aside>

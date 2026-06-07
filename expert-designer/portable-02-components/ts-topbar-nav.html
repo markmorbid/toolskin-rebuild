@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Brand" name="Toolskin Sandbox — ts-topbar + ts-nav" subtitle="Faithful header reconstruction · layered scoped tokens" -->
+<html lang="en" class="ts-harness">
+<head>
+  <meta charset="UTF-8" />
+ <!-- Theme before first paint (matches ToolskinTheme storageKey + auto mode) to reduce FOUC -->
+    <script>
+      (function () {
+        try {
+          var key = 'ts-theme-mode';
+          var m = localStorage.getItem(key);
+          if (!m) return;
+          if (m === 'auto') {
+            m = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          if (m === 'dark' || m === 'light') {
+            document.documentElement.setAttribute('data-theme', m);
+            document.documentElement.setAttribute('data-ts-theme', m);
+          }
+        } catch (e) { /* ignore */ }
+      })();
+    </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolskin · Top Navigation system — reconstruction harness</title>
+ <!-- Google Fonts — render-blocking (critical for preloader + body text, prevents FOUT) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- CDN preconnects — reduces latency for render-blocking theme-toggles CSS + dynamic asset loader -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://api.cdnjs.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <!-- Other CDN assets (FA, Ionicons, Lenis, GSAP, etc.) loaded dynamically by toolskin-assets.js -->
+    <noscript>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    </noscript>
+
+
+  <!-- ToolskinAssets — dynamic asset pipeline (must load before toolskin.js early boot) -->
+  <script src="assets/js/toolskin-assets.js" defer></script>
+   
+    <style id="ts-preloader-boot">
+      /* FOUC guard: body background locks to the dark default before external CSS parses.
+         Prevents white flash on cold loads. The external stylesheet overrides this once loaded. */
+      html.ts-preloader-lock body {
+        background-color: #0c0d0f !important;
+      }
+
+      html.ts-preloader-lock,
+      html.ts-preloader-lock body {
+        overflow: hidden !important;
+      }
+
+      html.ts-preloader-lock #ts-app,
+      html.ts-preloader-lock #ts-main {
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
+
+      /* Ensure preloader overlay paints before external CSS resolves.
+         Fallback background mirrors --ts-bg-body dark default. */
+      html.ts-preloader-lock .ts-preloader {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        background-color: #0c0d0f !important;
+      }
+
+       /* Hide sidebar during preloader (it's outside #ts-main) */
+    html.ts-preloader-lock .ts-oce-panel.ts-oce--open,
+    html.ts-preloader-lock #ts-debug-root,
+    html.ts-preloader-lock .ts-oce-panel.ts-oce--open .ts-oce-fab {
+      opacity: 0 !important;
+      z-index: -20 !important;
+
+      pointer-events: none !important;
+    }
+    </style>
+
+    <!-- Toolskin System (local — render-critical) -->
+    <script>
+      /* document.documentElement.classList.add('ts-preloader-lock'); */
+      window.__TOOLSKIN_CONFIG__ = {
+        cursor: { mode: 'simple', follower: true, easing: 0.42, followerEasing: 0.12 },
+        reveal: { enabled: false, useGSAP: false, stagger: 0.05, rootMargin: '0px 0px -40px 0px' },
+        smoothScroll: { enabled: false, duration: 1.2 },
+      };
+      // Font-gate: reveal preloader text only after the two fonts it uses are loaded.
+      // Uses document.fonts.load() for specific families (resolves fast, doesn't wait for FA).
+      Promise.all([
+        document.fonts.load('600 1em "Space Grotesk"'),
+        document.fonts.load('400 1em "JetBrains Mono"')
+      ]).then(function () {
+        document.documentElement.classList.add('ts-fonts-ready');
+      });
+    </script>
+    <script src="assets/js/toolskin.showcase.js" defer></script>
+
+    <!-- <link rel="stylesheet" href="assets/css/toolskin.css" /> -->
+ <!-- SHARED STYLE STACK — primitives → engine → btn → ts-nav-header → harness.css. -->
+  <link rel="stylesheet" href="assets/css/next/core/reset.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/colors.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/typography.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/type-v2.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/spacing.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/radius.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/motion.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/z-index.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/status-tints.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-this-bg-v2.css" />
+  <link rel="stylesheet" href="assets/css/next/system/on-surface.css" />
+  <link rel="stylesheet" href="assets/css/next/system/app-tokens.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-gradients-v3.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-section.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-chip.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-badge.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-accordion.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-card.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-nav-header.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-input.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-ui-select.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-btn_v3.1.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-modal.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-table.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-tooltip.css" />
+  <link rel="stylesheet" href="assets/css/next/harness.css" />
+
+    <!-- Toolskin Framework — early boot IIFE kicks off ToolskinAssets.loadAll() -->
+    <script>
+      window.__TOOLSKIN_CONFIG__ = {
+        stylesheetDebugger: { enabled: false }
+      };
+    </script>
+
+      <!-- Toolskin Framework — OWQNER NOTE:   wiped off all the js assets generated on this  refactor. all of them were totally  regressive.  so direct improt from the old repository was  the fastes and cleanest solition. and works perfect without any delay and conflict. now we just remain fixing css and the project refactor will be done.  everything will be centralized on toolskin.css no js refactor will be neede donly additions and improvmeents. code sanity is best than expected on jkavascript deployment and migration.. but css requires  addaption and felxibility so the design system is usable.. ui kit js should be  deduped, integrated or merged if ther eis not  real usage from the assets on production. and all the other js files listed on the directory are dependencies for local asset impleemntations. 
+       
+      the entire project requirees  followinf the source of truth visual guidance of the showcase old rpeository, and  keep  upgrading and refactorign  the css code to making iot usable. all the other js implementations are regressive and  eventually needs to be archived ot labeled or check for any  in.development feature abandoned. 
+      the only js  kept alivce is assets/js/next/harness-tester.js..
+      if  the project requires splitting up the toolskinjs into spearate js files, then make the architect agent issue that task so the prject keeps working semlaesssly, but the ciurrent toolskin.js centralized    file works fine. for performance check  how the splitting  can work, but the one.file approach is the rpeferred  final product ideal. like the cs centraliz<ation original  concept (one css ++ one js to   make the system work).
+
+      the assetsjs file is repsonsible of loading all the dependencies  so every html has the same basic required header  sources dependencies ready on load. andn if possible every  forntned must be automatically set   so no human error is possible (class assignment,  attributes,  dom structure and nesting, code sanity, markup issues, everything must be integral and  functional so no  error blocks users from designing with the framework stand alone.
+      
+      assets must be one.liners auto.inject/buildup just like the ts-ui-select example here, and the nav formatting automation and the auto icons feature, and every automatic class library on the system. all the approaches must  boil to the same toolkskin core concept.  every overflowing from that pattern of   engine and behaviour and design is out of question. )
+      the deliverdrable is an enhanced ready to sjip version form the  old toolskin  design system,  with features, assets, shortcode,s integrations, and skill/css/ai addaptability/docs/references/structure/demos/sandboxes fully operative and  with   all the dependencies and  cascade inhertiances token layers system consolidated.. there must not be redudnant css code, rules, overlapping,   overrides, ommisive code,  idle/conflictive   scopes, missleading references, or non-working status/theme/system base token and styles form core layer 0 to frontend  final visual level dpeloy.
+
+
+      currently- the harnesss tester js is not fully oeprative, and is not because of my  latest changes. 
+      the token handling was not fully working right after the latets changes form the 4-06-2026 
+      the font scaling  handling doenst affects all the instances, so the fotn scaling token is not globally affecting the current css states.,  the radius base is not affecting all the instancies, probably becasue of the constrain or probably becasaue the   ts-radius-* tokens are not using the base valu properly on vomponents. the constrain  value is neccesary to avoid brealing assets but the  base radius is noit applying at all on any layer.
+      the gradient application so  it could be replaced with the pendign to integrate oce-panel. it is fucntional on js side and it hjas its own js file on the directory 
+
+      assets\js\ts-offcanvas-editor.js
+      assets\js\phantom-gallery.js
+      assets\js\toolskin.bannerGenerator.js
+      assets\js\toolskin.js
+      assets\js\toolskin.showcase.js
+      assets\js\toolskin-assets.js
+      assets\js\toolskin-uikit.js
+      assets\js\ts-cube-portfolio.js
+      assets\js\ts-gallery.js
+      assets\js\ts-gradient-canvas.js
+      
+      -->
+
+    <script src="assets/js/toolskin.js" defer></script>
+    <script src="assets/js/toolskin-uikit.js" defer></script>
+    <script src="assets/js/ts-gradient-canvas.js" defer></script>
+    <script src="assets/js/ts-offcanvas-editor.js" defer></script>
+
+  <script src="assets/js/next/harness-tester.js" defer></script>
+  
+    <!-- Toolskin Configuration -->
+    <script>
+      window.addEventListener('ts:ready', () => {
+        console.log('✅ Toolskin Framework Initialized');
+        console.log('Config:', Toolskin.config);
+      });
+    </script>
+</head>
+<body class="ts-harness" style="" data-ts-breadcrumb="on">
+ <!-- <div id="ts-preloader" class="ts-preloader" >
+      <div class="ts-preloader__brand">
+        <div class="ts-preloader__logo">
+          <svg class="ts-preloader__bolt" viewBox="0 0 384 512" fill="currentColor" >
+            <path d="M0 256L28.5 28c2-16 15.6-28 31.8-28H228.9c15 0 27.1 12.1 27.1 27.1c0 3.2-.6 6.4-1.6 9.5L192 192h174.8c21.8 0 36.3 22.6 27.2 42.6L179.2 481.2c-7.5 16.4-30.4 12.6-32.5-5.4L128 256z" />
+          </svg>
+          TOOL<em>SKIN</em>
+        </div>
+        <div class="ts-preloader__bar-wrap"><span class="ts-preloader__bar"></span></div>
+        <div class="ts-preloader__hint">Loading Toolskin showcase</div>
+      </div>
+    </div> -->
+
+    <main id="ts-main" class="ts-main ts-showcase ts-landing">
+  <!-- ════════════════════════════════════════════════════════════════════
+       LIVE HEADER — the reconstructed top-navigation, sticky at page top.
+       Markup mirrors the original showcase contract (topnav.html) 1:1:
+       logo · truncating links (text/icon/button) · ••• overflow · theme
+       toggle · back-to-top · framework select · burger.
+       ════════════════════════════════════════════════════════════════════ -->
+  <!--  FIXED NAV ────── -->
+  <nav class="ts-nav-fixed" id="ts-topbar"  aria-label="Primary">
+    <a class="ts-topbar__logo" href="index.html">
+      <span class="ts-logo-brand">TOOL<em>SKIN</em></span>
+      <span class="ts-logo-sub">Design System v2.0</span>
+    </a>
+     <!-- the header has variants  in which adding class .spaced and .ts-icon-only-nav the styles applies and are combinable. the variant Glass, sidebar and Mobile are pending-->
+    <div class="ts-nav-fixed__links ts-nav-truncate ts-auto-icon" id="ts-primary-menu">
+      <a href="#top">Home</a>
+      <a href="#typography">Type</a>
+      <a href="#components">Components</a>
+      <a href="#ui-kit">UI Kit</a>
+      <a href="#forms">Forms</a>
+      <a href="#cards">Cards</a>
+      <a href="#panels">Panels</a>
+      <a href="#mockups">Mockups</a>
+      <a href="#" class="ts-nav-link ts-btn ts-btn--outline" data-icon="ion:options-outline" data-tooltip="Check the Banner generator, a branded interface fully built with toolksin design system that  lets you  design your own brand banner for simple   featured images or  covers. a sample of this  system power.">Banner UI</a>
+      <a href="#" class="ts-nav-link ts-btn ts-btn--primary" data-icon="ion:color-palette-outline" data-tooltip="Navigate to the Tokens and Surfaces Color Lab from the Design System.">Surfaces Lab</a>
+
+    </div>
+    <!-- The "More" Button -->
+    <div id="navbar-collapse" class="ts-nav-more">
+      <button class="ts-more-trigger">•••</button>
+      <div id="navbar-extend" class="ts-nav-dropdown"></div>
+    </div>
+    <label class="theme-toggle theme-toggle--force-motion" data-theme-toggle aria-label="Dark/Light Mode" data-tooltip="Switch Dark/Light Mode" data-tooltip-pos="bottom">
+      <input type="checkbox" />
+      <span class="theme-toggle-sr">Switch Dark/Light Mode</span>
+      <svg xmlns="http://www.w3.org/2000/svg"  width="1em" height="1em" fill="currentColor" class="theme-toggle__expand ts-icon ts-btn-icon" viewBox="0 0 32 32" style="pointer-events: none;">
+        <clipPath id="theme-toggle__expand__cutout">
+          <path d="M0-11h25a1 1 0 0017 13v30H0Z" />
+        </clipPath>
+        <g clip-path="url(#theme-toggle__expand__cutout)">
+          <circle cx="16" cy="16" r="8.4" />
+          <path d="M18.3 3.2c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3S14.7.9 16 .9s2.3 1 2.3 2.3zm-4.6 25.6c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3-1 2.3-2.3 2.3-2.3-1-2.3-2.3zm15.1-10.5c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zM3.2 13.7c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3S.9 17.3.9 16s1-2.3 2.3-2.3zm5.8-7C9 7.9 7.9 9 6.7 9S4.4 8 4.4 6.7s1-2.3 2.3-2.3S9 5.4 9 6.7zm16.3 21c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm2.4-21c0 1.3-1 2.3-2.3 2.3S23 7.9 23 6.7s1-2.3 2.3-2.3 2.4 1 2.4 2.3zM6.7 23C8 23 9 24 9 25.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z" />
+        </g>
+      </svg>
+    </label>
+
+
+    <a class="ts-btn ts-btn--icon ts-back_top-nav ts-fixed-btn" href="#top" data-icon="ion:arrow-up-outline" id="ts-top-btn"><span class="sr-only">Back to top</span></a>
+    <!-- the header variants  should be  live toggleable on th showcase  as aprview  shortcut for user on both theme mdoes  woith this droipdown once they are available. this just adds the classes. enbale this asset when possible-->
+    <div class="ts-ui-select" data-ts-ui-select-placeholder="Select nav Style" id="ts-topnav-selector">
+      <select class="ts-ui-select__native">
+        <option value="default" data-icon="fa-solid fa-bolt">Default</option>
+        <option value="auto-icons" data-icon="fa-solid fa-icons">Auto-Icons</option>
+        <option value="spaced" data-icon="fa-solid fa-expand">Spaced</option>
+        <option value="icons" data-icon="fa-solid fa-image">Icons-Only</option>
+        <option value="mobile" data-icon="fa-solid fa-window-maximize">Mobile-Only</option>
+        <option value="sidebar" data-icon="fa-solid fa-xmark" disabled>Sidebar (soon)</option>
+      </select>
+    </div>
+  </nav>
+
+
+  <div class="ts-harness-pagebody">
+    <h1>Top Navigation system — reconstruction</h1>
+    <p class="ts-harness-label">ts-topbar-nav.html · faithful rebuild of the original showcase header · scoped tokens · 7-layer architecture</p>
+    <p style="max-width: 60ch; color: var(--ts-text-secondary); margin-bottom: var(--ts-sp-6);">
+      The sticky header above is the live component. Resize the window to watch links collapse
+      into the <strong>•••</strong> overflow, then to the <strong>burger</strong> + slide-in mobile
+      menu. Scroll down to reveal the back-to-top control and the transparent-at-top state. Use the
+      Variant Tester (bottom-right) to drive accent / surface / type across the whole header.
+    </p>
+
+    <div class="ts-harness-panel">
+      <p class="ts-harness-panel-title">Demos · open the mobile menu / inspect variants</p>
+      <div class="ts-harness-body">
+        <button class="ts-btn ts-btn--primary" type="button" onclick="document.querySelector('.ts-menu-burger').click()">Open mobile menu</button>
+        <a class="ts-btn ts-btn--outline" href="#variants">Jump to variants ↓</a>
+      </div>
+    </div>
+
+    <!-- ─── VARIANT MATRIX — static headers in stages (in-flow, scoped) ─────── -->
+    <h2 id="variants">Variants — one base, token-driven</h2>
+
+    <div class="ts-harness-panel">
+      <p class="ts-harness-panel-title">.ts-nav--spaced · gap-driven, no dividers, inline buttons</p>
+      <div class="ts-harness-stage">
+        <nav class="ts-nav-fixed ts-nav--static spaced ts-nav--spaced" aria-label="Spaced variant">
+          <a class="ts-topbar__logo" href="#"><span class="ts-logo-brand">TOOL<em>SKIN</em></span><span class="ts-logo-sub">Design System</span></a>
+          <div class="ts-nav-fixed__links">
+            <a href="#" class="ts-nav-item ts-nav-item--text active ts-active" aria-current="page"><span class="ts-menu-text">Top</span></a>
+            <a href="#" class="ts-nav-item ts-nav-item--text"><span class="ts-menu-text">Tokens</span></a>
+            <a href="#" class="ts-nav-item ts-nav-item--icon"><span class="ts-icon" data-ts-icon="fa-solid fa-layer-group"></span><span class="ts-menu-text">Surfaces</span></a>
+            <a href="#" class="ts-nav-link ts-btn ts-btn--primary ts-nav-item--button"><span class="ts-icon" data-ts-icon="fa-solid fa-wand-magic-sparkles"></span><span class="ts-menu-text">Showcase</span></a>
+          </div>
+          <label class="theme-toggle theme-toggle--force-motion" data-theme-toggle title="Toggle theme" aria-pressed="false"><input type="checkbox" /><span class="theme-toggle-sr">Toggle theme</span><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="theme-toggle__expand" viewBox="0 0 32 32" aria-hidden="true"><clipPath id="tt-expand-cutout-spaced"><path d="M0-11h25a1 1 0 0017 13v30H0Z"></path></clipPath><g clip-path="url(#tt-expand-cutout-spaced)"><circle cx="16" cy="16" r="8.4"></circle><path d="M18.3 3.2c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3S14.7.9 16 .9s2.3 1 2.3 2.3zm-4.6 25.6c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3-1 2.3-2.3 2.3-2.3-1-2.3-2.3zm15.1-10.5c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zM3.2 13.7c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3S.9 17.3.9 16s1-2.3 2.3-2.3zm5.8-7C9 7.9 7.9 9 6.7 9S4.4 8 4.4 6.7s1-2.3 2.3-2.3S9 5.4 9 6.7zm16.3 21c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm2.4-21c0 1.3-1 2.3-2.3 2.3S23 7.9 23 6.7s1-2.3 2.3-2.3 2.4 1 2.4 2.3zM6.7 23C8 23 9 24 9 25.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z"></path></g></svg></label>
+        </nav>
+      </div>
+    </div>
+
+    <div class="ts-harness-panel">
+      <p class="ts-harness-panel-title">.ts-nav--icon-only · labels collapse to enlarged icons (desktop)</p>
+      <div class="ts-harness-stage">
+        <nav class="ts-nav-fixed ts-nav--static ts-nav--icon-only" aria-label="Icon-only variant">
+          <a class="ts-topbar__logo" href="#"><span class="ts-logo-brand">TOOL<em>SKIN</em></span></a>
+          <div class="ts-nav-fixed__links">
+            <a href="#" class="ts-nav-item active ts-active" aria-current="page" title="Top"><span class="ts-icon" data-ts-icon="fa-solid fa-house"></span><span class="ts-menu-text">Top</span></a>
+            <a href="#" class="ts-nav-item" title="Surfaces"><span class="ts-icon" data-ts-icon="fa-solid fa-layer-group"></span><span class="ts-menu-text">Surfaces</span></a>
+            <a href="#" class="ts-nav-item" title="Accent"><span class="ts-icon" data-ts-icon="fa-solid fa-palette"></span><span class="ts-menu-text">Accent</span></a>
+            <a href="#" class="ts-nav-item" title="Patterns"><span class="ts-icon" data-ts-icon="fa-solid fa-table-cells"></span><span class="ts-menu-text">Patterns</span></a>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <div class="ts-harness-panel ts-harness-panel--bg3">
+      <p class="ts-harness-panel-title">.ts-nav--static on --ts-bg-3 · engine re-anchors the whole bar</p>
+      <div class="ts-harness-stage">
+        <nav class="ts-nav-fixed ts-nav--static" aria-label="Static on bg-3">
+          <a class="ts-topbar__logo" href="#"><span class="ts-logo-brand">TOOL<em>SKIN</em></span><span class="ts-logo-sub">Design System</span></a>
+          <div class="ts-nav-fixed__links">
+            <a href="#" class="ts-nav-item ts-nav-item--text active ts-active" aria-current="page"><span class="ts-menu-text">Top</span></a>
+            <a href="#" class="ts-nav-item ts-nav-item--text"><span class="ts-menu-text">Tokens</span></a>
+            <a href="#" class="ts-nav-item ts-nav-item--text"><span class="ts-menu-text">Docs</span></a>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- filler so scroll behaviors (back-to-top, at-top) are demonstrable -->
+    <h2>Scroll region</h2>
+    <p class="ts-harness-label">Scroll down — the header drops its glass at the very top (transparent state) and the back-to-top control appears past 300px.</p>
+    <div style="height: 1200px; display: grid; place-items: center; color: var(--ts-text-muted); font-family: var(--ts-font-mono); border: 1px dashed var(--ts-this-bg-border); border-radius: var(--ts-radius-md); margin-top: var(--ts-sp-4);">
+      ⟶ scroll content ⟵
+    </div>
+  </div>
+
+
+  </main>
+</body>
+</html>

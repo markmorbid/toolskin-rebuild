@@ -1,0 +1,675 @@
+<!doctype html>
+<!-- @dsCard group="Brand" name="Toolskin Buttons Showcase" subtitle="Smart button system on the v2 surface engine" -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Toolskin · ts-btn — Smart button system on the v2 engine</title>
+
+<!-- LOAD ORDER per HANDOFF.md: base → surface engine → gradients → component -->
+<link rel="stylesheet" href="toolskin.css">
+<link rel="stylesheet" href="toolskin-type-v2.css">
+<link rel="stylesheet" href="toolskin-this-bg-v2.css">
+<link rel="stylesheet" href="toolskin-gradients-v3.css">
+<link rel="stylesheet" href="ts-button.css">
+
+<!-- FontAwesome (free) — drives the .ts-icon glyphs in the showcase -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+  /* ─── page chrome — mirrors this-bg-v2-showcase aesthetic ─── */
+  html, body { background: #0c0d0f; color: #e8e9ea; font-family: 'Space Grotesk', system-ui, sans-serif; }
+  body { margin: 0; padding: 48px 56px 96px; }
+
+  h1 { font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 6px; }
+  h1 .v { color: #6d6f74; font-weight: 400; }
+  .lede { color: #9ea0a5; font-size: 15px; max-width: 760px; margin: 0 0 48px; line-height: 1.55; }
+  .lede code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 13px; background: #1c1e24; padding: 2px 6px; border-radius: 4px; }
+
+  h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #c8c9cd; margin: 56px 0 4px; }
+  h2 + .sub { color: #6d6f74; font-size: 13px; margin: 0 0 20px; max-width: 720px; line-height: 1.5; }
+  h2 + .sub code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; color: #c8c9cd; background: #1c1e24; padding: 1px 5px; border-radius: 3px; }
+  .rule { height: 1px; background: linear-gradient(90deg, #2d3038, transparent); margin: 8px 0 24px; }
+
+  /* surface contexts */
+  .ctx { padding: 22px 24px; border-radius: 14px; margin-bottom: 16px; border: 1px solid var(--ts-this-bg-border); background: var(--ts-this-bg); }
+  .ctx-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; gap: 14px; flex-wrap: wrap; }
+  .ctx-head h3 { font-size: 14px; font-weight: 500; margin: 0; color: #e8e9ea; letter-spacing: 0.04em; }
+  .ctx-head .basecol { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9ea0a5; }
+  .ctx-head .tag { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #6d6f74; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* button rows */
+  .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .row + .row { margin-top: 14px; }
+  .colhead { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #6d6f74; letter-spacing: 0.08em; text-transform: uppercase; min-width: 100px; }
+
+  /* sizing-engine diagram */
+  .engine {
+    border-radius: 14px;
+    border: 1px solid #2d3038;
+    background: #14161a;
+    padding: 22px 24px;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 28px;
+  }
+  .engine h3 { font: 600 11px 'JetBrains Mono', monospace; letter-spacing: 0.14em; text-transform: uppercase; color: #c8c9cd; margin: 0 0 12px; }
+  .engine .formula {
+    font: 12px/1.7 'JetBrains Mono', monospace;
+    color: #c8c9cd;
+    background: #0c0d0f;
+    border: 1px solid #2d3038;
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow: auto;
+  }
+  .engine .formula .k { color: oklch(75% 0.14 215); }
+  .engine .formula .v { color: oklch(80% 0.12 75); }
+  .engine .formula .c { color: #6d6f74; }
+  .engine .formula .a { color: oklch(75% 0.18 39); }
+  .engine .ratios {
+    display: grid;
+    grid-template-columns: max-content 1fr max-content;
+    gap: 6px 12px;
+    align-items: center;
+    font: 11.5px 'JetBrains Mono', monospace;
+  }
+  .engine .ratios .k { color: oklch(75% 0.14 215); }
+  .engine .ratios .d { color: #6d6f74; }
+  .engine .ratios .v { color: #e8e9ea; text-align: right; }
+  .engine .preview-stack {
+    display: flex; flex-direction: column; gap: 10px; align-items: flex-start;
+    padding: 18px; border-radius: 10px; border: 1px solid #2d3038; background: #0c0d0f;
+  }
+  .engine .preview-stack .label { font: 10px 'JetBrains Mono', monospace; color: #6d6f74; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
+
+  /* size ramp table — shows how dims scale */
+  .ramp { display: grid; grid-template-columns: max-content 1fr; gap: 18px 24px; align-items: center; }
+  .ramp .label { font: 11px 'JetBrains Mono', monospace; color: #9ea0a5; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* code blocks */
+  pre.code {
+    margin: 0;
+    background: #14161a;
+    border: 1px solid #2d3038;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font: 12px/1.65 'JetBrains Mono', monospace;
+    color: #e8e9ea;
+    overflow: auto;
+  }
+  pre.code .k { color: oklch(75% 0.14 215); }
+  pre.code .v { color: oklch(80% 0.12 75); }
+  pre.code .c { color: #6d6f74; }
+  pre.code .t { color: oklch(75% 0.18 39); }
+
+  /* state matrix */
+  .states-grid {
+    display: grid;
+    grid-template-columns: max-content repeat(5, 1fr);
+    gap: 12px;
+    align-items: center;
+  }
+  .states-grid > .h { font: 10px 'JetBrains Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; color: #6d6f74; }
+  .states-grid > .h.row-h { text-align: right; min-width: 90px; }
+
+  /* tweaks panel */
+  .knobs {
+    position: fixed;
+    top: 24px; right: 24px;
+    width: 320px;
+    background: rgba(28, 30, 36, 0.94);
+    backdrop-filter: blur(16px);
+    border: 1px solid #2d3038;
+    border-radius: 14px;
+    padding: 18px 18px 14px;
+    z-index: 50;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+    font: 11.5px 'JetBrains Mono', monospace;
+    color: #c8c9cd;
+  }
+  .knobs h5 { margin: 0 0 14px; font: 600 10px 'JetBrains Mono', monospace; letter-spacing: 0.14em; text-transform: uppercase; color: #c8c9cd; display: flex; align-items: center; gap: 8px; }
+  .knobs h5::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--ts-accent); box-shadow: 0 0 10px var(--ts-accent); }
+  .knobs .group { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #2d3038; }
+  .knobs .group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .knobs .group > .gh { font: 9.5px 'JetBrains Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; color: #6d6f74; margin-bottom: 8px; }
+  .knobs .row { display: grid; grid-template-columns: 1fr 56px; align-items: center; gap: 6px 8px; margin-bottom: 6px; }
+  .knobs label { font-size: 10.5px; color: #9ea0a5; }
+  .knobs input[type=range] { width: 100%; accent-color: var(--ts-accent); }
+  .knobs .val { color: #e8e9ea; font-size: 10.5px; text-align: right; }
+
+  /* preview surface for engine demo */
+  .scope {
+    --ts-btn-base: 1em;
+    --ts-btn-scale: 1;
+  }
+
+  /* footer */
+  .footer {
+    margin-top: 80px;
+    padding-top: 22px;
+    border-top: 1px solid #2d3038;
+    font: 11px 'JetBrains Mono', monospace;
+    color: #6d6f74;
+    letter-spacing: 0.08em;
+    display: flex; justify-content: space-between;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>ts-btn <span class="v">· smart button system v3</span></h1>
+<p class="lede">
+  Consolidates the legacy <code>ts-button.css</code> on the refactored Toolskin platform.
+  Color flows through the <code>--ts-this-bg</code> engine (oklab-safe, no purple), surfaces
+  optionally pull from the v3 gradient library, and <b style="color:#e8e9ea;">every dimension
+  derives from a single base knob via ratio tokens</b>. No static pixel sizes, no duplicated
+  state blocks, no hardcoded colors — drop a <code>.ts-btn</code> anywhere and the whole
+  system retunes from the inherited font-size up.
+</p>
+
+<!-- ─────────────────────────────────────────────────────────────────
+     1 · THE SIZING ENGINE
+     ───────────────────────────────────────────────────────────────── -->
+<h2>1 · The sizing engine</h2>
+<p class="sub">
+  One unitless base, six ratios, every dimension follows the original recipe verbatim.
+  <code>--ts-btn-base</code> defaults to <code>45</code> (a number, not px); the chain
+  multiplies by <code>1px</code> at the end so any integer slider can drive the whole system.
+  Override <code>--ts-btn-base</code> on any ancestor to retune a subtree; override
+  <code>--ts-btn-scale</code> on a single button to nudge just that one.
+</p>
+<div class="rule"></div>
+
+<div class="engine">
+  <div>
+    <h3>The chain</h3>
+    <pre class="formula"><span class="c">/* one knob — unitless */</span>
+<span class="k">--ts-btn-base</span>:  <span class="v">45</span>;
+<span class="k">--ts-btn-scale</span>: <span class="v">1</span>;
+<span class="k">--ts-btn-size</span>:  <span class="a">calc</span>(<span class="k">var</span>(--ts-btn-base) * <span class="k">var</span>(--ts-btn-scale));
+
+<span class="c">/* every dimension derives — × 1px happens at the end */</span>
+<span class="k">--ts-btn-h</span>:         <span class="a">calc</span>(size × <span class="k">--ts-btn-h-ratio</span>     × 1px);
+<span class="k">--ts-btn-pad-x</span>:     <span class="a">calc</span>(size × <span class="k">--ts-btn-pad-x-ratio</span> × 1px);
+<span class="k">--ts-btn-pad-y</span>:     <span class="a">calc</span>(pad-x × <span class="k">--ts-btn-pad-y-ratio</span>);
+<span class="k">--ts-btn-fs</span>:        <span class="a">calc</span>(size × <span class="k">--ts-btn-fs-ratio</span>    × 1px);
+<span class="k">--ts-btn-icon-size</span>: <span class="a">calc</span>(fs   × <span class="k">--ts-btn-icon-ratio</span>);
+<span class="k">--ts-btn-radius</span>:    <span class="a">calc</span>(size × <span class="k">--ts-btn-radius-ratio</span> × 1px);
+<span class="k">--ts-btn-counter-size</span>: <span class="a">calc</span>(fs × <span class="k">--ts-btn-counter-ratio</span>);
+<span class="k">--ts-btn-border-w</span>:  <span class="a">max</span>(<span class="v">1px</span>, size × <span class="k">--ts-btn-border-ratio</span> × 1px);
+<span class="k">--ts-btn-letter</span>:    <span class="a">calc</span>(fs × <span class="k">--ts-btn-letter-ratio</span>);
+</pre>
+  </div>
+  <div>
+    <h3>Live dimensions · default ratios</h3>
+    <div class="preview-stack">
+      <div class="label">--sm · scale 0.84 → h ≈ 34px · fs ≈ 9px</div>
+      <button class="ts-btn ts-btn--primary ts-btn--sm"><i class="ts-icon fa-solid fa-bolt"></i><span class="ts-btn-text">Deploy</span></button>
+      <div class="label">--md · scale 1 → h 45px · fs 9.9px</div>
+      <button class="ts-btn ts-btn--primary ts-btn--md"><i class="ts-icon fa-solid fa-bolt"></i><span class="ts-btn-text">Deploy</span></button>
+      <div class="label">--lg · scale 1.3 → h ≈ 48.6px · fs ≈ 11.7px</div>
+      <button class="ts-btn ts-btn--primary ts-btn--lg"><i class="ts-icon fa-solid fa-bolt"></i><span class="ts-btn-text">Deploy</span></button>
+      <div class="label">--xl · scale 1.45 → h ≈ 58.1px · fs ≈ 13.1px</div>
+      <button class="ts-btn ts-btn--primary ts-btn--xl"><i class="ts-icon fa-solid fa-bolt"></i><span class="ts-btn-text">Deploy</span></button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────────────────────────
+     2 · SIZE VARIANTS — scale knob only
+     ───────────────────────────────────────────────────────────────── -->
+<h2>2 · Size variants</h2>
+<p class="sub">
+  Variants only adjust <code>--ts-btn-scale</code> and (optionally) one or two ratios.
+  Height, padding, font-size, icon, radius, border-width all retune from the same chain.
+</p>
+<div class="rule"></div>
+
+<div class="ctx" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+  <div class="ctx-head"><h3>Six steps — same anatomy, one scale knob</h3><div class="tag">xs · sm · md · lg · xl · xxl</div></div>
+  <div class="ramp">
+    <div class="label">primary</div>
+    <div class="row">
+      <button class="ts-btn ts-btn--primary ts-btn--xs"><i class="ts-icon fa-solid fa-rocket"></i><span class="ts-btn-text">Launch</span></button>
+      <button class="ts-btn ts-btn--primary ts-btn--sm"><i class="ts-icon fa-solid fa-rocket"></i><span class="ts-btn-text">Launch</span></button>
+      <button class="ts-btn ts-btn--primary ts-btn--md"><i class="ts-icon fa-solid fa-rocket"></i><span class="ts-btn-text">Launch</span></button>
+      <button class="ts-btn ts-btn--primary ts-btn--lg"><i class="ts-icon fa-solid fa-rocket"></i><span class="ts-btn-text">Launch</span></button>
+      <button class="ts-btn ts-btn--primary ts-btn--xl"><i class="ts-icon fa-solid fa-rocket"></i><span class="ts-btn-text">Launch</span></button>
+      <button class="ts-btn ts-btn--primary ts-btn--xxl"><i class="ts-icon fa-solid fa-rocket"></i><span class="ts-btn-text">Launch</span></button>
+    </div>
+
+    <div class="label">secondary</div>
+    <div class="row">
+      <button class="ts-btn ts-btn--secondary ts-btn--xs"><span class="ts-btn-text">Cancel</span></button>
+      <button class="ts-btn ts-btn--secondary ts-btn--sm"><span class="ts-btn-text">Cancel</span></button>
+      <button class="ts-btn ts-btn--secondary ts-btn--md"><span class="ts-btn-text">Cancel</span></button>
+      <button class="ts-btn ts-btn--secondary ts-btn--lg"><span class="ts-btn-text">Cancel</span></button>
+      <button class="ts-btn ts-btn--secondary ts-btn--xl"><span class="ts-btn-text">Cancel</span></button>
+      <button class="ts-btn ts-btn--secondary ts-btn--xxl"><span class="ts-btn-text">Cancel</span></button>
+    </div>
+
+    <div class="label">icon-only</div>
+    <div class="row">
+      <button class="ts-btn ts-btn--secondary ts-btn--icon ts-btn--xs"><i class="ts-icon fa-solid fa-gear"></i></button>
+      <button class="ts-btn ts-btn--secondary ts-btn--icon ts-btn--sm"><i class="ts-icon fa-solid fa-gear"></i></button>
+      <button class="ts-btn ts-btn--secondary ts-btn--icon ts-btn--md"><i class="ts-icon fa-solid fa-gear"></i></button>
+      <button class="ts-btn ts-btn--secondary ts-btn--icon ts-btn--lg"><i class="ts-icon fa-solid fa-gear"></i></button>
+      <button class="ts-btn ts-btn--secondary ts-btn--icon ts-btn--xl"><i class="ts-icon fa-solid fa-gear"></i></button>
+      <button class="ts-btn ts-btn--secondary ts-btn--icon ts-btn--xxl"><i class="ts-icon fa-solid fa-gear"></i></button>
+    </div>
+
+    <div class="label">pill</div>
+    <div class="row">
+      <button class="ts-btn ts-btn--primary ts-btn--pill ts-btn--xs"><i class="ts-icon fa-solid fa-arrow-right"></i><span class="ts-btn-text">Next</span></button>
+      <button class="ts-btn ts-btn--primary ts-btn--pill ts-btn--sm"><i class="ts-icon fa-solid fa-arrow-right"></i><span class="ts-btn-text">Next</span></button>
+      <button class="ts-btn ts-btn--primary ts-btn--pill ts-btn--md"><i class="ts-icon fa-solid fa-arrow-right"></i><span class="ts-btn-text">Next</span></button>
+      <button class="ts-btn ts-btn--primary ts-btn--pill ts-btn--lg"><i class="ts-icon fa-solid fa-arrow-right"></i><span class="ts-btn-text">Next</span></button>
+      <button class="ts-btn ts-btn--primary ts-btn--pill ts-btn--xl"><i class="ts-icon fa-solid fa-arrow-right"></i><span class="ts-btn-text">Next</span></button>
+      <button class="ts-btn ts-btn--primary ts-btn--pill ts-btn--xxl"><i class="ts-icon fa-solid fa-arrow-right"></i><span class="ts-btn-text">Next</span></button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────────────────────────
+     3 · VARIANTS
+     ───────────────────────────────────────────────────────────────── -->
+<h2>3 · Variants — every one is a single re-anchor</h2>
+<p class="sub">
+  A variant only swaps <code>--ts-btn-surface</code> (and on semantics, the ink token).
+  Hover, active, focus, disabled all recompute from the new surface via the v2 engine —
+  no duplicated state declarations.
+</p>
+<div class="rule"></div>
+
+<div class="ctx" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+  <div class="ctx-head"><h3>Surface family</h3><div class="tag">primary · secondary · tertiary · raised · outline · ghost · soft</div></div>
+  <div class="row">
+    <button class="ts-btn ts-btn--primary"><i class="ts-icon fa-solid fa-bolt"></i><span class="ts-btn-text">Primary</span></button>
+    <button class="ts-btn"><span class="ts-btn-text">Default</span></button>
+    <button class="ts-btn ts-btn--secondary"><span class="ts-btn-text">Secondary</span></button>
+    <button class="ts-btn ts-btn--tertiary"><span class="ts-btn-text">Tertiary</span></button>
+    <button class="ts-btn ts-btn--raised"><span class="ts-btn-text">Raised</span></button>
+    <button class="ts-btn ts-btn--outline"><i class="ts-icon fa-solid fa-arrow-right"></i><span class="ts-btn-text">Outline</span></button>
+    <button class="ts-btn ts-btn--ghost"><i class="ts-icon fa-solid fa-ellipsis"></i><span class="ts-btn-text">Ghost</span></button>
+    <button class="ts-btn ts-btn--soft"><i class="ts-icon fa-solid fa-sparkles"></i><span class="ts-btn-text">Soft</span></button>
+    <button class="ts-btn ts-btn--alt"><i class="ts-icon fa-solid fa-wifi"></i><span class="ts-btn-text">Alt</span></button>
+  </div>
+</div>
+
+<div class="ctx" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+  <div class="ctx-head"><h3>Semantic — surface = status token, ink = on-status</h3><div class="tag">success · warning · danger · info</div></div>
+  <div class="row">
+    <button class="ts-btn ts-btn--success"><i class="ts-icon fa-solid fa-check"></i><span class="ts-btn-text">Approved</span></button>
+    <button class="ts-btn ts-btn--warning"><i class="ts-icon fa-solid fa-triangle-exclamation"></i><span class="ts-btn-text">Review</span></button>
+    <button class="ts-btn ts-btn--danger"><i class="ts-icon fa-solid fa-trash"></i><span class="ts-btn-text">Delete</span></button>
+    <button class="ts-btn ts-btn--info"><i class="ts-icon fa-solid fa-circle-info"></i><span class="ts-btn-text">Details</span></button>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────────────────────────
+     4 · STATES
+     ───────────────────────────────────────────────────────────────── -->
+<h2>4 · States · hue-stable, focus is warm not purple</h2>
+<p class="sub">
+  Hover lifts toward contrast, active deepens toward floor, focus is the v2 warm tint
+  (oklab-mixed accent-tint at 8% — never the purple wash from v1). Disabled desaturates
+  via the muted anchor. <i>Tab through the row to verify focus.</i>
+</p>
+<div class="rule"></div>
+
+<div class="ctx" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+  <div class="states-grid">
+    <div class="h"></div>
+    <div class="h">default</div>
+    <div class="h">hover (forced)</div>
+    <div class="h">active (forced)</div>
+    <div class="h">focus (forced)</div>
+    <div class="h">disabled</div>
+
+    <div class="h row-h">primary</div>
+    <button class="ts-btn ts-btn--primary"><i class="ts-icon fa-solid fa-cloud-arrow-up"></i><span class="ts-btn-text">Save</span></button>
+    <button class="ts-btn ts-btn--primary" style="background-color: var(--ts-this-bg-hover); border-color: var(--ts-this-bg-border-hover);"><i class="ts-icon fa-solid fa-cloud-arrow-up"></i><span class="ts-btn-text">Save</span></button>
+    <button class="ts-btn ts-btn--primary" style="background-color: var(--ts-this-bg-active); border-color: var(--ts-this-bg-border-active); transform: translateY(calc(var(--ts-btn-size) * 0.04));"><i class="ts-icon fa-solid fa-cloud-arrow-up"></i><span class="ts-btn-text">Save</span></button>
+    <button class="ts-btn ts-btn--primary" style="background-color: var(--ts-this-bg-focus); border-color: var(--ts-this-bg-border-focus); outline: var(--ts-btn-border-w) solid var(--ts-this-bg-focus-ring); outline-offset: calc(var(--ts-btn-border-w) * 1.5);"><i class="ts-icon fa-solid fa-cloud-arrow-up"></i><span class="ts-btn-text">Save</span></button>
+    <button class="ts-btn ts-btn--primary" disabled><i class="ts-icon fa-solid fa-cloud-arrow-up"></i><span class="ts-btn-text">Save</span></button>
+
+    <div class="h row-h">secondary</div>
+    <button class="ts-btn"><span class="ts-btn-text">Open</span></button>
+    <button class="ts-btn" style="background-color: var(--ts-this-bg-hover); border-color: var(--ts-this-bg-border-hover);"><span class="ts-btn-text">Open</span></button>
+    <button class="ts-btn" style="background-color: var(--ts-this-bg-active); border-color: var(--ts-this-bg-border-active); transform: translateY(calc(var(--ts-btn-size) * 0.04));"><span class="ts-btn-text">Open</span></button>
+    <button class="ts-btn" style="background-color: var(--ts-this-bg-focus); border-color: var(--ts-this-bg-border-focus); outline: var(--ts-btn-border-w) solid var(--ts-this-bg-focus-ring); outline-offset: calc(var(--ts-btn-border-w) * 1.5);"><span class="ts-btn-text">Open</span></button>
+    <button class="ts-btn" disabled><span class="ts-btn-text">Open</span></button>
+
+    <div class="h row-h">outline</div>
+    <button class="ts-btn ts-btn--outline"><span class="ts-btn-text">Inspect</span></button>
+    <button class="ts-btn ts-btn--outline" style="background-color: color-mix(in oklab, var(--ts-accent), transparent 88%); border-color: var(--ts-accent);"><span class="ts-btn-text">Inspect</span></button>
+    <button class="ts-btn ts-btn--outline" style="background-color: color-mix(in oklab, var(--ts-accent), transparent 78%); border-color: var(--ts-accent); transform: translateY(calc(var(--ts-btn-size) * 0.04));"><span class="ts-btn-text">Inspect</span></button>
+    <button class="ts-btn ts-btn--outline" style="background-color: var(--ts-this-bg-focus); border-color: var(--ts-this-bg-border-focus); outline: var(--ts-btn-border-w) solid var(--ts-this-bg-focus-ring); outline-offset: calc(var(--ts-btn-border-w) * 1.5);"><span class="ts-btn-text">Inspect</span></button>
+    <button class="ts-btn ts-btn--outline" disabled><span class="ts-btn-text">Inspect</span></button>
+
+    <div class="h row-h">ghost</div>
+    <button class="ts-btn ts-btn--ghost"><i class="ts-icon fa-solid fa-ellipsis-vertical"></i><span class="ts-btn-text">More</span></button>
+    <button class="ts-btn ts-btn--ghost" style="background-color: var(--ts-this-bg-dim-4); border-color: var(--ts-this-bg-border-0); color: var(--ts-text-primary);"><i class="ts-icon fa-solid fa-ellipsis-vertical"></i><span class="ts-btn-text">More</span></button>
+    <button class="ts-btn ts-btn--ghost" style="background-color: var(--ts-this-bg-active); border-color: var(--ts-this-bg-border-active); color: var(--ts-text-primary); transform: translateY(calc(var(--ts-btn-size) * 0.04));"><i class="ts-icon fa-solid fa-ellipsis-vertical"></i><span class="ts-btn-text">More</span></button>
+    <button class="ts-btn ts-btn--ghost" style="background-color: var(--ts-this-bg-focus); border-color: var(--ts-this-bg-border-focus); color: var(--ts-text-primary); outline: var(--ts-btn-border-w) solid var(--ts-this-bg-focus-ring); outline-offset: calc(var(--ts-btn-border-w) * 1.5);"><i class="ts-icon fa-solid fa-ellipsis-vertical"></i><span class="ts-btn-text">More</span></button>
+    <button class="ts-btn ts-btn--ghost" disabled><i class="ts-icon fa-solid fa-ellipsis-vertical"></i><span class="ts-btn-text">More</span></button>
+
+    <div class="h row-h">danger</div>
+    <button class="ts-btn ts-btn--danger"><i class="ts-icon fa-solid fa-trash"></i><span class="ts-btn-text">Delete</span></button>
+    <button class="ts-btn ts-btn--danger" style="background-color: var(--ts-this-bg-hover); border-color: var(--ts-this-bg-border-hover);"><i class="ts-icon fa-solid fa-trash"></i><span class="ts-btn-text">Delete</span></button>
+    <button class="ts-btn ts-btn--danger" style="background-color: var(--ts-this-bg-active); border-color: var(--ts-this-bg-border-active); transform: translateY(calc(var(--ts-btn-size) * 0.04));"><i class="ts-icon fa-solid fa-trash"></i><span class="ts-btn-text">Delete</span></button>
+    <button class="ts-btn ts-btn--danger" style="background-color: var(--ts-this-bg-focus); border-color: var(--ts-this-bg-border-focus); outline: var(--ts-btn-border-w) solid var(--ts-this-bg-focus-ring); outline-offset: calc(var(--ts-btn-border-w) * 1.5);"><i class="ts-icon fa-solid fa-trash"></i><span class="ts-btn-text">Delete</span></button>
+    <button class="ts-btn ts-btn--danger" disabled><i class="ts-icon fa-solid fa-trash"></i><span class="ts-btn-text">Delete</span></button>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────────────────────────
+     5 · ICONS — left, right, only, counter, spinner
+     ───────────────────────────────────────────────────────────────── -->
+<h2>5 · Icons + counters + spinners</h2>
+<p class="sub">
+  Icons use the <code>ts-icon</code> class on any FontAwesome glyph. Size, alignment,
+  line-height are driven by <code>--ts-btn-icon-size</code> — derived from
+  <code>--ts-btn-fs × --ts-btn-icon-ratio</code>. The counter pill and spinner share the
+  same scale so the row never breaks rhythm.
+</p>
+<div class="rule"></div>
+
+<div class="ctx" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+  <div class="ctx-head"><h3>Icon · text · counter compositions</h3></div>
+
+  <div class="row">
+    <span class="colhead">icon → text</span>
+    <button class="ts-btn ts-btn--primary"><i class="ts-icon fa-solid fa-floppy-disk"></i><span class="ts-btn-text">Save</span></button>
+    <button class="ts-btn ts-btn--secondary"><i class="ts-icon fa-solid fa-download"></i><span class="ts-btn-text">Download</span></button>
+    <button class="ts-btn ts-btn--outline"><i class="ts-icon fa-brands fa-github"></i><span class="ts-btn-text">Sign in with GitHub</span></button>
+    <button class="ts-btn ts-btn--ghost"><i class="ts-icon fa-solid fa-magnifying-glass"></i><span class="ts-btn-text">Search</span></button>
+  </div>
+
+  <div class="row">
+    <span class="colhead">text → icon</span>
+    <button class="ts-btn ts-btn--primary"><span class="ts-btn-text">Continue</span><i class="ts-icon fa-solid fa-arrow-right"></i></button>
+    <button class="ts-btn ts-btn--secondary"><span class="ts-btn-text">Open</span><i class="ts-icon fa-solid fa-arrow-up-right-from-square"></i></button>
+    <button class="ts-btn ts-btn--outline"><span class="ts-btn-text">Read docs</span><i class="ts-icon fa-solid fa-book"></i></button>
+    <button class="ts-btn ts-btn--ghost"><span class="ts-btn-text">More</span><i class="ts-icon fa-solid fa-chevron-down"></i></button>
+  </div>
+
+  <div class="row">
+    <span class="colhead">counter</span>
+    <button class="ts-btn ts-btn--primary"><i class="ts-icon fa-solid fa-bell"></i><span class="ts-btn-text">Notifications</span><span class="ts-btn__counter">12</span></button>
+    <button class="ts-btn ts-btn--secondary"><i class="ts-icon fa-solid fa-inbox"></i><span class="ts-btn-text">Inbox</span><span class="ts-btn__counter">3</span></button>
+    <button class="ts-btn ts-btn--outline"><i class="ts-icon fa-solid fa-tag"></i><span class="ts-btn-text">Tagged</span><span class="ts-btn__counter">128</span></button>
+    <button class="ts-btn ts-btn--ghost"><i class="ts-icon fa-regular fa-comment"></i><span class="ts-btn-text">Comments</span><span class="ts-btn__counter">9</span></button>
+  </div>
+
+  <div class="row">
+    <span class="colhead">loading</span>
+    <button class="ts-btn ts-btn--primary is-loading"><span class="ts-btn__spinner"></span><span class="ts-btn-text">Saving…</span></button>
+    <button class="ts-btn ts-btn--secondary is-loading"><span class="ts-btn__spinner"></span><span class="ts-btn-text">Fetching…</span></button>
+    <button class="ts-btn ts-btn--outline is-loading"><span class="ts-btn__spinner"></span><span class="ts-btn-text">Compiling…</span></button>
+    <button class="ts-btn ts-btn--ghost is-loading"><span class="ts-btn__spinner"></span><span class="ts-btn-text">Loading…</span></button>
+  </div>
+
+  <div class="row">
+    <span class="colhead">icon only</span>
+    <button class="ts-btn ts-btn--primary ts-btn--icon" aria-label="Play"><i class="ts-icon fa-solid fa-play"></i></button>
+    <button class="ts-btn ts-btn--secondary ts-btn--icon" aria-label="Edit"><i class="ts-icon fa-solid fa-pen"></i></button>
+    <button class="ts-btn ts-btn--outline ts-btn--icon" aria-label="Settings"><i class="ts-icon fa-solid fa-gear"></i></button>
+    <button class="ts-btn ts-btn--ghost ts-btn--icon" aria-label="More"><i class="ts-icon fa-solid fa-ellipsis"></i></button>
+    <button class="ts-btn ts-btn--danger ts-btn--icon" aria-label="Close"><i class="ts-icon fa-solid fa-xmark"></i></button>
+    <button class="ts-btn ts-btn--icon ts-btn--pill" aria-label="Like"><i class="ts-icon fa-solid fa-heart"></i></button>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────────────────────────
+     6 · GRADIENT SKINS — opt-in "lush mode"
+     ───────────────────────────────────────────────────────────────── -->
+<h2>6 · Gradient skins · lush mode</h2>
+<p class="sub">
+  Opt-in only — every skin reads its colors from the v3 gradient library, which is
+  itself parametric off <code>--ts-this-bg</code> and <code>--ts-grad-tint</code>.
+  Add a single <code>.ts-lush</code> on any wrapper and the children get gradient
+  surfaces without touching the variant classes.
+</p>
+<div class="rule"></div>
+
+<div class="ctx" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+  <div class="ctx-head"><h3>Skin classes — drop on any variant</h3><div class="tag">--grad · --grad-mix · --grad-mesh · --grad-sheen</div></div>
+  <div class="row">
+    <button class="ts-btn ts-btn--primary"><i class="ts-icon fa-solid fa-bolt"></i><span class="ts-btn-text">Default primary</span></button>
+    <button class="ts-btn ts-btn--primary ts-btn--grad"><i class="ts-icon fa-solid fa-bolt"></i><span class="ts-btn-text">+ grad-bg</span></button>
+    <button class="ts-btn ts-btn--primary ts-btn--grad-mesh"><i class="ts-icon fa-solid fa-bolt"></i><span class="ts-btn-text">+ grad-mesh</span></button>
+    <button class="ts-btn ts-btn--primary ts-btn--grad-sheen"><i class="ts-icon fa-solid fa-bolt"></i><span class="ts-btn-text">+ grad-sheen</span></button>
+  </div>
+  <div class="row">
+    <button class="ts-btn ts-btn--secondary"><span class="ts-btn-text">Default secondary</span></button>
+    <button class="ts-btn ts-btn--secondary ts-btn--grad"><span class="ts-btn-text">+ grad-bg</span></button>
+    <button class="ts-btn ts-btn--secondary ts-btn--grad-mix"><span class="ts-btn-text">+ grad-mix</span></button>
+    <button class="ts-btn ts-btn--secondary ts-btn--grad-mesh"><span class="ts-btn-text">+ grad-mesh</span></button>
+    <button class="ts-btn ts-btn--secondary ts-btn--grad-sheen"><span class="ts-btn-text">+ grad-sheen</span></button>
+  </div>
+</div>
+
+<div class="ctx ts-lush" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+  <div class="ctx-head"><h3>Wrap in <code style="font-family:'JetBrains Mono',monospace;font-size:11.5px;background:#0c0d0f;padding:2px 5px;border-radius:3px;">.ts-lush</code> → every button skins up</h3><div class="tag">no class changes on the buttons</div></div>
+  <div class="row">
+    <button class="ts-btn ts-btn--primary"><i class="ts-icon fa-solid fa-bolt"></i><span class="ts-btn-text">Primary</span></button>
+    <button class="ts-btn ts-btn--secondary"><span class="ts-btn-text">Secondary</span></button>
+    <button class="ts-btn ts-btn--raised"><span class="ts-btn-text">Raised</span></button>
+    <button class="ts-btn ts-btn--soft"><i class="ts-icon fa-solid fa-sparkles"></i><span class="ts-btn-text">Soft</span></button>
+    <button class="ts-btn ts-btn--outline"><span class="ts-btn-text">Outline (untouched)</span></button>
+    <button class="ts-btn ts-btn--ghost"><i class="ts-icon fa-solid fa-ellipsis"></i><span class="ts-btn-text">Ghost (untouched)</span></button>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────────────────────────
+     7 · BUTTON GROUPS — shared edges, individual state
+     ───────────────────────────────────────────────────────────────── -->
+<h2>7 · Button groups</h2>
+<p class="sub">
+  Siblings share a single border edge. Hover/focus auto-promote the active button via
+  z-index so the highlight stays visible across the seam.
+</p>
+<div class="rule"></div>
+
+<div class="ctx" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+  <div class="row" style="gap: 18px;">
+    <div class="ts-btn-group">
+      <button class="ts-btn ts-btn--secondary"><i class="ts-icon fa-solid fa-bold"></i></button>
+      <button class="ts-btn ts-btn--secondary"><i class="ts-icon fa-solid fa-italic"></i></button>
+      <button class="ts-btn ts-btn--secondary"><i class="ts-icon fa-solid fa-underline"></i></button>
+      <button class="ts-btn ts-btn--secondary"><i class="ts-icon fa-solid fa-strikethrough"></i></button>
+    </div>
+
+    <div class="ts-btn-group">
+      <button class="ts-btn"><i class="ts-icon fa-solid fa-align-left"></i></button>
+      <button class="ts-btn"><i class="ts-icon fa-solid fa-align-center"></i></button>
+      <button class="ts-btn"><i class="ts-icon fa-solid fa-align-right"></i></button>
+      <button class="ts-btn"><i class="ts-icon fa-solid fa-align-justify"></i></button>
+    </div>
+
+    <div class="ts-btn-group">
+      <button class="ts-btn ts-btn--outline"><span class="ts-btn-text">Day</span></button>
+      <button class="ts-btn ts-btn--outline"><span class="ts-btn-text">Week</span></button>
+      <button class="ts-btn ts-btn--outline"><span class="ts-btn-text">Month</span></button>
+      <button class="ts-btn ts-btn--outline"><span class="ts-btn-text">Year</span></button>
+    </div>
+
+    <div class="ts-btn-group">
+      <button class="ts-btn ts-btn--primary"><i class="ts-icon fa-solid fa-cloud-arrow-up"></i><span class="ts-btn-text">Deploy</span></button>
+      <button class="ts-btn ts-btn--primary ts-btn--icon"><i class="ts-icon fa-solid fa-chevron-down"></i></button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────────────────────────
+     8 · CONTEXT ADAPTATION — same markup, three surfaces
+     ───────────────────────────────────────────────────────────────── -->
+<h2>8 · Adapts to any surface · zero overrides on the buttons</h2>
+<p class="sub">
+  Each row sets a different <code>--ts-this-bg</code> on the wrapper. The same
+  button markup recomputes ink, borders, focus tint, hover lift — automatically.
+</p>
+<div class="rule"></div>
+
+<div class="ctx" style="--ts-this-bg: oklch(20.92% 0.00611 271.12);">
+  <div class="ctx-head"><h3>On bg-1 (canonical card)</h3><div class="basecol">oklch(20.92% 0.00611 271.12)</div></div>
+  <div class="row">
+    <button class="ts-btn ts-btn--primary"><i class="ts-icon fa-solid fa-bolt"></i><span class="ts-btn-text">Primary</span></button>
+    <button class="ts-btn"><span class="ts-btn-text">Default</span></button>
+    <button class="ts-btn ts-btn--outline"><span class="ts-btn-text">Outline</span></button>
+    <button class="ts-btn ts-btn--ghost"><i class="ts-icon fa-solid fa-ellipsis"></i><span class="ts-btn-text">Ghost</span></button>
+  </div>
+</div>
+
+<div class="ctx" style="--ts-this-bg: oklch(28.19% 0.00924 276.79);">
+  <div class="ctx-head"><h3>On bg-3 (raised surface)</h3><div class="basecol">oklch(28.19% 0.00924 276.79)</div></div>
+  <div class="row">
+    <button class="ts-btn ts-btn--primary"><i class="ts-icon fa-solid fa-bolt"></i><span class="ts-btn-text">Primary</span></button>
+    <button class="ts-btn"><span class="ts-btn-text">Default</span></button>
+    <button class="ts-btn ts-btn--outline"><span class="ts-btn-text">Outline</span></button>
+    <button class="ts-btn ts-btn--ghost"><i class="ts-icon fa-solid fa-ellipsis"></i><span class="ts-btn-text">Ghost</span></button>
+  </div>
+</div>
+
+<div class="ts-on-accent ctx" style="--ts-this-bg: var(--ts-accent); color: var(--ts-on-accent);">
+  <div class="ctx-head"><h3 style="color: var(--ts-on-accent);">On accent (chromatic surface · ink auto-flips)</h3><div class="basecol" style="color: color-mix(in oklab, var(--ts-on-accent), transparent 30%);">oklch(67.59% 0.21747 38.80)</div></div>
+  <div class="row">
+    <button class="ts-btn"><span class="ts-btn-text">Default</span></button>
+    <button class="ts-btn ts-btn--secondary"><span class="ts-btn-text">Secondary</span></button>
+    <button class="ts-btn ts-btn--outline" style="color: var(--ts-on-accent); border-color: color-mix(in oklab, var(--ts-on-accent), transparent 50%);"><span class="ts-btn-text">Outline</span></button>
+    <button class="ts-btn ts-btn--ghost" style="color: color-mix(in oklab, var(--ts-on-accent), transparent 20%);"><i class="ts-icon fa-solid fa-ellipsis"></i><span class="ts-btn-text">Ghost</span></button>
+  </div>
+</div>
+
+<div class="ctx" style="--ts-this-bg: oklch(96% 0.005 100); color: oklch(20% 0 0);">
+  <div class="ctx-head"><h3 style="color: oklch(20% 0 0);">On a light surface (verifies hue stability across lightness)</h3><div class="basecol" style="color: oklch(45% 0 0);">oklch(96% 0.005 100)</div></div>
+  <div class="row">
+    <button class="ts-btn ts-btn--primary"><i class="ts-icon fa-solid fa-bolt"></i><span class="ts-btn-text">Primary</span></button>
+    <button class="ts-btn"><span class="ts-btn-text">Default</span></button>
+    <button class="ts-btn ts-btn--outline"><span class="ts-btn-text">Outline</span></button>
+    <button class="ts-btn ts-btn--ghost"><i class="ts-icon fa-solid fa-ellipsis"></i><span class="ts-btn-text">Ghost</span></button>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────────────────────────
+     9 · USAGE
+     ───────────────────────────────────────────────────────────────── -->
+<h2>9 · Markup contract</h2>
+<p class="sub">
+  SmartButton DOM target — icon, text span, optional counter/spinner. The component
+  works without the span, but giving every button a <code>.ts-btn-text</code> wrapper
+  lets icon spacing, counters, and loading states stay aligned across variants.
+</p>
+<div class="rule"></div>
+
+<pre class="code"><span class="c">&lt;!-- primary, icon + text + counter --&gt;</span>
+<span class="t">&lt;button</span> <span class="k">class</span>=<span class="v">"ts-btn ts-btn--primary ts-btn--lg"</span><span class="t">&gt;</span>
+  <span class="t">&lt;i</span>    <span class="k">class</span>=<span class="v">"ts-icon fa-solid fa-bell"</span><span class="t">&gt;&lt;/i&gt;</span>
+  <span class="t">&lt;span</span> <span class="k">class</span>=<span class="v">"ts-btn-text"</span><span class="t">&gt;</span>Notifications<span class="t">&lt;/span&gt;</span>
+  <span class="t">&lt;span</span> <span class="k">class</span>=<span class="v">"ts-btn__counter"</span><span class="t">&gt;</span>12<span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/button&gt;</span>
+
+<span class="c">/* retune the whole system from any ancestor */</span>
+<span class="k">.sidebar</span>   { <span class="k">--ts-btn-base</span>: <span class="v">13px</span>; }      <span class="c">/* tight controls   */</span>
+<span class="k">.hero</span>      { <span class="k">--ts-btn-base</span>: <span class="v">20px</span>; }      <span class="c">/* prominent CTAs   */</span>
+<span class="k">.toolbar</span>   { <span class="k">--ts-btn-base</span>: <span class="v">12px</span>;
+              <span class="k">--ts-btn-radius-ratio</span>: <span class="v">.25</span>; } <span class="c">/* squarer corners  */</span>
+
+<span class="c">/* lush gradient mode — no class changes on the buttons */</span>
+<span class="t">&lt;div</span> <span class="k">class</span>=<span class="v">"ts-lush"</span><span class="t">&gt;</span> <span class="c">/* …buttons… */</span> <span class="t">&lt;/div&gt;</span></pre>
+
+
+<div class="footer">
+  <span>ts-btn v3 · v2 surface engine · oklab safe · zero static dims</span>
+  <span>ratio-driven · context-adaptive · token-only</span>
+</div>
+
+
+<!-- ─────────────────────────────────────────────────────────────────
+     LIVE TWEAKS PANEL
+     ───────────────────────────────────────────────────────────────── -->
+<aside class="knobs" id="knobs">
+  <h5>live tweaks</h5>
+
+  <div class="group">
+    <div class="gh">root</div>
+    <div class="row"><label>--ts-btn-base</label><span class="val" id="v-base">45</span></div>
+    <input type="range" min="24" max="96" step="1" value="45" id="r-base">
+    <div class="row"><label>--ts-btn-scale</label><span class="val" id="v-scale">1.00</span></div>
+    <input type="range" min="0.5" max="2.2" step="0.05" value="1" id="r-scale">
+  </div>
+
+  <div class="group">
+    <div class="gh">ratios — original recipe</div>
+    <div class="row"><label>--ts-btn-h-ratio</label><span class="val" id="v-h">1.00</span></div>
+    <input type="range" min="0.5" max="1.6" step="0.02" value="1" id="r-h">
+    <div class="row"><label>--ts-btn-fs-ratio</label><span class="val" id="v-fs">0.23</span></div>
+    <input type="range" min="0.14" max="0.4" step="0.01" value="0.23" id="r-fs">
+    <div class="row"><label>--ts-btn-pad-x-ratio</label><span class="val" id="v-px">0.45</span></div>
+    <input type="range" min="0.15" max="1" step="0.02" value="0.45" id="r-px">
+    <div class="row"><label>--ts-btn-pad-y-ratio</label><span class="val" id="v-py">0.42</span></div>
+    <input type="range" min="0.15" max="0.9" step="0.02" value="0.42" id="r-py">
+    <div class="row"><label>--ts-btn-radius-ratio</label><span class="val" id="v-rad">0.18</span></div>
+    <input type="range" min="0" max="1" step="0.02" value="0.18" id="r-rad">
+    <div class="row"><label>--ts-btn-icon-ratio</label><span class="val" id="v-ic">1.00</span></div>
+    <input type="range" min="0.6" max="1.8" step="0.05" value="1" id="r-ic">
+    <div class="row"><label>--ts-btn-letter-ratio</label><span class="val" id="v-ls">0.06</span></div>
+    <input type="range" min="0" max="0.2" step="0.005" value="0.06" id="r-ls">
+  </div>
+
+  <div class="group">
+    <div class="gh">brand</div>
+    <div class="row"><label>--ts-accent-h</label><span class="val" id="v-ah">18</span></div>
+    <input type="range" min="0" max="360" step="1" value="18" id="r-ah">
+  </div>
+</aside>
+
+<script>
+  const root = document.documentElement;
+  const bind = (id, prop, fmt, unit = '') => {
+    const r = document.getElementById('r-' + id);
+    const v = document.getElementById('v-' + id);
+    const apply = () => {
+      const raw = parseFloat(r.value);
+      v.textContent = fmt ? fmt(raw) : raw.toFixed(2);
+      root.style.setProperty(prop, raw + unit);
+    };
+    r.addEventListener('input', apply); apply();
+  };
+  bind('base',  '--ts-btn-base',         x => Math.round(x));
+  bind('scale', '--ts-btn-scale',        x => x.toFixed(2));
+  bind('h',     '--ts-btn-h-ratio',      x => x.toFixed(2));
+  bind('fs',    '--ts-btn-fs-ratio',     x => x.toFixed(2));
+  bind('px',    '--ts-btn-pad-x-ratio',  x => x.toFixed(2));
+  bind('py',    '--ts-btn-pad-y-ratio',  x => x.toFixed(2));
+  bind('rad',   '--ts-btn-radius-ratio', x => x.toFixed(2));
+  bind('ic',    '--ts-btn-icon-ratio',   x => x.toFixed(2));
+  bind('ls',    '--ts-btn-letter-ratio', x => x.toFixed(3));
+  bind('ah',    '--ts-accent-h',         x => Math.round(x));
+
+  /* Auto-wrap loose text nodes in <span class="ts-btn-text"> so the icon-only
+     toggle (.ts-btn--icon) can hide just the label without touching markup. */
+  document.querySelectorAll('.ts-btn').forEach(btn => {
+    [...btn.childNodes].forEach(node => {
+      if (node.nodeType === 3 && node.textContent.trim().length > 0) {
+        const span = document.createElement('span');
+        span.className = 'ts-btn-text';
+        span.textContent = node.textContent.trim();
+        node.replaceWith(span);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

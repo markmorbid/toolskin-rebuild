@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ts-btn · first component on the v2 engine</title>
+<!-- LOAD ORDER per HANDOFF.md: base → surface engine → component -->
+<link rel="stylesheet" href="toolskin.css">
+<link rel="stylesheet" href="toolskin-this-bg-v2.css">
+<link rel="stylesheet" href="toolskin-gradients-v3.css">
+<link rel="stylesheet" href="ts-button.css">
+<style>
+  body { background: var(--ts-bg-body); color: var(--ts-text-primary);
+         font-family: system-ui, sans-serif; margin: 0; padding: 3rem; }
+  h1 { font-size: var(--ts-fs-2xl); margin: 0 0 .25rem; }
+  .sub { color: var(--ts-text-muted); margin: 0 0 2rem; font-size: var(--ts-fs-sm); }
+  .row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+         padding: 1.5rem; margin-bottom: 1rem; border-radius: 12px;
+         background: var(--ts-bg-1); }
+  .label { width: 100%; font-size: var(--ts-fs-xs); color: var(--ts-text-muted);
+           text-transform: uppercase; letter-spacing: .08em; margin-bottom: .25rem; }
+  .toggle { position: fixed; top: 1rem; right: 1rem; display: flex; gap: .5rem; }
+</style>
+</head>
+<body>
+  <div class="toggle">
+    <button class="ts-btn ts-btn--sm" data-theme onclick="document.documentElement.dataset.theme='dark'">Dark</button>
+    <button class="ts-btn ts-btn--sm" data-theme onclick="document.documentElement.dataset.theme='light'">Light</button>
+  </div>
+
+  <h1>ts-btn</h1>
+  <p class="sub">First component on the v2 engine. Zero hardcoded colors. Every state derives from --ts-this-bg in oklab. Hover, click, and tab to each button — focus is a warm tint, never purple.</p>
+
+  <div class="row">
+    <span class="label">Default surface · all states</span>
+    <button class="ts-btn">Default</button>
+    <button class="ts-btn ts-btn--primary">Primary</button>
+    <button class="ts-btn ts-btn--raised">Raised</button>
+    <button class="ts-btn ts-btn--ghost">Ghost</button>
+    <button class="ts-btn" disabled>Disabled</button>
+  </div>
+
+  <div class="row">
+    <span class="label">Sizes (knob-only, no duplicated block)</span>
+    <button class="ts-btn ts-btn--sm">Small</button>
+    <button class="ts-btn">Medium</button>
+    <button class="ts-btn ts-btn--lg">Large</button>
+  </div>
+
+  <div class="row" style="--ts-this-bg: var(--ts-accent);">
+    <span class="label" style="color: var(--ts-on-accent);">On an accent surface — the engine recomputes ink + borders automatically</span>
+    <button class="ts-btn">Auto-adapts</button>
+    <button class="ts-btn ts-btn--ghost">Ghost on accent</button>
+  </div>
+</body>
+</html>
