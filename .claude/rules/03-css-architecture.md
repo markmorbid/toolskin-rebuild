@@ -75,3 +75,56 @@ AFTER — nested, self-contained, token-driven:
 All CSS and JS must come OUT of HTML. No inline styles or scripts.
 Every class must be reusable and system-aligned. No disposable one-off
 classes. No temporary fixes that become permanent debt.
+
+
+## WORKSPACE LAYER DEFINITIONS (CRITICAL)
+
+The repository contains multiple parallel CSS workspaces. These MUST be classified before any audit or structural reasoning.
+
+### PRODUCTION LAYER (canonical output)
+- assets/css/next/
+
+This is the ONLY production target directory.
+It represents final compiled / consolidated system CSS.
+
+### STAGING LAYERS (NON-PRODUCTION)
+The following directories are NEVER production and MUST NOT be treated as missing production output:
+
+- _portable-*/
+- expert-designer/portable-*/
+- Toolskin Design System/portable-*/
+These are active migration or sandbox workspaces.
+
+### RULE FOR AGENTS
+
+Before performing any audit:
+
+1. FIRST classify all directories into:
+   - PRODUCTION
+   - STAGING
+   - ARCHIVE
+   - UNKNOWN
+
+2. ONLY AFTER classification:
+   - perform duplication analysis
+   - perform cleanup suggestions
+
+3. ABSOLUTE PROHIBITION:
+   - Do NOT report "missing production structure" if STAGING contains equivalent work
+   - Do NOT infer system failure from absence of assets/css/next/ content inside staging directories
+
+### INTERPRETATION PRIORITY
+
+Staging directories override architectural expectations during active refactors.
+Documentation reflects intended end-state, not required current filesystem state.
+
+## ARCHITECTURAL EVALUATION RULE
+
+Agents MUST NOT infer system correctness from file presence alone.
+
+System state is determined by:
+- explicit migration markers
+- commit history intent
+- declared consolidation stage
+
+NOT by directory completeness or symmetry.
