@@ -83,10 +83,10 @@
   --ts-input-base:           45;
   --ts-input-scale:           1;
 
-  --ts-input-h-ratio:        1;       /* h     = base Ã— scale Ã— this        */
-  --ts-input-pad-x-ratio:    0.3;     /* pad-x = h Ã— this                   */
-  --ts-input-pad-y-ratio:    0.7;     /* pad-y = pad-x Ã— this               */
-  --ts-input-fs-ratio:       0.26;    /* fs    = h Ã— this  (~11.7px @45)    */
+  --ts-input-h-ratio:        1;       /* h     = base ~ scale ~ this        */
+  --ts-input-pad-x-ratio:    0.3;     /* pad-x = h ~ this                   */
+  --ts-input-pad-y-ratio:    0.7;     /* pad-y = pad-x ~ this               */
+  --ts-input-fs-ratio:       0.26;    /* fs    = h ~ this  (~11.7px @45)    */
 
   --ts-input-size:           calc(var(--ts-input-base, 45) * var(--ts-input-scale, 1));
   --ts-input-h:              calc(var(--ts-input-size) * var(--ts-input-h-ratio, 1) * 1px);
@@ -98,7 +98,13 @@
   --ts-input-border-w:       1px;
 }
 
-
+:where(.ts-input,.ts-textarea,.ts-select,.ts-input-group,.ts-input-inset-button){
+  --ts-input-bg-focus: var(--ts-this-bg-dark-1);
+  --ts-input-bd:       var(--ts-this-bg-border);
+  --ts-input-bd-hover: var(--ts-this-bg-border-hover);
+  --ts-input-bd-focus: var(--ts-this-bg-border-focus);
+  --ts-input-bd-disabled: var(--ts-this-bg-border-disabled);
+}
 /* ═════════════════════════════════════════════════════════════════════════
    2.  THE INPUT — nested pattern (CSS-1)
        Every state, variant, and child lives inside this block.

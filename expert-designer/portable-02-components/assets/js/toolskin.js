@@ -1334,8 +1334,7 @@ setMode(mode, save = true, opts = {}) {
         const cWhite = Number(accent.contrast(white, 'WCAG21') || 0);
         const cBlack = Number(accent.contrast(black, 'WCAG21') || 0);
         const onAccent = cWhite >= cBlack ? '#ffffff' : '#0f1012';
-        root.style.setProperty('--ts-on-accent', onAccent);
-        root.style.setProperty('--ts-accent-contrast', String(Math.max(cWhite, cBlack).toFixed(2)));
+/*        root.style.setProperty('--ts-accent-contrast', String(Math.max(cWhite, cBlack).toFixed(2)));*/
         window.dispatchEvent(new CustomEvent('ts:accent-contrast', { detail: { onAccent, cWhite, cBlack } }));
         return;
       }
@@ -1352,17 +1351,17 @@ setMode(mode, save = true, opts = {}) {
     const cWhite = (1.05) / (L + 0.05);
     const cBlack = (L + 0.05) / 0.05;
     const onAccent = cWhite >= cBlack ? '#ffffff' : '#0f1012';
-    root.style.setProperty('--ts-on-accent', onAccent);
-    root.style.setProperty('--ts-accent-contrast', String(Math.max(cWhite, cBlack).toFixed(2)));
+/*    root.style.setProperty('--ts-on-accent', onAccent);*/
+/*    root.style.setProperty('--ts-accent-contrast', String(Math.max(cWhite, cBlack).toFixed(2)));*/
   }
 
   static setRadius(px) {
-    document.documentElement.style.setProperty('--ts-radius-base', `${px}px`);
+/*    document.documentElement.style.setProperty('--ts-radius-base', `${px}px`);*/
   }
 
   static setFont(family) {
-    document.documentElement.style.setProperty('--ts-font-body', family);
-    document.documentElement.style.setProperty('--ts-font-display', family);
+/*    document.documentElement.style.setProperty('--ts-font-body', family);*/
+/*    document.documentElement.style.setProperty('--ts-font-display', family);*/
   }
 }
 

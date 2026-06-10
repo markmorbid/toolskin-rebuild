@@ -1,0 +1,605 @@
+@charset "UTF-8";
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLSKIN · ts-input — Text input / textarea / select / field
+   ───────────────────────────────────────────────────────────────────────────
+   Migrated from toolskin.css.frozen §6d (lines 6180-6820, 6920-7260) onto the
+   v2 `--ts-this-bg` engine. Phase 2 · Wave 1.
+
+   What changed vs the frozen spec
+   ───────────────────────────────
+     • Multi-selector base rule (`.ts-input:not(.ts-resizable), .ts-select,
+       .ts-textarea:not(.ts-resizable), .ts-ui-select__trigger, …` — frozen
+       line 6931-6966) DROPPED and replaced with the nested-pattern law
+       (CSS-1): each public component (.ts-input, .ts-textarea, .ts-select,
+       .ts-input-group, .ts-input-inset-button) owns a self-contained block.
+       Shared behavior comes from shared CSS custom properties, not shared
+       selector commas.
+     • Cross-component `:has()` coupling between `.ts-input-group` and
+       `.ts-btn` (frozen line 6972-6980, 7028-7041) DROPPED. The frozen
+       pattern reached into ts-btn's --_btn-color private variable from an
+       input-group selector — a CSS-1 violation, an architecture leak, and
+       the source of the "input-inset-button hovers paint the whole row
+       accent" surprise. Replaced with a clean `:focus-within` re-anchor on
+       the group that the nested .ts-input-inset-button picks up via its
+       own `&:has(.ts-input:focus-visible)` rule.
+     • All `!important` declarations DROPPED (CSS-1 makes specificity solvable).
+     • All `color-mix(in srgb, …)` calls DROPPED (RULE S3). The frozen
+       `.ts-input.ts-glow-hover:focus { box-shadow: … color-mix(in srgb, …) }`
+       (line 7102) is reimplemented using `--ts-this-bg-focus-ring` from
+       the engine, which is an oklab mix.
+     • `currentColor`-based borders never appeared in the canonical block,
+       but the frozen recipe leaned on a chain of locally-redeclared
+       `--ts-input-border` aliases for the same effect. Dropped (RULE S6) —
+       borders consume `--ts-this-bg-border*` derivatives the engine emits.
+     • Local redeclarations of `--ts-this-bg-dim-3` / `--ts-this-bg-border`
+       DROPPED (RULE S6).
+     • Frozen used a hardcoded `--ts-text-primary-dim-2` for ink. That
+       primitive does not exist in this repo's primitives/; ink is now
+       derived inside the component via oklab from `--ts-text-primary` and
+       brightens on focus, matching the frozen "keep dim by default,
+       brighten on focus" intent (frozen lines 629-631).
+     • Invalid state added: `[aria-invalid="true"]` + `.is-invalid` route
+       through the engine's `--ts-this-bg-danger` / `--ts-this-bg-border`
+       chain. The frozen spec only described the OK/focus axis; invalid
+       was implied by browser default `:invalid` which is unreliable
+       (form-not-yet-submitted false positives).
+     • The modal-context override (`.ts-modal__body .ts-input …`, frozen
+       lines 7161-7184) is NOT migrated — modal is Phase 3+. Re-add as a
+       context override in ts-modal.css when that block lands.
+     • The `.ts-glow-hover` opt-in glow ring is preserved as a modifier
+       on the input block via the engine's focus-ring token.
+
+   Sizing model — mirrors ts-btn v3.1
+   ──────────────────────────────────
+   Input height + dimensions derive from an unitless base × ratios, the
+   same recipe ts-btn uses (`base = 45, h = base × scale × h-ratio …`).
+   This lets a tweak panel slider drive the whole input row size with one
+   knob, and the input always sits proportionally to the buttons next to
+   it in a row.
+
+   Load order:
+     1. primitives/colors.css           (--ts-accent, --ts-on-accent, --ts-bg-*)
+     2. primitives/typography.css       (--ts-font-mono, --ts-fs-*)
+     3. primitives/spacing.css          (--ts-sp-*)
+     4. primitives/radius.css           (--ts-radius-sm)
+     5. primitives/motion.css           (--ts-dur-fast, --ts-ease-out)
+     6. primitives/status-tints.css     (--ts-danger, --ts-on-surface-auto)
+     7. system/toolskin-this-bg-v2.css  (the surface state engine)
+     8. components/ts-btn_v3.1.css      (sibling — input-inset-button consumes it)
+     9. components/ts-input.css         (this file)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1.  SIZING ENGINE — INPUT TOKENS  (zero-specificity, cascade-friendly)
+       Same convention as ts-btn v3.1 §1. `--ts-input-base` is UNITLESS so a
+       slider can drive it directly; the derivation chain multiplies by 1px.
+   ───────────────────────────────────────────────────────────────────────── */
+/* `--ts-this-bg` is seeded in system/toolskin-this-bg-v2.css :root
+   (Phase 2 W1-D1). Components inherit it; no per-component seed needed. */
+:where(:root) {
+  --ts-input-base:           45;
+  --ts-input-scale:           1;
+
+  --ts-input-h-ratio:        1;       /* h     = base × scale × this        */
+  --ts-input-pad-x-ratio:    0.3;     /* pad-x = h × this                   */
+  --ts-input-pad-y-ratio:    0.7;     /* pad-y = pad-x × this               */
+  --ts-input-fs-ratio:       0.26;    /* fs    = h × this  (~11.7px @45)    */
+
+  --ts-input-size:           calc(var(--ts-input-base, 45) * var(--ts-input-scale, 1));
+  --ts-input-h:              calc(var(--ts-input-size) * var(--ts-input-h-ratio, 1) * 1px);
+  --ts-input-pad-x:          calc(var(--ts-input-h)    * var(--ts-input-pad-x-ratio, 0.3));
+  --ts-input-pad-y:          calc(var(--ts-input-pad-x) * var(--ts-input-pad-y-ratio, 0.7));
+  --ts-input-fs:             calc(var(--ts-input-h)    * var(--ts-input-fs-ratio, 0.26));
+
+  --ts-input-radius:         var(--ts-radius-sm);
+  --ts-input-border-w:       1px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2.  THE INPUT — nested pattern (CSS-1)
+       Every state, variant, and child lives inside this block.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-input {
+  /* ── INPUT KNOBS — the only place the input declares behavior tokens.
+        A parent context (e.g. an input-group) can override these without
+        touching the rules below. The surface anchor (`--ts-this-bg`) is
+        seeded in `system/toolskin-this-bg-v2.css :root` (Phase 2 W1-D1 —
+        engine-level seed) so the v2 derivatives always resolve. Parent
+        contexts override via the inherited cascade — a `.ts-on-accent`
+        or modal scope reaches the input through normal custom-property
+        inheritance, no per-component override needed. */
+  --ts-input-bg:       var(--ts-this-bg-dim);
+  --ts-input-bg-focus: var(--ts-this-bg-dark-1);
+  --ts-input-bd:       var(--ts-this-bg-border);
+  --ts-input-bd-hover: var(--ts-this-bg-border-hover);
+  --ts-input-bd-focus: var(--ts-this-bg-border-focus);
+  --ts-input-bd-disabled: var(--ts-this-bg-border-disabled);
+
+  /* Ink — dim at rest, brightens on focus. Derived inside the component
+     (the frozen --ts-text-primary-dim-2 alias is not a primitive in this
+     repo). oklab keeps the dim path hue-stable. */
+  --ts-input-ink:        color-mix(in oklab, var(--ts-text-primary), transparent 22%);
+  --ts-input-ink-focus:  var(--ts-text-primary);
+  --ts-this-bg: var(--ts-bg-1);
+
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+
+  width: 100%;
+  height: var(--ts-input-h);
+  padding-block:  var(--ts-input-pad-y);
+  padding-inline: var(--ts-input-pad-x);
+  box-sizing: border-box;
+
+  font-family: inherit;
+  font-size: var(--ts-input-fs);
+  line-height: 1;
+
+  border: var(--ts-input-border-w) solid var(--ts-input-bd);
+  border-radius: var(--ts-input-radius);
+  background-color: var(--ts-input-bg);
+  color: var(--ts-input-ink);
+
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+
+  transition:
+    background-color var(--ts-dur-fast) var(--ts-ease-out),
+    border-color     var(--ts-dur-fast) var(--ts-ease-out),
+    color            var(--ts-dur-fast) var(--ts-ease-out),
+    box-shadow       var(--ts-dur-fast) var(--ts-ease-out);
+
+  /* ─── CHILDREN — placeholder ─── */
+
+  &::placeholder {
+    color: var(--ts-text-muted);
+    opacity: 1;
+  }
+
+  /* ─── STATES ─── */
+
+    &:hover:not(:disabled, [aria-disabled="true"], :focus-visible) {
+    border-color: var(--ts-input-bd-hover);
+  }
+
+  &:focus-visible {
+    background-color: var(--ts-input-bg-focus);
+    border-color:     var(--ts-input-bd-focus);
+    color:            var(--ts-input-ink-focus);
+
+    &::placeholder { color: var(--ts-text-secondary); }
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    border-color: var(--ts-input-bd-disabled);
+    color:        color-mix(in oklab, currentColor, transparent 50%);
+    cursor: not-allowed;
+    opacity: 0.55;
+        --ts-input-bg: var(--ts-this-bg-muted);
+
+  }
+
+  &.is-invalid,
+  &[aria-invalid="true"] {
+    --ts-this-bg: var(--ts-danger);
+    border-color: var(--ts-this-bg-border-focus);
+    color:        var(--ts-this-bg-border-active);
+    --ts-input-bg: var(--ts-this-bg-dim-4);
+    
+    
+
+    &:focus-visible {
+      border-color: var(--ts-this-bg-border-active);
+      box-shadow:   0 0 0 2px color-mix(in oklab, var(--ts-danger), transparent 70%);
+    }
+  }
+
+  /* ─── VARIANTS ─── */
+
+  &.ts-input--mono { font-family: var(--ts-font-mono); }
+
+  /* Optional opt-in glow ring on focus (legacy .ts-glow-hover) — uses the
+     engine's focus-ring token (oklab mix), NOT srgb. */
+  &.ts-glow-hover:focus-visible {
+    box-shadow: 0 0 0 4px var(--ts-this-bg-focus-ring);
+  }
+
+  /* ─── SIZE SCALE — single knob per scale; the derivation chain handles the rest. ─── */
+
+  &.ts-input--xs { --ts-input-scale: 0.72; --ts-input-fs-ratio: 0.28; }
+  &.ts-input--sm { --ts-input-scale: 0.84; --ts-input-fs-ratio: 0.27; }
+  /* md is the default — no class needed */
+  &.ts-input--lg { --ts-input-scale: 1.3;  --ts-input-fs-ratio: 0.22; }
+  &.ts-input--xl { --ts-input-scale: 1.45; --ts-input-fs-ratio: 0.21; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   3.  THE TEXTAREA — same surface contract, multi-line geometry.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-textarea {
+  /* Mirror the input's surface knobs so a parent override hits both. */
+  --ts-input-bg:       var(--ts-this-bg-dim);
+  --ts-input-bg-focus: var(--ts-this-bg-dark-1);
+  --ts-input-bd:       var(--ts-this-bg-border);
+  --ts-input-bd-hover: var(--ts-this-bg-border-hover);
+  --ts-input-bd-focus: var(--ts-this-bg-border-focus);
+  --ts-input-bd-disabled: var(--ts-this-bg-border-disabled);
+
+  --ts-input-ink:        color-mix(in oklab, var(--ts-text-primary), transparent 22%);
+  --ts-input-ink-focus:  var(--ts-text-primary);
+
+  display: block;
+  width: 100%;
+  min-height: 80px;                /* frozen line 7130 */
+  padding-block:  var(--ts-sp-3);  /* frozen line 7128 */
+  padding-inline: var(--ts-input-pad-x);
+
+  font-family: inherit;
+  font-size: var(--ts-input-fs);
+  line-height: var(--ts-lh-normal);
+
+  border: var(--ts-input-border-w) solid var(--ts-input-bd);
+  border-radius: var(--ts-input-radius);
+  background-color: var(--ts-input-bg);
+  color: var(--ts-input-ink);
+
+  resize: vertical;                /* frozen line 7129 */
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+
+  transition:
+    background-color var(--ts-dur-fast) var(--ts-ease-out),
+    border-color     var(--ts-dur-fast) var(--ts-ease-out),
+    color            var(--ts-dur-fast) var(--ts-ease-out),
+    box-shadow       var(--ts-dur-fast) var(--ts-ease-out);
+
+  &::placeholder { color: var(--ts-text-muted); opacity: 1; }
+
+  &:hover:not(:disabled, [aria-disabled="true"], :focus-visible) {
+    border-color: var(--ts-input-bd-hover);
+  }
+
+  &:focus-visible {
+    background-color: var(--ts-input-bg-focus);
+    border-color:     var(--ts-input-bd-focus);
+    color:            var(--ts-input-ink-focus);
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    border-color: var(--ts-input-bd-disabled);
+    color:        color-mix(in oklab, currentColor, transparent 50%);
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  &.is-invalid,
+  &[aria-invalid="true"] {
+    --ts-this-bg: var(--ts-danger);
+    border-color: var(--ts-this-bg-border-active);
+    color:        var(--ts-this-bg-border-active);
+  }
+
+  /* `.ts-resizable` — frozen line 2526-2538. The frozen rule re-asserted
+     the same bg / border / radius the base already provides; here it just
+     toggles vertical resize off-by-default-on by mirroring the base. */
+  &.ts-resizable {
+    margin-bottom: 0;
+    box-sizing: border-box;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   4.  THE SELECT — same contract + native chevron via background-image.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-select {
+  --ts-input-bg:       var(--ts-this-bg-dim);
+  --ts-input-bg-focus: var(--ts-this-bg-dark-1);
+  --ts-input-bd:       var(--ts-this-bg-border);
+  --ts-input-bd-hover: var(--ts-this-bg-border-hover);
+  --ts-input-bd-focus: var(--ts-this-bg-border-focus);
+  --ts-input-bd-disabled: var(--ts-this-bg-border-disabled);
+
+  --ts-input-ink:        color-mix(in oklab, var(--ts-text-primary), transparent 22%);
+  --ts-input-ink-focus:  var(--ts-text-primary);
+
+  display: inline-flex;
+  align-items: center;
+
+  width: 100%;
+  height: var(--ts-input-h);
+  padding-block:  var(--ts-input-pad-y);
+  padding-inline: var(--ts-input-pad-x);
+  padding-inline-end: var(--ts-sp-8);   /* room for the chevron — frozen 7157 */
+
+  font-family: inherit;
+  font-size: var(--ts-input-fs);
+  line-height: 1;
+
+  border: var(--ts-input-border-w) solid var(--ts-input-bd);
+  border-radius: var(--ts-input-radius);
+  background-color: var(--ts-input-bg);
+  color: var(--ts-input-ink);
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+
+  /* Native chevron, tokenized. Encoded as an inline SVG so it inherits
+     `currentColor` via the data-uri — RULE S2 carve-out: `currentColor` is
+     allowed on icon children, and the chevron is a glyph, not a border. */
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+                    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:
+    calc(100% - var(--ts-sp-5)) 50%,
+    calc(100% - var(--ts-sp-4)) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+
+  transition:
+    background-color var(--ts-dur-fast) var(--ts-ease-out),
+    border-color     var(--ts-dur-fast) var(--ts-ease-out),
+    color            var(--ts-dur-fast) var(--ts-ease-out),
+    box-shadow       var(--ts-dur-fast) var(--ts-ease-out);
+
+  &::placeholder { color: var(--ts-text-muted); opacity: 1; }
+
+  &:hover:not(:disabled, [aria-disabled="true"], :focus-visible) {
+    border-color: var(--ts-input-bd-hover);
+  }
+
+  &:focus-visible {
+    background-color: var(--ts-input-bg-focus);
+    border-color:     var(--ts-input-bd-focus);
+    color:            var(--ts-input-ink-focus);
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    border-color: var(--ts-input-bd-disabled);
+    color:        color-mix(in oklab, currentColor, transparent 50%);
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  &.is-invalid,
+  &[aria-invalid="true"] {
+    --ts-this-bg: var(--ts-danger);
+    border-color: var(--ts-this-bg-border-active);
+    color:        var(--ts-this-bg-border-active);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   5.  THE FIELD — label + control wrapper (frozen §6d lines 6816-6829).
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ts-sp-2);
+
+  & > label,
+  & .ts-field-label {
+    font-size: var(--ts-fs-xs);
+    font-weight: var(--ts-fw-bold, 700);
+    text-transform: uppercase;
+    letter-spacing: var(--ts-tracking-wider);
+    color: var(--ts-text-muted);
+  }
+}
+
+.ts-field-label {
+  font-size: var(--ts-fs-xs);
+  font-weight: var(--ts-fw-bold, 700);
+  text-transform: uppercase;
+  letter-spacing: var(--ts-tracking-wider);
+  color: var(--ts-text-muted);
+}
+
+/* Row layouts for fields (frozen lines 7186-7197) */
+.ts-field-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--ts-sp-2);
+}
+.ts-field-row-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--ts-sp-2);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   6.  THE INPUT-GROUP — icon + input (frozen lines 7203-7251).
+       Self-contained nested block. The inner .ts-input goes transparent so
+       the group's surface paints through; the engine derivatives keep ink
+       and border in sync with the live --ts-this-bg.
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: var(--ts-input-h);
+
+  border: var(--ts-input-border-w) solid var(--ts-this-bg-border);
+  border-radius: var(--ts-input-radius);
+  background-color: var(--ts-this-bg-dim);
+
+  transition:
+    border-color  var(--ts-dur-fast) var(--ts-ease-out),
+    background    var(--ts-dur-fast) var(--ts-ease-out),
+    box-shadow    var(--ts-dur-fast) var(--ts-ease-out);
+
+  /* The .ts-input inside takes the group's surface, so make it transparent
+     and strip its own border/padding without affecting other inputs. */
+  & > .ts-input {
+    flex: 1 1 auto;
+    height: 100%;
+    min-width: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* Icon child — pure presentational glyph. `currentColor` on the icon is
+     the explicit RULE S2 carve-out (icon child, not a border). */
+  & > .ts-input-icon,
+  & > i[class*="fa-"],
+  & > ion-icon,
+  & > svg {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width:  var(--ts-input-h);
+    height: 100%;
+    color: var(--ts-text-muted);
+    font-size: var(--ts-fs-lg);
+    pointer-events: none;
+  }
+
+  /* If the group leads with an icon, pull the input's leading padding to
+     keep the cursor flush with the icon's right edge. */
+  &:has(> .ts-input-icon, > i[class*="fa-"], > ion-icon, > svg) > .ts-input {
+    padding-inline-start: 0;
+  }
+
+  /* Trailing action — non-icon, e.g. a clear button or chip. */
+  & > .ts-input-action {
+    position: relative;
+    right: 0;
+    margin-inline-end: var(--ts-sp-2);
+  }
+
+  /* ── STATES ── propagate the inner input's focus to the wrapper. ── */
+
+  &:hover:not(:focus-within) {
+    border-color: var(--ts-this-bg-border-hover);
+  }
+
+  &:focus-within {
+    border-color: var(--ts-this-bg-border-focus);
+    background-color: var(--ts-this-bg-dark-1);
+
+    & > .ts-input-icon,
+    & > i[class*="fa-"],
+    & > ion-icon,
+    & > svg {
+      color: var(--ts-accent);
+    }
+  }
+
+  &.is-invalid,
+  &[aria-invalid="true"] {
+    --ts-this-bg: var(--ts-danger);
+    border-color: var(--ts-this-bg-border-active);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   7.  THE INPUT + INSET BUTTON — input flush with a trailing ts-btn
+       (frozen lines 6982-7084). Migrated as a nested composition: the
+       group still owns the surface, the input inside is transparent, and
+       the trailing .ts-btn re-anchors --ts-this-bg via .ts-input-btn.
+       NO :has() reach into ts-btn private vars (the frozen pattern at
+       line 6972 was a CSS-1 violation).
+   ───────────────────────────────────────────────────────────────────────── */
+.ts-input-inset-button {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+
+  width: 100%;
+  height: var(--ts-input-h);
+
+  border: var(--ts-input-border-w) solid var(--ts-this-bg-border);
+  border-radius: var(--ts-input-radius);
+  background-color: var(--ts-this-bg-dim);
+
+  transition:
+    border-color  var(--ts-dur-fast) var(--ts-ease-out),
+    background    var(--ts-dur-fast) var(--ts-ease-out);
+
+  & > .ts-input {
+    flex: 1 1 auto;
+    height: 100%;
+    min-width: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    padding-inline-end: var(--ts-sp-2);
+  }
+
+  /* The trailing button. .ts-input-btn is the recognized modifier; we keep
+     it minimal — ts-btn owns its own look, here we only square the leading
+     corners and add the divider line. */
+  & > .ts-btn,
+  & > .ts-input-btn {
+    border-start-start-radius: 0;
+    border-end-start-radius:   0;
+    border-inline-start: var(--ts-input-border-w) solid var(--ts-this-bg-border);
+    height: 100%;
+  }
+
+  &:hover:not(:focus-within) {
+    border-color: var(--ts-this-bg-border-hover);
+
+    & > .ts-btn,
+    & > .ts-input-btn {
+      border-inline-start-color: var(--ts-this-bg-border-hover);
+    }
+  }
+
+  &:focus-within {
+    border-color: var(--ts-this-bg-border-focus);
+
+    & > .ts-btn,
+    & > .ts-input-btn {
+      border-inline-start-color: var(--ts-this-bg-border-focus);
+    }
+  }
+
+  &.is-invalid,
+  &[aria-invalid="true"] {
+    --ts-this-bg: var(--ts-danger);
+    border-color: var(--ts-this-bg-border-active);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   8.  CONTEXT OVERRIDES — scoped re-anchoring, never duplication.
+       The owner's frozen pattern (line 7161-7173) showed inputs deepening
+       in a modal context by overriding --ts-input-bg at the parent. The v2
+       pattern is even simpler: a parent sets `--ts-this-bg`, and every
+       input below it picks up the new surface via the engine derivatives.
+       No per-element rule needed. We provide the explicit on-accent flip
+       below as a safety net for contexts that paint the surface directly.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.ts-on-accent .ts-input,
+.ts-on-accent .ts-textarea,
+.ts-on-accent .ts-select {
+  --ts-input-ink:       color-mix(in oklab, var(--ts-on-accent), transparent 22%);
+  --ts-input-ink-focus: var(--ts-on-accent);
+  color: var(--ts-input-ink);
+
+  &::placeholder { color: color-mix(in oklab, var(--ts-on-accent), transparent 50%); }
+}

@@ -1,0 +1,45 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ts-layerstack" viewBox="0 0 240 100">
+      <rect x="7" y="15" width="84" height="16" rx="4" fill="var(--bar1, #e8e9ea)"></rect>
+      <rect x="16" y="42" width="84" height="16" rx="4" fill="var(--bar2, #FF5500)"></rect>
+      <rect x="7" y="68" width="84" height="16" rx="4" fill="var(--bar3, rgba(232,233,234,0.22))"></rect>
+      <text x="108" y="35" font-family="&#39;Space Grotesk&#39;,system-ui,sans-serif" font-size="52" letter-spacing="-1.5" font-weight="900" fill="var(--word1, #e8e9ea)" dominant-baseline="middle">TOOL</text>
+      <text x="110" y="78" font-family="&#39;Space Grotesk&#39;,system-ui,sans-serif" font-size="52" letter-spacing="1" font-weight="900" fill="var(--word2, #FF5500)" dominant-baseline="middle">SKIN</text>
+    </symbol>
+    <symbol id="ts-layerstack-icon" viewBox="0 0 32 32">
+      <rect x="0" y="2" width="22" height="7" rx="1.5" fill="var(--bar1, #e8e9ea)"></rect>
+      <rect x="5" y="12" width="22" height="7" rx="1.5" fill="var(--bar2, #FF5500)"></rect>
+      <rect x="2" y="22" width="22" height="7" rx="1.5" fill="var(--bar3, rgba(232,233,234,0.4))"></rect>
+    </symbol>
+    <symbol id="ts-monogram" viewBox="0 0 240 100">
+      <rect x="6" y="14" width="58" height="10" rx="2" fill="var(--bar2, #FF5500)"></rect>
+      <rect x="29" y="14" width="14" height="72" rx="2" fill="var(--bar1, #e8e9ea)"></rect>
+      <path d="M 78 19 H 104 a 9 9 0 0 1 0 18 H 86 a 9 9 0 0 0 0 18 H 104 a 9 9 0 0 1 0 18 H 78" fill="none" stroke="var(--bar2, #FF5500)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+      <text x="130" y="44" font-family="&#39;Space Grotesk&#39;,system-ui,sans-serif" font-size="22" letter-spacing="-0.6" font-weight="700" fill="var(--word1, #e8e9ea)">TOOL<tspan fill="var(--word2, #FF5500)">SKIN</tspan></text>
+      <text x="130" y="68" font-family="&#39;JetBrains Mono&#39;,monospace" font-size="9" letter-spacing="2" fill="var(--caption, rgba(232,233,234,0.4))">DESIGN SYSTEM</text>
+    </symbol>
+    <symbol id="ts-monogram-icon" viewBox="0 0 56 56">
+      <rect x="4" y="8" width="36" height="7" rx="1.5" fill="var(--bar2, #FF5500)"></rect>
+      <rect x="18" y="8" width="9" height="40" rx="1.5" fill="var(--bar1, #e8e9ea)"></rect>
+      <path d="M 32 12 H 46 a 5 5 0 0 1 0 10 H 36 a 5 5 0 0 0 0 10 H 46 a 5 5 0 0 1 0 10 H 32" fill="none" stroke="var(--bar2, #FF5500)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+    </symbol>
+    <symbol id="ts-diamond" viewBox="0 0 240 100">
+      <g transform="translate(50 50) rotate(45)">
+        <rect x="-30" y="-30" width="60" height="60" rx="4" fill="none" stroke="var(--bar1, #e8e9ea)" stroke-width="3"></rect>
+      </g>
+      <g transform="translate(50 50) rotate(45)">
+        <rect x="-13" y="-13" width="26" height="26" rx="2" fill="var(--bar2, #FF5500)"></rect>
+      </g>
+      <text x="98" y="46" font-family="&#39;Space Grotesk&#39;,system-ui,sans-serif" font-size="24" letter-spacing="-0.6" font-weight="800" fill="var(--word1, #e8e9ea)">TOOL<tspan fill="var(--word2, #FF5500)">SKIN</tspan></text>
+      <text x="98" y="70" font-family="&#39;JetBrains Mono&#39;,monospace" font-size="9" letter-spacing="2.2" fill="var(--caption, rgba(232,233,234,0.35))">v1.0.0 · TOKEN ENGINE</text>
+    </symbol>
+    <symbol id="ts-diamond-icon" viewBox="0 0 56 56">
+      <g transform="translate(28 28) rotate(45)">
+        <rect x="-19" y="-19" width="38" height="38" rx="3" fill="none" stroke="var(--bar1, #e8e9ea)" stroke-width="2.5"></rect>
+        <rect x="-8" y="-8" width="16" height="16" rx="1.5" fill="var(--bar2, #FF5500)"></rect>
+      </g>
+    </symbol>
+  </defs>
+</svg>

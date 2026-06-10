@@ -1,0 +1,44 @@
+(function () {
+  const ROOT = document.querySelector('section,section *, .markdown-content');
+  if (!ROOT) {
+    console.error('Aside root not found');
+    return;
+  }
+
+  const collected = new Set();
+
+  for (const sheet of document.styleSheets) {
+    let rules;
+
+    try {
+      rules = sheet.cssRules;
+    } catch (e) {
+      continue; // skip CORS
+    }
+
+    for (const rule of rules) {
+      if (!rule.selectorText) continue;
+
+      const selectors = rule.selectorText.split(',');
+
+      for (let sel of selectors) {
+        sel = sel.trim();
+
+        try {
+          // KEY: check if selector hits anything INSIDE the aside
+          if (ROOT.querySelector(':scope ' + sel)) {
+            collected.add(rule.cssText);
+            break;
+          }
+        } catch (e) {
+          // invalid selector (ignore safely)
+        }
+      }
+    }
+  }
+
+  const result = Array.from(collected).join('\n\n');
+
+  copy(result);
+  console.log('Extracted rules:', collected.size);
+})();

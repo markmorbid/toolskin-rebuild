@@ -1,0 +1,1972 @@
+
+/* ─── §6g  CHIPS / TAGS ─── */
+
+
+
+.ts-chips:not(.ts-align-anchor-grid) {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ts-sp-1);
+}
+
+.ts-chip:not(.ts-align-anchor-btn) {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ts-sp-1);
+	padding: var(--ts-sp-2) var(--ts-sp-3);
+	font-size: var(--ts-fs-xs);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	border-radius: var(--ts-radius-sm);
+	border: 1px solid var(--ts-border-2);
+	/* background and color omitted Ã¢€” let variant classes and inline styles control these
+		background: var(--ts-bg-3);
+		color: var(--ts-text-secondary); */
+	cursor: pointer;
+	transition: all var(--ts-dur-fast) var(--ts-ease-out);
+	user-select: none;
+	background-color: var(--ts-this-bg-dim);
+	border-color: var(--ts-this-bg-border);
+	--ts-fs-xs: 10px;
+	--ts-this-bg-dim: color-mix(in srgb, var(--ts-this-bg), transparent var(--ts-this-bg-mix));
+	--ts-accent-bright: color-mix(in srgb, var(--ts-accent), var(--ts-text-primary-dim-2) 70%);
+	--ts-this-bg-mix: 78%;
+}
+
+
+html:not(.ts-banner-generator-app) .ts-chip:not(.ts-align-anchor-btn, .ts-chip--active, [aria-selected="true"], .ts-chip--success, .ts-chip--warning, .ts-chip--danger, .ts-chip--accent) {
+	--ts-this-bg: var(--ts-accent);
+	--ts-accent: var(--ts-bg-3);
+	--ts-this-bg-mix: 58%;
+	color: var(--ts-accent-bright);
+}
+
+.ts-chip--success,
+.ts-chip--warning,
+.ts-chip--danger {
+	background: var(--ts-this-bg-dim) !important;
+	border-color: var(--ts-this-bg-dim) !important;
+	color: var(--ts-this-bg-hover);
+	--ts-this-bg: var(--ts-accent);
+	--ts-this-bg-mix: 70% !important;
+
+}
+
+.ts-chip:not(.ts-align-anchor-btn):hover {
+	border-color: var(--ts-this-bg-border-hover);
+	--ts-this-bg-mix: 65%;
+}
+
+.ts-chip--success:hover,
+.ts-chip--warning:hover,
+.ts-chip--danger:hover {
+	border-color: var(--ts-accent-border);
+	--ts-this-bg-mix: 15% !important;
+	color: var(--ts-on-accent);
+
+
+}
+
+.ts-chip--success {
+	--ts-accent: var(--ts-success);
+
+}
+
+.ts-chip--warning {
+	--ts-accent: var(--ts-warning);
+	--ts-on-accent: #000000bd;
+
+}
+
+.ts-chip--danger {
+	--ts-accent: var(--ts-danger);
+}
+
+.ts-chip:not(.ts-align-anchor-btn).ts-chip--active,
+.ts-chip:not(.ts-align-anchor-btn)[aria-selected="true"] {
+	background-color: var(--ts-this-bg-dim);
+	background-image: var(--ts-accent-glow-bg-2);
+
+	border-color: var(--ts-accent-border);
+	color: var(--ts-this-bg-border-hover);
+
+	--ts-this-bg: var(--ts-accent);
+
+}
+
+.ts-chip--accent {
+	background-color: var(--ts-this-bg-dim);
+	background-image: var(--ts-this-bg-grad-3);
+	--ts-this-bg: var(--ts-accent);
+	color: var(--ts-on-accent) !important;
+	border-color: var(--ts-this-bg-border);
+
+}
+
+.ts-chip--accent.ts-chip--active:hover,
+.ts-chip--accent:hover {
+	background-color: var(--ts-accent-dark-2);
+	background-image: var(--ts-accent-glow-bg-2);
+	color: var(--ts-on-accent);
+	color: var(--ts-this-bg-hover);
+
+}
+
+.ts-chip--active {
+
+	color: var(--ts-this-bg-active);
+}
+
+.ts-chip--active:hover {
+	background-image: var(--ts-this-bg-grad-2);
+	border-color: var(--ts-this-bg-border-hover);
+
+	color: var(--ts-on-accent);
+}
+
+/* ─── §6h  TABS ─────────── */
+
+.ts-tabs {
+	display: flex;
+	border-bottom: 1px solid var(--ts-border-0);
+	gap: 0px;
+	flex-shrink: 0;
+	/* background: var(--ts-card-bg); */
+	/* background: var(--ts-border-0); */
+}
+
+.ts-tab {
+	flex: 1;
+	padding: var(--ts-sp-3) var(--ts-sp-4);
+	font-size: var(--ts-fs-2xs);
+	font-weight: 500;
+	letter-spacing: var(--ts-letter-spacing-wider);
+	text-transform: uppercase;
+	text-align: center;
+	cursor: pointer;
+	color: var(--ts-text-muted);
+	border-bottom: 2px solid transparent;
+	border-radius: var(--ts-tab-radius) var(--ts-tab-radius) 0 0;
+	margin-bottom: -1px;
+	margin-top: var(--ts-sp-1);
+	transition: all var(--ts-dur-fast) var(--ts-ease-out);
+	user-select: none;
+	white-space: nowrap;
+	background: transparent;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	font-family: inherit;
+	display: inline-flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+.ts-tab:hover:not(.ts-tab--active) {
+	color: var(--ts-text-secondary-dim-2);
+	border-bottom-color: var(--ts-accent);
+}
+
+.ts-tab--active {
+	color: var(--ts-accent);
+	border-bottom-color: var(--ts-accent);
+}
+
+.ts-card.ts-tab-wrap {
+	padding: 0;
+	overflow: hidden;
+	margin-bottom: var(--ts-sp-8);
+	gap: 0;
+	background: var(--ts-bg-0);
+}
+
+.ts-section .ts-container .ts-card.ts-tab-wrap {
+	padding: 0;
+	overflow: hidden;
+	margin-bottom: 0;
+	gap: 0;
+	background: transparent;
+}
+
+.ts-section .ts-container .ts-card.ts-tab-wrap {
+	padding: 0;
+	overflow: hidden;
+	margin-bottom: 0;
+	gap: 0;
+	background: transparent;
+}
+
+/* Showcase section layout: flex column with gap (replaces hardcoded margins).
+	Excludes .ts-hero (has its own flex-row layout) and .ts-section--fullbleed. */
+#ts-main .ts-section:not(.ts-hero, .ts-section--fullbleed)>.ts-container {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	align-items: stretch;
+	row-gap: var(--ts-sp-6);
+}
+
+#ts-main .ts-section:not(.ts-hero, .ts-section--fullbleed)>.ts-container>*:not(.ts-section-divider, .ts-label) {
+	margin: 0;
+}
+
+.ts-card.ts-tab-wrap:not(:has(> .ts-tabs--pill, > .ts-tabs--pill-rounded)) .ts-tab {
+	border-radius: 0;
+	transition: color 300ms ease,
+		border-color 300ms ease,
+		background-color 300ms ease;
+	margin-top: 0;
+	background-color: var(--ts-bg-1);
+}
+
+.ts-card.ts-tab-wrap:not(:has(> .ts-tabs--pill, > .ts-tabs--pill-rounded)) .ts-tab.ts-tab--active {
+	background-color: var(--ts-bg-0);
+}
+
+.ts-card.ts-tab-wrap:not(:has(> .ts-tabs--pill, > .ts-tabs--pill-rounded)) .ts-tab:not(:first-child) {
+	border-left: 1px solid var(--ts-border-0);
+}
+
+/* Tabpane content */
+.ts-tab-pane {
+	display: none;
+	padding: var(--ts-sp-6);
+	font-size: var(--ts-fs-xs);
+	--ts-tab-pane-foreground-color: var(--ts-bg-0);
+	--ts-tab-pane-background-color: var(--ts-bg-1);
+}
+
+.ts-tab-pane p,
+.ts-tab-pane>*:not(.ts-card, .ts-card *) {
+	font-size: var(--ts-fs-body-sm);
+	margin: 0;
+	font-family: var(--ts-font-body);
+}
+
+.ts-tab-pane.ts-tab-pane--active,
+.ts-tab-pane[data-active] {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-3);
+	background-color: var(--ts-tab-pane-foreground-color);
+}
+
+.ts-tabs--pill .ts-tab--active {
+	background: var(--ts-tab-pane-foreground-color) !important;
+	/* outline-color: var(--ts-accent); */
+	color: var(--ts-text-secondary) !important;
+	border-bottom-color: var(--ts-tab-pane-foreground-color) !important;
+}
+
+/* Pill tab variant */
+.ts-tabs--pill {
+	border-bottom: none;
+	/* background: var(--ts-bg-1); */
+	/* background: transparent; */
+	background-color: var(--ts-tab-pane-background-color);
+	border-radius: var(--ts-tab-radius);
+	padding: var(--ts-sp-2) var(--ts-sp-2) 0 var(--ts-sp-2);
+	border-radius: 0;
+	gap: var(--ts-sp-1);
+	border-bottom: 1px solid var(--ts-border-2);
+	--ts-tab-pane-foreground-color: var(--ts-bg-0);
+	--ts-tab-pane-background-color: var(--ts-bg-1);
+}
+
+.ts-tabs--pill .ts-tab {
+	/* border-width: 0!important; */
+	border: 1px solid var(--ts-border-1) !important;
+	/* outline: 1px solid var(--ts-border-0); */
+	outline-offset: -1px;
+	/* border-radius: var(--ts-radius-sm); */
+	color: var(--ts-text-muted) !important;
+	margin: 2px 0 -1px 0;
+	padding: var(--ts-sp-3) var(--ts-sp-4);
+	max-width: fit-content;
+	display: inline-flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--ts-bg-1);
+	transition: all var(--ts-dur-fast) var(--ts-ease-out);
+	opacity: 0.5;
+	border-radius: min(var(--ts-radius-md), 8px) !important;
+	border-bottom-left-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+}
+
+body .ts-tabs--pill .ts-tab--active {
+	background: var(--ts-tab-pane-foreground-color) !important;
+	/* outline-color: var(--ts-accent); */
+	color: var(--ts-text-primary) !important;
+	border-bottom-color: var(--ts-tab-pane-foreground-color) !important;
+	opacity: 1;
+}
+
+body .ts-tabs--pill .ts-tab:not(.ts-tab--active):hover {
+	background-color: var(--ts-bg-2);
+	opacity: 1;
+}
+
+.ts-tabs--pill-rounded .ts-tab--active {
+	background: var(--ts-accent);
+	outline-color: var(--ts-accent);
+	color: #fff;
+}
+
+.ts-tabs--pill-rounded {
+	padding: var(--ts-sp-1) 0;
+	gap: var(--ts-sp-1);
+	border: none !important;
+}
+
+.ts-tabs--pill-rounded .ts-tab {
+	margin-bottom: 0;
+	border: 1px solid var(--ts-border-2) !important;
+	background: var(--ts-bg-2-t);
+	border-radius: var(--ts-radius-full) !important;
+}
+
+[data-theme="light"] .ts-tabs--pill-rounded .ts-tab--active {
+	background: var(--ts-accent);
+	border-color: var(--ts-accent) !important;
+	outline-color: var(--ts-accent) !important;
+	color: var(--ts-text-primary) !important;
+	--ts-text-primary: #fff !important;
+}
+
+.ts-tabs--pill-rounded .ts-tab--active {
+	background: var(--ts-accent);
+	border-color: var(--ts-accent) !important;
+	outline-color: var(--ts-accent) !important;
+	color: var(--ts-text-primary) !important;
+}
+
+/* ─── §6i  BADGES & STATUS INDICATORS ──────────────────────────────── */
+
+.ts-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ts-sp-1);
+	padding: var(--ts-sp-1) var(--ts-sp-3);
+	font-size: 10px;
+	font-weight: 500;
+	letter-spacing: 0.041rem;
+	text-transform: uppercase;
+	border-radius: var(--ts-radius-full);
+	background: var(--ts-this-bg-dim-5);
+	color: var(--ts-this-bg-border);
+	border: 1px solid var(--ts-this-bg-border-0);
+	flex-shrink: 0;
+	line-height: 1.1rem;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	text-shadow: none;
+	--ts-this-bg: var(--ts-text-muted);
+	--ts-badge-color-mix: color-mix(in srgb, var(--ts-this-bg), var(--ts-text-primary) 50%);
+	--ts-this-bg-border-0: color-mix(in srgb, var(--ts-this-bg), transparent 68%);
+}
+
+.ts-badge-color {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 6px 10px;
+	font-size: 0.45rem;
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	border-radius: var(--ts-radius-full);
+	max-width: fit-content;
+	outline: 1px solid;
+	outline-offset: -1px;
+	border-color: rgba(from currentColor r g b / 0.5);
+	outline-color: rgba(from currentColor r g b / 0.25);
+	background: rgba(from currentColor r g b / 0.12) !important;
+}
+
+.ts-badge-color.red {
+	color: #f87171;
+}
+
+.ts-badge-color.purple {
+	color: #c084fc;
+}
+
+.ts-badge-color.cyan {
+	color: #67e8f9;
+}
+
+.ts-badge--accent {
+
+	--ts-this-bg: var(--ts-accent);
+}
+
+.ts-badge--success {
+
+	--ts-this-bg: var(--ts-success);
+
+}
+
+.ts-badge--warning {
+
+	--ts-this-bg: var(--ts-warning);
+}
+
+.ts-badge--danger {
+
+	--ts-this-bg: var(--ts-danger);
+
+}
+
+.ts-badge--alt {
+
+	--ts-this-bg: var(--ts-accent-alt);
+
+}
+
+.ts-badge--purple {
+
+	--ts-this-bg: #c084fc;
+}
+
+.ts-badge--cyan {
+
+	--ts-this-bg: #67e8f9;
+
+}
+
+/* Dot indicator (status dot) */
+.ts-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--ts-text-muted);
+	display: inline-block;
+	flex-shrink: 0;
+}
+
+.ts-dot--accent {
+	background: var(--ts-accent);
+	box-shadow: 0 0 0 2px var(--ts-accent-dim);
+}
+
+.ts-dot--success {
+	background: var(--ts-success);
+	box-shadow: 0 0 0 2px var(--ts-success-dim);
+}
+
+.ts-dot--warning {
+	background: var(--ts-warning);
+	box-shadow: 0 0 0 2px var(--ts-warning-dim);
+}
+
+.ts-dot--danger {
+	background: var(--ts-danger);
+	box-shadow: 0 0 0 2px var(--ts-danger-dim);
+}
+
+/* Pulse animation for live indicators */
+.ts-dot--pulse {
+	animation: ts-pulse 2s ease-in-out infinite;
+}
+
+.ts-dot--pulse-2 {
+	animation: ts-pulse-2 12s ease-in-out infinite;
+	transition: all 500ms ease-in-out;
+}
+
+@keyframes ts-pulse {
+
+	0%,
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	50% {
+		opacity: 0.5;
+		transform: scale(0.85);
+	}
+}
+
+@keyframes ts-pulse-2 {
+
+	0%,
+	100% {
+		opacity: 0.8;
+		transform: scale(1);
+	}
+
+	20% {
+		opacity: 0.5;
+		transform: scale(0.85);
+	}
+
+	50% {
+		opacity: 0.8;
+		transform: scale(0.95);
+	}
+
+	70% {
+		opacity: 0.3;
+		transform: scale(0.75);
+	}
+}
+
+/* ─── §6j  NAVIGATION ───── */
+
+.ts-nav {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-sp-1);
+}
+
+.ts-nav__item {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	padding: var(--ts-sp-2) var(--ts-sp-3);
+	font-size: var(--ts-fs-md);
+	font-weight: 600;
+	color: var(--ts-text-secondary);
+	border-radius: var(--ts-radius-sm);
+	text-decoration: none;
+	transition: all var(--ts-dur-fast) var(--ts-ease-out);
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.ts-nav__item:hover,
+.ts-nav__item.ts-nav__item--active {
+	color: var(--ts-text-primary);
+	background: var(--ts-bg-3);
+}
+
+.ts-nav__item--active {
+	color: var(--ts-accent) !important;
+	background: var(--ts-accent-dim) !important;
+}
+
+/* Sidebar nav */
+.ts-sidenav {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-1);
+	padding: var(--ts-sp-3);
+}
+
+.ts-sidenav__group-label {
+	font-size: var(--ts-fs-2xs);
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--ts-text-muted);
+	padding: var(--ts-sp-3) var(--ts-sp-3) var(--ts-sp-1);
+}
+
+.ts-sidenav .ts-nav__item {
+	width: 100%;
+	justify-content: flex-start;
+}
+
+/* ─── §6k  MODAL / OVERLAY ──────────────────────────────────────────── */
+:root .ts-overlay:has(.ts-modal),
+:root .ts-overlay:has(.ts-modal) *,
+:root .ts-modal,
+:root .ts-modal * {
+
+	--ts-modal-surface: var(--ts-bg-0);
+	--ts-modal-surface-2: var(--ts-bg-1);
+	--ts-modal-surface-3: var(--ts-bg-1-t);
+	--ts-modal-bg: var(--ts-this-bg);
+	--ts-modal-border: var(--ts-border-1);
+	--ts-modal-gap: var(--ts-sp-2);
+	--ts-modal-pad: var(--ts-sp-3);
+	--ts-modal-radius: var(--ts-radius-constrained);
+	--ts-modal-header-btn-h: calc(var(--ts-modal-header-h)*1);
+	--ts-modal-header-h: 40px;
+	--ts-modal-header-fs: var(--ts-fs-h6);
+
+	--ts-input-bg: var(--ts-modal-surface-2) !important;
+	--ts-input-bg-2: var(--ts-modal-surface-3) !important;
+	--ts-input-border: var(--ts-this-bg-border-hover);
+	--ts-input-border-focus: var(--ts-this-bg-border-active);
+	--ts-input-border-active: var(--ts-this-bg-border-active);
+	--ts-input-border-hover: var(--ts-this-bg-border-active);
+}
+
+.ts-overlay {
+	display: none;
+	position: fixed;
+	inset: 0;
+	backdrop-filter: blur(var(--ts-backdrop-blur-2)) grayscale(1) brightness(.35);
+	-webkit-backdrop-filter: blur(var(--ts-backdrop-blur-2)) grayscale(1) brightness(.35);
+	background: var(--ts-this-bg);
+	--ts-this-bg: var(--ts-bg-0-t);
+	z-index: var(--ts-z-modal);
+	align-items: center;
+	justify-content: center;
+	padding: var(--ts-sp-6);
+	/* @refactor:backdrop-critical */
+	/* @refactor:glass-dependent */
+	/* @refactor:needs-solid-fallback */
+	/* @refactor:token-dependency */
+}
+
+.ts-section--overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 4;
+	overflow: hidden;
+	pointer-events: none;
+	isolation: auto;
+	mix-blend-mode: soft-light;
+	background: var(--ts-this-bg-dim-4);
+	--ts-this-bg: var(--ts-bg-1-t);
+
+	/* @refactor:backdrop-critical */
+	/* @refactor:glass-dependent */
+	/* @refactor:needs-solid-fallback */
+	/* @refactor:token-dependency */
+}
+
+.ts-overlay.blur {
+	backdrop-filter: blur(var(--ts-backdrop-blur));
+	-webkit-backdrop-filter: blur(var(--ts-backdrop-blur));
+	background: var(--ts-this-bg-dim-4);
+	--ts-this-bg: var(--ts-bg-5-t);
+
+	/* @refactor:backdrop-critical */
+	/* @refactor:glass-dependent */
+	/* @refactor:needs-solid-fallback */
+	/* @refactor:token-dependency */
+}
+
+.ts-overlay.ts-overlay--open,
+.ts-overlay[data-open] {
+	display: flex;
+	cursor: pointer;
+}
+
+/* @refactor:backdrop-critical 
+	Owner fix attempt example. refactor  implemented as an example with topkenized design and moved token and parameters to a scoped root block*/
+
+
+.ts-modal {
+
+	background: var(--ts-modal-bg) !important;
+	border: 1px solid var(--ts-modal-border);
+	border-radius: var(--ts-modal-radius);
+	box-shadow: var(--ts-shadow-5);
+
+	/* @refactor:backdrop-critical */
+	/* @refactor:glass-dependent */
+	/* @refactor:needs-solid-fallback */
+	/* @refactor:token-dependency */
+
+
+	width: 100%;
+	max-width: 560px;
+	max-height: 90vh;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	cursor: default;
+
+	animation: ts-modal-in var(--ts-dur-slow) var(--ts-ease-out) both;
+	--ts-this-bg: var(--ts-modal-surface) !important;
+
+
+
+	.ts-modal__header {
+		display: flex;
+		align-items: center;
+		gap: 0;
+		padding: 0;
+		border-bottom: 1px solid var(--ts-modal-border) !important;
+		flex-shrink: 0;
+		font-size: var(--ts-fs-sm);
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		flex: 1;
+		align-content: stretch;
+		max-height: var(--ts-modal-header-h);
+
+		.ts-logo,
+		.ts-topbar__logo {
+			font-size: 80% !important;
+			padding-inline: var(--ts-modal-pad);
+			min-height: var(--ts-modal-header-h) !important;
+			padding-block: 0 !important;
+
+		}
+
+		.ts-modal__title {
+			font-size: var(--ts-modal-header-fs);
+
+			font-weight: 500;
+			flex: 1;
+			padding-inline: var(--ts-modal-pad);
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			align-items: center;
+			border-left: 1px solid var(--ts-modal-border) !important;
+			min-height: var(--ts-modal-header-h) !important;
+
+		}
+
+		.ts-modal__close {
+			width: var(--ts-modal-header-btn-h);
+			height: var(--ts-modal-header-btn-h);
+			background: transparent;
+			border: 0px solid var(--ts-modal-border);
+			border-left-width: 1px;
+			color: var(--ts-text-secondary);
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: var(--ts-fs-lg);
+			transition: all var(--ts-dur-fast);
+			flex-shrink: 0;
+			border-radius: 0;
+			aspect-ratio: 1;
+
+			&:hover {
+				color: var(--ts-text-primary);
+			}
+		}
+	}
+
+	.ts-modal__body {
+		flex: 1;
+		overflow-y: auto;
+		padding: var(--ts-sp-5);
+	}
+
+	.ts-modal__footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--ts-modal-gap);
+		padding: var(--ts-modal-pad);
+		border-top: 1px solid var(--ts-modal-border);
+		flex-shrink: 0;
+	}
+
+	&.ts-modal--sm {
+		max-width: 380px;
+	}
+
+	&.ts-modal--lg {
+		max-width: 800px;
+	}
+
+	&.ts-modal--xl {
+		max-width: 1100px;
+	}
+
+
+}
+
+@keyframes ts-modal-in {
+	from {
+		opacity: 0;
+		transform: translateY(16px) scale(0.97);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+/* ─── §6l  TABLES ───────── */
+
+.ts-table-wrap {
+	overflow-x: auto;
+	border-radius: var(--ts-radius-md);
+	border: 1px solid var(--ts-border-0);
+}
+
+.ts-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--ts-fs-md);
+}
+
+.ts-table thead {
+	background: var(--ts-bg-0);
+	border-bottom: 1px solid var(--ts-border-1);
+}
+
+.ts-table th {
+	padding: var(--ts-sp-3) var(--ts-sp-4);
+	text-align: left;
+	font-size: var(--ts-fs-xs);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: var(--ts-letter-spacing-wider);
+	color: var(--ts-text-muted);
+	white-space: nowrap;
+}
+
+.ts-table td {
+	padding: var(--ts-sp-3) var(--ts-sp-4);
+	color: var(--ts-text-secondary);
+	border-top: 1px solid var(--ts-border-0);
+	vertical-align: middle;
+}
+
+.ts-table tr:hover td {
+	background: var(--ts-bg-2);
+	color: var(--ts-text-primary);
+}
+
+/* ─── §6m  LOG / TERMINAL BLOCK ─────────────────────────────────────── */
+
+.ts-log {
+	background: var(--ts-log-bg);
+	border: 1px solid var(--ts-panel-border);
+	border-radius: min(var(--ts-nest-radius, var(--ts-card-radius)), 8px);
+	overflow-y: auto;
+	max-height: 150px;
+	/*scrollbar-width: thin;
+	scrollbar-color: var(--ts-bg-5) transparent;*/
+	position: relative;
+}
+
+.ts-log__entry {
+	padding: calc(var(--ts-log-sp) / 1.2) var(--ts-log-sp);
+	font-family: var(--ts-font-mono);
+	font-size: var(--ts-log-fs);
+	border-top: 1px solid var(--ts-panel-border);
+	line-height: var(--ts-log-sp);
+	color: var(--ts-text-secondary);
+	background: var(--ts-log-bg);
+}
+
+.ts-log__entry:first-child {
+
+	border-top: none;
+
+}
+
+.ts-log__entry--info {
+	color: var(--ts-text-secondary);
+}
+
+.ts-log__entry--debug {
+	color: var(--ts-text-muted);
+}
+
+.ts-log__entry--success {
+	color: var(--ts-success);
+}
+
+.ts-log__entry--warning {
+	color: var(--ts-warning);
+}
+
+.ts-log__entry--error {
+	color: var(--ts-danger);
+}
+
+.ts-log__entry--accent {
+	color: var(--ts-accent);
+}
+
+.ts-log__actions {
+	position: absolute;
+	top: var(--ts-log-gap);
+	right: var(--ts-log-gap);
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-log-pad-small);
+	z-index: 1;
+}
+
+/* ─── §6n  PROGRESS BAR ─── */
+
+.ts-progress {
+	width: 100%;
+	height: 12px;
+	background: var(--ts-bg-3);
+	border-radius: var(--ts-radius-full);
+	overflow: hidden;
+}
+
+.ts-progress__bar {
+	height: 100%;
+	background: var(--ts-accent-grad);
+	border-radius: var(--ts-radius-full);
+	transition: width var(--ts-dur-slow) var(--ts-ease-out);
+	min-width: 4px;
+}
+
+.ts-progress--sm {
+	height: 5px;
+}
+
+.ts-progress--lg {
+	height: 18px;
+}
+
+.ts-progress--striped .ts-progress__bar {
+	background-image: repeating-linear-gradient(45deg,
+			transparent,
+			transparent 8px,
+			color-mix(in srgb, #fff, transparent 82%) 8px,
+			color-mix(in srgb, #fff, transparent 82%) 16px);
+	background-size: 20px 100%;
+}
+
+/* Progress label row */
+.ts-progress-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ts-sp-3);
+	margin-bottom: var(--ts-modal-gap--ts-sp-2);
+}
+
+.ts-progress-label {
+	font-size: var(--ts-fs-sm);
+	color: var(--ts-text-secondary);
+}
+
+.ts-progress-value {
+	font-size: var(--ts-fs-sm);
+	font-weight: 700;
+	color: var(--ts-accent);
+	font-family: var(--ts-font-mono);
+}
+
+/* ─── §6o  TOAST NOTIFICATIONS ──────────────────────────────────────── */
+
+.ts-toast-container {
+	position: fixed;
+	bottom: var(--ts-sp-5);
+	right: var(--ts-sp-5);
+	z-index: var(--ts-z-toast);
+	/* Offset when offcanvas panel is open */
+	transition: right var(--ts-dur-med) var(--ts-ease-out);
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-2);
+	pointer-events: none;
+}
+
+.ts-toast {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--ts-sp-3);
+	padding: var(--ts-sp-4) var(--ts-sp-5);
+	background: var(--ts-bg-3);
+	border: 1px solid var(--ts-border-1);
+	border-left: var(--ts-index-bar-height) solid var(--ts-accent);
+	border-radius: var(--ts-radius-md);
+	box-shadow: var(--ts-shadow-3);
+	min-width: 280px;
+	max-width: 380px;
+	pointer-events: all;
+	animation: ts-toast-in var(--ts-dur-slow) var(--ts-ease-out) both;
+}
+
+@keyframes ts-toast-in {
+	from {
+		opacity: 0;
+		transform: translateX(20px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+.ts-toast--success {
+	border-left-color: var(--ts-success);
+}
+
+.ts-toast--warning {
+	border-left-color: var(--ts-warning);
+}
+
+.ts-toast--error {
+	border-left-color: var(--ts-danger);
+}
+
+.ts-toast--info {
+	border-left-color: var(--ts-accent-alt);
+}
+
+.ts-toast__icon {
+	font-size: var(--ts-fs-base-val);
+	flex-shrink: 0;
+	margin-top: 1px;
+}
+
+.ts-toast__body {
+	flex: 1;
+}
+
+.ts-toast__title {
+	font-size: var(--ts-fs-md);
+	font-weight: 700;
+	color: var(--ts-text-primary);
+}
+
+.ts-toast__msg {
+	font-size: var(--ts-fs-sm);
+	color: var(--ts-text-muted);
+	margin-top: 2px;
+}
+
+/* ─── §6p  TOOLTIPS ─────── */
+
+[data-tooltip] {
+	position: relative;
+}
+
+/* [data-tooltip]::after {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: calc(100% + 8px);
+	left: 50%;
+	transform: translateX(-50%) scale(0.9);
+	transform-origin: bottom center;
+	background: var(--ts-bg-5);
+	color: var(--ts-text-primary);
+	font-size: var(--ts-fs-xs);
+	font-weight: 600;
+	white-space: nowrap;
+	padding: var(--ts-sp-1) var(--ts-sp-3);
+	border-radius: var(--ts-radius-sm);
+	border: 1px solid var(--ts-border-1);
+	box-shadow: var(--ts-shadow-2);
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity var(--ts-dur-fast), transform var(--ts-dur-fast);
+	z-index: var(--ts-z-dropdown);
+	letter-spacing: 0;
+	text-transform: none;
+	font-family: var(--ts-font-body);
+	} 
+	[data-tooltip]::after {
+		content: attr(data-tooltip);
+		position: absolute;
+		bottom: auto;
+		top: 106%;
+		left: calc(50% + 10px);
+		text-align: left;
+		right: auto;
+		transform: translateX(-50%) scale(0.9);
+		transform-origin: bottom center;
+		background: var(--ts-bg-2-t);
+		color: var(--ts-text-primary);
+		font-size: var(--ts-fs-xs);
+		font-weight: 400;
+		white-space: normal;
+		padding: var(--ts-sp-2) var(--ts-sp-3);
+		border-radius: var(--ts-radius-sm);
+		border: 1px solid var(--ts-border-1);
+		box-shadow: var(--ts-shadow-2);
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity var(--ts-dur-fast), transform var(--ts-dur-fast);
+		z-index: var(--ts-z-toast);
+		letter-spacing: 0;
+		text-transform: none;
+		font-family: var(--ts-font-body);
+		min-inline-size: 25ch;
+		text-wrap-style: pretty;
+		width: 100%;
+		backdrop-filter: blur(6px);
+	}
+	[data-tooltip]:hover::after {
+	opacity: 1;
+	transform: translateX(-50%) scale(1);
+	}*/
+
+/* Tooltip below */
+[data-tooltip-pos="below"]::after {
+	bottom: auto;
+	top: calc(100% + 8px);
+	transform-origin: top center;
+}
+
+/* ───
+§6q — Universal 3D Flip Cards
+Allows any card to become a flip card via the `.ts-flip-card` class.
+
+!!!!
+OWNER REFACTOR FIXES:
+
+This component has been refactored and fully tokenized. No further changes have been required in this area so far.
+
+This section demonstrates a clear, step-by-step refactoring process:
+- Defining tokens
+- Applying and distributing them across the component
+- Minimizing CSS declarations by relying primarily on token values
+- Driving all states and variants through tokens instead of hardcoded rules
+
+This serves as a reference implementation for systematic refactoring within the design system.
+
+
+the html on the showcase must be  the same as the flipcards but with swipe change.
+add the .ts-card class to all th e flip and swipe conventions please.
+
+
+<div class="ts-grid ts-grid--3">
+    <div class="ts-swipe-card">
+      <div class="ts-swipe-card__inner">
+        <div class="ts-swipe-card__front">
+          <div class="ts-label">01</div>
+          <div class="ts-h2 ts-text-accent">DYNAMICS</div>
+          <p class="ts-caption">Hover to inspect</p>
+        </div>
+        <div class="ts-swipe-card__back">
+          <div class="ts-h3">Precision Logic</div>
+          <p class="ts-text-secondary ts-caption">Calculated interactions with micro-feedback loops.</p>
+          <button class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+        </div>
+      </div>
+    </div>
+    <div class="ts-swipe-card">
+      <div class="ts-swipe-card__inner">
+        <div class="ts-swipe-card__front">
+          <div class="ts-label">02</div>
+          <div class="ts-h2 ts-text-accent">VISUALS</div>
+          <p class="ts-caption">Hover to inspect</p>
+        </div>
+        <div class="ts-swipe-card__back">
+          <div class="ts-h3">Aesthetic Depth</div>
+          <p class="ts-text-secondary ts-caption">Multi-layer SVG noise grain architecture.</p>
+          <button class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+        </div>
+      </div>
+    </div>
+    <div class="ts-swipe-card">
+      <div class="ts-swipe-card__inner">
+        <div class="ts-swipe-card__front">
+          <div class="ts-label">03</div>
+          <div class="ts-h2 ts-text-accent">SPEED</div>
+          <p class="ts-caption">Hover to inspect</p>
+        </div>
+        <div class="ts-swipe-card__back">
+          <div class="ts-h3">Runtime Flux</div>
+          <p class="ts-text-secondary ts-caption">Zero external dependencies. Minimal footprint.</p>
+          <button class="ts-btn ts-btn--primary ts-btn--sm">View Specs</button>
+        </div>
+      </div>
+    </div>
+  </div>
+──────────────────────────────────────────────
+
+
+
+*/
+.ts-flip-card {
+	--ts-flip-perspective: 1400px;
+	--ts-flip-duration: 0.6s;
+	--ts-flip-easing: var(--ts-ease-in-out);
+	--ts-flip-depth: 0px;
+	perspective: var(--ts-flip-perspective);
+	height: var(--ts-flip-card-h);
+	position: relative;
+	--ts-flip-card-h: 320px;
+	--ts-flip-card-pad: var(--ts-sp-8);
+	--ts-flip-card-gap: calc(var(--ts-flip-card-pad) * 0.5);
+	--ts-flip-border-w: 1px;
+	--ts-flip-card-radius: var(--ts-radius-lg);
+	--ts-flip-bg-front: var(--ts-bg-1-t);
+	--ts-flip-bg-back: var(--ts-bg-2-t);
+	--ts-flip-bg: var(--ts-this-bg);
+	--ts-flip-bg-color: var(--ts-this-bg-dim-4);
+	--ts-flip-bg-grad: var(--ts-this-bg-grad-3);
+	--ts-flip-bg-grad-hover: var(--ts-this-bg-grad-2);
+	--ts-flip-bg-grad-back: linear-gradient(135deg, var(--ts-flip-bg-back), var(--ts-accent-dim-2));
+	--ts-flip-border: var(--ts-this-bg-border);
+	--ts-flip-bg-hover: var(--ts-this-bg);
+	--ts-flip-border-hover: var(--ts-this-bg-border);
+}
+
+/* Universal structure: works with any card */
+.ts-card.ts-flip-card {
+	height: auto;
+	min-height: var(--ts-flip-card-h);
+}
+
+.ts-swipe-card .ts-btn.ts-btn--sm,
+.ts-flip-card .ts-btn.ts-btn--sm,
+.ts-card .ts-btn.ts-btn--sm {
+	/* --ts-btn-h-ratio: 1; */
+	outline: 1px solid var(--ts-this-bg-border);
+	outline-offset: -1px;
+	border: none !important;
+	box-shadow: none !important;
+	transform-box: border-box;
+}
+
+.ts-swipe-card .ts-btn,
+.ts-flip-card .ts-btn {
+	outline: 1px solid var(--ts-this-bg-border);
+	outline-offset: -1px;
+	border: none !important;
+	box-shadow: none !important;
+	transform-box: border-box;
+	--ts-btn-h-ratio: .9;
+	--ts-btn-fs-ratio: 0.24;
+	--ts-btn-pad-y-ratio: 1.2;
+}
+
+.ts-flip-card__inner {
+
+	position: relative;
+	width: 100%;
+	height: 100%;
+	transform-style: preserve-3d;
+	transition: transform var(--ts-flip-duration) var(--ts-flip-easing);
+}
+
+.ts-flip-card:hover .ts-flip-card__inner,
+.ts-flip-card.ts-flip-card--flipped .ts-flip-card__inner {
+	transform: rotateY(180deg);
+}
+
+/* REFACTOR NOTES: aDDED A 3D DROP SHADOW THAT WORKS PERFECT.  need to enable it with a class and  ADD PARAMETERS TO CONTROL IT */
+/* #CRAZY_FIX_RULES - MAKE THIS  useful class applicable on  a specific  helper clas for the cards and use them on a showcase  example*/
+
+.ts-flip-card .ts-flip-card__inner:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: auto;
+	left: 20%;
+	right: 20%;
+	bottom: -20px;
+	-webkit-transform: rotateX(-60deg);
+	transform: translateZ(0) rotateX(90deg);
+	transform-style: preserve-3d;
+	width: 60%;
+	transform-origin: center;
+	translate: 0 15px 0;
+
+	filter: blur(50px);
+	height: 40px;
+	background: #000000c4;
+	z-index: -2;
+}
+
+/* Vertical flip variant */
+.ts-flip-card--vertical:hover .ts-flip-card__inner,
+.ts-flip-card--vertical.ts-flip-card--flipped .ts-flip-card__inner {
+	transform: rotateX(180deg);
+}
+
+/* Card face structure - works with any card content */
+.ts-card-face,
+.ts-flip-card__front,
+.ts-flip-card__back {
+	position: absolute;
+	inset: 0;
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	border-radius: var(--ts-flip-card-radius);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: var(--ts-flip-card-pad);
+	text-align: center;
+	gap: var(--ts-flip-card-gap);
+	transform-style: preserve-3d;
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0);
+}
+
+/* Legacy support: .ts-flip-card__front/back still work */
+.ts-flip-card__front,
+.ts-card_inner.ts-card__front {
+	background-image: var(--ts-flip-bg-grad);
+	outline: 1px solid var(--ts-flip-border);
+	--ts-flip-bg: var(--ts-flip-bg-front);
+	background-color: var(--ts-flip-bg-color);
+
+}
+
+.ts-flip-card__back,
+.ts-card_inner.ts-card__back {
+	--ts-flip-bg: var(--ts-flip-bg-back);
+
+	background-color: var(--ts-flip-bg-color);
+
+	background-image: var(--ts-flip-bg-grad-back);
+	outline: 1px solid var(--ts-accent-border);
+	transform: rotateY(180deg);
+	pointer-events: none;
+}
+
+/* Vertical flip: rotate on X-axis */
+.ts-flip-card--vertical .ts-flip-card__back,
+.ts-flip-card--vertical .ts-card-face.ts-card-back {
+	transform: rotateX(180deg);
+}
+
+/* Depth variants */
+.ts-flip-card--depth-sm {
+	--ts-flip-perspective: 800px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ts-flip-card--depth-md {
+	--ts-flip-perspective: 1200px;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.ts-flip-card--depth-lg {
+	--ts-flip-perspective: 2000px;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Inner 3D index system - enables depth layering with --ts-z */
+.ts-flip-card--indexed .ts-flip-card__front>*,
+.ts-flip-card--indexed .ts-flip-card__back>*,
+.ts-flip-card--indexed .ts-card-face>* {
+	transform: translate3d(0, 0, var(--ts-z, 0px));
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+}
+
+/* When indexed is NOT active, use default depth */
+.ts-flip-card:not(.ts-flip-card--indexed) .ts-flip-card__front>*,
+.ts-flip-card:not(.ts-flip-card--indexed) .ts-flip-card__back>*:not(.ts-btn *),
+.ts-flip-card:not(.ts-flip-card--indexed) .ts-card-face>* {
+	transform: translate3d(0, 0, 80px);
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	-webkit-font-smoothing: subpixel-antialiased;
+	-moz-osx-font-smoothing: auto;
+	filter: none;
+}
+
+/* When flipped: disable front clicks, enable back clicks */
+.ts-flip-card:hover .ts-flip-card__front,
+.ts-flip-card:hover .ts-card-face.ts-card-front,
+.ts-flip-card.ts-flip-card--flipped .ts-flip-card__front,
+.ts-flip-card.ts-flip-card--flipped .ts-card-face.ts-card-front {
+	pointer-events: none;
+}
+
+.ts-flip-card:hover .ts-flip-card__back,
+.ts-flip-card:hover .ts-card-face.ts-card-back,
+.ts-flip-card.ts-flip-card--flipped .ts-flip-card__back,
+.ts-flip-card.ts-flip-card--flipped .ts-card-face.ts-card-back {
+	pointer-events: auto;
+}
+
+/* ─── §6q.2  SWIPE CARD VARIANT (Non-3D) ────────────────────────────────── */
+/* Slides content instead of flipping (no 3D transforms) */
+
+.ts-swipe-card {
+	--ts-swipe-duration: var(--ts-dur-slow, 300ms);
+	--ts-swipe-easing: var(--ts-panel-ease-in);
+	--ts-swipe-offset: calc(100% + var(--ts-swipe-border-w));
+	border: var(--ts-swipe-border-w) solid var(--ts-border-2);
+	outline-offset: 0px;
+	position: relative;
+	overflow: hidden;
+	height: var(--ts-swipe-card-h);
+	border-radius: var(--ts-swipe-card-radius);
+	--ts-swipe-card-h: 320px;
+	--ts-swipe-card-pad: var(--ts-sp-8);
+	--ts-swipe-card-gap: calc(var(--ts-swipe-card-pad) * 0.5);
+	--ts-swipe-border-w: 1px;
+	--ts-swipe-card-radius: var(--ts-radius-lg);
+	--ts-swipe-bg-front: var(--ts-bg-2);
+	--ts-swipe-bg-back: var(--ts-bg-3);
+	--ts-swipe-bg: var(--ts-this-bg);
+	--ts-swipe-bg-color: var(--ts-this-bg-dim);
+	--ts-swipe-bg-grad: var(--ts-this-bg-grad);
+	--ts-swipe-bg-grad-hover: var(--ts-this-bg-grad-2);
+	--ts-swipe-bg-grad-back: linear-gradient(135deg, var(--ts-swipe-bg-back), var(--ts-accent-dim));
+	--ts-swipe-border: var(--ts-this-bg-border);
+	--ts-swipe-bg-hover: var(--ts-this-bg);
+	--ts-swipe-border-hover: var(--ts-this-bg-border-hover);
+}
+
+.ts-card.ts-swipe-card,
+.ts-swipe-card {
+	height: auto;
+	min-height: var(--ts-swipe-card-h);
+	gap: var(--ts-swipe-card-gap);
+}
+
+.ts-portfolio-grid .ts-caption,
+.ts-swipe-card .ts-caption,
+.ts-flip-card .ts-caption {
+	font-size: var(--ts-fs-caption);
+	line-height: var(--ts-line-height-loose);
+	/* color: var(--ts-text-primary-dim-2); */
+	text-transform: none;
+	letter-spacing: var(--ts-letter-spacing-normal);
+}
+
+.ts-portfolio-grid .ts-card__icon,
+.ts-portfolio-grid .ts-portfolio-icon,
+.ts-portfolio-icon {
+	margin-block: 0 !important;
+	width: var(--ts-icon, 2rem);
+	height: var(--ts-icon, 2rem);
+	border-radius: var(--ts-radius-md);
+	object-fit: cover;
+	flex-shrink: 0;
+	font-size: var(--ts-icon, 140%) !important;
+}
+
+.ts-portfolio-grid .ts-portfolio-icon:not(img) {
+	background-color: var(--ts-this-bg-dim-6) !important;
+	color: var(--ts-accent);
+	border: none !important;
+	outline-offset: -1px;
+	background: var(--ts-badge-bg-mix) !important;
+	outline: 1px solid var(--ts-badge-border-mix) !important;
+	--ts-this-bg: var(--ts-text-muted);
+	--ts-badge-border-mix: color-mix(in srgb, var(--ts-text-muted), transparent 70%);
+	--ts-badge-bg-mix: color-mix(in srgb, var(--ts-this-bg), transparent 82%);
+	--ts-text-muted: color-mix(in srgb, currentcolor, var(--ts-text-primary) 40%) !important;
+}
+
+.ts-portfolio-grid .ts-card .ts-badge,
+.ts-portfolio-grid .ts-swipe-card .ts-badge,
+.ts-portfolio-grid .ts-flip-card .ts-badge {
+	gap: var(--ts-sp-1);
+	padding: var(--ts-sp-1) var(--ts-sp-3);
+	color: var(--ts-accent);
+
+	background: var(--ts-badge-bg-mix) !important;
+	outline: 1px solid var(--ts-badge-border-mix) !important;
+	border: none !important;
+	--ts-this-bg: var(--ts-text-muted);
+	--ts-badge-border-mix: color-mix(in srgb, var(--ts-text-muted), transparent 70%);
+	--ts-badge-bg-mix: color-mix(in srgb, var(--ts-this-bg), transparent 85%);
+	--ts-text-muted: color-mix(in srgb, currentcolor, var(--ts-text-primary) 40%) !important;
+}
+
+.ts-swipe-card__front,
+.ts-swipe-card__back {
+	position: absolute;
+	inset: 0;
+	transition: transform var(--ts-swipe-duration) var(--ts-swipe-easing);
+	display: flex;
+	flex-direction: column;
+	padding: var(--ts-swipe-card-pad);
+	align-content: center;
+	justify-content: center;
+	background-color: var(--ts-swipe-bg);
+	gap: var(--ts-swipe-card-gap);
+
+}
+
+.ts-swipe-card__front,
+.ts-swipe-card__inner.ts-swipe-card__front {
+	--ts-swipe-bg: var(--ts-swipe-bg-front);
+
+	transform: translateX(0);
+}
+
+.ts-swipe-card__back,
+.ts-swipe-card__inner.ts-swipe-card__back {
+	--ts-swipe-bg: var(--ts-swipe-bg-back);
+	background-image: var(--ts-swipe-bg-grad-back);
+	/* outline: var(--ts-swipe-border-w) solid var(--ts-accent-border); */
+	transform: translateX(var(--ts-swipe-offset));
+}
+
+/* Horizontal swipe (default) */
+.ts-swipe-card:hover .ts-swipe-card__front,
+.ts-swipe-card:hover .ts-swipe-card__inner.ts-swipe-card__front,
+.ts-swipe-card.ts-swipe-card--swiped .ts-swipe-card__front,
+.ts-swipe-card.ts-swipe-card--swiped .ts-swipe-card__inner.ts-swipe-card__front {
+	transform: translateX(calc(var(--ts-swipe-offset)*-1));
+}
+
+.ts-swipe-card:hover .ts-swipe-card__back,
+.ts-swipe-card:hover .ts-swipe-card__inner.ts-swipe-card__back,
+.ts-swipe-card.ts-swipe-card--swiped .ts-swipe-card__back,
+.ts-swipe-card.ts-swipe-card--swiped .ts-swipe-card__inner.ts-swipe-card__back {
+	transform: translateX(0);
+}
+
+/* Vertical swipe variant */
+.ts-swipe-card--vertical .ts-swipe-card__back,
+.ts-swipe-card--vertical .ts-swipe-card__inner.ts-swipe-card__back {
+	transform: translateY(var(--ts-swipe-offset));
+}
+
+.ts-swipe-card--vertical:hover .ts-swipe-card__front,
+.ts-swipe-card--vertical:hover .ts-swipe-card__inner.ts-swipe-card__front,
+.ts-swipe-card--vertical.ts-swipe-card--swiped .ts-swipe-card__front,
+.ts-swipe-card--vertical.ts-swipe-card--swiped .ts-swipe-card__inner.ts-swipe-card__front {
+	transform: translateY(calc(-1 * var(--ts-swipe-offset)));
+}
+
+.ts-swipe-card--vertical:hover .ts-swipe-card__back,
+.ts-swipe-card--vertical:hover .ts-swipe-card__inner.ts-swipe-card__back,
+.ts-swipe-card--vertical.ts-swipe-card--swiped .ts-swipe-card__back,
+.ts-swipe-card--vertical.ts-swipe-card--swiped .ts-swipe-card__inner.ts-swipe-card__back {
+	transform: translateY(0);
+}
+
+/* END OF UPDATED REFACTORED SWIPE AND  FLIP CARDS TOKENIZED.  */
+
+/* ─── §6r  PRICING CARDS ────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────
+	TS — TEXT SHADOW ENGINE (FULL + FIXED)
+	✔ Token-driven (text-shadow: var(--ts-shadow))
+	✔ A/B color system preserved
+	✔ Font-scale aware (1em based)
+	✔ No invalid CSS / no compose / no inherit
+	✔ Safe color pipeline (no fragile oklch(from))
+	───────────────────────────────────────────── */
+
+:root {
+
+	/* ───────────── INPUTS (A/B SYSTEM) ───────────── */
+
+	--ts-shadow-color-a: currentColor;
+	--ts-shadow-color-b: color-mix(in srgb, var(--ts-this-bg-dark), var(--ts-shadow-color-a) 78%);
+
+	/* ───────────── FONT-AWARE SCALING ───────────── */
+
+	--ts-shadow-scale-factor: 0.16;
+	--ts-shadow-depth: calc(1em * var(--ts-shadow-scale-factor));
+
+	/* Steps + direction */
+	--ts-shadow-steps: 15;
+	--ts-shadow-angle-x: 1;
+	--ts-shadow-angle-y: 1;
+
+	--ts-shadow-step: calc(var(--ts-shadow-depth) / var(--ts-shadow-steps));
+
+	/* ───────────── COLOR PIPELINE (STABLE) ───────────── */
+
+	/* base mix (A vs B) */
+	--ts-shadow-color-base: color-mix(in srgb,
+			var(--ts-shadow-color-a) 75%,
+			var(--ts-shadow-color-b));
+
+	/* contrast bias (SAFE fallback version) */
+	--ts-shadow-contrast-strength: 0.23;
+
+	/* simulate contrast shift using mix instead of oklch(from) */
+	--ts-shadow-color: color-mix(in srgb,
+			var(--ts-shadow-color-base),
+			black calc(var(--ts-shadow-contrast-strength) * 180%));
+
+	/* soft tail */
+	--ts-shadow-soft-accent: color-mix(in srgb,
+			var(--ts-shadow-color),
+			transparent 50%);
+	--ts-shadow-soft: color-mix(in srgb,
+			rgb(0 0 0 / 18%),
+			transparent 28%);
+
+	/* ───────────── FINAL TOKEN (DROP-IN) ───────────── */
+
+	--ts-shadow:
+		calc(var(--ts-shadow-step) * 1 * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-step) * 1 * var(--ts-shadow-angle-y)) 0 var(--ts-shadow-color),
+
+		calc(var(--ts-shadow-step) * 2 * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-step) * 2 * var(--ts-shadow-angle-y)) 0 var(--ts-shadow-color),
+
+		calc(var(--ts-shadow-step) * 3 * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-step) * 3 * var(--ts-shadow-angle-y)) 0 var(--ts-shadow-color),
+
+		calc(var(--ts-shadow-step) * 4 * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-step) * 4 * var(--ts-shadow-angle-y)) 0 var(--ts-shadow-color),
+
+		calc(var(--ts-shadow-step) * 5 * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-step) * 5 * var(--ts-shadow-angle-y)) 0 var(--ts-shadow-color),
+
+		calc(var(--ts-shadow-step) * 6 * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-step) * 6 * var(--ts-shadow-angle-y)) 0 var(--ts-shadow-color),
+
+		/* soft tail */
+		calc(var(--ts-shadow-depth) * var(--ts-shadow-angle-x)) calc(var(--ts-shadow-depth) * var(--ts-shadow-angle-y)) calc(var(--ts-shadow-depth) * 0.6) var(--ts-shadow-soft);
+
+	/* ───────────── PRESETS ───────────── */
+
+	/* depth */
+	--ts-shadow-depth-xs: 0.02;
+	--ts-shadow-depth-sm: 0.035;
+	--ts-shadow-depth-md: 0.05;
+	--ts-shadow-depth-lg: 0.075;
+	--ts-shadow-depth-xl: 0.1;
+
+	/* steps */
+	--ts-shadow-steps-low: 4;
+	--ts-shadow-steps-mid: 6;
+	--ts-shadow-steps-high: 10;
+
+	/* contrast */
+	--ts-shadow-contrast-soft: 0.1;
+	--ts-shadow-contrast-normal: 0.18;
+	--ts-shadow-contrast-strong: 0.28;
+}
+
+
+/* ─────────────────────────────
+	UTILITIES (OPTIONAL BUT WORKING)
+	───────────────────────────── */
+
+/* depth */
+.ts-shadow-xs {
+	--ts-shadow-scale-factor: var(--ts-shadow-depth-xs);
+}
+
+.ts-shadow-sm {
+	--ts-shadow-scale-factor: var(--ts-shadow-depth-sm);
+}
+
+.ts-shadow-md {
+	--ts-shadow-scale-factor: var(--ts-shadow-depth-md);
+}
+
+.ts-shadow-lg {
+	--ts-shadow-scale-factor: var(--ts-shadow-depth-lg);
+}
+
+.ts-shadow-xl {
+	--ts-shadow-scale-factor: var(--ts-shadow-depth-xl);
+}
+
+/* step density */
+.ts-shadow-low {
+	--ts-shadow-steps: var(--ts-shadow-steps-low);
+}
+
+.ts-shadow-mid {
+	--ts-shadow-steps: var(--ts-shadow-steps-mid);
+}
+
+.ts-shadow-high {
+	--ts-shadow-steps: var(--ts-shadow-steps-high);
+}
+
+/* direction */
+.ts-shadow-br {
+	--ts-shadow-angle-x: 1;
+	--ts-shadow-angle-y: 1;
+}
+
+.ts-shadow-bl {
+	--ts-shadow-angle-x: -1;
+	--ts-shadow-angle-y: 1;
+}
+
+.ts-shadow-tr {
+	--ts-shadow-angle-x: 1;
+	--ts-shadow-angle-y: -1;
+}
+
+.ts-shadow-tl {
+	--ts-shadow-angle-x: -1;
+	--ts-shadow-angle-y: -1;
+}
+
+/* contrast */
+.ts-shadow-soft {
+	--ts-shadow-contrast-strength: var(--ts-shadow-contrast-soft);
+}
+
+.ts-shadow-normal {
+	--ts-shadow-contrast-strength: var(--ts-shadow-contrast-normal);
+}
+
+.ts-shadow-strong {
+	--ts-shadow-contrast-strength: var(--ts-shadow-contrast-strong);
+}
+
+/* context */
+.ts-shadow-accent {
+	--ts-shadow-color-a: var(--ts-accent-bright-2);
+}
+
+.ts-shadow-surface {
+	--ts-shadow-color-a: var(--ts-text-primary);
+}
+
+
+/* ─────────────────────────────
+	COMPONENT USAGE (YOUR PATTERN)
+	───────────────────────────── */
+
+.ts-pricing-card__price {
+
+	/* APPLY TOKEN */
+	text-shadow: var(--ts-shadow);
+	color: var(--ts-accent-bright);
+	/* your overrides */
+	--ts-shadow-color-a: var(--ts-accent-bright);
+	--ts-shadow-color-b: var(--ts-this-bg-dark);
+
+	--ts-shadow-scale-factor: var(--ts-shadow-depth-md);
+	--ts-shadow-steps: var(--ts-shadow-steps-low);
+
+}
+
+.ts-pricing-card {
+
+
+	border: 1px solid var(--ts-this-bg-border);
+	border-radius: var(--ts-radius-lg);
+	padding: var(--ts-sp-8) var(--ts-sp-6);
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-4);
+	position: relative;
+	overflow: hidden;
+	transition: transform var(--ts-dur-base) var(--ts-ease-out),
+		border-color var(--ts-dur-base) var(--ts-ease-out),
+		box-shadow var(--ts-dur-base) var(--ts-ease-out);
+	background: var(--ts-card-bg);
+	border-color: var(--ts-this-bg-border);
+	outline-color: var(--ts-this-bg-border);
+	transition: var(--ts-card-transitions) !important;
+	color: var(--ts-card-color);
+
+	--ts-this-bg: var(--ts-bg-2);
+	--ts-card-bg: var(--ts-this-bg-grad-4);
+
+}
+
+
+.ts-pricing-card--featured {
+	border-color: var(--ts-accent);
+	box-shadow: var(--ts-shadow-accent-lg);
+	background: linear-gradient(145deg, var(--ts-bg-3) 0%,
+			color-mix(in srgb, var(--ts-accent), transparent 90%) 100%);
+}
+
+.ts-pricing-card--featured:hover,
+.ts-pricing-card:hover {
+	transform: translateY(-4px) !important;
+	box-shadow: var(--ts-shadow-accent-lg) !important;
+	border: 1px solid var(--ts-accent-border-hover);
+}
+
+.ts-pricing-card__recommend {
+	position: absolute;
+	top: var(--ts-sp-3);
+	right: var(--ts-sp-3);
+	background: var(--ts-this-bg-grad-2);
+	font-size: var(--ts-fs-sm);
+	font-weight: 300;
+	letter-spacing: 0.01rem;
+	text-transform: uppercase;
+	padding: var(--ts-sp-2) var(--ts-sp-4);
+	border-radius: var(--ts-radius-full);
+	line-height: 0.9rem;
+	color: var(--ts-on-accent);
+	border: 1px solid var(--ts-this-bg-border);
+	--ts-this-bg: var(--ts-accent-bright);
+}
+
+.ts-pricing-card__price {
+
+	font-family: var(--ts-font-display);
+	font-size: clamp(2.5rem, 5vw, 3.5rem);
+	font-size: var(--ts-fs-display-md);
+	font-weight: var(--ts-font-weight-bold);
+	line-height: 2rem;
+	letter-spacing: -0.04rem;
+	position: relative;
+
+}
+
+.ts-pricing-card__price sup {
+	font-size: var(--ts-fs-h3);
+	font-weight: 700;
+	vertical-align: top;
+	margin-top: 0.5em;
+}
+
+.ts-pricing-card__price sup {
+	font-weight: 500;
+	vertical-align: top;
+	margin-top: 0.5rem;
+	display: inline-flex;
+	margin-right: 0.2rem;
+	/* position: absolute; */
+	left: -0.8rem;
+	/* color: var(--ts-text-muted); */
+	/* margin: 0; */
+}
+
+.ts-pricing-card__features {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-sp-3);
+	flex: 1;
+	margin-block: var(--ts-sp-3);
+	/* font-size: var(--ts-fs-h5); */
+}
+
+.ts-pricing-card__feature {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	font-size: inherit;
+	color: var(--ts-text-secondary);
+}
+
+.ts-pricing-card__feature i {
+	color: var(--ts-success);
+	color: var(--ts-accent-dark-2);
+	font-size: 130% !important;
+	flex-shrink: 0;
+}
+
+.ts-pricing-card__feature i.fa-check:before {
+	content: "\f058";
+	font-weight: 900;
+	font-family: var(--ts-fontawesome-family);
+	font-style: normal;
+
+}
+
+/* ─── §6s  TESTIMONIAL BLOCK ────────────────────────────────────────── */
+
+.ts-testimonial {
+	position: relative;
+	padding: var(--ts-sp-8) var(--ts-sp-6) var(--ts-sp-8) calc(var(--ts-sp-6) + var(--ts-sp-4));
+	background: var(--ts-bg-2);
+	border: 1px solid var(--ts-border-0);
+	border-left: var(--ts-index-bar-height) solid var(--ts-accent);
+	border-radius: 0 var(--ts-radius-md) var(--ts-radius-md) 0;
+}
+
+.ts-testimonial blockquote {
+	font-size: clamp(1rem, 2vw, 1rem);
+	font-style: italic;
+	color: var(--ts-text-primary);
+	line-height: var(--ts-line-height-relaxed);
+	margin-bottom: var(--ts-sp-5);
+	text-wrap-style: pretty;
+	display: flex;
+	flex-direction: row;
+	gap: var(--ts-sp-2);
+	flex-wrap: nowrap;
+	align-items: center;
+	margin-left: calc((var(--ts-sp-6) + var(--ts-sp-3)) * -1);
+}
+
+.ts-testimonial blockquote::before {
+	content: "\201C";
+	font-size: 4em;
+	line-height: 0;
+	vertical-align: -0.3em;
+	color: var(--ts-accent);
+	margin-right: var(--ts-sp-3);
+	display: inline-flex;
+	width: var(--ts-sp-5);
+}
+
+.ts-testimonial__author-name {
+	font-weight: 700;
+	color: var(--ts-accent);
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-size: var(--ts-fs-lg);
+}
+
+.ts-testimonial__author-role {
+	color: var(--ts-text-muted);
+	font-size: var(--ts-fs-md);
+}
+
+/* ─── §6t  COLOR SWATCH INPUT ───────────────────────────────────────── */
+
+.ts-swatch {
+	width: var(--ts-input-h);
+	height: var(--ts-input-h);
+	border-radius: var(--ts-radius-sm);
+	border: 1px solid var(--ts-border-1);
+	cursor: pointer;
+	flex-shrink: 0;
+	overflow: hidden;
+	position: relative;
+	transition: border-color var(--ts-dur-fast);
+}
+
+.ts-swatch:hover {
+	border-color: var(--ts-border-2);
+}
+
+.ts-swatch input[type="color"] {
+	position: absolute;
+	inset: -4px;
+	width: calc(100% + 8px);
+	height: calc(100% + 8px);
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	opacity: 0;
+}
+
+.ts-swatch__preview {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	border-radius: calc(var(--ts-radius-sm) - 1px);
+}
+
+.ts-color-row .ts-swatch__preview {
+	border-radius: 0;
+}
+
+/* Modifier .ts-swatch--picker: use with .ts-swatch for interactive pickers; resolve .ts-swatch__preview via closest('.ts-swatch').querySelector (see showcase Forms). */
+
+.ts-color-row {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-sp-3);
+}
+
+
+/* Gradient swatches */
+.ts-grad-swatch {
+	width: var(--ts-input-h);
+	height: var(--ts-input-h);
+	border-radius: var(--ts-input-radius);
+	cursor: pointer;
+	border: 0px solid #ffffff00;
+	transition: all var(--ts-dur-fast);
+	flex-shrink: 0;
+	outline: 1px solid #ffffff29;
+	outline-offset: -1px;
+	appearance: none;
+}
+
+.ts-grad-swatch:hover {
+	transform: scale(1.12);
+}
+
+.ts-grad-swatch--active {
+	border-color: var(--ts-on-accent);
+}

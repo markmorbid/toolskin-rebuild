@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="ts-harness">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolskin · Phase 2 Wave 1 — ts-section verification harness</title>
+
+  <!-- Load order: primitives → system engine → migrated components.
+       This is a verification harness, not a marketing page. -->
+  <link rel="stylesheet" href="assets/css/next/primitives/colors.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/typography.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/spacing.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/radius.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/motion.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/status-tints.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-this-bg-v2.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-gradients-v3.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-btn_v3.1.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-chip.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-badge.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-section.css" />
+
+  <!-- JetBrains Mono + Space Grotesk for the labels (VQ-2 / VQ-3 identity). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/next/harness.css" />
+</head>
+<body class="ts-harness" style="--ts-harness-pad: 0; --ts-harness-max: none;">
+  <div class="ts-harness-intro" style="max-width: var(--ts-harness-max-intro, 1180px);padding: var(--ts-harness-pad-intro, clamp(1rem, 5vw, 4rem));">
+    <div class="ts-harness-container">
+    <h1>Phase 2 Wave 1 — ts-section</h1>
+    <p class="ts-harness-label">Verification harness · sandbox/02-components/ts-section.html · audit-gate exempt</p>
+    <p class="ts-harness-label">Every section embeds a .ts-chip and .ts-btn so the reader can see them recompose against the section's re-anchored --ts-this-bg.</p>
+  </div>
+  </div>
+
+
+  <!-- ─── REST (body surface, default) ────────────────────────────── -->
+  <section class="ts-section" id="section-rest">
+    <div class="ts-harness-container">
+      <p class="ts-harness-panel-title">.ts-section (rest, --ts-this-bg = --ts-bg-body)</p>
+      <p class="ts-section__eyebrow">/ 01 — REST</p>
+      <h2 class="ts-section-title">Default section on body surface</h2>
+      <p>Chip and button below inherit the live <code>--ts-this-bg</code>, so the engine emits borders / dims / hover surfaces from this section's anchor.</p>
+      <div class="ts-harness-content">
+        <button type="button" class="ts-chip">Chip on rest</button>
+        <button type="button" class="ts-chip ts-chip--accent">Chip accent</button>
+        <button type="button" class="ts-btn">Button on rest</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── ALT (contrast step from body) ───────────────────────────── -->
+  <section class="ts-section ts-section--alt" id="section-alt">
+    <div class="ts-harness-container">
+      <p class="ts-harness-panel-title">.ts-section--alt (re-anchor → --ts-this-bg-bright of body)</p>
+      <p class="ts-section__eyebrow">/ 02 — ALT</p>
+      <h2 class="ts-section-title">Alt — contrast-driven, no static surface</h2>
+      <p>The frozen <code>.ts-section--alt</code> used a static <code>--ts-bg-1</code> literal. The migrated form mixes the primitive <code>--ts-bg-body</code> toward <code>--ts-tone-contrast</code> in <code>oklab</code> — contrast-driven and theme-agnostic (no <code>[data-theme]</code> branching). <strong>Auto-nesting is DEFERRED</strong> (Wave 1 delivers 2 of 3 owner-ruled properties; the third needs <code>@property</code>-typed <code>--ts-this-bg</code> in the engine — see <code>decisions/engine-followup-property-typed-this-bg.md</code>).</p>
+      <div class="ts-harness-content">
+        <button type="button" class="ts-chip">Chip on alt</button>
+        <button type="button" class="ts-chip ts-chip--accent">Chip accent</button>
+        <button type="button" class="ts-btn">Button on alt</button>
+      </div>
+
+      <!-- ─── ALT NESTED INSIDE ALT — currently IDEMPOTENT (matches frozen).
+           Auto-nesting deferred to the engine follow-up. ── -->
+      <section class="ts-section ts-section--alt" id="section-alt-nested" style="padding-block: var(--ts-sp-8); margin-top: var(--ts-sp-8); border-radius: var(--ts-radius-md);">
+        <div>
+          <p class="ts-harness-panel-title">Nested .ts-section--alt (auto-nesting DEFERRED — renders identical to single alt)</p>
+          <p>Honest reporting: this nested alt re-reads the same <code>--ts-bg-body</code> primitive that the outer alt does, so the surface is identical — matches frozen idempotency. True auto-nesting (each level stepping further toward contrast) requires <code>@property</code>-typed <code>--ts-this-bg</code> in the engine to break the CSS variable cycle the worker hit. Tracked in <code>decisions/engine-followup-property-typed-this-bg.md</code>.</p>
+          <div class="ts-harness-content">
+            <button type="button" class="ts-chip">Chip on alt²</button>
+            <button type="button" class="ts-chip ts-chip--accent">Chip accent</button>
+            <button type="button" class="ts-btn">Button on alt²</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+
+  <!-- ─── ALT-2 (stronger step + accent-tinted wash) ──────────────── -->
+  <section class="ts-section ts-section--alt-2" id="section-alt-2">
+    <div class="ts-harness-container">
+      <p class="ts-harness-panel-title">.ts-section--alt-2 (--ts-this-bg-bright-3 + --ts-grad-mix top wash)</p>
+      <p class="ts-section__eyebrow">/ 03 — ALT-2</p>
+      <h2 class="ts-section-title">Stronger contrast stripe, oklab accent wash</h2>
+      <p>Frozen used <code>color-mix(in srgb, …, var(--ts-accent) 2%)</code>. Migrated to <code>--ts-grad-mix</code> (the v2 engine's oklab-safe brand-tinted gradient).</p>
+      <div class="ts-harness-content">
+        <button type="button" class="ts-chip">Chip on alt-2</button>
+        <button type="button" class="ts-chip ts-chip--success">Chip success</button>
+        <button type="button" class="ts-btn">Button on alt-2</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── DARK ─────────────────────────────────────────────────────── -->
+  <section class="ts-section ts-section--dark" id="section-dark">
+    <div class="ts-harness-container">
+      <p class="ts-harness-panel-title">.ts-section--dark (re-anchor → --ts-this-bg-dark of body)</p>
+      <p class="ts-section__eyebrow">/ 04 — DARK</p>
+      <h2 class="ts-section-title">Dark alias — floor-direction step</h2>
+      <p>Now a coherent floor-direction derivative of the live parent. Same engine, opposite direction from <code>--alt</code>.</p>
+      <div class="ts-harness-content">
+        <button type="button" class="ts-chip">Chip on dark</button>
+        <button type="button" class="ts-chip ts-chip--accent">Chip accent</button>
+        <button type="button" class="ts-btn">Button on dark</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── ACCENT BAND ─────────────────────────────────────────────── -->
+  <section class="ts-section ts-section--accent-band" id="section-accent-band">
+    <div class="ts-harness-container ts-container">
+      <p class="ts-harness-panel-title" style="opacity: 0.7;">.ts-section--accent-band (--ts-this-bg = --ts-accent)</p>
+      <span class="ts-label">/ 05 — ACCENT BAND</span>
+      <h2 class="ts-section-title">Locked on-accent foreground, oklab muted body</h2>
+      <p>The engine recomposes <code>--ts-this-bg-border</code>, <code>--ts-this-bg-dim-4</code>, and the inner-button hover surfaces against the accent. No srgb mixes, no !important, no [data-theme] branching.</p>
+      <div class="ts-harness-content">
+        <button type="button" class="ts-chip">Chip on accent</button>
+        <button type="button" class="ts-chip ts-chip--accent">Chip accent on accent</button>
+        <button type="button" class="ts-btn">Button (auto-flip ink)</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── GLOW ─────────────────────────────────────────────────────── -->
+  <section class="ts-section ts-section--glow" id="section-glow">
+    <div class="ts-harness-container">
+      <p class="ts-harness-panel-title">.ts-section--glow (--ts-grad-accent-glow radial halo)</p>
+      <p class="ts-section__eyebrow">/ 06 — GLOW</p>
+      <h2 class="ts-section-title">Accent halo overlay on body surface</h2>
+      <p>Frozen referenced <code>--ts-accent-glow-bg-2</code> which is undefined in next/. Migrated to <code>--ts-grad-accent-glow</code> (v2 engine, oklab-safe radial accent halo).</p>
+      <div class="ts-harness-content">
+        <button type="button" class="ts-chip">Chip in glow</button>
+        <button type="button" class="ts-chip ts-chip--accent">Chip accent</button>
+        <button type="button" class="ts-btn">Button in glow</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── GLOW-CENTER ─────────────────────────────────────────────── -->
+  <section class="ts-section ts-section--glow-center" id="section-glow-center">
+    <div class="ts-harness-container">
+      <p class="ts-harness-panel-title">.ts-section--glow-center (--ts-grad-accent-mesh)</p>
+      <p class="ts-section__eyebrow">/ 07 — GLOW CENTER</p>
+      <h2 class="ts-section-title">Accent mesh wash, multi-blob</h2>
+      <p>Migrated from undefined <code>--ts-accent-glow-bg-3</code> to <code>--ts-grad-accent-mesh</code> — four radial accent blobs through oklab interpolation.</p>
+      <div class="ts-harness-content">
+        <button type="button" class="ts-chip">Chip in mesh</button>
+        <button type="button" class="ts-chip ts-chip--accent">Chip accent</button>
+        <button type="button" class="ts-btn">Button in mesh</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── FULLBLEED ───────────────────────────────────────────────── -->
+  <section class="ts-section ts-section--fullbleed" id="section-fullbleed">
+    <div class="ts-container">
+      <p class="ts-harness-panel-title">.ts-section--fullbleed (container .ts-container max-width removed)</p>
+      <p class="ts-section__eyebrow">/ 08 — FULLBLEED</p>
+      <h2 class="ts-section-title">Full-width content variant</h2>
+      <p>Removes the inner container's max-width cap and applies clamped inline padding. Use for marquees, edge-to-edge hero bands.</p>
+    </div>
+  </section>
+
+
+  <!-- ─── SECTION DIVIDER (inside an alt section to give it context) ── -->
+  <section class="ts-section ts-section--alt" id="section-with-divider">
+    <div class="ts-harness-container">
+      <p class="ts-harness-panel-title">.ts-section-divider (default + centered + rounded)</p>
+
+      <div class="ts-section-divider">
+        <h2>Asymmetric divider</h2>
+      </div>
+      <p>Frozen used <code>currentColor</code> on the leading-box border (S2 violation). Replaced with explicit <code>var(--ts-accent)</code>.</p>
+
+      <div class="ts-section-divider centered">
+        <h2>Centered divider</h2>
+      </div>
+
+      <div class="ts-section-divider rounded">
+        <h2>Rounded divider</h2>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── EYEBROW / LABEL TYPOGRAPHY ──────────────────────────────── -->
+  <section class="ts-section" id="section-eyebrow">
+    <div class="ts-harness-container">
+      <p class="ts-harness-panel-title">.ts-section__eyebrow / .ts-section-label / .ts-section-title</p>
+      <p class="ts-section__eyebrow">/ 09 — Eyebrow primitive (font-mono, 9px, tracking-eyebrow)</p>
+      <span class="ts-section-label">.ts-section-label inline variant</span>
+      <h2 class="ts-section-title">Section title primitive (ladder fs-h2 fallback)</h2>
+      <p class="ts-harness-label">Frozen referenced --ts-fs-section-title which is not in next/ primitives — falls back to --ts-fs-h2. Flagged for primitives review.</p>
+    </div>
+  </section>
+
+  <!-- Shared live Variant Tester (surfaces · gradients · accent · type · radius · inputs). -->
+  <script src="assets/js/next/harness-tester.js" defer></script>
+</body>
+</html>

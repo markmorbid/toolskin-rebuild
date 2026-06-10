@@ -126,6 +126,13 @@ body.ts-harness {
   font-size: var(--ts-fs-2xs);
 }
 
+/* Adds top margin ONLY when .ts-nav-fixed comes before it */
+.ts-nav-fixed ~ .ts-sandbox-nav,
+#ts-main > .ts-sandbox-nav:first-child,
+body > .ts-sandbox-nav:first-child {
+  margin-top: var(--ts-sp-6);
+}
+
 /* Full-bleed bodies (section/topbar set --ts-harness-pad:0) get a flush bar. */
 .ts-sandbox-nav__brand {
   font-weight: var(--ts-fw-bold, 700);
@@ -606,7 +613,7 @@ body.ts-harness {
   display: flex;
   flex-direction: column;
   gap: 0;
-  scrollbar-width: thin;
+  /* scrollbar-width: thin; */
 }
 
 .ts-tester__group {

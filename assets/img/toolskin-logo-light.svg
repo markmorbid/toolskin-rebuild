@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 130" width="560" height="130" role="img" aria-label="Toolskin">
+<defs></defs>
+<path d="M 30 22 H 14 V 108 H 30" fill="none" stroke="#0c0d0f" stroke-width="8" stroke-linecap="square"></path>
+<text class="w" x="44" y="86" fill="#0c0d0f">TOOL</text>
+<rect x="246" y="32" width="8" height="66" fill="#FF5500"></rect>
+<text class="w" x="262" y="86" fill="#0c0d0f">SKIN</text>
+<path d="M 530 22 H 546 V 108 H 530" fill="none" stroke="#0c0d0f" stroke-width="8" stroke-linecap="square"></path>
+</svg>

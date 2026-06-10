@@ -21,6 +21,9 @@ description: >
   typography, font, weight, tracking, motion, ease, dark mode, light mode,
   responsive, container query, bento, magazine, awwwards, --ts-*, oklch, APCA,
   contrast, mesh, glass, gradient, brutalist, editorial.
+
+
+  pendiign update after re-refactoring v3 and con solidation /stikll poending on  sub.staged repository Branch)
 license: MIT
 ---
 

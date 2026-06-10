@@ -1,0 +1,291 @@
+
+.ts-landing.ts-showcase {
+	--ts-card-radius: var(--ts-radius-md);
+	--ts-input-radius: calc(var(--ts-card-radius)*.78);
+	--ts-card-gap: var(--ts-sp-3);
+	--ts-card-pad: var(--ts-sp-3);
+	--ts-input-pad: calc(var(--ts-card-pad)*.78) calc(var(--ts-card-pad)*.9);
+	--ts-input-gap: calc(var(--ts-card-gap, var(--ts-sp-3))*.5);
+
+
+
+
+
+	/*#CRAZY_FIX_RULES: these are hardcode styles meant to keep design on the surface cards layout. but these rules must be removed and  we must make the layouts gaps and paddighn work smarter than this.  this must be removed after the layout is consolidated. */
+	/* Theme swatch color picker */
+	.ts-section>.ts-container>.ts-card,
+	.ts-section>.ts-container .ts-card+.ts-card,
+	.ts-section>.ts-container .ts-card:has(+ .ts-card),
+	.ts-section>.ts-container>* .ts-card {
+		--ts-card-pad: var(--ts-sp-8);
+	}
+
+	.ts-section>.ts-container>.ts-card .ts-card,
+	.ts-section>.ts-container>*>.ts-card .ts-card {
+		--ts-card-pad: var(--ts-sp-3);
+
+	}
+
+	.ts-section>.ts-container:has(>.ts-card .ts-card, > .ts-card .ts-card, > .ts-card) {
+		gap: var(--ts-sp-6) !important;
+		--ts-card-gap: var(--ts-sp-4);
+	}
+
+	/* Theme swatch color picker */
+	.theme-swatches.ts-visible {
+		display: flex !important;
+	}
+
+
+	.theme-swatch {
+		width: 32px;
+		height: 32px;
+		border-radius: var(--ts-input-radius);
+		cursor: pointer;
+		border: 2px solid transparent;
+		transition: all .15s;
+		flex-shrink: 0;
+	}
+
+	.theme-swatch:hover {
+		transform: scale(1.1);
+		border-color: rgba(255, 255, 255, 0.4);
+	}
+
+	.theme-swatches {
+		display: flex;
+		gap: var(--ts-input-gap);
+		margin-top: var(--ts-sp-10);
+		align-items: center;
+	}
+
+	/* #tokens only — flattened selectors (no nested .ts-swatch leakage to #forms) */
+	#tokens span.swatch-hex-label,
+	#tokens span.swatch-hex-label+span.ts-caption {
+		display: inline-flex;
+		font-weight: 600;
+		font-family: var(--ts-font-mono);
+		padding: var(--ts-input-pad);
+		background: var(--ts-bg-3);
+		border: 1px solid var(--ts-card-border);
+		border-radius: var(--ts-card-radius);
+		white-space: nowrap;
+	}
+
+	#tokens div:has(> .ts-flex-col .ts-swatch) {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: var(--ts-card-gap) !important;
+		padding: 0;
+		background: transparent;
+		border: none;
+		border-radius: 0;
+	}
+
+	#tokens .ts-flex-col:has(.ts-swatch) {
+		display: grid !important;
+		grid-template-columns: auto 1fr !important;
+		grid-template-rows: 1fr 1fr !important;
+		gap: var(--ts-input-gap) !important;
+		align-items: center;
+		padding: var(--ts-card-pad);
+		--ts-card-pad: var(--ts-sp-3);
+
+		background: var(--ts-bg-2-t);
+		border: 1px solid var(--ts-card-border);
+		border-radius: var(--ts-card-radius);
+		flex: 1;
+		justify-items: stretch;
+	}
+
+	#tokens .ts-swatch:not(.ts-swatch--picker) {
+		min-width: calc(var(--ts-input-h)* 2);
+		border-radius: var(--ts-input-radius);
+		border: 1px solid var(--ts-input-border);
+		grid-column: 1 !important;
+		grid-row: 1 / span 2 !important;
+		width: calc(var(--ts-input-h) * 2) !important;
+		height: 100% !important;
+		max-height: calc(var(--ts-input-h) * 2);
+		aspect-ratio: 1;
+	}
+
+	#tokens span.swatch-hex-label,
+	#tokens .ts-token-lab-card .ts-caption,
+	#tokens .ts-token-lab-card>div:has(+ .ts-caption),
+	#tokens span.swatch-hex-label+span.ts-caption {
+		grid-column: 2 !important;
+		display: flex;
+		margin: 0 !important;
+		font-weight: 600;
+		font-family: var(--ts-font-mono);
+		padding: var(--ts-input-pad);
+		background: var(--ts-card-bg-2);
+		border: 1px solid var(--ts-input-border);
+		border-radius: var(--ts-input-radius);
+		align-items: center;
+		white-space: nowrap;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		line-clamp: 1;
+		-webkit-line-clamp: 1;
+		/* Limits to 3 lines */
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-size: 10px;
+
+	}
+
+	#tokens span.swatch-hex-label {
+		grid-row: 1 !important;
+	}
+
+	#tokens .ts-flex-col:has(.ts-swatch)>span.ts-caption {
+		grid-row: 2 !important;
+
+	}
+
+	/* Token lab dynamic grid + preview (scoped to #tokens) */
+	#tokens #token-lab-dynamic-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		gap: var(--ts-card-gap);
+	}
+
+	#tokens .ts-token-lab-card {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		grid-template-rows: auto auto;
+		gap: var(--ts-input-gap);
+		padding: var(--ts-card-pad);
+		background: var(--ts-card-bg);
+		border: 1px solid var(--ts-card-border);
+		border-radius: var(--ts-card-radius);
+		align-items: center;
+	}
+
+	#tokens .ts-token-lab-card__swatch {
+		width: calc(var(--ts-input-h) * 2);
+		height: calc(var(--ts-input-h) * 2);
+		border-radius: var(--ts-card-radius);
+		border: 1px solid var(--ts-border-1);
+		grid-row: 1 / span 2;
+		background: var(--ts-input-bg);
+	}
+
+	#tokens #token-preview-root {
+		--token-preview-accent: var(--ts-accent);
+		--token-preview-surface: var(--ts-bg-3);
+		--token-preview-muted: var(--ts-text-secondary);
+		border-radius: var(--ts-card-radius);
+
+		border: 1px solid var(--ts-card-border);
+
+	}
+
+	#tokens #token-preview-root .ts-token-preview-accent-text {
+		color: var(--token-preview-accent);
+	}
+
+	#tokens #token-preview-root .ts-token-preview-surface {
+		background: var(--token-preview-surface);
+		border: 1px solid color-mix(in srgb, var(--token-preview-accent), transparent 55%);
+	}
+
+	#surface-presets .surface-preset-card {
+		outline-offset: var(--ts-index-bar-height);
+		transition: border-color 0.15s ease, box-shadow 0.15s ease;
+	}
+
+	#surface-presets .surface-preset-card:hover {
+		border-color: var(--ts-border-accent);
+	}
+
+	#surface-presets .surface-preset-card:focus-visible {
+		outline: 2px solid var(--ts-accent);
+	}
+
+	#surface-presets .surface-preset-swatches {
+		margin-bottom: var(--ts-sp-4);
+	}
+
+	#surface-presets .surface-preset-swatches__label {
+		font-size: var(--ts-fs-2xs);
+		color: var(--ts-text-muted);
+		margin-bottom: var(--ts-sp-2);
+		display: block;
+	}
+
+	#surface-presets .surface-preset-swatches__grid {
+		display: grid;
+		grid-template-columns: repeat(7, minmax(0, 1fr));
+		gap: 6px;
+		margin-bottom: var(--ts-sp-3);
+	}
+
+	#surface-presets .surface-preset-swatches__slot {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--ts-input-gap);
+		min-width: 0;
+	}
+
+	#surface-presets .surface-preset-swatches__cell {
+		width: 100%;
+		aspect-ratio: 1;
+		border-radius: var(--ts-input-radius);
+		border: 1px solid color-mix(in srgb, var(--ts-text-primary), transparent 75%);
+		box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ts-bg-body), transparent 40%);
+	}
+
+	#surface-presets .surface-preset-swatches__cap {
+		font-size: 9px;
+		font-family: var(--ts-font-mono);
+		color: var(--ts-text-muted);
+		text-align: center;
+		line-height: 1.1;
+		max-width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	#surface-presets .surface-preset-swatches__text-row {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--ts-input-gap);
+	}
+
+	#surface-presets .surface-preset-swatches__text-pill {
+		display: flex;
+		flex-direction: column;
+		gap: var(--ts-input-gap);
+		min-width: 0;
+	}
+
+	#surface-presets .surface-preset-swatches__text-swatch {
+		border-radius: var(--ts-radius-sm);
+		border: 1px solid color-mix(in srgb, var(--ts-text-primary), transparent 78%);
+		aspect-ratio: 1;
+	}
+
+	.ts-parallax__bg {
+		background-image: url("../../assets/img/bg_yt.jpg");
+
+	}
+
+	#ts-main {
+		transition: margin-left 0.22s var(--ts-ease-out);
+	}
+
+	#ts-main.ts-main--pushed {
+		margin-left: min(22rem, 88vw);
+	}
+
+	@media (max-width: 720px) {
+		#ts-main.ts-main--pushed {
+			margin-left: 0;
+		}
+	}
+
+}

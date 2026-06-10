@@ -1,0 +1,119 @@
+.ts-topbar__logo{
+	--ts-logo-w: calc(var(--ts-topbar-h)*3);
+	--ts-logo-max-w: calc(var(--ts-logo-w) - var(--ts-logo-pad)*2);
+	--ts-logo-pad: var(--ts-navlink-pad-x);
+	--ts-logo-gap: calc(var(--ts-navlink-gap)*.5);
+	--ts-logo-h: calc(var(--ts-topbar-h) - var(--ts-logo-pad)*2);
+	--ts-logo-fs: var(--ts-fs-md, 13px);
+	--ts-logo-color: var(--ts-text-primary);
+	--ts-logo-em: var(--ts-accent);
+	--ts-logo-subtext-color: var(--ts-text-muted);
+	--ts-logo-fs-adjust: 0.65;
+	--ts-logo-subtext-fs-adjust: calc(var(--ts-logo-fs-adjust)*.375);
+	--ts-logo-lh: 1.2;
+}
+.ts-topbar__logo:not(:has(.ts-logo-brand)) {
+	/* 1. Layout: Switch Flex to Grid for better line control */
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	align-content: center;
+	justify-items: start;
+	column-gap: var(--ts-logo-gap);
+	row-gap: var(--ts-navlink-gap);
+
+	/* 2. Sizing: Intrinsic width instead of fixed */
+	width: fit-content;
+	/* Safety fallback: start at 2x height, but allow growth up to 5x */
+	min-width: calc(var(--ts-topbar-h) * 1.5);
+	max-width: var(--ts-logo-w);
+	height: 100%;
+	/* padding-inline: var(--ts-logo-pad);*/
+	text-decoration: none;
+
+	/* 3. Typography Tokens */
+	font-family: var(--ts-font-display);
+	font-weight: var(--ts-font-weight-semibold);
+	font-size: var(--ts-logo-fs);
+	letter-spacing: var(--ts-letter-spacing-wide);
+	text-transform: uppercase;
+	color: var(--ts-logo-color);
+	font-size-adjust: var(--ts-logo-fs-adjust);
+	line-height: var(--ts-logo-lh);
+}
+
+.ts-topbar__logo:has(.ts-logo-brand) {
+	/* 1. Layout: Switch Flex to Grid for better line control */
+	display: grid;
+	grid-template-columns: max-content;
+	align-content: center;
+	justify-items: start;
+	column-gap: var(--ts-logo-gap);
+	row-gap: var(--ts-navlink-gap);
+
+	/* 2. Sizing: Intrinsic width instead of fixed */
+	width: fit-content;
+	/* Safety fallback: start at 2x height, but allow growth up to 5x */
+	height: 100%;
+	padding-inline: var(--ts-logo-pad);
+	text-decoration: none;
+
+	/* 3. Typography Tokens */
+	font-family: var(--ts-font-display);
+	font-weight: var(--ts-font-weight-semibold);
+	font-size: var(--ts-logo-fs) !important;
+	letter-spacing: var(--ts-letter-spacing-wide) !important;
+	text-transform: uppercase !important;
+	color: var(--ts-logo-color) !important;
+	font-size-adjust: var(--ts-logo-fs-adjust);
+	line-height: var(--ts-logo-lh) !important;
+}
+
+.ts-modal__header .ts-topbar__logo {
+	padding-inline: var(--ts-logo-pad);
+}
+
+.ts-topbar__logo .ts-logo-brand {
+	grid-column: 1;
+	white-space: nowrap;
+	display: flex;
+	gap: var(--ts-logo-gap);
+	font-size: inherit !important;
+
+}
+
+/* First Line (Brand) */
+.ts-topbar__logo em {
+	color: var(--ts-logo-em);
+	font-style: normal;
+	font-weight: var(--ts-font-weight-black);
+	/* Force bold for the lead */
+	white-space: nowrap;
+	text-shadow: var(--ts-shadow-bold);
+}
+
+
+.ts-topbar__logo span,
+.ts-topbar__logo .ts-logo-sub {
+	grid-column: span 2;
+	grid-column: 1 / -1;
+
+	display: -webkit-box;
+	font-size: inherit !important;
+	letter-spacing: var(--ts-letter-spacing-wider) !important;
+	color: var(--ts-logo-subtext-color) !important;
+	font-weight: var(--ts-font-weight-normal) !important;
+	flex: 1 1 var(--ts-logo-max-w) !important;
+	font-size-adjust: var(--ts-logo-subtext-fs-adjust);
+
+	line-height: 2ch;
+	max-height: unset;
+	overflow: hidden;
+	line-clamp: 2;
+	-webkit-line-clamp: 2;
+	text-overflow: ellipsis;
+	white-space: normal;
+	-webkit-box-orient: vertical;
+	max-inline-size: 100%;
+	width: 100%;
+	text-transform: uppercase;
+}

@@ -1,0 +1,84 @@
+# ═══════════════════════════════════════════════════════════════
+# TOOLSKIN REBUILD — .gitignore
+# ═══════════════════════════════════════════════════════════════
+
+# ── Build-time tooling ──────────────────────────────────────────
+tools/color-engine/node_modules/
+tools/color-engine/package-lock.json
+tools/visual-audit/node_modules/
+tools/visual-audit/package-lock.json
+tools/visual-audit/playwright-report/
+tools/visual-audit/test-results/
+node_modules/
+
+# ── Visual audit captures (regenerable) ────────────────────────
+# Owner real-Chrome ground-truth (owner-ground-truth/) IS committed — not regenerable.
+docs/handoffs/_visual-audit/screenshots/
+docs/handoffs/_visual-audit/sandbox/
+
+# ── Playwright / Chrome MCP scratch ────────────────────────────
+.playwright-mcp/
+
+# ── Agent directories (local tooling only) ─────────────────────
+.agents/
+
+# ── Impeccable skill (install separately via npx skills) ───────
+.claude/skills/impeccable/
+
+# ── Backup / scratch directories ───────────────────────────────
+backups/
+_backups/
+backup/
+_backup/
+_bu/
+_out/
+_output/
+_archived/
+archived/
+logs/
+
+# ── Claude Design Files (local Claude.ai project export) ───────
+docs/claude-design-files/
+
+# ── Binary / generated assets ──────────────────────────────────
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.zip
+*.log
+*.ttf
+*.otf
+*.woff
+*.woff2
+*.napkin
+
+# ── Specific oversize files kept on disk only ──────────────────
+docs/references/branding/uploads/screencapture-localhost-8002-2026-05-03-02_50_26.png
+docs/references/treemap-module/_archived/
+
+# ── OS ──────────────────────────────────────────────────────────
+Thumbs.db
+.DS_Store
+
+# ── Editor ──────────────────────────────────────────────────────
+# .vscode/ is partially tracked:
+# settings.json + extensions.json travel with the repo (gate-2, B.6 format-on-save disabled)
+.cursor/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+
+
+node_modules/
+.next/
+dist/
+build/
+*.log
+*.lock
+coverage/
+.env*
+__pycache__/
+*.pyc

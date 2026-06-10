@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- @dsCard group="Brand" name="Toolskin Sandbox — ts-topbar + ts-nav" subtitle="Faithful header reconstruction · layered scoped tokens" -->
-<html lang="en" class="ts-harness">
+<html lang="en" class="ts-harness" data-ts-offcanvas-editor>
 <head>
   <meta charset="UTF-8" />
  <!-- Theme before first paint (matches ToolskinTheme storageKey + auto mode) to reduce FOUC -->
@@ -97,7 +97,16 @@
     <script src="assets/js/toolskin.showcase.js" defer></script>
 
     <!-- <link rel="stylesheet" href="assets/css/toolskin.css" /> -->
- <!-- SHARED STYLE STACK — primitives → engine → btn → ts-nav-header → harness.css. -->
+ <!-- SHARED STYLE STACK — primitives → engine → btn → ts-nav-header → harness.css.
+
+ ALL OF THESE should be   injected/prepended  using the reloadin and the  same method that the  toolskin-assets.js file  provides. 
+ The entire html contet shoyuld be scaffolded. and enhanced   via   dom preloaded  deferrds anbd   immediate  class  injection and  dom update refresh before the rpeloader ends ( better said, preloader must only disspaerar after the progress   = scaffold fullfilled, class injected,   asstes loaded, dom   pained. )  
+
+
+    as all the components previews  requires all the dependiencies as all fo them ha UI, we cannot keep ung ne  css selectors and tkens adn justr   ove forward  addubng bew thigs n each delivery, WE NEED TO HAVe AN INCREMENTAL SELF MPROVING   BASE UNTOICHED  ON THESCAFFOND AND  KEEP THAT UNTCHED, JUST EGENRATE THE NEW VIEW  WHEN ENERATING THE NEW  ASSET AND THEN CHEKC BACK ALL THE RPEIEWS IMPLMENTATIN FR BACKFIRE   SECUITY CHECKUP ( IF  THE   STUYLES MADE AFFECTED ANY COMPONENT BY INHERITANCE OR CLASS  r selectro or scope sharing.-->
+
+
+<!-- Issue#2 By logicsa, all the primitives -->
   <link rel="stylesheet" href="assets/css/next/core/reset.css" />
   <link rel="stylesheet" href="assets/css/next/primitives/colors.css" />
   <link rel="stylesheet" href="assets/css/next/primitives/typography.css" />
@@ -119,10 +128,15 @@
   <link rel="stylesheet" href="assets/css/next/components/ts-nav-header.css" />
   <link rel="stylesheet" href="assets/css/next/components/ts-input.css" />
   <link rel="stylesheet" href="assets/css/next/components/ts-ui-select.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-ui-select-2.css" />
   <link rel="stylesheet" href="assets/css/next/components/ts-btn_v3.1.css" />
   <link rel="stylesheet" href="assets/css/next/components/ts-modal.css" />
   <link rel="stylesheet" href="assets/css/next/components/ts-table.css" />
   <link rel="stylesheet" href="assets/css/next/components/ts-tooltip.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-oce-panel-consolidated.css" />
+
+    <!-- WE KEEP the harness editor just to ahveanother asset  alternative that is nt and entire offcanvas, and to    tet the migration ofits conrols and token  lie  editing -->
+
   <link rel="stylesheet" href="assets/css/next/harness.css" />
 
     <!-- Toolskin Framework — early boot IIFE kicks off ToolskinAssets.loadAll() -->
@@ -131,36 +145,7 @@
         stylesheetDebugger: { enabled: false }
       };
     </script>
-
-      <!-- Toolskin Framework — OWQNER NOTE:   wiped off all the js assets generated on this  refactor. all of them were totally  regressive.  so direct improt from the old repository was  the fastes and cleanest solition. and works perfect without any delay and conflict. now we just remain fixing css and the project refactor will be done.  everything will be centralized on toolskin.css no js refactor will be neede donly additions and improvmeents. code sanity is best than expected on jkavascript deployment and migration.. but css requires  addaption and felxibility so the design system is usable.. ui kit js should be  deduped, integrated or merged if ther eis not  real usage from the assets on production. and all the other js files listed on the directory are dependencies for local asset impleemntations. 
-       
-      the entire project requirees  followinf the source of truth visual guidance of the showcase old rpeository, and  keep  upgrading and refactorign  the css code to making iot usable. all the other js implementations are regressive and  eventually needs to be archived ot labeled or check for any  in.development feature abandoned. 
-      the only js  kept alivce is assets/js/next/harness-tester.js..
-      if  the project requires splitting up the toolskinjs into spearate js files, then make the architect agent issue that task so the prject keeps working semlaesssly, but the ciurrent toolskin.js centralized    file works fine. for performance check  how the splitting  can work, but the one.file approach is the rpeferred  final product ideal. like the cs centraliz<ation original  concept (one css ++ one js to   make the system work).
-
-      the assetsjs file is repsonsible of loading all the dependencies  so every html has the same basic required header  sources dependencies ready on load. andn if possible every  forntned must be automatically set   so no human error is possible (class assignment,  attributes,  dom structure and nesting, code sanity, markup issues, everything must be integral and  functional so no  error blocks users from designing with the framework stand alone.
       
-      assets must be one.liners auto.inject/buildup just like the ts-ui-select example here, and the nav formatting automation and the auto icons feature, and every automatic class library on the system. all the approaches must  boil to the same toolkskin core concept.  every overflowing from that pattern of   engine and behaviour and design is out of question. )
-      the deliverdrable is an enhanced ready to sjip version form the  old toolskin  design system,  with features, assets, shortcode,s integrations, and skill/css/ai addaptability/docs/references/structure/demos/sandboxes fully operative and  with   all the dependencies and  cascade inhertiances token layers system consolidated.. there must not be redudnant css code, rules, overlapping,   overrides, ommisive code,  idle/conflictive   scopes, missleading references, or non-working status/theme/system base token and styles form core layer 0 to frontend  final visual level dpeloy.
-
-
-      currently- the harnesss tester js is not fully oeprative, and is not because of my  latest changes. 
-      the token handling was not fully working right after the latets changes form the 4-06-2026 
-      the font scaling  handling doenst affects all the instances, so the fotn scaling token is not globally affecting the current css states.,  the radius base is not affecting all the instancies, probably becasue of the constrain or probably becasaue the   ts-radius-* tokens are not using the base valu properly on vomponents. the constrain  value is neccesary to avoid brealing assets but the  base radius is noit applying at all on any layer.
-      the gradient application so  it could be replaced with the pendign to integrate oce-panel. it is fucntional on js side and it hjas its own js file on the directory 
-
-      assets\js\ts-offcanvas-editor.js
-      assets\js\phantom-gallery.js
-      assets\js\toolskin.bannerGenerator.js
-      assets\js\toolskin.js
-      assets\js\toolskin.showcase.js
-      assets\js\toolskin-assets.js
-      assets\js\toolskin-uikit.js
-      assets\js\ts-cube-portfolio.js
-      assets\js\ts-gallery.js
-      assets\js\ts-gradient-canvas.js
-      
-      -->
 
     <script src="assets/js/toolskin.js" defer></script>
     <script src="assets/js/toolskin-uikit.js" defer></script>

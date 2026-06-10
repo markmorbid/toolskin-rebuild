@@ -4,7 +4,7 @@ REM  Toolskin Tree Explorer  -  double-click to launch
 REM  All machinery lives in the _tree-explorer folder next to this file.
 REM ===================================================================
 cd /d "%~dp0"
-where node >nul 2>nul
+where node >null 2>null
 if errorlevel 1 (
   echo.
   echo   Node.js is not installed or not on PATH.

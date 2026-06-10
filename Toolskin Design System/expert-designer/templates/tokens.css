@@ -80,7 +80,7 @@
      --ts-accent-dim: color-mix(in oklab, var(--ts-accent), transparent 82%);
      --ts-accent-dim-2: color-mix(in oklab, var(--ts-accent), transparent 92%);
      --ts-accent-border: color-mix(in oklab, var(--ts-accent), transparent 60%);
-     --ts-on-accent: oklch(from var(--ts-accent) clamp(0, (0.65 - l) * 999, 1) 0 0); 
+    --ts-on-accent:     oklch(from var(--ts-accent) clamp(0, (0.7 - l) * 999, 1) 0 0);
      /* alt accent (optional) */
      --ts-alt-h: 195;
      --ts-alt-s: 100%;

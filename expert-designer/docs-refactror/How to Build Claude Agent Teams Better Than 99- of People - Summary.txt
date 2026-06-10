@@ -1,0 +1,110 @@
+Agent Teams: A Powerful AI Collaboration Feature
+
+This video introduces and explains the concept of Agent Teams, a feature that allows multiple AI agents to collaborate on tasks, similar to a human development team. The presenter demonstrates how to set up and utilize these teams, highlighting their benefits and best practices.
+
+What are Agent Teams?
+
+Agent Teams, exemplified by the "Neuroflow" team, consist of several individual agents working in parallel. Unlike sub-agents that operate independently and return results to a main agent, agent teams function with a shared task list and a "team lead" or orchestrator. The key advantage is that individual teammates can directly communicate with each other, enabling complex workflows and iterative development.
+
+Key Differences from Sub-Agents:
+
+    Shared Task List: All agents in a team share a common list of tasks.
+    Inter-Agent Communication: Teammates can directly message and collaborate with each other.
+    Team Lead/Orchestrator: A main agent manages the team and ensures tasks are completed with high quality.
+
+
+Setting Up Agent Teams
+
+To enable agent teams, a specific environment variable needs to be added to the project's settings. This is an experimental feature, so it's disabled by default. The presenter demonstrates adding this variable to the settings.local.json file within the Cloud Code extension.
+
+Recommended Initial Setup:
+
+    Enable Feature: Add the `agent_teams_enabled` environment variable to your project settings.
+    Train the Model: Provide the AI with documentation (e.g., by copying the agent teams documentation URL and asking it to create a reference guide) so it has local knowledge to draw from. This improves efficiency and accuracy.
+
+
+Prompting for Agent Teams
+
+Effective prompting is crucial for getting the best results from agent teams. The presenter suggests a pattern:
+Create a team of [X] teammates using [X] model (Haiku, Sonnet, or Opus). The first one is [Agent Name] and should be doing [Task Description]. This agent should produce [Deliverable]. It can talk to other agents to do [Specific Actions].
+
+Key Prompting Strategies:
+
+    Establish a Clear Goal: Provide context for the agents as they have no inherent memory.
+    Define Agent Roles and Responsibilities: Clearly state what each agent should do and what its output should be.
+    Specify Communication Flows: Indicate how agents should interact and send messages to each other.
+    Define Final Deliverables: Clearly state what the expected end results are.
+
+
+Prompting Dos and Don'ts:
+
+    DO: Assign specific files to each agent to prevent overwriting.
+    DO: Define clear and specific outputs.
+    DO: Name recipients for messages.
+    DO: Aim for 3-5 teammates; avoid large swarms.
+    DO: Provide full context as agents lack initial history.
+    DON'T: Use vague deliverables.
+    DON'T: Assume agents know who to talk to.
+    DON'T: Create massive teams.
+
+
+Demonstrations and Visualizations
+
+The video showcases several demonstrations:
+
+    Website Development: An agent team (front-end, back-end, QA) successfully builds a landing page for a fictional AI startup, iterating based on QA feedback.
+    Documentation Analysis: A "research team" (researcher, strategist, critic) analyzes project documentation to identify gaps.
+    Terminal Visualization (T-Mox): When using Cloud Code in a T-Mox enabled terminal, users can visually see agents being spawned, their status, and can even interact with individual agents directly, offering a deeper insight into their operations.
+
+
+Key Principles for Effective Agent Teams
+
+
+    Agent Territory: Each agent should own specific files and deliverables.
+    Direct Messaging: Agents should be able to communicate directly, not just through the main session.
+    Parallel Processing: Agent teams are designed for tasks that can be worked on concurrently and require ongoing communication.
+
+
+Inherited Permissions and Capabilities
+
+Agents inherit permissions from the main session. If the main session has bypass permissions, so too will the agents. They can also access and utilize any files, MCP servers, or skills available to the main session.
+
+Plan Approval Mode:
+This feature allows agents to plan their actions first and get approval from the main agent (or the user) before executing them, ensuring better control and quality.
+
+Common Pitfalls and Solutions
+
+
+    Permission Issues: Pre-approve tools in project settings.
+    Overwritten Work: Assign file owners to each agent.
+    Inactive Agents: Assign specific work or dependencies in prompts.
+    High Token Usage: Use fewer agents.
+    Lost Work: Instruct agents to save work as temporary files.
+    Incorrect Approvals: User-approve plans initially until the workflow is understood.
+
+
+When to Use Agent Teams
+
+Agent teams are best suited for:
+
+    Complex Tasks: When a project requires multiple specialized agents.
+    Parallel Execution: When tasks can and need to be done concurrently.
+    Inter-Agent Communication: When agents need to react to and communicate with each other.
+    High Quality Output: When multiple steps and checks are needed for thoroughness.
+
+
+When NOT to Use Agent Teams:
+
+    Sequential Processes: If tasks are strictly one after another with no parallel work.
+    Single Context Window: If all work needs to stay within one conversation history.
+    Shared File Work: If agents are primarily working on the same files.
+    Simple Tasks: Agent teams can be overkill for straightforward tasks.
+
+
+For simpler or sequential tasks, sub-agents might be a more efficient and cost-effective alternative. The presenter recommends limiting teams to 2-5 agents to manage costs and complexity.
+
+Shutting Down Agent Teams
+
+It's important to properly shut down agent teams by having them confirm they are done and have saved their work. This ensures a clean save and avoids data loss, unlike a forced kill.
+
+The video concludes by encouraging viewers to explore and utilize agent teams in Cloud Code for their development projects.

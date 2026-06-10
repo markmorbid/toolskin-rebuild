@@ -1,0 +1,629 @@
+
+/* ── PRELOADER — root + first-paint lock ─────────────────────────────
+   B19-S1 dedupe: previously two near-identical `.ts-preloader` blocks
+   declared the same tokens; the second block also carried `!important`
+   on the transition (load-bearing — keeps the dismiss animation immune
+   to interaction-state overrides). Consolidated into a single block
+   below. The light-theme override and the `html.ts-preloader-lock`
+   first-paint-lock chain remain in their original order so the cascade
+   ordering is unchanged.
+   ──────────────────────────────────────────────────────────────────── */
+
+.ts-preloader {
+	/* Tokens — overlay surface */
+	--ts-preloader-overlay-bg: var(--ts-bg-body);
+	--ts-preloader-overlay-bg-alpha: 12%;
+	--ts-preloader-overlay-bg-blur: 18px;
+	--ts-preloader-overlay-bg-grayscale: 1;
+	--ts-preloader-overlay-bg-gradient: radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--ts-preloader-accent), transparent 82%), transparent 60%), color-mix(in srgb, var(--ts-preloader-overlay-bg), transparent 4%);
+	--ts-preloader-bar-gradient: linear-gradient(90deg, color-mix(in srgb, var(--ts-preloader-accent), transparent 58%) 0%, var(--ts-preloader-accent) 50%, color-mix(in srgb, var(--ts-preloader-accent), transparent 58%) 100%);
+	--ts-preloader-overlay-bg-pattern: var(--ts-bg-grid-pattern);
+	--ts-z-preloader: 20000;
+	--ts-canvas-grid-size: 35px;
+	--ts-canvas-grid-opacity: 93%;
+	--ts-canvas-grid-color: color-mix(in srgb, var(--ts-text-primary), var(--ts-bg-body) var(--ts-canvas-grid-opacity));
+	--ts-bg-grid-pattern: repeating-linear-gradient(0deg, transparent, transparent calc(var(--ts-canvas-grid-size) - 1px), var(--ts-canvas-grid-color) var(--ts-canvas-grid-size)), repeating-linear-gradient(90deg, transparent, transparent calc(var(--ts-canvas-grid-size) - 1px), var(--ts-canvas-grid-color) var(--ts-canvas-grid-size));
+	/* B19-S2 wired tokens — progress tween + spinner geometry.
+	   Pre-approved by owner: 100ms smooth-tween default; spinner
+	   geometry preserves the current 40px/3px rendering for parity
+	   while letting variant overrides retune both dimensions. 
+
+REFACTOR NOTE:; NEW OWNER ADJUSTMENT FIXES: CRITICAL:  I HAD TO RESTORTER THE GRID STYLES TOKENS BECASUE THEY WERER REMOVE.D SO KEEP THEM AS B  THEY ARE AN  WIRE THEM TO BE EDITABLE. THE GRID LOOKS GOOD ON LIGFHT AND  DARK MODE. BUT DONT REMOVE IT  WITHOUT ANY TRACKABLE OR CONFIGURABLE HOOK. */
+	--ts-preloader-progress-tween-dur: 100ms;
+	--ts-preloader-progress-tween-ease: cubic-bezier(0.22, 1, 0.36, 1);
+	--ts-preloader-spinner-size: 60px;
+	--ts-preloader-spinner-thickness: var(--ts-index-bar-height, 3px);
+	--ts-preloader-logo-icon: calc(var(--ts-preloader-logo-fs)*.75);
+	--ts-preloader-accent: var(--ts-accent);
+	/* B23 R2: restore preloader hierarchy after NEW-B15 ladder shift. Logo was var(--ts-fs-lead)≈12.48px / hint was var(--ts-fs-xs)≈11.38px (near-equal). Absolute pixels bypass ladder; ratio ≈1.78×. */
+	--ts-preloader-logo-fs: var(--ts-fs-xl);
+	--ts-preloader-logo-color: var(--ts-text-primary);
+	--ts-preloader-logo-font: var(--ts-font-display) !important;
+	--ts-preloader-hint-fs: 70%;
+	--ts-preloader-hint-color: var(--ts-text-secondary);
+	--ts-preloader-hint-font: var(--ts-font-mono) !important;
+	--ts-preloader-spinner-dur: 3s;
+
+	position: fixed;
+	inset: 0;
+	z-index: var(--ts-z-preloader);
+	display: grid;
+	place-items: center;
+	pointer-events: auto;
+	opacity: 1;
+	/* `!important` is load-bearing — preserves the dismiss animation
+	   even when interaction-state rules try to override transitions. */
+	transition: opacity var(--ts-dur-slow) var(--ts-ease-out), visibility var(--ts-dur-slow) var(--ts-ease-out) !important;
+	visibility: visible;
+	background-image: var(--ts-preloader-overlay-bg-gradient);
+	backdrop-filter: blur(var(--ts-preloader-overlay-bg-blur)) grayscale(var(--ts-preloader-overlay-bg-grayscale));
+	/* @refactor:backdrop-critical */
+	/* @refactor:glass-dependent */
+	/* @refactor:needs-solid-fallback */
+	/* @refactor:token-dependency */
+	/* @refactor:container-review */
+	/* Visible by default — toolskin.css is render-blocking, so this takes effect
+		at first paint before any JS runs. JS (dismiss) adds .is-done to hide it. */
+	/* CRITICAL REFACTORING: THIS IS THE MAIN NAVIGATION.  rgeardless the glass enabling the component like this both should share thew ame seting and both   should have its owntoggling  backdrop glass  setup with the  opacity glass backdrop effects pairing.  fallback is plain surface backgroun dwith no alpha. currently it has legibility issues ecause of  the alpha but backdrop works good. for visibility. Needs  customizable  pattern opacity and  surface... but preferenctly iof no backdrop effect blur, thenno  surface alpha enabled at all..   */
+
+	background-color: color-mix(in srgb, var(--ts-preloader-overlay-bg), transparent var(--ts-preloader-overlay-bg-alpha));
+	background-image: var(--ts-preloader-overlay-bg-pattern);
+}
+
+
+/* First-paint lock: main shell stays hidden until preloader dismisses (see ToolskinPreloader). */
+html.ts-preloader-lock,
+html.ts-preloader-lock body {
+	overflow: hidden !important;
+}
+
+html.ts-preloader-lock #ts-app,
+html.ts-preloader-lock #ts-main {
+	visibility: hidden;
+	pointer-events: none;
+	user-select: none;
+}
+
+html.ts-preloader-lock .ts-preloader {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+}
+[data-theme="light"] .ts-preloader {
+	--ts-preloader-overlay-bg: var(--ts-this-bg);
+	--ts-canvas-grid-color: var(--ts-on-surface-dim);
+	--ts-preloader-logo-color: var(--ts-on-surface);
+	--ts-bg-1: #0d0d0d;
+	--ts-on-surface-perc: 90%;
+	--ts-text-primary: var(--ts-on-surface);
+	--ts-this-bg: var(--ts-bg-1);
+	--ts-preloader-bar-bg: color-mix(in oklch,var(--ts-on-surface) var(--ts-preloader-bar-bg-alpha),transparent);
+	--ts-preloader-bar-bg-alpha: 10%;
+	--ts-preloader-brand-bg-alpha: 30%;
+	--ts-preloader-brand-border: var(--ts-on-surface-dim);
+	--ts-preloader-brand-bg: var(--ts-this-bg);
+	--ts-preloader-overlay-bg-alpha: 6%;
+	--ts-preloader-overlay-bg-blur: 8px;
+}
+
+
+.ts-preloader:not(.ts-preloader--minimal-bar, .ts-preloader--brandless) {
+	--ts-preloader-display-brand: grid;
+	/* grid | none; */
+	--ts-preloader-display-icon: block;
+	/* block | none; */
+	--ts-preloader-bar-height: 5px;
+
+	--ts-preloader-brand-pad: var(--ts-sp-7);
+	--ts-preloader-brand-radius: var(--ts-radius-md);
+	--ts-preloader-bar-radius: var(--ts-radius-full);
+
+}
+html:not([data-theme="light"]).ts-preloader:not(.ts-preloader--minimal-bar, .ts-preloader--brandless) {
+	
+	--ts-preloader-brand-bg: var(--ts-bg-1);
+	--ts-preloader-brand-bg-alpha: 30%;
+	--ts-preloader-brand-border: var(--ts-border-1);
+	--ts-preloader-bar-bg-alpha: 40%;
+	--ts-preloader-bar-bg: var(--ts-bg-4);
+
+}
+
+.ts-preloader.is-visible {
+	opacity: 1;
+	/*visibility: visible;*/
+	pointer-events: all !important;
+}
+
+/* REFACTOR NOTES:  we need to enable the transition using the allow-discrete  transition properties on the proper places. becasue the  in and out are abbrupt.  */
+.ts-preloader.is-done {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none !important;
+	/* Disable expensive GPU effects on dismissed preloader to prevent scroll hang.
+		The element stays in DOM (HTML-defined) but should not consume GPU. */
+	backdrop-filter: none !important;
+	-webkit-backdrop-filter: none !important;
+	background: none !important;
+	transform: none !important;
+	will-change: auto !important;
+	/* Take it out of the layout entirely */
+	display: none !important;
+	transition: visibility 0.6s var(--ts-ease-out) allow-discrete, display 0.6s var(--ts-ease-out) allow-discrete, opacity 0.6s var(--ts-ease-out);
+}
+
+.ts-preloader__brand {
+	display: grid;
+	gap: var(--ts-sp-4);
+	align-items: center;
+	justify-items: center;
+	min-width: min(92vw, 380px);
+	padding: var(--ts-preloader-brand-pad);
+	border: 1px solid var(--ts-preloader-brand-border);
+	border-radius: var(--ts-preloader-brand-radius);
+	background: color-mix(in srgb, var(--ts-preloader-brand-bg), transparent var(--ts-preloader-brand-bg-alpha));
+	/* 
+NEW REFACTOR NOTE — Transparency / Backdrop System
+
+Objective:
+Decouple transparency + backdrop-filter effects from the default visual system,
+and establish a solid, non-effect-based baseline for all components.
+
+Required actions:
+1. Audit:
+   - Identify all styles that rely on `backdrop-filter`, `-webkit-backdrop-filter`,
+     and/or semi-transparent backgrounds (rgba/hsla with low alpha).
+   - Produce a complete list of affected components/selectors.
+
+2. Refactor baseline:
+   - Remove backdrop-filter as a default dependency.
+   - Replace transparent/dimmed backgrounds with solid, token-based surfaces
+     that guarantee contrast and legibility without visual effects.
+
+3. Dependency correction:
+   - Many components currently depend on blur for readability.
+   - When removing backdrop-filter, adjust:
+     - background-color (increase opacity or switch to solid tokens)
+     - text color / contrast tokens
+     - borders, shadows, or elevation tokens if needed
+   - Validate legibility and visual hierarchy after each change.
+
+4. Container-level review:
+   - Do NOT treat this as a single-property swap.
+   - Re-evaluate the full container composition (bg, text, elevation, layering)
+     wherever backdrop-filter was previously used.
+
+5. Mode separation:
+   - Current implementation = “glass mode” (blur + transparency).
+   - Move this into an explicit, opt-in variant (e.g. `.ts-glass` or theme flag).
+   - Glass mode should remain available, but NOT as the default rendering path.
+
+6. Default system:
+   - Define a fully opaque, effect-independent base theme.
+   - Ensure all components render correctly without relying on blur or transparency.
+
+Notes:
+- Expect widespread regressions if blur is removed without compensating color adjustments.
+- Prioritize accessibility (contrast ratios) over visual parity during transition.
+- This refactor impacts both tokens and component-level styles — treat it as systemic, not cosmetic.
+
+Tags placed on the sheet for finding key components and styles to refactor with this key isue:
+
+@refactor:backdrop-critical
+@refactor:glass-dependent
+@refactor:needs-solid-fallback
+@refactor:token-dependency
+@refactor:container-review
+
+*/
+	/* box-shadow: var(--ts-shadow-0),
+	inset 0 0 60px 1px color-mix(in srgb, var(--ts-accent), transparent 95%); */
+	/* backdrop-filter: blur(4px) brightness(0.95); */
+	z-index: 9;
+	isolation: isolate;
+	transition: opacity 300ms ease;
+
+}
+
+/* B19-S1 dedupe: this `.ts-preloader__brand.shadow` rule appeared twice
+   identically. Consolidated into a single declaration. */
+.ts-preloader__brand.shadow {
+	box-shadow: var(--ts-shadow-0), inset 0 0 60px 1px color-mix(in srgb, var(--ts-accent), transparent 95%);
+	/* backdrop-filter: blur(4px) brightness(0.95); */
+}
+
+.ts-preloader.ts-flip .ts-preloader__brand {
+
+	will-change: transform, opacity;
+	perspective: 1200px;
+	transform-style: preserve-3d;
+	transform: rotateY(0deg) translateZ(0px);
+	transform-origin: center;
+}
+
+.ts-preloader.ts-flip .ts-preloader__brand .ts-preloader__brand * {
+	transform: translateZ(0px);
+	transform-style: preserve-3d;
+	transform-origin: center;
+}
+
+.ts-preloader__logo {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	font-weight: var(--ts-font-weight-semibold, 600) !important;
+	letter-spacing: var(--ts-letter-spacing-normal);
+	color: var(--ts-preloader-logo-color);
+	font-size: var(--ts-preloader-logo-fs);
+	font-family: var(--ts-preloader-logo-font) !important;
+	line-height: 1;
+	/* Start invisible — prevent font-swap FOUT (display=swap loads fallback first).Revealed by .ts-fonts-ready class set via document.fonts.ready in JS.
+	opacity: 0; */
+	transition: opacity 0.25s ease;
+}
+
+/* Reveal preloader text only after fonts are confirmed loaded */
+html.ts-fonts-ready .ts-preloader__logo {
+	opacity: 1;
+}
+
+.ts-preloader__logo .ts-icon {
+	color: var(--ts-preloader-accent);
+	font-size: 1rem;
+}
+
+/* Inline SVG bolt — renders instantly without waiting for Font Awesome CDN */
+.ts-preloader__bolt {
+	width: var(--ts-preloader-logo-icon);
+	height: var(--ts-preloader-logo-icon);
+	fill: var(--ts-preloader-accent);
+	font-size: var(--ts-preloader-logo-icon);
+
+
+}
+
+.ts-preloader__logo em {
+	font-style: normal;
+	color: var(--ts-preloader-accent);
+}
+
+.ts-preloader__bar-wrap {
+	width: min(78vw, 340px);
+	height: var(--ts-preloader-bar-height);
+	border-radius: var(--ts-preloader-bar-radius);
+	background: color-mix(in srgb, var(--ts-preloader-bar-bg), transparent var(--ts-preloader-bar-bg-alpha));
+	overflow: hidden;
+}
+
+/* Determinate fill — width set by ToolskinPreloader from real load signals */
+.ts-preloader__bar {
+	display: block;
+	width: 0%;
+	min-width: 0;
+	max-width: 100%;
+	height: 100%;
+	background: var(--ts-preloader-bar-gradient);
+	will-change: width;
+	/* B19-S2: smooth progress tween — wired via tokens declared on
+	   `.ts-preloader` root so variants can retune duration/easing
+	   without redeclaring the transition shorthand. */
+	transition: width var(--ts-preloader-progress-tween-dur) var(--ts-preloader-progress-tween-ease);
+}
+
+/* @media (prefers-reduced-motion: reduce) {
+		.ts-preloader__bar {
+			transition: none;
+		}
+	} */
+
+.ts-preloader__hint {
+	font-size: var(--ts-preloader-hint-fs);
+	color: var(--ts-preloader-hint-color);
+	letter-spacing: var(--ts-letter-spacing-wide);
+	text-transform: uppercase;
+	font-family: var(--ts-preloader-hint-font);
+	animation: ts-preloader-pulse 1.6s ease-in-out infinite;
+	transition: opacity 300ms ease;
+	opacity: 0;
+	font-weight: 300 !important;
+}
+
+/* Hint fades in after fonts ready + short stagger */
+html.ts-fonts-ready .ts-preloader__hint {
+	opacity: 1;
+	transition-delay: 0.3s;
+}
+
+/* ── Preloader Variant: Minimal Bar ──
+	Thin accent bar pinned to viewport top or bottom. No brand card. */
+.ts-preloader--minimal-bar {
+	--ts-preloader-display-brand: grid;
+	/* grid | none; */
+	--ts-preloader-display-icon: none;
+	/* block | none; */
+	--ts-preloader-bar-position: var(--_bottom);
+	/* var(--_top) | var(--_bottom) */
+	--ts-preloader-brand-align: var(--_left);
+	/* var(--_left) | var(--_center) */
+	--ts-preloader-bar-height: 8px;
+	--_bottom: auto auto 0 0;
+	--_top: 0 auto auto 0;
+	--_left: auto auto auto 0;
+	--_center: auto auto auto auto;
+
+	--ts-preloader-logo-fs: var(--ts-fs-h2);
+	--ts-preloader-logo-color: var(--ts-text-primary);
+	--ts-preloader-logo-font: var(--ts-font-display);
+	--ts-preloader-hint-fs: var(--ts-fs-xs);
+	--ts-preloader-hint-color: var(--ts-text-primary-dim-2);
+	--ts-preloader-hint-font: var(--ts-font-mono);
+	--ts-preloader-accent: var(--ts-accent);
+	--ts-preloader-bar-radius: var(--ts-radius-full);
+	--ts-preloader-brand-pad: var(--ts-container-pad);
+	--ts-preloader-brand-radius: var(--ts-radius-lg);
+
+
+
+}
+
+.ts-preloader--minimal-bar .ts-preloader__brand {
+	display: var(--ts-preloader-display-brand);
+	gap: var(--ts-sp-3);
+	align-items: center;
+	justify-items: start;
+	min-width: unset;
+	padding: var(--ts-preloader-brand-pad);
+	border: none;
+	border-radius: var(--ts-preloader-brand-radius);
+	background: transparent;
+	box-shadow: none;
+	backdrop-filter: none;
+	z-index: 9;
+	isolation: isolate;
+	perspective: 1200px;
+	transform-style: preserve-3d;
+	transition: all 300ms ease;
+	will-change: transform, opacity;
+	transform: rotateY(0deg) translateZ(0px);
+	transform-origin: left;
+	position: absolute;
+	inset: var(--ts-preloader-brand-align);
+}
+
+.ts-preloader--minimal-bar .ts-preloader__brand .ts-preloader__bar-wrap {
+	display: none !important;
+
+}
+
+.ts-preloader--minimal-bar .ts-preloader__brand .ts-preloader__logo .ts-icon {
+	display: var(--ts-preloader-display-icon);
+
+}
+
+.ts-preloader--minimal-bar .ts-preloader__brand .ts-preloader__logo {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ts-sp-2);
+	font-weight: var(--ts-font-weight-black);
+	font-family: var(--ts-preloader-logo-font);
+	letter-spacing: var(--ts-letter-spacing-tight);
+	color: var(--ts-preloader-logo-color);
+	font-size: var(--ts-preloader-logo-fs);
+
+
+}
+
+.ts-preloader--minimal-bar .ts-preloader__brand .ts-preloader__hint {
+	font-size: var(--ts-preloader-hint-fs);
+	color: var(--ts-preloader-hint-color);
+	letter-spacing: var(--ts-letter-spacing-wider);
+	text-transform: uppercase;
+	font-family: var(--ts-preloader-hint-font);
+	animation: ts-preloader-pulse 2.6s ease-in-out infinite;
+	transition: opacity 300ms ease;
+	opacity: 0;
+	transition-delay: .5s;
+
+
+}
+
+.ts-preloader--minimal-bar::after {
+	content: '';
+	position: fixed;
+	inset: var(--ts-preloader-bar-position);
+	width: var(--ts-preloader-progress, 0%);
+	height: var(--ts-preloader-bar-height);
+	background: var(--ts-preloader-accent);
+	/* B19-S2: smooth progress tween — same tokens as `.ts-preloader__bar`
+	   so the brand-box bar and minimal-bar variant share the same easing
+	   feel (single source of truth for progress motion). */
+	transition: width var(--ts-preloader-progress-tween-dur) var(--ts-preloader-progress-tween-ease);
+	z-index: 1;
+}
+
+/* ── Override below: this rule is discarded, the contianer is displayed, but the inner element are kept  with an excludingg excverptions rules for the specific cases. those are patches need refactoring on structure to avoid these solutions.  */
+.ts-preloader--spinner .ts-preloader__brand {
+	display: none;
+}
+
+.ts-preloader--spinner::after {
+	content: '';
+	/* B19-S2: spinner geometry tokenized — width/height and ring thickness
+	   are both retunable from `.ts-preloader` root or per-variant override.
+	   Defaults preserve the prior 40px / 3px rendering exactly. */
+	width: var(--ts-preloader-spinner-size);
+	height: var(--ts-preloader-spinner-size);
+	border: var(--ts-preloader-spinner-thickness) solid color-mix(in srgb, var(--ts-preloader-accent), transparent 72%);
+	border-top-color: var(--ts-preloader-accent);
+	border-radius: var(--ts-preloader-bar-radius);
+	animation: ts-preloader-spin var(--ts-preloader-spinner-dur) ease-in infinite;
+	/*Added trhe token on the .ts-preloader tokens main scope variables.  to set it uop  centralized.   expanded the size and the duration for a better display.*/
+}
+
+@keyframes ts-preloader-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+
+/* ── Preloader Variant: Text Only ──
+	Centered hint text, pulsing. No brand card. */
+/* ── Override below: this rule is discarded, the contianer is displayed, but the inner element are kept  with an excludingg excverptions rules for the specific cases. those are patches need refactoring on structure to avoid these solutions.  */
+.ts-preloader--text-only .ts-preloader__brand {
+	display: none !important;
+}
+
+.ts-preloader--text-only::after {
+	content: attr(data-ts-preloader-text);
+	font-size: var(--ts-preloader-hint-fs);
+	font-family: var(--ts-preloader-hint-font);
+	color: var(--ts-text-secondary);
+	letter-spacing: var(--ts-letter-spacing-wide);
+	text-transform: uppercase;
+	animation: ts-preloader-pulse 1.6s ease-in-out infinite;
+	--ts-preloader-hint-fs: 90%;
+	margin-bottom: var(--ts-sp-3);
+	display: flex;
+	filter: invert(1);
+	mix-blend-mode: exclusion;
+
+}
+
+@keyframes ts-preloader-pulse {
+
+	0%,
+	100% {
+		opacity: 0.65;
+	}
+
+	50% {
+		opacity: 1;
+	}
+}
+
+/* REFACTOR NOTES:  we need to enable the transition using the allow-discrete  transition properties on the proper places. becasue the  in and out are abbrupt.  */
+/* ── Preloader Exit Transition ──
+	Smooth fade-out instead of abrupt removal. Applied by ToolskinPreloader.dismiss(). */
+.ts-preloader.is-exiting {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none !important;
+	transition: visibility 0.6s var(--ts-ease-out) allow-discrete, opacity 0.6s var(--ts-ease-out);
+}
+
+/* ── Preloader Progress Number — .ts-preloader__percent ──
+	Injected by ts-offcanvas-editor.js during simulate / preview.
+	Visible in all 4 variants: brand-box, minimal-bar, spinner, text-only.
+	Brand-box and minimal-bar: renders normally inside .ts-preloader__brand.
+	Spinner and text-only: brand is display:none, so __percent is positioned
+	as an absolute overlay on the preloader itself. */
+.ts-preloader__percent {
+	font-size: 110%;
+	font-family: var(--ts-font-mono);
+	font-weight: 600;
+	letter-spacing: var(--ts-letter-spacing-wide);
+	color: var(--ts-text-primary);
+	opacity: 0;
+	transition: opacity 0.25s ease;
+}
+
+html.ts-fonts-ready .ts-preloader__percent {
+	opacity: 1;
+	transition-delay: 0.4s;
+}
+
+/* Spinner and text-only hide .ts-preloader__brand (display:none), so we pull
+   __percent out via an absolute-positioned sibling approach — the OCE injects
+   it inside __brand, but these variants need it visible at the preloader root level. */
+.ts-preloader--spinner .ts-preloader__brand,
+.ts-preloader--text-only .ts-preloader__brand {
+	display: grid !important;
+	background: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	padding: 0 !important;
+	min-width: unset !important;
+	pointer-events: none;
+	position: absolute;
+	bottom: calc(50% - var(--ts-preloader-spinner-size)*1.18);
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+/* OWNER FIXES & REFACTOR NOTES: I MADE THIS NERSTING EXCLUSION RULES TO  KEEP THE BRAND CONTAINER BUT REMOVE THE CHILD ELEMENTS EXCLUDING THE BAR AND THE COUNTER PERCENT ON EACH CASE WITYH NOT. THIS IS A VERY UNTIDY METHOD AND NEEDS A PROGRASMATICX  SOLUTION. we cannot keep relying on css patches that are unmaiintainable.   */
+.ts-preloader--spinner .ts-preloader__brand *:not(.ts-preloader__percent),
+.ts-preloader--text-only .ts-preloader__brand *:not(.ts-preloader__percent, .ts-preloader__bar-wrap, .ts-preloader__bar-wrap *) {
+	display: none;
+}
+
+/* OWNER FIXES & REFACTOR NOTES: hard fixes to desighn and place the text preloader and the elements in a way is aesthetic using transport. and using the tokens available to mainatin consistency on spacing. and proportional calculations measure.s  thsi can be mroe rpecise and  improved but the visual output is the deisred. . the elements should be togglerable   on setup.  (text only has the bar and tyhe text progres number, and the spinner t has the loading number too only, and i placed the number on the spinner on the center of the circle, but that one should have a variant where is placed below)  */
+.ts-preloader--spinner .ts-preloader__brand .ts-preloader__percent,
+.ts-preloader--text-only .ts-preloader__brand .ts-preloader__percent {
+	color: var(--ts-preloader-accent, var(--ts-accent));
+}
+
+.ts-preloader--spinner .ts-preloader__brand .ts-preloader__percent {
+	transform: translateY(calc(var(--ts-preloader-spinner-size)*-1));
+	font-size: 120%;
+
+}
+
+.ts-preloader--text-only .ts-preloader__brand .ts-preloader__percent {
+	transform: translateY(calc(var(--ts-preloader-spinner-size)*.11));
+	font-size: 120%;
+
+}
+
+/* ── FOUC Guard — ToolskinAssets ──
+	Hides icon/font elements until CDN assets are fully loaded.
+	IMPORTANT: Excludes .ts-preloader — the preloader uses an inline SVG bolt
+	and render-blocking Google Fonts, so it renders correctly without waiting.
+	Scoped to #ts-main / #ts-app to avoid affecting the preloader. */
+html.ts-assets-loading :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .ts-icon:has(i, ion-icon),
+html.ts-assets-loading :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .fa,
+html.ts-assets-loading :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .fa-solid,
+html.ts-assets-loading :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .fa-brands,
+html.ts-assets-loading :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .fa-regular,
+html.ts-assets-loading :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .fab,
+html.ts-assets-loading :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .fas,
+html.ts-assets-loading :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .far,
+html.ts-assets-loading :is(#ts-main, #ts-app, [data-ts-fouc-guard]) [class*="fa-"],
+html.ts-assets-loading :is(#ts-main, #ts-app, [data-ts-fouc-guard]) ion-icon {
+	opacity: 0 !important;
+	transition: opacity 0.3s ease;
+}
+
+/* Reveal once assets are loaded — smooth fade-in */
+html:not(.ts-assets-loading) :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .fa,
+html:not(.ts-assets-loading) :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .fa-solid,
+html:not(.ts-assets-loading) :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .fa-brands,
+html:not(.ts-assets-loading) :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .fa-regular,
+html:not(.ts-assets-loading) :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .fab,
+html:not(.ts-assets-loading) :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .fas,
+html:not(.ts-assets-loading) :is(#ts-main, #ts-app, [data-ts-fouc-guard]) .far,
+html:not(.ts-assets-loading) :is(#ts-main, #ts-app, [data-ts-fouc-guard]) [class*="fa-"],
+html:not(.ts-assets-loading) :is(#ts-main, #ts-app, [data-ts-fouc-guard]) ion-icon {
+	opacity: 1;
+	transition: opacity 0.3s ease;
+}
+
+/* ── Sidebar hidden during preloader lock ──
+	The offcanvas editor (.ts-oce-*) sits outside #ts-main, so the preloader lock
+	doesn't catch it. Hide it explicitly and reveal with entrance animation. */
+html.ts-preloader-lock,
+html.ts-preloader-lock body {
+	overflow: hidden !important;
+}
+
+html.ts-preloader-lock #ts-app,
+html.ts-preloader-lock #ts-main {
+	opacity: 0 !important;
+	pointer-events: none !important;
+}
+
+html.ts-preloader-lock .ts-preloader {
+	opacity: 1 !important;
+	visibility: visible !important;
+	pointer-events: auto !important;
+}

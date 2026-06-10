@@ -1,0 +1,57 @@
+	aside.ts-sidebar-menu.ts-ui-panel {
+		min-width: var(--ts-sidebar-nav-w);
+		width: var(--ts-sidebar-nav-w);
+		min-height: 100dvh;
+		border-bottom-width: 0px !important;
+		
+		/* Revert to vertical panel layout stacking flow */
+		flex-direction: column;
+		flex-wrap: wrap;
+		justify-content: space-evenly;
+		row-gap: 2dvh;
+		column-gap: 0;
+
+		/* Revert navigation flow settings back to vertical listings */
+		.ts-sidenav {
+			flex: 1 1 100%;
+			display: block;
+			
+			.ts-sidenav__group-label {
+				display: block;
+			}
+		}
+
+		.ts-ui-select {
+			flex: 1 1 100%;
+			padding: 0 1dvw;
+			order: 0 !important;
+			--ts-ui-select-trigger-min-height: 38px;
+
+			.ts-ui-select__dropdown {
+				min-width: unset !important;
+				left: 1dvw !important;
+				right: 1dvw !important;
+			}
+		}
+
+		.ts-sidenav__btn-row {
+			padding-block: 10px;
+			padding-inline: 10px;
+			flex-wrap: wrap;
+			flex: 1 1 100%;
+
+			.ts-btn {
+				flex: 1 1 auto;
+			}
+		}
+
+		.theme-toggle {
+			flex: 1 1 var(--ts-btn-h);
+			border-left-width: 1px !important;
+		}
+
+		.ts-topbar__logo {
+			padding: 0 1vw 0 1vw;
+			order: -3 !important;
+		}
+	}

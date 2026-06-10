@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Brand" name="Toolskin Sandbox — ts-topbar + ts-nav" subtitle="Faithful header reconstruction · layered scoped tokens" -->
+<html lang="en" class="ts-harness" data-ts-offcanvas-editor>
+<head>
+  <meta charset="UTF-8" />
+ <!-- Theme before first paint (matches ToolskinTheme storageKey + auto mode) to reduce FOUC -->
+    <script>
+      (function () {
+        try {
+          var key = 'ts-theme-mode';
+          var m = localStorage.getItem(key);
+          if (!m) return;
+          if (m === 'auto') {
+            m = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          if (m === 'dark' || m === 'light') {
+            document.documentElement.setAttribute('data-theme', m);
+            document.documentElement.setAttribute('data-ts-theme', m);
+          }
+        } catch (e) { /* ignore */ }
+      })();
+    </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolskin · Top Navigation system — reconstruction harness</title>
+ <!-- Google Fonts — render-blocking (critical for preloader + body text, prevents FOUT) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- CDN preconnects — reduces latency for render-blocking theme-toggles CSS + dynamic asset loader -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://api.cdnjs.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <!-- Other CDN assets (FA, Ionicons, Lenis, GSAP, etc.) loaded dynamically by toolskin-assets.js -->
+    <noscript>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    </noscript>
+
+
+  <!-- ToolskinAssets — dynamic asset pipeline (must load before toolskin.js early boot) -->
+  <script src="assets/js/toolskin-assets.js" defer></script>
+    <!-- Preloader critical CSS — inline so the lock is available at first paint,
+       before the external stylesheet finishes loading. Mirrors generator/index.html
+       <style id="ts-preloader-boot"> pattern. -->
+    <style id="ts-preloader-boot">
+      /* FOUC guard: body background locks to the dark default before external CSS parses.
+         Prevents white flash on cold loads. The external stylesheet overrides this once loaded. */
+      html.ts-preloader-lock body {
+        background-color: #0c0d0f !important;
+      }
+
+      html.ts-preloader-lock,
+      html.ts-preloader-lock body {
+        overflow: hidden !important;
+      }
+
+      html.ts-preloader-lock #ts-app,
+      html.ts-preloader-lock #ts-main {
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
+
+      /* Ensure preloader overlay paints before external CSS resolves.
+         Fallback background mirrors --ts-bg-body dark default. */
+      html.ts-preloader-lock .ts-preloader {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        background-color: #0c0d0f !important;
+      }
+
+       /* Hide sidebar during preloader (it's outside #ts-main) */
+    html.ts-preloader-lock .ts-oce-panel.ts-oce--open,
+    html.ts-preloader-lock #ts-debug-root,
+    html.ts-preloader-lock .ts-oce-panel.ts-oce--open .ts-oce-fab {
+      opacity: 0 !important;
+      z-index: -20 !important;
+
+      pointer-events: none !important;
+    }
+    </style>
+
+    <!-- Toolskin System (local — render-critical) -->
+    <script>
+      document.documentElement.classList.add('ts-preloader-lock');
+      window.__TOOLSKIN_CONFIG__ = {
+        cursor: { mode: 'simple', follower: true, easing: 0.42, followerEasing: 0.12 },
+        reveal: { enabled: false, useGSAP: false, stagger: 0.05, rootMargin: '0px 0px -40px 0px' },
+        smoothScroll: { enabled: false, duration: 1.2 },
+      };
+      // Font-gate: reveal preloader text only after the two fonts it uses are loaded.
+      // Uses document.fonts.load() for specific families (resolves fast, doesn't wait for FA).
+      Promise.all([
+        document.fonts.load('600 1em "Space Grotesk"'),
+        document.fonts.load('400 1em "JetBrains Mono"')
+      ]).then(function () {
+        document.documentElement.classList.add('ts-fonts-ready');
+      });
+    </script>
+    <script src="assets/js/toolskin.showcase.js" defer></script>
+
+    <!-- <link rel="stylesheet" href="assets/css/toolskin.css" /> -->
+ <!-- SHARED STYLE STACK — primitives → engine → btn → ts-nav-header → harness.css. -->
+  <link rel="stylesheet" href="assets/css/next/core/reset.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/colors.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/typography.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/type-v2.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/spacing.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/radius.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/motion.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/z-index.css" />
+  <link rel="stylesheet" href="assets/css/next/primitives/status-tints.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-this-bg-v2.css" />
+  <link rel="stylesheet" href="assets/css/next/system/on-surface.css" />
+  <link rel="stylesheet" href="assets/css/next/system/app-tokens.css" />
+  <link rel="stylesheet" href="assets/css/next/system/toolskin-gradients-v3.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-btn_v3.1.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-tooltip.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-chip.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-badge.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-input.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-table.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-accordion.css" />
+ <link rel="stylesheet" href="assets/css/next/components/ts-oce-panel.css" />
+ <link rel="stylesheet" href="assets/css/next/components/ts-oce-panel-2.css" />
+
+<link rel="stylesheet" href="assets/css/next/components/ts-oce-panel-unfiltered.css" />
+<link rel="stylesheet" href="assets/css/next/components/ts-oce-panel-unfiltered-2.css" />
+  <!--<link rel="stylesheet" href="assets/css/next/components/ts-oce-panel-unfiltered-2.css" />
+  <link rel="stylesheet" href="assets/css/next/components/ts-oce-panel-unfiltered.css" />-->
+
+  <link rel="stylesheet" href="assets/css/next/harness.css" />
+
+<!-- Toolskin Framework — early boot IIFE kicks off ToolskinAssets.loadAll() -->
+    <script>
+      window.__TOOLSKIN_CONFIG__ = {
+        stylesheetDebugger: { enabled: false }
+      };
+    </script>
+
+    <script src="assets/js/toolskin.js" defer></script>
+    <script src="assets/js/toolskin-uikit.js" defer></script>
+    <script src="assets/js/ts-gradient-canvas.js" defer></script>
+    <script src="assets/js/ts-offcanvas-editor.js" defer></script>
+
+  <!-- <script src="assets/js/next/harness-tester.js" defer></script> -->
+ <script>
+      window.addEventListener('ts:ready', () => {
+        console.log('✅ Toolskin Framework Initialized');
+        console.log('Config:', Toolskin.config);
+      });
+
+
+
+
+    </script>
+</head>
+<body class="ts-harness">
+
+    <!-- <div id="ts-preloader" class="ts-preloader" >
+      <div class="ts-preloader__brand">
+        <div class="ts-preloader__logo">
+          <svg class="ts-preloader__bolt" viewBox="0 0 384 512" fill="currentColor" >
+            <path d="M0 256L28.5 28c2-16 15.6-28 31.8-28H228.9c15 0 27.1 12.1 27.1 27.1c0 3.2-.6 6.4-1.6 9.5L192 192h174.8c21.8 0 36.3 22.6 27.2 42.6L179.2 481.2c-7.5 16.4-30.4 12.6-32.5-5.4L128 256z" />
+          </svg>
+          TOOL<em>SKIN</em>
+        </div>
+        <div class="ts-preloader__bar-wrap"><span class="ts-preloader__bar"></span></div>
+        <div class="ts-preloader__hint">Loading Toolskin showcase</div>
+      </div>
+    </div> -->
+
+    <main id="ts-main" class="ts-main ts-showcase ts-landing">
+      <h1>Phase 2 Wave 2 — ts-table + ts-ui-accordion</h1>
+      <p class="ts-harness-label">Verification harness · sandbox/02-components/ts-table-accordion.html · audit-gate exempt</p>
+
+
+      <!-- ─── TABLES ────────────────────────────────────────────────────── -->
+      <h2>ts-table variants</h2>
+
+      <div class="ts-harness-panel">
+        <p class="ts-harness-panel-title">Surface: --ts-bg-body (default) · base .ts-table</p>
+
+        <div class="ts-table-wrap" id="table-wrap-default">
+          <table class="ts-table" id="table-default">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Build</th>
+                <th>Owner</th>
+                <th>Updated</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="table-row-hover-target">
+                <td>ts-card</td>
+                <td>Active</td>
+                <td>v2.1.0</td>
+                <td>satoshi</td>
+                <td>2026-05-28</td>
+              </tr>
+              <tr>
+                <td>ts-section</td>
+                <td>Active</td>
+                <td>v2.0.4</td>
+                <td>satoshi</td>
+                <td>2026-05-28</td>
+              </tr>
+              <tr>
+                <td>ts-input</td>
+                <td>Active</td>
+                <td>v2.0.3</td>
+                <td>satoshi</td>
+                <td>2026-05-28</td>
+              </tr>
+              <tr>
+                <td>ts-table</td>
+                <td>Migrating</td>
+                <td>v2.0.0</td>
+                <td>satoshi</td>
+                <td>2026-05-28</td>
+              </tr>
+              <tr>
+                <td>ts-ui-accordion</td>
+                <td>Migrating</td>
+                <td>v2.0.0</td>
+                <td>satoshi</td>
+                <td>2026-05-28</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ts-harness-panel ts-harness-panel--bg1">
+        <p class="ts-harness-panel-title">Surface: --ts-bg-1 (lifted panel) · .ts-table--zebra</p>
+        <div class="ts-table-wrap">
+          <table class="ts-table ts-table--zebra">
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Wave</th>
+                <th>Status</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>ts-chip</td>   <td>Wave 0</td> <td>Done</td>      <td>Recipe pilot</td></tr>
+              <tr><td>ts-badge</td>  <td>Wave 0</td> <td>Done</td>      <td>Status-tints lifted</td></tr>
+              <tr><td>ts-input</td>  <td>Wave 1</td> <td>Done</td>      <td>v2 engine</td></tr>
+              <tr><td>ts-section</td><td>Wave 1</td> <td>Done</td>      <td>alt redesigned</td></tr>
+              <tr><td>ts-card</td>   <td>Wave 1</td> <td>Done</td>      <td>nested CSS-1</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ts-harness-panel ts-harness-panel--bg3">
+        <p class="ts-harness-panel-title">Surface: --ts-bg-3 (deep panel) · base .ts-table</p>
+        <div class="ts-table-wrap">
+          <table class="ts-table">
+            <thead>
+              <tr>
+                <th>Token</th>
+                <th>Tier</th>
+                <th>Pole</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>--ts-bg-1</td>           <td>Primitive</td> <td>Body+contrast 9%</td></tr>
+              <tr><td>--ts-this-bg-hover</td>  <td>System</td>    <td>Contrast 22%</td></tr>
+              <tr><td>--ts-this-bg-border-0</td><td>System</td>   <td>Contrast 7%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ts-harness-panel ts-harness-panel--accent ts-on-accent">
+        <p class="ts-harness-panel-title">Surface: --ts-accent (auto-flip ink target)</p>
+        <div class="ts-table-wrap">
+          <table class="ts-table" id="table-on-accent">
+            <thead>
+              <tr>
+                <th>Surface</th>
+                <th>Derivative</th>
+                <th>Pole</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>--ts-this-bg</td>          <td>accent</td>    <td>—</td></tr>
+              <tr><td>--ts-this-bg-hover</td>    <td>+contrast</td> <td>22%</td></tr>
+              <tr><td>--ts-this-bg-border-0</td> <td>+contrast</td> <td>7%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ─── ACCORDION ─────────────────────────────────────────────────── -->
+      <h2>ts-ui-accordion variants</h2>
+
+      <div class="ts-harness-panel">
+        <p class="ts-harness-panel-title">Surface: --ts-bg-body · base .ts-ui-accordion (chevron)</p>
+
+        <div class="ts-ui-accordion" id="accordion-default">
+          <div class="ts-ui-accordion__item">
+            <button type="button"
+                    class="ts-ui-accordion__header"
+                    aria-expanded="false"
+                    aria-controls="acc-panel-1">
+              <span class="ts-ui-accordion__header-main">
+                <span class="ts-ui-accordion__icon" aria-hidden="true">●</span>
+                <span>What is the v2 engine?</span>
+              </span>
+            </button>
+            <div class="ts-ui-accordion__panel" id="acc-panel-1" hidden>
+              The v2 <code>--ts-this-bg</code> engine emits hue-stable surface
+              derivatives (hover, dim, border, focus) via <code>color-mix(in oklab, …)</code>.
+              Every component re-anchors <code>--ts-this-bg</code> and the
+              derivatives recompute.
+            </div>
+          </div>
+
+          <div class="ts-ui-accordion__item">
+            <button type="button"
+                    class="ts-ui-accordion__header"
+                    aria-expanded="true"
+                    aria-controls="acc-panel-2"
+                    id="accordion-header-expanded">
+              <span class="ts-ui-accordion__header-main">
+                <span class="ts-ui-accordion__icon" aria-hidden="true">●</span>
+                <span>Wave 2 deliverables</span>
+              </span>
+            </button>
+            <div class="ts-ui-accordion__panel" id="acc-panel-2">
+              Wave 2 migrates <strong>ts-table</strong> and <strong>ts-ui-accordion</strong>
+              onto the v2 engine. Both use the nested CSS-1 pattern; both drop
+              <code>color-mix(in srgb, …)</code>, all <code>!important</code>
+              chains, and frozen-only border tokens.
+              <div style="margin-top: var(--ts-sp-3); display: flex; gap: var(--ts-sp-2); flex-wrap: wrap;">
+                <span class="ts-chip" id="chip-inside-accordion">chip in panel</span>
+                <span class="ts-chip ts-chip--accent">accent chip</span>
+                <span class="ts-badge ts-badge--success">migrated</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ts-ui-accordion__item">
+            <button type="button"
+                    class="ts-ui-accordion__header"
+                    aria-expanded="false"
+                    aria-controls="acc-panel-3">
+              <span class="ts-ui-accordion__header-main">
+                <span class="ts-ui-accordion__icon" aria-hidden="true">●</span>
+                <span>Class-name aliasing</span>
+              </span>
+            </button>
+            <div class="ts-ui-accordion__panel" id="acc-panel-3" hidden>
+              Both <code>.ts-ui-accordion</code> and <code>.ts-ui-accordion</code>
+              are supported as sibling selectors. BEM elements (<code>__header</code>,
+              <code>__panel</code>, <code>__indicator</code>, etc.) and modifiers
+              (<code>--separated</code>, <code>--dual-icon</code>,
+              <code>--toggle-plus</code>) are also double-listed.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ts-harness-panel ts-harness-panel--bg1">
+        <p class="ts-harness-panel-title">.ts-ui-accordion--separated · spaced bordered cards</p>
+
+        <div class="ts-ui-accordion ts-ui-accordion--separated" id="accordion-separated">
+          <div class="ts-ui-accordion__item">
+            <button type="button"
+                    class="ts-ui-accordion__header"
+                    aria-expanded="false"
+                    aria-controls="sep-panel-1">
+              <span class="ts-ui-accordion__header-main">
+                <span>Pattern 4 (R9)</span>
+              </span>
+            </button>
+            <div class="ts-ui-accordion__panel" id="sep-panel-1" hidden>
+              Re-anchor <code>--ts-this-bg</code> FIRST, consume derivatives SECOND.
+            </div>
+          </div>
+
+          <div class="ts-ui-accordion__item">
+            <button type="button"
+                    class="ts-ui-accordion__header"
+                    aria-expanded="false"
+                    aria-controls="sep-panel-2">
+              <span class="ts-ui-accordion__header-main">
+                <span>S2 — Border law</span>
+              </span>
+            </button>
+            <div class="ts-ui-accordion__panel" id="sep-panel-2" hidden>
+              Engine <code>--ts-this-bg-border*</code> only. No <code>currentColor</code>.
+            </div>
+          </div>
+
+          <div class="ts-ui-accordion__item">
+            <button type="button"
+                    class="ts-ui-accordion__header"
+                    aria-expanded="false"
+                    aria-controls="sep-panel-3">
+              <span class="ts-ui-accordion__header-main">
+                <span>S3 — oklab / oklch only</span>
+              </span>
+            </button>
+            <div class="ts-ui-accordion__panel" id="sep-panel-3" hidden>
+              No srgb mixes, no HSL, no invented colors.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ts-harness-panel ts-harness-panel--bg1">
+        <p class="ts-harness-panel-title">.ts-ui-accordion--toggle-plus · plus/minus indicator (no chevron)</p>
+
+        <div class="ts-ui-accordion ts-ui-accordion--toggle-plus" id="accordion-toggle-plus">
+          <div class="ts-ui-accordion__item">
+            <button type="button"
+                    class="ts-ui-accordion__header"
+                    aria-expanded="true"
+                    aria-controls="plus-panel-1">
+              <span class="ts-ui-accordion__header-main">
+                <span>Question one (expanded)</span>
+              </span>
+              <span class="ts-ui-accordion__indicator" aria-hidden="true"></span>
+            </button>
+            <div class="ts-ui-accordion__panel" id="plus-panel-1">
+              The indicator rotates the vertical stroke into the horizontal so
+              the plus becomes a minus on expand. Accent recolor on
+              <code>aria-expanded="true"</code>.
+            </div>
+          </div>
+
+          <div class="ts-ui-accordion__item">
+            <button type="button"
+                    class="ts-ui-accordion__header"
+                    aria-expanded="false"
+                    aria-controls="plus-panel-2">
+              <span class="ts-ui-accordion__header-main">
+                <span>Question two (collapsed)</span>
+              </span>
+              <span class="ts-ui-accordion__indicator" aria-hidden="true"></span>
+            </button>
+            <div class="ts-ui-accordion__panel" id="plus-panel-2" hidden>
+              Collapsed body.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ts-harness-panel ts-harness-panel--bg3">
+        <p class="ts-harness-panel-title">.ts-ui-accordion--dual-icon · leading category column + separator</p>
+
+        <div class="ts-ui-accordion ts-ui-accordion--dual-icon ts-ui-accordion--separated"
+             id="accordion-dual-icon">
+          <div class="ts-ui-accordion__item">
+            <button type="button"
+                    class="ts-ui-accordion__header"
+                    aria-expanded="false"
+                    aria-controls="dual-panel-1">
+              <span class="ts-ui-accordion__category-icon" aria-hidden="true">◆</span>
+              <span class="ts-ui-accordion__category-sep" aria-hidden="true"></span>
+              <span class="ts-ui-accordion__header-main">
+                <span class="ts-ui-accordion__icon" aria-hidden="true">●</span>
+                <span>Tokens</span>
+              </span>
+            </button>
+            <div class="ts-ui-accordion__panel" id="dual-panel-1" hidden>
+              Dual-icon variant: category column on the left, header-main on the right.
+            </div>
+          </div>
+
+          <div class="ts-ui-accordion__item">
+            <button type="button"
+                    class="ts-ui-accordion__header"
+                    aria-expanded="false"
+                    aria-controls="dual-panel-2">
+              <span class="ts-ui-accordion__category-icon" aria-hidden="true">▲</span>
+              <span class="ts-ui-accordion__category-sep" aria-hidden="true"></span>
+              <span class="ts-ui-accordion__header-main">
+                <span class="ts-ui-accordion__icon" aria-hidden="true">●</span>
+                <span>Components</span>
+              </span>
+            </button>
+            <div class="ts-ui-accordion__panel" id="dual-panel-2" hidden>
+              Pattern 4 (R9) honored throughout.
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Tiny no-dep toggler so the harness expand/collapse works without a JS
+           framework. Click any header → flip aria-expanded + panel[hidden]. 
+      <script>
+        document.querySelectorAll('.ts-ui-accordion__header, .ts-ui-accordion__header')
+          .forEach(function (header) {
+            header.addEventListener('click', function () {
+              const expanded = header.getAttribute('aria-expanded') === 'true';
+              const next = !expanded;
+              header.setAttribute('aria-expanded', String(next));
+              const id = header.getAttribute('aria-controls');
+              if (!id) return;
+              const panel = document.getElementById(id);
+              if (!panel) return;
+              if (next) panel.removeAttribute('hidden');
+              else      panel.setAttribute('hidden', '');
+            });
+          });
+      </script>-->
+  </main>
+
+</body>
+</html>

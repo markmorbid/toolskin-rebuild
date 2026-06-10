@@ -156,7 +156,7 @@ Typography is NOT just "picking a font." It's the primary design tool.
 1. Start with ONE brand color (the accent)
 2. Derive 10-step tint/shade scale from that single hue
 3. Add 1 neutral scale (warm gray or cool gray, never pure gray)
-4. Add 0–1 complementary accent (sparingly, for contrast moments only)
+4. Add 0–1 complementary accent (ts-accent-alt) (sparingly, for contrast moments only)
 5. Define semantic colors: success (green), warning (amber), danger (red), info (blue)
 
 ### 0B.5 Motion & interaction design philosophy
@@ -210,15 +210,15 @@ Focus on high-impact moments rather than decorating everything.
 **CSS modular scale implementation:**
 ```css
 :root {
-  --ratio: 1.333;
-  --s-2: calc(var(--s-1) / var(--ratio));
-  --s-1: calc(var(--s0) / var(--ratio));
-  --s0: 1rem;
-  --s1: calc(var(--s0) * var(--ratio));
-  --s2: calc(var(--s1) * var(--ratio));
-  --s3: calc(var(--s2) * var(--ratio));
-  --s4: calc(var(--s3) * var(--ratio));
-  --s5: calc(var(--s4) * var(--ratio));
+  --ts-ratio: 1.333;
+  --ts-s-2: calc(var(--ts-s-1) / var(--ts-ratio));
+  --ts-s-1: calc(var(--ts-s0) / var(--ts-ratio));
+  --ts-s0: 1rem;
+  --ts-s1: calc(var(--ts-s0) * var(--ts-ratio));
+  --ts-s2: calc(var(--ts-s1) * var(--ts-ratio));
+  --ts-s3: calc(var(--ts-s2) * var(--ts-ratio));
+  --ts-s4: calc(var(--ts-s3) * var(--ts-ratio));
+  --ts-s5: calc(var(--ts-s4) * var(--ts-ratio));
 }
 ```
 
@@ -243,7 +243,7 @@ p  { font-size: clamp(1rem, 0.31vw + 0.938rem, 1.19rem); }
 
 **CSS usage (prefer high-level properties):**
 ```css
-.heading {
+.ts-heading {
   font-weight: 650;
   font-stretch: 90%;
   font-optical-sizing: auto;
@@ -270,12 +270,12 @@ p  { font-size: clamp(1rem, 0.31vw + 0.938rem, 1.19rem); }
 
 **Font loading strategy:**
 ```html
-<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
 ```
 ```css
 @font-face {
   font-family: 'Inter';
-  src: url('/fonts/inter-var.woff2') format('woff2');
+  src: url('/fonts/space-grotesk.woff2') format('woff2');
   font-display: swap;
   font-weight: 100 900;
 }
@@ -311,10 +311,10 @@ Use WOFF2 format. Self-host. Preload 1–2 critical fonts. `font-display: swap` 
 
 ### 3.1 Color harmonies
 
-- **Complementary:** Opposite on wheel (high contrast, CTAs)
+- **complementary:** (currently used on  swatch .ts-accent-alt) Opposite on wheel (high contrast, CTAs)
 - **Analogous:** 3 adjacent hues (harmonious, backgrounds)
 - **Triadic:** 3 colors at 120° intervals (vibrant, balanced)
-- **Split-complementary:** Base + two adjacent to complement (contrast with less tension)
+- **Split-complementary:** (ts-accent-alt) Base + two adjacent to alt (contrast with less tension)
 - **Tetradic:** 4 colors forming rectangle (rich, needs careful balance)
 
 ### 3.2 Accessibility contrast
@@ -341,6 +341,7 @@ Use WOFF2 format. Self-host. Preload 1–2 critical fonts. `font-display: swap` 
 ### 3.3 Modern CSS color spaces
 
 **OKLCH (recommended for all new work):**
+
 ```css
 color: oklch(0.7 0.15 240);
 /* L: 0–1 (lightness), C: 0–~0.37 (chroma), H: 0–360 (hue) */
@@ -351,44 +352,44 @@ Why OKLCH: Perceptually uniform (equal numerical changes = equal perceived chang
 
 **Display P3 (progressive enhancement):**
 ```css
-.element { color: #6ea3db; }
-@media (color-gamut: p3) { .element { color: oklch(0.7 0.15 240); } }
+.ts-element { color: #6ea3db; }
+@media (color-gamut: p3) { .ts-element { color: oklch(0.7 0.15 240); } }
 ```
 
 **color-mix() (supported in all modern browsers):**
 ```css
 button:hover { background: color-mix(in oklab, #0088cc, black 20%); }
 :root {
-  --brand: #6366f1;
-  --text-dark: color-mix(in oklab, var(--brand), black 70%);
-  --text-light: color-mix(in oklab, var(--brand), white 85%);
+  --ts-accent: #6366f1;
+  --ts-accent-dark: color-mix(in oklab, var(--ts-brand), black 70%);
+  --ts-accent-light: color-mix(in oklab, var(--ts-brand), white 85%);
 }
 ```
 
 **Relative color syntax (Chrome 119+, Safari 16.4+, Firefox 128+):**
 ```css
-:root { --brand: oklch(56.6% 0.27 274); }
-.lighter { color: oklch(from var(--brand) calc(l * 1.25) c h); }
-.darker  { color: oklch(from var(--brand) calc(l * 0.9) c h); }
-.muted   { color: oklch(from var(--brand) l calc(c * 0.5) h); }
-.complement { color: oklch(from var(--brand) l c calc(h + 180)); }
+:root { --ts-brand: oklch(56.6% 0.27 274); }
+.ts-light { color: oklch(from var(--ts-brand) calc(l * 1.25) c h); }
+.ts-dark  { color: oklch(from var(--ts-brand) calc(l * 0.9) c h); }
+.ts-muted   { color: oklch(from var(--ts-brand) l calc(c * 0.5) h); }
+.ts-alt { color: oklch(from var(--ts-brand) l c calc(h + 180)); }
 ```
 
 **Generate tint/shade scale from single OKLCH variable:**
 ```css
 :root {
-  --primary: oklch(56.6% 0.27 274);
-  --primary-50:  oklch(from var(--primary) 97% calc(c * 0.04) h);
-  --primary-100: oklch(from var(--primary) 93% calc(c * 0.08) h);
-  --primary-200: oklch(from var(--primary) 85% calc(c * 0.22) h);
-  --primary-300: oklch(from var(--primary) 75% calc(c * 0.37) h);
-  --primary-400: oklch(from var(--primary) 65% calc(c * 0.56) h);
-  --primary-500: oklch(from var(--primary) 55% calc(c * 0.74) h);
-  --primary-600: oklch(from var(--primary) 47% calc(c * 0.67) h);
-  --primary-700: oklch(from var(--primary) 40% calc(c * 0.59) h);
-  --primary-800: oklch(from var(--primary) 32% calc(c * 0.48) h);
-  --primary-900: oklch(from var(--primary) 24% calc(c * 0.37) h);
-  --primary-950: oklch(from var(--primary) 18% calc(c * 0.30) h);
+  --ts-primary: oklch(56.6% 0.27 274);
+  --ts-primary-50:  oklch(from var(--ts-primary) 97% calc(c * 0.04) h);
+  --ts-primary-100: oklch(from var(--ts-primary) 93% calc(c * 0.08) h);
+  --ts-primary-200: oklch(from var(--ts-primary) 85% calc(c * 0.22) h);
+  --ts-primary-300: oklch(from var(--ts-primary) 75% calc(c * 0.37) h);
+  --ts-primary-400: oklch(from var(--ts-primary) 65% calc(c * 0.56) h);
+  --ts-primary-500: oklch(from var(--ts-primary) 55% calc(c * 0.74) h);
+  --ts-primary-600: oklch(from var(--ts-primary) 47% calc(c * 0.67) h);
+  --ts-primary-700: oklch(from var(--ts-primary) 40% calc(c * 0.59) h);
+  --ts-primary-800: oklch(from var(--ts-primary) 32% calc(c * 0.48) h);
+  --ts-primary-900: oklch(from var(--ts-primary) 24% calc(c * 0.37) h);
+  --ts-primary-950: oklch(from var(--primary) 18% calc(c * 0.30) h);
 }
 ```
 

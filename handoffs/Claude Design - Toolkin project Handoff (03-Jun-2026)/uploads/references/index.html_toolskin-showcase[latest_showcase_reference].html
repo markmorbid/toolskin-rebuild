@@ -11,7 +11,7 @@
           var m = localStorage.getItem(key);
           if (!m) return;
           if (m === 'auto') {
-            m = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            m = winndow.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
           }
           if (m === 'dark' || m === 'light') {
             document.documentElement.setAttribute('data-theme', m);
@@ -40,7 +40,7 @@
     <link rel="apple-touch-icon" href="https://satsea.io/toolskin-showcase/assets/img/apple-touch-icon.png">
 
   <!-- ToolskinAssets — dynamic asset pipeline (must load before toolskin.js early boot) -->
-  <script src="toolskin-assets-js/toolskin-assets.js" defer></script>
+  <script src="http://satsea.io/toolskin-showcase/assets/js/toolskin-assets.js" defer></script>
     <!-- Preloader critical CSS — inline so the lock is available at first paint,
        before the external stylesheet finishes loading. Mirrors generator/index.html
        <style id="ts-preloader-boot"> pattern. -->
@@ -99,10 +99,10 @@
         document.documentElement.classList.add('ts-fonts-ready');
       });
     </script>
-    <script src="toolskin-assets-js/toolskin.showcase.js" defer></script>
+    <script src="http://satsea.io/toolskin-showcase/assets/js/toolskin.showcase.js" defer></script>
 
     <!-- <link rel="stylesheet" href="https://satsea.io/toolskin-showcase/assets/css/toolskin.css" /> -->
-     <link rel="stylesheet" href="toolskin.css_toolskin-showcase[latest_cannonical_reference].css" />
+     <link rel="stylesheet" href="http://satsea.io/toolskin-showcase/assets/css/toolskin.css" />
 
 
     <!-- Toolskin Framework — early boot IIFE kicks off ToolskinAssets.loadAll() -->
@@ -111,10 +111,10 @@
         stylesheetDebugger: { enabled: false }
       };
     </script>
-    <script src="toolskin-assets-js/toolskin.js" defer></script>
-    <script src="toolskin-assets-js/toolskin-uikit.js" defer></script>
-    <script src="toolskin-assets-js/ts-gradient-canvas.js" defer></script>
-    <script src="toolskin-assets-js/ts-offcanvas-editor.js" defer></script>
+    <script src="http://satsea.io/toolskin-showcase/assets/js/toolskin.js" defer></script>
+    <script src="http://satsea.io/toolskin-showcase/assets/js/toolskin-uikit.js" defer></script>
+    <script src="http://satsea.io/toolskin-showcase/assets/js/ts-gradient-canvas.js" defer></script>
+    <script src="http://satsea.io/toolskin-showcase/assets/js/ts-offcanvas-editor.js" defer></script>
 
     <!-- External CDN libs (Lenis, Locomotive, GSAP, Color.js) are now loaded dynamically by toolskin-assets.js -->
     <!-- Showcase config — must be before toolskin.js so __tsPreloaderEarlyBoot reads it -->
@@ -124,10 +124,6 @@
         console.log('✅ Toolskin Framework Initialized');
         console.log('Config:', Toolskin.config);
       });
-
-
-
-
     </script>
 
 
@@ -184,8 +180,8 @@
           <a href="#cards">Cards</a>
           <a href="#panels">Panels</a>
           <a href="#mockups">Mockups</a>
-          <a href="generator/index.html" class="ts-nav-link ts-btn ts-btn--outline" data-icon="ion:options-outline" data-tooltip="Check the Banner generator, a branded interface fully built with toolksin design system that  lets you  design your own brand banner for simple   featured images or  covers. a sample of this  system power.">Banner UI</a>
-          <a href="pages/surface-lab.html" class="ts-nav-link ts-btn ts-btn--primary" data-icon="ion:color-palette-outline" data-tooltip="Navigate to the Tokens and Surfaces Color Lab from the Design System.">Surfaces Lab</a>
+          <a href="#generator/index.html" class="ts-nav-link ts-btn ts-btn--outline" data-icon="ion:options-outline" data-tooltip="Check the Banner generator, a branded interface fully built with toolksin design system that  lets you  design your own brand banner for simple   featured images or  covers. a sample of this  system power.">Banner UI</a>
+          <a href="#surfaces" class="ts-nav-link ts-btn ts-btn--primary" data-icon="ion:color-palette-outline" data-tooltip="Navigate to the Tokens and Surfaces Color Lab from the Design System.">Surfaces Lab</a>
 
         </div>
         <!-- The "More" Button -->
@@ -193,11 +189,7 @@
           <button class="ts-more-trigger">•••</button>
           <div id="navbar-extend" class="ts-nav-dropdown"></div>
         </div>
-        <!-- Theme Toggle (right side of menu) -->
-        <!-- <button class="ts-theme-toggle" data-theme-toggle aria-label="Toggle theme">
-          <span class="ts-icon ts-theme-icon-light" data-ts-icon="fa-solid fa-sun" ></span>
-          <span class="ts-icon ts-theme-icon-dark" data-ts-icon="fa-solid fa-moon" ></span>
-        </button> -->
+      
         <label class="theme-toggle theme-toggle--force-motion theme-toggle--toggled" data-theme-toggle aria-label="Dark/Light Mode" data-tooltip="Switch Dark/Light Mode" data-tooltip-pos="bottom">
           <input type="checkbox" />
           <span class="theme-toggle-sr">Switch Dark/Light Mode</span>
@@ -214,7 +206,6 @@
 
 
         <a class="ts-btn ts-btn--icon ts-back_top-nav ts-fixed-btn" href="#top" data-icon="ion:arrow-up-outline" id="ts-top-btn"><span class="sr-only">Back to top</span></a>
-        <!-- the header variants  should be  live toggleable on th showcase  as aprview  shortcut for user on both theme mdoes  woith this droipdown once they are available. this just adds the classes. enbale this asset when possible-->
         <div class="ts-ui-select" data-ts-ui-select-placeholder="Select nav Style" id="ts-topnav-selector">
           <select class="ts-ui-select__native">
             <option value="default" data-icon="fa-solid fa-bolt">Default</option>
@@ -225,6 +216,7 @@
             <option value="sidebar" data-icon="fa-solid fa-xmark" disabled>Sidebar (soon)</option>
           </select>
         </div>
+
       </nav>
 
 

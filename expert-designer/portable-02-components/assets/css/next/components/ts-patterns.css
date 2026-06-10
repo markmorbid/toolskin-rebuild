@@ -1,0 +1,513 @@
+/* ═══ MERGED BLOCK: ts-patterns.css (source: assets/css/ts-patterns.css) ═══ */
+
+/*!
+	* ╔══════════════════════════════════════════════════════════════════╗
+	* ║  TOOLSKIN PATTERNS  ·  CSS Background Overlays  ·  v1.0.0      ║
+	* ║  Pure CSS patterns for sections and containers.                 ║
+	* ║  Generated from MagicPattern · Adapted for Toolskin tokens.     ║
+	* ╚══════════════════════════════════════════════════════════════════╝
+	*
+	* USAGE
+	* ─────────────────────
+	* Add any pattern class to a section or container:
+	*   <section class="ts-section ts-pattern-dots">
+	*   <div class="ts-card ts-pattern-grid ts-pattern--lg">
+	*
+	* SIZE MODIFIERS
+	* ─────────────────────
+	*   .ts-pattern--xs     — 0.5Ã— scale (minimum enforced: 1)
+	*   .ts-pattern--sm     — 0.75Ã— scale (minimum enforced: 1)
+	*   (default)           — 1Ã— scale
+	*   .ts-pattern--lg     — 1.5Ã— scale
+	*   .ts-pattern--xl     — 2Ã— scale
+	*   .ts-pattern--2xl    — 3Ã— scale
+	*
+	* OPACITY MODIFIERS
+	* ─────────────────────
+	*   .ts-pattern--subtle  — 0.15 opacity
+	*   .ts-pattern--faint   — 0.25 opacity
+	*   (default)            — 0.4 opacity
+	*   .ts-pattern--medium  — 0.5 opacity
+	*   .ts-pattern--strong  — 0.7 opacity
+	*
+	* CUSTOM PROPERTIES
+	* ─────────────────────
+	*   --ts-pattern-scale: 1.5;      — Inline scale override (minimum: 1)
+	*   --ts-pattern-opacity: 0.2;    — Inline opacity override
+	*   --ts-pattern-color: #00e5ff;  — Override accent color
+	*
+	* NON-ANIMATABLE PATTERNS
+	* ─────────────────────
+	* These patterns cannot be animated (animation disabled):
+	*   - ts-pattern-zigzag
+	*   - ts-pattern-checkerboard
+	*   - ts-pattern-diagonal-stripes
+	*   - ts-pattern-dots-dense
+	*/
+
+/* ═══════════════════════════════════════════════════════════════════
+	BASE PATTERN SETUP
+	═══════════════════════════════════════════════════════════════════ */
+
+[class*="ts-pattern-"] {
+	position: relative;
+	overflow: hidden;
+}
+
+[class*="ts-pattern-"]::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	z-index: 0;
+	opacity: var(--ts-pattern-opacity, 0.4);
+
+	/* Default scale multiplier - enforce minimum of 1 to prevent breaking */
+	--pattern-scale: max(1, var(--ts-pattern-scale, 1));
+
+	/* Default color from accent */
+	--pattern-color: var(--ts-pattern-color, var(--ts-accent, #ff540a));
+	--pattern-color-alpha: var(--ts-pattern-color-alpha,
+			color-mix(in srgb, var(--pattern-color) 50%, transparent));
+}
+
+/* Ensure children render above pattern */
+[class*="ts-pattern-"]>* {
+	position: relative;
+	z-index: 1;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	SIZE MODIFIERS
+	═══════════════════════════════════════════════════════════════════ */
+
+.ts-pattern--xs {
+	--ts-pattern-scale: max(1, 0.5);
+}
+
+.ts-pattern--sm {
+	--ts-pattern-scale: max(1, 0.75);
+}
+
+.ts-pattern--lg {
+	--ts-pattern-scale: 1.5;
+}
+
+.ts-pattern--xl {
+	--ts-pattern-scale: 2;
+}
+
+.ts-pattern--2xl {
+	--ts-pattern-scale: 3;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	OPACITY MODIFIERS
+	═══════════════════════════════════════════════════════════════════ */
+
+.ts-pattern--subtle::before {
+	opacity: 0.15;
+}
+
+.ts-pattern--faint::before {
+	opacity: 0.25;
+}
+
+.ts-pattern--medium::before {
+	opacity: 0.5;
+}
+
+.ts-pattern--strong::before {
+	opacity: 0.7;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	PATTERN 1: DOTS (simple radial grid)
+	═══════════════════════════════════════════════════════════════════ */
+
+.ts-pattern-dots::before {
+	background-color: transparent;
+	background-image: radial-gradient(circle, var(--pattern-color) 1.2px,
+			transparent 1.2px);
+	background-size: calc(16px * var(--pattern-scale)) calc(16px * var(--pattern-scale));
+	background-repeat: repeat;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	PATTERN 2: DOTS DENSE (offset radial grid - brick-like)
+	NON-ANIMATABLE: Animation breaks the pattern structure
+	═══════════════════════════════════════════════════════════════════ */
+
+.ts-pattern-dots-dense::before {
+	background-color: transparent;
+	background-image: radial-gradient(circle, var(--pattern-color) 1.2px, transparent 1.2px),
+		radial-gradient(circle, var(--pattern-color) 1.2px, transparent 1.2px);
+	background-size: calc(20px * var(--pattern-scale)) calc(20px * var(--pattern-scale));
+	background-position: 0 0,
+		calc(10px * var(--pattern-scale)) calc(10px * var(--pattern-scale));
+	background-repeat: repeat;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	PATTERN 3: ZIGZAG (complex diamond weave pattern)
+	NON-ANIMATABLE: Animation breaks the background-position structure
+	═══════════════════════════════════════════════════════════════════ */
+
+.ts-pattern-zigzag::before {
+	background-color: transparent;
+	background-image: linear-gradient(30deg, var(--pattern-color) 12%, transparent 12.5%, transparent 87%, var(--pattern-color) 87.5%, var(--pattern-color)),
+		linear-gradient(150deg, var(--pattern-color) 12%, transparent 12.5%, transparent 87%, var(--pattern-color) 87.5%, var(--pattern-color)),
+		linear-gradient(30deg, var(--pattern-color) 12%, transparent 12.5%, transparent 87%, var(--pattern-color) 87.5%, var(--pattern-color)),
+		linear-gradient(150deg, var(--pattern-color) 12%, transparent 12.5%, transparent 87%, var(--pattern-color) 87.5%, var(--pattern-color)),
+		linear-gradient(60deg, var(--pattern-color-alpha) 25%, transparent 25.5%, transparent 75%, var(--pattern-color-alpha) 75%, var(--pattern-color-alpha)),
+		linear-gradient(60deg, var(--pattern-color-alpha) 25%, transparent 25.5%, transparent 75%, var(--pattern-color-alpha) 75%, var(--pattern-color-alpha));
+	background-size: calc(18px * var(--pattern-scale)) calc(32px * var(--pattern-scale));
+	background-position: 0 0,
+		0 0,
+		calc(9px * var(--pattern-scale)) calc(16px * var(--pattern-scale)),
+		calc(9px * var(--pattern-scale)) calc(16px * var(--pattern-scale)),
+		0 0,
+		calc(9px * var(--pattern-scale)) calc(16px * var(--pattern-scale));
+	background-repeat: repeat;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	PATTERN 4: GRID (simple orthogonal lines - graph paper)
+	═══════════════════════════════════════════════════════════════════ */
+
+.ts-pattern-grid::before {
+	background-color: transparent;
+	background-image: linear-gradient(var(--pattern-color) 0.9px, transparent 0.9px),
+		linear-gradient(90deg, var(--pattern-color) 0.9px, transparent 0.9px);
+	background-size: calc(18px * var(--pattern-scale)) calc(18px * var(--pattern-scale));
+	background-repeat: repeat;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	PATTERN 5: GRID BOLD (thicker orthogonal lines)
+	═══════════════════════════════════════════════════════════════════ */
+
+.ts-pattern-grid-bold::before {
+	background-color: transparent;
+	background-image: linear-gradient(var(--pattern-color) 1.9px, transparent 1.9px),
+		linear-gradient(90deg, var(--pattern-color) 1.9px, transparent 1.9px);
+	background-size: calc(38px * var(--pattern-scale)) calc(38px * var(--pattern-scale));
+	background-repeat: repeat;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	PATTERN 6: CHECKERBOARD (diagonal checker pattern - 45deg squares)
+	RENAMED: from "diagonal" to "checkerboard" for clarity
+	NON-ANIMATABLE: Animation breaks the gradient pattern
+	═══════════════════════════════════════════════════════════════════ */
+
+.ts-pattern-checkerboard::before,
+.ts-pattern-diagonal::before {
+	background-color: transparent;
+	background: linear-gradient(135deg, var(--pattern-color-alpha) 25%, transparent 25%) calc(-33px * var(--pattern-scale)) 0 / calc(66px * var(--pattern-scale)) calc(66px * var(--pattern-scale)),
+		linear-gradient(225deg, var(--pattern-color) 25%, transparent 25%) calc(-33px * var(--pattern-scale)) 0 / calc(66px * var(--pattern-scale)) calc(66px * var(--pattern-scale)),
+		linear-gradient(315deg, var(--pattern-color-alpha) 25%, transparent 25%) 0px 0 / calc(66px * var(--pattern-scale)) calc(66px * var(--pattern-scale)),
+		linear-gradient(45deg, var(--pattern-color) 25%, transparent 25%) 0px 0 / calc(66px * var(--pattern-scale)) calc(66px * var(--pattern-scale));
+	background-repeat: repeat;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	PATTERN 7: DIAGONAL STRIPES (repeating 45deg diagonal lines)
+	RENAMED: from "diagonal-alt" to "diagonal-stripes" for clarity
+	NON-ANIMATABLE: 45deg angle makes animation ineffective and breaks pattern
+	═══════════════════════════════════════════════════════════════════ */
+
+.ts-pattern-diagonal-stripes::before,
+.ts-pattern-diagonal-alt::before {
+	background-color: transparent;
+	background-image: repeating-linear-gradient(45deg, var(--pattern-color) 0px, var(--pattern-color) calc(2px * var(--pattern-scale)),
+			transparent calc(1px * var(--pattern-scale)),
+			transparent 50%);
+	background-size: calc(16px * var(--pattern-scale)) calc(16px * var(--pattern-scale));
+	background-repeat: repeat;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	PATTERN 8: TRIANGLE (45deg geometric triangle tiles)
+	═══════════════════════════════════════════════════════════════════ */
+
+.ts-pattern-triangle::before {
+	background-color: transparent;
+	background-image: linear-gradient(45deg, var(--pattern-color) 50%,
+			transparent 50%);
+	background-size: calc(40px * var(--pattern-scale)) calc(40px * var(--pattern-scale));
+	background-repeat: repeat;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	PATTERN 9: CIRCLES GRID (radial dots + crosshatch overlay)
+	RENAMED: from "circles" to "circles-grid" for clarity
+	═══════════════════════════════════════════════════════════════════ */
+
+.ts-pattern-circles-grid::before,
+.ts-pattern-circles::before {
+	background-color: transparent;
+	background: radial-gradient(circle, var(--pattern-color) var(--pattern-circle-scale),
+			transparent var(--pattern-circle-scale)),
+		radial-gradient(circle, var(--pattern-color) var(--pattern-circle-scale),
+			transparent var(--pattern-circle-scale)) calc(20px * var(--pattern-scale)) calc(20px * var(--pattern-scale)),
+		linear-gradient(var(--pattern-line-color) var(--pattern-line),
+			transparent var(--pattern-line)),
+		linear-gradient(90deg, var(--pattern-line-color) var(--pattern-line),
+			transparent var(--pattern-line));
+	background-size: calc(40px * var(--pattern-scale)) calc(40px * var(--pattern-scale)),
+		calc(40px * var(--pattern-scale)) calc(40px * var(--pattern-scale)),
+		calc(20px * var(--pattern-scale)) calc(20px * var(--pattern-scale)),
+		calc(20px * var(--pattern-scale)) calc(20px * var(--pattern-scale));
+	background-repeat: repeat;
+	--pattern-circle: var(--ts-index-bar-height);
+	--pattern-circle-scale: calc(var(--pattern-circle) / 1.5 * max(1, var(--pattern-scale)) + 5%);
+	--pattern-line: calc(1px * max(1, var(--pattern-scale)));
+	--pattern-line-color: color-mix(in srgb, var(--pattern-color), transparent var(--ts-pattern-line-perc));
+	--ts-pattern-line-perc: 80%;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	PATTERN 10: CROSS CIRCLES (radial circles + cross lines overlay)
+	═══════════════════════════════════════════════════════════════════ */
+
+.ts-pattern-cross-circles::before {
+	background-color: transparent;
+	background:
+		radial-gradient(circle,
+			transparent 20%,
+			var(--pattern-color) 20%,
+			var(--pattern-color) 80%,
+			transparent 80%,
+			transparent),
+		radial-gradient(circle,
+			transparent 20%,
+			var(--pattern-color) 20%,
+			var(--pattern-color) 80%,
+			transparent 80%,
+			transparent) calc(80px * var(--pattern-scale)) calc(80px * var(--pattern-scale)),
+		linear-gradient(var(--pattern-color) calc(6.4px * max(1, var(--pattern-scale))),
+			transparent calc(6.4px * max(1, var(--pattern-scale)))) 0 calc(-3.2px * var(--pattern-scale)),
+		linear-gradient(90deg,
+			var(--pattern-color) calc(6.4px * max(1, var(--pattern-scale))),
+			transparent calc(6.4px * max(1, var(--pattern-scale)))) calc(-3.2px * var(--pattern-scale)) 0;
+	background-size:
+		calc(160px * var(--pattern-scale)) calc(160px * var(--pattern-scale)),
+		calc(160px * var(--pattern-scale)) calc(160px * var(--pattern-scale)),
+		calc(80px * var(--pattern-scale)) calc(80px * var(--pattern-scale)),
+		calc(80px * var(--pattern-scale)) calc(80px * var(--pattern-scale));
+	background-repeat: repeat;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+		PATTERN 11: REAL CROSSES (radial circles + cross lines overlay)
+		═══════════════════════════════════════════════════════════════════ */
+/* .ts-pattern-cross::before {
+		background: radial-gradient(circle, transparent 20%, var(--pattern-bg, #000000) 20%, var(--pattern-bg, #000000) 80%, transparent 80%, transparent) 0% 0% / calc(var(--ts-cross-angle) * var(--pattern-scale)) calc(var(--ts-cross-angle) * var(--pattern-scale)), radial-gradient(circle, transparent 20%, var(--pattern-bg, #000000) 20%, var(--pattern-bg, #000000) 80%, transparent 80%, transparent) calc(var(--ts-cross-size) * var(--pattern-scale)) calc(var(--ts-cross-size) * var(--pattern-scale)) / calc(var(--ts-cross-angle) * var(--pattern-scale)) calc(var(--ts-cross-angle) * var(--pattern-scale)), linear-gradient(var(--pattern-color) var(--ts-cross-factor), transparent var(--ts-cross-factor)) 0px var(--ts-cross-factor-neg) / var(--ts-cross-size) var(--ts-cross-size), linear-gradient(90deg, var(--pattern-color) var(--ts-cross-factor), var(--pattern-bg, #000000) var(--ts-cross-factor)) var(--ts-cross-factor-neg) 0px / calc(var(--ts-cross-size) * var(--pattern-scale)) calc(var(--ts-cross-size) * var(--pattern-scale));
+		--ts-cross-size: 50px;
+		--ts-cross-angle: calc(var(--ts-cross-size)*2);
+		--ts-cross-factor: calc(var(--ts-cross-size)*.1);
+		--ts-cross-factor-neg: calc(var(--ts-cross-factor)*-1);
+		--pattern-bg: var(--ts-bg-0);
+	} */
+
+.ts-pattern-cross::before {
+	background: radial-gradient(circle, transparent var(--ts-cross-bg-perc), var(--pattern-bg, #000000) var(--ts-cross-bg-perc), var(--pattern-bg, #000000) var(--ts-cross-color-perc), transparent var(--ts-cross-color-perc), transparent) 0% 0% / var(--ts-cross-angle) var(--ts-cross-angle),
+
+		radial-gradient(circle, transparent var(--ts-cross-bg-perc), var(--pattern-bg, #000000) var(--ts-cross-bg-perc), var(--pattern-bg, #000000) var(--ts-cross-color-perc), transparent var(--ts-cross-color-perc), transparent) var(--ts-cross-size) var(--ts-cross-size) / var(--ts-cross-angle) var(--ts-cross-angle),
+
+		linear-gradient(var(--pattern-color) var(--ts-cross-gutter), transparent var(--ts-cross-gutter)) 0px var(--ts-cross-factor-neg) / var(--ts-cross-size) var(--ts-cross-size),
+
+		linear-gradient(90deg, var(--pattern-color) var(--ts-cross-gutter), var(--pattern-bg, #000000) var(--ts-cross-gutter)) var(--ts-cross-factor-neg) 0px / var(--ts-cross-size) var(--ts-cross-size);
+	--ts-cross-w: 25px;
+	--ts-cross-size: calc(var(--ts-cross-w) * var(--pattern-scale));
+	--ts-cross-angle: calc(var(--ts-cross-size)*2);
+	--ts-cross-factor: calc(var(--ts-cross-size)*.1);
+	--ts-cross-factor-neg: calc(var(--ts-cross-factor)*-1);
+	--pattern-bg: var(--ts-bg-0);
+	--ts-cross-bg-perc: 36%;
+	--ts-cross-color-perc: calc(var(--ts-cross-bg-perc)*2);
+	--ts-cross-gutter: calc(var(--ts-cross-size)*.2);
+	--ts-cross-factor: calc(var(--ts-cross-size)*.1);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+		wtf strange pattern but cool looking
+		═══════════════════════════════════════════════════════════════════ */
+
+.ts-pattern-cool::before {
+	background: radial-gradient(circle,
+			transparent 20%,
+			var(--pattern-bg, rgb(0, 0, 0)) 20%,
+			var(--pattern-bg, rgb(0, 0, 0)) 80%,
+			transparent 80%,
+			transparent) 0% 0% / calc(var(--ts-wtf-size) * var(--pattern-scale)) calc(var(--ts-wtf-size) * var(--pattern-scale)),
+
+		radial-gradient(circle,
+			transparent 20%,
+			var(--pattern-bg, rgb(0, 0, 0)) 20%,
+			var(--pattern-bg, rgb(0, 0, 0)) 80%,
+			transparent 80%,
+			transparent) var(--ts-wtf-angle) var(--ts-wtf-angle) / calc(var(--ts-wtf-size) * var(--pattern-scale)) calc(var(--ts-wtf-size) * var(--pattern-scale)),
+
+		linear-gradient(var(--pattern-color) 1px,
+			transparent) 0px 0px / var(--ts-wtf-angle) var(--ts-wtf-angle),
+
+		linear-gradient(90deg,
+			var(--pattern-color) 0.8px,
+			var(--pattern-bg, rgb(0, 0, 0)) 0.8px) 0px 0px / var(--ts-wtf-angle) var(--ts-wtf-angle);
+
+	--ts-wtf-size: 40px;
+	--ts-wtf-angle: calc(var(--ts-wtf-size)*2);
+	--pattern-bg: var(--ts-bg-0);
+}
+
+#pattern-preview {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	min-height: 400px;
+	overflow: hidden;
+}
+
+#pattern-preview::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	z-index: 0;
+}
+
+#pattern-sandbox {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* ─── Animation Controls (Pattern Generator Specific) ───────────── */
+#animation-controls {
+	display: none;
+	flex-direction: column;
+	gap: var(--ts-sp-4);
+	margin-top: var(--ts-sp-4);
+}
+
+#animation-controls.disabled {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+#input-animated:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+	UTILITY: ANIMATED PATTERNS
+	═══════════════════════════════════════════════════════════════════ */
+
+@keyframes ts-pattern-drift {
+	0% {
+		background-position: 0 0;
+	}
+
+	100% {
+		background-position: 200px 200px;
+	}
+}
+
+@keyframes ts-pattern-drift-reverse {
+	0% {
+		background-position: 200px 200px;
+	}
+
+	100% {
+		background-position: 0 0;
+	}
+}
+
+@keyframes ts-pattern-drift-horizontal {
+	0% {
+		background-position: 0 0;
+	}
+
+	100% {
+		background-position: 200px 0;
+	}
+}
+
+@keyframes ts-pattern-drift-vertical {
+	0% {
+		background-position: 0 0;
+	}
+
+	100% {
+		background-position: 0 200px;
+	}
+}
+
+.ts-pattern--animated::before {
+	--ts-pattern-animation-duration: var(--ts-pattern-anim-duration, 30s);
+	animation: ts-pattern-drift var(--ts-pattern-animation-duration) linear infinite;
+}
+
+.ts-pattern--animated.ts-pattern--anim-reverse::before {
+	animation-name: ts-pattern-drift-reverse;
+}
+
+.ts-pattern--animated.ts-pattern--anim-horizontal::before {
+	animation-name: ts-pattern-drift-horizontal;
+}
+
+.ts-pattern--animated.ts-pattern--anim-vertical::before {
+	animation-name: ts-pattern-drift-vertical;
+}
+
+/* Disable animation for non-animatable patterns */
+.ts-pattern-zigzag.ts-pattern--animated::before,
+.ts-pattern-checkerboard.ts-pattern--animated::before,
+.ts-pattern-diagonal.ts-pattern--animated::before,
+.ts-pattern-diagonal-stripes.ts-pattern--animated::before,
+.ts-pattern-diagonal-alt.ts-pattern--animated::before,
+.ts-pattern-dots-dense.ts-pattern--animated::before,
+.ts-pattern-cross-circles.ts-pattern--animated::before,
+.ts-pattern-cross.ts-pattern--animated::before {
+	animation: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	RESPONSIVE ADJUSTMENTS
+	═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+	[class*="ts-pattern-"]::before {
+		--ts-pattern-scale: calc(max(1, var(--pattern-scale, 1)) * 0.75);
+	}
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+	DARK MODE ADJUSTMENTS
+	═══════════════════════════════════════════════════════════════════ */
+
+[data-theme="dark"] [class*="ts-pattern-"]::before {
+	opacity: calc(var(--ts-pattern-opacity, 0.4) * 0.85);
+}

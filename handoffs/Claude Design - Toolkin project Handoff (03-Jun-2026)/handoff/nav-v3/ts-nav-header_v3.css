@@ -1393,7 +1393,7 @@ body.ts-has-sidenav {
    ╚═══════════════════════════════════════════════════════════════════════════ */
 .ts-promo-banner {
   /* TOKENS — tune here, not in media queries */
-  --ts-promo-banner-h: 40px;
+  --ts-promo-banner-h: 50px;
   --ts-promo-icon-dim: calc(var(--ts-promo-banner-h) * 0.75);
 
   position: fixed;
@@ -1493,7 +1493,7 @@ body.ts-has-sidenav {
   white-space: nowrap;
   transition: background var(--ts-dur-fast) var(--ts-ease-out),
               color var(--ts-dur-fast) var(--ts-ease-out);
-
+--ts-accent: black;
   &:hover {
     background: var(--ts-on-accent);
     color: var(--ts-accent);

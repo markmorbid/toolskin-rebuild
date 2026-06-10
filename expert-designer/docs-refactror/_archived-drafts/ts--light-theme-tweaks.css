@@ -1,0 +1,257 @@
+
+[data-theme="light"] .ts-card:hover {
+	/* border-color: var(--ts-border-2) !important; */
+	/* box-shadow: var(--ts-shadow-2); */
+	/* --ts-card-bg-alpha: 55%; */
+	/* --ts-card-border-alpha: 15%; */
+	/* border-color: var(--ts-card-border); */
+	--ts-card-color: var(--ts-text-primary);
+
+}
+
+[data-theme="light"] .ts-card:hover .ts-card-header {
+	--ts-input-bg: var(--ts-input-bg-focus);
+	--ts-input-border: var(--ts-input-border-hover);
+	--ts-card-color: var(--ts-text-primary);
+
+}
+
+/* ─── Surfaces ────────── */
+/*[data-theme="light"] .ts-surface-0,
+[data-theme="light"] .ts-surface-1,
+[data-theme="light"] .ts-surface-2,
+[data-theme="light"] .ts-surface-3,
+[data-theme="light"] .ts-surface-4,
+[data-theme="light"] .ts-surface-5 {
+	border: 1px solid var(--ts-border-1) !important;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+*/
+
+
+/* ─── Inputs ──────────── */
+/*[data-theme="light"] .ts-input:not(.ts-resizable),
+[data-theme="light"] .ts-select,
+[data-theme="light"] .ts-textarea:not(.ts-resizable) {
+	background-color: var(--ts-input-bg);
+	border-color: var(--ts-input-border);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04); 
+}
+
+[data-theme="light"] .ts-input:not(.ts-resizable):focus,
+[data-theme="light"] .ts-select:focus,
+[data-theme="light"] .ts-textarea:not(.ts-resizable):focus {
+	--ts-input-border: var(--ts-accent);
+	box-shadow: 0 0 3px color-mix(in srgb, var(--ts-accent) 15%, transparent);
+	box-shadow: none;
+}
+*/
+/* ─── Buttons ─────────── */
+[data-theme="light"] .ts-btn:not(.ts-btn--primary, .ts-btn--ghost, .ts-btn--success, .ts-btn--warning, .ts-btn--info, .ts-btn--error, .ts-btn--outline, .ts-btn--glass, .ts-btn--icon, .ts-btn--danger, .ts-btn-primary, .ts-btn--alt, :disabled) {
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+	--_btn-bg: var(--ts-bg-1-t);
+	--ts-btn-bg-grad: var(--ts-this-bg-grad);
+	--_btn-color: var(--ts-text-primary);
+	/* --ts-this-bg-dark: color-mix(in srgb, var(--ts-this-bg), #000000 5%); */
+	/* background-image: var(--ts-btn-bg-grad); */
+	box-shadow: none;
+}
+
+[data-theme="light"] .ts-btn:hover {
+	/* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12); */
+	border-color: var(--ts-border-2);
+
+}
+
+[data-theme="light"] .ts-btn--outline {
+	border-color: var(--ts-border-2);
+	color: var(--ts-text-primary);
+}
+
+[data-theme="light"] .ts-btn--ghost {
+	color: var(--ts-text-primary);
+}
+
+[data-theme="light"] .ts-btn--ghost:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Primary — enforce light label on accent (token-driven; --ts-on-accent is #fff in light) */
+[data-theme="light"] .ts-btn--primary {
+	--_btn-color: var(--ts-on-accent);
+	color: var(--_btn-color);
+	/* box-shadow: 0 2px 8px color-mix(in srgb, var(--ts-accent) 35%, transparent); */
+}
+
+[data-theme="light"] .ts-btn--primary:hover:not(:disabled) {
+	--_btn-color: var(--ts-on-accent);
+	color: var(--_btn-color);
+	box-shadow: 0 4px 16px color-mix(in srgb, var(--ts-accent) 40%, transparent);
+}
+
+/* ─── Outline button: ensure visibility on light bg ── */
+[data-theme="light"] .ts-btn--outline:not(:hover) {
+	border-color: var(--ts-border-2);
+	color: var(--ts-text-primary);
+}
+
+/* ─── Accordion: light-mode text/icon contrast ────── */
+[data-theme="light"] .ts-ui-accordion,
+[data-theme="light"] .ts-accordion {
+	--ts-ui-accordion-header-color: var(--ts-text-primary);
+	--ts-ui-accordion-panel-color: var(--ts-text-secondary);
+	--ts-ui-accordion-toggle-color: var(--ts-text-secondary);
+	--ts-ui-accordion-arrow-color: var(--ts-text-secondary);
+	--ts-ui-accordion-arrow-color-hover: var(--ts-accent-dark);
+}
+
+[data-theme="light"] .ts-ui-accordion__header,
+[data-theme="light"] .ts-accordion__header {
+	color: var(--ts-text-primary);
+}
+
+[data-theme="light"] .ts-overlay {
+	--ts-bg-body: #000000ed;
+	backdrop-filter: blur(var(--ts-backdrop-blur)) grayscale(1);
+	/* @refactor:backdrop-critical */
+	/* @refactor:glass-dependent */
+	/* @refactor:needs-solid-fallback */
+	/* @refactor:token-dependency */
+
+}
+
+[data-theme="light"] .ts-ui-accordion__panel,
+[data-theme="light"] .ts-accordion__panel {
+	color: var(--ts-text-secondary);
+}
+
+/* Sidebar card accordion — alpha-based system light-mode adaptation */
+[data-theme="light"] #ts-panel .ts-card {
+	--ts-card-header-text: var(--ts-text-primary);
+	--ts-card-header-icon: var(--ts-accent-dark);
+}
+
+[data-theme="light"] #ts-panel .ts-card>.ts-card-header.ts-accordion:not(.open) {
+	--ts-card-header-text: var(--ts-text-secondary);
+}
+
+/* ─── Sortable: light-mode contrast ───────────────── */
+[data-theme="light"] .ts-ui-sortable {
+	--ts-ui-sortable-header-color: var(--ts-text-primary);
+	--ts-ui-sortable-panel-color: var(--ts-text-secondary);
+	--ts-ui-sortable-toggle-color: var(--ts-text-secondary);
+	--ts-ui-sortable-arrow-color: var(--ts-text-secondary);
+	--ts-ui-sortable-arrow-color-hover: var(--ts-accent-dark);
+}
+
+/* ─── Standard footer: light-mode readability ─────── */
+[data-theme="light"] footer.ts-footer:not(.ts-footer--dark) {
+	--ts-text-muted: #4a4d52;
+	color: var(--ts-text-primary);
+}
+
+[data-theme="light"] footer.ts-footer:not(.ts-footer--dark) .ts-footer-widget-title {
+	color: var(--ts-text-primary);
+}
+
+[data-theme="light"] footer.ts-footer:not(.ts-footer--dark) .ts-menu-link,
+[data-theme="light"] footer.ts-footer:not(.ts-footer--dark) .ts-footer-copyright {
+	color: var(--ts-text-secondary);
+}
+
+[data-theme="light"] footer.ts-footer:not(.ts-footer--dark) .ts-footer-newsletter-desc,
+[data-theme="light"] footer.ts-footer:not(.ts-footer--dark) .ts-caption {
+	color: var(--ts-text-secondary);
+}
+
+[data-theme="light"] footer.ts-footer:not(.ts-footer--dark) li::marker,
+[data-theme="light"] footer.ts-footer:not(.ts-footer--dark) .ts-menu-link::before {
+	color: var(--ts-text-muted);
+}
+
+
+/* ─── Accent card variants ────────────────────────────────────────── */
+/*[data-theme="light"] .ts-card--accent {
+	background: linear-gradient(145deg, var(--ts-bg-0) 0%, var(--ts-accent-dim) 100%);
+	border-color: var(--ts-accent-border);
+}
+
+[data-theme="light"] .ts-card--featured {
+	background: linear-gradient(145deg, var(--ts-bg-0) 0%, var(--ts-accent-dim) 60%);
+	border-color: color-mix(in srgb, var(--ts-accent), transparent 30%);
+	box-shadow: var(--ts-shadow-accent);
+}
+*/
+
+/* ─── Progress bars ───── */
+[data-theme="light"] .ts-progress {
+	background-color: var(--ts-bg-2);
+	border: 1px solid var(--ts-border-0);
+}
+
+/* ─── Modals & Overlays ───────────────────────────────────────────── */
+[data-theme="light"] .ts-modal {
+	background-color: var(--ts-this-bg-dim);
+	border: 1px solid var(--ts-border-1);
+	box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+	--ts-this-bg: var(--ts-this-bg-dim);
+	--ts-this-bg: var(--ts-bg-3);
+}
+
+/* ─── Toasts ──────────── */
+[data-theme="light"] .ts-toast {
+	background-color: var(--ts-bg-0);
+	border: 1px solid var(--ts-border-1);
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* ─── Tabs ────────────── */
+[data-theme="light"] .ts-tab {
+	border-bottom: var(--ts-index-bar-height) solid transparent;
+	color: var(--ts-text-secondary);
+}
+
+[data-theme="light"] .ts-tab:hover {
+	color: var(--ts-text-primary);
+}
+
+[data-theme="light"] .ts-tab--active {
+	border-bottom-color: var(--ts-accent);
+	color: var(--ts-text-primary);
+}
+
+[data-theme="light"] .ts-tabs--pill.ts-tabs--pill-rounded .ts-tab--active {
+	background: var(--ts-accent);
+	color: var(--ts-text-primary) !important;
+	--ts-text-primary: #fff;
+}
+
+[data-theme="light"] .ts-tabs {
+	border-bottom: 1px solid var(--ts-border-1);
+}
+
+/* ─── Section dividers ────────────────────────────────────────────── */
+[data-theme="light"] .ts-section-divider h2,
+[data-theme="light"] .ts-section-divider .ts-section-divider__title {
+	color: var(--ts-text-accent);
+}
+
+[data-theme="light"] .ts-section-divider::after {
+	background: var(--ts-border-1);
+}
+
+/* ─── Nav active — use darkened accent for readability ────────────── */
+[data-theme="light"] .ts-nav-fixed__links a:not(.ts-btn, .ts-ui-select).active,
+[data-theme="light"] .ts-nav-fixed__links a:not(.ts-btn, .ts-ui-select).ts-active {
+	color: var(--ts-text-accent);
+}
+
+[data-theme="light"] .ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select).active,
+[data-theme="light"] .ts-mobile-menu-items a:not(.ts-btn, .ts-ui-select).ts-active {
+	color: var(--ts-text-accent);
+}
+
+/* ─── Accent-bar card — darken the bar ────────────────────────────── */
+[data-theme="light"] .ts-card--accent-bar::before {
+	background: linear-gradient(180deg, var(--ts-accent-dark), var(--ts-accent));
+}
