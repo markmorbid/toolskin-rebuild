@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolskin · Phase 2 Wave 2 — ts-table + ts-accordion verification harness</title>
+
+  <!-- Load order: primitives → system engine → migrated components.
+       This is a verification harness, not a marketing page. -->
+  <link rel="stylesheet" href="../../assets/css/next/primitives/colors.css" />
+  <link rel="stylesheet" href="../../assets/css/next/primitives/typography.css" />
+  <link rel="stylesheet" href="../../assets/css/next/primitives/spacing.css" />
+  <link rel="stylesheet" href="../../assets/css/next/primitives/radius.css" />
+  <link rel="stylesheet" href="../../assets/css/next/primitives/motion.css" />
+  <link rel="stylesheet" href="../../assets/css/next/primitives/status-tints.css" />
+  <link rel="stylesheet" href="../../assets/css/next/system/toolskin-this-bg-v2.css" />
+  <link rel="stylesheet" href="../../assets/css/next/system/toolskin-gradients-v3.css" />
+  <link rel="stylesheet" href="../../assets/css/next/components/ts-btn_v3.1.css" />
+  <link rel="stylesheet" href="../../assets/css/next/components/ts-chip.css" />
+  <link rel="stylesheet" href="../../assets/css/next/components/ts-badge.css" />
+  <link rel="stylesheet" href="../../assets/css/next/components/ts-input.css" />
+  <link rel="stylesheet" href="../../assets/css/next/components/ts-table.css" />
+  <link rel="stylesheet" href="../../assets/css/next/components/ts-accordion.css" />
+
+  <!-- JetBrains Mono + Space Grotesk for the labels (VQ-2 / VQ-3 identity). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Harness-only layout. NOT a component; this is a probe page.
+       All component styles live in the loaded .css files above.
+
+       I-2 EXTRACTION DEFERRED to Phase 4 (when sandbox is served via HTTP).
+       Phase 2 prep attempted to lift this block into sandbox/_harness.css
+       per the owner global directive "All CSS and JS must come OUT of
+       HTML". Discovered a Chrome quirk on file:// origin: rules targeting
+       the body element from a linked stylesheet do not apply, while rules
+       targeting non-body selectors from the same file do. Inline <style>
+       body rules work normally. Reverted to inline for the verification
+       harness; extraction will succeed once Phase 4 serves sandbox/ over
+       HTTP. See sandbox/_harness.css header for the full investigation
+       log and the canonical reference copy of these rules. -->
+  <style>
+    body {
+      margin: 0;
+      font-family: var(--ts-font-body);
+      background: var(--ts-bg-body);
+      color: var(--ts-text-primary);
+      padding: var(--ts-sp-8);
+      line-height: var(--ts-lh-normal);
+    }
+    h1, h2 {
+      font-family: var(--ts-font-display);
+      letter-spacing: var(--ts-tracking-tight);
+      margin: 0 0 var(--ts-sp-4);
+    }
+    h1 { font-size: var(--ts-fs-2xl); }
+    h2 { font-size: var(--ts-fs-lg); margin-top: var(--ts-sp-8); }
+    .ts-harness-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--ts-sp-6);
+    }
+    .ts-harness-row {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: var(--ts-sp-4);
+      align-items: center;
+      padding-block: var(--ts-sp-2);
+      border-bottom: 1px solid var(--ts-this-bg-border-0);
+    }
+    .ts-harness-label {
+      font-family: var(--ts-font-mono);
+      font-size: var(--ts-fs-xs);
+      letter-spacing: var(--ts-tracking-snug);
+      color: var(--ts-text-muted);
+      text-transform: none;
+    }
+    .ts-harness-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--ts-sp-2);
+      align-items: center;
+    }
+    .ts-harness-panel {
+      padding: var(--ts-sp-6);
+      border-radius: var(--ts-radius-md);
+      border: 1px solid var(--ts-this-bg-border-0);
+      margin-block: var(--ts-sp-4);
+    }
+    .ts-harness-panel--bg1     { background: var(--ts-bg-1); }
+    .ts-harness-panel--bg3     { background: var(--ts-bg-3); }
+    .ts-harness-panel--accent  {
+      --ts-this-bg: var(--ts-accent);
+      background: var(--ts-accent);
+      color: var(--ts-on-accent);
+    }
+    .ts-harness-panel--accent .ts-harness-label { color: var(--ts-on-accent); opacity: 0.85; }
+    .ts-harness-panel-title {
+      font-family: var(--ts-font-mono);
+      font-size: var(--ts-fs-xs);
+      letter-spacing: var(--ts-tracking-wider);
+      text-transform: uppercase;
+      margin: 0 0 var(--ts-sp-4);
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body class="ts-harness">
+  <h1>Phase 2 Wave 2 — ts-table + ts-accordion</h1>
+  <p class="ts-harness-label">Verification harness · sandbox/02-components/ts-table-accordion.html · audit-gate exempt</p>
+
+
+  <!-- ─── TABLES ────────────────────────────────────────────────────── -->
+  <h2>ts-table variants</h2>
+
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Surface: --ts-bg-body (default) · base .ts-table</p>
+
+    <div class="ts-table-wrap" id="table-wrap-default">
+      <table class="ts-table" id="table-default">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Build</th>
+            <th>Owner</th>
+            <th>Updated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="table-row-hover-target">
+            <td>ts-card</td>
+            <td>Active</td>
+            <td>v2.1.0</td>
+            <td>satoshi</td>
+            <td>2026-05-28</td>
+          </tr>
+          <tr>
+            <td>ts-section</td>
+            <td>Active</td>
+            <td>v2.0.4</td>
+            <td>satoshi</td>
+            <td>2026-05-28</td>
+          </tr>
+          <tr>
+            <td>ts-input</td>
+            <td>Active</td>
+            <td>v2.0.3</td>
+            <td>satoshi</td>
+            <td>2026-05-28</td>
+          </tr>
+          <tr>
+            <td>ts-table</td>
+            <td>Migrating</td>
+            <td>v2.0.0</td>
+            <td>satoshi</td>
+            <td>2026-05-28</td>
+          </tr>
+          <tr>
+            <td>ts-accordion</td>
+            <td>Migrating</td>
+            <td>v2.0.0</td>
+            <td>satoshi</td>
+            <td>2026-05-28</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="ts-harness-panel ts-harness-panel--bg1">
+    <p class="ts-harness-panel-title">Surface: --ts-bg-1 (lifted panel) · .ts-table--zebra</p>
+    <div class="ts-table-wrap">
+      <table class="ts-table ts-table--zebra">
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Wave</th>
+            <th>Status</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>ts-chip</td>   <td>Wave 0</td> <td>Done</td>      <td>Recipe pilot</td></tr>
+          <tr><td>ts-badge</td>  <td>Wave 0</td> <td>Done</td>      <td>Status-tints lifted</td></tr>
+          <tr><td>ts-input</td>  <td>Wave 1</td> <td>Done</td>      <td>v2 engine</td></tr>
+          <tr><td>ts-section</td><td>Wave 1</td> <td>Done</td>      <td>alt redesigned</td></tr>
+          <tr><td>ts-card</td>   <td>Wave 1</td> <td>Done</td>      <td>nested CSS-1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="ts-harness-panel ts-harness-panel--bg3">
+    <p class="ts-harness-panel-title">Surface: --ts-bg-3 (deep panel) · base .ts-table</p>
+    <div class="ts-table-wrap">
+      <table class="ts-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Tier</th>
+            <th>Pole</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>--ts-bg-1</td>           <td>Primitive</td> <td>Body+contrast 9%</td></tr>
+          <tr><td>--ts-this-bg-hover</td>  <td>System</td>    <td>Contrast 22%</td></tr>
+          <tr><td>--ts-this-bg-border-0</td><td>System</td>   <td>Contrast 7%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="ts-harness-panel ts-harness-panel--accent ts-on-accent">
+    <p class="ts-harness-panel-title">Surface: --ts-accent (auto-flip ink target)</p>
+    <div class="ts-table-wrap">
+      <table class="ts-table" id="table-on-accent">
+        <thead>
+          <tr>
+            <th>Surface</th>
+            <th>Derivative</th>
+            <th>Pole</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>--ts-this-bg</td>          <td>accent</td>    <td>—</td></tr>
+          <tr><td>--ts-this-bg-hover</td>    <td>+contrast</td> <td>22%</td></tr>
+          <tr><td>--ts-this-bg-border-0</td> <td>+contrast</td> <td>7%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- ─── ACCORDION ─────────────────────────────────────────────────── -->
+  <h2>ts-accordion variants</h2>
+
+  <div class="ts-harness-panel">
+    <p class="ts-harness-panel-title">Surface: --ts-bg-body · base .ts-accordion (chevron)</p>
+
+    <div class="ts-accordion" id="accordion-default">
+      <div class="ts-accordion__item">
+        <button type="button"
+                class="ts-accordion__header"
+                aria-expanded="false"
+                aria-controls="acc-panel-1">
+          <span class="ts-accordion__header-main">
+            <span class="ts-accordion__icon" aria-hidden="true">●</span>
+            <span>What is the v2 engine?</span>
+          </span>
+        </button>
+        <div class="ts-accordion__panel" id="acc-panel-1" hidden>
+          The v2 <code>--ts-this-bg</code> engine emits hue-stable surface
+          derivatives (hover, dim, border, focus) via <code>color-mix(in oklab, …)</code>.
+          Every component re-anchors <code>--ts-this-bg</code> and the
+          derivatives recompute.
+        </div>
+      </div>
+
+      <div class="ts-accordion__item">
+        <button type="button"
+                class="ts-accordion__header"
+                aria-expanded="true"
+                aria-controls="acc-panel-2"
+                id="accordion-header-expanded">
+          <span class="ts-accordion__header-main">
+            <span class="ts-accordion__icon" aria-hidden="true">●</span>
+            <span>Wave 2 deliverables</span>
+          </span>
+        </button>
+        <div class="ts-accordion__panel" id="acc-panel-2">
+          Wave 2 migrates <strong>ts-table</strong> and <strong>ts-accordion</strong>
+          onto the v2 engine. Both use the nested CSS-1 pattern; both drop
+          <code>color-mix(in srgb, …)</code>, all <code>!important</code>
+          chains, and frozen-only border tokens.
+          <div style="margin-top: var(--ts-sp-3); display: flex; gap: var(--ts-sp-2); flex-wrap: wrap;">
+            <span class="ts-chip" id="chip-inside-accordion">chip in panel</span>
+            <span class="ts-chip ts-chip--accent">accent chip</span>
+            <span class="ts-badge ts-badge--success">migrated</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ts-accordion__item">
+        <button type="button"
+                class="ts-accordion__header"
+                aria-expanded="false"
+                aria-controls="acc-panel-3">
+          <span class="ts-accordion__header-main">
+            <span class="ts-accordion__icon" aria-hidden="true">●</span>
+            <span>Class-name aliasing</span>
+          </span>
+        </button>
+        <div class="ts-accordion__panel" id="acc-panel-3" hidden>
+          Both <code>.ts-accordion</code> and <code>.ts-ui-accordion</code>
+          are supported as sibling selectors. BEM elements (<code>__header</code>,
+          <code>__panel</code>, <code>__indicator</code>, etc.) and modifiers
+          (<code>--separated</code>, <code>--dual-icon</code>,
+          <code>--toggle-plus</code>) are also double-listed.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ts-harness-panel ts-harness-panel--bg1">
+    <p class="ts-harness-panel-title">.ts-accordion--separated · spaced bordered cards</p>
+
+    <div class="ts-accordion ts-accordion--separated" id="accordion-separated">
+      <div class="ts-accordion__item">
+        <button type="button"
+                class="ts-accordion__header"
+                aria-expanded="false"
+                aria-controls="sep-panel-1">
+          <span class="ts-accordion__header-main">
+            <span>Pattern 4 (R9)</span>
+          </span>
+        </button>
+        <div class="ts-accordion__panel" id="sep-panel-1" hidden>
+          Re-anchor <code>--ts-this-bg</code> FIRST, consume derivatives SECOND.
+        </div>
+      </div>
+
+      <div class="ts-accordion__item">
+        <button type="button"
+                class="ts-accordion__header"
+                aria-expanded="false"
+                aria-controls="sep-panel-2">
+          <span class="ts-accordion__header-main">
+            <span>S2 — Border law</span>
+          </span>
+        </button>
+        <div class="ts-accordion__panel" id="sep-panel-2" hidden>
+          Engine <code>--ts-this-bg-border*</code> only. No <code>currentColor</code>.
+        </div>
+      </div>
+
+      <div class="ts-accordion__item">
+        <button type="button"
+                class="ts-accordion__header"
+                aria-expanded="false"
+                aria-controls="sep-panel-3">
+          <span class="ts-accordion__header-main">
+            <span>S3 — oklab / oklch only</span>
+          </span>
+        </button>
+        <div class="ts-accordion__panel" id="sep-panel-3" hidden>
+          No srgb mixes, no HSL, no invented colors.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ts-harness-panel ts-harness-panel--bg1">
+    <p class="ts-harness-panel-title">.ts-accordion--toggle-plus · plus/minus indicator (no chevron)</p>
+
+    <div class="ts-accordion ts-accordion--toggle-plus" id="accordion-toggle-plus">
+      <div class="ts-accordion__item">
+        <button type="button"
+                class="ts-accordion__header"
+                aria-expanded="true"
+                aria-controls="plus-panel-1">
+          <span class="ts-accordion__header-main">
+            <span>Question one (expanded)</span>
+          </span>
+          <span class="ts-accordion__indicator" aria-hidden="true"></span>
+        </button>
+        <div class="ts-accordion__panel" id="plus-panel-1">
+          The indicator rotates the vertical stroke into the horizontal so
+          the plus becomes a minus on expand. Accent recolor on
+          <code>aria-expanded="true"</code>.
+        </div>
+      </div>
+
+      <div class="ts-accordion__item">
+        <button type="button"
+                class="ts-accordion__header"
+                aria-expanded="false"
+                aria-controls="plus-panel-2">
+          <span class="ts-accordion__header-main">
+            <span>Question two (collapsed)</span>
+          </span>
+          <span class="ts-accordion__indicator" aria-hidden="true"></span>
+        </button>
+        <div class="ts-accordion__panel" id="plus-panel-2" hidden>
+          Collapsed body.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ts-harness-panel ts-harness-panel--bg3">
+    <p class="ts-harness-panel-title">.ts-accordion--dual-icon · leading category column + separator</p>
+
+    <div class="ts-accordion ts-accordion--dual-icon ts-accordion--separated"
+         id="accordion-dual-icon">
+      <div class="ts-accordion__item">
+        <button type="button"
+                class="ts-accordion__header"
+                aria-expanded="false"
+                aria-controls="dual-panel-1">
+          <span class="ts-accordion__category-icon" aria-hidden="true">◆</span>
+          <span class="ts-accordion__category-sep" aria-hidden="true"></span>
+          <span class="ts-accordion__header-main">
+            <span class="ts-accordion__icon" aria-hidden="true">●</span>
+            <span>Tokens</span>
+          </span>
+        </button>
+        <div class="ts-accordion__panel" id="dual-panel-1" hidden>
+          Dual-icon variant: category column on the left, header-main on the right.
+        </div>
+      </div>
+
+      <div class="ts-accordion__item">
+        <button type="button"
+                class="ts-accordion__header"
+                aria-expanded="false"
+                aria-controls="dual-panel-2">
+          <span class="ts-accordion__category-icon" aria-hidden="true">▲</span>
+          <span class="ts-accordion__category-sep" aria-hidden="true"></span>
+          <span class="ts-accordion__header-main">
+            <span class="ts-accordion__icon" aria-hidden="true">●</span>
+            <span>Components</span>
+          </span>
+        </button>
+        <div class="ts-accordion__panel" id="dual-panel-2" hidden>
+          Pattern 4 (R9) honored throughout.
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Tiny no-dep toggler so the harness expand/collapse works without a JS
+       framework. Click any header → flip aria-expanded + panel[hidden]. -->
+  <script>
+    document.querySelectorAll('.ts-accordion__header, .ts-ui-accordion__header')
+      .forEach(function (header) {
+        header.addEventListener('click', function () {
+          const expanded = header.getAttribute('aria-expanded') === 'true';
+          const next = !expanded;
+          header.setAttribute('aria-expanded', String(next));
+          const id = header.getAttribute('aria-controls');
+          if (!id) return;
+          const panel = document.getElementById(id);
+          if (!panel) return;
+          if (next) panel.removeAttribute('hidden');
+          else      panel.setAttribute('hidden', '');
+        });
+      });
+  </script>
+</body>
+</html>

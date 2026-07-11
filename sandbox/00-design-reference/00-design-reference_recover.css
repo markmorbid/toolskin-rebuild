@@ -1,0 +1,539 @@
+  /* ============================================================================
+     * 00 · Design Reference sandbox — token cartel
+     * ----------------------------------------------------------------------------
+     * Loads the rebuild's REAL primitives/colors.css + system/surfaces.css.
+     * Declares the remaining --ts-* tokens (typography, spacing, radius, motion)
+     * inline at :root until system/text.css / system/spacing.css ship.
+     *
+     * All values are tokens; the audit linter at expert-designer/scripts/
+     * audit-design.mjs must pass HARD-clean against this file.
+     *
+     * RULING 3 — --ts-fs-base: 13px (Toolskin tool-system density).
+     * RULING 5 — spacing scale stops at --ts-sp-16; larger values fluid clamp.
+     * RULING 9 — every component sets --ts-this-bg before consuming derivatives.
+
+     * ========================================================================== */
+/* @OWNER_REVIEW:
+   This design does NOT comply with system standards or accepted design practices.
+
+   ISSUES:
+   - Does not follow any established starter patterns
+   - Ignores defined layout and composition rules
+   - Overuses vertically stacked layouts (not acceptable)
+   - Lacks grid-based structure and visual hierarchy
+   - No exploratory or engaging layout composition
+
+   CONSTRAINT:
+   - DO NOT delete this file (deletion = rollback, not acceptable)
+   - Section color alternation has already been fixed and must be preserved
+
+   ACTION:
+   - Fully evaluate and rebuild the design
+   - Re-align with starter patterns and system rules
+   - Replace stacked layouts with grid-based compositions
+   - Introduce structured, reusable layout patterns
+   - Improve visual hierarchy and exploration
+
+   REQUIREMENT:
+   - Study and apply patterns from starter examples and new system skills
+   - Ensure compliance with non-linear, grid-driven layout standards */
+
+/* @OWNER_DIRECTIVE:
+   All CSS and JS must be fully removed from HTML.
+   - No inline styles or scripts
+   - No embedded logic in markup
+
+   CLASS SYSTEM RULE:
+   - All classes must be reusable, system-driven patterns
+   - No disposable, temporary, or one-off classes
+   - Every class = a committed design asset
+
+   CLEANUP (MANDATORY BEFORE ANY PROGRESS):
+   - Audit all HTML files
+   - Remove stale, redundant, and conflicting classes
+   - Deduplicate overlapping rules
+   - Eliminate cascade conflicts and specificity issues
+
+   ENFORCEMENT:
+   - No further development allowed without cleanup
+   - Violations will cause breakage and system inconsistency
+   - Sandboxes are high-risk: do not propagate bad practices
+
+   SYSTEM PRINCIPLE:
+   - Every step must validate the design system effectiveness
+   - No “temporary fixes” or hidden technical debt
+   - Always unify, deduplicate, and optimize against core assets
+
+   ARCHITECTURE FLOW:
+   1. Apply Expert Designer v7 patterns
+   2. Validate in controlled sandbox usage
+   3. Confirm reusability and consistency
+   4. Then proceed with implementation roadmap
+
+   NOTE:
+   - Do not copy legacy system patterns blindly
+   - Legacy contains known bad practices that must not propagate
+   - Follow owner notes as source of truth for refactor priorities 
+
+   ALL THESE RULES MUST BE REMOVED AND     AFTER THAT THE DESIGN MUSYT   BE VISUALKLY EXACTLY THE SAME AS  BEFORE, COMAPRING  SCREENSHOTS BEFORE AND AFTER REMOVING THE CODE 
+   -- THE COVNENTIONS FOR THE CLASSES     ALLWATSY UST  BE THE SAME AS STATED:  TS. PREFIXZ FOR EVERYTHING WITH NO EXCEPTION. 
+
+   for the ssandob and inner testing of this sandbox preocedure   block by block , component by component,  scope by scope,  we weill  drop the  stules  and  work the dedupong and cleanup  directly on a  styleshewet  
+   "D:\Mis Documentos\Projects\Toolskin Framework\toolskin-rebuild\expert-designer\templates\starters-extraction.css"
+   thsi sheet is supposed to have exclusively  styles  n  tokesna dn  rtules   sued on  the sanboxes and we priorize  sharing components  acros all the views as  posible it can be,   mayching  ruels oroereties  and conertign or emrging  clases names that shares   similar proeprties  in  multi-selectro rules if nececsary, and nesting rules (scss) like specified on the document
+
+    the agent musy commit to thsi  documents to make sure the environment  is100%  usign the design system rules with no exception. 
+
+    "D:\Mis Documentos\Projects\Toolskin Framework\toolskin-rebuild\expert-designer\ANTI-DEFAULT-PROTOCOL.md"
+"D:\Mis Documentos\Projects\Toolskin Framework\toolskin-rebuild\expert-designer\HANDOFF.md"
+"D:\Mis Documentos\Projects\Toolskin Framework\toolskin-rebuild\expert-designer\README.md"
+"D:\Mis Documentos\Projects\Toolskin Framework\toolskin-rebuild\expert-designer\SKILL.md"
+
+*/
+    :root {
+      /* ── TYPOGRAPHY (RULING 3 — 13px × 1.200 ladder, will move to system/text.css) ── */
+      --ts-font-display: 'Space Grotesk', ui-sans-serif;
+      --ts-font-body:    'Space Grotesk', ui-sans-serif;
+      --ts-font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+      --ts-fs-base:  13px;
+      --ts-fs-ratio: 1.2;
+
+      --ts-fs--2: calc(var(--ts-fs-base) / var(--ts-fs-ratio) / var(--ts-fs-ratio));
+      --ts-fs--1: calc(var(--ts-fs-base) / var(--ts-fs-ratio));
+      --ts-fs-0:  var(--ts-fs-base);
+      --ts-fs-1:  calc(var(--ts-fs-base) * var(--ts-fs-ratio));
+      --ts-fs-2:  calc(var(--ts-fs-1)    * var(--ts-fs-ratio));
+      --ts-fs-3:  calc(var(--ts-fs-2)    * var(--ts-fs-ratio));
+      --ts-fs-4:  calc(var(--ts-fs-3)    * var(--ts-fs-ratio));
+      --ts-fs-5:  calc(var(--ts-fs-4)    * var(--ts-fs-ratio));
+      --ts-fs-6:  calc(var(--ts-fs-5)    * var(--ts-fs-ratio));
+      --ts-fs-7:  calc(var(--ts-fs-6)    * var(--ts-fs-ratio));
+      --ts-fs-8:  calc(var(--ts-fs-7)    * var(--ts-fs-ratio));
+      --ts-fs-9:  calc(var(--ts-fs-8)    * var(--ts-fs-ratio));
+
+      --ts-fs-micro:   var(--ts-fs--2);
+      --ts-fs-caption: var(--ts-fs--1);
+      --ts-fs-body:    var(--ts-fs-0);
+      --ts-fs-lead:    var(--ts-fs-1);
+      --ts-fs-h5:      var(--ts-fs-2);
+      --ts-fs-h4:      var(--ts-fs-3);
+      --ts-fs-h3:      var(--ts-fs-4);
+      --ts-fs-h2:      var(--ts-fs-5);
+      --ts-fs-h1:      var(--ts-fs-6);
+      --ts-fs-display: clamp(var(--ts-fs-6), 4vw + 1rem, var(--ts-fs-8));
+      --ts-fs-hero:    clamp(var(--ts-fs-7), 8vw + 1rem, var(--ts-fs-9));
+
+      --ts-lh-tight:    0.92;
+      --ts-lh-display:  1.05;
+      --ts-lh-headline: 1.15;
+      --ts-lh-snug:     1.3;
+      --ts-lh-normal:   1.5;
+
+      --ts-tracking-tightest: -0.04em;
+      --ts-tracking-tighter:  -0.025em;
+      --ts-tracking-tight:    -0.015em;
+      --ts-tracking-snug:     -0.005em;
+      --ts-tracking-wide:      0.02em;
+      --ts-tracking-wider:     0.08em;
+
+      --ts-fw-thin:     300;
+      --ts-fw-normal:   400;
+      --ts-fw-medium:   500;
+      --ts-fw-semibold: 600;
+      --ts-fw-bold:     700;
+
+      /* ── SPACING (RULING 5 — ceiling at sp-16) ── */
+      --ts-sp-1:  4px;
+      --ts-sp-2:  8px;
+      --ts-sp-3:  12px;
+      --ts-sp-4:  16px;
+      --ts-sp-5:  20px;
+      --ts-sp-6:  24px;
+      --ts-sp-8:  32px;
+      --ts-sp-10: 40px;
+      --ts-sp-12: 48px;
+      --ts-sp-16: 64px;
+
+      --ts-section-pad:   clamp(4rem, 8vw, 9rem);
+      --ts-container-pad: clamp(1rem, 5vw, 4rem);
+      --ts-container-lg:  1280px;
+
+      /* ── RADIUS (explicit ladder 4/6/8/10/16 + sharp + pill) ── */
+      --ts-radius-0:    0;
+      --ts-radius-4:    4px;
+      --ts-radius-6:    6px;
+      --ts-radius-8:    8px;
+      --ts-radius-10:  10px;
+      --ts-radius-16:  16px;
+      --ts-radius-full: 9999px;
+
+      /* ── MOTION ── */
+      --ts-dur-fast:   120ms;
+      --ts-dur-base:   200ms;
+      --ts-dur-slow:   350ms;
+      --ts-ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      min-height: 100dvh;
+      font-family: var(--ts-font-body);
+      font-size: var(--ts-fs-body);
+      line-height: var(--ts-lh-normal);
+      color: var(--ts-text-primary);
+      background: var(--ts-bg-body);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    h1, h2, h3, h4, h5, h6, p, ul, ol, figure { margin: 0; padding: 0; }
+    ul { list-style: none; }
+    img, svg { display: block; max-width: 100%; }
+    button { font: inherit; color: inherit; }
+
+    /* ── Layout primitives ── */
+    .ts-container {
+      max-width: var(--ts-container-lg);
+      margin-inline: auto;
+      padding-inline: var(--ts-container-pad);
+    }
+    .ts-section {
+      padding-block: var(--ts-section-pad);
+    }
+    .ts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), minmax(0, 1fr)));
+      gap: var(--ts-sp-6);
+    }
+
+    /* ── Topbar (theme + preset toggles) ── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: var(--ts-sp-6);
+      padding: var(--ts-sp-3) var(--ts-container-pad);
+      background: color-mix(in oklch, var(--ts-bg-body), transparent 18%);
+      border-bottom: 1px solid var(--ts-this-bg-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .topbar__brand {
+      font-size: var(--ts-fs-body);
+      font-weight: var(--ts-fw-semibold);
+      letter-spacing: var(--ts-tracking-tight);
+    }
+    .topbar__brand .topbar__brand-dim { color: var(--ts-text-muted); font-weight: var(--ts-fw-normal); margin-inline-start: var(--ts-sp-2); }
+    .topbar__controls {
+      display: flex;
+      gap: var(--ts-sp-2);
+      align-items: center;
+    }
+    .pick {
+      height: 32px;
+      padding: 0 var(--ts-sp-3);
+      background: var(--ts-this-bg-dim);
+      color: var(--ts-text-primary);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: var(--ts-radius-6);
+      font-size: var(--ts-fs-caption);
+      cursor: pointer;
+      transition: border-color var(--ts-dur-fast) var(--ts-ease-out),
+                  background var(--ts-dur-fast) var(--ts-ease-out);
+    }
+    .pick:hover { background: var(--ts-this-bg-hover); border-color: var(--ts-this-bg-border-hover); }
+    .pick:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; background: var(--ts-this-bg-hover); border-color: var(--ts-this-bg-border-hover); }
+    .pick[aria-pressed="true"] {
+      background: var(--ts-accent);
+      color: var(--ts-on-accent);
+      border-color: var(--ts-accent);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding-block: clamp(4rem, 12vw, 10rem) clamp(3rem, 8vw, 7rem);
+    }
+    .hero__eyebrow {
+      font-size: var(--ts-fs-caption);
+      text-transform: uppercase;
+      letter-spacing: var(--ts-tracking-wider);
+      font-weight: var(--ts-fw-semibold);
+      color: var(--ts-text-secondary);
+      margin-bottom: var(--ts-sp-4);
+    }
+    .hero__title {
+      font-size: var(--ts-fs-hero);
+      font-weight: var(--ts-fw-bold);
+      letter-spacing: var(--ts-tracking-tightest);
+      line-height: var(--ts-lh-tight);
+      max-width: 16ch;
+      text-wrap: balance;
+    }
+    .hero__title-accent { color: var(--ts-accent); }
+    .hero__lead {
+      margin-top: var(--ts-sp-6);
+      max-width: 60ch;
+      font-size: var(--ts-fs-lead);
+      color: var(--ts-text-secondary);
+      line-height: var(--ts-lh-normal);
+      text-wrap: pretty;
+    }
+    .hero__cta {
+      margin-top: var(--ts-sp-8);
+      display: flex;
+      gap: var(--ts-sp-3);
+      flex-wrap: wrap;
+    }
+
+    /* ── Button (atomic, RULING 9 — re-anchor first via component knob) ── */
+    .ts-btn {
+      --ts-btn-h: 44px;
+      --ts-btn-pad-x: var(--ts-sp-5);
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--ts-sp-2);
+      height: var(--ts-btn-h);
+      padding: 0 var(--ts-btn-pad-x);
+      font-family: inherit;
+      font-size: var(--ts-fs-caption);
+      font-weight: var(--ts-fw-semibold);
+      letter-spacing: var(--ts-tracking-wide);
+      line-height: 1;
+      border-radius: var(--ts-radius-6);
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--ts-text-primary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background var(--ts-dur-fast) var(--ts-ease-out),
+                  border-color var(--ts-dur-fast) var(--ts-ease-out),
+                  transform var(--ts-dur-fast) var(--ts-ease-out);
+    }
+    .ts-btn:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; }
+    .ts-btn:active { transform: translateY(1px); }
+
+    .ts-btn--primary { background: var(--ts-accent); color: var(--ts-on-accent); border-color: var(--ts-accent); }
+    .ts-btn--primary:hover { background: var(--ts-accent); border-color: var(--ts-accent); filter: brightness(1.08); }
+    .ts-btn--primary:focus-visible { outline-offset: 3px; }
+
+    .ts-btn--outline { color: var(--ts-text-primary); border-color: var(--ts-this-bg-border); }
+    .ts-btn--outline:hover { background: var(--ts-this-bg-hover); border-color: var(--ts-this-bg-border-hover); }
+    .ts-btn--outline:focus-visible { background: var(--ts-this-bg-hover); border-color: var(--ts-this-bg-border-hover); }
+
+    /* ── Section heading ── */
+    .section-head {
+      display: grid;
+      gap: var(--ts-sp-3);
+      margin-bottom: var(--ts-sp-12);
+      max-width: 60ch;
+    }
+    .section-head__overline {
+      font-size: var(--ts-fs-caption);
+      text-transform: uppercase;
+      letter-spacing: var(--ts-tracking-wider);
+      font-weight: var(--ts-fw-semibold);
+      color: var(--ts-text-secondary);
+    }
+    .section-head__title {
+      font-size: var(--ts-fs-h2);
+      font-weight: var(--ts-fw-semibold);
+      letter-spacing: var(--ts-tracking-tight);
+      line-height: var(--ts-lh-headline);
+    }
+    .section-head__lead {
+      color: var(--ts-text-secondary);
+      max-width: 60ch;
+    }
+
+    /* ── Type ladder ── */
+    .ladder {
+      display: grid;
+      gap: var(--ts-sp-4);
+      padding: var(--ts-sp-8);
+      background: var(--ts-this-bg-dim);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: var(--ts-radius-10);
+    }
+    .ladder__row {
+      display: grid;
+      grid-template-columns: minmax(0, 8ch) minmax(0, 12ch) minmax(0, 1fr);
+      align-items: baseline;
+      gap: var(--ts-sp-6);
+      padding-block: var(--ts-sp-2);
+      border-bottom: 1px solid var(--ts-this-bg-border-0, var(--ts-this-bg-border));
+    }
+    .ladder__row:last-child { border-bottom: 0; }
+    .ladder__step { font-family: var(--ts-font-mono); font-size: var(--ts-fs-caption); color: var(--ts-text-muted); }
+    .ladder__size { font-family: var(--ts-font-mono); font-size: var(--ts-fs-caption); color: var(--ts-text-secondary); }
+    .ladder__sample { font-weight: var(--ts-fw-semibold); letter-spacing: var(--ts-tracking-snug); line-height: var(--ts-lh-headline); color: var(--ts-text-primary); }
+
+    /* ── Surface swatches (the derivative chain on a single anchor) ── */
+   .surface-deck {
+        display: grid;
+        gap: var(--ts-sp-4);
+        grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+        grid-auto-rows: max-content;
+        grid-auto-columns: max-content;
+        grid-auto-flow: dense;
+        align-content: stretch;
+        justify-content: stretch;
+        align-items: stretch;
+        justify-items: stretch;
+    }
+    .surface-card {
+        --ts-this-bg: var(--ts-bg-1);
+        background: var(--ts-this-bg-dim-4);
+        border: 1px solid var(--ts-this-bg-border);
+        border-radius: var(--ts-radius-10);
+        padding: var(--ts-sp-6);
+        display: grid;
+        gap: var(--ts-sp-3);
+        transition: border-color var(--ts-dur-base) var(--ts-ease-out),
+                      transform var(--ts-dur-base) var(--ts-ease-out);
+    }
+    .surface-card:hover { border-color: var(--ts-this-bg-border-hover); transform: translateY(-2px); }
+    .surface-card:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; border-color: var(--ts-this-bg-border-hover); }
+    .surface-card__label {
+      font-family: var(--ts-font-mono);
+      font-size: var(--ts-fs-caption);
+      color: var(--ts-text-secondary);
+    }
+    .surface-card__swatch {
+      height: 100px;
+      border-radius: var(--ts-radius-4);
+      border: 1px solid var(--ts-this-bg-border);
+    }
+    .surface-card__name {
+      font-size: var(--ts-fs-body);
+      font-weight: var(--ts-fw-semibold);
+      letter-spacing: var(--ts-tracking-tight);
+    }
+    .surface-card__hint {
+      font-size: var(--ts-fs-caption);
+      color: var(--ts-text-muted);
+    }
+
+    /* Re-anchored sub-surfaces (Rule 4 — surface superposition demo) */
+    .sa-1 { --ts-this-bg: var(--ts-bg-1); }
+    .sa-2 { --ts-this-bg: var(--ts-bg-2); }
+    .sa-3 { --ts-this-bg: var(--ts-bg-3); }
+    .sa-4 { --ts-this-bg: var(--ts-bg-4); }
+    .sa-5 { --ts-this-bg: var(--ts-bg-5); }
+
+    .sw-bg     { background: var(--ts-this-bg); }
+    .sw-bright { background: var(--ts-this-bg-bright); }
+    .sw-dark   { background: var(--ts-this-bg-dark); }
+    .sw-hover  { background: var(--ts-this-bg-hover); }
+    .sw-active { background: var(--ts-this-bg-active); }
+    .sw-focus  { background: var(--ts-this-bg-focus); }
+
+    /* ── Card recipes ── */
+    .card-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), minmax(0, 1fr)));
+      gap: var(--ts-sp-6);
+    }
+    .ts-card {
+      --ts-this-bg: var(--ts-bg-2);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: var(--ts-sp-4);
+      padding: var(--ts-sp-6);
+      background: var(--ts-this-bg);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: var(--ts-radius-10);
+      color: var(--ts-text-primary);
+      transition: border-color var(--ts-dur-base) var(--ts-ease-out);
+    }
+    .ts-card:hover { border-color: var(--ts-this-bg-border-hover); }
+    .ts-card:focus-visible { outline: 2px solid var(--ts-accent); outline-offset: 2px; border-color: var(--ts-this-bg-border-hover); }
+    .ts-card__eyebrow {
+      font-size: var(--ts-fs-caption);
+      font-weight: var(--ts-fw-medium);
+      text-transform: uppercase;
+      letter-spacing: var(--ts-tracking-wider);
+      color: var(--ts-text-secondary);
+    }
+    .ts-card__metric {
+      font-size: var(--ts-fs-h2);
+      font-weight: var(--ts-fw-bold);
+      line-height: var(--ts-lh-tight);
+      letter-spacing: var(--ts-tracking-tight);
+      font-feature-settings: "tnum" 1, "lnum" 1;
+    }
+    .ts-card__delta { font-size: var(--ts-fs-caption); color: var(--ts-text-muted); }
+    .ts-card__title {
+      font-size: var(--ts-fs-h4);
+      font-weight: var(--ts-fw-semibold);
+      letter-spacing: var(--ts-tracking-tight);
+      line-height: var(--ts-lh-snug);
+    }
+    .ts-card__body {
+      color: var(--ts-text-secondary);
+      max-width: 40ch;
+    }
+    .ts-card__icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      background: var(--ts-this-bg-bright);
+      color: var(--ts-accent);
+      border-radius: var(--ts-radius-6);
+      border: 1px solid var(--ts-this-bg-border);
+      font-weight: var(--ts-fw-bold);
+    }
+
+    /* ── Re-anchoring demo (Rule 4 + RULING 9 two-line idiom) ── */
+    .nest-wrap {
+      --ts-this-bg: var(--ts-bg-1);
+      background: var(--ts-this-bg);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: var(--ts-radius-16);
+      padding: var(--ts-sp-8);
+      display: grid;
+      gap: var(--ts-sp-6);
+    }
+    .nest-wrap__inner {
+      --ts-this-bg: var(--ts-bg-3);
+      background: var(--ts-this-bg);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: var(--ts-radius-10);
+      padding: var(--ts-sp-6);
+      display: grid;
+      gap: var(--ts-sp-3);
+    }
+    .nest-wrap__inner-inner {
+      --ts-this-bg: var(--ts-bg-5);
+      background: var(--ts-this-bg);
+      border: 1px solid var(--ts-this-bg-border);
+      border-radius: var(--ts-radius-8);
+      padding: var(--ts-sp-4);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      padding-block: var(--ts-sp-12);
+      border-top: 1px solid var(--ts-this-bg-border);
+      color: var(--ts-text-muted);
+      font-size: var(--ts-fs-caption);
+      text-align: center;
+    }
+    .footer a { color: var(--ts-text-secondary); text-decoration: underline; text-decoration-color: var(--ts-this-bg-border); text-underline-offset: 4px; }
+    .footer a:hover { color: var(--ts-text-primary); text-decoration-color: var(--ts-accent); }
+    .footer a:focus-visible { color: var(--ts-text-primary); outline: 2px solid var(--ts-accent); outline-offset: 2px; border-radius: var(--ts-radius-4); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms;
+        transition-duration: 0.01ms;
+      }
+    }
